@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "phase": "M0",
+  "increment": "M0.1",
+  "status": "IMPLEMENTED_VALIDATED_AWAITING_INDEPENDENT_REVIEW",
+  "live_status": "LOCKED",
+  "demonstrated_edge": false,
+  "active_strategies": 0,
+  "completed_scope": [
+    "Constitution and seven role contracts",
+    "Repository architecture and durable handoff protocol",
+    "Nine strict record schemas and scientific specifications",
+    "Lifecycle, STOP and kill-switch design",
+    "Conceptual bankroll and zero-deployment risk policy"
+  ],
+  "remaining_m0": [
+    "Independent Skeptic review of foundation",
+    "Data manifest and observation schemas with temporal/lineage validation",
+    "Authenticated review records and machine-enforced lifecycle transitions",
+    "Cross-record evidence validation, STOP propagation and append-only event handling",
+    "Risk accounting, paper policy, kill-switch implementation and adversarial tests",
+    "Justified validation thresholds and M0 exit review"
+  ],
+  "blockers": [
+    "No strategy promotion or paper/live execution engine",
+    "Statistical, freshness and post-M0 risk thresholds unresolved"
+  ],
+  "next_assignment": "H-M0-001",
+  "updated_at": "2026-09-19T23:52:00.203076+00:00"
+}

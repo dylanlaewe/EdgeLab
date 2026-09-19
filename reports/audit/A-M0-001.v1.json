@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-001",
+  "version": 1,
+  "occurred_at": "2026-09-19T23:52:00.203076+00:00",
+  "actor": "Director session implementing M0.1",
+  "role": "00 Director",
+  "event_type": "FOUNDATION_IMPLEMENTED",
+  "subject_ref": "docs/project-state.json",
+  "previous_state": "UNINITIALIZED_WORKSPACE",
+  "new_state": "IMPLEMENTED_VALIDATED_AWAITING_INDEPENDENT_REVIEW",
+  "reason": "Establish a reviewable foundation while preserving M0 capital prohibition. Independent review remains queued.",
+  "evidence_refs": [
+    "reports/M0.1-foundation.md",
+    "docs/handoffs/H-M0-001.v1.json"
+  ],
+  "code_ref": "Initial milestone commit containing this event; resolve with git log --diff-filter=A -- reports/audit/A-M0-001.v1.json",
+  "config_ref": "portfolio/risk-policy.json",
+  "correlation_id": "M0.1",
+  "supersedes": null
+}

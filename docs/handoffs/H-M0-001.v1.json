@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-001",
+  "version": 1,
+  "created_at": "2026-09-19T23:49:33.458362+00:00",
+  "sender": "00 Director",
+  "recipient": "05 Skeptic",
+  "status": "QUEUED",
+  "request": "Independently review the M0.1 foundation before it is treated as an approved control design.",
+  "work_done": "Constitution, role contracts, record schemas, lifecycle/safety specifications, locked initial portfolio and local validation implemented. This is a Director engineering milestone, not independent scientific or Risk approval.",
+  "evidence_refs": [
+    "PROJECT_CONSTITUTION.md",
+    "docs/SPECIFICATIONS.md",
+    "docs/LIFECYCLE.md",
+    "docs/OPERATIONS.md",
+    "reports/M0.1-foundation.md"
+  ],
+  "files_changed": [
+    "agents/",
+    "schemas/",
+    "docs/",
+    "portfolio/",
+    "src/",
+    "tests/"
+  ],
+  "tests_run": [
+    ".venv/bin/python -m unittest discover -s tests -v \u2014 18 tests passed",
+    ".venv/bin/python -m src.edgelab.validate \u2014 passed; M0 capital LOCKED"
+  ],
+  "open_questions": [
+    "Can any documented promotion/resume path bypass independent evidence?",
+    "Are the foundation contracts sufficient for Data and Risk implementation?"
+  ],
+  "blockers": [],
+  "next_action": "Claim this assignment in a new version. Inspect schemas against narrative contracts, reproduce validation, attempt malformed and contradictory records, and persist findings with severity and exact evidence.",
+  "completion_criteria": [
+    "Independent report with pass/fail/blocked and scope",
+    "Reproduced checks with commands/results",
+    "Each material finding has evidence, impact and remediation",
+    "Director receives a versioned handoff; no gates weakened"
+  ],
+  "depends_on": []
+}

@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "currency": "USD",
+  "basis": "CONCEPTUAL_UNVERIFIED",
+  "total_minor": 5000,
+  "live_deployable_minor": 0,
+  "reserved_minor": 0,
+  "live_status": "LOCKED",
+  "paper_capital_minor": null,
+  "as_of": "2026-09-19T23:49:33.458362+00:00"
+}

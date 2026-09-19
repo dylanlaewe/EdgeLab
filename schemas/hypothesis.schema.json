@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:hypothesis:1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "version",
+    "mode",
+    "registered_at",
+    "author",
+    "statement",
+    "rationale",
+    "sport",
+    "league",
+    "market_type",
+    "population",
+    "required_data",
+    "signals",
+    "entry_conditions",
+    "information_cutoff",
+    "price_requirements",
+    "sizing_assumptions",
+    "cost_model",
+    "evaluation_metrics",
+    "minimum_sample_expectations",
+    "rejection_criteria",
+    "validation_procedure",
+    "multiple_testing_plan",
+    "unresolved_thresholds",
+    "supersedes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "mode": {
+      "const": "CONFIRMATORY"
+    },
+    "registered_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "author": {
+      "type": "string",
+      "minLength": 1
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sport": {
+      "type": "string",
+      "minLength": 1
+    },
+    "league": {
+      "type": "string",
+      "minLength": 1
+    },
+    "market_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "population": {
+      "type": "string",
+      "minLength": 1
+    },
+    "required_data": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "signals": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "entry_conditions": {
+      "type": "string",
+      "minLength": 1
+    },
+    "information_cutoff": {
+      "type": "string",
+      "minLength": 1
+    },
+    "price_requirements": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sizing_assumptions": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cost_model": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evaluation_metrics": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "minimum_sample_expectations": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rejection_criteria": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "validation_procedure": {
+      "type": "string",
+      "minLength": 1
+    },
+    "multiple_testing_plan": {
+      "type": "string",
+      "minLength": 1
+    },
+    "unresolved_thresholds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "supersedes": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    }
+  }
+}

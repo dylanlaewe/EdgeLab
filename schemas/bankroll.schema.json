@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:bankroll:1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "currency",
+    "basis",
+    "total_minor",
+    "live_deployable_minor",
+    "reserved_minor",
+    "live_status",
+    "paper_capital_minor",
+    "as_of"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "currency": {
+      "const": "USD"
+    },
+    "basis": {
+      "const": "CONCEPTUAL_UNVERIFIED"
+    },
+    "total_minor": {
+      "const": 5000
+    },
+    "live_deployable_minor": {
+      "const": 0
+    },
+    "reserved_minor": {
+      "const": 0
+    },
+    "live_status": {
+      "const": "LOCKED"
+    },
+    "paper_capital_minor": {
+      "type": "null"
+    },
+    "as_of": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}
