@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-014",
+  "version": 2,
+  "created_at": "2026-09-20T02:49:13Z",
+  "sender": "04 Quant",
+  "recipient": "05 Skeptic",
+  "status": "CLAIMED",
+  "request": "Independently review H-M0-005 Quant remediation before any Risk release. Reproduce actual input/split/config/code/seed/output binding, complete trial/exposure history, Research integration, stale-current-state attacks, check/use races and deterministic reproduction. Director scheduling is required.",
+  "work_done": "05 Skeptic session skeptic-quant-review-20260920T024913Z claims the sole-writer review slot at base 34821bddf09a53dbbe01eaec324f788e66c98b75 under explicit user authorization. H-M0-014 v1 and H-M0-005 v5 were consumed. Scope is additive Skeptic probes, review evidence, audit and completion/handoff records only; no Quant production controls or historical probes will be modified.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-014.v1.json",
+    "docs/handoffs/H-M0-005.v5.json",
+    "reports/M0.1-quant-remediation.v1.md",
+    "reports/quant-remediation/results.v1.json",
+    "reports/quant-remediation/completion-inventory.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-014.v2.json"
+  ],
+  "tests_run": [],
+  "open_questions": [
+    "Can valid-prerequisite attacks bypass experiment binding, inventory completeness, current-state currency, reproduction or Risk-facing non-authorization?",
+    "Which guarantees are local and which depend on honest verifier/reproducer/current-state authority adapters?"
+  ],
+  "blockers": [
+    "STOP-M0-001 remains OPEN; Risk is unreleased and capital is LOCKED."
+  ],
+  "next_action": "Add versioned Skeptic-owned attacks without modifying production or historical tests; publish an evidence-linked verdict and owner remediation handoff for any genuine Quant defect.",
+  "completion_criteria": [
+    "Independently reproduce positive and every mapped negative control using accepted current state rather than submitter metadata.",
+    "Attack old-checkpoint rollback, later accepted evidence deletion, authority absence/substitution, registry mismatch and both pre-commit race windows.",
+    "Attack actual input/split replacement, renamed/partial overlap, hidden failures/cancellations/attempts/repeats, config/code/environment/seed and output/reproduction mutation.",
+    "Verify no submitted command executes, no operational authorization leaks, all originals remain preserved and full-suite errors are accurately classified.",
+    "Publish limitations and an explicit READY_FOR_DIRECTOR_GATE or BLOCKED verdict without self-releasing Risk."
+  ],
+  "depends_on": [
+    "H-M0-005"
+  ]
+}
