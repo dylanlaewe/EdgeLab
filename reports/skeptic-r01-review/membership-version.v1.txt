@@ -1,0 +1,2 @@
+PASS: exact canonical overlap survives membership v2 with valid predecessor and reordered samples; new registration ID, empty ancestry, valid fresh checkpoint rejected: Examined membership overlaps authoritative holdout
+Reproducer: construct ResearchHistoryV2Tests fixture; append explored membership v2 with supersedes=explored v1, reversed samples and unchanged canonical membership digest; candidate(v2, version=1, ident=NEWREG) creates checkpoint; check() must reject authoritative overlap.

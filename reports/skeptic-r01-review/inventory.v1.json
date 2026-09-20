@@ -1,0 +1,23 @@
+{
+  "purpose": "Skeptic R01 re-review evidence inventory; no operational acceptance",
+  "base": "d169ba3c2f5d5ac03cf4f7d148fa94da190f53fd",
+  "claim": "45ce1e1c25ed57a25c3dc3310049ed372a22548a",
+  "files": {
+    "tests/test_skeptic_history_v4.py": "ca98e7c84c6b1e578db9970812b44410503e5c16ee95430ce676d1d2fa8477cc",
+    "reports/reviews/M0.1-R01-rereview.v1.md": "4ba0ac219e900f52f093d99619853f9f77c2620156f23af70b7d75c66499196f",
+    "docs/handoffs/H-M0-012.v3.json": "0aae4134feaf2643f918498dab70fc8be78ca2bbde1bf16cfde7bdd83ca3879c",
+    "reports/audit/A-M0-011.v1.json": "48f1dfca1833c3be0e36aedb5ec7d73521d161eb83cfb02eefc8ceba69217862",
+    "reports/skeptic-r01-review/data.v1.txt": "b618813341bd4138e4ad9a53e93f848c24902c1e584b1e3bb2cd3fdd431dea3e",
+    "reports/skeptic-r01-review/foundation.v1.txt": "3bb9ffba68fa66a0e020972b5202434b23c4ff0163f0f986b3fa03fc6fd63c21",
+    "reports/skeptic-r01-review/full.v1.txt": "6ba7fe834aa941e048c06d689acacc045832bb3b3222bb43e2e625167a874a59",
+    "reports/skeptic-r01-review/legacy-disposition.v1.json": "5be451400d649a56f60d11f30c26c9dc15bf73bf6f3dfafa2fd942891ccad1bb",
+    "reports/skeptic-r01-review/membership-version.v1.txt": "5ddac28a17c737335ad12e01900d96d24cbc47a00785ccafd95ddefcc5eeb1b5",
+    "reports/skeptic-r01-review/owner.v1.txt": "1861c1f9684f8abf994992d4055bac398eab95946e6216fc5486c0f0bd6cc803",
+    "reports/skeptic-r01-review/preservation.v1.json": "da308a54a91e539955631ce24a9cf98f8bb0a3bda4dcbf25c74ef56803ce36f9",
+    "reports/skeptic-r01-review/results.v1.json": "c565bef3620a08bf2d3149818b3d330253f4af07f2ab49ed38d8349bd1f676e8",
+    "reports/skeptic-r01-review/semantic-v2.v1.txt": "31b6e890927a9c5b1502ee7d91fb80a0bee61f35269c44eb02261a50a688be9f",
+    "reports/skeptic-r01-review/v4.v1.txt": "1b3af283590502167d6af80639abb963fbfd704c9dbb7236c7c7dc31e2916779",
+    "reports/skeptic-r01-review/validation.v1.txt": "9e63c867071a00d62a1ed745888e7dc16b7d4cb74c93c7b5089b121d8c23cd9e"
+  },
+  "self_binding": "Containing commit first adding H-M0-012.v3.json; inventory excludes itself."
+}

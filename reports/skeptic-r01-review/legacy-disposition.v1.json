@@ -1,0 +1,302 @@
+{
+  "entries": [
+    {
+      "historical_test": "test_exact_membership_not_dataset_label (test_research_protocol.ResearchProtocolTests.test_exact_membership_not_dataset_label)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_first_access_exact_binding_retroactive_freeze_and_unknowns",
+        "test_v4_accepted_standalone_delete_rewrite_relocate_denied"
+      ]
+    },
+    {
+      "historical_test": "test_exposure_cannot_precede_membership_binding (test_research_protocol.ResearchProtocolTests.test_exposure_cannot_precede_membership_binding)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_legacy_temporal_threshold_reference_and_access_family",
+        "test_v4_schema_version_predecessor_and_exposure_order_successors"
+      ]
+    },
+    {
+      "historical_test": "test_exposure_order_and_missing_first_access (test_research_protocol.ResearchProtocolTests.test_exposure_order_and_missing_first_access)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_legacy_temporal_threshold_reference_and_access_family",
+        "test_v4_schema_version_predecessor_and_exposure_order_successors"
+      ]
+    },
+    {
+      "historical_test": "test_first_access_before_equal_after_freeze (test_research_protocol.ResearchProtocolTests.test_first_access_before_equal_after_freeze)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_first_access_exact_binding_retroactive_freeze_and_unknowns",
+        "test_v4_accepted_standalone_delete_rewrite_relocate_denied"
+      ]
+    },
+    {
+      "historical_test": "test_first_access_cannot_hide_prior_access_ancestor (test_research_protocol.ResearchProtocolTests.test_first_access_cannot_hide_prior_access_ancestor)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_proposed_access_cannot_exempt_accepted_access_or_ancestry"
+      ]
+    },
+    {
+      "historical_test": "test_fresh_holdout_positive_and_repository (test_research_protocol.ResearchProtocolTests.test_fresh_holdout_positive_and_repository)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_positive_fresh_and_multiple_disjoint_versions_no_authorization",
+        "test_v4_checkpoint_missing_current_registration_denied"
+      ]
+    },
+    {
+      "historical_test": "test_frozen_fixture_positive (test_research_protocol.ResearchProtocolTests.test_frozen_fixture_positive)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_positive_fresh_and_multiple_disjoint_versions_no_authorization",
+        "test_v4_checkpoint_missing_current_registration_denied"
+      ]
+    },
+    {
+      "historical_test": "test_identical_renamed_partial_overlap_rejected (test_research_protocol.ResearchProtocolTests.test_identical_renamed_partial_overlap_rejected)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_prior_registration_multi_hop_same_renamed_partial_denied",
+        "test_v4_accepted_and_current_standalone_repackaged_exposure_denied"
+      ]
+    },
+    {
+      "historical_test": "test_missing_predecessor_and_mutated_custody_evidence (test_research_protocol.ResearchProtocolTests.test_missing_predecessor_and_mutated_custody_evidence)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_schema_version_predecessor_and_exposure_order_successors",
+        "test_v4_rehashed_threshold_hypothesis_plan_custody_cannot_replace_pins"
+      ]
+    },
+    {
+      "historical_test": "test_missing_unknown_stale_and_retrospective_holdout (test_research_protocol.ResearchProtocolTests.test_missing_unknown_stale_and_retrospective_holdout)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_first_access_exact_binding_retroactive_freeze_and_unknowns",
+        "test_v4_accepted_standalone_delete_rewrite_relocate_denied"
+      ]
+    },
+    {
+      "historical_test": "test_mutated_hypothesis_threshold_plan_and_freeze_pin (test_research_protocol.ResearchProtocolTests.test_mutated_hypothesis_threshold_plan_and_freeze_pin)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_rehashed_threshold_hypothesis_plan_custody_cannot_replace_pins",
+        "test_v4_checkpoint_missing_current_registration_denied"
+      ]
+    },
+    {
+      "historical_test": "test_nested_ancestry_and_correction_cannot_hide_overlap (test_research_protocol.ResearchProtocolTests.test_nested_ancestry_and_correction_cannot_hide_overlap)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_prior_registration_multi_hop_same_renamed_partial_denied",
+        "test_v4_accepted_and_current_standalone_repackaged_exposure_denied"
+      ]
+    },
+    {
+      "historical_test": "test_rehashed_hypothesis_change_still_breaks_freeze (test_research_protocol.ResearchProtocolTests.test_rehashed_hypothesis_change_still_breaks_freeze)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_rehashed_threshold_hypothesis_plan_custody_cannot_replace_pins",
+        "test_v4_checkpoint_missing_current_registration_denied"
+      ]
+    },
+    {
+      "historical_test": "test_repository_rejects_targeted_overlap (test_research_protocol.ResearchProtocolTests.test_repository_rejects_targeted_overlap)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_prior_registration_multi_hop_same_renamed_partial_denied",
+        "test_v4_accepted_and_current_standalone_repackaged_exposure_denied"
+      ]
+    },
+    {
+      "historical_test": "test_required_fields_and_extra_properties (test_research_protocol.ResearchProtocolTests.test_required_fields_and_extra_properties)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_schema_version_predecessor_and_exposure_order_successors"
+      ]
+    },
+    {
+      "historical_test": "test_retroactive_hypothesis_and_unresolved_thresholds (test_research_protocol.ResearchProtocolTests.test_retroactive_hypothesis_and_unresolved_thresholds)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_legacy_temporal_threshold_reference_and_access_family"
+      ]
+    },
+    {
+      "historical_test": "test_unknown_exposure_recordable_but_ineligible (test_research_protocol.ResearchProtocolTests.test_unknown_exposure_recordable_but_ineligible)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_first_access_exact_binding_retroactive_freeze_and_unknowns",
+        "test_v4_accepted_standalone_delete_rewrite_relocate_denied"
+      ]
+    },
+    {
+      "historical_test": "test_unknown_or_wrong_purpose_access_denied (test_research_protocol.ResearchProtocolTests.test_unknown_or_wrong_purpose_access_denied)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_legacy_temporal_threshold_reference_and_access_family",
+        "test_v4_schema_version_predecessor_and_exposure_order_successors"
+      ]
+    },
+    {
+      "historical_test": "test_versioned_registration_preserves_prior_without_reusing_pin (test_research_protocol.ResearchProtocolTests.test_versioned_registration_preserves_prior_without_reusing_pin)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_positive_fresh_and_multiple_disjoint_versions_no_authorization",
+        "test_v4_checkpoint_missing_current_registration_denied"
+      ]
+    },
+    {
+      "historical_test": "test_wrong_type_identity_digest_membership_and_missing_refs (test_research_protocol.ResearchProtocolTests.test_wrong_type_identity_digest_membership_and_missing_refs)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_legacy_temporal_threshold_reference_and_access_family",
+        "test_v4_schema_version_predecessor_and_exposure_order_successors"
+      ]
+    },
+    {
+      "historical_test": "test_v3_access_order_and_retroactive_custody_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_access_order_and_retroactive_custody_rejected)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_first_access_exact_binding_retroactive_freeze_and_unknowns",
+        "test_v4_accepted_standalone_delete_rewrite_relocate_denied"
+      ]
+    },
+    {
+      "historical_test": "test_v3_candidate_pin_does_not_authenticate_freeze (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_candidate_pin_does_not_authenticate_freeze)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_rehashed_threshold_hypothesis_plan_custody_cannot_replace_pins",
+        "test_v4_checkpoint_missing_current_registration_denied"
+      ]
+    },
+    {
+      "historical_test": "test_v3_exact_membership_binding_rejects_same_samples_other_reference (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_exact_membership_binding_rejects_same_samples_other_reference)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_first_access_exact_binding_retroactive_freeze_and_unknowns",
+        "test_v4_accepted_standalone_delete_rewrite_relocate_denied"
+      ]
+    },
+    {
+      "historical_test": "test_v3_fresh_holdout_is_consistency_only (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_fresh_holdout_is_consistency_only)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_positive_fresh_and_multiple_disjoint_versions_no_authorization",
+        "test_v4_checkpoint_missing_current_registration_denied"
+      ]
+    },
+    {
+      "historical_test": "test_v3_frozen_threshold_hypothesis_plan_and_custody_rehash_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_frozen_threshold_hypothesis_plan_and_custody_rehash_rejected)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_rehashed_threshold_hypothesis_plan_custody_cannot_replace_pins",
+        "test_v4_checkpoint_missing_current_registration_denied"
+      ]
+    },
+    {
+      "historical_test": "test_v3_legacy_schema_attack_with_valid_current_prerequisites (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_legacy_schema_attack_with_valid_current_prerequisites)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_schema_version_predecessor_and_exposure_order_successors"
+      ]
+    },
+    {
+      "historical_test": "test_v3_omitted_exposure_still_accepted_until_caller_discloses (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_omitted_exposure_still_accepted_until_caller_discloses)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_accepted_and_current_standalone_repackaged_exposure_denied",
+        "test_v4_structure_only_api_is_not_authoritative_freshness"
+      ]
+    },
+    {
+      "historical_test": "test_v3_prior_registration_ancestry_not_carried_to_new_holdout (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_prior_registration_ancestry_not_carried_to_new_holdout)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_prior_registration_multi_hop_same_renamed_partial_denied",
+        "test_v4_new_id_omitted_predecessor_and_altered_ancestry_denied"
+      ]
+    },
+    {
+      "historical_test": "test_v3_same_renamed_partial_and_versioned_exposure_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_same_renamed_partial_and_versioned_exposure_rejected)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_prior_registration_multi_hop_same_renamed_partial_denied",
+        "test_v4_accepted_and_current_standalone_repackaged_exposure_denied"
+      ]
+    },
+    {
+      "historical_test": "test_v3_unknown_and_missing_evidence_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_unknown_and_missing_evidence_rejected)",
+      "classification": "B",
+      "first_rejection": "setUp: Authoritative history requires verifier baseline and full inventory",
+      "meaning": "Positive fixture rejected before attack body; not semantic control evidence.",
+      "successors": [
+        "test_v4_first_access_exact_binding_retroactive_freeze_and_unknowns",
+        "test_v4_accepted_standalone_delete_rewrite_relocate_denied"
+      ]
+    }
+  ],
+  "unchanged_inherited_entries": 13,
+  "scope": "Versioned successor coverage only; no historical probe migration or waiver"
+}

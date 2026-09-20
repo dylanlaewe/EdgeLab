@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-012",
+  "version": 3,
+  "created_at": "2026-09-20T01:59:44.501500+00:00",
+  "sender": "05 Skeptic",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Independently re-review R01 Research authoritative-history remediation before any Quant release; Director scheduling required.",
+  "work_done": "Independent R01 Research-scope remediation accepted under documented current-verifier-checkpoint assumptions; READY_FOR_DIRECTOR_GATE for bounded Quant remediation only. No unconditional end-to-end closure or operational assurance. Fifteen compatible Skeptic methods and an isolated membership-version attack executed. All thirty new setup errors classified B with exact successor mappings. Deliberately stale verifier baseline permits erased post-checkpoint evidence to escape; recorded as demonstrated trust/currency boundary, not a freshness guarantee. No Quant release, STOP clearance or H04/H05 closure. Writer slot yielded after verified publication.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-R01-rereview.v1.md",
+    "tests/test_skeptic_history_v4.py",
+    "reports/skeptic-r01-review/results.v1.json",
+    "reports/skeptic-r01-review/legacy-disposition.v1.json",
+    "reports/skeptic-r01-review/preservation.v1.json",
+    "reports/skeptic-r01-review/validation.v1.txt",
+    "docs/handoffs/H-M0-011.v3.json"
+  ],
+  "files_changed": [
+    "reports/reviews/M0.1-R01-rereview.v1.md",
+    "tests/test_skeptic_history_v4.py",
+    "reports/skeptic-r01-review/",
+    "docs/handoffs/H-M0-012.v2.json",
+    "docs/handoffs/H-M0-012.v3.json",
+    "reports/audit/A-M0-011.v1.json"
+  ],
+  "tests_run": [
+    "v4 15, Research owner 27, Data 18, foundation 18, semantic-v2 12 passed.",
+    "Full discovery 135 methods: 95 pass, forty errored methods/43 error entries; zero assertion failures/skips; exit 1, NOT GREEN. Thirteen inherited plus thirty independently verified setup errors.",
+    "38 historical test/fixture files unchanged; 30/30 completion inventory hashes match; initial/completion history checks protect 35/143 files.",
+    "Additional compatible membership-v2/reordered canonical samples/new registration attack rejected authoritative overlap.",
+    ".venv/bin/python -m src.edgelab.validate: 51 records and initial published history validated; capital LOCKED."
+  ],
+  "open_questions": [
+    "Director/Quant must independently establish current accepted checkpoint and verifier integrity; API preservation alone cannot prove currency.",
+    "Quant retains full execution inventory, mandatory experiment integration, actual inputs/splits, reproduction and execution-time enforcement."
+  ],
+  "blockers": [
+    "STOP-M0-001 OPEN; operational trust unprovisioned; Quant remains unreleased pending Director decision."
+  ],
+  "next_action": "Verify containing commit (git log --diff-filter=A -- docs/handoffs/H-M0-012.v3.json), inventory and remote ancestry; perform bounded Quant release gate with stated trust conditions. Do not mistake this Research-scope disposition for operational or final H04/H05 approval.",
+  "completion_criteria": [
+    "Assess same/renamed/partial canonical contamination across one/multiple prior registration versions and unrelated omitted records.",
+    "Check accepted-history deletion/rewrite, unknown/missing evidence, checkpoint/pin replacement, malformed/misplaced records and historical-access exemption.",
+    "Demonstrate truly disjoint fresh holdout and retained exact type/version/time/membership/freeze invariants without operational authorization.",
+    "Independently disposition 13 inherited and 30 missing-checkpoint fixture errors with compatible successors; preserve all published probes.",
+    "Evaluate external-truth limitations, verifier checkpoint trust/currency, and Quant ownership boundaries; publish findings without implicit release."
+  ],
+  "depends_on": [
+    "H-M0-011",
+    "H-M0-010"
+  ]
+}
