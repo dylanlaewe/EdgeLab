@@ -478,6 +478,33 @@ class QuantProtocolTests(unittest.TestCase):
                 self.root, self.request, OpaqueAuthority(self.state),
                 self.runner, now=NOW)
 
+    def test_commitment_timestamp_completed_fact_semantics(self):
+        assessment, commitment = commit_confirmation_claim(
+            self.root, self.request, self.authority, self.runner, now=NOW)
+        self.assertEqual(
+            verify_authority_commitment(
+                self.root, assessment, commitment, now=NOW),
+            commitment,
+        )
+
+        malformed = {**commitment, 'committed_at': 'not-a-timestamp'}
+        malformed['commitment_sha256'] = commitment_digest(malformed)
+        with self.assertRaises(ValidationError):
+            verify_authority_commitment(
+                self.root, assessment, malformed, now=NOW)
+
+        altered_without_rehash = {
+            **commitment, 'committed_at': '2026-09-19T13:09:59Z'}
+        with self.assertRaisesRegex(ValueError, 'digest mismatch'):
+            verify_authority_commitment(
+                self.root, assessment, altered_without_rehash, now=NOW)
+
+        future = {**commitment, 'committed_at': '2999-01-01T00:00:00Z'}
+        future['commitment_sha256'] = commitment_digest(future)
+        with self.assertRaisesRegex(ValueError, 'Future completed fact: committed_at'):
+            verify_authority_commitment(
+                self.root, assessment, future, now=NOW)
+
     def test_missing_unknown_and_stale_authority_deny(self):
         with self.assertRaisesRegex(ValueError, 'authority is required'):
             assess_confirmation(self.root, self.request, None, self.runner, now=NOW)

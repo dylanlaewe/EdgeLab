@@ -22,7 +22,8 @@ COMPLETED_TIMES = {'created_at', 'occurred_at', 'issued_at', 'registered_at',
                    'protocol_frozen_at', 'started_at', 'completed_at', 'as_of',
                    'terms_checked_at', 'updated_at', 'observed_at', 'retrieved_at',
                    'publication_at', 'corrected_at', 'reviewed_at', 'available_at',
-                   'accepted_at', 'observed_through', 'reproduced_at', 'frozen_at'}
+                   'accepted_at', 'observed_through', 'reproduced_at', 'frozen_at',
+                   'committed_at'}
 
 
 def digest(value: bytes) -> str:

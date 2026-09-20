@@ -356,14 +356,19 @@ monotonic generation, unique commitment ID, timestamp, limitations, assessment
 digest, accepted-state digest, experiment identity and exact claim-reference
 identity. `verify_authority_commitment` locally verifies all of those bindings and
 rejects opaque strings, missing fields, replay against another assessment or state,
-cross-authority substitution and stale generations.
+cross-authority substitution and stale generations. `committed_at` is a completed
+fact under the shared clock contract: it must be a valid offset-aware timestamp no
+later than the verifier-supplied evaluation time. Recomputing the self-digest does
+not make a future-dated commitment temporally plausible.
 
 That structured record is a locally verifiable content commitment, not proof of
-external authentication. Quant still cannot prove that an external adapter
-implements atomicity, authenticate its controller, establish key custody or stop a
-compromised/colluding verifier. No production authority or signature trust root is
-provisioned; absence therefore denies. The included in-memory adapter exists only
-in tests and proves binding behavior under the stated external-trust assumption.
+external authentication. Quant does not establish authority authenticity, replay
+persistence, global commitment-ID uniqueness, key custody, adapter honesty,
+controller authentication, durable storage or true external atomicity. Those are
+Risk/external-trust responsibilities. No production authority, persistent replay
+registry or signature trust root is provisioned; absence therefore denies. The
+included in-memory adapter exists only in tests and proves binding behavior under
+the stated external-trust assumption.
 
 Risk may consume the returned assessment digest, exact evidence references,
 experiment identity, current-state digest and explicit false authorization fields.
