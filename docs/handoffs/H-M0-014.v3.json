@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-014",
+  "version": 3,
+  "created_at": "2026-09-20T03:08:33.168807+00:00",
+  "sender": "05 Skeptic",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Independently review H-M0-005 Quant remediation before any Risk release.",
+  "work_done": "Independent hostile review is BLOCKED pending Quant remediation. Q01 HIGH demonstrates that prior examined train/validation use of the proposed holdout, including renamed partial canonical overlap, can receive SCIENTIFIC_INTEGRITY_CONSISTENT because the prior-use scan checks only test/holdout. Q02 LOW records that the authority token lacks a machine-verifiable assessment/state binding. Other bounded identity, input, inventory, Research, checkpoint, reproduction and non-authorization controls behaved as documented within explicit external assumptions. H-M0-015 v1 queues Quant remediation. Risk remains unreleased; STOP OPEN; writer slot yielded after verified publication.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-quant-review.v1.md",
+    "tests/test_skeptic_quant_v5.py",
+    "reports/skeptic-quant-review/results.v1.json",
+    "reports/skeptic-quant-review/preservation.v1.json",
+    "reports/skeptic-quant-review/validation.v1.txt",
+    "docs/handoffs/H-M0-005.v5.json",
+    "docs/handoffs/H-M0-015.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "tests/test_skeptic_quant_v5.py",
+    "reports/reviews/M0.1-quant-review.v1.md",
+    "reports/skeptic-quant-review/results.v1.json",
+    "reports/skeptic-quant-review/preservation.v1.json",
+    "reports/skeptic-quant-review/validation.v1.txt",
+    "docs/handoffs/H-M0-014.v2.json",
+    "docs/handoffs/H-M0-014.v3.json",
+    "docs/handoffs/H-M0-015.v1.json",
+    "reports/audit/A-M0-014.v1.json"
+  ],
+  "tests_run": [
+    "Skeptic Quant v5 7/7, Quant owner 13/13, Research history v2 27/27, Data 18/18, foundation 18/18 and Skeptic history v4 15/15 pass.",
+    "Full discovery 155 methods: 115 pass, 40 errored methods/43 exact historical entries, zero assertion failures/skips; exit 1, NOT GREEN; no new/missing historical identity.",
+    "Repository validation 63 records; compileall and whitespace checks pass; 41/41 historical tests/fixtures and 29/29 Quant completion hashes preserved."
+  ],
+  "open_questions": [
+    "Independent re-review must verify that all earlier consumed split roles contaminate a proposed holdout by canonical identity.",
+    "Risk integration must verify authority commitment binding and retain all operational, STOP and capital gates."
+  ],
+  "blockers": [
+    "Q01 HIGH remains open; H-M0-015 Quant remediation and independent re-review are required.",
+    "STOP-M0-001 OPEN; Risk unreleased; USD 0 deployable; live LOCKED."
+  ],
+  "next_action": "Director verifies this review commit, retains the Risk release hold, and schedules H-M0-015 targeted Quant remediation followed by independent Skeptic re-review. Do not release Risk or clear STOP.",
+  "completion_criteria": [
+    "Construct valid-prerequisite experiment identity, actual-input, split, freshness, inventory, checkpoint, authority, reproduction, output and Risk-interface attacks.",
+    "Classify local defects separately from external trust assumptions and preserve a genuine non-operational positive case.",
+    "Preserve all historical probes and Quant completion inventory, run focused/full validation, and issue owner remediation for genuine defects.",
+    "Publish BLOCKED or READY_FOR_DIRECTOR_GATE without self-releasing Risk."
+  ],
+  "depends_on": [
+    "H-M0-005"
+  ]
+}

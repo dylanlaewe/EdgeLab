@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "purpose": "H-M0-014 read-only preservation verification",
+  "quant_completion_commit": "34821bddf09a53dbbe01eaec324f788e66c98b75",
+  "historical_test_fixture_files_checked": 41,
+  "historical_test_fixture_files_matching": 41,
+  "historical_test_fixture_mismatches": [],
+  "quant_completion_inventory_files_checked": 29,
+  "quant_completion_inventory_files_matching": 29,
+  "quant_completion_inventory_mismatches": [],
+  "historical_error_entries_expected": 43,
+  "historical_error_entries_observed": 43,
+  "new_successor_file": "tests/test_skeptic_quant_v5.py",
+  "production_files_modified_by_review": []
+}

@@ -1,0 +1,36 @@
+H-M0-014 independent Quant hostile-review validation
+
+Focused suites:
+- Skeptic Quant v5: 7/7 pass
+- Quant owner: 13/13 pass
+- Research history v2: 27/27 pass
+- Data: 18/18 pass
+- Foundation: 18/18 pass
+- Skeptic history v4: 15/15 pass
+
+Full discovery:
+- 155 methods
+- 115 passing methods
+- 40 errored methods / 43 historical error entries
+- 0 assertion failures
+- 0 skips
+- exit 1, deliberately NOT GREEN
+- historical error identities unchanged; no new or missing identity
+
+Repository and source validation:
+- 63 records and published history valid
+- capital LOCKED; no scientific or operational approval
+- compileall pass
+- git diff --check pass
+
+Preservation:
+- 41/41 tests and fixtures existing at Quant completion are byte-identical
+- 29/29 Quant completion inventory hashes match
+- production controls, schemas, specifications, STOP and project-state unchanged by review
+
+Semantic result:
+- prior exact train overlap: accepted (Q01 HIGH)
+- prior exact validation overlap: accepted (Q01 HIGH)
+- prior renamed/partial train overlap: accepted (Q01 HIGH)
+- prior exact test overlap: rejected negative control
+- fresh/disjoint positive remains non-operational

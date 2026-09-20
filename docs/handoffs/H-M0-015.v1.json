@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-015",
+  "version": 1,
+  "created_at": "2026-09-20T03:08:33.168807+00:00",
+  "sender": "05 Skeptic",
+  "recipient": "04 Quant",
+  "status": "QUEUED",
+  "request": "Remediate Q01 HIGH prior train/validation contamination and Q02 LOW authority-token binding ambiguity, then request independent Skeptic re-review before any Risk release.",
+  "work_done": "H-M0-014 independent review demonstrates that a fully accepted prior trial may consume the proposed holdout in train or validation, including renamed partial canonical overlap, yet the later claim receives SCIENTIFIC_INTEGRITY_CONSISTENT. Prior test reuse is correctly rejected. The review also demonstrates that the authority token has no locally verifiable binding to assessment/state. No production Quant control was changed.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-quant-review.v1.md",
+    "tests/test_skeptic_quant_v5.py",
+    "reports/skeptic-quant-review/results.v1.json",
+    "reports/skeptic-quant-review/preservation.v1.json",
+    "docs/handoffs/H-M0-014.v3.json",
+    "src/edgelab/quant_protocol.py",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-015.v1.json"
+  ],
+  "tests_run": [
+    "Skeptic v5 7/7, Quant owner 13/13, Research history v2 27/27, Data 18/18, foundation 18/18 and Skeptic history v4 15/15 pass.",
+    "Full discovery 155 methods: 115 pass, 40 errored methods/43 preserved historical entries, zero assertion failures/skips; NOT GREEN."
+  ],
+  "open_questions": [
+    "What exact evidence establishes that an earlier trial consumed a split when a trusted runner is the execution boundary?",
+    "Should authority commitment binding use a structured self-describing token or an authority resolution/verification method?"
+  ],
+  "blockers": [
+    "Q01 HIGH: prior examined train/validation canonical overlap is omitted from contamination scanning.",
+    "STOP-M0-001 OPEN; Risk unreleased; no operational authority or deployable capital."
+  ],
+  "next_action": "Director schedules Quant for the smallest bounded fix. Quant must compare a proposed holdout against every prior consumed split using existing canonical Data identities, define an independently verifiable token binding, add owner tests, publish completion evidence and request Skeptic re-review. Do not release Risk.",
+  "completion_criteria": [
+    "Reject exact, renamed, reordered, partial and membership-version-equivalent overlap between a proposed holdout and every earlier consumed trial split: train, validation, test or holdout; fail closed when available execution evidence cannot establish whether train/validation inputs were consumed.",
+    "Preserve complete accepted trial inventory, Research freshness, current-state and reproduction controls; do not special-case Skeptic IDs.",
+    "Keep a genuinely disjoint synthetic confirmation positive with every operational authorization field false.",
+    "Define a machine-verifiable authority commitment binding assessment digest, current-state digest, authority identity/generation and token, while preserving the explicit dishonest-adapter trust limit.",
+    "Preserve all historical and current Skeptic probes, publish exact hashes/results and request independent re-review."
+  ],
+  "depends_on": [
+    "H-M0-014",
+    "H-M0-005"
+  ]
+}

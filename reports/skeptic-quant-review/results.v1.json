@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "purpose": "Independent H-M0-014 Quant hostile-review results; no operational authorization",
+  "review_base": "e41da71d11bfe008044dbd97a9767b62105da504",
+  "quant_implementation": "4a4a7b2bb89b094161743c030334785630b50ce8",
+  "verdict": "BLOCKED_PENDING_QUANT_REMEDIATION",
+  "findings": {
+    "BLOCKER": [],
+    "HIGH": [
+      "Q01: prior examined train/validation membership can overlap the proposed holdout and still receive SCIENTIFIC_INTEGRITY_CONSISTENT"
+    ],
+    "MEDIUM": [],
+    "LOW": [
+      "Q02: authority commitment token is only a nonempty string and lacks a machine-verifiable binding/resolution contract"
+    ]
+  },
+  "focused": {
+    "skeptic_quant_v5": {"methods": 7, "passed": 7},
+    "quant_owner": {"methods": 13, "passed": 13},
+    "research_history_v2": {"methods": 27, "passed": 27},
+    "data": {"methods": 18, "passed": 18},
+    "foundation": {"methods": 18, "passed": 18},
+    "skeptic_history_v4": {"methods": 15, "passed": 15}
+  },
+  "full_discovery": {
+    "methods": 155,
+    "passing_methods": 115,
+    "errored_methods": 40,
+    "error_entries": 43,
+    "failure_count": 0,
+    "skip_count": 0,
+    "successful": false,
+    "historical_error_identities_match": true,
+    "new_error_names": [],
+    "missing_prior_error_names": []
+  },
+  "q01_probes": {
+    "prior_exact_train_overlap": "accepted_scientific_integrity_consistent",
+    "prior_exact_validation_overlap": "accepted_scientific_integrity_consistent",
+    "prior_renamed_partial_train_overlap": "accepted_scientific_integrity_consistent",
+    "prior_exact_test_overlap_negative_control": "rejected_prior_repeated_trial"
+  },
+  "external_boundary_probes": {
+    "echo_only_reproducer": "accepted_under_trusted_reproducer_assumption",
+    "dishonest_adapter_wrong_commit": "accepted_under_explicit_external_authority_assumption",
+    "dishonest_adapter_replayed_token": "accepted_under_explicit_external_authority_assumption"
+  },
+  "repository_validation": {
+    "records": 63,
+    "published_history_valid": true,
+    "capital_status": "LOCKED"
+  },
+  "commands": [
+    ".venv/bin/python -m unittest discover -s tests -p 'test_skeptic_quant_v5.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_quant_protocol.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_research_history_v2.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_data_integrity.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_foundation.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_skeptic_history_v4.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -v",
+    ".venv/bin/python -m src.edgelab.validate",
+    ".venv/bin/python -m compileall -q src tests",
+    "git diff --check"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-014",
+  "version": 1,
+  "occurred_at": "2026-09-20T03:08:33.168807+00:00",
+  "actor": "Independent Skeptic session skeptic-quant-review-20260920T024913Z",
+  "role": "05 Skeptic",
+  "event_type": "QUANT_REMEDIATION_REVIEW_BLOCKED",
+  "subject_ref": "docs/handoffs/H-M0-014.v3.json",
+  "previous_state": "QUANT_IMPLEMENTATION_AWAITING_INDEPENDENT_SKEPTIC_REVIEW",
+  "new_state": "QUANT_REMEDIATION_BLOCKED_Q01_HIGH_Q02_LOW",
+  "reason": "Prior examined train/validation use of a proposed holdout survives the current role-restricted contamination scan; authority token binding is also underspecified. No Risk release or operational authorization.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-quant-review.v1.md",
+    "tests/test_skeptic_quant_v5.py",
+    "reports/skeptic-quant-review/results.v1.json",
+    "docs/handoffs/H-M0-015.v1.json"
+  ],
+  "code_ref": "Quant implementation 4a4a7b2bb89b094161743c030334785630b50ce8; review commit first adding docs/handoffs/H-M0-014.v3.json",
+  "config_ref": "docs/SPECIFICATIONS.md",
+  "correlation_id": "H-M0-014",
+  "supersedes": null
+}
