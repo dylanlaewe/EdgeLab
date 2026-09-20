@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "purpose": "H-M0-015 preservation evidence; no operational authorization",
+  "remediation_base": "665cdbddcdce18af4b4332bb936d59a050ab6830",
+  "implementation_commit": "0319ff115707ad65f9f871275dc17740700ef3db",
+  "skeptic_v5_sha256": "2f79c91ef57e4cf5c0ca0966d25eb825d41898666b14f7e4413203863943f7cd",
+  "skeptic_review_results_sha256": "b488fb0f542161e5fa81a921f4e2a42c467f0a181596f5c30bc41ebc7a76a1e1",
+  "skeptic_review_preservation_sha256": "4f655c2b73bb34076628572eb5ee7de429b3863abf49a22e0620b6fff0b33eb3",
+  "stop_sha256": "877eb367fde67eda4cbd33b72eea28e48d4f36f45253dc7fe40e3bfa9aa87571",
+  "bankroll_sha256": "9ed04c4fb32fed1ba50999abdc1a84fa298e58071ac9fac9b1be1d6accf0d77a",
+  "changed_skeptic_probe_or_review_files": [],
+  "changed_stop_bankroll_risk_or_project_state_files": [],
+  "historical_error_entries_expected": 43,
+  "historical_error_entries_observed": 43,
+  "historical_error_identities_match": true,
+  "note": "Quant changed its owner test file but did not edit, skip or invert Skeptic acceptance evidence."
+}

@@ -1,0 +1,29 @@
+H-M0-015 Q01/Q02 Quant remediation at implementation
+0319ff115707ad65f9f871275dc17740700ef3db
+
+Quant owner: 23/23 pass.
+Data owner: 18/18 pass.
+Research history v2 owner: 27/27 pass.
+Current semantic adversarial v4: 15/15 pass.
+Foundation: 18/18 pass.
+
+Unchanged Skeptic Quant v5: 7 methods; 2 pass, 4 error, 1 fail, 0 skip.
+The three Q01 unsafe-acceptance probes now error at canonical prior-consumption
+rejection. The dishonest opaque-token probe errors at structured commitment
+validation. The prior-test negative control and trusted reproducer boundary pass.
+The old string-token assertion fails against the structured commitment object.
+This suite is intentionally NOT GREEN pending independent Skeptic disposition.
+
+Full discovery: 165 methods; 120 pass; 44 errored methods / 47 error entries;
+1 failure; 0 skips; NOT GREEN. The exact inherited corpus remains 40 errored
+methods / 43 error entries. Four added errors and one failure are the unchanged
+Skeptic v5 Q01/Q02 acceptance expectations described above.
+
+Repository validation before completion artifacts: 64 records and published
+history valid; capital LOCKED; no scientific or operational approval. Compileall,
+git diff whitespace and synchronized origin/main checks passed. Skeptic v5, Skeptic
+review evidence, STOP-M0-001 and bankroll bytes are preserved.
+
+Repository validation with the completion handoffs and audit event: 67 records and
+published history valid; capital remains LOCKED; no scientific or operational
+approval.

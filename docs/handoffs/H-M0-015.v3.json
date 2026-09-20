@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-015",
+  "version": 3,
+  "created_at": "2026-09-20T03:55:29Z",
+  "sender": "04 Quant",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Complete the bounded Q01/Q02 Quant remediation and publish evidence for independent Skeptic re-review without releasing Risk.",
+  "work_done": "Implemented at 0319ff115707ad65f9f871275dc17740700ef3db. Q01 now compares the proposed confirmatory holdout's canonical Data identities with every train/validation/test/holdout split declared by every earlier trial in the complete accepted inventory, including failed/cancelled/incomplete trials without access evidence. Renamed, reordered, partial, versioned, repackaged and role-relabeled overlap rejects while unrelated non-holdout reuse remains permitted. Q02 replaces the opaque string with a schema-validated self-digested commitment binding authority/generation, commitment identity/time, assessment, state, experiment, exact claim references and limitations. Local binding is verified; external authority authentication/honesty remains a Risk-owned trust boundary. No Skeptic probe, STOP, bankroll, Risk control or project state was changed.",
+  "evidence_refs": [
+    "reports/M0.1-quant-q01-q02-remediation.v1.md",
+    "reports/quant-q01-q02-remediation/results.v1.json",
+    "reports/quant-q01-q02-remediation/preservation.v1.json",
+    "reports/quant-q01-q02-remediation/validation.v1.txt",
+    "schemas/authority-commitment.schema.json",
+    "src/edgelab/quant_protocol.py",
+    "tests/test_quant_protocol.py",
+    "tests/test_skeptic_quant_v5.py",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/SPECIFICATIONS.md",
+    "schemas/authority-commitment.schema.json",
+    "src/edgelab/quant_protocol.py",
+    "tests/test_quant_protocol.py",
+    "reports/M0.1-quant-q01-q02-remediation.v1.md",
+    "reports/quant-q01-q02-remediation/results.v1.json",
+    "reports/quant-q01-q02-remediation/preservation.v1.json",
+    "reports/quant-q01-q02-remediation/validation.v1.txt",
+    "docs/handoffs/H-M0-015.v3.json",
+    "docs/handoffs/H-M0-016.v1.json",
+    "reports/audit/A-M0-015.v1.json"
+  ],
+  "tests_run": [
+    "Quant owner 23/23, Data 18/18, Research history v2 27/27, current semantic adversarial v4 15/15 and foundation 18/18 pass.",
+    "Unchanged Skeptic Quant v5: 7 methods, 2 pass, 4 expected remediation errors, 1 expected structured-contract-shape failure, 0 skips; NOT GREEN pending independent disposition.",
+    "Full discovery 165 methods: 120 pass, 44 errored methods/47 entries, 1 failure, 0 skips; exact 40-method/43-entry historical corpus plus five unchanged Skeptic v5 expectations; NOT GREEN.",
+    "Repository validator 64 records before and 67 records with completion artifacts; compileall, diff whitespace, preservation and origin/main synchronization passed."
+  ],
+  "open_questions": [
+    "Independent Skeptic must verify Q01/Q02 closure and decide whether the unchanged acceptance-characterization outcomes demonstrate the intended remediation.",
+    "Risk must later define authenticated authority provisioning, durable resolution/trust policy and operational consumption; Quant has not done so."
+  ],
+  "blockers": [
+    "Q01/Q02 are implemented but not independently closed; H-M0-016 Skeptic re-review is required before any downstream gate.",
+    "STOP-M0-001 remains OPEN; Risk unreleased; USD 0 deployable; live LOCKED."
+  ],
+  "next_action": "05 Skeptic independently re-runs the preserved probes and new owner attacks, reviews the exact semantics and structured commitment boundary, and publishes BLOCKED or READY_FOR_DIRECTOR_GATE. Do not release Risk or clear STOP.",
+  "completion_criteria": [
+    "Q01 owner matrix rejects canonical overlap in all prior split roles and uncertain prior consumption while preserving disjoint and permitted non-holdout positives.",
+    "Q02 owner attacks reject malformed, cross-assessment/state/authority/generation/experiment commitments and preserve the external-authentication limitation.",
+    "Existing identity, input, inventory, checkpoint, Research, reproduction, output and non-authorization controls regress cleanly.",
+    "Completion evidence is published for independent Skeptic re-review with STOP and capital unchanged."
+  ],
+  "depends_on": [
+    "H-M0-014",
+    "H-M0-005"
+  ]
+}

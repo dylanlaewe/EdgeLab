@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-016",
+  "version": 1,
+  "created_at": "2026-09-20T03:55:29Z",
+  "sender": "04 Quant",
+  "recipient": "05 Skeptic",
+  "status": "QUEUED",
+  "request": "Independently re-review H-M0-015 Q01/Q02 remediation at implementation 0319ff115707ad65f9f871275dc17740700ef3db before any Director or Risk gate.",
+  "work_done": "Quant implemented canonical cross-trial holdout-consumption checks across train/validation/test/holdout and a locally verifiable structured authority commitment. Owner successors and adjacent current suites pass. Existing Skeptic v5 acceptance probes were not modified and now produce the documented rejection/contract-shape outcomes.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-015.v3.json",
+    "reports/M0.1-quant-q01-q02-remediation.v1.md",
+    "reports/quant-q01-q02-remediation/results.v1.json",
+    "reports/quant-q01-q02-remediation/preservation.v1.json",
+    "reports/quant-q01-q02-remediation/validation.v1.txt",
+    "tests/test_skeptic_quant_v5.py",
+    "tests/test_quant_protocol.py",
+    "schemas/authority-commitment.schema.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-016.v1.json"
+  ],
+  "tests_run": [
+    "Quant reports focused/current/full classifications in H-M0-015 v3 and the referenced result artifacts; independent rerun remains required."
+  ],
+  "open_questions": [
+    "Does the complete accepted-history scan correctly define earlier consumption and remain bounded to proposed-holdout freshness?",
+    "Are the commitment bindings sufficient for local downstream verification without overstating external authentication?"
+  ],
+  "blockers": [
+    "Independent Skeptic disposition has not occurred.",
+    "STOP-M0-001 OPEN; Risk unreleased; USD 0 deployable; live LOCKED."
+  ],
+  "next_action": "Claim the Skeptic writer slot, preserve all evidence, attack canonical cross-role/history coverage and every commitment binding, re-run adjacent suites, and publish BLOCKED or READY_FOR_DIRECTOR_GATE without releasing Risk.",
+  "completion_criteria": [
+    "Independently reproduce rejection for exact/renamed/reordered/partial/versioned cross-role Q01 attacks and retain a genuinely fresh positive.",
+    "Independently attack malformed, replayed, cross-state, cross-authority, stale-generation and wrong-experiment Q02 commitments.",
+    "Verify regression, preservation, full-suite classification and the stated external trust boundary.",
+    "Publish evidence-backed disposition without clearing STOP or authorizing capital."
+  ],
+  "depends_on": [
+    "H-M0-015"
+  ]
+}
