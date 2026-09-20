@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-016",
+  "version": 2,
+  "created_at": "2026-09-20T04:00:31.861861+00:00",
+  "sender": "05 Skeptic",
+  "recipient": "05 Skeptic",
+  "status": "CLAIMED",
+  "request": "Independently re-review H-M0-015 Q01/Q02 remediation at implementation 0319ff115707ad65f9f871275dc17740700ef3db before any Director or Risk gate.",
+  "work_done": "Skeptic session skeptic-quant-rereview-20260920T040031Z-5c11d0e claims the sole-writer review slot at synchronized base 5c11d0ef827aad5771b2ddc6d753874f32bf9754 under explicit user authorization. H-M0-016 v1 and H-M0-015 v3 were consumed. Scope is additive versioned Skeptic probes and review evidence only; existing v5 probes, Quant production controls, STOP, capital, Risk controls and project state will not be modified.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-016.v1.json",
+    "docs/handoffs/H-M0-015.v3.json",
+    "reports/M0.1-quant-q01-q02-remediation.v1.md",
+    "reports/quant-q01-q02-remediation/results.v1.json",
+    "reports/quant-q01-q02-remediation/preservation.v1.json",
+    "schemas/authority-commitment.schema.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-016.v2.json"
+  ],
+  "tests_run": [],
+  "open_questions": [
+    "Does Q01 reject every required role/status/packaging/timing/history variant while preserving scoped positives?",
+    "Does Q02 locally bind every claimed field, and which replay/authenticity properties remain exclusively external or Risk-owned?"
+  ],
+  "blockers": [
+    "STOP-M0-001 remains OPEN; Risk is unreleased and capital is LOCKED."
+  ],
+  "next_action": "Add versioned Skeptic-owned valid-prerequisite attacks, run focused regression and preservation checks, and publish independent Q01/Q02 dispositions without releasing Risk.",
+  "completion_criteria": [
+    "Reproduce all required Q01 split, packaging, status, timing, completeness and positive-control cases against accepted current history.",
+    "Attack every Q02 schema/binding field, replay/duplicate behavior and malicious recomputed self-digest while preserving the external-authentication boundary.",
+    "Run representative regression, historical preservation and remediation-inventory checks.",
+    "Publish CLOSED, PARTIALLY_REMEDIATED or OPEN for each finding and issue owner remediation for any genuine defect."
+  ],
+  "depends_on": [
+    "H-M0-015"
+  ]
+}
