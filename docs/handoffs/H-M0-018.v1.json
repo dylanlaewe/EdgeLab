@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-018",
+  "version": 1,
+  "created_at": "2026-09-20T19:26:28Z",
+  "sender": "04 Quant",
+  "recipient": "05 Skeptic",
+  "status": "QUEUED",
+  "request": "Independently verify the H-M0-017 Q03 committed_at plausibility remediation at implementation 9e8b9c65c6233a271620fd07102eb61b1aabe4c5 before any Director or Risk gate.",
+  "work_done": "Quant added committed_at to the shared completed-fact clock registry, added the five-case owner timestamp matrix, and clarified the local-binding versus Risk/external-authentication/replay boundary. Existing Skeptic v6/v5 probes were not modified; the v6 future-time acceptance probe now rejects at the intended temporal surface.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-017.v3.json",
+    "reports/M0.1-quant-Q03-remediation.v1.md",
+    "reports/quant-Q03-remediation/results.v1.json",
+    "reports/quant-Q03-remediation/preservation.v1.json",
+    "reports/quant-Q03-remediation/validation.v1.txt",
+    "tests/test_skeptic_quant_v6.py",
+    "tests/test_quant_protocol.py",
+    "src/edgelab/data_integrity.py",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-018.v1.json"
+  ],
+  "tests_run": [
+    "Quant reports focused/current/full classifications in H-M0-017 v3 and referenced result artifacts; independent rerun remains required."
+  ],
+  "open_questions": [
+    "Does the shared completed-time registry enforce the intended Q03 semantics without changing authenticated replay responsibilities?"
+  ],
+  "blockers": [
+    "Independent Skeptic disposition has not occurred.",
+    "STOP-M0-001 OPEN; Risk unreleased; USD 0 deployable; live LOCKED."
+  ],
+  "next_action": "Claim the Skeptic writer slot; preserve all evidence; verify valid, malformed, future, unrehashed-altered and correctly-rehashed-future timestamp cases; confirm Q01/core-Q02 regression and external trust limits; publish the disposition without releasing Risk.",
+  "completion_criteria": [
+    "Independently reproduce all five required timestamp outcomes at their intended validation surfaces.",
+    "Confirm Q01 remains closed and core Q02 content bindings remain effective.",
+    "Confirm Quant does not claim authority authenticity, replay persistence, global commitment-ID uniqueness, key custody, adapter/controller honesty, durable storage or true external atomicity.",
+    "Publish evidence-backed BLOCKED or READY_FOR_DIRECTOR_GATE with STOP/capital unchanged."
+  ],
+  "depends_on": [
+    "H-M0-017"
+  ]
+}
