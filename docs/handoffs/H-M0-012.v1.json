@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-012",
+  "version": 1,
+  "created_at": "2026-09-20T01:46:43.936155+00:00",
+  "sender": "03 Research",
+  "recipient": "05 Skeptic",
+  "status": "QUEUED",
+  "request": "Independently re-review R01 Research authoritative-history remediation before any Quant release; Director scheduling required.",
+  "work_done": "Research implementation 0631102334d55fc93779fb3caf17ae1684632093 landed; cumulative registration history and authoritative typed Research universe assessed using Data verifier baseline/full inventory. New checkpoint requirements intentionally deny legacy fixture setups. New compatible suite has 27 passing methods; review all semantic/control/trust claims independently. No R01 closure claimed.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-011.v3.json",
+    "reports/M0.1-research-R01.v1.md",
+    "reports/M0.1-research-R01.v2.md",
+    "reports/research-r01/completion-inventory.v1.json",
+    "reports/research-r01/results.v1.json",
+    "tests/test_research_history_v2.py",
+    "tests/test_skeptic_research_v3.py",
+    "reports/reviews/M0.1-research-consultation.v1.md"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-012.v1.json"
+  ],
+  "tests_run": [
+    "R01 successor suite: 27 pass; Data 18 pass; foundation 18 pass; semantic-v2 12 pass.",
+    "Research v1 20 and semantic-v3 10 error at missing mandatory verifier-history fixture setup; preserved, not credited as reached attacks.",
+    "Full discovery: 120 methods, 80 passing, 40 errored methods / 43 entries, no assertion failures/skips; NOT GREEN. Thirteen inherited entries plus thirty explained fixture migration errors.",
+    "Archived initial baseline: 33 pass. Archived consultation baseline: 93 methods, exact original 13 errors, no new baseline failures.",
+    "All 38 pre-existing tests/fixture files preserved; all three Skeptic suites byte-identical; 13/13 consultation inventory hashes preserved; history comparisons pass at exact initial/Research completion/consultation SHAs.",
+    "45 implementation-tree records validated with initial history; completion artifacts validated separately. Staged diff reviewed and whitespace check passed."
+  ],
+  "open_questions": [
+    "Independent Skeptic re-review must assess R01 semantics, expanded authoritative Research evidence scope, verifier checkpoint boundary, positive behavior and compatibility migration.",
+    "External trust/custody and accepted-checkpoint currency remain verifier responsibilities, not local guarantees.",
+    "Quant retains execution-time inventories, mandatory experiment integration, real split/input binding, reproduction and enforcement."
+  ],
+  "blockers": [
+    "R01 remains HIGH/open pending independent Skeptic re-review; Quant held.",
+    "STOP-M0-001 OPEN; $50 conceptual/$0 deployable/LOCKED; operational trust unprovisioned."
+  ],
+  "next_action": "After Director scheduling or explicit user authorization, publish claim, independently reproduce R01 variants and fresh checkpoint-backed holdout; assess required-history failures and all suite dispositions. Publish independent verdict and owner follow-ups. No probe edits, R01 closure by Research, Quant release, STOP clearance or capital action.",
+  "completion_criteria": [
+    "Assess same/renamed/partial canonical contamination across one/multiple prior registration versions and unrelated omitted records.",
+    "Check accepted-history deletion/rewrite, unknown/missing evidence, checkpoint/pin replacement, malformed/misplaced records and historical-access exemption.",
+    "Demonstrate truly disjoint fresh holdout and retained exact type/version/time/membership/freeze invariants without operational authorization.",
+    "Independently disposition 13 inherited and 30 missing-checkpoint fixture errors with compatible successors; preserve all published probes.",
+    "Evaluate external-truth limitations, verifier checkpoint trust/currency, and Quant ownership boundaries; publish findings without implicit release."
+  ],
+  "depends_on": [
+    "H-M0-011",
+    "H-M0-010"
+  ]
+}

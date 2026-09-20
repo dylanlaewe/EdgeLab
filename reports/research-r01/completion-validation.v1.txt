@@ -1,0 +1,5 @@
+Commands: .venv/bin/python -m src.edgelab.validate; .venv/bin/python -m unittest discover -s tests -p test_foundation.py -v; verify_history against bad415b673d44fe0732e969c2ae7d9f4ba856ece; digest comparisons; git diff HEAD -- src tests schemas docs/SPECIFICATIONS.md.
+Validated 48 records and initial published history.
+Consultation preservation: 122 protected files. Three Skeptic probe hashes unchanged.
+Completion foundation: 18 passed. No code/schema/test/spec changes since implementation. Full implementation-suite dispositions remain in results.v1.json; full suite was not rerun for artifact-only completion.
+R01 OPEN; Quant held; STOP OPEN; capital LOCKED.
