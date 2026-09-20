@@ -40,7 +40,7 @@ class CurrentStateAuthority(Protocol):
     def current_state(self) -> dict: ...
 
     def commit_if_current(self, expected_state_sha256: str,
-                          assessment: dict) -> str: ...
+                          assessment: dict) -> dict: ...
 
 
 def _shape(root: Path, kind: str, record: dict) -> None:
@@ -56,6 +56,53 @@ def checkpoint_digest(checkpoint: dict) -> str:
 def state_digest(state: dict) -> str:
     unsigned = {key: value for key, value in state.items() if key != 'state_sha256'}
     return digest(canonical(unsigned))
+
+
+def claim_identity(assessment: dict) -> str:
+    """Hash the exact evidence references that define a confirmation claim."""
+    return digest(canonical({
+        field: assessment[field] for field in (
+            'protocol_ref', 'preregistration_ref', 'trial_ref',
+            'trial_inventory_ref', 'reproduction_ref', 'results_access_ref',
+        )
+    }))
+
+
+def commitment_digest(commitment: dict) -> str:
+    """Hash a commitment without its self-digest field."""
+    unsigned = {
+        key: value for key, value in commitment.items()
+        if key != 'commitment_sha256'
+    }
+    return digest(canonical(unsigned))
+
+
+def verify_authority_commitment(root: Path, assessment: dict,
+                                commitment: dict, *, now=None) -> dict:
+    """Verify a local binding, not external authority identity or honesty."""
+    if not isinstance(commitment, dict):
+        raise ValueError('Authority commitment must be a structured record')
+    validate_record('authority-commitment', commitment, root, now=now)
+    unsigned_assessment = {
+        key: value for key, value in assessment.items()
+        if key != 'assessment_sha256'
+    }
+    if digest(canonical(unsigned_assessment)) != assessment.get('assessment_sha256'):
+        raise ValueError('Assessment digest mismatch')
+    if commitment_digest(commitment) != commitment['commitment_sha256']:
+        raise ValueError('Authority commitment digest mismatch')
+    expected = {
+        'authority_id': assessment['authority_id'],
+        'generation': assessment['authority_generation'],
+        'assessment_sha256': assessment['assessment_sha256'],
+        'current_state_sha256': assessment['current_state_sha256'],
+        'experiment_identity_sha256': assessment['experiment_identity_sha256'],
+        'claim_identity_sha256': claim_identity(assessment),
+    }
+    for field, value in expected.items():
+        if commitment[field] != value:
+            raise ValueError('Authority commitment binding mismatch: ' + field)
+    return commitment
 
 
 def _git_is_ancestor(root: Path, older: str, newer: str) -> bool:
@@ -389,19 +436,25 @@ def validate_quant_record(root: Path, kind: str, record: dict, *, now=None) -> N
 
 
 def _deny_prior_holdout_use(root: Path, claimed_ref: dict,
-                            all_trials: list[tuple[dict, dict]], holdout: frozenset[str], *,
-                            now=None) -> None:
+                            all_trials: list[tuple[dict, dict]], holdout: frozenset[str],
+                            access_at, *, now=None) -> None:
+    """Deny a holdout consumed in any split before its proposed first access.
+
+    Canonical membership keys, rather than manifest names or split labels, define
+    consumption.  Missing results-access evidence never proves a failed,
+    cancelled, or incomplete trial did not consume its declared inputs.
+    """
     for ref, trial in all_trials:
         if ref == claimed_ref:
             continue
-        if trial['results_access_ref'] is None:
+        if instant(trial['started_at']) > access_at:
             continue
-        keys = set()
-        for split in ('test', 'holdout'):
+        for split in SPLITS:
             _, values = _resolve_manifests(root, trial['actual_splits'][split], now=now)
-            keys.update(values)
-        if keys & holdout:
-            raise ValueError('Prior/repeated trial examined overlapping confirmatory population')
+            if values & holdout:
+                raise ValueError(
+                    'Prior/repeated trial consumed overlapping confirmatory holdout '
+                    f'in {split} split; freshness is not established')
 
 
 def assess_confirmation(root: Path, request: dict, authority: CurrentStateAuthority | None,
@@ -437,7 +490,10 @@ def assess_confirmation(root: Path, request: dict, authority: CurrentStateAuthor
     _, trials = validate_trial_inventory(root, inventory_ref, now=now)
     if trial_ref not in [ref for ref, _ in trials]:
         raise ValueError('Claimed trial absent from complete inventory')
-    _deny_prior_holdout_use(root, trial_ref, trials, split_keys['holdout'], now=now)
+    access = exact(root, access_ref, {'exposure'}, now=now)
+    access_at = instant(access['first_results_access_at'])
+    _deny_prior_holdout_use(
+        root, trial_ref, trials, split_keys['holdout'], access_at, now=now)
     verify_reproduction(root, request['reproduction_ref'], protocol_ref, trial_ref,
                         trial, inventory_ref, reproducer, now=now)
     # Recheck all accepted bytes after the expensive assessment.  The atomic
@@ -457,6 +513,8 @@ def assess_confirmation(root: Path, request: dict, authority: CurrentStateAuthor
         'trial_inventory_ref': inventory_ref,
         'reproduction_ref': request['reproduction_ref'],
         'results_access_ref': access_ref,
+        'authority_id': state['authority_id'],
+        'authority_generation': state['generation'],
         'current_state_sha256': state['state_sha256'],
         'experiment_identity_sha256': experiment_identity(protocol_ref, trial_ref, trial, inventory_ref),
         'research_contract_status': research_result['contract_status'],
@@ -474,14 +532,14 @@ def assess_confirmation(root: Path, request: dict, authority: CurrentStateAuthor
 def commit_confirmation_claim(root: Path, request: dict,
                               authority: CurrentStateAuthority | None,
                               reproducer: Callable[[Path, dict, dict], dict] | None, *,
-                              now=None) -> tuple[dict, str]:
+                              now=None) -> tuple[dict, dict]:
     """Assess, then atomically compare current generation and commit via authority."""
     assessment = assess_confirmation(root, request, authority, reproducer, now=now)
     assert authority is not None
     latest = authority.current_state()
     if latest.get('state_sha256') != assessment['current_state_sha256']:
         raise ValueError('Accepted state changed between assessment and commit')
-    token = authority.commit_if_current(assessment['current_state_sha256'], assessment)
-    if not isinstance(token, str) or not token:
-        raise ValueError('Authority did not return a durable commitment token')
-    return assessment, token
+    commitment = authority.commit_if_current(
+        assessment['current_state_sha256'], assessment)
+    verify_authority_commitment(root, assessment, commitment, now=now)
+    return assessment, commitment

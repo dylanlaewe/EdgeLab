@@ -9,9 +9,10 @@ from jsonschema import ValidationError
 import test_research_history_v2 as research_owner
 from src.edgelab.data_integrity import DATA_LOCATIONS, canonical, digest, history_inventory
 from src.edgelab.quant_protocol import (
-    QUANT_LOCATIONS, assess_confirmation, checkpoint_digest,
-    commit_confirmation_claim, experiment_identity, quant_record_snapshot,
-    state_digest, validate_protocol, validate_trial, validate_trial_inventory,
+    QUANT_LOCATIONS, assess_confirmation, checkpoint_digest, claim_identity,
+    commitment_digest, commit_confirmation_claim, experiment_identity,
+    quant_record_snapshot, state_digest, validate_protocol, validate_trial,
+    validate_trial_inventory, verify_authority_commitment,
     verify_current_state, verify_reproduction,
 )
 from src.edgelab.research_protocol import check_confirmation_contract
@@ -41,7 +42,23 @@ class SyntheticAuthority:
         if self.state['state_sha256'] != expected_state_sha256:
             raise ValueError('Atomic accepted-state compare failed')
         self.committed.append(copy.deepcopy(assessment))
-        return f"synthetic-commit-{len(self.committed)}"
+        commitment = {
+            'schema_version': 1,
+            'authority_id': self.state['authority_id'],
+            'generation': self.state['generation'],
+            'commitment_id': f"synthetic-commit-{len(self.committed)}",
+            'committed_at': self.state['accepted_at'],
+            'assessment_sha256': assessment['assessment_sha256'],
+            'current_state_sha256': assessment['current_state_sha256'],
+            'experiment_identity_sha256': assessment['experiment_identity_sha256'],
+            'claim_identity_sha256': claim_identity(assessment),
+            'limitations': [
+                'Synthetic local binding; authority identity and honesty are not authenticated.'
+            ],
+            'commitment_sha256': '0' * 64,
+        }
+        commitment['commitment_sha256'] = commitment_digest(commitment)
+        return commitment
 
 
 class QuantProtocolTests(unittest.TestCase):
@@ -175,10 +192,10 @@ class QuantProtocolTests(unittest.TestCase):
             outputs=[{'name': 'predictions', 'artifact': output}], metrics=metrics,
         )
         failed = self.base(
-            'trial', 'TRIALFAILED', created='2026-09-19T12:40:00Z',
+            'trial', 'TRIALFAILED', created='2026-09-19T13:04:00Z',
             protocol_ref=self.protocol_ref, preregistration_ref=self.f.regref,
-            attempt_ordinal=1, started_at='2026-09-19T12:30:00Z',
-            completed_at='2026-09-19T12:40:00Z', status='FAILED',
+            attempt_ordinal=1, started_at='2026-09-19T13:02:00Z',
+            completed_at='2026-09-19T13:04:00Z', status='FAILED',
             failure_reason='Synthetic injected failure retained in complete inventory.',
             actual_splits=self.splits, code=self.code, configuration=self.configuration,
             environment=self.environment, randomness=self.randomness,
@@ -186,10 +203,10 @@ class QuantProtocolTests(unittest.TestCase):
             outputs=[], metrics=None,
         )
         cancelled = self.base(
-            'trial', 'TRIALCANCELLED', created='2026-09-19T12:50:00Z',
+            'trial', 'TRIALCANCELLED', created='2026-09-19T13:07:00Z',
             protocol_ref=self.protocol_ref, preregistration_ref=self.f.regref,
-            attempt_ordinal=3, started_at='2026-09-19T12:45:00Z',
-            completed_at='2026-09-19T12:50:00Z', status='CANCELLED',
+            attempt_ordinal=3, started_at='2026-09-19T13:05:00Z',
+            completed_at='2026-09-19T13:07:00Z', status='CANCELLED',
             failure_reason='Synthetic cancellation retained in complete inventory.',
             actual_splits=self.splits, code=self.code, configuration=self.configuration,
             environment=self.environment, randomness=self.randomness,
@@ -197,9 +214,9 @@ class QuantProtocolTests(unittest.TestCase):
             outputs=[], metrics=None,
         )
         attempted = self.base(
-            'trial', 'TRIALATTEMPTED', created='2026-09-19T12:55:00Z',
+            'trial', 'TRIALATTEMPTED', created='2026-09-19T13:08:00Z',
             protocol_ref=self.protocol_ref, preregistration_ref=self.f.regref,
-            attempt_ordinal=4, started_at='2026-09-19T12:55:00Z',
+            attempt_ordinal=4, started_at='2026-09-19T13:08:00Z',
             completed_at=None, status='ATTEMPTED', failure_reason=None,
             actual_splits=self.splits, code=self.code, configuration=self.configuration,
             environment=self.environment, randomness=self.randomness,
@@ -278,17 +295,188 @@ class QuantProtocolTests(unittest.TestCase):
         self.assertEqual(protocol['splits'], trial['actual_splits'])
         return {'outputs': {'predictions': self.output_bytes}, 'metrics': self.metrics_bytes}
 
+    def _replace_inventory_and_reproduction(self, extra_refs):
+        prior_inventory = read(self.root / self.inventory_ref['path'])
+        refs = [self.failed_ref, self.trial_ref, self.cancelled_ref,
+                self.attempted_ref, *extra_refs]
+        counts = {status: 0 for status in ('ATTEMPTED', 'SUCCEEDED', 'FAILED', 'CANCELLED')}
+        for ref in refs:
+            counts[read(self.root / ref['path'])['status']] += 1
+        inventory = {
+            **prior_inventory, 'version': 2, 'supersedes': self.inventory_ref,
+            'trials': refs,
+            'trial_registry_sha256': digest(canonical(
+                {ref['path']: ref['sha256'] for ref in refs})),
+            'status_counts': counts,
+        }
+        inventory_ref = self.put('trial-inventory', inventory)
+        reproduction = read(self.root / self.reproduction_ref['path'])
+        reproduction.update(
+            version=2, supersedes=self.reproduction_ref,
+            experiment_identity_sha256=experiment_identity(
+                self.protocol_ref, self.trial_ref,
+                read(self.root / self.trial_ref['path']), inventory_ref))
+        reproduction_ref = self.put('reproduction', reproduction)
+        prior_state = copy.deepcopy(self.state)
+        self._accept_current(predecessor=prior_state)
+        self.request.update(
+            trial_inventory_ref=inventory_ref,
+            reproduction_ref=reproduction_ref,
+            expected_current_state_sha256=self.state['state_sha256'],
+        )
+
+    def _install_prior_consumption(self, role, *, variant='exact', status='SUCCEEDED'):
+        if role == 'holdout':
+            prior_registration_ref = self.f.regref
+            prior_access_ref = self.f.accessref
+            prior_splits = copy.deepcopy(self.splits)
+        else:
+            prior_holdout = self.f.membership(
+                f'PRIORHOLDOUT{role.upper()}{variant.upper()}', ['prior-holdout-1'])
+            prior_custody = self.f.exposure(
+                f'PRIORCUSTODY{role.upper()}{variant.upper()}', prior_holdout,
+                'UNEXAMINED', 'HOLDOUT_CUSTODY', FREEZE)
+            prior_custody_ref = self.f.put('exposure', prior_custody)
+            prior_registration = {
+                **self.f.registration,
+                'id': f'PRIORREG{role.upper()}{variant.upper()}',
+                'holdout_ref': prior_custody_ref,
+            }
+            prior_registration_ref = self.f.put('preregistration', prior_registration)
+            prior_access = self.f.exposure(
+                f'PRIORACCESS{role.upper()}{variant.upper()}', prior_holdout,
+                'EXAMINED', 'CONFIRMATORY_ACCESS', ACCESS)
+            prior_access_ref = self.f.put('exposure', prior_access)
+            prior_splits = copy.deepcopy(self.splits)
+            prior_splits['holdout'] = [self._manifest(
+                f'priorholdout{role}{variant}', prior_holdout)]
+
+        if variant == 'exact':
+            consumed = self.splits['holdout']
+        elif variant == 'renamed':
+            membership = self.f.membership(
+                f'RENAMED{role.upper()}', ['fresh-1', 'fresh-2'])
+            consumed = [self._manifest(f'renamed{role}', membership)]
+        elif variant == 'reordered':
+            membership = self.f.membership(
+                f'REORDERED{role.upper()}', ['fresh-2', 'fresh-1'])
+            consumed = [self._manifest(f'reordered{role}', membership)]
+        elif variant == 'partial':
+            membership = self.f.membership(
+                f'PARTIAL{role.upper()}', ['unrelated-sample', 'fresh-2'])
+            consumed = [self._manifest(f'partial{role}', membership)]
+        elif variant == 'versioned':
+            membership = read(self.root / self.f.fresh['path'])
+            membership.update(
+                version=2, supersedes=self.f.fresh,
+                created_at=PROTOCOL_FREEZE,
+                samples=list(reversed(membership['samples'])),
+            )
+            membership_ref = self.put('membership', membership)
+            consumed = [self._manifest(f'versioned{role}', membership_ref)]
+        elif variant == 'nonholdout':
+            consumed = self.splits['train']
+        else:
+            raise AssertionError('unsupported variant')
+        prior_splits[role] = consumed
+
+        protocol = read(self.root / self.protocol_ref['path'])
+        prior_protocol = {
+            **protocol,
+            'id': f'PRIORQP{role.upper()}{variant.upper()}{status}',
+            'preregistration_ref': prior_registration_ref,
+            'splits': prior_splits,
+        }
+        prior_protocol_ref = self.put('quant-protocol', prior_protocol)
+        trial = read(self.root / self.trial_ref['path'])
+        prior_trial = {
+            **trial,
+            'id': f'PRIOR{role.upper()}{variant.upper()}{status}',
+            'protocol_ref': prior_protocol_ref,
+            'preregistration_ref': prior_registration_ref,
+            'attempt_ordinal': 1,
+            'actual_splits': prior_splits,
+            'results_access_ref': prior_access_ref if status == 'SUCCEEDED' else None,
+        }
+        if status != 'SUCCEEDED':
+            prior_trial.update(
+                status=status, outputs=[], metrics=None,
+                failure_reason=None if status == 'ATTEMPTED' else 'Synthetic prior terminal outcome.',
+                completed_at=None if status == 'ATTEMPTED' else '2026-09-19T12:50:00Z',
+                created_at='2026-09-19T12:50:00Z',
+            )
+        prior_trial_ref = self.put('trial', prior_trial)
+        self._replace_inventory_and_reproduction([prior_trial_ref])
+        return prior_trial_ref
+
     def test_positive_current_disjoint_deterministic_claim_has_no_authorization(self):
-        assessment, token = commit_confirmation_claim(
+        assessment, commitment = commit_confirmation_claim(
             self.root, self.request, self.authority, self.runner, now=NOW)
         self.assertEqual(assessment['status'], 'SCIENTIFIC_INTEGRITY_CONSISTENT')
         self.assertTrue(assessment['scientific_integrity_eligible'])
         for field in ('operational_authorization', 'paper_authorization',
                       'live_authorization', 'risk_approval'):
             self.assertFalse(assessment[field])
-        self.assertEqual(token, 'synthetic-commit-1')
+        self.assertEqual(commitment['commitment_id'], 'synthetic-commit-1')
+        self.assertEqual(commitment['assessment_sha256'], assessment['assessment_sha256'])
+        self.assertEqual(commitment['claim_identity_sha256'], claim_identity(assessment))
+        self.assertEqual(
+            verify_authority_commitment(self.root, assessment, commitment, now=NOW),
+            commitment,
+        )
         self.assertEqual(assessment['history_completeness'],
                          'VERIFIED_CURRENT_ACCEPTED_RESEARCH_AND_QUANT_REGISTRIES')
+
+    def test_structured_commitment_rejects_malformed_replayed_and_cross_authority_bindings(self):
+        assessment, commitment = commit_confirmation_claim(
+            self.root, self.request, self.authority, self.runner, now=NOW)
+        with self.assertRaisesRegex(ValueError, 'structured record'):
+            verify_authority_commitment(self.root, assessment, 'opaque-token', now=NOW)
+        for field in commitment:
+            with self.subTest(missing=field):
+                missing = copy.deepcopy(commitment)
+                del missing[field]
+                with self.assertRaises(ValidationError):
+                    verify_authority_commitment(
+                        self.root, assessment, missing, now=NOW)
+        with self.assertRaises(ValidationError):
+            verify_authority_commitment(
+                self.root, assessment, {**commitment, 'unexpected': True}, now=NOW)
+        cases = {
+            'authority_id': 'another-authority',
+            'generation': commitment['generation'] + 1,
+            'assessment_sha256': '0' * 64,
+            'current_state_sha256': '1' * 64,
+            'experiment_identity_sha256': '2' * 64,
+            'claim_identity_sha256': '3' * 64,
+        }
+        for field, value in cases.items():
+            with self.subTest(field=field):
+                altered = {**commitment, field: value}
+                altered['commitment_sha256'] = commitment_digest(altered)
+                with self.assertRaisesRegex(ValueError, 'binding mismatch'):
+                    verify_authority_commitment(
+                        self.root, assessment, altered, now=NOW)
+        replayed_assessment = copy.deepcopy(assessment)
+        replayed_assessment['trial_ref'] = copy.deepcopy(assessment['trial_ref'])
+        replayed_assessment['trial_ref']['id'] = 'OTHER-TRIAL'
+        replayed_assessment['assessment_sha256'] = digest(canonical({
+            key: value for key, value in replayed_assessment.items()
+            if key != 'assessment_sha256'
+        }))
+        with self.assertRaisesRegex(ValueError, 'binding mismatch'):
+            verify_authority_commitment(
+                self.root, replayed_assessment, commitment, now=NOW)
+
+    def test_commit_rejects_opaque_or_dishonest_authority_response(self):
+        class OpaqueAuthority(SyntheticAuthority):
+            def commit_if_current(self, expected_state_sha256, assessment):
+                return 'replayed-token'
+
+        with self.assertRaisesRegex(ValueError, 'structured record'):
+            commit_confirmation_claim(
+                self.root, self.request, OpaqueAuthority(self.state),
+                self.runner, now=NOW)
 
     def test_missing_unknown_and_stale_authority_deny(self):
         with self.assertRaisesRegex(ValueError, 'authority is required'):
@@ -424,9 +612,77 @@ class QuantProtocolTests(unittest.TestCase):
         self.request.update(trial_inventory_ref=inventory_ref,
                             reproduction_ref=reproduction_ref,
                             expected_current_state_sha256=self.state['state_sha256'])
-        with self.assertRaisesRegex(ValueError, 'Prior/repeated trial'):
+        with self.assertRaisesRegex(ValueError, 'Prior/repeated trial consumed'):
             assess_confirmation(self.root, self.request, self.authority,
                                 self.runner, now=NOW)
+
+    def test_prior_train_consumption_of_holdout_denied(self):
+        self._install_prior_consumption('train')
+        with self.assertRaisesRegex(ValueError, 'train split'):
+            assess_confirmation(
+                self.root, self.request, self.authority, self.runner, now=NOW)
+
+    def test_prior_validation_consumption_of_holdout_denied(self):
+        self._install_prior_consumption('validation')
+        with self.assertRaisesRegex(ValueError, 'validation split'):
+            assess_confirmation(
+                self.root, self.request, self.authority, self.runner, now=NOW)
+
+    def test_prior_test_consumption_of_holdout_denied(self):
+        self._install_prior_consumption('test')
+        with self.assertRaisesRegex(ValueError, 'test split'):
+            assess_confirmation(
+                self.root, self.request, self.authority, self.runner, now=NOW)
+
+    def test_prior_failed_holdout_consumption_without_access_fails_closed(self):
+        self._install_prior_consumption('holdout', status='FAILED')
+        with self.assertRaisesRegex(ValueError, 'holdout split'):
+            assess_confirmation(
+                self.root, self.request, self.authority, self.runner, now=NOW)
+
+    def test_renamed_reordered_partial_and_versioned_membership_consumption_denied(self):
+        # Each subcase needs an isolated accepted history, so exercise a fresh
+        # owner fixture instead of accumulating mutually dependent snapshots.
+        for variant in ('renamed', 'reordered', 'partial', 'versioned'):
+            with self.subTest(variant=variant):
+                case = QuantProtocolTests(
+                    methodName='test_positive_current_disjoint_deterministic_claim_has_no_authorization')
+                case.setUp()
+                try:
+                    case._install_prior_consumption('train', variant=variant)
+                    with self.assertRaisesRegex(ValueError, 'train split'):
+                        assess_confirmation(
+                            case.root, case.request, case.authority,
+                            case.runner, now=NOW)
+                finally:
+                    case.doCleanups()
+
+    def test_partial_prior_validation_overlap_denied(self):
+        self._install_prior_consumption('validation', variant='partial')
+        with self.assertRaisesRegex(ValueError, 'validation split'):
+            assess_confirmation(
+                self.root, self.request, self.authority, self.runner, now=NOW)
+
+    def test_failed_cancelled_and_attempted_prior_consumption_fail_closed(self):
+        for status in ('FAILED', 'CANCELLED', 'ATTEMPTED'):
+            with self.subTest(status=status):
+                case = QuantProtocolTests(
+                    methodName='test_positive_current_disjoint_deterministic_claim_has_no_authorization')
+                case.setUp()
+                try:
+                    case._install_prior_consumption('train', status=status)
+                    with self.assertRaisesRegex(ValueError, 'train split'):
+                        assess_confirmation(
+                            case.root, case.request, case.authority,
+                            case.runner, now=NOW)
+                finally:
+                    case.doCleanups()
+
+    def test_prior_reuse_outside_proposed_holdout_remains_eligible(self):
+        self._install_prior_consumption('train', variant='nonholdout')
+        assessment = assess_confirmation(
+            self.root, self.request, self.authority, self.runner, now=NOW)
+        self.assertEqual(assessment['status'], 'SCIENTIFIC_INTEGRITY_CONSISTENT')
 
     def test_output_metrics_reproduction_identity_and_runner_mutations_rejected(self):
         with self.assertRaisesRegex(ValueError, 'reproducer required'):

@@ -332,8 +332,17 @@ valid checkpoint when the authority reports the newer generation.
 
 `assess_confirmation` invokes Research's checkpoint-aware
 `check_confirmation_contract`, validates actual Data manifests and all four split
-memberships, verifies the complete accepted trial inventory, denies prior/repeated
-test or holdout use, and performs content/deterministic reproduction. It returns a
+memberships, verifies the complete accepted trial inventory, and denies any prior
+trial whose declared train, validation, test or holdout inputs intersect the
+proposed confirmatory holdout's canonical membership. This rule applies even when
+the prior trial failed, was cancelled, remains incomplete or has no results-access
+record: absence of access evidence does not prove absence of consumption. Renaming,
+reordering, repackaging, partial overlap, membership correction/versioning and
+split-role relabeling do not restore freshness. The check is deliberately scoped to
+the proposed confirmatory holdout and to trials started no later than its proposed
+first access; it does not prohibit unrelated population reuse or retroactively
+invalidate freshness because of later work. The assessment then performs
+content/deterministic reproduction. It returns a
 machine-readable `SCIENTIFIC_INTEGRITY_CONSISTENT` result only after a second byte
 and current-state check. Every positive result explicitly sets operational, paper,
 live and Risk authorization false.
@@ -341,11 +350,20 @@ live and Risk authorization false.
 `commit_confirmation_claim` then calls the authority's `commit_if_current` with
 the assessed state digest. The authority adapter must perform an atomic compare and
 commit; a plain recheck is not sufficient. Under that interface, evidence accepted
-between assessment and claim commit invalidates the commit. Quant cannot locally
-prove that an external adapter implements atomicity, authenticate its controller,
-or stop a compromised/colluding verifier. No production authority is provisioned;
-absence therefore denies. The included in-memory adapter exists only in tests and
-proves the API behavior under the stated assumption.
+between assessment and claim commit invalidates the commit. The adapter must return
+a schema-valid structured commitment whose self-digest binds its authority ID,
+monotonic generation, unique commitment ID, timestamp, limitations, assessment
+digest, accepted-state digest, experiment identity and exact claim-reference
+identity. `verify_authority_commitment` locally verifies all of those bindings and
+rejects opaque strings, missing fields, replay against another assessment or state,
+cross-authority substitution and stale generations.
+
+That structured record is a locally verifiable content commitment, not proof of
+external authentication. Quant still cannot prove that an external adapter
+implements atomicity, authenticate its controller, establish key custody or stop a
+compromised/colluding verifier. No production authority or signature trust root is
+provisioned; absence therefore denies. The included in-memory adapter exists only
+in tests and proves binding behavior under the stated external-trust assumption.
 
 Risk may consume the returned assessment digest, exact evidence references,
 experiment identity, current-state digest and explicit false authorization fields.
