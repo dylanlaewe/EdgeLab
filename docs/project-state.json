@@ -25,10 +25,11 @@
     "STOP-M0-001 OPEN; M0 approval and exit blocked",
     "H01-H06 and M01-M02 unresolved",
     "Operational reviewer trust boundary and accepted-history protection unprovisioned",
-    "Statistical, freshness and post-M0 risk thresholds unresolved"
+    "Statistical, freshness and post-M0 risk thresholds unresolved",
+    "Data\u2192Research gate held: H-M0-008 Skeptic consultation on 9 errored methods / 12 entries required."
   ],
-  "next_assignment": "H-M0-003",
-  "updated_at": "2026-09-20T00:05:23.068038+00:00",
+  "next_assignment": "H-M0-008",
+  "updated_at": "2026-09-20T00:29:32.587533+00:00",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json"
   ],
@@ -43,9 +44,9 @@
     "M01",
     "M02"
   ],
-  "next_handoff_ref": "docs/handoffs/H-M0-003.v2.json",
+  "next_handoff_ref": "docs/handoffs/H-M0-008.v1.json",
   "coordination_plan_ref": "docs/REMEDIATION_PLAN.md",
   "git_protocol_ref": "docs/GIT_COORDINATION.md",
   "writer_policy": "SEQUENTIAL_ONE_ACTIVE_WRITER",
-  "next_owner_release": "01 Data may claim after this coordination commit is verified on origin/main; no other owner released."
+  "next_owner_release": "05 Skeptic may claim H-M0-008 after this Director verification commit lands. Research NOT RELEASED; Data has yielded the writer slot."
 }

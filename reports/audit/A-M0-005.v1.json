@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-005",
+  "version": 1,
+  "occurred_at": "2026-09-20T00:29:32.587533+00:00",
+  "actor": "Director session 01a0bc0f-0f04-7c40-bc24-177858026bc8",
+  "role": "00 Director",
+  "event_type": "DATA_RELEASE_GATE_HELD",
+  "subject_ref": "docs/handoffs/H-M0-004.v3.json",
+  "previous_state": "RESEARCH_QUEUED_AWAITING_DIRECTOR_RELEASE",
+  "new_state": "RESEARCH_BLOCKED_PENDING_SKEPTIC_CONSULTATION",
+  "reason": "Data evidence materially verified; incompatible original attack fixtures require independent disposition before dependent release.",
+  "evidence_refs": [
+    "reports/M0.1-director-data-gate.v1.md",
+    "reports/director-verification/data-gate-results.v1.json",
+    "docs/handoffs/H-M0-008.v1.json"
+  ],
+  "code_ref": "Reviewed candidate 90c1a0a04216d737c3d6cbdd4a3404488fec7605; record commit is first adding reports/audit/A-M0-005.v1.json",
+  "config_ref": "docs/SPECIFICATIONS.md",
+  "correlation_id": "M0.1-DATA-RELEASE-GATE",
+  "supersedes": null
+}
