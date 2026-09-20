@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-008",
+  "version": 1,
+  "occurred_at": "2026-09-20T01:20:08.405092+00:00",
+  "actor": "Research session 01a0bc5b-953d-76e0-9972-e4f74d7dbf1d",
+  "role": "03 Research",
+  "event_type": "RESEARCH_PROTOCOL_REMEDIATION_DELIVERED",
+  "subject_ref": "docs/handoffs/H-M0-004.v6.json",
+  "previous_state": "BOUNDED_RESEARCH_REMEDIATION_CLAIMED",
+  "new_state": "RESEARCH_IMPLEMENTED_PENDING_INDEPENDENT_GATE",
+  "reason": "Versioned exposure and freeze contracts delivered; new schema-fixture mismatch routed for independent disposition before Quant release. STOP and capital controls unchanged.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-004.v6.json",
+    "docs/handoffs/H-M0-010.v1.json",
+    "reports/M0.1-research-remediation.v1.md"
+  ],
+  "code_ref": "9a6b553822d7040e7bc8473b45351e3b1e6e7a5a",
+  "config_ref": "docs/SPECIFICATIONS.md",
+  "correlation_id": "M0.1-RESEARCH-PROTOCOL",
+  "supersedes": null
+}

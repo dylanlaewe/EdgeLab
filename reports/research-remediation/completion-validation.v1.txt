@@ -1,0 +1,7 @@
+Commands: .venv/bin/python -m src.edgelab.validate; Data verify_history for pinned initial/Data/Director SHAs; digest comparisons to Data inventory and preserved probes.
+Validated 40 records with initial published history.
+History preservation counts: {'4e99cfac90e0af601158c1528c70574dd5dafeda': 35, '90c1a0a04216d737c3d6cbdd4a3404488fec7605': 62, '39f075b2d08f1efd81276e134f3cbbe5cec50abe': 90}
+Data inventory: 36 unchanged; 2 authorized integration changes: ['docs/SPECIFICATIONS.md', 'src/edgelab/validate.py']
+Both Skeptic files unchanged.
+Completion full discovery: 83 methods, 13 classified errors, zero failures/skips; NOT GREEN. Error identities exactly match results.v1.json.
+STOP OPEN; capital LOCKED.
