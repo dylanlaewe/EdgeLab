@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-009",
+  "version": 2,
+  "created_at": "2026-09-20T00:52:58.640176+00:00",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Re-run bounded Research release gate after H-M0-008 consultation.",
+  "work_done": "Research release gate PASSED for H-M0-004 v4 bounded protocol remediation only. Semantic coverage restored and reproduced; no unresolved Data prerequisite demonstrated. Director yields writer slot to Research upon publication. No operational approval or finding closure.",
+  "evidence_refs": [
+    "reports/M0.1-research-release.v1.md",
+    "reports/director-verification/research-release-results.v1.json",
+    "docs/handoffs/H-M0-008.v3.json",
+    "docs/handoffs/H-M0-004.v4.json"
+  ],
+  "files_changed": [
+    "reports/M0.1-research-release.v1.md",
+    "reports/director-verification/research-release-results.v1.json",
+    "docs/handoffs/H-M0-004.v4.json",
+    "docs/handoffs/H-M0-009.v2.json",
+    "docs/project-state.json",
+    "reports/audit/A-M0-007.v1.json"
+  ],
+  "tests_run": [
+    "Semantic suite 12 passed; Data 18 passed; foundation 18 passed.",
+    "Full suite 63 methods, 54 pass, nine errored methods / twelve identical historical entries, no assertion failures/skips; NOT GREEN.",
+    "38 Data hashes match; original probes unchanged; Data and consultation remote ancestry verified; initial and completion history comparisons pass."
+  ],
+  "open_questions": [
+    "Verify semantic coverage and exact downstream contract requirements."
+  ],
+  "blockers": [
+    "STOP-M0-001 OPEN; all operational approval/M0 exit blocked."
+  ],
+  "next_action": "03 Research may claim H-M0-004 v5 after verifying this publication. Quant stays unreleased until Research completion gate passes.",
+  "completion_criteria": [
+    "Verify source evidence and ancestry",
+    "Classify every error and record explicit release decision",
+    "Publish bounded coordination updates without changing domain controls"
+  ],
+  "depends_on": [
+    "H-M0-007",
+    "H-M0-008"
+  ]
+}

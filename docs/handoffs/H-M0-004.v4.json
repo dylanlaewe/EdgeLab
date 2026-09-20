@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-004",
+  "version": 4,
+  "created_at": "2026-09-20T00:52:58.640176+00:00",
+  "sender": "00 Director",
+  "recipient": "03 Research",
+  "status": "QUEUED",
+  "request": "Exposure-aware preregistration contract; H05. Apply docs/REMEDIATION_PLAN.md acceptance and ownership rules.",
+  "work_done": "Director release PASSED for bounded M0 protocol remediation only after H-M0-008 v3 at ae72047cc3f289885bfdcf5598fd06244bf4e80b. Data H-M0-003 v4 at 90c1a0a04216d737c3d6cbdd4a3404488fec7605 independently verified. No finding closure; STOP remains OPEN.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-skeptic-review.v1.md",
+    "tests/test_skeptic_adversarial.py",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/audit/A-M0-002.v1.json",
+    "docs/REMEDIATION_PLAN.md",
+    "docs/GIT_COORDINATION.md",
+    "reports/M0.1-director-data-gate.v1.md",
+    "docs/handoffs/H-M0-008.v1.json",
+    "docs/handoffs/H-M0-008.v3.json",
+    "docs/handoffs/H-M0-003.v4.json",
+    "docs/handoffs/H-M0-009.v2.json",
+    "reports/M0.1-research-release.v1.md",
+    "reports/director-verification/research-release-results.v1.json",
+    "tests/test_skeptic_semantic_v2.py"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-004.v4.json"
+  ],
+  "tests_run": [
+    "Director independently reproduced semantic 12 pass, Data 18 pass, foundation 18 pass; full suite 63 methods / 12 historical entries remains NOT GREEN.",
+    "38 Data inventory hashes and original probes preserved; prerequisite ancestry verified."
+  ],
+  "open_questions": [
+    "Operational trust configuration and accepted-baseline protection are not provisioned; fail closed and document assurance limits."
+  ],
+  "blockers": [
+    "STOP-M0-001 OPEN blocks operational/scientific approval; bounded synthetic remediation is permitted.",
+    "External trust unprovisioned; no operational authorization."
+  ],
+  "next_action": "After this release commit lands, synchronize and claim H-M0-004 v5 with actual session ID, base SHA, exact Data/consultation/Director prerequisite versions and landing SHAs, and bounded file scope. Commit/push claim before work. Sole writer slot is reserved for 03 Research; no session is started by Director.",
+  "completion_criteria": [
+    "Identify exploratory ancestors and already observed outcomes.",
+    "Specify tests denying recycled/overlapping outcomes and post-result hypothesis edits; do not conduct strategy research for this task.",
+    "Meet the owner-specific release gate in docs/REMEDIATION_PLAN.md; persist full evidence inventory and actual test dispositions.",
+    "Preserve original adversarial tests unchanged; add separate rejection regressions and positive controls. Do not clear STOP-M0-001.",
+    "Deliver structured exposure/first-access and frozen preregistration contracts bound to Data typed references and canonical membership; unknown evidence fails closed.",
+    "Positive fresh synthetic holdout and targeted rejection tests for retroactive/altered registration; fixtures/specification for identical, renamed and partially overlapping explored outcomes for Quant.",
+    "Publish landed SHAs, exact prerequisite versions, hashed inventory, interface/migration notes, full test dispositions and unresolved limits; Director must verify before Quant release.",
+    "Preserve both historical and semantic-v2 probes; add separate versioned tests. No general sports research, handicappers, optimization, paper/live execution, STOP clearance or capital unlock."
+  ],
+  "depends_on": [
+    "H-M0-002",
+    "H-M0-003",
+    "H-M0-007",
+    "H-M0-008",
+    "H-M0-009"
+  ]
+}

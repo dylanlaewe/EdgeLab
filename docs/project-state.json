@@ -11,7 +11,8 @@
     "Repository architecture and durable handoff protocol",
     "Nine strict record schemas and scientific specifications",
     "Lifecycle, STOP and kill-switch design",
-    "Conceptual bankroll and zero-deployment risk policy"
+    "Conceptual bankroll and zero-deployment risk policy",
+    "Data\u2192Research dependency gate passed after H-M0-008 consultation; bounded remediation release only"
   ],
   "remaining_m0": [
     "Remediate all six HIGH and both MEDIUM findings and obtain independent frozen-candidate re-review",
@@ -25,11 +26,10 @@
     "STOP-M0-001 OPEN; M0 approval and exit blocked",
     "H01-H06 and M01-M02 unresolved",
     "Operational reviewer trust boundary and accepted-history protection unprovisioned",
-    "Statistical, freshness and post-M0 risk thresholds unresolved",
-    "Data\u2192Research gate held: H-M0-008 Skeptic consultation on 9 errored methods / 12 entries required."
+    "Statistical, freshness and post-M0 risk thresholds unresolved"
   ],
-  "next_assignment": "H-M0-008",
-  "updated_at": "2026-09-20T00:29:32.587533+00:00",
+  "next_assignment": "H-M0-004",
+  "updated_at": "2026-09-20T00:52:58.640176+00:00",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json"
   ],
@@ -44,9 +44,9 @@
     "M01",
     "M02"
   ],
-  "next_handoff_ref": "docs/handoffs/H-M0-008.v1.json",
+  "next_handoff_ref": "docs/handoffs/H-M0-004.v4.json",
   "coordination_plan_ref": "docs/REMEDIATION_PLAN.md",
   "git_protocol_ref": "docs/GIT_COORDINATION.md",
   "writer_policy": "SEQUENTIAL_ONE_ACTIVE_WRITER",
-  "next_owner_release": "05 Skeptic may claim H-M0-008 after this Director verification commit lands. Research NOT RELEASED; Data has yielded the writer slot."
+  "next_owner_release": "03 Research exclusively reserved for bounded H-M0-004 v4 protocol remediation after this release lands; synchronize and publish v5 claim before work. Director yields on publication. Quant not released."
 }
