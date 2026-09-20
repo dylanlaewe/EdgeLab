@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-004",
+  "version": 1,
+  "occurred_at": "2026-09-20T00:23:52.820663+00:00",
+  "actor": "01a0bc25-2054-7bd1-8b82-991acc5416dd",
+  "role": "01 Data",
+  "event_type": "DATA_REMEDIATION_COMPLETED",
+  "subject_ref": "docs/handoffs/H-M0-003.v4.json",
+  "previous_state": "CLAIMED",
+  "new_state": "COMPLETED_FOR_DIRECTOR_REVIEW",
+  "reason": "Data engineering controls and evidence delivered; not independent approval or STOP clearance. Original gap probes preserved. See report v2 for raw-log whitespace check disposition.",
+  "evidence_refs": [
+    "reports/M0.1-data-remediation.v2.md",
+    "reports/data-remediation/completion-inventory.v1.json",
+    "docs/handoffs/H-M0-003.v4.json"
+  ],
+  "code_ref": "994734528afa163dcf8e29267c19e6dc29fbc9bd",
+  "config_ref": "docs/SPECIFICATIONS.md",
+  "correlation_id": "H-M0-003",
+  "supersedes": null
+}

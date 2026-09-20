@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-003",
+  "version": 4,
+  "created_at": "2026-09-20T00:23:52.820663+00:00",
+  "sender": "01 Data",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Data lineage/history/registry foundation; H04 H06 M01 M02 and H03 dependency primitives. Apply docs/REMEDIATION_PLAN.md acceptance and ownership rules.",
+  "work_done": "Data-owned remediation complete at 994734528afa163dcf8e29267c19e6dc29fbc9bd, pushed and verified on origin/main. Consumed H-M0-003 v2 and H-M0-002 v3 at 0ee19f51a86eacc8c95f28847d5445afa5729813; claim H-M0-003 v3 at 3d701cbd98fb11084854e1329055a8f0b57beb22. Delivered typed lineage/content references, canonical membership, temporal/access rules, history comparison, registry/project-state schemas and quarantine primitives. No independent finding closure. Session 01a0bc25-2054-7bd1-8b82-991acc5416dd yields sole-writer slot after publication of this completion package.",
+  "evidence_refs": [
+    "reports/M0.1-data-remediation.v1.md",
+    "reports/M0.1-data-remediation.v2.md",
+    "reports/data-remediation/completion-inventory.v1.json",
+    "reports/data-remediation/completion-validation.v1.txt",
+    "docs/SPECIFICATIONS.md",
+    "tests/test_data_integrity.py",
+    "tests/test_skeptic_adversarial.py",
+    "reports/stops/STOP-M0-001.v1.json",
+    "docs/handoffs/H-M0-002.v3.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-003.v3.json",
+    "docs/SPECIFICATIONS.md",
+    "reports/M0.1-data-remediation.v1.md",
+    "reports/data-remediation/baseline-suite.v1.txt",
+    "reports/data-remediation/data-tests.v1.txt",
+    "reports/data-remediation/foundation-tests.v1.txt",
+    "reports/data-remediation/full-suite.v1.txt",
+    "reports/data-remediation/validation.v1.txt",
+    "schemas/availability.schema.json",
+    "schemas/feature.schema.json",
+    "schemas/manifest.schema.json",
+    "schemas/membership.schema.json",
+    "schemas/observation.schema.json",
+    "schemas/permission.schema.json",
+    "schemas/project-state.schema.json",
+    "src/edgelab/data_integrity.py",
+    "src/edgelab/validate.py",
+    "tests/fixtures/data-integrity/data/availability/AV.v1.json",
+    "tests/fixtures/data-integrity/data/derived/D.v1.json",
+    "tests/fixtures/data-integrity/data/features/F.v1.json",
+    "tests/fixtures/data-integrity/data/membership/POP.v1.json",
+    "tests/fixtures/data-integrity/data/normalized/OBS.v1.json",
+    "tests/fixtures/data-integrity/data/raw/config.json",
+    "tests/fixtures/data-integrity/data/raw/normalizer.py",
+    "tests/fixtures/data-integrity/data/raw/parser.py",
+    "tests/fixtures/data-integrity/data/raw/quality.json",
+    "tests/fixtures/data-integrity/data/raw/raw.json",
+    "tests/fixtures/data-integrity/data/raw/snapshot.json",
+    "tests/fixtures/data-integrity/data/sources/SRC.v1.json",
+    "tests/test_data_integrity.py",
+    "docs/handoffs/H-M0-003.v4.json",
+    "reports/audit/A-M0-004.v1.json",
+    "reports/M0.1-data-remediation.v2.md",
+    "reports/data-remediation/completion-inventory.v1.json",
+    "reports/data-remediation/completion-validation.v1.txt"
+  ],
+  "tests_run": [
+    ".venv/bin/python -m unittest discover -s tests -p test_data_integrity.py -v: 18 passed.",
+    ".venv/bin/python -m unittest discover -s tests -p test_foundation.py -v: 18 passed.",
+    ".venv/bin/python -m unittest discover -s tests -v: 51 methods; 42 passed, 9 errored (12 error entries); original probes unchanged, each mismatch classified in report.",
+    "Full discovery on isolated git archive of 4e99cfac90e0af601158c1528c70574dd5dafeda: 33 passed.",
+    ".venv/bin/python -m src.edgelab.validate: passed records and initial published-history comparison; completion validation separately recorded.",
+    "Original adversarial file byte-identical; published-history checks passed. Staged implementation whitespace check reported one space in verbatim unittest log; preserved and disclosed in report v2."
+  ],
+  "open_questions": [
+    "Director must independently verify completion and record Research release; Data does not release Research.",
+    "Operational external baseline/trust and reviewer authority remain unprovisioned.",
+    "Research owns exposure/freeze protocol, Quant general reproduction and overlap/trial enforcement, Risk lifecycle/STOP authority/state reconciliation/freshness.",
+    "Canonical sample identity assumes honest upstream entity mapping; archived publication and permission snapshots are not authenticated external truth."
+  ],
+  "blockers": [
+    "M0 approval remains blocked; STOP-M0-001 OPEN; capital $50 conceptual/$0 deployable/LOCKED.",
+    "Full suite deliberately remains non-green due to unchanged gap-characterization probes; no unexplained errors, no probe migration authorized."
+  ],
+  "next_action": "Director: verify inventory hashes, full landing SHA (first commit adding this path), origin/main ancestry, validation and limitations. If satisfied, record release of H-M0-004 v2 for bounded Research remediation. No sports research, paper/live execution, STOP clearance or M0 approval. Risk/Quant consume interface notes when their prerequisite gates are met.",
+  "completion_criteria": [
+    "Reject missing or mutated inputs, unknown/late availability, evaluation leakage, cycles and invalid access evidence.",
+    "Demonstrate a reconstructible synthetic dataset with parser/normalizer and parent versions; no production ingestion authorization implied.",
+    "Meet the owner-specific release gate in docs/REMEDIATION_PLAN.md; persist full evidence inventory and actual test dispositions.",
+    "Preserve original adversarial tests unchanged; add separate rejection regressions and positive controls. Do not clear STOP-M0-001."
+  ],
+  "depends_on": [
+    "H-M0-002"
+  ]
+}
