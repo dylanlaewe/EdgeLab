@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-001",
+  "version": 1,
+  "issued_at": "2026-09-20T00:00:18.412757+00:00",
+  "issuer": "05 Skeptic",
+  "reason": "H01-H06 demonstrate accepted unsupported states, approvals, STOP resolutions and scientific evidence. Do not rely on M0.1 validator success as control approval.",
+  "affected_components": [
+    "M0 exit and control-design approval",
+    "Scientific confirmation eligibility",
+    "Strategy promotion and paper authorization",
+    "STOP clearance and dependent evidence reuse",
+    "Independent approval and immutable audit acceptance"
+  ],
+  "evidence_refs": [
+    "reports/reviews/M0.1-skeptic-review.v1.md",
+    "tests/test_skeptic_adversarial.py"
+  ],
+  "severity": "HIGH",
+  "remediation_required": [
+    "Resolve H01-H06 through owner handoffs H-M0-002 through H-M0-006 and independently reviewed acceptance tests.",
+    "Retain capital LOCKED and prohibit operational use of unsupported records. Documentation, synthetic tests and remediation may continue.",
+    "Resolve this STOP only through the issuer or independent substitute review, affected domain approvals, Risk review where capital is implicated, and a separate evidence-linked audit event."
+  ],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}

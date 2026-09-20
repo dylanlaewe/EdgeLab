@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-001",
+  "version": 2,
+  "created_at": "2026-09-19T23:56:13.832885+00:00",
+  "sender": "00 Director",
+  "recipient": "05 Skeptic",
+  "status": "CLAIMED",
+  "request": "Independently review the M0.1 foundation before it is treated as an approved control design.",
+  "work_done": "05 Skeptic session claims independent M0.1 review. Scope: adversarial tests, review, STOP/audit and remediation handoffs; no production redesign.",
+  "evidence_refs": [
+    "PROJECT_CONSTITUTION.md",
+    "docs/SPECIFICATIONS.md",
+    "docs/LIFECYCLE.md",
+    "docs/OPERATIONS.md",
+    "reports/M0.1-foundation.md"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-001.v2.json"
+  ],
+  "tests_run": [],
+  "open_questions": [
+    "Can any documented promotion/resume path bypass independent evidence?",
+    "Are the foundation contracts sufficient for Data and Risk implementation?"
+  ],
+  "blockers": [],
+  "next_action": "Claim this assignment in a new version. Inspect schemas against narrative contracts, reproduce validation, attempt malformed and contradictory records, and persist findings with severity and exact evidence.",
+  "completion_criteria": [
+    "Independent report with pass/fail/blocked and scope",
+    "Reproduced checks with commands/results",
+    "Each material finding has evidence, impact and remediation",
+    "Director receives a versioned handoff; no gates weakened"
+  ],
+  "depends_on": []
+}

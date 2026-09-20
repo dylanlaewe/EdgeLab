@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-002",
+  "version": 1,
+  "occurred_at": "2026-09-20T00:00:18.412757+00:00",
+  "actor": "Independent 05 Skeptic review session",
+  "role": "05 Skeptic",
+  "event_type": "FOUNDATION_REVIEW_BLOCKED_STOP_ISSUED",
+  "subject_ref": "reports/reviews/M0.1-skeptic-review.v1.md",
+  "previous_state": "AWAITING_INDEPENDENT_REVIEW",
+  "new_state": "BLOCKED_FOR_APPROVAL_REMEDIATION_ALLOWED",
+  "reason": "Six HIGH and two MEDIUM findings; no current live-capital bypass. Scope and evidence in review. Director must reconcile project-state summary.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-skeptic-review.v1.md",
+    "tests/test_skeptic_adversarial.py",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "code_ref": "524caf8; adversarial tests in the commit first adding tests/test_skeptic_adversarial.py",
+  "config_ref": "portfolio/risk-policy.json",
+  "correlation_id": "M0.1-SKEPTIC",
+  "supersedes": null
+}
