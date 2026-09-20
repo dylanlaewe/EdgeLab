@@ -1,0 +1,19 @@
+{
+  "purpose": "Consultation review inventory; not operational acceptance",
+  "data_completion": "90c1a0a04216d737c3d6cbdd4a3404488fec7605",
+  "claim": "f675b0d2e1b78d0cf8b0c8e3e821cff28692867e",
+  "files": {
+    "tests/test_skeptic_semantic_v2.py": "96b0464e5271ab24b6d35b542f41a39027a113f9c17c3574ea41e0a9cdc70962",
+    "reports/reviews/M0.1-data-consultation.v1.md": "18dc2bd487f26110ba6055a77c4bbfd2f8d34a5c8ccc3198e9324a805090c3c3",
+    "docs/handoffs/H-M0-008.v3.json": "785ee196393883f2161ce308b646199282c9185dc8a417cd138bb896442f0281",
+    "reports/audit/A-M0-006.v1.json": "7d78de9e54f379a1e4049bc765689a73bb21d4bacd5be0fceefc7136573f20d4",
+    "reports/skeptic-consultation/baseline.v1.txt": "49c9dff4da3fee52f39b6bb4913fb0d7af831013d4789e8ce7c94a14700c63aa",
+    "reports/skeptic-consultation/data.v1.txt": "1061dee7f1b8078509ef731eb2366a700bf8d60aeed7e764cb56fb67f338cb83",
+    "reports/skeptic-consultation/foundation.v1.txt": "396d73162f07200c0a1295fc7c8928864775245b3065afcc364a6308d6e919f7",
+    "reports/skeptic-consultation/full.v1.txt": "d515dab56fb4630cb2ac7ce36022a2bc4f9adfd6a59c8310349416a49dcfbd9f",
+    "reports/skeptic-consultation/results.v1.json": "e505302dcdb594d05182cb8c48f336d64bba8accdb22080f83928b4f1a14befd",
+    "reports/skeptic-consultation/semantic-v2.txt": "49940af329053155c683858f90afc4fb1bfc5502b0b013f494231d0ef6e24778",
+    "reports/skeptic-consultation/validation.v1.txt": "b2d555af10ec585175961490babc83ebdf6dc6e74d41277c17735b78fe7ba720"
+  },
+  "self_binding": "Containing commit first adding docs/handoffs/H-M0-008.v3.json; inventory excludes itself."
+}

@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-008",
+  "version": 3,
+  "created_at": "2026-09-20T00:37:29.683465+00:00",
+  "sender": "05 Skeptic",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Interim Data\u2192Research gate consultation: assess candidate full-suite errors and compatible control evidence; recommend whether bounded dependent remediation may proceed.",
+  "work_done": "READY_FOR_DIRECTOR_GATE for bounded dependent remediation only. All twelve original error entries independently classified; twelve compatible semantic methods added. No new Data defect demonstrated; Risk/Research/Quant gaps explicitly remain. Original probes preserved. Research NOT RELEASED; STOP-M0-001 OPEN. Skeptic yields sole-writer slot after successful publication of this completion commit.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-data-consultation.v1.md",
+    "tests/test_skeptic_semantic_v2.py",
+    "reports/skeptic-consultation/results.v1.json",
+    "reports/skeptic-consultation/full.v1.txt",
+    "reports/skeptic-consultation/semantic-v2.txt",
+    "docs/handoffs/H-M0-003.v4.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/skeptic-consultation/validation.v1.txt"
+  ],
+  "files_changed": [
+    "reports/reviews/M0.1-data-consultation.v1.md",
+    "tests/test_skeptic_semantic_v2.py",
+    "reports/skeptic-consultation/",
+    "docs/handoffs/H-M0-008.v2.json",
+    "docs/handoffs/H-M0-008.v3.json",
+    "reports/audit/A-M0-006.v1.json"
+  ],
+  "tests_run": [
+    "Versioned semantic suite: 12 passed; Data: 18 passed; foundation: 18 passed.",
+    "Full discovery: 63 methods, 54 passed, nine errored methods / twelve entries; exit 1, NOT GREEN.",
+    "Archived review baseline: 33 passed. Original probe SHA-256 preserved; 38/38 completion hashes match; history checks 35/62 protected files pass.",
+    ".venv/bin/python -m src.edgelab.validate: 32 records and initial published history validated; live LOCKED."
+  ],
+  "open_questions": [
+    "Director must independently record scheduling release; this consultation grants none.",
+    "Operational trust, reproduction/exposure and lifecycle/STOP enforcement remain future owner responsibilities."
+  ],
+  "blockers": [
+    "STOP-M0-001 remains OPEN and all operational approval remains blocked.",
+    "Research remains blocked under H-M0-004 v3 pending Director gate decision."
+  ],
+  "next_action": "Verify containing commit via git log --diff-filter=A -- docs/handoffs/H-M0-008.v3.json, remote ancestry and consultation evidence. Reconsider bounded Research remediation release under documented historical mismatch policy. Do not interpret green semantic probes as approval; unsafe attacks intentionally remain characterized.",
+  "completion_criteria": [
+    "Classify all nine errored methods/twelve entries independently",
+    "Assess new positive/rejection coverage and stated Data boundaries",
+    "Persist READY_FOR_DIRECTOR_GATE or BLOCKED recommendation, evidence and any owner remediation",
+    "No original probe modification, skips, inversion, finding waiver or STOP clearance"
+  ],
+  "depends_on": [
+    "H-M0-003",
+    "H-M0-007"
+  ]
+}
