@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-005",
+  "version": 5,
+  "created_at": "2026-09-20T02:42:17.442120+00:00",
+  "sender": "04 Quant",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Complete bounded M0 Quant remediation with actual evidence binding, complete execution history, Research freshness integration, verifier-controlled checkpoint currency, reproduction and a machine-readable Risk-facing result.",
+  "work_done": "Quant session quant-codex-20260920T021342Z-0659967 consumed H-M0-005 v3, claimed v4 at 5ba62f353318c3050ed5b7ca10f6ac190b2228f0, and implemented the bounded Quant contracts at 4a4a7b2bb89b094161743c030334785630b50ce8. Exact Data manifests and canonical split membership, Research preregistration/access history, all typed trials/statuses, code/config/environment/seed, outputs/metrics and independent reproduction are content-bound. A verifier-selected newest accepted checkpoint is required in addition to the pre-access checkpoint; stale/rollback/deleted-later-evidence and check/use races deny under an atomic authority adapter. Positive synthetic evidence returns no operational/paper/live/Risk authorization. H-M0-014 v1 requests independent Skeptic review. The session yields the sole-writer slot only after this completion package is pushed and verified.",
+  "evidence_refs": [
+    "reports/M0.1-quant-remediation.v1.md",
+    "reports/quant-remediation/results.v1.json",
+    "reports/quant-remediation/validation.v1.txt",
+    "reports/quant-remediation/completion-inventory.v1.json",
+    "reports/audit/A-M0-013.v1.json",
+    "tests/test_quant_protocol.py",
+    "docs/SPECIFICATIONS.md",
+    "docs/handoffs/H-M0-014.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/SPECIFICATIONS.md",
+    "schemas/quant-current-state.schema.json",
+    "schemas/quant-protocol.schema.json",
+    "schemas/reproduction.schema.json",
+    "schemas/trial-inventory.schema.json",
+    "schemas/trial.schema.json",
+    "src/edgelab/data_integrity.py",
+    "src/edgelab/quant_protocol.py",
+    "src/edgelab/validate.py",
+    "tests/test_quant_protocol.py",
+    "reports/M0.1-quant-remediation.v1.md",
+    "reports/quant-remediation/results.v1.json",
+    "reports/quant-remediation/validation.v1.txt",
+    "reports/quant-remediation/completion-inventory.v1.json",
+    "reports/audit/A-M0-013.v1.json",
+    "docs/handoffs/H-M0-005.v4.json",
+    "docs/handoffs/H-M0-005.v5.json",
+    "docs/handoffs/H-M0-014.v1.json"
+  ],
+  "tests_run": [
+    "Quant owner suite: 13/13 pass, including current/disjoint positive, exact input/split binding, complete success/failure/cancelled/attempted inventory, repeated-holdout denial, stale/deleted-later-evidence denial, output/reproduction mutation and atomic compare-and-commit race.",
+    "Data 18/18, Research-history v2 27/27, Skeptic-history v4 15/15 and foundation 18/18 pass.",
+    "Full discovery: 148 methods, 108 passing, 40 errored methods/43 exact historical entries, zero assertion failures/skips, exit 1, NOT GREEN. No new or missing normalized error identity.",
+    "Repository validator: 56 records and published history valid; capital LOCKED; no scientific or operational approval.",
+    "Completion artifact validation: 59 records valid, foundation 18/18 pass and 29/29 frozen inventory hashes match.",
+    "Compileall, schema validation, remote ancestry, preservation and staged whitespace checks passed. Forty prior test/fixture files and all prior review/STOP files are unchanged."
+  ],
+  "open_questions": [
+    "Independent Skeptic must verify the current-state trust boundary, stale-old-checkpoint/deleted-later-evidence attack, complete-inventory semantics, reproduction runner boundary and exact race guarantee.",
+    "No independently controlled production CurrentStateAuthority is provisioned; operational use must fail closed.",
+    "Unrecorded external access, false canonical identities, external custody/source truth, verifier compromise/collusion and nondeterministic external dependencies remain outside local guarantees."
+  ],
+  "blockers": [
+    "STOP-M0-001 remains OPEN; H04/H05 and project findings are not self-closed by Quant.",
+    "Risk remains unreleased pending independent Skeptic review and a separate Director verification/release gate.",
+    "USD 50 conceptual, USD 0 deployable, live LOCKED, kill ENGAGED."
+  ],
+  "next_action": "Director: resolve this completion artifact's first-addition commit, verify hashes/remote ancestry/test dispositions, then schedule H-M0-014 independent Skeptic review. Do not release Risk until that review and a separate Director gate succeed. Quant yields the writer slot after verified publication.",
+  "completion_criteria": [
+    "Actual inputs and all split memberships bind exact Data evidence and canonical disjointness.",
+    "Research checkpoint-aware freshness is mandatory and structural/legacy paths cannot produce the Quant consistency result.",
+    "All typed trial statuses and relevant accepted Research/Quant history are current-state inventoried; omissions and repeat contamination deny.",
+    "Verifier-controlled current-state currency and atomic compare-and-commit race behavior are implemented and tested within explicit adapter assumptions.",
+    "Configuration, code, environment, seed/determinism, outputs, metrics and reproduction bind the experiment identity.",
+    "Positive synthetic evidence passes without operational authorization; targeted negative cases deny.",
+    "Historical adversarial evidence is preserved and the full red suite is honestly classified.",
+    "Hashed evidence, interface notes, limitations, implementation SHA and independent review request are published."
+  ],
+  "depends_on": [
+    "H-M0-003",
+    "H-M0-004",
+    "H-M0-011",
+    "H-M0-012",
+    "H-M0-013"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-013",
+  "version": 1,
+  "occurred_at": "2026-09-20T02:42:17.442120+00:00",
+  "actor": "Quant session quant-codex-20260920T021342Z-0659967",
+  "role": "04 Quant",
+  "event_type": "BOUNDED_QUANT_REMEDIATION_COMPLETED",
+  "subject_ref": "docs/handoffs/H-M0-005.v5.json",
+  "previous_state": "QUANT_REMEDIATION_CLAIMED",
+  "new_state": "QUANT_IMPLEMENTATION_AWAITING_INDEPENDENT_SKEPTIC_REVIEW",
+  "reason": "Actual inputs, splits, Research freshness, complete trial inventory, current accepted state, deterministic configuration/code/seed, outputs and reproduction are bound by the new Quant gate. No operational approval follows.",
+  "evidence_refs": [
+    "reports/M0.1-quant-remediation.v1.md",
+    "reports/quant-remediation/results.v1.json",
+    "reports/quant-remediation/completion-inventory.v1.json",
+    "docs/handoffs/H-M0-005.v5.json",
+    "docs/handoffs/H-M0-014.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "code_ref": "4a4a7b2bb89b094161743c030334785630b50ce8",
+  "config_ref": "docs/SPECIFICATIONS.md",
+  "correlation_id": "M0.1-QUANT-REMEDIATION",
+  "supersedes": null
+}
