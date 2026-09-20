@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "purpose": "Independent H-M0-016 Q01/Q02 re-review; no operational authorization",
+  "review_base": "473b395533fe468c28d32680c2f5843955396a1f",
+  "quant_implementation": "0319ff115707ad65f9f871275dc17740700ef3db",
+  "verdict": "BLOCKED_PENDING_Q03_COMMITMENT_TIME_REMEDIATION",
+  "q01_disposition": "CLOSED",
+  "q02_disposition": "PARTIALLY_REMEDIATED",
+  "new_findings": [
+    "Q03 LOW: a future authority commitment timestamp passes after recomputing its self-digest because committed_at is absent from completed-time validation"
+  ],
+  "focused": {
+    "skeptic_quant_v6": {"methods": 13, "passed": 13},
+    "quant_owner": {"methods": 23, "passed": 23},
+    "data": {"methods": 18, "passed": 18},
+    "research_history_v2": {"methods": 27, "passed": 27},
+    "skeptic_history_v4": {"methods": 15, "passed": 15},
+    "foundation": {"methods": 18, "passed": 18}
+  },
+  "q01": {
+    "all_split_roles_reject": true,
+    "renamed_reordered_repackaged_versioned_partial_reject": true,
+    "failed_cancelled_attempted_without_access_reject": true,
+    "before_access_reject": true,
+    "equal_access_reject": true,
+    "after_access_permitted": true,
+    "omitted_trial_old_inventory_reject": true,
+    "stale_state_reject": true,
+    "fresh_positive": true,
+    "unrelated_reuse_positive": true,
+    "positive_operational_authorization": false
+  },
+  "q02": {
+    "core_binding_substitutions_reject": true,
+    "malformed_missing_extra_reject": true,
+    "unrehashed_content_mutation_reject": true,
+    "rehashed_id_time_limitations_are_content_only": true,
+    "duplicate_same_claim_replay_locally_verifies": true,
+    "fully_self_consistent_forgery_locally_verifies": true,
+    "future_committed_at_locally_verifies": true,
+    "classification": "Core local binding is fixed; future-time semantics remain a local LOW defect. Authentication, durable uniqueness and replay policy remain external/Risk-owned."
+  },
+  "skeptic_v5_disposition": {
+    "methods": 7,
+    "passed": 2,
+    "errored": 4,
+    "failed": 1,
+    "skipped": 0,
+    "classification": "Three intended Q01 safe rejections, one intended opaque-token rejection, one expected structured-return assertion mismatch, and two passing boundary controls; file preserved."
+  },
+  "full_discovery": {
+    "methods": 178,
+    "passing_methods": 133,
+    "errored_methods": 44,
+    "error_entries": 47,
+    "failure_count": 1,
+    "skip_count": 0,
+    "historical_error_identities_match": true,
+    "unexpected_error_names": [],
+    "unexpected_failure_names": []
+  },
+  "repository_validation": {
+    "records": 71,
+    "published_history_valid": true,
+    "capital_status": "LOCKED",
+    "scientific_or_operational_approval": false
+  },
+  "commands": [
+    ".venv/bin/python -m unittest discover -s tests -p 'test_skeptic_quant_v6.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_skeptic_quant_v5.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_quant_protocol.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_data_integrity.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_research_history_v2.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_skeptic_history_v4.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_foundation.py' -v",
+    "unittest discovery with exact historical and v5 error/failure identity comparison",
+    ".venv/bin/python -m src.edgelab.validate",
+    ".venv/bin/python -m compileall -q src tests",
+    "git diff --check"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-017",
+  "version": 1,
+  "created_at": "2026-09-20T04:15:46.267692+00:00",
+  "sender": "05 Skeptic",
+  "recipient": "04 Quant",
+  "status": "QUEUED",
+  "request": "Remediate Q03 LOW by enforcing non-future authority commitment time and explicitly preserve the external durable uniqueness/replay boundary, then request independent Skeptic re-review before Risk release.",
+  "work_done": "H-M0-016 independently closes Q01 within local assumptions and confirms Q02 core structured binding. A new local defect remains: committed_at is not included in completed-time checks, so a year-2999 commitment with a recomputed self-digest verifies. Duplicate same-claim verification and fully self-consistent forgery are separately classified as unauthenticated/stateless boundary behavior for Risk, not proof of authority.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-quant-Q01-Q02-rereview.v1.md",
+    "tests/test_skeptic_quant_v6.py",
+    "reports/skeptic-quant-rereview/results.v1.json",
+    "reports/skeptic-quant-rereview/preservation.v1.json",
+    "docs/handoffs/H-M0-016.v3.json",
+    "schemas/authority-commitment.schema.json",
+    "src/edgelab/quant_protocol.py",
+    "src/edgelab/data_integrity.py",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-017.v1.json"
+  ],
+  "tests_run": [
+    "Skeptic v6 13/13, Quant 23/23, Data 18/18, Research history v2 27/27, Skeptic history v4 15/15 and foundation 18/18 pass.",
+    "Full discovery 178 methods: 133 pass, 44 errored methods/47 entries, one expected v5 failure, zero skips; no unexpected identity."
+  ],
+  "open_questions": [
+    "Will committed_at be covered through the shared completed-time registry or an equivalent explicit verifier check?",
+    "How will future Risk integration authenticate the authority and persist commitment-ID/generation replay state?"
+  ],
+  "blockers": [
+    "Q03 LOW keeps Q02 PARTIALLY_REMEDIATED pending correction and independent verification.",
+    "STOP-M0-001 OPEN; Risk unreleased; USD 0 deployable; live LOCKED."
+  ],
+  "next_action": "Director schedules the smallest Quant-owned timestamp-validation fix and a focused independent Skeptic re-review. Do not redesign external authentication in Quant or release Risk.",
+  "completion_criteria": [
+    "A schema-valid, correctly self-digested commitment with committed_at later than verifier now rejects at the intended time-semantic surface.",
+    "A current honest structured commitment still passes and remains non-operational.",
+    "Core Q02 assessment/state/experiment/claim bindings and Q01 controls remain green.",
+    "Documentation does not claim that self-digest, commitment ID or timestamp authenticates authority, proves durable uniqueness or prevents replay without Risk/external state."
+  ],
+  "depends_on": [
+    "H-M0-016",
+    "H-M0-015"
+  ]
+}

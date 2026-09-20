@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "purpose": "H-M0-016 preservation verification",
+  "skeptic_review_base": "665cdbddcdce18af4b4332bb936d59a050ab6830",
+  "quant_completion_commit": "5c11d0ef827aad5771b2ddc6d753874f32bf9754",
+  "skeptic_v5_sha256_expected": "2f79c91ef57e4cf5c0ca0966d25eb825d41898666b14f7e4413203863943f7cd",
+  "skeptic_v5_sha256_observed": "2f79c91ef57e4cf5c0ca0966d25eb825d41898666b14f7e4413203863943f7cd",
+  "changed_historical_skeptic_files": [],
+  "changed_quant_remediation_files": [],
+  "changed_stop_bankroll_risk_or_project_state_files": [],
+  "historical_error_entries_expected": 43,
+  "historical_error_entries_observed": 43,
+  "historical_error_identities_match": true,
+  "versioned_successor": "tests/test_skeptic_quant_v6.py"
+}

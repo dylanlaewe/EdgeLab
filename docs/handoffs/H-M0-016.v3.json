@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-016",
+  "version": 3,
+  "created_at": "2026-09-20T04:15:46.267692+00:00",
+  "sender": "05 Skeptic",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Independently re-review H-M0-015 Q01/Q02 remediation before any Director or Risk gate.",
+  "work_done": "Q01 is CLOSED within documented local evidence assumptions. All prior split roles, canonical packaging/version/partial variants, uncertain-status/no-access trials, timing boundary and complete-history attacks behave correctly; scoped positives remain non-authorizing. Q02 is PARTIALLY_REMEDIATED: core structured assessment/state/experiment/claim/authority bindings are effective, while Q03 LOW shows a future committed_at passes after recomputing the self-digest because that field is absent from completed-time checks. Duplicate replay and fully self-consistent forgery remain explicitly unauthenticated/stateless Risk boundaries. H-M0-017 queues the narrow fix. Risk remains unreleased; STOP OPEN; writer slot yielded after verified publication.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-quant-Q01-Q02-rereview.v1.md",
+    "tests/test_skeptic_quant_v6.py",
+    "reports/skeptic-quant-rereview/results.v1.json",
+    "reports/skeptic-quant-rereview/preservation.v1.json",
+    "reports/skeptic-quant-rereview/validation.v1.txt",
+    "docs/handoffs/H-M0-015.v3.json",
+    "docs/handoffs/H-M0-017.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "tests/test_skeptic_quant_v6.py",
+    "reports/reviews/M0.1-quant-Q01-Q02-rereview.v1.md",
+    "reports/skeptic-quant-rereview/results.v1.json",
+    "reports/skeptic-quant-rereview/preservation.v1.json",
+    "reports/skeptic-quant-rereview/validation.v1.txt",
+    "docs/handoffs/H-M0-016.v2.json",
+    "docs/handoffs/H-M0-016.v3.json",
+    "docs/handoffs/H-M0-017.v1.json",
+    "reports/audit/A-M0-016.v1.json"
+  ],
+  "tests_run": [
+    "Skeptic v6 13/13, Quant 23/23, Data 18/18, Research history v2 27/27, Skeptic history v4 15/15 and foundation 18/18 pass.",
+    "Preserved v5: two pass, four expected safe-rejection errors, one expected structured-return failure, zero skips.",
+    "Full discovery 178 methods: 133 pass, 44 errored methods/47 entries, one expected v5 assertion failure, zero skips; no unexpected error/failure identity.",
+    "Repository validation reports 71 records; compileall, whitespace, historical preservation and 11/11 Quant remediation file preservation pass."
+  ],
+  "open_questions": [
+    "Independent re-review must verify the narrow future committed_at correction.",
+    "Risk must later authenticate authority/state resolution and persist uniqueness/replay policy."
+  ],
+  "blockers": [
+    "Q03 LOW keeps Q02 partially remediated; H-M0-017 and independent verification are required.",
+    "STOP-M0-001 OPEN; Risk unreleased; USD 0 deployable; live LOCKED."
+  ],
+  "next_action": "Director verifies this review commit, retains the Risk release hold, and schedules H-M0-017 targeted Quant remediation followed by focused Skeptic verification. Do not release Risk or clear STOP.",
+  "completion_criteria": [
+    "Disposition Q01 and Q02 with valid-prerequisite role, timing, history, commitment-binding and authenticity-boundary attacks.",
+    "Preserve v5 and all historical evidence; add versioned successors instead of rewriting expectations.",
+    "Run focused regression/full classification and issue owner remediation for genuine defects.",
+    "Publish without self-releasing Risk or changing STOP/capital state."
+  ],
+  "depends_on": [
+    "H-M0-015"
+  ]
+}

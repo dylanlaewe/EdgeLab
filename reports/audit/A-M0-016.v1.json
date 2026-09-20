@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-016",
+  "version": 1,
+  "occurred_at": "2026-09-20T04:15:46.267692+00:00",
+  "actor": "Independent Skeptic session skeptic-quant-rereview-20260920T040031Z-5c11d0e",
+  "role": "05 Skeptic",
+  "event_type": "QUANT_Q01_CLOSED_Q02_PARTIAL_Q03_OPEN",
+  "subject_ref": "docs/handoffs/H-M0-016.v3.json",
+  "previous_state": "QUANT_REMEDIATION_AWAITING_INDEPENDENT_SKEPTIC_REVIEW",
+  "new_state": "Q01_CLOSED_Q02_PARTIALLY_REMEDIATED_Q03_LOW_OPEN",
+  "reason": "All local Q01 attacks reject or pass at the documented boundary. Q02 core bindings work, but future committed_at values pass after self-digest recomputation. Risk remains unreleased and STOP remains open.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-quant-Q01-Q02-rereview.v1.md",
+    "tests/test_skeptic_quant_v6.py",
+    "reports/skeptic-quant-rereview/results.v1.json",
+    "docs/handoffs/H-M0-017.v1.json"
+  ],
+  "code_ref": "Quant implementation 0319ff115707ad65f9f871275dc17740700ef3db; review commit first adding docs/handoffs/H-M0-016.v3.json",
+  "config_ref": "schemas/authority-commitment.schema.json",
+  "correlation_id": "H-M0-016",
+  "supersedes": null
+}

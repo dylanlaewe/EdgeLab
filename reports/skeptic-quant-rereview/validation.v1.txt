@@ -1,0 +1,34 @@
+H-M0-016 independent Q01/Q02 re-review validation
+
+Focused suites:
+- Skeptic Quant v6: 13/13 pass
+- Quant owner: 23/23 pass
+- Data: 18/18 pass
+- Research history v2: 27/27 pass
+- Skeptic history v4: 15/15 pass
+- Foundation: 18/18 pass
+
+Preserved Skeptic v5:
+- 7 methods: 2 pass, 4 expected remediation errors, 1 expected structured-return assertion failure, 0 skips
+- file byte-identical to Skeptic review base
+
+Full discovery:
+- 178 methods
+- 133 passing methods
+- 44 errored methods / 47 error entries
+- 1 expected v5 assertion failure
+- 0 skips
+- exact 40-method / 43-entry historical corpus preserved
+- no unexpected error or failure identity
+
+Repository/source validation:
+- 71 records and published history valid
+- compileall pass
+- git diff --check pass
+- capital LOCKED; no scientific or operational approval
+
+Disposition:
+- Q01 CLOSED within documented local evidence assumptions
+- Q02 PARTIALLY_REMEDIATED
+- Q03 LOW: future committed_at passes after self-digest recomputation
+- Risk remains unreleased; STOP OPEN; capital LOCKED
