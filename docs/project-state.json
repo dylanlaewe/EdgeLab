@@ -2,7 +2,7 @@
   "schema_version": 1,
   "phase": "M0",
   "increment": "M0.1",
-  "status": "IMPLEMENTED_VALIDATED_AWAITING_INDEPENDENT_REVIEW",
+  "status": "BLOCKED_FOR_APPROVAL_REMEDIATION_ALLOWED",
   "live_status": "LOCKED",
   "demonstrated_edge": false,
   "active_strategies": 0,
@@ -14,7 +14,7 @@
     "Conceptual bankroll and zero-deployment risk policy"
   ],
   "remaining_m0": [
-    "Independent Skeptic review of foundation",
+    "Remediate all six HIGH and both MEDIUM findings and obtain independent frozen-candidate re-review",
     "Data manifest and observation schemas with temporal/lineage validation",
     "Authenticated review records and machine-enforced lifecycle transitions",
     "Cross-record evidence validation, STOP propagation and append-only event handling",
@@ -22,9 +22,30 @@
     "Justified validation thresholds and M0 exit review"
   ],
   "blockers": [
-    "No strategy promotion or paper/live execution engine",
+    "STOP-M0-001 OPEN; M0 approval and exit blocked",
+    "H01-H06 and M01-M02 unresolved",
+    "Operational reviewer trust boundary and accepted-history protection unprovisioned",
     "Statistical, freshness and post-M0 risk thresholds unresolved"
   ],
-  "next_assignment": "H-M0-001",
-  "updated_at": "2026-09-19T23:52:00.203076+00:00"
+  "next_assignment": "H-M0-003",
+  "updated_at": "2026-09-20T00:05:23.068038+00:00",
+  "active_stop_refs": [
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "review_ref": "reports/reviews/M0.1-skeptic-review.v1.md",
+  "open_findings": [
+    "H01",
+    "H02",
+    "H03",
+    "H04",
+    "H05",
+    "H06",
+    "M01",
+    "M02"
+  ],
+  "next_handoff_ref": "docs/handoffs/H-M0-003.v2.json",
+  "coordination_plan_ref": "docs/REMEDIATION_PLAN.md",
+  "git_protocol_ref": "docs/GIT_COORDINATION.md",
+  "writer_policy": "SEQUENTIAL_ONE_ACTIVE_WRITER",
+  "next_owner_release": "01 Data may claim after this coordination commit is verified on origin/main; no other owner released."
 }

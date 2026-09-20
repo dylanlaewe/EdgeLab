@@ -1,5 +1,7 @@
 # Operating the laboratory
 
+During STOP-M0-001 remediation, follow [remediation order](REMEDIATION_PLAN.md) and the [single-writer Git protocol](GIT_COORDINATION.md). These specify ownership and evidence gates; they do not clear the STOP.
+
 ## Start and ownership
 
 Read root instructions, constitution, your role contract, project state, open STOPs, then relevant queued handoffs. Repository evidence outranks remembered chat context. Director assigns bounded scopes; recipients record CLAIMED and their identity in a new handoff version before making overlapping edits. Only one owner edits a shared artifact at a time. Conflicts go to Director, never silent overwrites.
