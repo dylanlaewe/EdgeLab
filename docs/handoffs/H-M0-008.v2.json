@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-008",
+  "version": 2,
+  "created_at": "2026-09-20T00:32:32.260086+00:00",
+  "sender": "00 Director",
+  "recipient": "05 Skeptic",
+  "status": "CLAIMED",
+  "request": "Interim Data\u2192Research gate consultation: assess candidate full-suite errors and compatible control evidence; recommend whether bounded dependent remediation may proceed.",
+  "work_done": "Skeptic consultation session skeptic-consult-3d1accc3-4d50-40ab-9f5d-117ac21f3ed4 claims sole writer slot at base 0fb41e42451d2c6c79c292961dac017535acdea4 under H-M0-008 v1 scheduling release. Prerequisites: Data H-M0-003 v4 at 90c1a0a04216d737c3d6cbdd4a3404488fec7605; Director H-M0-007 v2 and verification at 0fb41e4. Scope: new versioned synthetic probes, consultation report/logs, appended handoff/audit evidence only. No originals or production changes.",
+  "evidence_refs": [
+    "reports/M0.1-director-data-gate.v1.md",
+    "reports/director-verification/data-gate-results.v1.json",
+    "reports/director-verification/full-suite.v1.txt",
+    "docs/handoffs/H-M0-003.v4.json",
+    "docs/REMEDIATION_PLAN.md",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-008.v2.json"
+  ],
+  "tests_run": [],
+  "open_questions": [
+    "Do separate compatible tests reach each intended Data-owned failure and positive path?",
+    "Does any mismatch reflect a genuine regression or incomplete Data enforcement?",
+    "What explicit historical/candidate test disposition supports or blocks dependent remediation without modifying original probes?"
+  ],
+  "blockers": [
+    "Research gate held for independent fixture/coverage disposition; STOP-M0-001 OPEN."
+  ],
+  "next_action": "Synchronize and claim a new handoff version under the single-writer protocol. Review frozen Data candidate 90c1a0a and Director evidence. Preserve original probes; append report and any separate bounded synthetic tests. Return to Director; do not release Research or clear STOP.",
+  "completion_criteria": [
+    "Classify all nine errored methods/twelve entries independently",
+    "Assess new positive/rejection coverage and stated Data boundaries",
+    "Persist READY_FOR_DIRECTOR_GATE or BLOCKED recommendation, evidence and any owner remediation",
+    "No original probe modification, skips, inversion, finding waiver or STOP clearance"
+  ],
+  "depends_on": [
+    "H-M0-003",
+    "H-M0-007"
+  ]
+}
