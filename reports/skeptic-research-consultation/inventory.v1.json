@@ -1,0 +1,21 @@
+{
+  "purpose": "Skeptic consultation review inventory; no operational acceptance",
+  "base": "a23f5e996e8813593bd1dede77660f7023da4b24",
+  "claim": "df8936822f1dbf2fce0d0e9ba6582b7151863eb0",
+  "files": {
+    "tests/test_skeptic_research_v3.py": "f4dac34fd883100132401990dcb0496a1fc7d640498c38afcd17c9b014019dc4",
+    "reports/reviews/M0.1-research-consultation.v1.md": "e6ef9df415495960419c9f96564a4bf585276129f2462d64ee79461529d60c6f",
+    "docs/handoffs/H-M0-010.v3.json": "3830bd83c9d5402b7f5c766345e611b770ad248895940cdedf5f1c7e4bc275c1",
+    "docs/handoffs/H-M0-011.v1.json": "063ed36ee6deb10a7721638b04bf2ba5dbb53a8d5b678fcb05bd1803d480783f",
+    "reports/audit/A-M0-009.v1.json": "dfe760f16508b65acfe17a82cbbf619aa5571086e8fb5f4e4b79568d3ddd497b",
+    "reports/skeptic-research-consultation/data.v1.txt": "55512c9891809b881331ae17e4cd26f2fa4fe677af965658c0f9cebc04e6c121",
+    "reports/skeptic-research-consultation/foundation.v1.txt": "21bc01e28d9bf628c40bb5abbf86327ddef45fd2f8a8ca4ee7a500433b15bec8",
+    "reports/skeptic-research-consultation/full.v1.txt": "9df20449a0cc14e01ae94b826c33e924e8f9a1e506d6504ca295cce83c0e9062",
+    "reports/skeptic-research-consultation/research.v1.txt": "149ef261232afa4c82040911dc602510221169175446b9bb1829bbf7f8db838d",
+    "reports/skeptic-research-consultation/results.v1.json": "dc59b9653d0152a71dd4413bfdeb7e34632efb54622196d54f84874642487bf6",
+    "reports/skeptic-research-consultation/semantic-v2.v1.txt": "99cbffb5a08fcfece880746e316759d5260e12185f21be97bf1fe84447854502",
+    "reports/skeptic-research-consultation/semantic-v3.v1.txt": "2984202bf708ff09413da31a60699d0f347698976bfbd5f94a9bc65ad0aa954c",
+    "reports/skeptic-research-consultation/validation.v1.txt": "0dae91c108a5a42bce752fb8f5d149eed8ef90b20955e2306dabf78c8dca4242"
+  },
+  "self_binding": "Commit first adding H-M0-010.v3.json; inventory excludes itself."
+}

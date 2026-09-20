@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-011",
+  "version": 1,
+  "created_at": "2026-09-20T01:29:55.563119+00:00",
+  "sender": "05 Skeptic",
+  "recipient": "03 Research",
+  "status": "QUEUED",
+  "request": "Remediate R01: carry supplied prior preregistration exposure disclosures forward when assessing the current holdout. Director scheduling required before implementation.",
+  "work_done": "Compatible independent probe reproduces false CONSISTENT_SUPPLIED_EVIDENCE for examined population disclosed in REG.v1 but omitted from REG.v2 current ancestors, while exact predecessor is retained. Root cause and minimal scope in consultation report. No production changes by Skeptic.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-research-consultation.v1.md",
+    "tests/test_skeptic_research_v3.py",
+    "reports/skeptic-research-consultation/results.v1.json",
+    "docs/handoffs/H-M0-010.v3.json"
+  ],
+  "files_changed": [],
+  "tests_run": [
+    "test_v3_prior_registration_ancestry_not_carried_to_new_holdout passes unsafe-acceptance characterization; adding OLD explicitly to disclosure_refs causes intended overlap denial."
+  ],
+  "open_questions": [
+    "Define cumulative prior preregistration custody/ancestry traversal separately from Quant global trial discovery."
+  ],
+  "blockers": [
+    "Await Director writer release; STOP-M0-001 OPEN; Quant held."
+  ],
+  "next_action": "After scheduling, claim a new version, implement bounded Research closure semantics and separate rejection/positive regressions. Preserve all published probes and artifacts. Return frozen completion evidence for independent review.",
+  "completion_criteria": [
+    "Reject examined and UNKNOWN exposures reachable through any prior preregistration version when evaluating current holdout.",
+    "Test one/multiple predecessor hops, renamed/partial overlap and unknown prior disclosures with valid prerequisites; preserve cycle/type/time/freeze-pin invariants.",
+    "A truly fresh disjoint v2 holdout passes with its own verifier pin, preserves all originals and returns no authorization.",
+    "Do not implement Quant global inventory/experiment execution, modify published probes, release Quant, clear STOP or change capital.",
+    "Publish tests, inventory, exact SHAs and handoff; obtain independent review."
+  ],
+  "depends_on": [
+    "H-M0-010"
+  ]
+}

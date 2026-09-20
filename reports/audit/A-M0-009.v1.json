@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-009",
+  "version": 1,
+  "occurred_at": "2026-09-20T01:29:55.563119+00:00",
+  "actor": "Skeptic consultation session identified by H-M0-010.v2",
+  "role": "05 Skeptic",
+  "event_type": "RESEARCH_CONSULTATION_BLOCKED",
+  "subject_ref": "docs/handoffs/H-M0-010.v3.json",
+  "previous_state": "RESEARCH_COMPLETION_AWAITING_REVIEW",
+  "new_state": "BLOCKED_R01_REMEDIATION_REQUIRED",
+  "reason": "Legacy fixture mismatch dispositioned; independent compatible test demonstrates omitted prior registration ancestry. Existing STOP remains OPEN.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-research-consultation.v1.md",
+    "tests/test_skeptic_research_v3.py",
+    "docs/handoffs/H-M0-011.v1.json"
+  ],
+  "code_ref": "Research implementation 9a6b553822d7040e7bc8473b45351e3b1e6e7a5a; review commit first adding H-M0-010.v3.json",
+  "config_ref": "portfolio/risk-policy.json",
+  "correlation_id": "H-M0-010",
+  "supersedes": null
+}

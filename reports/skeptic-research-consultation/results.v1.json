@@ -1,0 +1,88 @@
+{
+  "research": {
+    "exit_code": 0,
+    "summary": [
+      "----------------------------------------------------------------------",
+      "Ran 20 tests in 5.720s",
+      "",
+      "OK"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  "data": {
+    "exit_code": 0,
+    "summary": [
+      "----------------------------------------------------------------------",
+      "Ran 18 tests in 2.838s",
+      "",
+      "OK"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  "foundation": {
+    "exit_code": 0,
+    "summary": [
+      "----------------------------------------------------------------------",
+      "Ran 18 tests in 0.533s",
+      "",
+      "OK"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  "semantic-v2": {
+    "exit_code": 0,
+    "summary": [
+      "----------------------------------------------------------------------",
+      "Ran 12 tests in 9.251s",
+      "",
+      "OK"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  "semantic-v3": {
+    "exit_code": 0,
+    "summary": [
+      "----------------------------------------------------------------------",
+      "Ran 10 tests in 4.940s",
+      "",
+      "OK"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  "full": {
+    "exit_code": 1,
+    "summary": [
+      "----------------------------------------------------------------------",
+      "Ran 93 tests in 24.611s",
+      "",
+      "FAILED (errors=13)"
+    ],
+    "errors": [
+      "test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='REGISTERED')",
+      "test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='BACKTESTED')",
+      "test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='PAPER_ELIGIBLE')",
+      "test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='PAPER_TRADING')",
+      "test_H01_rejected_version_resurrected_and_conflicting_versions_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_rejected_version_resurrected_and_conflicting_versions_accepted)",
+      "test_H03_open_stop_does_not_block_affected_paper_state (test_skeptic_adversarial.SkepticAdversarialTests.test_H03_open_stop_does_not_block_affected_paper_state)",
+      "test_H04_completed_confirmation_without_reproduction_inputs_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H04_completed_confirmation_without_reproduction_inputs_accepted)",
+      "test_H04_late_unknown_and_mutated_lineage_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H04_late_unknown_and_mutated_lineage_accepted)",
+      "test_H05_explored_dataset_reused_as_confirmation (test_skeptic_adversarial.SkepticAdversarialTests.test_H05_explored_dataset_reused_as_confirmation)",
+      "test_H06_history_mutation_deletion_and_circular_supersession_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H06_history_mutation_deletion_and_circular_supersession_accepted)",
+      "test_M01_identifiers_filenames_dependencies_and_project_state_unchecked (test_skeptic_adversarial.SkepticAdversarialTests.test_M01_identifiers_filenames_dependencies_and_project_state_unchecked)",
+      "test_M02_future_stale_times_and_unverified_permission_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_M02_future_stale_times_and_unverified_permission_evidence_accepted)",
+      "test_all_nine_schemas_reject_missing_extra_and_incompatible_version (test_skeptic_adversarial.SkepticAdversarialTests.test_all_nine_schemas_reject_missing_extra_and_incompatible_version)"
+    ],
+    "failures": []
+  },
+  "research_inventory_verified": 48,
+  "preserved": {
+    "tests/test_skeptic_adversarial.py": "6e1c81b0e6f477c279b528899f34f4a41afc0c415a452980e6b31661f5006efa",
+    "tests/test_skeptic_semantic_v2.py": "96b0464e5271ab24b6d35b542f41a39027a113f9c17c3574ea41e0a9cdc70962"
+  },
+  "unchanged_13_error_identities": true
+}
