@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "id": "FRESH",
+  "version": 1,
+  "kind": "membership",
+  "created_at": "2026-09-19T11:00:00Z",
+  "supersedes": null,
+  "samples": [
+    {
+      "namespace": "synthetic-research-v1",
+      "event_id": "fresh-1",
+      "outcome_id": "target"
+    },
+    {
+      "namespace": "synthetic-research-v1",
+      "event_id": "fresh-2",
+      "outcome_id": "target"
+    }
+  ],
+  "membership_sha256": "7d2a385feb83f8587a583da0ffeaa30690b616f8011c77185e9df1952698a2ce"
+}

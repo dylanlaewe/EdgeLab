@@ -122,3 +122,73 @@ CLI defaults to the pinned initial preservation commit and also performs history
 comparison. Neither API is an operational eligibility endpoint. Existing original
 Skeptic probes remain unchanged; see the Data completion report for all failures
 and the distinction between intended denials and fixture incompatibilities.
+
+## Research exposure and preregistration contracts — v1 (H-M0-004)
+
+Additive `exposure` and `preregistration` registries live at
+`research/exposures/` and `research/preregistrations/`. Published v1 hypothesis,
+experiment, Data schemas and both Skeptic suites are unchanged. Legacy records
+remain readable, **not upgraded to fresh confirmation**. Repository validation
+checks the new records when present; it does not yet require them for legacy
+experiments. Quant owns that compulsory experiment binding and complete trial
+inventory. A successful legacy validation is not confirmation eligibility.
+
+An exposure binds an actor's declared results access/custody to Data's exact
+membership path, kind, ID, version and byte SHA-256. It records purpose
+(EXPLORATORY, CONFIRMATORY_ACCESS or HOLDOUT_CUSTODY), EXAMINED/UNEXAMINED/UNKNOWN,
+first results-access time, coverage end, a content-bound JSON evidence snapshot,
+ancestors and an exact predecessor for corrections. UNKNOWN is preservable with
+a reason, but blocks freshness. EXAMINED requires first access; UNEXAMINED requires
+custody and no access time. Observation coverage cannot run beyond record time.
+Membership must exist by the recorded exposure time. These are consistency checks
+on declared timestamps, not authenticated custody or proof of historical truth.
+
+A preregistration binds the full hypothesis bytes (including all rules, metrics,
+cost assumptions and rejection criteria), structured justified decimal thresholds,
+a hashed analysis plan, an unexamined holdout exposure and exploratory ancestors.
+Unknown hypothesis thresholds deny freezing. Holdout custody must be recorded by
+and cover the freeze instant. Hypothesis registration must precede or equal freeze.
+The closure of disclosed ancestors **and all prior exposure versions** is checked;
+UNKNOWN denies, and any EXAMINED canonical sample intersection denies. Dataset or
+membership renaming/order changes cannot evade overlap. Sample identity is Data's
+`sample_keys`: canonical namespace/event_id/outcome_id; digest is Data's
+`membership_digest`. Research introduces no alternative identity system.
+
+`validate_research(root, kind, record, now=...)` performs semantic contract checks;
+`validate_record` supplies shape/clock validation for exact resolution, while
+`validate_repository` additionally invokes Research semantics and Data's registry
+graph. It remains a structural validator with no operational approval result.
+
+`check_confirmation_contract(root, registration_ref, frozen_sha256=...,
+access_ref=..., disclosure_refs=..., now=...)` checks a proposed first result access
+against a verifier-held frozen registration digest. Omitting/mismatching that pin
+fails closed. The caller must select the pin from prior accepted evidence outside
+the submission, using the existing Data checkpoint/history trust boundary; copying
+the candidate's digest is not assurance. The registration transitively binds full
+hypothesis, thresholds, plan and exposure bytes. First access must strictly follow
+freeze, and its membership reference must equal the holdout's **entire reference**,
+not merely its label, cardinality or sample digest. A same-membership renamed
+reference is rejected at this binding surface; in contamination comparisons it is
+recognized as overlap. Extra disclosures, access ancestors and prior access
+versions are also checked. Any supplied examined overlap is conservatively denied,
+even if later than the proposed first access; reusable/repeated-access semantics
+are deliberately not authorized. Return status is CONSISTENT_SUPPLIED_EVIDENCE,
+operational_authorization=false and history_completeness=CALLER_MUST_ESTABLISH.
+
+Quant must bind actual experiment inputs/splits to this exact population, inventory
+all successful and failed trials/exposures, include new accesses since registration,
+and enforce reuse denial across experiments and hypothesis versions. It must reject
+missing contracts for confirmatory eligibility and integrate immutable reproduction
+bundles. These interfaces do not scan the repository to discover hidden trials or
+prove disclosures complete. Hypothesis supersession never erases exposure; future
+Quant checks must carry that lineage into the supplied disclosure set. Risk owns
+STOP, authority, lifecycle and operational gating. Research cannot self-approve.
+
+Synthetic frozen examples and same/renamed/partial contamination cases are in
+`tests/fixtures/research-protocol/cases.json`; copy its research/data trees and the
+repository schemas into an isolated test root. Fixture digests are test-author pins,
+not externally accepted checkpoints. The fixture's zero equality-error threshold
+is a deterministic test assertion, not a scientific sample-size/profit threshold.
+No real strategy or custody evidence is asserted. External trust, truthful upstream
+identity mapping and complete off-system exploration disclosure remain unprovisioned.
+All contracts are scoped SYNTHETIC_PROTOCOL_ONLY; STOP-M0-001 stays OPEN.

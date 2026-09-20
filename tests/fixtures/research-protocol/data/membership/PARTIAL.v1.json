@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "id": "PARTIAL",
+  "version": 1,
+  "kind": "membership",
+  "created_at": "2026-09-19T11:00:00Z",
+  "supersedes": null,
+  "samples": [
+    {
+      "namespace": "synthetic-research-v1",
+      "event_id": "old-1",
+      "outcome_id": "target"
+    },
+    {
+      "namespace": "synthetic-research-v1",
+      "event_id": "fresh-1",
+      "outcome_id": "target"
+    }
+  ],
+  "membership_sha256": "3f0a095139daf2fc0d4bd6bcc182c3d1db11efd7fdaf9c27bbb7f8d86a7823b4"
+}

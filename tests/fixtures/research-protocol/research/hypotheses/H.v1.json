@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "id": "H",
+  "version": 1,
+  "mode": "CONFIRMATORY",
+  "registered_at": "2026-09-19T12:00:00Z",
+  "author": "synthetic",
+  "statement": "synthetic",
+  "rationale": "synthetic",
+  "sport": "synthetic",
+  "league": "synthetic",
+  "market_type": "synthetic",
+  "population": "synthetic",
+  "required_data": [
+    "synthetic"
+  ],
+  "signals": [
+    "synthetic"
+  ],
+  "entry_conditions": "synthetic",
+  "information_cutoff": "synthetic",
+  "price_requirements": "synthetic",
+  "sizing_assumptions": "synthetic",
+  "cost_model": "synthetic",
+  "evaluation_metrics": [
+    "synthetic"
+  ],
+  "minimum_sample_expectations": "synthetic",
+  "rejection_criteria": [
+    "synthetic"
+  ],
+  "validation_procedure": "synthetic",
+  "multiple_testing_plan": "synthetic",
+  "unresolved_thresholds": [],
+  "supersedes": null
+}

@@ -17,6 +17,8 @@ GATES = {
     'validated_execution_logic', 'audit_logging', 'strategy_specific_live_approval',
 }
 LOCATIONS = {
+    'exposure': 'research/exposures/*.json',
+    'preregistration': 'research/preregistrations/*.json',
     'source': 'data/sources/*.json', 'hypothesis': 'research/hypotheses/*.json',
     'experiment': 'research/experiments/*.json', 'strategy': 'strategies/*.json',
     'audit': 'reports/audit/*.json', 'handoff': 'docs/handoffs/*.json',
@@ -130,6 +132,10 @@ def validate_repository(root: Path = ROOT, *, now: datetime | None = None,
                 raise ValueError(f'{path.relative_to(root)}: {error}') from error
             records[path.relative_to(root).as_posix()] = (kind, record)
             count += 1
+    from .research_protocol import RESEARCH_LOCATIONS, validate_research
+    for kind, record in records.values():
+        if kind in RESEARCH_LOCATIONS:
+            validate_research(root, kind, record, now=now)
     registry_checks(root, records, now=now)
     state = root / 'docs/project-state.json'
     if state.exists():
