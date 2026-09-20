@@ -21,7 +21,8 @@ IMMUTABLE_PREFIXES = ('reports/', 'docs/handoffs/', 'schemas/',
 COMPLETED_TIMES = {'created_at', 'occurred_at', 'issued_at', 'registered_at',
                    'protocol_frozen_at', 'started_at', 'completed_at', 'as_of',
                    'terms_checked_at', 'updated_at', 'observed_at', 'retrieved_at',
-                   'publication_at', 'corrected_at', 'reviewed_at', 'available_at'}
+                   'publication_at', 'corrected_at', 'reviewed_at', 'available_at',
+                   'accepted_at', 'observed_through', 'reproduced_at', 'frozen_at'}
 
 
 def digest(value: bytes) -> str:
@@ -66,10 +67,11 @@ def blob(root: Path, ref: dict) -> bytes:
 
 def exact(root: Path, ref: dict, expected: set[str], *, now: datetime | None = None) -> dict:
     from .validate import LOCATIONS, read, validate_record
+    from .quant_protocol import QUANT_LOCATIONS
     kind = ref['kind']
     if kind not in expected:
         raise ValueError('Wrong reference type')
-    locations = {**LOCATIONS, **DATA_LOCATIONS}
+    locations = {**LOCATIONS, **DATA_LOCATIONS, **QUANT_LOCATIONS}
     path = safe_path(root, ref['path'])
     if kind not in locations or path not in root.resolve().glob(locations[kind]):
         raise ValueError('Reference outside typed registry')

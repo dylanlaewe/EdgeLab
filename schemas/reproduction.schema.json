@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:reproduction:1",
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "typed_ref": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "kind", "id", "version", "sha256"],
+      "properties": {"path": {"type": "string", "minLength": 1}, "kind": {"type": "string", "minLength": 1}, "id": {"type": "string", "minLength": 1}, "version": {"type": "integer", "minimum": 1}, "sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "blob": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256", "media_type"],
+      "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}, "media_type": {"enum": ["application/json", "text/plain", "text/x-python"]}}
+    }
+  },
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "id", "version", "created_at", "supersedes", "kind", "protocol_ref", "trial_ref", "reproduced_at", "verifier", "trusted_runner_id", "experiment_identity_sha256", "outputs", "metrics", "limitations"],
+  "properties": {
+    "schema_version": {"const": 1}, "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$"},
+    "version": {"type": "integer", "minimum": 1}, "created_at": {"type": "string", "format": "date-time"},
+    "supersedes": {"anyOf": [{"$ref": "#/$defs/typed_ref"}, {"type": "null"}]}, "kind": {"const": "reproduction"},
+    "protocol_ref": {"$ref": "#/$defs/typed_ref"}, "trial_ref": {"$ref": "#/$defs/typed_ref"},
+    "reproduced_at": {"type": "string", "format": "date-time"}, "verifier": {"type": "string", "minLength": 1},
+    "trusted_runner_id": {"type": "string", "minLength": 1}, "experiment_identity_sha256": {"$ref": "#/$defs/sha256"},
+    "outputs": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["name", "artifact"], "properties": {"name": {"type": "string", "minLength": 1}, "artifact": {"$ref": "#/$defs/blob"}}}},
+    "metrics": {"$ref": "#/$defs/blob"},
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+  }
+}

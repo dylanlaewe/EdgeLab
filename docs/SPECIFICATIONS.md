@@ -273,3 +273,83 @@ fail during positive fixture setup. Their files must remain unchanged. These set
 errors are not evidence that their attacks were reached; R01 v2 owner successors
 use independently pinned synthetic checkpoints and reproduce attacks at intended
 semantic surfaces. Independent review must disposition this migration.
+
+## Quant experiment integrity contracts — v1 (H-M0-005)
+
+Quant adds four immutable typed registries without changing the legacy experiment
+schema: `research/experiment-protocols/` (`quant-protocol`), `research/trials/`
+(`trial`), `research/trial-inventories/` (`trial-inventory`) and
+`research/reproductions/` (`reproduction`). Legacy experiments remain readable but
+cannot establish fresh confirmation eligibility. Repository validation checks the
+new records' structure and internal semantics; it is still not a confirmation or
+operational eligibility endpoint.
+
+A frozen Quant protocol binds the exact Research preregistration bytes and the
+verifier-selected pre-access checkpoint digest. It binds ordered exact Data
+manifest references for train, validation, test and holdout; required split roles;
+content-hashed code, configuration, environment and deterministic settings; seed
+policy; and execution assumptions. Every manifest must exist by the protocol
+freeze. Canonical sample identities must be disjoint across splits. The holdout is
+one exact manifest whose membership reference equals the preregistered custody
+membership reference; a renamed, reordered or rehashed equivalent is overlap for
+contamination checks but is not the exact frozen execution input.
+
+Each trial records its attempt ordinal and ATTEMPTED, SUCCEEDED, FAILED or CANCELLED
+state. It repeats the actual ordered split references, code/configuration/environment,
+randomness and deterministic settings so substitutions are detectable. Successful
+trials require content-bound outputs, metrics and confirmatory-access evidence;
+failure and cancellation reasons remain preserved. Nonterminal attempts cannot
+claim results. Access must occur during the recorded execution interval. A current
+trial inventory must exactly enumerate every typed trial in the accepted Quant
+registry, with byte hashes and status counts. Older versioned inventories remain
+valid historical snapshots but cannot substitute for the current complete one.
+Omitted failures, cancellations, attempts or repeated trials therefore deny a
+fresh claim at the Quant gate. Activity never recorded in an accepted/local
+registry remains outside local detection.
+
+`experiment_identity` hashes the exact protocol/preregistration, actual split,
+code, configuration, environment, randomness, access, output, metric, trial and
+inventory references. A reproduction record binds that identity and separate
+reproduced output/metric blobs. `verify_reproduction` requires a verifier-supplied
+callable and compares its bytes to the bound artifacts. It never executes a command
+or program supplied by an experiment record. This verifies determinism only within
+the recorded environment and the verifier's runner assumptions; external services,
+hardware and nondeterministic dependencies are not magically made deterministic.
+
+### Current accepted state and check/use boundary
+
+`CurrentStateAuthority` is a verifier-controlled interface, not a repository
+allowlist. Its state contains a pre-access checkpoint, a latest current checkpoint,
+monotonic generation metadata and a canonical state digest. Both checkpoints use
+Data's exact full-SHA history inventories. The current checkpoint must descend from
+the pre-access checkpoint and exactly match the live Research exposure/
+preregistration and Quant registries. Missing authority, altered state, rollback,
+stale caller digest, deleted/replaced accepted bytes, unaccepted additions or a
+mismatched registry fail closed. The frozen protocol binds the pre-access checkpoint;
+the post-execution assessment binds the independently supplied current generation.
+Thus a later accepted exposure cannot be hidden by resubmitting an older otherwise
+valid checkpoint when the authority reports the newer generation.
+
+`assess_confirmation` invokes Research's checkpoint-aware
+`check_confirmation_contract`, validates actual Data manifests and all four split
+memberships, verifies the complete accepted trial inventory, denies prior/repeated
+test or holdout use, and performs content/deterministic reproduction. It returns a
+machine-readable `SCIENTIFIC_INTEGRITY_CONSISTENT` result only after a second byte
+and current-state check. Every positive result explicitly sets operational, paper,
+live and Risk authorization false.
+
+`commit_confirmation_claim` then calls the authority's `commit_if_current` with
+the assessed state digest. The authority adapter must perform an atomic compare and
+commit; a plain recheck is not sufficient. Under that interface, evidence accepted
+between assessment and claim commit invalidates the commit. Quant cannot locally
+prove that an external adapter implements atomicity, authenticate its controller,
+or stop a compromised/colluding verifier. No production authority is provisioned;
+absence therefore denies. The included in-memory adapter exists only in tests and
+proves the API behavior under the stated assumption.
+
+Risk may consume the returned assessment digest, exact evidence references,
+experiment identity, current-state digest and explicit false authorization fields.
+Risk still owns trust policy, lifecycle/promotion, STOP enforcement, paper/live
+eligibility, bankroll, kill switches and every capital decision. A positive Quant
+assessment is necessary scientific-integrity evidence only. It says nothing about
+profitability and cannot clear `STOP-M0-001`.

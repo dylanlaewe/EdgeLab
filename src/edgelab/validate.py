@@ -106,7 +106,8 @@ def validate_record(kind: str, record: dict, root: Path = ROOT, *, now: datetime
 def validate_repository(root: Path = ROOT, *, now: datetime | None = None,
                         baseline: str | None = None) -> int:
     from .data_integrity import DATA_LOCATIONS, validate_data, registry_checks, verify_history
-    locations = {**LOCATIONS, **DATA_LOCATIONS}
+    from .quant_protocol import QUANT_LOCATIONS
+    locations = {**LOCATIONS, **DATA_LOCATIONS, **QUANT_LOCATIONS}
     for kind in locations:
         path = reference(root, f'schemas/{kind}.schema.json')
         Draft202012Validator.check_schema(read(path))
@@ -136,6 +137,10 @@ def validate_repository(root: Path = ROOT, *, now: datetime | None = None,
     for kind, record in records.values():
         if kind in RESEARCH_LOCATIONS:
             validate_research(root, kind, record, now=now)
+    from .quant_protocol import validate_quant_record
+    for kind, record in records.values():
+        if kind in QUANT_LOCATIONS:
+            validate_quant_record(root, kind, record, now=now)
     registry_checks(root, records, now=now)
     state = root / 'docs/project-state.json'
     if state.exists():
