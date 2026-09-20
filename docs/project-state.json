@@ -12,7 +12,8 @@
     "Nine strict record schemas and scientific specifications",
     "Lifecycle, STOP and kill-switch design",
     "Conceptual bankroll and zero-deployment risk policy",
-    "Data\u2192Research dependency gate passed after H-M0-008 consultation; bounded remediation release only"
+    "Data\u2192Research dependency gate passed after H-M0-008 consultation; bounded remediation release only",
+    "Research R01 reviewed within verifier assumptions; Quant dependency gate passed with explicit checkpoint-currency integration requirement"
   ],
   "remaining_m0": [
     "Remediate all six HIGH and both MEDIUM findings and obtain independent frozen-candidate re-review",
@@ -26,10 +27,11 @@
     "STOP-M0-001 OPEN; M0 approval and exit blocked",
     "H01-H06 and M01-M02 unresolved",
     "Operational reviewer trust boundary and accepted-history protection unprovisioned",
-    "Statistical, freshness and post-M0 risk thresholds unresolved"
+    "Statistical, freshness and post-M0 risk thresholds unresolved",
+    "Checkpoint preservation does not prove authoritative currency; trusted current-state integration remains required for confirmatory eligibility."
   ],
-  "next_assignment": "H-M0-004",
-  "updated_at": "2026-09-20T00:52:58.640176+00:00",
+  "next_assignment": "H-M0-005",
+  "updated_at": "2026-09-20T02:06:05.946196+00:00",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json"
   ],
@@ -44,9 +46,9 @@
     "M01",
     "M02"
   ],
-  "next_handoff_ref": "docs/handoffs/H-M0-004.v4.json",
+  "next_handoff_ref": "docs/handoffs/H-M0-005.v3.json",
   "coordination_plan_ref": "docs/REMEDIATION_PLAN.md",
   "git_protocol_ref": "docs/GIT_COORDINATION.md",
   "writer_policy": "SEQUENTIAL_ONE_ACTIVE_WRITER",
-  "next_owner_release": "03 Research exclusively reserved for bounded H-M0-004 v4 protocol remediation after this release lands; synchronize and publish v5 claim before work. Director yields on publication. Quant not released."
+  "next_owner_release": "04 Quant exclusively reserved for bounded H-M0-005 v3 remediation after release publication; synchronize and publish v4 claim. Director yields; Risk unreleased."
 }
