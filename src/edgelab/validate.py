@@ -43,7 +43,9 @@ def read(path: Path) -> dict:
                 raise ValueError(f'Duplicate JSON key: {key}')
             result[key] = value
         return result
-    return json.loads(path.read_text(), object_pairs_hook=unique)
+    def invalid_constant(value: str) -> None:
+        raise ValueError(f'Nonfinite JSON number: {value}')
+    return json.loads(path.read_text(), object_pairs_hook=unique, parse_constant=invalid_constant)
 
 
 def instant(value: str) -> datetime:
@@ -57,15 +59,16 @@ def reference(root: Path, value: str) -> Path:
     return path
 
 
-def validate_record(kind: str, record: dict, root: Path = ROOT) -> None:
+def validate_record(kind: str, record: dict, root: Path = ROOT, *, now: datetime | None = None) -> None:
     schema = read(root / 'schemas' / f'{kind}.schema.json')
     Draft202012Validator.check_schema(schema)
     Draft202012Validator(schema, format_checker=CHECKER).validate(record)
+    from .data_integrity import clock_checks, permission_check
+    clock_checks(record, now)
     if kind == 'risk-policy' and set(record['live_gate_requirements']) != GATES:
         raise ValueError('All thirteen exact capital gates are required')
     if kind == 'source' and record['access_status'] == 'PERMITTED':
-        if not record['access_evidence'] or not record['allowed_uses'] or record['terms_checked_at'] is None:
-            raise ValueError('Permitted access requires evidence, uses and review timestamp')
+        permission_check(root, record, now)
     if kind == 'stop':
         if (record['status'] == 'RESOLVED') != (record['resolution_event_ref'] is not None):
             raise ValueError('STOP resolution status and event must agree')
@@ -88,7 +91,7 @@ def validate_record(kind: str, record: dict, root: Path = ROOT) -> None:
             if record['hypothesis_ref'] is None:
                 raise ValueError('Confirmation requires preregistration')
             hypothesis = read(reference(root, record['hypothesis_ref']))
-            validate_record('hypothesis', hypothesis, root)
+            validate_record('hypothesis', hypothesis, root, now=now)
             if hypothesis['unresolved_thresholds']:
                 raise ValueError('Unresolved thresholds block confirmation')
             if instant(hypothesis['registered_at']) > instant(record['protocol_frozen_at']):
@@ -98,19 +101,26 @@ def validate_record(kind: str, record: dict, root: Path = ROOT) -> None:
             reference(root, ref)
 
 
-def validate_repository(root: Path = ROOT) -> int:
-    for kind in LOCATIONS:
+def validate_repository(root: Path = ROOT, *, now: datetime | None = None,
+                        baseline: str | None = None) -> int:
+    from .data_integrity import DATA_LOCATIONS, validate_data, registry_checks, verify_history
+    locations = {**LOCATIONS, **DATA_LOCATIONS}
+    for kind in locations:
         path = reference(root, f'schemas/{kind}.schema.json')
         Draft202012Validator.check_schema(read(path))
     for required in ('portfolio/bankroll.json', 'portfolio/risk-policy.json'):
         reference(root, required)
     count = 0
     seen = set()
-    for kind, pattern in LOCATIONS.items():
+    records = {}
+    for kind, pattern in locations.items():
         for path in sorted(root.glob(pattern)):
             record = read(path)
             try:
-                validate_record(kind, record, root)
+                if kind in DATA_LOCATIONS:
+                    validate_data(root, kind, record, now=now)
+                else:
+                    validate_record(kind, record, root, now=now)
                 if 'id' in record:
                     key = (kind, record['id'], record['version'])
                     if key in seen:
@@ -118,9 +128,34 @@ def validate_repository(root: Path = ROOT) -> int:
                     seen.add(key)
             except Exception as error:
                 raise ValueError(f'{path.relative_to(root)}: {error}') from error
+            records[path.relative_to(root).as_posix()] = (kind, record)
             count += 1
+    registry_checks(root, records, now=now)
+    state = root / 'docs/project-state.json'
+    if state.exists():
+        validate_record('project-state', read(state), root, now=now)
+        count += 1
+    # Legacy experiment schema remains readable; persisted inputs must be typed.
+    for kind, record in records.values():
+        if kind == 'experiment':
+            for ref in record['dataset_manifests']:
+                path = reference(root, ref)
+                if path not in root.resolve().glob(DATA_LOCATIONS['manifest']):
+                    raise ValueError('Experiment input must be typed manifest')
+                manifest = read(path)
+                validate_data(root, 'manifest', manifest, now=now)
+                if record['mode'] == 'CONFIRMATORY' and (manifest['purpose'] != 'decision' or instant(manifest['decision_at']) > instant(record['started_at'])):
+                    raise ValueError('Unsafe confirmation input purpose or decision time')
+    if baseline is not None:
+        verify_history(root, baseline)
     return count
 
 
 if __name__ == '__main__':
-    print(f'Validated {validate_repository()} records; M0 capital remains LOCKED.')
+    import argparse
+    from .data_integrity import INITIAL_BASELINE
+    parser = argparse.ArgumentParser(description='Data structural checks, never operational approval')
+    parser.add_argument('--baseline', default=INITIAL_BASELINE,
+                        help='Verifier-selected full published-history commit; not a moving ref')
+    args = parser.parse_args()
+    print(f'Validated {validate_repository(baseline=args.baseline)} records and published history; M0 capital remains LOCKED. No scientific or operational approval.')
