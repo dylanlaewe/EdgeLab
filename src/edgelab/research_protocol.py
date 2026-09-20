@@ -1,15 +1,16 @@
-"""Declared exposure and frozen protocol checks, never operational approval.
+"""Authoritative Research exposure and frozen protocol checks, never approval.
 
-Quant must supply complete trial/access history and a verifier-held freeze digest.
-A digest authenticates bytes, not the truth or completeness of disclosures.
+A verifier selects accepted history; Research also checks all local typed records.
+Quant owns complete execution evidence. Digests do not authenticate external truth.
 """
 from __future__ import annotations
 
 from datetime import datetime
 from pathlib import Path
 
-from .data_integrity import blob, exact, sample_keys, validate_data
-from .validate import instant, validate_record
+from .data_integrity import (blob, digest, exact, sample_keys, safe_path,
+                             validate_data, verify_history)
+from .validate import instant, read, validate_record, validate_repository
 
 RESEARCH_LOCATIONS = {
     'exposure': 'research/exposures/*.json',
@@ -76,7 +77,7 @@ def validate_research(root: Path, kind: str, record: dict, *,
             raise ValueError('Holdout must have known unexamined status')
         if instant(holdout['created_at']) > frozen or instant(holdout['coverage_through']) < frozen:
             raise ValueError('Holdout custody must cover freeze without retrospective disclosure')
-        refs = [record['holdout_ref'], *record['exploratory_ancestors']]
+        refs = registration_exposure_refs(root, record, now=now)
         holdout_keys = sample_keys(parent(holdout['membership_ref'], {'membership'}))
         for exposure in exposure_closure(root, refs, now=now):
             if exposure['status'] == 'UNKNOWN':
@@ -86,6 +87,21 @@ def validate_research(root: Path, kind: str, record: dict, *,
             members = parent(exposure['membership_ref'], {'membership'})
             if exposure['status'] == 'EXAMINED' and holdout_keys & sample_keys(members):
                 raise ValueError('Examined membership overlaps holdout')
+
+
+def registration_exposure_refs(root: Path, record: dict, *,
+                               now: datetime | None = None) -> list[dict]:
+    """Carry every predecessor custody/disclosure forward to the CURRENT holdout."""
+    refs, seen = [], set()
+    while True:
+        identity = (record['id'], record['version'])
+        if identity in seen:
+            raise ValueError('Research dependency cycle')
+        seen.add(identity)
+        refs.extend([record['holdout_ref'], *record['exploratory_ancestors']])
+        if record['supersedes'] is None:
+            return refs
+        record = exact(root, record['supersedes'], {'preregistration'}, now=now)
 
 
 def exposure_closure(root: Path, refs: list[dict], *, now: datetime | None = None) -> list[dict]:
@@ -107,13 +123,16 @@ def exposure_closure(root: Path, refs: list[dict], *, now: datetime | None = Non
 
 def check_confirmation_contract(root: Path, registration_ref: dict, *,
                                 frozen_sha256: str | None, access_ref: dict,
-                                disclosure_refs: list[dict], now: datetime | None = None) -> dict:
-    """Check supplied evidence for one fresh first access; no authorization result.
+                                disclosure_refs: list[dict], now: datetime | None = None,
+                                history_baseline: str | None = None,
+                                history_inventory: dict[str, str] | None = None) -> dict:
+    """Research v2: verify a prior checkpoint and inspect all local Research records.
 
-The caller must obtain frozen_sha256 from a verifier-selected prior checkpoint,
-not from the submitted candidate. Complete history/experiment binding is Quant's
-responsibility. This function neither executes nor authorizes an experiment.
-"""
+    The verifier supplies the baseline, its full Data inventory and the freeze pin.
+    The checkpoint must include this registration but exclude proposed first access.
+    No default checkpoint or submitter-selected disclosure subset provides assurance.
+    Quant retains execution-time completeness, input binding and enforcement.
+    """
     if frozen_sha256 is None or registration_ref['sha256'] != frozen_sha256:
         raise ValueError('Verifier-held frozen registration digest required/mismatch')
     registration = exact(root, registration_ref, {'preregistration'}, now=now)
@@ -131,7 +150,8 @@ responsibility. This function neither executes nor authorizes an experiment.
     holdout_keys = sample_keys(members)
     # The intended first access is excluded only at the top level. Its ancestors
     # remain disclosures, so a prior access cannot be hidden behind that exclusion.
-    refs = [*registration['exploratory_ancestors'], *disclosure_refs, *access['ancestors']]
+    refs = [*registration_exposure_refs(root, registration, now=now),
+            *disclosure_refs, *access['ancestors']]
     if access['supersedes']:
         refs.append(access['supersedes'])
     for exposed in exposure_closure(root, refs, now=now):
@@ -140,7 +160,91 @@ responsibility. This function neither executes nor authorizes an experiment.
         keys = sample_keys(exact(root, exposed['membership_ref'], {'membership'}, now=now))
         if exposed['status'] == 'EXAMINED' and keys & holdout_keys:
             raise ValueError('Examined membership overlaps holdout')
-    return {'contract_status': 'CONSISTENT_SUPPLIED_EVIDENCE',
+    authoritative_refs, snapshot = authoritative_research_history(
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+    for exposed in exposure_closure(root, authoritative_refs, now=now):
+        if exposed['status'] == 'UNKNOWN':
+            raise ValueError('Unknown exposure blocks authoritative freshness')
+        keys = sample_keys(exact(root, exposed['membership_ref'], {'membership'}, now=now))
+        if exposed['status'] == 'EXAMINED' and keys & holdout_keys:
+            raise ValueError('Examined membership overlaps authoritative holdout')
+    # Detect changed checked records; this is not an execution-time transaction.
+    if research_record_snapshot(root) != snapshot:
+        raise ValueError('Research evidence changed during assessment')
+    verify_history(root, history_baseline, history_inventory)
+    return {'contract_status': 'CONSISTENT_AUTHORITATIVE_RESEARCH_EVIDENCE',
             'membership_sha256': members['membership_sha256'],
             'operational_authorization': False,
-            'history_completeness': 'CALLER_MUST_ESTABLISH'}
+            'history_completeness': 'VERIFIED_RESEARCH_REGISTRIES_ONLY',
+            'history_baseline': history_baseline,
+            'research_record_hashes': snapshot}
+
+
+def research_record_snapshot(root: Path) -> dict[str, str]:
+    """The authoritative local Research universe is both complete typed registries.
+
+    Inspect all JSON under research/ too: a typed exposure/preregistration placed
+    outside its registry is an error, not an invitation to silently omit it.
+    Tests/reports are archived examples, not active Research registries.
+    """
+    found = {}
+    research = root / 'research'
+    if not research.is_dir() or research.is_symlink():
+        raise ValueError('Authoritative Research evidence unavailable')
+    for path in sorted(research.rglob('*')):
+        if path.is_symlink():
+            raise ValueError('Aliased Research evidence')
+        if path.is_dir():
+            continue
+        relative = path.relative_to(root).as_posix()
+        in_registry = any(relative.startswith(pattern.split('*')[0])
+                          for pattern in RESEARCH_LOCATIONS.values())
+        if in_registry and path.suffix != '.json':
+            raise ValueError('Unrecognized Research registry evidence')
+        if path.suffix != '.json':
+            continue
+        record = read(safe_path(root, relative))
+        kind = record.get('kind') if isinstance(record, dict) else None
+        if in_registry or kind in RESEARCH_LOCATIONS:
+            if kind not in RESEARCH_LOCATIONS or path not in root.glob(RESEARCH_LOCATIONS[kind]):
+                raise ValueError('Misplaced or untyped Research evidence')
+            found[relative] = digest(path.read_bytes())
+    return found
+
+
+def authoritative_research_history(root: Path, registration_ref: dict, access_ref: dict,
+                                   baseline: str | None, inventory: dict | None, *,
+                                   now: datetime | None = None) -> tuple[list[dict], dict]:
+    """No candidate-selected list can suppress a known local exposure.
+
+    Data's verifier-supplied full checkpoint prevents deletion/rewrite of accepted
+    history. Current additions are also checked, even when omitted from every
+    registration. No prior recorded access can be exempted as the proposed access.
+    """
+    if baseline is None or inventory is None:
+        raise ValueError('Authoritative history requires verifier baseline and full inventory')
+    verified = verify_history(root, baseline, inventory)
+    if verified.get(registration_ref['path']) != registration_ref['sha256']:
+        raise ValueError('Frozen registration absent from authoritative checkpoint')
+    if access_ref['path'] in verified:
+        raise ValueError('Proposed first access already in authoritative history')
+    snapshot = research_record_snapshot(root)
+    # Data registry checks retain type, version, graph and temporal invariants.
+    # This validates records; it does not integrate legacy experiment eligibility.
+    validate_repository(root, now=now)
+    refs = []
+    for path, sha in snapshot.items():
+        record = read(safe_path(root, path))
+        ref = dict(path=path, kind=record['kind'], id=record['id'],
+                   version=record['version'], sha256=sha)
+        if record['kind'] == 'exposure':
+            # Exactly this new proposed access may be excluded, never its parents.
+            if ref != access_ref:
+                refs.append(ref)
+            else:
+                refs.extend(record['ancestors'])
+                if record['supersedes']:
+                    refs.append(record['supersedes'])
+        else:
+            refs.extend(registration_exposure_refs(root, record, now=now))
+    return refs, snapshot

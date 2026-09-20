@@ -1,0 +1,226 @@
+Command: /Users/dylanlaewe/Projects/Active/EdgeLab/.venv/bin/python -m unittest discover -s tests -p test_skeptic_research_v3.py -v
+test_v3_access_order_and_retroactive_custody_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_access_order_and_retroactive_custody_rejected) ... ERROR
+test_v3_candidate_pin_does_not_authenticate_freeze (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_candidate_pin_does_not_authenticate_freeze) ... ERROR
+test_v3_exact_membership_binding_rejects_same_samples_other_reference (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_exact_membership_binding_rejects_same_samples_other_reference) ... ERROR
+test_v3_fresh_holdout_is_consistency_only (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_fresh_holdout_is_consistency_only) ... ERROR
+test_v3_frozen_threshold_hypothesis_plan_and_custody_rehash_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_frozen_threshold_hypothesis_plan_and_custody_rehash_rejected) ... ERROR
+test_v3_legacy_schema_attack_with_valid_current_prerequisites (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_legacy_schema_attack_with_valid_current_prerequisites) ... ERROR
+test_v3_omitted_exposure_still_accepted_until_caller_discloses (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_omitted_exposure_still_accepted_until_caller_discloses) ... ERROR
+test_v3_prior_registration_ancestry_not_carried_to_new_holdout (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_prior_registration_ancestry_not_carried_to_new_holdout) ... ERROR
+test_v3_same_renamed_partial_and_versioned_exposure_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_same_renamed_partial_and_versioned_exposure_rejected) ... ERROR
+test_v3_unknown_and_missing_evidence_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_unknown_and_missing_evidence_rejected) ... ERROR
+
+======================================================================
+ERROR: test_v3_access_order_and_retroactive_custody_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_access_order_and_retroactive_custody_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_research_v3.py", line 17, in setUp
+    self.f.setUp()
+    ~~~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_v3_candidate_pin_does_not_authenticate_freeze (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_candidate_pin_does_not_authenticate_freeze)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_research_v3.py", line 17, in setUp
+    self.f.setUp()
+    ~~~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_v3_exact_membership_binding_rejects_same_samples_other_reference (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_exact_membership_binding_rejects_same_samples_other_reference)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_research_v3.py", line 17, in setUp
+    self.f.setUp()
+    ~~~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_v3_fresh_holdout_is_consistency_only (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_fresh_holdout_is_consistency_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_research_v3.py", line 17, in setUp
+    self.f.setUp()
+    ~~~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_v3_frozen_threshold_hypothesis_plan_and_custody_rehash_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_frozen_threshold_hypothesis_plan_and_custody_rehash_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_research_v3.py", line 17, in setUp
+    self.f.setUp()
+    ~~~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_v3_legacy_schema_attack_with_valid_current_prerequisites (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_legacy_schema_attack_with_valid_current_prerequisites)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_research_v3.py", line 17, in setUp
+    self.f.setUp()
+    ~~~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_v3_omitted_exposure_still_accepted_until_caller_discloses (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_omitted_exposure_still_accepted_until_caller_discloses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_research_v3.py", line 17, in setUp
+    self.f.setUp()
+    ~~~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_v3_prior_registration_ancestry_not_carried_to_new_holdout (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_prior_registration_ancestry_not_carried_to_new_holdout)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_research_v3.py", line 17, in setUp
+    self.f.setUp()
+    ~~~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_v3_same_renamed_partial_and_versioned_exposure_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_same_renamed_partial_and_versioned_exposure_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_research_v3.py", line 17, in setUp
+    self.f.setUp()
+    ~~~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_v3_unknown_and_missing_evidence_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_unknown_and_missing_evidence_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_research_v3.py", line 17, in setUp
+    self.f.setUp()
+    ~~~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+----------------------------------------------------------------------
+Ran 10 tests in 1.508s
+
+FAILED (errors=10)

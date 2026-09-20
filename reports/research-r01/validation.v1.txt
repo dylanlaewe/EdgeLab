@@ -1,0 +1,17 @@
+Commands: validate_repository(baseline=INITIAL_BASELINE); verify_history at exact initial/Research completion/consultation SHAs; byte comparison of every pre-existing tests/ file to consultation commit; consultation inventory hash comparison.
+{
+  "history_counts": {
+    "4e99cfac90e0af601158c1528c70574dd5dafeda": 35,
+    "a23f5e996e8813593bd1dede77660f7023da4b24": 108,
+    "bad415b673d44fe0732e969c2ae7d9f4ba856ece": 122
+  },
+  "all_prior_test_files_preserved": 38,
+  "skeptic_probe_hashes": {
+    "tests/test_skeptic_adversarial.py": "6e1c81b0e6f477c279b528899f34f4a41afc0c415a452980e6b31661f5006efa",
+    "tests/test_skeptic_semantic_v2.py": "96b0464e5271ab24b6d35b542f41a39027a113f9c17c3574ea41e0a9cdc70962",
+    "tests/test_skeptic_research_v3.py": "f4dac34fd883100132401990dcb0496a1fc7d640498c38afcd17c9b014019dc4"
+  },
+  "consultation_inventory_verified": 13,
+  "records_validated": 45,
+  "full_error_disposition": "13 inherited plus 30 missing-checkpoint positive fixture setup errors, no unexplained errors; independent review pending."
+}

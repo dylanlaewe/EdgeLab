@@ -1,0 +1,24 @@
+Command: /Users/dylanlaewe/Projects/Active/EdgeLab/.venv/bin/python -m unittest discover -s tests -p test_data_integrity.py -v
+test_availability_requires_content_and_no_backdating_capture (test_data_integrity.DataIntegrityTests.test_availability_requires_content_and_no_backdating_capture) ... ok
+test_clock_and_project_state (test_data_integrity.DataIntegrityTests.test_clock_and_project_state) ... ok
+test_correction_preserves_original (test_data_integrity.DataIntegrityTests.test_correction_preserves_original) ... ok
+test_evaluation_and_feature_time_leakage (test_data_integrity.DataIntegrityTests.test_evaluation_and_feature_time_leakage) ... ok
+test_frozen_synthetic_fixture (test_data_integrity.DataIntegrityTests.test_frozen_synthetic_fixture) ... ok
+test_history_preservation_and_checkpoint_boundary (test_data_integrity.DataIntegrityTests.test_history_preservation_and_checkpoint_boundary) ... ok
+test_identifier_filename_gaps_orphans_cycles (test_data_integrity.DataIntegrityTests.test_identifier_filename_gaps_orphans_cycles) ... ok
+test_legacy_supersession_and_handoff_graph (test_data_integrity.DataIntegrityTests.test_legacy_supersession_and_handoff_graph) ... ok
+test_manifest_orphan_and_blob_type (test_data_integrity.DataIntegrityTests.test_manifest_orphan_and_blob_type) ... ok
+test_membership_renaming_and_partial_overlap (test_data_integrity.DataIntegrityTests.test_membership_renaming_and_partial_overlap) ... ok
+test_missing_mutated_wrong_type_and_identity (test_data_integrity.DataIntegrityTests.test_missing_mutated_wrong_type_and_identity) ... ok
+test_new_schema_required_fields_and_versions (test_data_integrity.DataIntegrityTests.test_new_schema_required_fields_and_versions) ... ok
+test_permission_evidence_valid_denied_expired_wrong_uses_and_future (test_data_integrity.DataIntegrityTests.test_permission_evidence_valid_denied_expired_wrong_uses_and_future) ... ok
+test_positive_reconstruction_and_registry (test_data_integrity.DataIntegrityTests.test_positive_reconstruction_and_registry) ... ok
+test_reference_escape_and_alias (test_data_integrity.DataIntegrityTests.test_reference_escape_and_alias) ... ok
+test_snapshot_mutation_even_with_new_digest (test_data_integrity.DataIntegrityTests.test_snapshot_mutation_even_with_new_digest) ... ok
+test_transitive_global_and_retained_quarantine (test_data_integrity.DataIntegrityTests.test_transitive_global_and_retained_quarantine) ... ok
+test_unknown_late_and_later_corrections (test_data_integrity.DataIntegrityTests.test_unknown_late_and_later_corrections) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 3.021s
+
+OK

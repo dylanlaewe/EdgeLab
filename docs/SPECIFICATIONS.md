@@ -192,3 +192,84 @@ is a deterministic test assertion, not a scientific sample-size/profit threshold
 No real strategy or custody evidence is asserted. External trust, truthful upstream
 identity mapping and complete off-system exploration disclosure remain unprovisioned.
 All contracts are scoped SYNTHETIC_PROTOCOL_ONLY; STOP-M0-001 stays OPEN.
+
+## Research authoritative history — v2 (R01 / H-M0-011)
+
+This section supersedes v1's caller-only history behavior. The user explicitly
+expanded H-M0-011 beyond supplied predecessor traversal to contradictory Research
+history already in EdgeLab. Record schemas remain v1 and published artifacts stay
+unchanged; freshness assessment is an intentionally stricter API contract.
+
+`registration_exposure_refs` collects custody and exploratory disclosures from
+**every preregistration predecessor**. `validate_research` compares their exposure
+ancestry and prior exposure versions with the **current** holdout, rather than only
+validating each predecessor against its former holdout. Known examined overlap or
+UNKNOWN evidence denies; changing versions or dropping current declarations cannot
+remove those disclosures. Unknown prior registrations remain invalid, not repaired
+by a new version. Data exact-reference, chronology, cycle and version rules remain.
+
+`check_confirmation_contract` now requires two verifier-owned keyword arguments:
+`history_baseline` (full Git commit SHA) and `history_inventory` (the full Data
+`history_inventory` mapping for that checkpoint). These accompany the existing
+`frozen_sha256`. Missing arguments fail closed; there is no fallback to current HEAD,
+candidate-provided ancestry or the old CONSISTENT_SUPPLIED_EVIDENCE success. Data's
+`verify_history` checks the exact checkpoint/inventory and preservation of every
+protected file. The frozen registration must be in that checkpoint with its exact
+digest; the proposed first-access record must **not** already be in it. A recorded
+historical access cannot be exempted by presenting it again as a new access.
+
+The caller must select a current, complete accepted checkpoint using the existing
+external acceptance/predecessor policy, before the proposed first access. These
+arguments are verifier inputs, never submission fields. This API does not provision
+that trust channel or promote a Git commit to accepted evidence. Synthetic tests
+explicitly create verifier checkpoints in disposable repositories; production code
+contains no checkpoint-creation/auto-acceptance path.
+
+After preservation checks, Research enumerates all records in BOTH authoritative
+Research registries: `research/exposures/*.json` and
+`research/preregistrations/*.json`. It collects all exposures and cumulative
+registration disclosures, including unreferenced records, unrelated IDs, old
+versions and additions after the checkpoint. The submitter cannot choose this
+comparison set through `disclosure_refs`. Current explicit disclosures remain
+additional evidence, not the boundary of the search. Exactly the proposed
+first-access reference is excluded at the top level; its ancestors/predecessors
+are not excluded. Any UNKNOWN exposure conservatively denies even if apparently
+disjoint. Any EXAMINED canonical sample intersection denies regardless of source
+label or purported time: this is first-access consistency, not repeated-run policy.
+
+Research JSON carrying an exposure/preregistration kind outside its typed registry,
+nested/malformed/untyped registry records, non-JSON registry files and symlinks under
+research/ deny rather than being silently omitted. Tests and reports remain archived
+fixtures/evidence, not active Research registries. Other research JSON is parsed to
+detect misplaced typed records, but legacy experiment fields are not interpreted as
+exposure records; Quant must supply typed execution/exposure evidence from them.
+The whole repository's structural/graph validation must pass. A hash snapshot of the
+Research registries is compared before returning, and accepted history is rechecked.
+This detects changed checked records, not arbitrary concurrent/adversarial filesystem
+races or an execution-time transaction.
+
+Success is `CONSISTENT_AUTHORITATIVE_RESEARCH_EVIDENCE`, with
+`history_completeness=VERIFIED_RESEARCH_REGISTRIES_ONLY`, the exact checkpoint SHA,
+Research record byte hashes and Data membership digest. It always returns
+`operational_authorization=false`. Structural repository validation without these
+verifier inputs is still not a freshness result or approval.
+
+This is a bounded Research-evidence assessment, not Quant's complete trial scanner.
+Quant retains mandatory experiment integration, complete execution-time inventories,
+actual input/split membership binding, reproduction and confirmation enforcement.
+It must establish checkpoint currency, ingest all execution observations, prevent
+races at execution and invoke this contract with verifier-owned evidence. Risk still
+owns STOP/lifecycle/authorization. Neither R01 nor H04/H05 is closed by Research.
+
+No local code proves undisclosed external access, authentic custody, honest upstream
+canonical identity assignment, or integrity of an adversary-controlled verifier.
+The supplied checkpoint must represent the verifier's accepted history; deliberately
+substituting an old/forged checkpoint is outside that trust assumption. Current local
+additions are checked, but a record erased before ever entering any trusted checkpoint
+cannot be reconstructed. No global omniscience or operational trust is claimed.
+
+Compatibility: published v1 Research/Skeptic helpers omit history inputs and now
+fail during positive fixture setup. Their files must remain unchanged. These setup
+errors are not evidence that their attacks were reached; R01 v2 owner successors
+use independently pinned synthetic checkpoints and reproduce attacks at intended
+semantic surfaces. Independent review must disposition this migration.
