@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-018",
+  "version": 3,
+  "created_at": "2026-09-27T22:23:50.772395+00:00",
+  "sender": "05 Skeptic",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Independently verify the H-M0-017 Q03 committed_at plausibility remediation before any Director or Risk gate.",
+  "work_done": "Q03 is CLOSED. Valid completed and exact-boundary commitments pass; malformed, omitted, alternate-type, invalid-calendar, one-microsecond-future, unrehashed-altered and correctly-rehashed-future committed_at variants reject at the intended schema, digest or completed-fact surfaces. A malicious future response through the full commit path also rejects. Q01 prior-split contamination, structured authority bindings, legitimate commitments and explicit non-authorization remain intact. Quant's local structural/content/time guarantees and Risk's authenticity/replay/uniqueness/custody/honesty/storage/atomicity responsibilities remain accurately separated. No new finding or additional Quant remediation. STOP OPEN; Risk unreleased; USD 0 deployable; live LOCKED.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-quant-Q03-rereview.v1.md",
+    "tests/test_skeptic_quant_v7.py",
+    "reports/skeptic-quant-Q03-rereview/results.v1.json",
+    "reports/skeptic-quant-Q03-rereview/preservation.v1.json",
+    "reports/skeptic-quant-Q03-rereview/validation.v1.txt",
+    "docs/handoffs/H-M0-017.v3.json",
+    "docs/handoffs/H-M0-018.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-018.v2.json",
+    "tests/test_skeptic_quant_v7.py",
+    "reports/reviews/M0.1-quant-Q03-rereview.v1.md",
+    "reports/skeptic-quant-Q03-rereview/results.v1.json",
+    "reports/skeptic-quant-Q03-rereview/preservation.v1.json",
+    "reports/skeptic-quant-Q03-rereview/validation.v1.txt",
+    "docs/handoffs/H-M0-018.v3.json",
+    "reports/audit/A-M0-018.v1.json"
+  ],
+  "tests_run": [
+    "Skeptic v7 6/6, Quant owner 24/24, Data owner 18/18 and foundation 18/18 pass.",
+    "Preserved Skeptic v6: 12 pass and one expected Q03 safe-rejection error at Future completed fact: committed_at.",
+    "Repository validation reports 76 records before completion artifacts and 78 with the completion handoff/audit; published history, compileall, whitespace and preservation checks pass."
+  ],
+  "open_questions": [
+    "Risk must assess and implement authority authenticity, replay persistence, global commitment-ID uniqueness, key custody, adapter/controller honesty, durable storage and true external atomicity before relying on commitments operationally."
+  ],
+  "blockers": [
+    "STOP-M0-001 remains OPEN; Risk is unreleased and capital is LOCKED."
+  ],
+  "next_action": "Director may perform the Risk release gate using the closed local Quant dispositions and the explicit external-trust boundary. Do not infer release, clear STOP or unlock capital from this handoff.",
+  "completion_criteria": [
+    "Required Q03 timestamp and structural variants independently tested at current prerequisites.",
+    "Directly affected Q01, binding, positive and non-authorization regressions checked.",
+    "Historical probes and Quant's Q03 completion package preserved.",
+    "Independent CLOSED/PARTIALLY_REMEDIATED/OPEN disposition published without releasing Risk."
+  ],
+  "depends_on": [
+    "H-M0-017"
+  ]
+}
