@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-019",
+  "version": 2,
+  "created_at": "2026-09-27T22:40:00Z",
+  "sender": "00 Director",
+  "recipient": "06 Risk & Execution",
+  "status": "COMPLETED",
+  "request": "Record the Director release decision for bounded M0 Risk remediation after the independent Q03 re-review.",
+  "work_done": "Risk is released only for bounded M0 remediation under H-M0-006 v3. The release relies on Q01 local scientific-integrity closure, Q02 structured binding with authority authenticity/replay deferred to Risk, Q03 independent closure, preserved Skeptic probes/inventories, and current Data/Research contracts. It grants no strategy approval, paper activity, live execution, STOP clearance or capital use.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-006.v3.json",
+    "docs/handoffs/H-M0-017.v3.json",
+    "docs/handoffs/H-M0-018.v3.json",
+    "reports/M0.1-risk-release.v1.md",
+    "reports/reviews/M0.1-quant-Q03-rereview.v1.md",
+    "reports/stops/STOP-M0-001.v1.json",
+    "portfolio/bankroll.json",
+    "portfolio/risk-policy.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-006.v3.json",
+    "docs/handoffs/H-M0-019.v2.json",
+    "docs/project-state.json",
+    "reports/M0.1-risk-release.v1.md",
+    "reports/audit/A-M0-019.v1.json"
+  ],
+  "tests_run": [
+    "Director reproduced Data 18/18 and foundation 18/18 suites; repository validation, compileall, diff checks and ancestry checks passed.",
+    "Director verified preserved Skeptic v5/v6, STOP and bankroll hashes against the Q03 preservation record; reviewed published Skeptic v7 6/6 and Quant 24/24 evidence.",
+    "No full-suite-green assertion is made: historical attack fixtures remain preserved as evidence under strengthened prerequisite contracts."
+  ],
+  "open_questions": [
+    "Risk must establish authenticated authority trust, replay/uniqueness state and lifecycle/STOP operational enforcement without treating local Quant digests as external authorization."
+  ],
+  "blockers": [
+    "STOP-M0-001 remains OPEN and cannot be cleared by this release.",
+    "Capital remains conceptual 5000 minor units, deployable 0, live LOCKED and kill switch ENGAGED."
+  ],
+  "next_action": "06 Risk & Execution must synchronize, claim H-M0-006 v4 under docs/GIT_COORDINATION.md, and implement only the listed bounded M0 controls before seeking an independent Skeptic Risk review.",
+  "completion_criteria": [
+    "Risk produces typed authority trust/replay, lifecycle, independent approval, STOP, accounting, exposure/correlation, kill-switch and paper/live contracts with positive and rejection evidence.",
+    "Risk publishes preservation and full-suite disposition evidence and obtains an independent Skeptic review.",
+    "A later Director gate receives Risk completion evidence. STOP clearance and capital unlocking require their own independently established process."
+  ],
+  "depends_on": [
+    "H-M0-005",
+    "H-M0-017",
+    "H-M0-018"
+  ]
+}

@@ -30,7 +30,7 @@
     "Statistical, freshness and post-M0 risk thresholds unresolved",
     "Checkpoint preservation does not prove authoritative currency; trusted current-state integration remains required for confirmatory eligibility."
   ],
-  "next_assignment": "H-M0-005",
+  "next_assignment": "Bounded M0 Risk remediation",
   "updated_at": "2026-09-20T02:06:05.946196+00:00",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json"
@@ -46,9 +46,9 @@
     "M01",
     "M02"
   ],
-  "next_handoff_ref": "docs/handoffs/H-M0-005.v3.json",
+  "next_handoff_ref": "docs/handoffs/H-M0-006.v3.json",
   "coordination_plan_ref": "docs/REMEDIATION_PLAN.md",
   "git_protocol_ref": "docs/GIT_COORDINATION.md",
   "writer_policy": "SEQUENTIAL_ONE_ACTIVE_WRITER",
-  "next_owner_release": "04 Quant exclusively reserved for bounded H-M0-005 v3 remediation after release publication; synchronize and publish v4 claim. Director yields; Risk unreleased."
+  "next_owner_release": "06 Risk & Execution exclusively reserved for bounded H-M0-006 v3 remediation after release publication; synchronize and publish v4 claim. Director yields; STOP remains OPEN and capital remains LOCKED."
 }

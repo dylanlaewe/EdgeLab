@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-019",
+  "version": 1,
+  "occurred_at": "2026-09-27T22:40:00Z",
+  "actor": "00 Director",
+  "role": "00 Director",
+  "event_type": "BOUNDED_RISK_REMEDIATION_RELEASED",
+  "subject_ref": "docs/handoffs/H-M0-006.v3.json",
+  "previous_state": "RISK_UNRELEASED_PENDING_Q03_REVIEW_AND_DIRECTOR_GATE",
+  "new_state": "RISK_RELEASED_FOR_BOUNDED_M0_REMEDIATION",
+  "reason": "Independent Q03 review, preserved adversarial evidence, current Data/Research contracts and local validation support a bounded Risk release only. STOP-M0-001 remains OPEN; the conceptual 5000 minor-unit bankroll has zero deployable balance and remains LOCKED.",
+  "evidence_refs": [
+    "reports/M0.1-risk-release.v1.md",
+    "docs/handoffs/H-M0-019.v2.json",
+    "docs/handoffs/H-M0-006.v3.json",
+    "docs/handoffs/H-M0-018.v3.json",
+    "reports/reviews/M0.1-quant-Q03-rereview.v1.md",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "code_ref": "Reviewed b9fd472503872e0c872e32fa5bb848e21124004c; release commit first adds this record.",
+  "config_ref": "portfolio/risk-policy.json",
+  "correlation_id": "M0.1-RISK-RELEASE",
+  "supersedes": null
+}
