@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-020",
+  "version": 1,
+  "occurred_at": "2026-09-28T01:10:47Z",
+  "actor": "06 Risk & Execution",
+  "role": "06 Risk & Execution",
+  "event_type": "BOUNDED_RISK_REMEDIATION_COMPLETED_PENDING_REVIEW",
+  "subject_ref": "docs/handoffs/H-M0-006.v5.json",
+  "previous_state": "RISK_REMEDIATION_CLAIMED",
+  "new_state": "RISK_IMPLEMENTED_AWAITING_INDEPENDENT_SKEPTIC_REVIEW",
+  "reason": "Risk-owned M0 controls and evidence are implemented and published without changing the OPEN STOP, locked bankroll, engaged kill switch or zero deployable capital. Independent review remains mandatory.",
+  "evidence_refs": [
+    "reports/M0.1-risk-remediation.v1.md",
+    "reports/risk-remediation/results.v1.json",
+    "reports/risk-remediation/findings-to-tests.v1.json",
+    "reports/risk-remediation/completion-inventory.v1.json",
+    "docs/handoffs/H-M0-006.v5.json",
+    "docs/handoffs/H-M0-020.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "code_ref": "091f0af316682e141354c2ba014eab86ee46392b; completion commit first adds this audit record.",
+  "config_ref": "portfolio/risk-policy.json",
+  "correlation_id": "M0.1-RISK-REMEDIATION",
+  "supersedes": null
+}

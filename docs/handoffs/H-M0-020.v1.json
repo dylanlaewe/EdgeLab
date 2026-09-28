@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-020",
+  "version": 1,
+  "created_at": "2026-09-28T01:10:47Z",
+  "sender": "06 Risk & Execution",
+  "recipient": "05 Skeptic",
+  "status": "QUEUED",
+  "request": "Independently review the frozen H-M0-006 Risk implementation and evidence at 091f0af316682e141354c2ba014eab86ee46392b. Reproduce positive and adversarial controls; evaluate H01-H06/M01-M02 without assuming local trust proves external authenticity; publish BLOCKED or READY_FOR_DIRECTOR_GATE. Do not clear STOP-M0-001 or unlock capital.",
+  "work_done": "Risk published typed authority/replay, lifecycle/approval, STOP, ledger/reconciliation, exposure/correlation, kill-switch and layered decision controls plus a frozen inventory, findings map and honest full-suite disposition. This request supplies no independent review result and does not self-close any project finding.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-006.v5.json",
+    "reports/M0.1-risk-remediation.v1.md",
+    "reports/risk-remediation/results.v1.json",
+    "reports/risk-remediation/findings-to-tests.v1.json",
+    "reports/risk-remediation/completion-inventory.v1.json",
+    "reports/risk-remediation/validation.v1.txt",
+    "reports/M0.1-risk-release.v1.md",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-020.v1.json"
+  ],
+  "tests_run": [
+    "Owner reports 12/12 Risk, 18/18 foundation, 18/18 Data, 27/27 Research history v2, 24/24 Quant and 6/6 Skeptic Quant v7 passing; independent reproduction is required.",
+    "Owner reports full discovery NOT GREEN at 197 methods: 148 pass, 48 preserved errors, one preserved failure, zero skips; Skeptic must verify classification."
+  ],
+  "open_questions": [
+    "Does local-file replay persistence meet only the stated M0 synthetic boundary, and do all operational paths deny absent a separately controlled production store/controller?",
+    "Can any alias, role, generation, clearance, lifecycle, ledger, exposure, kill-reset or pending-token mutation reach an unsupported positive decision?",
+    "Are the external trust limitations and preserved historical-red classifications complete and accurate?"
+  ],
+  "blockers": [
+    "Independent Risk review has not yet occurred.",
+    "STOP-M0-001 remains OPEN; capital is 5000 conceptual, 0 deployable/reserved, LOCKED; kill ENGAGED."
+  ],
+  "next_action": "05 Skeptic claims this review under the sequential Git protocol after Director scheduling, independently reproduces the frozen candidate and publishes exact finding dispositions and any successor remediation handoff.",
+  "completion_criteria": [
+    "Reproduce implementation hashes and remote ancestry without trusting the owner summary.",
+    "Attack external authority source/generation/revocation/alias/conflict/self-review and replay uniqueness/durability assumptions.",
+    "Attack lifecycle skip/resurrection/conflict, STOP inventory/scope/clearance, ledger conservation/idempotency/reconciliation, paper/live isolation, correlation limits, kill reset/race and layered decision separation.",
+    "Verify real STOP/bankroll/risk policy and historical probes remain unchanged.",
+    "Publish independent H01-H06/M01-M02 dispositions and explicit external assumptions without clearing STOP or authorizing capital."
+  ],
+  "depends_on": ["H-M0-006"]
+}
