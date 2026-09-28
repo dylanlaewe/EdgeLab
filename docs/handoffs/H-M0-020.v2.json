@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-020",
+  "version": 2,
+  "created_at": "2026-09-28T01:28:16.266823+00:00",
+  "sender": "05 Skeptic",
+  "recipient": "05 Skeptic",
+  "status": "CLAIMED",
+  "request": "Independently and adversarially review the frozen H-M0-006 Risk implementation and evidence at 091f0af316682e141354c2ba014eab86ee46392b before any final M0 or STOP gate.",
+  "work_done": "Skeptic session skeptic-risk-rereview-20260928T012816Z-b8c0928 claims the sole-writer review slot at synchronized base b8c09287290b8002dd1c3448dd75b058e4f42f18 under explicit user authorization. H-M0-020 v1 and H-M0-006 v5 were consumed with their referenced evidence. Scope is additive versioned Skeptic probes and review evidence only; Risk production controls, historical probes, STOP, capital, policy and project state will not be modified.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-020.v1.json",
+    "docs/handoffs/H-M0-006.v5.json",
+    "reports/M0.1-risk-remediation.v1.md",
+    "reports/risk-remediation/results.v1.json",
+    "reports/risk-remediation/findings-to-tests.v1.json",
+    "reports/risk-remediation/completion-inventory.v1.json",
+    "src/edgelab/risk_controls.py",
+    "tests/test_risk_controls.py",
+    "reports/stops/STOP-M0-001.v1.json",
+    "portfolio/bankroll.json",
+    "portfolio/risk-policy.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-020.v2.json"
+  ],
+  "tests_run": [],
+  "open_questions": [
+    "Can valid-prerequisite authority, replay, lifecycle, approval, STOP, accounting, exposure, kill-switch or decision-layer attacks obtain unsupported authorization?",
+    "Do local durability and identity controls stay within their documented external-trust boundary?",
+    "Which original H01-H06/M01-M02 findings can be independently closed without clearing the project STOP?"
+  ],
+  "blockers": [
+    "STOP-M0-001 remains OPEN; capital is 5000 conceptual, 0 deployable/reserved, live LOCKED and kill ENGAGED."
+  ],
+  "next_action": "Create valid-prerequisite versioned Skeptic Risk probes, reproduce focused controls and broad-enough regression, and publish exact finding dispositions without clearing STOP or unlocking capital.",
+  "completion_criteria": [
+    "Attack every assignment control family at its semantic surface and preserve reproducible failures.",
+    "Distinguish local guarantees from external authentication, hostile-host, remote durability, venue honesty and cross-system atomicity assumptions.",
+    "Verify historical evidence and the frozen Risk completion inventory remain unchanged.",
+    "Publish an evidence-backed BLOCKED or READY_FOR_DIRECTOR_GATE disposition and any required Risk remediation handoff."
+  ],
+  "depends_on": [
+    "H-M0-006"
+  ]
+}
