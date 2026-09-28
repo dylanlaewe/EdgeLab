@@ -9,6 +9,8 @@ import shutil
 import tempfile
 import unittest
 
+from jsonschema import ValidationError
+
 from src.edgelab.data_integrity import canonical, digest
 from src.edgelab.quant_protocol import claim_identity, commitment_digest
 from src.edgelab.risk_controls import (
@@ -55,6 +57,12 @@ class StaticRiskAuthority:
             'action_type': self.action['action_type'],
             'strategy_id': self.action['strategy_id'],
             'strategy_version': self.action['strategy_version'],
+            'experiment_identity_sha256':
+                self.action['experiment_identity_sha256'],
+            'scientific_assessment_sha256':
+                decision['scientific_assessment_sha256'],
+            'scientific_commitment_sha256':
+                decision['scientific_commitment_sha256'],
             'strategy_identity_sha256': self.action['strategy_identity_sha256'],
             'source_identity_sha256': self.action['source_identity_sha256'],
             'environment': self.action['environment'],
@@ -191,20 +199,24 @@ class RiskControlTests(unittest.TestCase):
         return events, approvals
 
     def action(self, *, action_type='NEW_EXPOSURE', amount=500,
-               environment='PAPER', related=None, reservation=None) -> dict:
+               environment='PAPER', related=None, reservation=None,
+               action_id='ACTION-1', position_id='POSITION-1',
+               experiment_identity_sha256='c' * 64) -> dict:
         identities = self.identities()
         by_namespace = {item['namespace']: item['identity_sha256'] for item in identities}
-        return seal({'schema_version': 1, 'action_id': 'ACTION-1',
+        return seal({'schema_version': 1, 'action_id': action_id,
                      'created_at': '2026-09-27T23:50:00Z',
                      'expires_at': '2026-09-28T00:08:00Z',
                      'action_type': action_type, 'environment': environment,
                      'strategy_id': 'STRAT-1', 'strategy_version': 1,
+                     'experiment_identity_sha256':
+                         experiment_identity_sha256,
                      'strategy_identity_sha256': by_namespace['strategy'],
                      'source_identity_sha256': by_namespace['source'],
                      'event_identity_sha256': by_namespace['event'],
                      'market_identity_sha256': by_namespace['market'],
                      'selection_identity_sha256': by_namespace['selection'],
-                     'position_id': 'POSITION-1', 'amount_minor': amount,
+                     'position_id': position_id, 'amount_minor': amount,
                      'price_constraint_sha256': 'd' * 64,
                      'reservation_id': reservation,
                      'related_action_sha256': related}, 'action_sha256')
@@ -257,13 +269,15 @@ class RiskControlTests(unittest.TestCase):
                     'clearance_roles': ['05_SKEPTIC', '06_RISK'],
                     'capital_implicated': True}]}
 
-    def economic_binding(self) -> dict:
-        action = self.action()
+    def economic_binding(self, action: dict | None = None) -> dict:
+        action = action or self.action()
         return {'action_id': action['action_id'],
                 'action_sha256': action['action_sha256'],
                 'position_id': action['position_id'],
                 'strategy_id': action['strategy_id'],
                 'strategy_version': action['strategy_version'],
+                'experiment_identity_sha256':
+                    action['experiment_identity_sha256'],
                 'strategy_identity_sha256': action['strategy_identity_sha256'],
                 'event_identity_sha256': action['event_identity_sha256'],
                 'market_identity_sha256': action['market_identity_sha256'],
@@ -276,19 +290,30 @@ class RiskControlTests(unittest.TestCase):
         fields = binding or {key: None for key in (
             'action_id', 'action_sha256', 'position_id',
             'strategy_id', 'strategy_version',
+            'experiment_identity_sha256',
             'strategy_identity_sha256', 'event_identity_sha256',
             'market_identity_sha256', 'selection_identity_sha256',
             'authorization_sha256')}
+        liability = None
         economic = None
         if binding is not None:
-            economic = digest(canonical(fields | {'account': account,
-                                                   'amount_minor': amount}))
+            liability = digest(canonical({
+                key: fields[key] for key in (
+                    'position_id', 'strategy_id', 'strategy_version',
+                    'experiment_identity_sha256',
+                    'strategy_identity_sha256', 'event_identity_sha256',
+                    'market_identity_sha256', 'selection_identity_sha256')
+            } | {'account': account, 'amount_minor': amount}))
+            economic = digest(canonical(
+                fields | {'liability_identity_sha256': liability,
+                          'account': account, 'amount_minor': amount}))
         return seal({'schema_version': 1, 'event_id': f'{account}-{sequence}-{kind}',
                      'sequence': sequence, 'account': account, 'event_type': kind,
                      'occurred_at': f'2026-09-27T{sequence:02d}:00:00Z',
                      'amount_minor': amount, 'reservation_id': reservation,
                      'settlement_id': settlement, 'return_minor': returned,
-                     **fields, 'economic_identity_sha256': economic,
+                     **fields, 'liability_identity_sha256': liability,
+                     'economic_identity_sha256': economic,
                      'evidence_sha256': SHA, 'previous_event_sha256': previous},
                     'event_sha256')
 
@@ -539,7 +564,9 @@ class RiskControlTests(unittest.TestCase):
         for field, value in (
             ('amount_minor', 501), ('action_id', 'ACTION-OTHER'),
             ('event_identity_sha256', 'f' * 64), ('reservation_id', 'R-OTHER'),
-            ('strategy_version', 2)):
+            ('strategy_version', 2),
+            ('experiment_identity_sha256', '9' * 64),
+            ('liability_identity_sha256', '8' * 64)):
             attack = copy.deepcopy(events)
             attack[2][field] = value
             seal(attack[2], 'event_sha256')
@@ -587,6 +614,109 @@ class RiskControlTests(unittest.TestCase):
                 ROOT, duplicated, account='PAPER', expected_opening_minor=10000,
                 current_head=history_head(duplicated, digest_field='event_sha256'),
                 now=NOW)
+
+    def test_SR08_semantic_liability_rejects_wrapper_rotation_and_recreation(self):
+        opening = self.ledger_event(1, 'OPENING', amount=10000)
+        original_action = self.action()
+        original_binding = self.economic_binding(original_action)
+        reserve = self.ledger_event(
+            2, 'RESERVE', previous=opening['event_sha256'], amount=500,
+            reservation='R-1', binding=original_binding)
+
+        wrapper_action = self.action(action_id='ACTION-2')
+        wrapper_binding = self.economic_binding(wrapper_action)
+        wrapper_binding['authorization_sha256'] = '1' * 64
+        wrapper = self.ledger_event(
+            3, 'RESERVE', previous=reserve['event_sha256'], amount=500,
+            reservation='R-2', binding=wrapper_binding)
+        duplicated = [opening, reserve, wrapper]
+        self.assertEqual(
+            reserve['liability_identity_sha256'],
+            wrapper['liability_identity_sha256'])
+        with self.assertRaisesRegex(ValueError, 'duplicate reservation'):
+            replay_ledger(
+                ROOT, duplicated, account='PAPER',
+                expected_opening_minor=10000,
+                current_head=history_head(
+                    duplicated, digest_field='event_sha256'), now=NOW)
+
+        for label, changed_action, changed_amount in (
+                ('amount', self.action(action_id='ACTION-AMOUNT', amount=600), 600),
+                ('experiment', self.action(
+                    action_id='ACTION-EXPERIMENT',
+                    experiment_identity_sha256='9' * 64), 500)):
+            changed_binding = self.economic_binding(changed_action)
+            changed_binding['authorization_sha256'] = '2' * 64
+            changed = self.ledger_event(
+                3, 'RESERVE', previous=reserve['event_sha256'],
+                amount=changed_amount, reservation='R-' + label,
+                binding=changed_binding)
+            attack = [opening, reserve, changed]
+            with self.subTest(label=label), self.assertRaisesRegex(
+                    ValueError, 'duplicate reservation'):
+                replay_ledger(
+                    ROOT, attack, account='PAPER',
+                    expected_opening_minor=10000,
+                    current_head=history_head(
+                        attack, digest_field='event_sha256'), now=NOW)
+
+        release = self.ledger_event(
+            3, 'RELEASE', previous=reserve['event_sha256'], amount=500,
+            reservation='R-1', binding=original_binding)
+        release['liability_identity_sha256'] = reserve['liability_identity_sha256']
+        release['economic_identity_sha256'] = reserve['economic_identity_sha256']
+        seal(release, 'event_sha256')
+        after_release = self.ledger_event(
+            4, 'RESERVE', previous=release['event_sha256'], amount=500,
+            reservation='R-NEW', binding=wrapper_binding)
+        released = [opening, reserve, release, after_release]
+        with self.assertRaisesRegex(ValueError, 'duplicate reservation'):
+            replay_ledger(
+                ROOT, released, account='PAPER', expected_opening_minor=10000,
+                current_head=history_head(
+                    released, digest_field='event_sha256'), now=NOW)
+
+        settlement = self.ledger_event(
+            3, 'SETTLE', previous=reserve['event_sha256'], amount=500,
+            reservation='R-1', settlement='S-1', returned=900,
+            binding=original_binding)
+        settlement['liability_identity_sha256'] = (
+            reserve['liability_identity_sha256'])
+        settlement['economic_identity_sha256'] = reserve['economic_identity_sha256']
+        seal(settlement, 'event_sha256')
+        after_settlement = self.ledger_event(
+            4, 'RESERVE', previous=settlement['event_sha256'], amount=500,
+            reservation='R-AFTER-SETTLE', binding=wrapper_binding)
+        settled = [opening, reserve, settlement, after_settlement]
+        with self.assertRaisesRegex(ValueError, 'duplicate reservation'):
+            replay_ledger(
+                ROOT, settled, account='PAPER', expected_opening_minor=10000,
+                current_head=history_head(
+                    settled, digest_field='event_sha256'), now=NOW)
+
+    def test_SR08_distinct_positions_remain_distinct_liabilities(self):
+        opening = self.ledger_event(1, 'OPENING', amount=10000)
+        first_action = self.action()
+        first = self.ledger_event(
+            2, 'RESERVE', previous=opening['event_sha256'], amount=500,
+            reservation='R-1', binding=self.economic_binding(first_action))
+        second_action = self.action(
+            action_id='ACTION-2', position_id='POSITION-2')
+        second_binding = self.economic_binding(second_action)
+        second_binding['authorization_sha256'] = '1' * 64
+        second = self.ledger_event(
+            3, 'RESERVE', previous=first['event_sha256'], amount=500,
+            reservation='R-2', binding=second_binding)
+        events = [opening, first, second]
+        result = replay_ledger(
+            ROOT, events, account='PAPER', expected_opening_minor=10000,
+            current_head=history_head(events, digest_field='event_sha256'),
+            now=NOW)
+        self.assertNotEqual(
+            first['liability_identity_sha256'],
+            second['liability_identity_sha256'])
+        self.assertEqual(result['reserved_minor'], 1000)
+        self.assertEqual(result['open_reservations'], ['R-1', 'R-2'])
 
     def test_pending_and_open_exposure_use_canonical_identity(self):
         pending = self.position('PENDING', 600, status='PENDING')
@@ -909,6 +1039,7 @@ class RiskControlTests(unittest.TestCase):
             for field, value in (
                 ('action_id', 'ACTION-B'), ('amount_minor', 5000),
                 ('environment', 'LIVE'), ('strategy_version', 2),
+                ('experiment_identity_sha256', '9' * 64),
                 ('event_identity_sha256', '1' * 64),
                 ('market_identity_sha256', '2' * 64),
                 ('selection_identity_sha256', '3' * 64),
@@ -942,6 +1073,127 @@ class RiskControlTests(unittest.TestCase):
                     current_state=returned,
                     kill_state={'state': 'ENGAGED', 'generation': 1},
                     now=datetime(2026, 9, 28, 0, 5, 1, tzinfo=timezone.utc))
+
+    def test_SR07_experiment_identity_is_exact_end_to_end(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = self.synthetic_root(directory)
+            action, state = self.new_exposure_state(root)
+            replay_path = Path(directory) / 'replay.json'
+            JsonReplayStore.initialize(
+                replay_path, policy_id='POLICY-1', policy_generation=7,
+                authority_generations={'AUTH-1': 3})
+            auth_path = Path(directory) / 'auth.json'
+            JsonAuthorizationStore.initialize(
+                auth_path, authority_id='RISK-STATE-1', generation=4)
+            decision, token, returned = assemble_authoritative_decision(
+                root, action, authority=StaticRiskAuthority(state, action),
+                policy=self.policy(),
+                expected_policy_source='synthetic-verifier://risk-tests',
+                scientific_replay_store=JsonReplayStore(replay_path),
+                authorization_store=JsonAuthorizationStore(auth_path), now=NOW)
+            assert token is not None
+            self.assertEqual(
+                action['experiment_identity_sha256'],
+                state['scientific']['experiment_identity_sha256'])
+            self.assertEqual(
+                action['experiment_identity_sha256'],
+                decision['experiment_identity_sha256'])
+            self.assertEqual(
+                action['experiment_identity_sha256'],
+                token['experiment_identity_sha256'])
+            self.assertEqual(
+                state['scientific']['assessment']['assessment_sha256'],
+                decision['scientific_assessment_sha256'])
+            self.assertEqual(
+                state['scientific']['commitment']['commitment_sha256'],
+                decision['scientific_commitment_sha256'])
+            self.assertEqual(
+                decision['scientific_assessment_sha256'],
+                token['scientific_assessment_sha256'])
+            self.assertEqual(
+                decision['scientific_commitment_sha256'],
+                token['scientific_commitment_sha256'])
+
+            changed_action = copy.deepcopy(action)
+            changed_action['experiment_identity_sha256'] = '9' * 64
+            seal(changed_action, 'action_sha256')
+            with self.assertRaisesRegex(ValueError, 'binding'):
+                validate_authorization_token(
+                    root, token, action=changed_action, decision=decision,
+                    current_state=returned,
+                    kill_state={'state': 'DISENGAGED', 'generation': 2},
+                    now=NOW)
+
+            changed_decision = copy.deepcopy(decision)
+            changed_decision['experiment_identity_sha256'] = '9' * 64
+            seal(changed_decision, 'decision_sha256')
+            with self.assertRaisesRegex(ValueError, 'binding'):
+                validate_authorization_token(
+                    root, token, action=action, decision=changed_decision,
+                    current_state=returned,
+                    kill_state={'state': 'DISENGAGED', 'generation': 2},
+                    now=NOW)
+
+            changed_token = copy.deepcopy(token)
+            changed_token['experiment_identity_sha256'] = '9' * 64
+            seal(changed_token, 'token_sha256')
+            with self.assertRaisesRegex(
+                    ValueError, 'experiment_identity_sha256'):
+                validate_authorization_token(
+                    root, changed_token, action=action, decision=decision,
+                    current_state=returned,
+                    kill_state={'state': 'DISENGAGED', 'generation': 2},
+                    now=NOW)
+
+        for mutation in ('missing', 'malformed'):
+            action = self.action()
+            if mutation == 'missing':
+                del action['experiment_identity_sha256']
+            else:
+                action['experiment_identity_sha256'] = 'not-a-sha256'
+            seal(action, 'action_sha256')
+            with self.subTest(mutation=mutation), self.assertRaises(
+                    ValidationError):
+                assemble_authoritative_decision(
+                    ROOT, action, authority=None, policy=self.policy(),
+                    expected_policy_source='synthetic-verifier://risk-tests',
+                    scientific_replay_store=None, authorization_store=None,
+                    now=NOW)
+
+    def test_SR07_recomputed_science_wrapper_cannot_change_experiment(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = self.synthetic_root(directory)
+            action, state = self.new_exposure_state(root)
+            other_experiment = '9' * 64
+            assessment = state['scientific']['assessment']
+            commitment = state['scientific']['commitment']
+            assessment['experiment_identity_sha256'] = other_experiment
+            assessment['assessment_sha256'] = digest(canonical({
+                key: value for key, value in assessment.items()
+                if key != 'assessment_sha256'}))
+            commitment['assessment_sha256'] = assessment['assessment_sha256']
+            commitment['experiment_identity_sha256'] = other_experiment
+            commitment['claim_identity_sha256'] = claim_identity(assessment)
+            commitment['commitment_sha256'] = commitment_digest(commitment)
+            state['scientific']['experiment_identity_sha256'] = other_experiment
+            seal(state, 'state_sha256')
+            replay_path = Path(directory) / 'replay.json'
+            JsonReplayStore.initialize(
+                replay_path, policy_id='POLICY-1', policy_generation=7,
+                authority_generations={'AUTH-1': 3})
+            auth_path = Path(directory) / 'auth.json'
+            JsonAuthorizationStore.initialize(
+                auth_path, authority_id='RISK-STATE-1', generation=4)
+            with self.assertRaisesRegex(
+                    ValueError, 'another strategy or experiment'):
+                assemble_authoritative_decision(
+                    root, action,
+                    authority=StaticRiskAuthority(state, action),
+                    policy=self.policy(),
+                    expected_policy_source='synthetic-verifier://risk-tests',
+                    scientific_replay_store=JsonReplayStore(replay_path),
+                    authorization_store=JsonAuthorizationStore(auth_path),
+                    now=NOW)
 
     def test_isolated_exact_new_exposure_positive_requires_all_controls(self):
         with tempfile.TemporaryDirectory() as directory:

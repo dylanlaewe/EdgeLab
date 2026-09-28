@@ -645,6 +645,8 @@ def replay_ledger(root: Path, events: list[dict], *, account: str,
     settlements: dict[str, dict] = {}
     corrections: set[str] = set()
     action_bindings: dict[str, str] = {}
+    position_bindings: dict[str, str] = {}
+    liability_bindings: dict[str, str] = {}
     seen_ids = set()
     for sequence, event in enumerate(events, start=1):
         _shape(root, 'ledger-event', event)
@@ -665,9 +667,11 @@ def replay_ledger(root: Path, events: list[dict], *, account: str,
             if any(event[field] is not None for field in (
                     'action_id', 'action_sha256', 'position_id',
                     'strategy_id', 'strategy_version',
+                    'experiment_identity_sha256',
                     'strategy_identity_sha256', 'event_identity_sha256',
                     'market_identity_sha256', 'selection_identity_sha256',
-                    'authorization_sha256', 'economic_identity_sha256')):
+                    'authorization_sha256', 'liability_identity_sha256',
+                    'economic_identity_sha256')):
                 raise ValueError('Opening event cannot assert an economic action')
             cash = amount
         elif sequence == 1:
@@ -677,11 +681,22 @@ def replay_ledger(root: Path, events: list[dict], *, account: str,
             binding_fields = (
                 'action_id', 'action_sha256', 'position_id',
                 'strategy_id', 'strategy_version',
+                'experiment_identity_sha256',
                 'strategy_identity_sha256', 'event_identity_sha256',
                 'market_identity_sha256', 'selection_identity_sha256',
-                'authorization_sha256', 'economic_identity_sha256')
+                'authorization_sha256', 'liability_identity_sha256',
+                'economic_identity_sha256')
             if any(event[field] is None for field in binding_fields):
                 raise ValueError('Reservation lacks exact action/economic binding')
+            expected_liability = digest(canonical({
+                field: event[field] for field in (
+                    'position_id', 'strategy_id', 'strategy_version',
+                    'experiment_identity_sha256',
+                    'strategy_identity_sha256', 'event_identity_sha256',
+                    'market_identity_sha256', 'selection_identity_sha256')
+            } | {'account': account, 'amount_minor': amount}))
+            if event['liability_identity_sha256'] != expected_liability:
+                raise ValueError('Reservation semantic liability identity mismatch')
             expected_economic = digest(canonical({
                 field: event[field] for field in binding_fields
                 if field != 'economic_identity_sha256'
@@ -689,7 +704,9 @@ def replay_ledger(root: Path, events: list[dict], *, account: str,
             if event['economic_identity_sha256'] != expected_economic:
                 raise ValueError('Reservation economic identity mismatch')
             if (not rid or rid in reservations or amount <= 0 or amount > cash or
-                    event['action_sha256'] in action_bindings):
+                    event['action_sha256'] in action_bindings or
+                    event['position_id'] in position_bindings or
+                    event['liability_identity_sha256'] in liability_bindings):
                 raise ValueError('Invalid or duplicate reservation')
             cash -= amount
             reserved += amount
@@ -699,6 +716,8 @@ def replay_ledger(root: Path, events: list[dict], *, account: str,
                 **{field: event[field] for field in binding_fields},
             }
             action_bindings[event['action_sha256']] = rid
+            position_bindings[event['position_id']] = rid
+            liability_bindings[event['liability_identity_sha256']] = rid
         elif kind == 'RELEASE':
             rid = event['reservation_id']
             reservation = reservations.get(rid)
@@ -707,9 +726,11 @@ def replay_ledger(root: Path, events: list[dict], *, account: str,
                     any(event[field] != reservation[field] for field in (
                         'action_id', 'action_sha256', 'position_id',
                         'strategy_id', 'strategy_version',
+                        'experiment_identity_sha256',
                         'strategy_identity_sha256', 'event_identity_sha256',
                         'market_identity_sha256', 'selection_identity_sha256',
-                        'authorization_sha256', 'economic_identity_sha256'))):
+                        'authorization_sha256', 'liability_identity_sha256',
+                        'economic_identity_sha256'))):
                 raise ValueError('Invalid reservation release')
             cash += amount
             reserved -= amount
@@ -725,9 +746,11 @@ def replay_ledger(root: Path, events: list[dict], *, account: str,
                         event[field] != reservation[field] for field in (
                             'action_id', 'action_sha256', 'position_id',
                             'strategy_id', 'strategy_version',
+                            'experiment_identity_sha256',
                             'strategy_identity_sha256', 'event_identity_sha256',
                             'market_identity_sha256', 'selection_identity_sha256',
-                            'authorization_sha256', 'economic_identity_sha256'))):
+                            'authorization_sha256', 'liability_identity_sha256',
+                            'economic_identity_sha256'))):
                 raise ValueError('Duplicate or invalid settlement')
             cash += returned
             reserved -= amount
@@ -735,9 +758,8 @@ def replay_ledger(root: Path, events: list[dict], *, account: str,
             realized += returned - amount
             reservation['status'] = 'SETTLED'
             semantic = digest(canonical({
-                'reservation_id': rid,
-                'action_sha256': reservation['action_sha256'],
-                'position_id': reservation['position_id'],
+                'liability_identity_sha256':
+                    reservation['liability_identity_sha256'],
             }))
             if semantic in {value['semantic'] for value in settlements.values()}:
                 raise ValueError('Duplicate semantic settlement')
@@ -751,9 +773,11 @@ def replay_ledger(root: Path, events: list[dict], *, account: str,
                         event[field] != settlements[sid][field] for field in (
                             'action_id', 'action_sha256', 'position_id',
                             'strategy_id', 'strategy_version',
+                            'experiment_identity_sha256',
                             'strategy_identity_sha256', 'event_identity_sha256',
                             'market_identity_sha256', 'selection_identity_sha256',
-                            'authorization_sha256', 'economic_identity_sha256'))):
+                            'authorization_sha256', 'liability_identity_sha256',
+                            'economic_identity_sha256'))):
                 raise ValueError('Invalid or duplicate compensating settlement correction')
             delta = corrected - settlements[sid]['return']
             if cash + delta < 0:
@@ -783,9 +807,10 @@ def replay_ledger(root: Path, events: list[dict], *, account: str,
                 field: value[field] for field in (
                     'action_id', 'action_sha256', 'position_id',
                     'strategy_id', 'strategy_version',
+                    'experiment_identity_sha256',
                     'strategy_identity_sha256', 'event_identity_sha256',
                     'market_identity_sha256', 'selection_identity_sha256',
-                    'economic_identity_sha256')
+                    'liability_identity_sha256', 'economic_identity_sha256')
             }
             for key, value in reservations.items() if value['status'] == 'OPEN'
         },
@@ -1073,12 +1098,21 @@ def validate_authorization_token(root: Path, token: dict, *, action: dict,
         raise ValueError('Action authorization outlives action or current state')
     if token['token_id'] != decision['authorization_id']:
         raise ValueError('Action authorization identity mismatch')
+    if (decision['action_sha256'] != action['action_sha256'] or
+            decision['experiment_identity_sha256'] !=
+            action['experiment_identity_sha256']):
+        raise ValueError('Risk decision binding mismatch: action or experiment')
     expected = {
         'action_id': action['action_id'],
         'action_sha256': action['action_sha256'],
         'action_type': action['action_type'],
         'strategy_id': action['strategy_id'],
         'strategy_version': action['strategy_version'],
+        'experiment_identity_sha256': action['experiment_identity_sha256'],
+        'scientific_assessment_sha256':
+            decision['scientific_assessment_sha256'],
+        'scientific_commitment_sha256':
+            decision['scientific_commitment_sha256'],
         'strategy_identity_sha256': action['strategy_identity_sha256'],
         'source_identity_sha256': action['source_identity_sha256'],
         'environment': action['environment'],
@@ -1134,7 +1168,10 @@ def risk_decision(root: Path, *, decision_id: str, decided_at: str,
     decision = {
         'schema_version': 1, 'decision_id': decision_id,
         'decided_at': decided_at, 'action': action, 'environment': environment,
-        'action_sha256': None, 'authoritative_state_sha256': None,
+        'action_sha256': None, 'experiment_identity_sha256': None,
+        'scientific_assessment_sha256': None,
+        'scientific_commitment_sha256': None,
+        'authoritative_state_sha256': None,
         'scientific_consistent': False, 'lifecycle_eligible': False,
         'paper_eligible': False, 'live_eligible': False,
         'capital_available': False, 'individual_controls_current': False,
@@ -1238,19 +1275,28 @@ def assemble_authoritative_decision(
         science = state['scientific']
         if science is None:
             raise ValueError('Exact scientific evidence is required for new exposure')
+        if (science['strategy_id'], science['strategy_version'],
+                science['experiment_identity_sha256']) != (
+                action['strategy_id'], action['strategy_version'],
+                action['experiment_identity_sha256']) or (
+                science['assessment']['experiment_identity_sha256'] !=
+                action['experiment_identity_sha256']) or (
+                science['commitment']['experiment_identity_sha256'] !=
+                action['experiment_identity_sha256']):
+            raise ValueError('Scientific evidence is bound to another strategy or experiment')
         scientific_result = consume_scientific_commitment(
             root, science['assessment'], science['commitment'], policy=policy,
             expected_policy_source=expected_policy_source,
             replay_store=scientific_replay_store,
             assessment_author_ids=set(science['assessment_author_ids']), now=current)
-        if (science['strategy_id'], science['strategy_version'],
-                science['experiment_identity_sha256']) != (
-                action['strategy_id'], action['strategy_version'],
-                science['assessment']['experiment_identity_sha256']):
-            raise ValueError('Scientific evidence is bound to another strategy or experiment')
         scientific_result.update({
             'strategy_id': science['strategy_id'],
             'strategy_version': science['strategy_version'],
+            'experiment_identity_sha256':
+                science['experiment_identity_sha256'],
+            'assessment_sha256': science['assessment']['assessment_sha256'],
+            'commitment_sha256': science['commitment']['commitment_sha256'],
+            'action_sha256': action['action_sha256'],
         })
         lifecycle_result = replay_lifecycle(
             root, state['lifecycle']['events'], state['lifecycle']['attestations'],
@@ -1346,6 +1392,8 @@ def assemble_authoritative_decision(
                 binding['position_id'] != action['position_id'] or
                 binding['strategy_id'] != action['strategy_id'] or
                 binding['strategy_version'] != action['strategy_version'] or
+                binding['experiment_identity_sha256'] !=
+                action['experiment_identity_sha256'] or
                 binding['strategy_identity_sha256'] != action['strategy_identity_sha256'] or
                 binding['event_identity_sha256'] != action['event_identity_sha256'] or
                 binding['market_identity_sha256'] != action['market_identity_sha256'] or
@@ -1360,6 +1408,13 @@ def assemble_authoritative_decision(
         'decided_at': current.isoformat().replace('+00:00', 'Z'),
         'action': action['action_type'], 'environment': action['environment'],
         'action_sha256': action['action_sha256'],
+        'experiment_identity_sha256': action['experiment_identity_sha256'],
+        'scientific_assessment_sha256': (
+            state['scientific']['assessment']['assessment_sha256']
+            if scientific_result else None),
+        'scientific_commitment_sha256': (
+            state['scientific']['commitment']['commitment_sha256']
+            if scientific_result else None),
         'authoritative_state_sha256': state['state_sha256'],
         'scientific_consistent': science_ok,
         'lifecycle_eligible': lifecycle_ok,

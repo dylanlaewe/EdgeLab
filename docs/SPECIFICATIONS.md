@@ -566,3 +566,33 @@ kill is ENGAGED, only an exactly reserved exposure-neutral settlement can be
 authorized; no settlement exception can create or replace exposure. Synthetic M1
 fixtures demonstrate the positive contracts without changing project state or
 moving capital.
+
+## Risk exact experiment and semantic liability binding — v3 (SR07–SR08)
+
+This narrow amendment strengthens v2 without changing lifecycle, STOP, capital,
+kill-switch, exposure, or venue behavior. A `risk-action` now names the exact
+Quant `experiment_identity_sha256`. The authoritative current-state science
+tuple, Quant assessment, and Quant commitment must all name that same experiment
+before the commitment is consumed. The resulting Risk decision and single-use
+authorization token repeat the exact experiment identity and validate it against
+the action. Recomputed assessment, commitment, state, decision, or token wrapper
+digests cannot substitute a different experiment for the same strategy version.
+Missing or malformed experiment identities fail schema validation.
+
+Every non-opening ledger obligation also carries that experiment identity. A
+RESERVE derives a stable `liability_identity_sha256` from the account, amount,
+position, strategy/version, experiment, and canonical strategy, event, market,
+and selection identities. Action IDs and digests, authorization digests,
+reservation IDs, settlement IDs, and ledger-event wrapper IDs are deliberately
+excluded from that semantic identity. They remain part of the stricter
+`economic_identity_sha256` and must still match exactly for release, settlement,
+and correction.
+
+Ledger replay keeps permanent seen bindings for action digest, position ID, and
+semantic liability identity. Consequently an obligation cannot be reserved again
+by rotating action, authorization, reservation, settlement, or event wrappers,
+including after release or settlement. Changing amount or experiment while
+reusing a position also rejects. Account separation remains mandatory. A new
+position ID produces a different semantic liability and remains independently
+reservable when every exact binding is valid; the control therefore prevents
+duplicate obligation recreation without collapsing genuinely distinct positions.

@@ -3,8 +3,8 @@
     "sha": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
     "binding": {
       "type": "object", "additionalProperties": false,
-      "required": ["stake", "action_id", "action_sha256", "position_id", "strategy_id", "strategy_version", "strategy_identity_sha256", "event_identity_sha256", "market_identity_sha256", "selection_identity_sha256", "economic_identity_sha256"],
-      "properties": {"stake": {"type": "integer", "minimum": 1}, "action_id": {"type": "string", "minLength": 1}, "action_sha256": {"$ref": "#/$defs/sha"}, "position_id": {"type": "string", "minLength": 1}, "strategy_id": {"type": "string", "minLength": 1}, "strategy_version": {"type": "integer", "minimum": 1}, "strategy_identity_sha256": {"$ref": "#/$defs/sha"}, "event_identity_sha256": {"$ref": "#/$defs/sha"}, "market_identity_sha256": {"$ref": "#/$defs/sha"}, "selection_identity_sha256": {"$ref": "#/$defs/sha"}, "economic_identity_sha256": {"$ref": "#/$defs/sha"}}
+      "required": ["stake", "action_id", "action_sha256", "position_id", "strategy_id", "strategy_version", "experiment_identity_sha256", "strategy_identity_sha256", "event_identity_sha256", "market_identity_sha256", "selection_identity_sha256", "liability_identity_sha256", "economic_identity_sha256"],
+      "properties": {"stake": {"type": "integer", "minimum": 1}, "action_id": {"type": "string", "minLength": 1}, "action_sha256": {"$ref": "#/$defs/sha"}, "position_id": {"type": "string", "minLength": 1}, "strategy_id": {"type": "string", "minLength": 1}, "strategy_version": {"type": "integer", "minimum": 1}, "experiment_identity_sha256": {"$ref": "#/$defs/sha"}, "strategy_identity_sha256": {"$ref": "#/$defs/sha"}, "event_identity_sha256": {"$ref": "#/$defs/sha"}, "market_identity_sha256": {"$ref": "#/$defs/sha"}, "selection_identity_sha256": {"$ref": "#/$defs/sha"}, "liability_identity_sha256": {"$ref": "#/$defs/sha"}, "economic_identity_sha256": {"$ref": "#/$defs/sha"}}
     }
   },
   "type": "object", "additionalProperties": false,
