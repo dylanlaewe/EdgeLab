@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "urn:edgelab:stop-policy:1",
+  "type": "object", "additionalProperties": false, "required": ["schema_version", "policy_id", "generation", "entries"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "policy_id": {"type": "string", "minLength": 1},
+    "generation": {"type": "integer", "minimum": 1},
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["stop_id", "action_types", "scope", "clearance_roles", "capital_implicated"],
+        "properties": {
+          "stop_id": {"type": "string", "minLength": 1},
+          "action_types": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["*", "NEW_EXPOSURE", "SETTLEMENT"]}},
+          "scope": {"type": "object", "additionalProperties": false, "required": ["kind", "targets"], "properties": {"kind": {"enum": ["global", "records"]}, "targets": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}}},
+          "clearance_roles": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "capital_implicated": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}

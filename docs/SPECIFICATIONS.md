@@ -483,3 +483,86 @@ capital independently denies as well. The real ENGAGED kill switch and OPEN
 `STOP-M0-001` keep operational paper/live activity blocked. No venue, account,
 deposit, market-data trading loop or wager adapter exists. Completion of H-M0-006
 cannot change the conceptual USD 50.00 / deployable USD 0.00 / LOCKED invariant.
+
+## Risk authoritative assembly — v2 (SR01–SR06 / H-M0-021)
+
+This section supersedes v1 wherever v1 allowed decision-critical state to be
+passed directly to `risk_decision`. That compatibility function is now deny-only:
+caller-supplied science, phase, capital, STOP, ledger, exposure, kill and approval
+booleans can never produce authorization. The operational boundary is
+`assemble_authoritative_decision`, which accepts only a typed exact `risk-action`
+plus a verifier-controlled `RiskStateAuthority`. The provider returns one
+action-bound, expiring `risk-current-state` generation and atomically compares that
+same state before committing any authorization. Provider authenticity, custody,
+host integrity and remote durability remain external requirements; a caller-chosen
+provider is not trusted merely because it implements the interface.
+
+The assembler resolves `docs/project-state.json`, `portfolio/bankroll.json` and
+`portfolio/risk-policy.json` at fixed paths and exact byte hashes. Phase, configured
+capital, live lock, kill posture and limits derive from those records. Alternate
+paths, changed bytes, substituted phase, caller-selected ledger opening capital or
+non-policy exposure limits reject. On the actual repository, M0, LOCKED live state,
+zero deployable/reserved live capital, no paper capital, zero limits, ENGAGED kill
+and the OPEN STOP cannot yield a new-exposure authorization. No file in those
+authoritative records is changed by this remediation.
+
+New exposure requires the full Quant assessment and structured commitment, durable
+one-time consumption, exact strategy/version/experiment binding, and complete
+canonical authorship provenance. Omitted, unknown, revoked, self-issued, stale or
+conflicted authority denies. Lifecycle consumes the resulting receipt, not a
+one-bit consistency assertion. Canonical actors drive pairwise independence across
+the proposer and every approver. A lifecycle state can remain historically
+eligible while a current STOP makes paper eligibility false; neither field alone
+authorizes an action.
+
+Lifecycle, ledger, exposure and kill inputs each carry a verifier-selected current
+head containing count, terminal digest and complete digest inventory. Replay must
+equal that head, so a valid older prefix cannot masquerade as current accepted
+state. STOP state separately binds the complete repository STOP inventory to a
+verifier generation. These are local trusted-provider anchors, not protection
+against a hostile host or a dishonest provider selecting an old universe.
+
+STOP applicability comes from the typed action, its exact strategy/version,
+position and canonical source/event/market/selection dependencies, immutable STOP
+bytes, and a verifier-controlled `stop-policy`. Candidate snapshot labels and
+candidate-selected clearance roles have no authority. Missing graph identities,
+missing/deleted OPEN inventory entries, changed STOP bytes, wrong/current-head
+substitution and stale/future clearance deny. Clearance roles and capital
+implication derive from policy; evidence is an exact path-and-byte-digest binding,
+and canonical remediation authors participate in conflict checks. This does not
+clear `STOP-M0-001`.
+
+Exposure positions bind their exact action and canonical identity records. Both
+PENDING and OPEN positions consume capacity. Correlation and concentration reduce
+by canonical namespace/ID, not display aliases or identity-record versions, so
+cosmetic renaming does not create diversification. Mandatory event, strategy,
+source, market and selection dependencies are derived from verified canonical
+records. Unknown identities or incomplete dependencies deny; M0 does not claim a
+complete sport-specific statistical correlation model.
+
+Every reservation carries action ID/digest, position, strategy/version, canonical
+event/market/selection, account/environment, stake, authorization and a derived
+economic-identity digest. Release, settlement and correction must reproduce that
+binding exactly. One action cannot acquire a replacement reservation after release.
+Settlement consumes one open reservation; changed wrapper IDs cannot settle a
+closed semantic liability twice. Ledger replay remains integer-minor-unit,
+conserving and account-separated.
+
+An `action-authorization` is single-use and expires no later than both the action
+and authoritative state. It binds action ID/digest/type, strategy/version and
+canonical identities, paper/live environment, amount, price constraint, position,
+reservation and related action, Risk decision/control digests, current-state and
+authority generation, kill generation, exposure inventory and ledger head. Any
+action or material generation change invalidates it. `JsonAuthorizationStore`
+provides atomic local issue/consume uniqueness on a trusted filesystem. This is not
+cryptographic signing, key custody, remote replay protection, cross-system
+atomicity, venue honesty or permission to execute externally.
+
+The decision output keeps scientific consistency, lifecycle eligibility, paper
+eligibility, live eligibility, capital availability, current controls, individual
+authorization and final verdict distinct. Only an `AUTHORIZED` decision plus its
+exact valid, durably issued, unconsumed action authorization is consumable. While
+kill is ENGAGED, only an exactly reserved exposure-neutral settlement can be
+authorized; no settlement exception can create or replace exposure. Synthetic M1
+fixtures demonstrate the positive contracts without changing project state or
+moving capital.
