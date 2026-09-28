@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-021",
+  "version": 2,
+  "created_at": "2026-09-28T02:55:47Z",
+  "sender": "06 Risk & Execution",
+  "recipient": "06 Risk & Execution",
+  "status": "CLAIMED",
+  "request": "Targeted SR01-SR06 remediation: replace caller-asserted authorization state with exact action-bound, verifier-current Risk assembly; enforce current history heads, authority provenance/conflicts, authoritative STOP semantics, canonical pending exposure, and exact reservation/settlement binding.",
+  "work_done": "Risk session risk-sr01-sr06-8C9822D7-863F-41C6-8B9C-0A44B4C9A13D claims the sole-writer slot at clean synchronized base 9f9be8ff2fc63a3baaef10a8e55024907e0455c0 under explicit user authorization. Consumed independent H-M0-020 v3 and remediation H-M0-021 v1, both first added at that exact origin/main commit; consumed the full Skeptic Risk v1 review, 21-method probe, result, validation and preservation package. Exclusive scope: Risk action/current-state/authorization interfaces and schemas; Risk lifecycle/ledger/STOP/exposure/kill authority integration; additive Risk owner tests and fixtures; necessary validate.py/SPECIFICATIONS.md integration; Risk-owned SR01-SR06 reports, audit, handoffs, inventory and focused independent re-review request. Skeptic Risk v1 and every prior Data/Research/Quant/Skeptic artifact remain read-only. No project-state edit, STOP clearance, portfolio mutation, capital unlock, venue integration or independent review by Risk.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-021.v1.json",
+    "docs/handoffs/H-M0-020.v3.json",
+    "reports/reviews/M0.1-risk-rereview.v1.md",
+    "tests/test_skeptic_risk_v1.py",
+    "reports/skeptic-risk-rereview/results.v1.json",
+    "reports/skeptic-risk-rereview/preservation.v1.json",
+    "reports/skeptic-risk-rereview/validation.v1.txt",
+    "reports/stops/STOP-M0-001.v1.json",
+    "docs/GIT_COORDINATION.md"
+  ],
+  "files_changed": ["docs/handoffs/H-M0-021.v2.json"],
+  "tests_run": [
+    "Verified clean synchronized EdgeLab main, exact independent review/remediation landing SHA, OPEN STOP, locked bankroll, engaged kill switch and unchanged Skeptic Risk v1 hash."
+  ],
+  "open_questions": [
+    "The repository has no production external current-state controller or atomic venue boundary; implement strict provider interfaces and synthetic trusted adapters without claiming those external guarantees.",
+    "Data has canonical sample identity but no sports event/outcome registry; Risk must require verifier-bound canonical identities and deny unresolved live identity/correlation instead of inventing domain resolution."
+  ],
+  "blockers": [
+    "SR01 BLOCKER, SR02-SR05 HIGH and SR06 MEDIUM remain open pending implementation and independent re-review.",
+    "STOP-M0-001 remains OPEN; capital remains 5000 conceptual, 0 deployable/reserved, live LOCKED and kill ENGAGED."
+  ],
+  "next_action": "Commit and push this claim, re-fetch and verify ancestry, then implement the smallest coherent authoritative-state and exact-action remediation. Preserve Skeptic Risk v1 unchanged and request focused independent successor review.",
+  "completion_criteria": [
+    "Final authorization derives every decision-critical fact from verifier-controlled typed current state and exact evidence, never caller booleans or caller-selected phase/capital/STOP/control results.",
+    "Scientific evidence is a consumed Quant commitment bound to the exact strategy/version/experiment and cannot be replaced by a one-bit mapping.",
+    "Single-use expiring per-action authorization binds action, strategy/version, environment, canonical event/market/selection, amount/price constraint, current-state/control/decision/kill generations and reservation/exposure identities.",
+    "Lifecycle, ledger and kill reducers require verifier-controlled exact current heads/inventories; valid historical prefixes deny.",
+    "Revoked/self-issued/unknown-provenance/stale/conflicted authorities and pairwise-conflicted approvers deny.",
+    "STOP applicability and clearance roles derive from verifier-controlled policy and immutable STOP content; relabeling, omitted dependencies, stale/future/wrong clearance and incomplete inventory deny.",
+    "Pending/reserved exposure counts and canonical identity bindings prevent cosmetic diversification; unresolved live identity/correlation denies.",
+    "Reservations/releases/settlements bind exact action/position/economic identity and semantic duplicate settlement rejects across wrapper IDs.",
+    "Positive non-live controls remain possible, actual M0 live authorization remains impossible, STOP stays OPEN and capital remains unmoved.",
+    "Owner, unchanged Skeptic v1, upstream regression, preservation, full-suite classification and focused independent re-review request are published."
+  ],
+  "depends_on": ["H-M0-020", "H-M0-006"]
+}
