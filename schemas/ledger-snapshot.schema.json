@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "urn:edgelab:ledger-snapshot:1", "$defs": {"sha": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "account", "currency", "opening_minor", "cash_minor", "reserved_minor", "liability_minor", "realized_minor", "sequence", "last_event_sha256", "open_reservations", "as_of", "valid_until", "snapshot_sha256"],
+  "properties": {
+    "schema_version": {"const": 1}, "account": {"enum": ["PAPER", "LIVE"]}, "currency": {"const": "USD"}, "opening_minor": {"type": "integer", "minimum": 0}, "cash_minor": {"type": "integer", "minimum": 0}, "reserved_minor": {"type": "integer", "minimum": 0}, "liability_minor": {"type": "integer", "minimum": 0}, "realized_minor": {"type": "integer"}, "sequence": {"type": "integer", "minimum": 1}, "last_event_sha256": {"$ref": "#/$defs/sha"}, "open_reservations": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}, "as_of": {"type": "string", "format": "date-time"}, "valid_until": {"type": "string", "format": "date-time"}, "snapshot_sha256": {"$ref": "#/$defs/sha"}
+  }
+}

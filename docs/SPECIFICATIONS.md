@@ -376,3 +376,110 @@ Risk still owns trust policy, lifecycle/promotion, STOP enforcement, paper/live
 eligibility, bankroll, kill switches and every capital decision. A positive Quant
 assessment is necessary scientific-integrity evidence only. It says nothing about
 profitability and cannot clear `STOP-M0-001`.
+
+## Risk control contracts — v1 (H-M0-006)
+
+Risk consumes Quant's structured assessment and commitment through
+`consume_scientific_commitment`. The Quant self-digest proves local content binding
+only. A caller must inject a current verifier-controlled `authority-policy` from an
+expected out-of-band source. The policy maps aliases and authority IDs to canonical
+actors, roles, scopes, conflicts, revocation and exact generations. The policy is
+usable only while externally authenticated and within its validity interval.
+Repository authorship, role strings, Git identity, session IDs and an allowlist
+submitted with the evidence are not authentication. Missing, untrusted, stale,
+revoked, conflicted, self-issued, wrong-source or wrong-generation authority denies.
+
+Commitment consumption also requires a verifier-selected, pre-initialized
+`JsonReplayStore`. It serializes consumers with a separate lock, checks the exact
+policy and authority generation, rejects a repeated commitment ID or digest, and
+atomically replaces/fsyncs its state before returning a receipt. Missing, aliased,
+malformed or stale state denies. This is process-safe persistence on one trusted
+local filesystem; it does not prove hostile-host resistance, remote replication,
+key custody, external controller honesty or cross-system atomicity. Production must
+provide those guarantees before operational reliance. The result always retains
+false lifecycle, paper, live, capital and execution authorization fields.
+
+### Lifecycle and independent review
+
+`lifecycle-event` records form a complete sequence and digest chain for one exact
+strategy version. State is reduced from events rather than trusted from a plausible
+strategy JSON assertion. The reducer rejects missing/forked/reordered events,
+future facts, conflicts with derived state, skips, M0 live states, resume-by-edit
+and all outgoing transitions from RETIRED or REJECTED. A new version must begin at
+IDEA and retain lineage elsewhere; terminal history is never rewritten.
+
+Every controlled transition binds its subject digest to typed
+`approval-attestation` records under the injected authority policy. Canonical actor
+identity, not aliases or role labels, drives independence. Self-review, conflicting
+actors, duplicate actors, missing roles, stale/revoked authority, changed subjects
+and changed policy generations deny. PAPER_ELIGIBLE requires distinct Skeptic and
+Risk approvals; PAPER_TRADING additionally requires Data and Risk approval. Those
+states also require consumed scientific evidence and an ALLOW STOP decision. A
+successful lifecycle reduction establishes eligibility only, never capital or an
+individual action authorization. Local checks cannot detect controller compromise,
+colluding authorized actors or undisclosed off-system conflicts.
+
+### STOP precedence and clearance
+
+`evaluate_stop_snapshot` requires a trusted, complete, fresh inventory selected by
+the verifier. Each entry binds the immutable STOP bytes to a typed action list and
+Data's typed dependency scope. OPEN applicable scope is propagated transitively by
+the dependency graph and has precedence over scientific consistency or lifecycle
+approval. Missing expected STOPs, stale or future snapshots, unreadable records,
+digest mismatch, unknown targets, cycles and untrusted/incomplete state deny.
+
+`validate_stop_clearance` validates only a candidate, separate resolution event; it
+does not mutate or resolve the original STOP. Clearance eligibility requires the
+preserved OPEN record, acknowledgement, typed remediation evidence, revalidated
+descendants and current independent attestations for every required domain. Risk is
+mandatory when capital is implicated. A filename or arbitrary file cannot clear a
+STOP. `STOP-M0-001.v1` remains OPEN and no resolution event is published by this
+work.
+
+### Exact accounting and reconciliation
+
+Paper and live are different ledger accounts; mixed events reject. All money uses
+integer USD minor units. Each ledger starts with one exact configured opening event
+and then follows a sequence/digest chain. RESERVE moves cash to both reserved stake
+and tracked liability; RELEASE reverses an open reservation; SETTLE consumes it once
+and recognizes `return - stake`; a typed compensating correction changes a prior
+settlement once without erasing it. There is no arbitrary credit event. Duplicate
+event, reservation, settlement or correction IDs, overspending, negative balances,
+broken chains and conservation failures deny.
+
+A `ledger-snapshot` is accepted only while fresh, content-bound and byte-for-byte
+consistent with a full event replay. Deployable capital must be determined from the
+current reconciled account plus policy; reconciliation itself grants no deployment.
+The repository's actual bankroll remains conceptual 5000 minor units with zero
+deployable and reserved, live LOCKED. Synthetic paper balances in tests are fixtures,
+not project assets or permission to trade.
+
+### Exposure, correlation and kill switch
+
+Every proposed position carries paper/live environment, strategy, source, event,
+market, selection and correlation keys. Mandatory keys ensure the same event and
+selection, strategy, source and market remain shared risk even when recommendations
+come from different sources. Position, daily, strategy, source, event and maximum
+shared-correlation totals are evaluated independently. Missing or unresolved live
+limits deny; no empirical thresholds are invented in M0. Duplicate opinions never
+count as diversification.
+
+The kill switch is reconstructed from a monotonic event/digest chain and begins
+ENGAGED. Every documented safety trigger latches it ENGAGED and increments its
+generation, invalidating pending tokens. Reset requires non-M0 phase, current
+externally trusted Risk attestation bound to the reset event, remediation evidence,
+healthy controls and an ALLOW STOP decision. Reset cannot clear STOPs, unlock money,
+promote a strategy or authorize execution. While engaged, only exposure-neutral
+settlement/reconciliation of an existing liability is permitted; new exposure and
+risk-increasing replacement are blocked.
+
+### Final decision interface and M0 boundary
+
+`risk_decision` publishes a strict machine-readable distinction among scientific
+consistency, lifecycle eligibility, paper/live eligibility, capital availability,
+current individual controls and actual execution authorization. Each layer is
+evaluated independently. In M0, live always denies; LOCKED status or zero deployable
+capital independently denies as well. The real ENGAGED kill switch and OPEN
+`STOP-M0-001` keep operational paper/live activity blocked. No venue, account,
+deposit, market-data trading loop or wager adapter exists. Completion of H-M0-006
+cannot change the conceptual USD 50.00 / deployable USD 0.00 / LOCKED invariant.

@@ -107,8 +107,9 @@ def validate_repository(root: Path = ROOT, *, now: datetime | None = None,
                         baseline: str | None = None) -> int:
     from .data_integrity import DATA_LOCATIONS, validate_data, registry_checks, verify_history
     from .quant_protocol import QUANT_LOCATIONS
+    from .risk_controls import RISK_SCHEMA_KINDS
     locations = {**LOCATIONS, **DATA_LOCATIONS, **QUANT_LOCATIONS}
-    for kind in locations:
+    for kind in set(locations) | RISK_SCHEMA_KINDS:
         path = reference(root, f'schemas/{kind}.schema.json')
         Draft202012Validator.check_schema(read(path))
     for required in ('portfolio/bankroll.json', 'portfolio/risk-policy.json'):

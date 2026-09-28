@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "urn:edgelab:ledger-event:1", "$defs": {"sha": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "event_id", "sequence", "account", "event_type", "occurred_at", "amount_minor", "reservation_id", "settlement_id", "return_minor", "evidence_sha256", "previous_event_sha256", "event_sha256"],
+  "properties": {
+    "schema_version": {"const": 1}, "event_id": {"type": "string", "minLength": 1}, "sequence": {"type": "integer", "minimum": 1}, "account": {"enum": ["PAPER", "LIVE"]}, "event_type": {"enum": ["OPENING", "RESERVE", "RELEASE", "SETTLE", "CORRECT_SETTLEMENT"]}, "occurred_at": {"type": "string", "format": "date-time"},
+    "amount_minor": {"type": "integer", "minimum": 0}, "reservation_id": {"type": ["string", "null"], "minLength": 1}, "settlement_id": {"type": ["string", "null"], "minLength": 1}, "return_minor": {"type": ["integer", "null"], "minimum": 0}, "evidence_sha256": {"$ref": "#/$defs/sha"}, "previous_event_sha256": {"anyOf": [{"$ref": "#/$defs/sha"}, {"type": "null"}]}, "event_sha256": {"$ref": "#/$defs/sha"}
+  }
+}

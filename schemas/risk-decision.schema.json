@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "urn:edgelab:risk-decision:1", "$defs": {"sha": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "decision_id", "decided_at", "action", "environment", "scientific_consistent", "lifecycle_eligible", "paper_eligible", "live_eligible", "capital_available", "individual_controls_current", "individual_authorization_current", "execution_authorized", "verdict", "reasons", "decision_sha256"],
+  "properties": {
+    "schema_version": {"const": 1}, "decision_id": {"type": "string", "minLength": 1}, "decided_at": {"type": "string", "format": "date-time"}, "action": {"type": "string", "minLength": 1}, "environment": {"enum": ["PAPER", "LIVE"]}, "scientific_consistent": {"type": "boolean"}, "lifecycle_eligible": {"type": "boolean"}, "paper_eligible": {"type": "boolean"}, "live_eligible": {"type": "boolean"}, "capital_available": {"type": "boolean"}, "individual_controls_current": {"type": "boolean"}, "individual_authorization_current": {"type": "boolean"}, "execution_authorized": {"type": "boolean"}, "verdict": {"enum": ["DENIED", "AUTHORIZED"]}, "reasons": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}, "decision_sha256": {"$ref": "#/$defs/sha"}
+  }
+}
