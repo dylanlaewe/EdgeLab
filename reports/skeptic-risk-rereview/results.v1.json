@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "purpose": "Independent H-M0-020 adversarial review of bounded M0 Risk controls; no operational authorization",
+  "review_base": "b8c09287290b8002dd1c3448dd75b058e4f42f18",
+  "claim_commit": "f3999b36119ab5a699310fbcefd5e0029da30010",
+  "risk_implementation": "091f0af316682e141354c2ba014eab86ee46392b",
+  "verdict": "BLOCKED",
+  "findings": [
+    {"id": "SR01", "severity": "BLOCKER", "title": "Unbound assertions and reusable non-action token can produce paper/live AUTHORIZED decisions"},
+    {"id": "SR02", "severity": "HIGH", "title": "Lifecycle, ledger and kill histories accept rolled-back valid prefixes"},
+    {"id": "SR03", "severity": "HIGH", "title": "Revoked/self-issued science and conflicted approvers can pass"},
+    {"id": "SR04", "severity": "HIGH", "title": "STOP applicability and clearance-critical requirements are candidate supplied"},
+    {"id": "SR05", "severity": "HIGH", "title": "Pending and cosmetically renamed exposure evades aggregation"},
+    {"id": "SR06", "severity": "MEDIUM", "title": "Ledger reservations and settlements lack exact action binding"}
+  ],
+  "no_low_findings": true,
+  "focused": {
+    "skeptic_risk_v1": {"methods": 21, "passed": 21, "failed": 0, "errored": 0, "skipped": 0},
+    "risk_owner": {"methods": 12, "passed": 12, "failed": 0, "errored": 0, "skipped": 0}
+  },
+  "full_discovery": {
+    "methods": 218,
+    "passing_methods": 169,
+    "errored_methods": 48,
+    "failure_count": 1,
+    "skip_count": 0,
+    "seconds": 670.797,
+    "successful": false,
+    "historical_error_identities_match_risk_completion": true,
+    "unexpected_error_names": [],
+    "unexpected_failure_names": [],
+    "classification": "NOT GREEN: exact preserved historical/setup/acceptance red identities plus 21 passing Skeptic Risk successor methods."
+  },
+  "positive_controls": {
+    "scientific_consumption_remains_non_authorizing": true,
+    "fully_staged_synthetic_paper_eligibility": true,
+    "current_M0_live_path_denies": true,
+    "local_replay_restart_and_concurrency_uniqueness": true,
+    "exact_identifier_exposure_aggregation": true,
+    "unresolved_live_limits_deny": true,
+    "complete_current_kill_history_invalidates_stale_token": true,
+    "exposure_neutral_settlement_under_kill": true
+  },
+  "external_limitations_preserved": [
+    "External policy/controller authentication and key custody",
+    "Hostile-host replay-file rollback protection and remote durability",
+    "Venue/execution adapter honesty and external settlement truth",
+    "Cross-system atomicity and undisclosed off-system activity",
+    "Future domain-specific statistical correlation models"
+  ],
+  "repository_validation_before_completion": {
+    "records": 87,
+    "published_history_valid": true,
+    "capital_status": "LOCKED",
+    "scientific_or_operational_approval": false
+  },
+  "repository_validation_with_completion": {
+    "records": 90,
+    "published_history_valid": true,
+    "capital_status": "LOCKED",
+    "scientific_or_operational_approval": false
+  },
+  "commands": [
+    ".venv/bin/python -m unittest discover -s tests -p 'test_skeptic_risk_v1.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_risk_controls.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -v",
+    ".venv/bin/python -m src.edgelab.validate",
+    ".venv/bin/python -m compileall -q src tests",
+    "completion-inventory SHA-256 comparison",
+    "git diff --check"
+  ]
+}
