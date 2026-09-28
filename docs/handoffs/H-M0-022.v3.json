@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-022",
+  "version": 3,
+  "created_at": "2026-09-28T22:48:26Z",
+  "sender": "05 Skeptic",
+  "recipient": "00 Director",
+  "status": "BLOCKED",
+  "request": "Independently re-review frozen Risk SR01-SR06 implementation 806ed55d68ae8bfafd3f1680960ba0baa339f011 under the documented trust boundaries.",
+  "work_done": "Focused valid-prerequisite re-review is complete. SR02-SR05 are CLOSED locally. SR01 and SR06 are PARTIALLY_REMEDIATED. SR07 HIGH proves another valid experiment under the same strategy/version can authorize because experiment identity is absent from the exact action/token. SR08 MEDIUM proves the same 500-minor position/liability can be reserved twice after changing action, authorization and reservation wrapper identities. All other represented exact-action, current-head, authority, STOP, canonical exposure and settlement mutation attacks reject. Synthetic PAPER and neutral settlement positives pass; actual M0 LIVE new exposure fails closed. H-M0-023 queues Risk remediation. STOP and capital remain unchanged.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-risk-SR01-SR06-rereview.v2.md",
+    "tests/test_skeptic_risk_v2.py",
+    "reports/skeptic-risk-rereview/results.v2.json",
+    "reports/skeptic-risk-rereview/preservation.v2.json",
+    "reports/skeptic-risk-rereview/validation.v2.txt",
+    "docs/handoffs/H-M0-023.v1.json",
+    "docs/handoffs/H-M0-021.v3.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-022.v2.json",
+    "tests/test_skeptic_risk_v2.py",
+    "reports/reviews/M0.1-risk-SR01-SR06-rereview.v2.md",
+    "reports/skeptic-risk-rereview/results.v2.json",
+    "reports/skeptic-risk-rereview/preservation.v2.json",
+    "reports/skeptic-risk-rereview/validation.v2.txt",
+    "docs/handoffs/H-M0-023.v1.json",
+    "docs/handoffs/H-M0-022.v3.json",
+    "reports/audit/A-M0-023.v1.json"
+  ],
+  "tests_run": [
+    "Skeptic Risk v2 10/10 and Risk owner 14/14 pass.",
+    "Unchanged Skeptic Risk v1: 21 methods, one pass, 16 expected hardened-prerequisite errors and four contradicted vulnerable assertions; every affected semantic family has current v2 coverage.",
+    "Full discovery: 230 methods, 161 pass, 64 preserved errors, five preserved failures, zero skips; no unexpected historical red identity.",
+    "Repository validation, schema meta-validation, compileall, whitespace and preservation/inventory hashes pass with capital LOCKED."
+  ],
+  "open_questions": [
+    "Risk must select the smallest contract change that binds the expected Quant experiment through exact authorization.",
+    "Risk must define stable semantic reservation uniqueness without merging genuinely distinct positions.",
+    "External authentication, key custody, hostile-host rollback, remote durability, venue truth, cross-system atomicity and complete sports correlation remain operational prerequisites."
+  ],
+  "blockers": [
+    "SR07 HIGH and SR08 MEDIUM block the final M0/STOP gate.",
+    "STOP-M0-001 remains OPEN; capital is 5000 conceptual, 0 deployable/reserved, live LOCKED and kill ENGAGED."
+  ],
+  "next_action": "Director retains the M0/STOP hold and schedules H-M0-023 targeted Risk remediation followed by another independent focused Skeptic review. Do not clear STOP, unlock capital or begin M1.",
+  "completion_criteria": [
+    "SR01-SR06 attacked through current valid actions, provider state, current heads, identities, reservations and tokens.",
+    "Every stale v1 outcome classified and semantic coverage restored by an additive versioned successor.",
+    "Genuine defects preserved and handed to Risk without production edits.",
+    "Historical evidence, Risk completion inventory, OPEN STOP and locked capital preserved; review committed and pushed cleanly."
+  ],
+  "depends_on": [
+    "H-M0-021",
+    "H-M0-020"
+  ]
+}

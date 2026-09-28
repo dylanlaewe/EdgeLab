@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "purpose": "Independent H-M0-022 SR01-SR06 valid-prerequisite re-review; no operational authorization",
+  "review_base": "3f5dcfdd0cfda6db33f4eb2ca7447f2746253be1",
+  "claim_commit": "f7187171e130c100978f5bf73436ab01547f23eb",
+  "risk_implementation": "806ed55d68ae8bfafd3f1680960ba0baa339f011",
+  "verdict": "BLOCKED",
+  "dispositions": {
+    "SR01": "PARTIALLY_REMEDIATED",
+    "SR02": "CLOSED",
+    "SR03": "CLOSED",
+    "SR04": "CLOSED",
+    "SR05": "CLOSED",
+    "SR06": "PARTIALLY_REMEDIATED"
+  },
+  "new_findings": [
+    {
+      "id": "SR07",
+      "severity": "HIGH",
+      "title": "Exact Risk action and authorization omit scientific experiment identity",
+      "result": "A fully valid commitment for another experiment under the same strategy/version receives AUTHORIZED.",
+      "root_cause": "The provider wrapper compares its experiment identity only with the assessment it contains; risk-action, risk-decision and action-authorization carry no independently expected experiment identity."
+    },
+    {
+      "id": "SR08",
+      "severity": "MEDIUM",
+      "title": "Same economic liability can be reserved twice under new wrapper identities",
+      "result": "Two 500-minor RESERVE events for the same position and canonical subject reconcile as 1000 reserved/liability after action, authorization and reservation IDs change.",
+      "root_cause": "Reservation uniqueness uses reservation_id and action_sha256, while economic_identity_sha256 includes mutable wrapper fields and no stable liability identity is enforced."
+    }
+  ],
+  "authoritative_assembly": {
+    "legacy_caller_assertions_deny": true,
+    "authority_required": true,
+    "fixed_project_bankroll_policy_paths_and_bytes": true,
+    "caller_science_wrapper_can_select_other_experiment": true,
+    "dishonest_provider_classification": "documented external verifier assumption when the entire state universe and heads are self-consistent"
+  },
+  "scientific_evidence": {
+    "one_bit_unstructured_assertion_rejected": true,
+    "wrong_strategy_or_version_rejected": true,
+    "wrong_experiment_under_same_strategy_authorized": true,
+    "stale_replayed_unconsumed_and_untrusted_controls": "locally enforced under trusted current policy and durable store",
+    "scientific_evidence_alone_authorizes": false
+  },
+  "per_action_authorization": {
+    "represented_action_fields_bound": true,
+    "current_state_controls_exposure_ledger_and_kill_bound": true,
+    "single_use_local_store": true,
+    "expiry_enforced": true,
+    "experiment_identity_bound": false
+  },
+  "current_heads": {
+    "lifecycle_valid_prefix_rejected": true,
+    "ledger_valid_prefix_rejected": true,
+    "kill_valid_prefix_rejected": true,
+    "host_or_verifier_rollback_proved_locally": false
+  },
+  "authority": {
+    "revoked_stale_missing_provenance_self_issued_wrong_role_scope_subject_rejected": true,
+    "alias_equivalence_and_pairwise_conflicts_rejected": true,
+    "external_authentication_key_custody_and_policy_truth_proved_locally": false
+  },
+  "stop": {
+    "real_stop_status": "OPEN",
+    "candidate_relabel_bypass": false,
+    "complete_inventory_and_current_head_required": true,
+    "dependency_targets_required": true,
+    "clearance_roles_and_capital_derived_from_policy": true,
+    "wrong_stale_future_or_other_stop_clearance_rejected": true
+  },
+  "exposure": {
+    "pending_counted": true,
+    "open_counted": true,
+    "canonical_versions_and_aliases_aggregate": true,
+    "unknown_identity_rejected": true,
+    "mandatory_correlation_dependencies": true,
+    "complete_sports_domain_correlation_proved": false
+  },
+  "reservations_and_settlement": {
+    "exact_reservation_settlement_binding": true,
+    "release_then_settle_rejected": true,
+    "duplicate_settlement_wrapper_rejected": true,
+    "same_liability_new_action_wrapper_rejected": false
+  },
+  "capital_lock": {
+    "conceptual_minor": 5000,
+    "live_deployable_minor": 0,
+    "reserved_minor": 0,
+    "live_status": "LOCKED",
+    "kill_status": "ENGAGED",
+    "actual_M0_live_new_exposure_authorized": false,
+    "actual_M0_rejection_surface": "authoritative zero live exposure limits; OPEN STOP, engaged kill and zero capital also remain controlling"
+  },
+  "positive_controls": {
+    "synthetic_fully_evidenced_paper_path_authorized": true,
+    "scientific_evidence_remains_non_operational_by_itself": true,
+    "exact_token_issued_only_after_all_controls": true,
+    "exposure_neutral_settlement_allowed_under_engaged_kill": true
+  },
+  "repository_validation_with_completion": {
+    "records": 98,
+    "published_history_valid": true,
+    "capital_status": "LOCKED",
+    "scientific_or_operational_approval": false
+  },
+  "focused": {
+    "skeptic_risk_v2": {"methods": 10, "passed": 10},
+    "risk_owner": {"methods": 14, "passed": 14},
+    "skeptic_risk_v1_preserved": {
+      "methods": 21,
+      "passed": 1,
+      "errored": 16,
+      "failed": 4,
+      "classification": "Expected hardened-prerequisite/API mismatch and contradicted historical vulnerable assertions; semantic coverage restored by v2."
+    }
+  },
+  "commands": [
+    ".venv/bin/python -m unittest discover -s tests -p 'test_skeptic_risk_v2.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_risk_controls.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_skeptic_risk_v1.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -v",
+    ".venv/bin/python -m src.edgelab.validate",
+    ".venv/bin/python -m compileall -q src tests",
+    "git diff --check"
+  ]
+}
