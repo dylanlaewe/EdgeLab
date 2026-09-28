@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "implementation_commit": "a2e2ec880ae5ec21e726658db14b844ec6b91dcd",
+  "files": {
+    "docs/SPECIFICATIONS.md": "5d693a5da7bfc991c62c98feb12c3dc82188a10cd27a54793fec1758eb78246c",
+    "schemas/action-authorization.schema.json": "e2b42ef07fcb64645c13d15964e30cdb84a4af767ace6a92ecda081cc9aa2694",
+    "schemas/ledger-event.schema.json": "39ac66abcc12610f3a404988e3955722c1d2c2d9348f414eac23e2d05e671e80",
+    "schemas/ledger-snapshot.schema.json": "0c98122f31362730e9e2aca47a744bc03a2023953e73bd2a2e87be2337c95612",
+    "schemas/risk-action.schema.json": "8411ab10cf5d403db5bb01e265144e7e82b25c7414d6c3a4a52a5844d5f25e93",
+    "schemas/risk-decision.schema.json": "28328f69c6b9edd2872859f1b29b401e190d5e1944a9ab3b0035001c46697ccf",
+    "src/edgelab/risk_controls.py": "33ade7f34ffae6cf4be613dbecea4ce3ca7351c3da4690eccae8440b3d09d722",
+    "tests/test_risk_controls.py": "12b69902fde3b3da5adfafe6cbe63ecceff4850b713f813fd69d57d45b0c103f"
+  },
+  "preserved": {
+    "tests/test_skeptic_risk_v1.py": "c3d1c0c18d9443561fceaad297102abd26e36d00b2d49a5b39da9889a5ae4fcb",
+    "tests/test_skeptic_risk_v2.py": "44c0d4a4a60bb0f80c42bd20a22f240c5d7fa867ddb6b8a81f30a071b799131b",
+    "reports/reviews/M0.1-risk-SR01-SR06-rereview.v2.md": "7abf45e711a3c909f142fbeb64c5bac0ce0dbc13807a753e1b71066167bbe358",
+    "reports/skeptic-risk-rereview/results.v2.json": "c1d3eb57c3d41a5ddc30dc6ceb25f17d61f75a6a51428a2bffd7230eac53b413",
+    "reports/skeptic-risk-rereview/preservation.v2.json": "5fd5d57c1ef74ca63c16ef12468358c6d877956bbf578da6b74ffe02c8ea3dda",
+    "reports/stops/STOP-M0-001.v1.json": "877eb367fde67eda4cbd33b72eea28e48d4f36f45253dc7fe40e3bfa9aa87571",
+    "portfolio/bankroll.json": "9ed04c4fb32fed1ba50999abdc1a84fa298e58071ac9fac9b1be1d6accf0d77a",
+    "portfolio/risk-policy.json": "766643a4d30984cbde5fe4194bb0e73a70cbd20366b95d268134d305b64806db",
+    "docs/project-state.json": "7df67776db254a3cea31e0805acbd980151a5be9d51c203f6130eff309a23717"
+  }
+}

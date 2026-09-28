@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "purpose": "H-M0-023 targeted Risk SR07-SR08 remediation validation; no operational authorization",
+  "claim_commit": "d2981c802976736ffd846001485e8732e1a300be",
+  "implementation_commit": "a2e2ec880ae5ec21e726658db14b844ec6b91dcd",
+  "verdict": "IMPLEMENTED_AWAITING_FOCUSED_INDEPENDENT_SKEPTIC_REREVIEW",
+  "focused": {
+    "risk_owner": {"methods": 18, "passed": 18, "failed": 0, "errored": 0, "skipped": 0},
+    "sr07_sr08_owner": {"methods": 4, "passed": 4, "failed": 0, "errored": 0, "skipped": 0},
+    "skeptic_risk_v2_unchanged": {"methods": 10, "passed": 8, "failed": 0, "errored": 2, "skipped": 0},
+    "foundation": {"methods": 18, "passed": 18, "failed": 0, "errored": 0, "skipped": 0},
+    "data": {"methods": 18, "passed": 18, "failed": 0, "errored": 0, "skipped": 0},
+    "research_history_v2": {"methods": 27, "passed": 27, "failed": 0, "errored": 0, "skipped": 0},
+    "quant_owner": {"methods": 24, "passed": 24, "failed": 0, "errored": 0, "skipped": 0},
+    "semantic_v2": {"methods": 12, "passed": 12, "failed": 0, "errored": 0, "skipped": 0},
+    "skeptic_quant_v7": {"methods": 6, "passed": 6, "failed": 0, "errored": 0, "skipped": 0}
+  },
+  "skeptic_risk_v2_disposition": {
+    "classification": "EXPECTED VERSIONED-CONTRACT BREAK: the two preserved SR07/SR08 unsafe-acceptance characterizations now raise at the hardened production boundary; the other eight successor methods pass. This is owner evidence only and requires focused independent re-review.",
+    "unchanged_sha256": "44c0d4a4a60bb0f80c42bd20a22f240c5d7fa867ddb6b8a81f30a071b799131b",
+    "contract_error_methods": [
+      "test_SR01_different_experiment_can_authorize_same_strategy_version",
+      "test_SR06_same_liability_under_new_wrapper_is_reserved_twice"
+    ]
+  },
+  "full_discovery": {
+    "methods": 234,
+    "passing_methods": 163,
+    "errored_methods": 66,
+    "failure_count": 5,
+    "skip_count": 0,
+    "seconds": 734.744,
+    "successful": false,
+    "classification": "NOT GREEN: exact published 230-method baseline red identities plus the two expected Skeptic Risk v2 hardened-contract errors; four new SR07/SR08 owner methods pass and no unexpected red identity appears."
+  },
+  "positive_controls": {
+    "exact_experiment_A_science_action_decision_token": true,
+    "assessment_and_commitment_digests_reach_decision_and_token": true,
+    "distinct_positions_remain_distinct_liabilities": true,
+    "exact_release_and_settlement_remain_valid": true,
+    "synthetic_paper_authorization_remains_possible": true,
+    "actual_M0_live_authorization_denied": true,
+    "scientific_consumption_remains_non_authorizing": true
+  },
+  "repository_validation": {
+    "records_before_completion_artifacts": 99,
+    "records_with_completion_artifacts": 102,
+    "published_history_valid": true,
+    "capital_status": "LOCKED",
+    "scientific_or_operational_approval": false
+  },
+  "capital": {
+    "conceptual_minor": 5000,
+    "live_deployable_minor": 0,
+    "reserved_minor": 0,
+    "live_status": "LOCKED",
+    "kill_switch": "ENGAGED",
+    "stop_M0_001": "OPEN",
+    "capital_moved": false
+  },
+  "external_limitations": [
+    "External controller/provider authentication and key custody",
+    "Hostile-host rollback protection and remote durability",
+    "Venue/execution honesty and external settlement truth",
+    "Cross-system atomicity and undisclosed off-system activity",
+    "Complete sport-specific correlation truth"
+  ]
+}

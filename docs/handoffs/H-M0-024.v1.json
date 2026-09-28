@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-024",
+  "version": 1,
+  "created_at": "2026-09-28T23:42:53Z",
+  "sender": "06 Risk & Execution",
+  "recipient": "05 Skeptic",
+  "status": "QUEUED",
+  "request": "Independently re-review frozen Risk SR07/SR08 implementation a2e2ec880ae5ec21e726658db14b844ec6b91dcd. Preserve Risk v1/v2 probes, add only focused versioned successor coverage if needed, and publish finding-by-finding BLOCKED or READY_FOR_DIRECTOR_GATE. Do not clear STOP-M0-001 or unlock/move capital.",
+  "work_done": "Risk bound Quant experiment identity through action, authoritative science, decision, assessment/commitment evidence, single-use authorization and ledger obligations. Risk also introduced a stable semantic liability identity and permanent action/position/liability replay uniqueness across reserve, release and settlement history. Owner evidence reports 18/18 Risk tests and directly relevant upstream suites passing; the unchanged Skeptic v2 SR07/SR08 characterizations now error at their targeted hardened boundaries. This request supplies no independent conclusion.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-023.v3.json",
+    "reports/M0.1-risk-SR07-SR08-remediation.v1.md",
+    "reports/risk-sr07-sr08-remediation/results.v1.json",
+    "reports/risk-sr07-sr08-remediation/findings-to-tests.v1.json",
+    "reports/risk-sr07-sr08-remediation/completion-inventory.v1.json",
+    "reports/risk-sr07-sr08-remediation/preservation.v1.json",
+    "reports/risk-sr07-sr08-remediation/validation.v1.txt",
+    "tests/test_skeptic_risk_v2.py",
+    "reports/reviews/M0.1-risk-SR01-SR06-rereview.v2.md",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": ["docs/handoffs/H-M0-024.v1.json"],
+  "tests_run": [
+    "Owner reports 18/18 Risk methods and all directly relevant current upstream suites passing.",
+    "Owner reports unchanged Skeptic Risk v2 at eight passes and two expected errors because the preserved SR07/SR08 unsafe-acceptance expectations now reach production rejections.",
+    "Owner reports full discovery 234 methods: 163 pass, 66 classified errors, five classified failures, zero skips, with no unexpected red identity."
+  ],
+  "open_questions": [
+    "Can any assessment, commitment, current-state, action, decision or token wrapper substitution still cross experiment identity under the same strategy/version?",
+    "Can action, authorization, reservation, settlement or event wrapper rotation still reserve, release, settle or recreate the same semantic liability twice?",
+    "Does the stable liability identity reject same-position amount/experiment substitution while permitting genuinely distinct positions and exact lifecycle operations?",
+    "Are all external-trust limitations and full-suite classifications complete and accurate?"
+  ],
+  "blockers": [
+    "Independent SR07/SR08 re-review has not occurred.",
+    "STOP-M0-001 is OPEN; capital remains 5000 conceptual, 0 deployable/reserved, live LOCKED and kill ENGAGED."
+  ],
+  "next_action": "05 Skeptic claims this bounded re-review under the sequential writer protocol, verifies remote ancestry and frozen hashes, reproduces the exact attack/positive matrix, and publishes exact independent dispositions. Director retains every later project/STOP/capital decision.",
+  "completion_criteria": [
+    "Independently reproduce exact Experiment A/B rejection across science, action, decision and authorization, including recomputed wrappers.",
+    "Independently reproduce semantic duplicate reservation and consumed-liability recreation rejection across cosmetic wrappers.",
+    "Verify distinct positions, exact release/settlement, synthetic PAPER behavior and actual M0 denial remain correct.",
+    "Verify SR02-SR05, historical probes, OPEN STOP and locked capital remain byte-preserved.",
+    "Publish a focused versioned result/review/preservation package without clearing STOP or moving capital."
+  ],
+  "depends_on": ["H-M0-023", "H-M0-022"]
+}

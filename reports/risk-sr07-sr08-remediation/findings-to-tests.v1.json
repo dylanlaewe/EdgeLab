@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "implementation_commit": "a2e2ec880ae5ec21e726658db14b844ec6b91dcd",
+  "mapping": {
+    "SR07": {
+      "owner_tests": [
+        "test_SR07_experiment_identity_is_exact_end_to_end",
+        "test_SR07_recomputed_science_wrapper_cannot_change_experiment",
+        "test_token_mutation_generation_and_expiry_matrix",
+        "test_ledger_exact_binding_conservation_and_current_head",
+        "test_isolated_exact_new_exposure_positive_requires_all_controls"
+      ],
+      "preserved_independent_probe": "test_SR01_different_experiment_can_authorize_same_strategy_version",
+      "controls": [
+        "risk-action.experiment_identity_sha256",
+        "risk-current-state.scientific experiment tuple",
+        "Quant assessment and commitment experiment identities",
+        "risk-decision experiment/assessment/commitment digests",
+        "action-authorization experiment/assessment/commitment digests",
+        "ledger-event experiment identity"
+      ]
+    },
+    "SR08": {
+      "owner_tests": [
+        "test_SR08_semantic_liability_rejects_wrapper_rotation_and_recreation",
+        "test_SR08_distinct_positions_remain_distinct_liabilities",
+        "test_ledger_exact_binding_conservation_and_current_head",
+        "test_exact_settlement_token_is_single_use_and_action_bound"
+      ],
+      "preserved_independent_probe": "test_SR06_same_liability_under_new_wrapper_is_reserved_twice",
+      "controls": [
+        "ledger-event.liability_identity_sha256",
+        "per-account permanent action digest uniqueness",
+        "per-account permanent position ID uniqueness",
+        "per-account permanent semantic liability uniqueness",
+        "exact economic identity for release, settlement and correction",
+        "semantic settlement identity derived from liability identity"
+      ]
+    },
+    "SR02_SR05_PRESERVATION": {
+      "owner_tests": [
+        "test_lifecycle_current_head_and_conflicted_approvers",
+        "test_kill_current_head_blocks_valid_prefix_rollback",
+        "test_scientific_authority_requires_provenance_revocation_and_replay",
+        "test_authoritative_stop_ignores_candidate_relabel_and_inventory_omission",
+        "test_stop_clearance_rejects_candidate_roles_wrong_head_and_stale_authority",
+        "test_pending_and_open_exposure_use_canonical_identity"
+      ],
+      "unchanged_skeptic_v2_methods_passing": 8
+    }
+  }
+}
