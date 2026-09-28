@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-023",
+  "version": 2,
+  "created_at": "2026-09-28T23:12:47Z",
+  "sender": "06 Risk & Execution",
+  "recipient": "06 Risk & Execution",
+  "status": "CLAIMED",
+  "request": "Narrow SR07/SR08 remediation: bind the exact Quant experiment through Risk action/decision/authorization and enforce stable semantic reservation uniqueness across cosmetic wrappers.",
+  "work_done": "Risk session risk-sr07-sr08-20260928T231247Z claims the sole-writer slot at clean synchronized base 5a96ee22e80ca3564cbbf813be0fa2674a5fb8a6 under explicit user authorization. Consumed H-M0-023 v1, H-M0-022 v3, the independent v2 review, ten-method Skeptic successor, results, validation and preservation evidence. Exclusive scope is the minimum Risk-owned action/authorization/decision and ledger reservation contracts, schemas, owner tests, specifications, SR07/SR08 reports/audit/handoffs and focused re-review request. Risk v1/v2 Skeptic probes, Quant artifacts, project state, STOP and portfolio files remain read-only.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-023.v1.json",
+    "docs/handoffs/H-M0-022.v3.json",
+    "reports/reviews/M0.1-risk-SR01-SR06-rereview.v2.md",
+    "tests/test_skeptic_risk_v2.py",
+    "reports/skeptic-risk-rereview/results.v2.json",
+    "reports/skeptic-risk-rereview/preservation.v2.json",
+    "reports/skeptic-risk-rereview/validation.v2.txt",
+    "reports/stops/STOP-M0-001.v1.json",
+    "docs/GIT_COORDINATION.md"
+  ],
+  "files_changed": ["docs/handoffs/H-M0-023.v2.json"],
+  "tests_run": [
+    "Verified active EdgeLab repository, GitHub remote, clean synchronized main at 5a96ee22e80ca3564cbbf813be0fa2674a5fb8a6, OPEN STOP, LOCKED bankroll, ENGAGED kill and unchanged Risk v1/v2 Skeptic hashes."
+  ],
+  "open_questions": [
+    "The action must consume Quant's existing experiment_identity_sha256 rather than introducing a competing experiment namespace.",
+    "Semantic reservation uniqueness must survive action/authorization/reservation wrapper changes while retaining genuinely distinct position obligations."
+  ],
+  "blockers": [
+    "SR07 HIGH and SR08 MEDIUM remain open pending implementation and independent focused re-review.",
+    "STOP-M0-001 remains OPEN; capital remains 5000 conceptual, 0 live deployable/reserved, live LOCKED and kill ENGAGED."
+  ],
+  "next_action": "Commit and push this claim, verify remote ancestry, then implement only the exact experiment chain and stable semantic liability identity with focused owner coverage. Preserve both Skeptic suites unchanged.",
+  "completion_criteria": [
+    "Risk action, authoritative scientific comparison, decision and action authorization bind the exact Quant experiment identity end-to-end.",
+    "Experiment A evidence cannot authorize an Experiment B action or token under the same strategy/version, including after caller wrapper rehashing.",
+    "Ledger events carry a stable semantic liability identity derived from the economic obligation rather than reservation/action/authorization wrapper IDs.",
+    "Duplicate reserve, release, settlement or liability recreation through cosmetic wrappers rejects while legitimate distinct positions and positive PAPER behavior remain possible.",
+    "SR02-SR05, capital lock, STOP, kill, paper/live separation, single-use/expiry and historical evidence remain preserved.",
+    "Owner, unchanged Skeptic v2, Quant integration, upstream regression, preservation and full-suite evidence plus a focused independent re-review request are published."
+  ],
+  "depends_on": ["H-M0-022", "H-M0-021"]
+}
