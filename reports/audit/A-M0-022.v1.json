@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-022",
+  "version": 1,
+  "occurred_at": "2026-09-28T03:48:48Z",
+  "actor": "06 Risk & Execution session risk-sr01-sr06-8C9822D7-863F-41C6-8B9C-0A44B4C9A13D",
+  "role": "06 Risk & Execution",
+  "event_type": "RISK_SR01_SR06_REMEDIATION_IMPLEMENTED_PENDING_REREVIEW",
+  "subject_ref": "docs/handoffs/H-M0-021.v3.json",
+  "previous_state": "RISK_REMEDIATION_REQUIRED_STOP_OPEN_CAPITAL_LOCKED",
+  "new_state": "RISK_SR01_SR06_IMPLEMENTED_AWAITING_INDEPENDENT_SKEPTIC_REREVIEW",
+  "reason": "Caller-asserted authorization, valid-prefix rollback, authority provenance/conflicts, candidate STOP semantics, pending/cosmetic exposure and actionless ledger bindings were replaced with exact-action verifier-current contracts. Independent H-M0-022 review remains mandatory; no STOP or capital state changed.",
+  "evidence_refs": [
+    "reports/M0.1-risk-SR01-SR06-remediation.v1.md",
+    "reports/risk-sr01-sr06-remediation/results.v1.json",
+    "reports/risk-sr01-sr06-remediation/findings-to-tests.v1.json",
+    "reports/risk-sr01-sr06-remediation/completion-inventory.v1.json",
+    "reports/risk-sr01-sr06-remediation/preservation.v1.json",
+    "docs/handoffs/H-M0-022.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "code_ref": "806ed55d68ae8bfafd3f1680960ba0baa339f011",
+  "config_ref": "docs/SPECIFICATIONS.md and unchanged portfolio/risk-policy.json",
+  "correlation_id": "H-M0-021",
+  "supersedes": null
+}

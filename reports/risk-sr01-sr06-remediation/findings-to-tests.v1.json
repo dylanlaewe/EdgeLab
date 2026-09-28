@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "implementation_commit": "806ed55d68ae8bfafd3f1680960ba0baa339f011",
+  "mapping": {
+    "SR01": {
+      "owner_tests": [
+        "test_legacy_caller_assertions_are_deny_only",
+        "test_actual_m0_and_fixed_state_substitution_cannot_authorize_live",
+        "test_isolated_exact_new_exposure_positive_requires_all_controls",
+        "test_exact_settlement_token_is_single_use_and_action_bound",
+        "test_token_mutation_generation_and_expiry_matrix"
+      ],
+      "controls": ["RiskStateAuthority", "assemble_authoritative_decision", "risk-action", "risk-current-state", "action-authorization", "JsonAuthorizationStore"]
+    },
+    "SR02": {
+      "owner_tests": ["test_lifecycle_current_head_and_conflicted_approvers", "test_ledger_exact_binding_conservation_and_current_head", "test_kill_current_head_blocks_valid_prefix_rollback"],
+      "controls": ["history_head", "verify_current_head"]
+    },
+    "SR03": {
+      "owner_tests": ["test_scientific_authority_requires_provenance_revocation_and_replay", "test_lifecycle_current_head_and_conflicted_approvers", "test_stop_clearance_rejects_candidate_roles_wrong_head_and_stale_authority"],
+      "controls": ["_active_actor_ids", "_assert_independent", "verify_attestation", "consume_scientific_commitment"]
+    },
+    "SR04": {
+      "owner_tests": ["test_authoritative_stop_ignores_candidate_relabel_and_inventory_omission", "test_stop_clearance_derives_roles_and_rejects_future", "test_stop_clearance_rejects_candidate_roles_wrong_head_and_stale_authority"],
+      "controls": ["evaluate_stop_snapshot", "validate_stop_clearance", "stop-policy"]
+    },
+    "SR05": {
+      "owner_tests": ["test_pending_and_open_exposure_use_canonical_identity", "test_isolated_exact_new_exposure_positive_requires_all_controls"],
+      "controls": ["evaluate_exposure", "canonical-risk-identity", "exposure-position"]
+    },
+    "SR06": {
+      "owner_tests": ["test_ledger_exact_binding_conservation_and_current_head", "test_exact_settlement_token_is_single_use_and_action_bound", "test_neutral_settlement_rule_preserved"],
+      "controls": ["replay_ledger", "reconcile_ledger", "ledger-event", "ledger-snapshot"]
+    }
+  }
+}
