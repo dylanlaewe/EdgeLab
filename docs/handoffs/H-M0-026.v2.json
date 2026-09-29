@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-026",
+  "version": 2,
+  "created_at": "2026-09-29T04:20:00Z",
+  "sender": "00 Director",
+  "recipient": "Human project governance",
+  "status": "BLOCKED",
+  "request": "Provision the non-self-issued external authority root required before a valid STOP-M0-001 clearance attempt.",
+  "work_done": "Director published the minimum safe provisioning plan. It identifies a repository-only policy as invalid, requires an externally authenticated root and distinct delegated clearance actors, and records the current Risk verifier gap: caller-supplied policy/source values are not cryptographically authenticated. No credentials, keys, policy, attestation, resolution event, STOP change, M1 work or capital change was created.",
+  "evidence_refs": [
+    "reports/M0.1-authority-provisioning-plan.v1.md",
+    "docs/handoffs/H-M0-025.v2.json",
+    "docs/SPECIFICATIONS.md",
+    "src/edgelab/risk_controls.py",
+    "schemas/authority-policy.schema.json",
+    "schemas/approval-attestation.schema.json",
+    "schemas/stop-resolution-event.schema.json"
+  ],
+  "files_changed": [
+    "reports/M0.1-authority-provisioning-plan.v1.md",
+    "docs/handoffs/H-M0-026.v2.json",
+    "reports/audit/A-M0-027.v1.json",
+    "docs/project-state.json"
+  ],
+  "tests_run": [
+    "Planning evidence was read against authority-policy, approval-attestation and STOP-resolution schemas plus Risk validation code; no authority implementation was executed."
+  ],
+  "open_questions": [
+    "Human governance must select the external KMS/identity provider, root-fingerprint delivery channel and independently administered delegate identities."
+  ],
+  "blockers": [
+    "External trust root and verifier integration remain absent; STOP-M0-001 remains OPEN and M0/M1 remain blocked."
+  ],
+  "next_action": "Await explicit human selection and provisioning of the external trust provider. Then release only a bounded Risk engineering task to authenticate and verify that external authority channel before any clearance evidence is assembled.",
+  "completion_criteria": [
+    "External root key/identity and policy source exist outside autonomous agent authority.",
+    "Distinct external clearance actors, revocation, generation and conflict policies are defined.",
+    "Risk verifier integration independently authenticates policy/attestations and fails closed on unavailable or invalid authority state.",
+    "No STOP resolution is attempted until those conditions and a later independent review succeed."
+  ],
+  "depends_on": [
+    "H-M0-025"
+  ]
+}

@@ -30,7 +30,7 @@
     "Statistical, freshness and post-M0 risk thresholds unresolved",
     "Checkpoint preservation does not prove authoritative currency; trusted current-state integration remains required for confirmatory eligibility."
   ],
-  "next_assignment": "Provision external STOP-clearance authority and independent attestation channel",
+  "next_assignment": "Human selection of external authority provider and bounded Risk verifier integration",
   "updated_at": "2026-09-20T02:06:05.946196+00:00",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json"
@@ -39,9 +39,9 @@
   "open_findings": [
     "STOP-M0-001-CLEARANCE-AUTHORITY"
   ],
-  "next_handoff_ref": "docs/handoffs/H-M0-025.v2.json",
+  "next_handoff_ref": "docs/handoffs/H-M0-026.v2.json",
   "coordination_plan_ref": "docs/REMEDIATION_PLAN.md",
   "git_protocol_ref": "docs/GIT_COORDINATION.md",
   "writer_policy": "SEQUENTIAL_ONE_ACTIVE_WRITER",
-  "next_owner_release": "No implementation owner is released. Human project governance must provision the non-self-issued STOP-clearance authority channel; Director then coordinates independent attestation and a new final gate. STOP remains OPEN, M1 is not authorized, capital remains LOCKED."
+  "next_owner_release": "No implementation owner is released. Human project governance must select and provision the external trust root; only then may Director release bounded Risk verifier integration. STOP remains OPEN, M1 is not authorized, capital remains LOCKED."
 }
