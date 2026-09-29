@@ -1,0 +1,21 @@
+{
+  "schema_version": 2,
+  "task_id": "T-SYNTHETIC-001",
+  "milestone": "M0.2",
+  "task_purpose": "SYNTHETIC_ORCHESTRATION",
+  "action_classification": "SYNTHETIC_TEST",
+  "operation": "SYNTHETIC_ASSERT",
+  "effects": ["REPOSITORY_READ"],
+  "capability_refs": [],
+  "assigned_role": "00 Director",
+  "status": "QUEUED",
+  "dependencies": [],
+  "handoff_ref": "docs/handoffs/H-M0-028.v2.json",
+  "attempt": 1,
+  "created_at": "2026-09-29T00:00:00+00:00",
+  "updated_at": "2026-09-29T00:00:00+00:00",
+  "review_required": true,
+  "reviewer_role": "05 Skeptic",
+  "blocking_reason": null,
+  "completion_evidence": []
+}

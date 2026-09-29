@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-029",
+  "version": 1,
+  "created_at": "2026-09-29T23:35:00Z",
+  "sender": "00 Director",
+  "recipient": "05 Skeptic",
+  "status": "QUEUED",
+  "request": "Perform a focused independent re-review of H-M0-028.v3 remediation. Verify M02-SK-01 through M02-SK-07 using current repository artifacts, preserved v1 probes and v2 successor probes. Do not clear STOP, release M1, or attach an executor.",
+  "work_done": "Director completed the bounded remediation and yielded the writer slot. Current completion evidence is H-M0-028.v3; no acceptance verdict is claimed by Director.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-028.v3.json",
+    "reports/M0.2-orchestration-remediation-results.v1.json",
+    "docs/M0.2_ORCHESTRATION.md",
+    "tests/test_skeptic_orchestration_v1.py",
+    "tests/test_skeptic_orchestration_v2.py",
+    "orchestration/scheduler-state.json",
+    "orchestration/tasks/T-SYNTHETIC-001.v1.json"
+  ],
+  "files_changed": [],
+  "tests_run": ["Director evidence recorded in H-M0-028.v3; Skeptic must independently rerun and inspect."],
+  "open_questions": ["Future authentication, append-only evidence, transactional state, executor boundary and usage policy remain unresolved by design."],
+  "blockers": ["STOP-M0-001 OPEN; M0 blocked; M1 unreleased; all operational scopes remain prohibited."],
+  "next_action": "05 Skeptic claims a read-only focused re-review and publishes an evidence-linked disposition for each M02-SK finding.",
+  "completion_criteria": ["Each M02-SK-01 through M02-SK-07 finding is independently accepted, rejected, or retained with evidence.", "Historical probes remain preserved and future gates remain explicit."],
+  "depends_on": ["H-M0-028"]
+}

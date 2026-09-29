@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-028",
+  "version": 3,
+  "created_at": "2026-09-29T23:35:00Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Complete bounded mock-only remediation of M02-SK-01 through M02-SK-07.",
+  "work_done": "Replaced caller-controlled scheduler semantics with typed repository-resolved synthetic state. The preflight now binds task semantics, current claim and attempt, exact project/STOP heads, local checkout identity, dependency closure and capability references. Completion/review is fail-closed because authenticated append-only authority is not available. The v1 Skeptic probes are preserved; v2 successor probes pass.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-028.v1.json",
+    "docs/handoffs/H-M0-028.v2.json",
+    "docs/M0.2_ORCHESTRATION.md",
+    "reports/M0.2-orchestration-remediation-results.v1.json",
+    "tests/test_skeptic_orchestration_v1.py",
+    "tests/test_skeptic_orchestration_v2.py",
+    "orchestration/scheduler-state.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "schemas/orchestration-task.schema.json",
+    "schemas/scheduler-state.schema.json",
+    "orchestration/scheduler-state.json",
+    "orchestration/tasks/T-SYNTHETIC-001.v1.json",
+    "src/edgelab/orchestration.py",
+    "tests/test_orchestration.py",
+    "tests/test_skeptic_orchestration_v2.py",
+    "docs/M0.2_ORCHESTRATION.md",
+    "reports/M0.2-orchestration-remediation-results.v1.json",
+    "docs/handoffs/H-M0-028.v3.json"
+  ],
+  "tests_run": [
+    "Owner and hardened successor suite: 12 passed.",
+    "Data, foundation, owner and hardened successor suite: 48 passed.",
+    "Repository validation: 123 records; compileall and diff check passed.",
+    "Preserved v1 historical probes: 12 expected failed attack-success assertions and 2 expected errors because completion/review now fail closed."
+  ],
+  "open_questions": [
+    "Authenticated append-only completion evidence, authenticated reviewer identity, transactional scheduler state, typed executor attachment and model/usage policy remain future gates.",
+    "Local repository identity does not solve external trust or hostile-host assurance."
+  ],
+  "blockers": [
+    "STOP-M0-001 OPEN; M0 blocked; M1 unreleased; no operational work or executor.",
+    "Independent Skeptic re-review is required before this remediation may be accepted."
+  ],
+  "next_action": "Director yields the writer slot and requests focused independent Skeptic re-review through H-M0-029.v1.",
+  "completion_criteria": [
+    "Focused Skeptic independently verifies M02-SK-01 through M02-SK-07 against current artifacts and preserved v1 evidence.",
+    "No executor attachment or operational capability is proposed before all required future gates are separately authorized."
+  ],
+  "depends_on": ["H-M0-027"]
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "state_id": "M0.2-SYNTHETIC-SCHEDULER",
+  "generation": 1,
+  "project_state": {
+    "ref": "docs/project-state.json",
+    "sha256": "c0427b1be5df50c358133368d8a7aae995c9d7f3ee927a62dccff2785b884ea6"
+  },
+  "stops": [
+    {
+      "ref": "reports/stops/STOP-M0-001.v1.json",
+      "sha256": "877eb367fde67eda4cbd33b72eea28e48d4f36f45253dc7fe40e3bfa9aa87571"
+    }
+  ],
+  "tasks": {
+    "T-SYNTHETIC-001": "orchestration/tasks/T-SYNTHETIC-001.v1.json"
+  },
+  "claims": {
+    "T-SYNTHETIC-001": {
+      "role": "00 Director",
+      "attempt": 1,
+      "status": "ACTIVE",
+      "handoff_ref": "docs/handoffs/H-M0-028.v2.json",
+      "generation": 1
+    }
+  },
+  "completed_tasks": []
+}
