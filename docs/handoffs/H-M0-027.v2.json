@@ -9,7 +9,7 @@
   "request": "Implement the bounded M0.2 non-operational orchestration sandbox using offline synthetic fixtures only.",
   "work_done": "Director claims the sole writer slot at synchronized base a9a527cfb905151baa138a656bf6acfee1da291e. Exclusive scope: orchestration schemas and module, synthetic tests/fixtures, specification/report/audit/completion handoffs, and necessary validator integration. STOP, bankroll, risk policy, existing role controls and external authority track are read-only.",
   "evidence_refs": ["docs/handoffs/H-M0-027.v1.json", "reports/M0.2-nonoperational-orchestration-scope.v1.md", "reports/stops/STOP-M0-001.v1.json", "docs/project-state.json"],
-  "files_changed": ["docs/handoffs/H-M0-027.v2.json"],
+  "files_changed": ["docs/handoffs/H-M0-027.v2.json", "schemas/orchestration-task.schema.json", "schemas/capability-registry.schema.json", "src/edgelab/orchestration.py", "tests/test_orchestration.py", "docs/M0.2_ORCHESTRATION.md", "reports/M0.2-orchestration-results.v1.json"],
   "tests_run": ["Preflight complete; implementation validation pending."],
   "open_questions": ["Actual Codex execution remains represented only by a mock executor until separately authorized."],
   "blockers": ["STOP-M0-001 OPEN; M0 BLOCKED; M1, Scout, real data/research, paper, live, capital, plugins and external authority provisioning are out of scope."],

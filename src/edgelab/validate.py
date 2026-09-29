@@ -24,6 +24,8 @@ LOCATIONS = {
     'audit': 'reports/audit/*.json', 'handoff': 'docs/handoffs/*.json',
     'stop': 'reports/stops/*.json', 'bankroll': 'portfolio/bankroll.json',
     'risk-policy': 'portfolio/risk-policy.json',
+    'orchestration-task': 'orchestration/tasks/*.json',
+    'capability-registry': 'orchestration/capabilities/*.json',
 }
 CHECKER = FormatChecker()
 

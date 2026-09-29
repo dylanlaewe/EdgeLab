@@ -30,7 +30,7 @@
     "Statistical, freshness and post-M0 risk thresholds unresolved",
     "Checkpoint preservation does not prove authoritative currency; trusted current-state integration remains required for confirmatory eligibility."
   ],
-  "next_assignment": "Queued M0.2 non-operational orchestration sandbox; external authority provisioning continues independently",
+  "next_assignment": "Independent Skeptic review of the completed M0.2 non-operational orchestration sandbox",
   "updated_at": "2026-09-20T02:06:05.946196+00:00",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json"
@@ -39,9 +39,9 @@
   "open_findings": [
     "STOP-M0-001-CLEARANCE-AUTHORITY"
   ],
-  "next_handoff_ref": "docs/handoffs/H-M0-027.v1.json",
+  "next_handoff_ref": "docs/handoffs/H-M0-027.v3.json",
   "coordination_plan_ref": "docs/REMEDIATION_PLAN.md",
   "git_protocol_ref": "docs/GIT_COORDINATION.md",
   "writer_policy": "SEQUENTIAL_ONE_ACTIVE_WRITER",
-  "next_owner_release": "No writer is active. H-M0-027 is queued for a later bounded Director claim only; it remains synthetic, deny-by-default and non-operational. External trust-root provisioning continues independently. STOP remains OPEN, M1 is not authorized, capital remains LOCKED."
+  "next_owner_release": "05 Skeptic may claim a read-only independent review of H-M0-027 v3. STOP remains OPEN, M0 remains blocked, M1 is not authorized and capital remains LOCKED."
 }
