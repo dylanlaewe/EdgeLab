@@ -30,25 +30,18 @@
     "Statistical, freshness and post-M0 risk thresholds unresolved",
     "Checkpoint preservation does not prove authoritative currency; trusted current-state integration remains required for confirmatory eligibility."
   ],
-  "next_assignment": "Bounded M0 Risk remediation",
+  "next_assignment": "Provision external STOP-clearance authority and independent attestation channel",
   "updated_at": "2026-09-20T02:06:05.946196+00:00",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json"
   ],
   "review_ref": "reports/reviews/M0.1-skeptic-review.v1.md",
   "open_findings": [
-    "H01",
-    "H02",
-    "H03",
-    "H04",
-    "H05",
-    "H06",
-    "M01",
-    "M02"
+    "STOP-M0-001-CLEARANCE-AUTHORITY"
   ],
-  "next_handoff_ref": "docs/handoffs/H-M0-006.v3.json",
+  "next_handoff_ref": "docs/handoffs/H-M0-025.v2.json",
   "coordination_plan_ref": "docs/REMEDIATION_PLAN.md",
   "git_protocol_ref": "docs/GIT_COORDINATION.md",
   "writer_policy": "SEQUENTIAL_ONE_ACTIVE_WRITER",
-  "next_owner_release": "06 Risk & Execution exclusively reserved for bounded H-M0-006 v3 remediation after release publication; synchronize and publish v4 claim. Director yields; STOP remains OPEN and capital remains LOCKED."
+  "next_owner_release": "No implementation owner is released. Human project governance must provision the non-self-issued STOP-clearance authority channel; Director then coordinates independent attestation and a new final gate. STOP remains OPEN, M1 is not authorized, capital remains LOCKED."
 }
