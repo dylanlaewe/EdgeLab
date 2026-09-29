@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-028",
+  "version": 1,
+  "created_at": "2026-09-29T23:00:30Z",
+  "sender": "05 Skeptic",
+  "recipient": "00 Director",
+  "status": "QUEUED",
+  "request": "Remediate M02-SK-01 through M02-SK-07 in the M0.2 orchestration governance engine while preserving the mock-only boundary, OPEN STOP and locked capital.",
+  "work_done": "Independent adversarial review demonstrated seven HIGH governance-integrity findings. Caller labels can disguise operational semantics; the stale v2 assignment is the only accepted handoff; malformed/stale safety heads and copied repository identity can pass; writer/dependency truth is caller-supplied; completion/review routes are unauthenticated; and capability enforcement is optional. No external-effect path or BLOCKER was found because no executor exists.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-orchestration-skeptic-review.v1.md",
+    "tests/test_skeptic_orchestration_v1.py",
+    "reports/skeptic-orchestration-review/results.v1.json",
+    "reports/skeptic-orchestration-review/preservation.v1.json",
+    "docs/handoffs/H-M0-027.v4.json",
+    "docs/handoffs/H-M0-027.v5.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [],
+  "tests_run": [
+    "Focused owner plus Skeptic orchestration suite: 21/21 passed, including 15 preserved adversarial reproducers.",
+    "Foundation regression: 18/18 passed."
+  ],
+  "open_questions": [
+    "Director must choose the smallest authoritative repository state model that supports current-head resolution and atomic claims without implying an operational executor.",
+    "External identity/authentication and durable hostile-host guarantees remain future architecture gates and must not be claimed from local Git alone."
+  ],
+  "blockers": [
+    "The M0.2 governance decision engine is rejected until all seven HIGH findings are remediated and independently reviewed.",
+    "A real executor, M1, Scout, operational work, plugins, external capabilities and capital remain prohibited."
+  ],
+  "next_action": "Director may claim a bounded remediation under the single-writer protocol. Keep the execution adapter absent; implement authoritative validated inputs and transitions, retain the v1 reproducers, add hardened successor tests, then request independent Skeptic re-review.",
+  "completion_criteria": [
+    "Full schema-valid task and capability records are required and allowlisted labels are bound to closed synthetic operations/resources.",
+    "Current assignment, claim, attempt, task status, dependency closure, writer ownership and safety/STOP heads are derived from authoritative validated repository state rather than caller assertions.",
+    "Repository preflight establishes the configured trusted checkout and expected remote ancestry rather than accepting copied markers/configuration.",
+    "Completion/review routes verify current task/attempt, landed evidence and remote ancestry, writer release, canonical independent identities and immutable subject binding.",
+    "All original owner tests and Skeptic v1 reproducers are preserved; hardened successor tests pass; no real executor or operational capability is introduced.",
+    "Independent Skeptic re-review closes each finding before any later executor-attachment proposal."
+  ],
+  "depends_on": [
+    "H-M0-027"
+  ]
+}
