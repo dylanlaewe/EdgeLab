@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-027",
+  "version": 1,
+  "created_at": "2026-09-29T04:45:00Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "QUEUED",
+  "request": "Build only the M0.2 non-operational orchestration sandbox described in the Director scope record. This is not M1 operations and may not clear STOP-M0-001.",
+  "work_done": "Director governance review found that STOP-M0-001 does not prohibit unrelated synthetic repository engineering, while the remediation plan permits coordination and synthetic tests. This queued milestone creates no writer claim and no operational release.",
+  "evidence_refs": [
+    "reports/M0.2-nonoperational-orchestration-scope.v1.md",
+    "reports/stops/STOP-M0-001.v1.json",
+    "docs/REMEDIATION_PLAN.md",
+    "docs/project-state.json",
+    "docs/handoffs/H-M0-026.v2.json"
+  ],
+  "files_changed": [],
+  "tests_run": [
+    "Governance review only; implementation has not begun."
+  ],
+  "open_questions": [
+    "The task classifier and dispatcher do not yet exist; their design must be independently reviewed before any autonomous routing is trusted."
+  ],
+  "blockers": [
+    "STOP-M0-001 remains OPEN; M0 and M1 operational release remain blocked.",
+    "External authority provisioning and bounded Risk verifier integration remain separate prerequisites for STOP clearance."
+  ],
+  "next_action": "Before implementation, 00 Director must claim v2 under docs/GIT_COORDINATION.md with a bounded file scope. Implement machine-enforced default denial and the exact allowlist before any queue can dispatch a task.",
+  "completion_criteria": [
+    "Unknown task classifications and every prohibited action deny before dispatch.",
+    "The scheduler rechecks current STOP/project state and fails closed on missing, stale or inconsistent safety state.",
+    "Only repository fixtures or generated static inputs are accepted by synthetic tasks; no external execution, plugins, capital, source ingestion, research campaign, paper or live action is reachable.",
+    "Independent Skeptic review verifies the sandbox cannot route a prohibited action while STOP is OPEN."
+  ],
+  "depends_on": [
+    "H-M0-025",
+    "H-M0-026"
+  ]
+}

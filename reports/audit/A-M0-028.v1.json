@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-028",
+  "version": 1,
+  "occurred_at": "2026-09-29T04:45:00Z",
+  "actor": "00 Director",
+  "role": "00 Director",
+  "event_type": "M0_2_NON_OPERATIONAL_ORCHESTRATION_SANDBOX_QUEUED",
+  "subject_ref": "docs/handoffs/H-M0-027.v1.json",
+  "previous_state": "M0_BLOCKED_STOP_OPEN_NO_M1_RELEASE",
+  "new_state": "M0_BLOCKED_STOP_OPEN_SYNTHETIC_ORCHESTRATION_SANDBOX_QUEUED",
+  "reason": "The STOP scope blocks approval and operational reliance, not unrelated synthetic coordination engineering. The queued scope is deny-by-default and explicitly excludes Scout, real data/research, paper, live, capital, network execution and plugin activation.",
+  "evidence_refs": [
+    "reports/M0.2-nonoperational-orchestration-scope.v1.md",
+    "reports/stops/STOP-M0-001.v1.json",
+    "docs/REMEDIATION_PLAN.md"
+  ],
+  "code_ref": "cab590b3acf6b94c387a0db40d1c6ae0aa5308f8",
+  "config_ref": "docs/project-state.json; portfolio/risk-policy.json",
+  "correlation_id": "M0.2-NONOP-ORCHESTRATION",
+  "supersedes": null
+}
