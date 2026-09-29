@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-027",
+  "version": 2,
+  "created_at": "2026-09-29T05:15:00Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "CLAIMED",
+  "request": "Implement the bounded M0.2 non-operational orchestration sandbox using offline synthetic fixtures only.",
+  "work_done": "Director claims the sole writer slot at synchronized base a9a527cfb905151baa138a656bf6acfee1da291e. Exclusive scope: orchestration schemas and module, synthetic tests/fixtures, specification/report/audit/completion handoffs, and necessary validator integration. STOP, bankroll, risk policy, existing role controls and external authority track are read-only.",
+  "evidence_refs": ["docs/handoffs/H-M0-027.v1.json", "reports/M0.2-nonoperational-orchestration-scope.v1.md", "reports/stops/STOP-M0-001.v1.json", "docs/project-state.json"],
+  "files_changed": ["docs/handoffs/H-M0-027.v2.json"],
+  "tests_run": ["Preflight complete; implementation validation pending."],
+  "open_questions": ["Actual Codex execution remains represented only by a mock executor until separately authorized."],
+  "blockers": ["STOP-M0-001 OPEN; M0 BLOCKED; M1, Scout, real data/research, paper, live, capital, plugins and external authority provisioning are out of scope."],
+  "next_action": "Implement typed default-deny dispatch decisions and offline tests, then request independent Skeptic review.",
+  "completion_criteria": ["Default-deny action classification, current project/STOP gates, repository identity, stale claims, dependencies, writer slot, review/release routing and audit decisions are tested.", "Synthetic workflow proves remediation routing and Director-gate readiness without any execution adapter or operational action.", "Safety state remains unchanged and a Skeptic review request is published."],
+  "depends_on": ["H-M0-025", "H-M0-026"]
+}
