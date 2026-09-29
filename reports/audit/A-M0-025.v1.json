@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-025",
+  "version": 1,
+  "occurred_at": "2026-09-29T02:36:27Z",
+  "actor": "05 Skeptic session skeptic-risk-sr07-sr08-rereview-20260929T021701Z-7585c16",
+  "role": "05 Skeptic",
+  "event_type": "RISK_SR07_SR08_INDEPENDENTLY_CLOSED_READY_FOR_DIRECTOR_GATE",
+  "subject_ref": "docs/handoffs/H-M0-024.v3.json",
+  "previous_state": "SR07_SR08_IMPLEMENTED_AWAITING_INDEPENDENT_REVIEW_STOP_OPEN_CAPITAL_LOCKED",
+  "new_state": "SR07_SR08_AND_LOCAL_SR01_SR06_CLOSED_READY_FOR_DIRECTOR_M0_STOP_GATE",
+  "reason": "Valid-prerequisite independent probes confirm exact experiment binding and permanent semantic liability uniqueness across wrapper substitutions, release, settlement and recreation while preserving distinct positions and M0 denial. External trust assumptions remain explicit; STOP and capital are unchanged.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-risk-SR07-SR08-rereview.v3.md",
+    "tests/test_skeptic_risk_v3.py",
+    "reports/skeptic-risk-rereview/results.v3.json",
+    "reports/skeptic-risk-rereview/preservation.v3.json",
+    "docs/handoffs/H-M0-024.v3.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "code_ref": "566a8c457ec3466fdb99a81c6cdb3170c21dcda3",
+  "config_ref": "unchanged portfolio/risk-policy.json and portfolio/bankroll.json",
+  "correlation_id": "H-M0-024",
+  "supersedes": null
+}

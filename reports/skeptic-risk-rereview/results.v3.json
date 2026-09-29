@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "purpose": "Independent H-M0-024 focused SR07-SR08 valid-prerequisite re-review; no operational authorization",
+  "review_base": "7585c1642ec344cf91e73a1bb35e03abf0bf9904",
+  "claim_commit": "566a8c457ec3466fdb99a81c6cdb3170c21dcda3",
+  "risk_implementation": "a2e2ec880ae5ec21e726658db14b844ec6b91dcd",
+  "verdict": "READY_FOR_DIRECTOR_GATE",
+  "dispositions": {
+    "SR07": "CLOSED",
+    "SR08": "CLOSED",
+    "SR01": "CLOSED_LOCALLY",
+    "SR06": "CLOSED_LOCALLY"
+  },
+  "new_findings": [],
+  "sr07": {
+    "experiment_A_assessment_with_B_action_rejected": true,
+    "experiment_A_commitment_with_B_action_rejected": true,
+    "experiment_A_current_science_with_B_action_rejected": true,
+    "same_strategy_version_different_experiment_rejected": true,
+    "omitted_experiment_rejected": true,
+    "malformed_experiment_rejected": true,
+    "stale_action_digest_after_experiment_change_rejected": true,
+    "fully_recomputed_science_wrapper_substitution_rejected": true,
+    "issued_A_token_with_B_action_rejected": true,
+    "token_after_current_science_change_rejected": true,
+    "self_consistent_unissued_wrapper_fails_execution_store": true,
+    "exact_issued_token_single_use": true,
+    "exact_positive_paper_chain": true
+  },
+  "sr07_ledger": {
+    "experiment_in_semantic_liability": true,
+    "experiment_in_exact_economic_binding": true,
+    "experiment_B_settlement_of_A_reservation_rejected": true,
+    "old_liability_retained_after_experiment_change_rejected": true
+  },
+  "sr08": {
+    "reservation_wrapper_rotation_rejected": true,
+    "action_wrapper_rotation_rejected": true,
+    "authorization_wrapper_rotation_rejected": true,
+    "ledger_event_wrapper_rotation_rejected": true,
+    "event_market_selection_alias_wrapper_changes_rejected_for_same_position": true,
+    "record_version_substitution_rejected": true,
+    "account_substitution_rejected": true,
+    "amount_strategy_version_experiment_changes_rejected_for_same_position": true,
+    "post_release_recreation_rejected": true,
+    "post_settlement_recreation_rejected": true,
+    "release_then_alternate_settlement_rejected": true,
+    "alternate_second_settlement_rejected": true,
+    "distinct_positions_reserve_independently": true
+  },
+  "cross_layer": {
+    "same_position_different_experiment_rejected": true,
+    "same_experiment_different_position_allowed_as_distinct": true,
+    "experiment_A_reservation_used_by_B_rejected": true,
+    "liability_retained_while_experiment_changes_rejected": true,
+    "stale_action_identity_digest_while_experiment_changes_rejected": true
+  },
+  "trust_boundary": {
+    "self_digests_are_authentication": false,
+    "durably_issued_token_required": true,
+    "current_heads_require_honest_verifier": true,
+    "trusted_store_host_integrity_required": true,
+    "external_authentication_and_key_custody_proved": false,
+    "remote_durability_proved": false,
+    "venue_truth_proved": false,
+    "cross_system_atomicity_proved": false,
+    "complete_sports_correlation_proved": false
+  },
+  "capital": {
+    "conceptual_minor": 5000,
+    "live_deployable_minor": 0,
+    "reserved_minor": 0,
+    "live_status": "LOCKED",
+    "kill_status": "ENGAGED",
+    "stop_M0_001": "OPEN",
+    "actual_M0_live_authorized": false,
+    "capital_moved": false
+  },
+  "focused": {
+    "skeptic_risk_v3": {"methods": 9, "passed": 9},
+    "risk_owner": {"methods": 18, "passed": 18},
+    "foundation": {"methods": 18, "passed": 18},
+    "skeptic_risk_v2_preserved": {
+      "methods": 10,
+      "passed": 8,
+      "errored": 2,
+      "failed": 0,
+      "classification": "The two historical unsafe-acceptance characterizations now reach the intended exact-experiment and duplicate-liability semantic rejections; v3 restores current-prerequisite coverage."
+    }
+  },
+  "full_discovery": {
+    "methods": 243,
+    "passing_methods": 172,
+    "errored_methods": 66,
+    "failure_count": 5,
+    "skip_count": 0,
+    "seconds": 770.981,
+    "successful": false,
+    "classification": "NOT GREEN: exact published 234-method baseline red identities plus nine new passing Skeptic Risk v3 methods; no unexpected red identity."
+  },
+  "repository_validation_with_completion": {
+    "records": 105,
+    "published_history_valid": true,
+    "capital_status": "LOCKED",
+    "scientific_or_operational_approval": false
+  },
+  "commands": [
+    ".venv/bin/python -m unittest discover -s tests -p 'test_skeptic_risk_v3.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_skeptic_risk_v2.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_risk_controls.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_foundation.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -v",
+    ".venv/bin/python -m src.edgelab.validate",
+    ".venv/bin/python -m compileall -q src tests",
+    "git diff --check"
+  ]
+}
