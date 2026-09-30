@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-031",
+  "version": 3,
+  "created_at": "2026-09-30T00:42:24Z",
+  "sender": "05 Skeptic",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Independently re-review H-M0-030.v3 remediation for residual M0.2 orchestration findings under the MOCK_ONLY boundary.",
+  "work_done": "Focused re-review completed with verdict PARTIALLY REMEDIATED; NOT YET ACCEPTABLE. M02-SK-01 and M02-SK-03 are CLOSED; M02-SK-02, M02-SK-05 and M02-SK-07 are PARTIALLY_REMEDIATED; M02-SK-04 and M02-SK-06 remain CLOSED. New MEDIUM M02-SK-08 records incomplete receipt content binding and LOW M02-SK-09 records stale owner validation evidence. Twenty-one v4 probes preserve all conclusions. No BLOCKER or external-effect path exists.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-orchestration-residual-rereview.v1.md",
+    "tests/test_skeptic_orchestration_v4.py",
+    "reports/skeptic-orchestration-final-rereview/results.v1.json",
+    "reports/skeptic-orchestration-final-rereview/preservation.v1.json",
+    "reports/skeptic-orchestration-final-rereview/validation.v1.txt",
+    "docs/handoffs/H-M0-032.v1.json",
+    "reports/audit/A-M0-032.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-031.v2.json",
+    "tests/test_skeptic_orchestration_v4.py",
+    "reports/reviews/M0.2-orchestration-residual-rereview.v1.md",
+    "reports/skeptic-orchestration-final-rereview/results.v1.json",
+    "reports/skeptic-orchestration-final-rereview/preservation.v1.json",
+    "reports/skeptic-orchestration-final-rereview/validation.v1.txt",
+    "docs/handoffs/H-M0-031.v3.json",
+    "docs/handoffs/H-M0-032.v1.json",
+    "reports/audit/A-M0-032.v1.json"
+  ],
+  "tests_run": [
+    "Independent v4: 21/21 passed; Foundation + Data: 36/36 passed.",
+    "Director owner suite final-tree regression: 3/5 passed with two classified stale positive failures.",
+    "Full discovery, repository validation, compileall, whitespace, preservation and safety results are frozen in reports/skeptic-orchestration-final-rereview/validation.v1.txt."
+  ],
+  "open_questions": [
+    "The six named FUTURE_GATE controls remain mandatory and unimplemented by design.",
+    "Local receipt content binding must be completed without misrepresenting it as authenticated sequencing."
+  ],
+  "blockers": [
+    "M02-SK-02/05/07 partial and M02-SK-08 open block acceptance and the FUTURE_GATE milestone.",
+    "STOP-M0-001 OPEN; M0 blocked; M1 unreleased; capital LOCKED."
+  ],
+  "next_action": "Director may schedule only H-M0-032.v1 targeted remediation. Do not attach an executor, begin M1, activate Scout, clear STOP or alter capital.",
+  "completion_criteria": [
+    "All requested attack classes and positive behavior receive evidence-backed dispositions.",
+    "Historical and Director evidence inventories are preserved; Skeptic changes no production controls.",
+    "Review is committed, pushed, remotely verified and leaves a clean tree."
+  ],
+  "depends_on": ["H-M0-030"]
+}

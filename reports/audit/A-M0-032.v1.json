@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-032",
+  "version": 1,
+  "occurred_at": "2026-09-30T00:42:24Z",
+  "actor": "05 Skeptic",
+  "role": "05 Skeptic",
+  "event_type": "M0_2_RESIDUAL_REMEDIATION_PARTIAL_RECEIPT_FINDING_QUEUED",
+  "subject_ref": "docs/handoffs/H-M0-031.v3.json",
+  "previous_state": "M0_BLOCKED_STOP_OPEN_RESIDUAL_REMEDIATION_AWAITING_REREVIEW",
+  "new_state": "M0_BLOCKED_STOP_OPEN_ORCHESTRATION_PARTIALLY_REMEDIATED",
+  "reason": "Two residual findings closed, three remain partial, and incomplete receipt binding plus stale owner validation evidence require targeted remediation.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-orchestration-residual-rereview.v1.md",
+    "tests/test_skeptic_orchestration_v4.py",
+    "reports/skeptic-orchestration-final-rereview/results.v1.json",
+    "reports/skeptic-orchestration-final-rereview/preservation.v1.json",
+    "docs/handoffs/H-M0-032.v1.json"
+  ],
+  "code_ref": "6932e8e",
+  "config_ref": "orchestration/scheduler-state.json; orchestration/tasks/T-SYNTHETIC-001.v1.json; orchestration/capabilities/C-REPOSITORY-READ.json",
+  "correlation_id": "H-M0-031",
+  "supersedes": null
+}
