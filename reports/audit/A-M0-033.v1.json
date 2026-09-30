@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-033",
+  "version": 1,
+  "occurred_at": "2026-09-30T20:05:17Z",
+  "actor": "05 Skeptic",
+  "role": "05 Skeptic",
+  "event_type": "M0_2_CONSOLIDATION_REREVIEW_PARTIAL_REMEDIATION_QUEUED",
+  "subject_ref": "docs/handoffs/H-M0-033.v3.json",
+  "previous_state": "M0_BLOCKED_STOP_OPEN_CONSOLIDATED_MOCK_ONLY_ENGINE_AWAITING_REVIEW",
+  "new_state": "M0_BLOCKED_STOP_OPEN_ORCHESTRATION_PARTIALLY_REMEDIATED",
+  "reason": "Capability semantics close, but assignment binding, dependency currentness/evidence, receipt completeness and final-tree owner-test coherence require targeted remediation.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-orchestration-consolidation-rereview.v1.md",
+    "tests/test_skeptic_orchestration_v5.py",
+    "reports/skeptic-orchestration-consolidation-rereview/results.v1.json",
+    "reports/skeptic-orchestration-consolidation-rereview/preservation.v1.json",
+    "docs/handoffs/H-M0-034.v1.json"
+  ],
+  "code_ref": "d98b1d9",
+  "config_ref": "orchestration/scheduler-state.json; orchestration/tasks/T-SYNTHETIC-001.v1.json; orchestration/capabilities/C-REPOSITORY-READ.json",
+  "correlation_id": "H-M0-033",
+  "supersedes": null
+}

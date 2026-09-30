@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "method": "git_blob_sha1_at_director_completion",
+  "base_sha": "e5f8b587a6bcac7872c43113279e3a40f5616f88",
+  "artifacts": {
+    "docs/handoffs/H-M0-032.v3.json": "3f9fb09cd31debf9add5c510be846568f7eea16e",
+    "docs/handoffs/H-M0-033.v1.json": "726f51c017f371ea1bee017c474d4b8f9b31785a",
+    "reports/M0.2-orchestration-consolidation-results.v1.json": "b07dbb1811ffa520ea0ca79b54395ee3ac9b1d75",
+    "docs/M0.2_ORCHESTRATION.md": "97e09636c3e8241ed38af24096d9ab8511b3c511",
+    "tests/test_skeptic_orchestration_v1.py": "3424affd1c777963887a906c99261181b5b7735b",
+    "tests/test_skeptic_orchestration_v2.py": "729f9a79f4b5abd247a7b958aa48f42754a6cda0",
+    "tests/test_skeptic_orchestration_v3.py": "337997e8ee018c3c063f6bce47cc540083065b9d",
+    "tests/test_skeptic_orchestration_v4.py": "9686fee2da212e2d1f277cfb69999ae15db97a1e",
+    "src/edgelab/orchestration.py": "05284e62d232b9857b853403dea2be50ecb0fe4d",
+    "schemas/orchestration-task.schema.json": "fdc76ce1a9e9ca4d5220e88fc9b855baac0c854b",
+    "schemas/scheduler-state.schema.json": "bca79904afdd6f049b4c0b852d54946919b307e9",
+    "schemas/capability-registry.schema.json": "1c4a9698cedbebd51a2c1afa82a13ef1321b31f5",
+    "orchestration/scheduler-state.json": "64424eecb5c6bee641e29a62f4667849093c4b0c",
+    "orchestration/tasks/T-SYNTHETIC-001.v1.json": "76c74d19e4494630fa06f92c7b4892eeeee83ae3",
+    "orchestration/capabilities/C-REPOSITORY-READ.json": "21f2cd2fb4bad58c85617adbf3a10de142bbdcb2",
+    "tests/test_orchestration.py": "5c4bfc5e8901ac29c0c17ef525eeed666fb15f28",
+    "tests/test_orchestration_final.py": "faa7bf61fe1d7f86191d368392a05de77c7218b5"
+  },
+  "historical_v1_v2_v3_v4_preserved": true,
+  "director_completion_inventory_modified": false
+}
