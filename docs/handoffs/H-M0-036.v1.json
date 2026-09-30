@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-036",
+  "version": 1,
+  "created_at": "2026-09-30T20:44:58Z",
+  "sender": "05 Skeptic",
+  "recipient": "00 Director",
+  "status": "QUEUED",
+  "request": "Perform one targeted MOCK_ONLY remediation for HIGH residual assignment/dependency head currentness and MEDIUM denial-receipt state binding. Preserve v1-v6 Skeptic probes; do not attach an executor or implement FUTURE_GATE.",
+  "work_done": "Bounded-acceptance v6 probes demonstrate that a superseding completed assignment v2 is ignored while v1 dispatches, and stale completed dependency v2 dispatches despite valid blocked v10 because filenames are sorted lexicographically. They also preserve same-ID denials from different authoritative project states with the same reason. Exact assignment fields, ordinary v1/v2 dependency binding, dispatch receipt context and final owner coherence improved. No external-effect path exists.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-orchestration-bounded-acceptance-review.v1.md",
+    "tests/test_skeptic_orchestration_v6.py",
+    "reports/skeptic-orchestration-bounded-acceptance-review/results.v1.json",
+    "reports/skeptic-orchestration-bounded-acceptance-review/preservation.v1.json",
+    "docs/handoffs/H-M0-034.v3.json",
+    "docs/handoffs/H-M0-035.v3.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [],
+  "tests_run": [
+    "Independent current-contract v6: 17/17 passed.",
+    "Current owner suites: 8/8 passed.",
+    "Foundation + Data: 36/36 passed."
+  ],
+  "open_questions": [
+    "Whether handoff narrative should carry machine-readable task/attempt binding or be explicitly non-authoritative beside the typed assignment."
+  ],
+  "blockers": [
+    "HIGH current-head bypasses in M02-SK-02 and M02-SK-05 prevent bounded M0.2 acceptance.",
+    "MEDIUM M02-SK-08 denial receipt state binding remains incomplete.",
+    "STOP OPEN; M0/M1 blocked; no executor, Scout, operational activity or capital action."
+  ],
+  "next_action": "Director may claim only this targeted remediation, publish final-tree evidence, yield the writer slot and request independent bounded Skeptic re-review.",
+  "completion_criteria": [
+    "Assignment records resolve a unique numeric current head; a superseding completed/released assignment makes prior active versions non-authoritative and denies dispatch.",
+    "Handoff and typed assignment semantics cannot contradict task/attempt authority, or the contract explicitly makes the handoff narrative non-authoritative and removes it from semantic claims.",
+    "Dependency task heads use parsed numeric versions; v10 supersedes v2 and a stale completed lower version denies.",
+    "Denial IDs bind the canonical authoritative inputs inspected before the failure, so different decision-relevant repository states cannot collide solely because the reason string matches.",
+    "Current owner and v6 successor suites are green; historical evidence remains unchanged."
+  ],
+  "depends_on": [
+    "H-M0-035"
+  ]
+}
