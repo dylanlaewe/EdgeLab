@@ -20,6 +20,7 @@ from .validate import ROOT, read, validate_record
 EXPECTED_REMOTE = "https://github.com/dylanlaewe/EdgeLab.git"
 SAFE_OPERATIONS = frozenset({"STATE_READ", "SCHEMA_WRITE", "SYNTHETIC_ASSERT"})
 SAFE_EFFECTS = frozenset({"REPOSITORY_READ", "REPOSITORY_WRITE"})
+PROHIBITED_SEMANTICS = frozenset({"PLUGIN_INSTALL", "PLUGIN_ACTIVATE", "SKILL_INSTALL", "SKILL_ACTIVATE", "MCP", "NETWORK", "CREDENTIAL", "EXTERNAL_EXECUTION", "SPORTS_SOURCE_ACQUISITION", "EXTERNAL_DATA_INGESTION", "PAPER", "LIVE", "CAPITAL_MUTATION", "VENUE", "ACCOUNT"})
 REQUIRED_PROJECT_STATUS = "BLOCKED_FOR_APPROVAL_REMEDIATION_ALLOWED"
 
 
@@ -66,7 +67,7 @@ def _validate_identity(root: Path) -> None:
         raise ValueError("Repository identity denied")
 
 
-def _validate_project_and_stops(root: Path, state: dict[str, Any]) -> None:
+def _validate_project_and_stops(root: Path, state: dict[str, Any]) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     project_ref = state["project_state"]["ref"]
     project_path = root / project_ref
     if _sha256(project_path) != state["project_state"]["sha256"]:
@@ -74,7 +75,7 @@ def _validate_project_and_stops(root: Path, state: dict[str, Any]) -> None:
     project = read(project_path)
     validate_record("project-state", project, root)
 
-    actual_stop_paths = sorted((root / "reports/stops").glob("STOP-M0-001.v*.json"))
+    actual_stop_paths = sorted((root / "reports/stops").glob("STOP-*.v*.json"))
     state_stop_refs = {item["ref"]: item["sha256"] for item in state["stops"]}
     actual_stop_refs = {str(path.relative_to(root)): _sha256(path) for path in actual_stop_paths}
     if state_stop_refs != actual_stop_refs:
@@ -87,14 +88,25 @@ def _validate_project_and_stops(root: Path, state: dict[str, Any]) -> None:
 
     if project["phase"] != "M0" or project["status"] != REQUIRED_PROJECT_STATUS:
         raise ValueError("Current project state denies dispatch")
-    if len(stops) != 1 or stops[0]["id"] != "STOP-M0-001" or stops[0]["status"] != "OPEN":
-        raise ValueError("STOP-M0-001 must be uniquely OPEN")
+    heads: dict[str, dict[str, Any]] = {}
+    for stop in stops:
+        if stop["id"] in heads and heads[stop["id"]]["version"] == stop["version"]:
+            raise ValueError("Conflicting STOP head")
+        if stop["id"] not in heads or stop["version"] > heads[stop["id"]]["version"]:
+            heads[stop["id"]] = stop
+    if heads.get("STOP-M0-001", {}).get("status") != "OPEN":
+        raise ValueError("STOP-M0-001 must remain OPEN")
+    if any(stop_id != "STOP-M0-001" and stop["status"] == "OPEN" for stop_id, stop in heads.items()):
+        raise ValueError("Unknown OPEN STOP applicability denies dispatch")
     if project["live_status"] != "LOCKED":
         raise ValueError("Live state must remain locked")
+    return project, stops
 
 
 def _validate_capabilities(root: Path, task: dict[str, Any]) -> None:
     """Deny unknown, unsafe, unapproved, or revoked capability references."""
+    if not task["capability_refs"]:
+        raise ValueError("Effect-bearing task requires explicit capability")
     for capability_id in task["capability_refs"]:
         matches = []
         for path in sorted((root / "orchestration/capabilities").glob("*.json")):
@@ -114,12 +126,47 @@ def _validate_capabilities(root: Path, task: dict[str, Any]) -> None:
             or capability["trust_status"] != "TRUSTED"
             or capability["approval_status"] != "APPROVED"
             or capability["security_review"] != "REVIEWED"
+            or set(capability["semantic_types"]) & PROHIBITED_SEMANTICS
+            or not set(capability["semantic_types"]).issubset(SAFE_EFFECTS)
+            or task["assigned_role"] not in capability["intended_roles"]
+            or not set(task["effects"]).issubset(set(capability["permissions"]))
         ):
             raise ValueError("Capability violates mock-only boundary")
 
 
+def _current_handoff(root: Path, ref: str) -> dict[str, Any]:
+    handoffs = []
+    for path in (root / "docs/handoffs").glob("*.json"):
+        record = read(path)
+        if str(path.relative_to(root)) == ref:
+            handoffs.append(record)
+    if len(handoffs) != 1 or handoffs[0]["status"] != "CLAIMED":
+        raise ValueError("Claim handoff is not current and active")
+    record = handoffs[0]
+    newer = [read(path) for path in (root / "docs/handoffs").glob(f"{record['id']}.v*.json")]
+    if any(item["version"] > record["version"] for item in newer):
+        raise ValueError("Claim handoff has been superseded")
+    return record
+
+
+def _validate_dependencies(root: Path, state: dict[str, Any], task: dict[str, Any], seen: set[str] | None = None) -> None:
+    seen = set() if seen is None else seen
+    if task["task_id"] in seen:
+        raise ValueError("Dependency graph is cyclic")
+    seen.add(task["task_id"])
+    for dependency in task["dependencies"]:
+        ref = state["tasks"].get(dependency)
+        if not ref:
+            raise ValueError("Dependency task is unknown")
+        dep = read(root / ref); validate_record("orchestration-task", dep, root)
+        if dep["task_id"] != dependency or dep["status"] != "COMPLETED" or not dep["completion_evidence"]:
+            raise ValueError("Dependency lacks verified synthetic completion")
+        _validate_dependencies(root, state, dep, seen)
+    seen.remove(task["task_id"])
+
+
 def _validate_task(root: Path, state: dict[str, Any], intent: dict[str, Any]) -> dict[str, Any]:
-    if set(intent) != {"task_id", "attempt"} or not isinstance(intent["task_id"], str) or not isinstance(intent["attempt"], int):
+    if set(intent) != {"task_id", "attempt"} or not isinstance(intent["task_id"], str) or type(intent["attempt"]) is not int:
         raise ValueError("Intent may name only an authoritative task and attempt")
     task_ref = state["tasks"].get(intent["task_id"])
     if task_ref is None:
@@ -144,12 +191,8 @@ def _validate_task(root: Path, state: dict[str, Any], intent: dict[str, Any]) ->
     }
     if claim != expected_claim or len(active_claims) != 1:
         raise ValueError("Authoritative writer claim is absent or conflicted")
-    if task["handoff_ref"] != "docs/handoffs/H-M0-028.v2.json":
-        raise ValueError("Task is not bound to the current remediation claim")
-    if task["task_id"] in task["dependencies"] or any(
-        dependency not in state["completed_tasks"] for dependency in task["dependencies"]
-    ):
-        raise ValueError("Dependencies are incomplete or cyclic")
+    _current_handoff(root, task["handoff_ref"])
+    _validate_dependencies(root, state, task)
     _validate_capabilities(root, task)
     return task
 
@@ -165,11 +208,11 @@ def decision(root: Path, intent: dict[str, Any], **legacy_inputs: Any) -> dict[s
             raise ValueError("Caller-controlled scheduler inputs are denied")
         _validate_identity(root)
         state = _load_scheduler_state(root)
-        _validate_project_and_stops(root, state)
+        project, stops = _validate_project_and_stops(root, state)
         task = _validate_task(root, state, intent)
         return {
             "decision": "DISPATCH",
-            "decision_id": f"D-{state['generation']}-{task['task_id']}-{task['attempt']}",
+            "decision_id": "D-" + hashlib.sha256((str(state["generation"]) + task["task_id"] + str(task["attempt"]) + task["handoff_ref"] + _sha256(root / "docs/project-state.json") + "".join(sorted(_sha256(root / item["ref"]) for item in state["stops"])) + str(state["claims"]) + str(task["dependencies"]) + str(task["capability_refs"]) + "DISPATCH").encode()).hexdigest()[:24],
             "task_id": task["task_id"],
             "reason": "repository-resolved synthetic task passed preflight",
             "execution_adapter": "MOCK_ONLY",
@@ -179,6 +222,7 @@ def decision(root: Path, intent: dict[str, Any], **legacy_inputs: Any) -> dict[s
         task_id = intent.get("task_id") if isinstance(intent, dict) else None
         return {
             "decision": "DENY",
+            "decision_id": "D-DENY-" + hashlib.sha256(str(error).encode()).hexdigest()[:24],
             "task_id": task_id,
             "reason": str(error),
             "execution_adapter": "MOCK_ONLY",

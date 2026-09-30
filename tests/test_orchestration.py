@@ -17,7 +17,7 @@ class OrchestrationTests(unittest.TestCase):
         self.assertEqual(result["decision"], "DISPATCH")
         self.assertEqual(result["execution_adapter"], "MOCK_ONLY")
         self.assertEqual(result["operation"], "SYNTHETIC_ASSERT")
-        self.assertEqual(result["decision_id"], "D-1-T-SYNTHETIC-001-1")
+        self.assertRegex(result["decision_id"], r"^D-[a-f0-9]{24}$")
 
     def test_intent_cannot_supply_task_semantics_or_legacy_authority(self):
         self.assertEqual(
@@ -35,6 +35,11 @@ class OrchestrationTests(unittest.TestCase):
         self.assertEqual(decision(ROOT, {"task_id": "T-UNKNOWN", "attempt": 1})["decision"], "DENY")
         with patch("src.edgelab.orchestration._remote", return_value="https://example.invalid/EdgeLab.git"):
             self.assertEqual(decision(ROOT, INTENT)["decision"], "DENY")
+
+    def test_attempt_requires_an_actual_bounded_integer(self):
+        self.assertEqual(decision(ROOT, INTENT)["decision"], "DISPATCH")
+        for attempt in (True, False, "1", 1.0, 0, -1, 2147483648):
+            self.assertEqual(decision(ROOT, {"task_id": "T-SYNTHETIC-001", "attempt": attempt})["decision"], "DENY")
 
     def test_completion_and_review_are_fail_closed_future_gate(self):
         with self.assertRaisesRegex(ValueError, "FUTURE_GATE"):
