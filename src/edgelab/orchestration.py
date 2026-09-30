@@ -8,6 +8,7 @@ the authenticated append-only evidence future gate.
 from __future__ import annotations
 
 import hashlib
+import json
 from pathlib import Path
 import subprocess
 from typing import Any
@@ -46,6 +47,12 @@ def _is_ancestor_of_remote_main(root: Path) -> bool:
 
 def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _receipt(payload: dict[str, Any]) -> str:
+    """Deterministic content binding only; it is not an authenticated receipt."""
+    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode()
+    return "D-" + hashlib.sha256(encoded).hexdigest()[:32]
 
 
 def _load_scheduler_state(root: Path) -> dict[str, Any]:
@@ -117,6 +124,7 @@ def _validate_capabilities(root: Path, task: dict[str, Any]) -> None:
         if len(matches) != 1:
             raise ValueError("Capability reference is unknown or ambiguous")
         capability = matches[0]
+        effective = set(capability["semantic_types"])
         if (
             capability["network_required"]
             or capability["credential_required"]
@@ -126,8 +134,10 @@ def _validate_capabilities(root: Path, task: dict[str, Any]) -> None:
             or capability["trust_status"] != "TRUSTED"
             or capability["approval_status"] != "APPROVED"
             or capability["security_review"] != "REVIEWED"
-            or set(capability["semantic_types"]) & PROHIBITED_SEMANTICS
-            or not set(capability["semantic_types"]).issubset(SAFE_EFFECTS)
+            or effective & PROHIBITED_SEMANTICS
+            or effective != set(capability["capabilities"])
+            or effective != set(capability["permissions"])
+            or not effective.issubset(SAFE_EFFECTS)
             or task["assigned_role"] not in capability["intended_roles"]
             or not set(task["effects"]).issubset(set(capability["permissions"]))
         ):
@@ -143,6 +153,10 @@ def _current_handoff(root: Path, ref: str) -> dict[str, Any]:
     if len(handoffs) != 1 or handoffs[0]["status"] != "CLAIMED":
         raise ValueError("Claim handoff is not current and active")
     record = handoffs[0]
+    schema = read(root / "schemas/handoff.schema.json")
+    Draft202012Validator(schema).validate(record)
+    if record["id"] != "H-M0-032" or record["sender"] != "00 Director" or record["recipient"] != "00 Director":
+        raise ValueError("Claim handoff is not the authoritative assignment")
     newer = [read(path) for path in (root / "docs/handoffs").glob(f"{record['id']}.v*.json")]
     if any(item["version"] > record["version"] for item in newer):
         raise ValueError("Claim handoff has been superseded")
@@ -165,7 +179,7 @@ def _validate_dependencies(root: Path, state: dict[str, Any], task: dict[str, An
     seen.remove(task["task_id"])
 
 
-def _validate_task(root: Path, state: dict[str, Any], intent: dict[str, Any]) -> dict[str, Any]:
+def _validate_task(root: Path, state: dict[str, Any], intent: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
     if set(intent) != {"task_id", "attempt"} or not isinstance(intent["task_id"], str) or type(intent["attempt"]) is not int:
         raise ValueError("Intent may name only an authoritative task and attempt")
     task_ref = state["tasks"].get(intent["task_id"])
@@ -191,10 +205,10 @@ def _validate_task(root: Path, state: dict[str, Any], intent: dict[str, Any]) ->
     }
     if claim != expected_claim or len(active_claims) != 1:
         raise ValueError("Authoritative writer claim is absent or conflicted")
-    _current_handoff(root, task["handoff_ref"])
+    handoff = _current_handoff(root, task["handoff_ref"])
     _validate_dependencies(root, state, task)
     _validate_capabilities(root, task)
-    return task
+    return task, handoff
 
 
 def decision(root: Path, intent: dict[str, Any], **legacy_inputs: Any) -> dict[str, Any]:
@@ -209,10 +223,11 @@ def decision(root: Path, intent: dict[str, Any], **legacy_inputs: Any) -> dict[s
         _validate_identity(root)
         state = _load_scheduler_state(root)
         project, stops = _validate_project_and_stops(root, state)
-        task = _validate_task(root, state, intent)
+        task, handoff = _validate_task(root, state, intent)
+        context = {"intent": intent, "task": task, "state": state, "project": project, "stops": stops, "handoff": handoff, "decision": "DISPATCH", "reason": "repository-resolved synthetic task passed preflight"}
         return {
             "decision": "DISPATCH",
-            "decision_id": "D-" + hashlib.sha256((str(state["generation"]) + task["task_id"] + str(task["attempt"]) + task["handoff_ref"] + _sha256(root / "docs/project-state.json") + "".join(sorted(_sha256(root / item["ref"]) for item in state["stops"])) + str(state["claims"]) + str(task["dependencies"]) + str(task["capability_refs"]) + "DISPATCH").encode()).hexdigest()[:24],
+            "decision_id": _receipt(context),
             "task_id": task["task_id"],
             "reason": "repository-resolved synthetic task passed preflight",
             "execution_adapter": "MOCK_ONLY",
@@ -222,7 +237,7 @@ def decision(root: Path, intent: dict[str, Any], **legacy_inputs: Any) -> dict[s
         task_id = intent.get("task_id") if isinstance(intent, dict) else None
         return {
             "decision": "DENY",
-            "decision_id": "D-DENY-" + hashlib.sha256(str(error).encode()).hexdigest()[:24],
+            "decision_id": _receipt({"intent": intent if isinstance(intent, dict) else repr(intent), "decision": "DENY", "reason": str(error), "root": str(root)}),
             "task_id": task_id,
             "reason": str(error),
             "execution_adapter": "MOCK_ONLY",
