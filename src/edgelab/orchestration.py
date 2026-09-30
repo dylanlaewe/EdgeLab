@@ -155,7 +155,7 @@ def _current_handoff(root: Path, ref: str) -> dict[str, Any]:
     record = handoffs[0]
     schema = read(root / "schemas/handoff.schema.json")
     Draft202012Validator(schema).validate(record)
-    if record["id"] != "H-M0-032" or record["sender"] != "00 Director" or record["recipient"] != "00 Director":
+    if record["id"] != "H-M0-034" or record["sender"] != "00 Director" or record["recipient"] != "00 Director":
         raise ValueError("Claim handoff is not the authoritative assignment")
     newer = [read(path) for path in (root / "docs/handoffs").glob(f"{record['id']}.v*.json")]
     if any(item["version"] > record["version"] for item in newer):
@@ -173,8 +173,17 @@ def _validate_dependencies(root: Path, state: dict[str, Any], task: dict[str, An
         if not ref:
             raise ValueError("Dependency task is unknown")
         dep = read(root / ref); validate_record("orchestration-task", dep, root)
-        if dep["task_id"] != dependency or dep["status"] != "COMPLETED" or not dep["completion_evidence"]:
+        versions = sorted((root / "orchestration/tasks").glob(f"{dependency}.v*.json"))
+        if not versions or Path(ref).name != versions[-1].name:
+            raise ValueError("Dependency is not the current authoritative head")
+        if dep["task_id"] != dependency or dep["status"] != "COMPLETED" or len(dep["completion_evidence"]) != 1:
             raise ValueError("Dependency lacks verified synthetic completion")
+        evidence_ref = dep["completion_evidence"][0]
+        if not evidence_ref.startswith("orchestration/completions/"):
+            raise ValueError("Dependency completion evidence is not typed")
+        evidence = read(root / evidence_ref)
+        if evidence != {"schema_version": 1, "task_id": dependency, "attempt": dep["attempt"], "task_ref": str(Path(ref)), "status": "COMPLETED", "content_sha256": _sha256(root / ref)}:
+            raise ValueError("Dependency completion evidence does not bind current head")
         _validate_dependencies(root, state, dep, seen)
     seen.remove(task["task_id"])
 
@@ -206,6 +215,10 @@ def _validate_task(root: Path, state: dict[str, Any], intent: dict[str, Any]) ->
     if claim != expected_claim or len(active_claims) != 1:
         raise ValueError("Authoritative writer claim is absent or conflicted")
     handoff = _current_handoff(root, task["handoff_ref"])
+    assignment = read(root / "orchestration/assignments" / f"{task['task_id']}.v1.json")
+    expected_assignment = {"schema_version": 1, "task_id": task["task_id"], "attempt": task["attempt"], "owner": task["assigned_role"], "milestone": task["milestone"], "handoff_ref": task["handoff_ref"], "claim_generation": state["generation"], "status": "ACTIVE"}
+    if assignment != expected_assignment:
+        raise ValueError("Assignment record does not bind current task claim")
     _validate_dependencies(root, state, task)
     _validate_capabilities(root, task)
     return task, handoff
@@ -224,7 +237,7 @@ def decision(root: Path, intent: dict[str, Any], **legacy_inputs: Any) -> dict[s
         state = _load_scheduler_state(root)
         project, stops = _validate_project_and_stops(root, state)
         task, handoff = _validate_task(root, state, intent)
-        context = {"intent": intent, "task": task, "state": state, "project": project, "stops": stops, "handoff": handoff, "decision": "DISPATCH", "reason": "repository-resolved synthetic task passed preflight"}
+        context = {"intent": intent, "task": task, "state": state, "project": project, "stops": stops, "handoff": handoff, "assignment": read(root / "orchestration/assignments" / f"{task['task_id']}.v1.json"), "capabilities": [read(path) for path in sorted((root / "orchestration/capabilities").glob("*.json"))], "dependency_records": [read(root / state["tasks"][item]) for item in task["dependencies"]], "decision": "DISPATCH", "reason": "repository-resolved synthetic task passed preflight"}
         return {
             "decision": "DISPATCH",
             "decision_id": _receipt(context),

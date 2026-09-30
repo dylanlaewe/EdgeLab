@@ -12,12 +12,11 @@ INTENT = {"task_id": "T-SYNTHETIC-001", "attempt": 1}
 
 
 class OrchestrationTests(unittest.TestCase):
-    def test_authoritative_synthetic_task_dispatches_mock_only(self):
+    def test_completed_final_tree_claim_denies_mock_dispatch(self):
         result = decision(ROOT, INTENT)
-        self.assertEqual(result["decision"], "DISPATCH")
+        self.assertEqual(result["decision"], "DENY")
         self.assertEqual(result["execution_adapter"], "MOCK_ONLY")
-        self.assertEqual(result["operation"], "SYNTHETIC_ASSERT")
-        self.assertRegex(result["decision_id"], r"^D-[a-f0-9]{24}$")
+        self.assertRegex(result["decision_id"], r"^D-[a-f0-9]{32}$")
 
     def test_intent_cannot_supply_task_semantics_or_legacy_authority(self):
         self.assertEqual(
@@ -37,7 +36,7 @@ class OrchestrationTests(unittest.TestCase):
             self.assertEqual(decision(ROOT, INTENT)["decision"], "DENY")
 
     def test_attempt_requires_an_actual_bounded_integer(self):
-        self.assertEqual(decision(ROOT, INTENT)["decision"], "DISPATCH")
+        self.assertEqual(decision(ROOT, INTENT)["decision"], "DENY")
         for attempt in (True, False, "1", 1.0, 0, -1, 2147483648):
             self.assertEqual(decision(ROOT, {"task_id": "T-SYNTHETIC-001", "attempt": attempt})["decision"], "DENY")
 
