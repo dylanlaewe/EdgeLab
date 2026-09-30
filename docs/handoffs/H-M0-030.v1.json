@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-030",
+  "version": 1,
+  "created_at": "2026-09-29T23:47:20Z",
+  "sender": "05 Skeptic",
+  "recipient": "00 Director",
+  "status": "QUEUED",
+  "request": "Complete targeted mock-only remediation for residual M02-SK-01, M02-SK-02, M02-SK-03, M02-SK-05 and M02-SK-07 gaps preserved by the focused re-review.",
+  "work_done": "Independent v3 probes demonstrate boolean attempt coercion; dispatch from the completed/yielded Director claim; exclusion of a second OPEN STOP ID; nonexistent and cyclic dependencies accepted through completed_tasks; and missing or semantically prohibited capability bindings. M02-SK-04 and M02-SK-06 are closed for MOCK_ONLY scope. No external-effect path exists.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-orchestration-remediation-rereview.v1.md",
+    "tests/test_skeptic_orchestration_v3.py",
+    "reports/skeptic-orchestration-rereview/results.v1.json",
+    "reports/skeptic-orchestration-rereview/preservation.v1.json",
+    "docs/handoffs/H-M0-028.v3.json",
+    "docs/handoffs/H-M0-029.v2.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [],
+  "tests_run": [
+    "Owner + v2 + independent v3 focused suite: 28/28 passed, including sixteen v3 disposition probes.",
+    "Foundation + Data regression: 36/36 passed.",
+    "Repository validation before publication: 126 records passed."
+  ],
+  "open_questions": [
+    "Choose the smallest repository-derived current-head mechanism that reconciles immutable handoff history without claiming hostile-host authentication.",
+    "Content-bound decision receipts remain an audit FUTURE_GATE unless the current label is renamed/documented so it cannot be mistaken for proof."
+  ],
+  "blockers": [
+    "The MOCK_ONLY decision engine is not accepted while five residual bypass classes remain.",
+    "STOP OPEN; M0/M1 blocked; no executor, Scout, operational work, capability installation or capital action."
+  ],
+  "next_action": "Director may claim a bounded remediation, preserve v1/v2/v3 evidence, add versioned successor probes and request independent Skeptic re-review. Do not attach an executor.",
+  "completion_criteria": [
+    "Intent uses exact JSON-compatible types so boolean/numeric coercion cannot match attempts.",
+    "Task and writer claim currentness is derived from latest authoritative handoff/claim history; completed, yielded, stale or superseded claims cannot dispatch.",
+    "All STOP records/IDs in the authoritative repository inventory are discovered, validated and policy-evaluated; a second OPEN STOP cannot be ignored.",
+    "Every dependency resolves to a version-bound task and evidence-backed completed current state; nonexistent, blocked, superseded and cyclic graphs deny.",
+    "Every effect-bearing task has mandatory, uniquely resolved, schema-constrained capability bindings; capability semantics, permissions and intended roles are bound to task operation/effects, and plugin/MCP/source/install semantics deny.",
+    "Decision-ID limits are explicit; any later audit receipt is content-bound and authenticated before executor attachment.",
+    "All historical probes remain immutable and an independent re-review closes residual findings."
+  ],
+  "depends_on": ["H-M0-029"]
+}

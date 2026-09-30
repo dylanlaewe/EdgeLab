@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-031",
+  "version": 1,
+  "occurred_at": "2026-09-29T23:47:20Z",
+  "actor": "05 Skeptic",
+  "role": "05 Skeptic",
+  "event_type": "M0_2_ORCHESTRATION_REMEDIATION_PARTIALLY_ACCEPTED_RESIDUALS_QUEUED",
+  "subject_ref": "docs/handoffs/H-M0-029.v3.json",
+  "previous_state": "M0_BLOCKED_STOP_OPEN_ORCHESTRATION_REMEDIATION_AWAITING_REREVIEW",
+  "new_state": "M0_BLOCKED_STOP_OPEN_ORCHESTRATION_PARTIALLY_REMEDIATED",
+  "reason": "Two findings closed, two partially remediated and three remain open; five residual mock-only dispatch bypass classes require targeted Director remediation.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-orchestration-remediation-rereview.v1.md",
+    "tests/test_skeptic_orchestration_v3.py",
+    "reports/skeptic-orchestration-rereview/results.v1.json",
+    "reports/skeptic-orchestration-rereview/preservation.v1.json",
+    "docs/handoffs/H-M0-030.v1.json"
+  ],
+  "code_ref": "cce67b7",
+  "config_ref": "orchestration/scheduler-state.json; docs/project-state.json; reports/stops/STOP-M0-001.v1.json",
+  "correlation_id": "H-M0-029",
+  "supersedes": null
+}

@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-029",
+  "version": 3,
+  "created_at": "2026-09-29T23:47:20Z",
+  "sender": "05 Skeptic",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Independently re-review Director's H-M0-028.v3 remediation for M02-SK-01 through M02-SK-07 under the current MOCK_ONLY boundary.",
+  "work_done": "Focused re-review is complete with verdict PARTIALLY REMEDIATED; NOT YET ACCEPTABLE. M02-SK-04 and M02-SK-06 are CLOSED. M02-SK-01 and M02-SK-03 are PARTIALLY_REMEDIATED. M02-SK-02, M02-SK-05 and M02-SK-07 remain OPEN. Five residual bypass classes are preserved in sixteen v3 methods. No BLOCKER or external-effect path exists because dispatch remains MOCK_ONLY.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-orchestration-remediation-rereview.v1.md",
+    "tests/test_skeptic_orchestration_v3.py",
+    "reports/skeptic-orchestration-rereview/results.v1.json",
+    "reports/skeptic-orchestration-rereview/preservation.v1.json",
+    "reports/skeptic-orchestration-rereview/validation.v1.txt",
+    "docs/handoffs/H-M0-030.v1.json",
+    "reports/audit/A-M0-031.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-029.v2.json",
+    "tests/test_skeptic_orchestration_v3.py",
+    "reports/reviews/M0.2-orchestration-remediation-rereview.v1.md",
+    "reports/skeptic-orchestration-rereview/results.v1.json",
+    "reports/skeptic-orchestration-rereview/preservation.v1.json",
+    "reports/skeptic-orchestration-rereview/validation.v1.txt",
+    "docs/handoffs/H-M0-029.v3.json",
+    "docs/handoffs/H-M0-030.v1.json",
+    "reports/audit/A-M0-031.v1.json"
+  ],
+  "tests_run": [
+    "Owner + v2 + independent v3 focused suite: 28/28 passed.",
+    "Foundation + Data regression: 36/36 passed.",
+    "Full discovery, repository validation, compileall, whitespace, preservation and safety checks are recorded in reports/skeptic-orchestration-rereview/validation.v1.txt."
+  ],
+  "open_questions": [
+    "Authenticated append-only state/evidence, reviewer identity, transactional scheduling, executor boundary and model/usage policy remain FUTURE_GATE requirements.",
+    "Decision receipts additionally need canonical content and sequencing bindings before operational use."
+  ],
+  "blockers": [
+    "Residual M02-SK-01/02/03/05/07 defects block acceptance of the current mock-only engine and any next orchestration milestone.",
+    "STOP-M0-001 OPEN; M0 blocked; M1 unreleased; capital LOCKED."
+  ],
+  "next_action": "Director may schedule only H-M0-030.v1 targeted remediation. Do not attach an executor, begin M1, activate Scout, clear STOP or alter capital.",
+  "completion_criteria": [
+    "Each requested attack category has an evidence-backed disposition and reproducer where a gap remains.",
+    "Prior Skeptic and Director inventories are preserved; production code is unchanged by Skeptic.",
+    "Work is committed, pushed, remotely verified and leaves a clean tree."
+  ],
+  "depends_on": ["H-M0-028"]
+}
