@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-037",
+  "version": 1,
+  "occurred_at": "2026-10-02T01:42:47Z",
+  "actor": "05 Skeptic",
+  "role": "05 Skeptic",
+  "event_type": "M0_3A_PLAN_REQUIRES_REVISION",
+  "subject_ref": "docs/handoffs/H-M0-042.v2.json",
+  "previous_state": "M0_BLOCKED_STOP_OPEN_M0_3A_PLANNING_REVIEW_PENDING",
+  "new_state": "M0_BLOCKED_STOP_OPEN_M0_3A_IMPLEMENTATION_UNRELEASED",
+  "reason": "SQLite and the three-layer architecture are suitable, but the plan lacks implementation-grade state/event replay, semantic idempotency, claim fencing, repository/database initialization, and stale decision/STOP invalidation contracts.",
+  "evidence_refs": [
+    "reports/reviews/M0.3A-runtime-foundation-plan-review.v1.md",
+    "reports/skeptic-m0.3a-plan-review/results.v1.json",
+    "reports/skeptic-m0.3a-plan-review/preservation.v1.json",
+    "reports/skeptic-m0.3a-plan-review/validation.v1.txt",
+    "docs/handoffs/H-M0-042.v2.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "code_ref": "28a0990060555cebcee2fb49fc931204e51b1c18",
+  "config_ref": "docs/M0.3_RUNTIME_FOUNDATION.md; docs/handoffs/H-M0-041.v1.json",
+  "correlation_id": "H-M0-042",
+  "supersedes": null
+}

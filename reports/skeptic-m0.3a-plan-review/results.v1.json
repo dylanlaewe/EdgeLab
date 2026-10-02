@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "review": "M0_3A_RUNTIME_FOUNDATION_PLAN_REVIEW_V1",
+  "verdict": "M0_3A_PLAN_REQUIRES_REVISION",
+  "reviewed_base_sha": "ae2fdd3e2373504da12264c4d0d3fb0a1784b54d",
+  "claim_sha": "28a0990060555cebcee2fb49fc931204e51b1c18",
+  "sqlite_suitable": true,
+  "stage_1_frozen_compatible": true,
+  "handoff_h_m0_041_implementation_ready": false,
+  "planning_issues": {
+    "blocker": [],
+    "high": [
+      "state_event_replay_and_transition_authority_are_not_defined_precisely_enough_for_one_safe_implementation",
+      "stale_m0_2_decision_stop_project_and_git_sqlite_cross_store_invalidation_are_underspecified",
+      "runtime_genesis_repository_binding_migration_and_rollback_detection_are_underspecified"
+    ],
+    "medium": [
+      "semantic_idempotency_and_unknown_commit_result_recovery_are_underspecified",
+      "claim_fencing_expiry_and_explicit_recovery_are_underspecified",
+      "sqlite_durability_backup_permissions_busy_and_corruption_profiles_are_underspecified",
+      "event_global_and_task_attempt_sequence_and_append_only_limits_are_ambiguous",
+      "execution_review_and_director_gate_states_are_conflated"
+    ]
+  },
+  "required_acceptance_tests": 20,
+  "identity_in_m0_3a": "SYNTHETIC_LOCAL_UNAUTHENTICATED_ONLY",
+  "external_authority_changed": false,
+  "executor_added": false,
+  "stop": "OPEN",
+  "phase": "M0_BLOCKED",
+  "m1_released": false,
+  "executor": "MOCK_ONLY",
+  "capital_minor": {
+    "conceptual": 5000,
+    "deployable": 0,
+    "reserved": 0
+  },
+  "live": "LOCKED",
+  "kill": "ENGAGED"
+}
