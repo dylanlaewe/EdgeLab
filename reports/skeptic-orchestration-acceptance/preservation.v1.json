@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "method": "git_blob_sha1_at_director_completion",
+  "base_sha": "f4889ddf646fe09f34ad56374d858c8c7a600c00",
+  "artifacts": {
+    "docs/handoffs/H-M0-038.v3.json": "1a50537fdb558400a0644ac071e3755050da0a62",
+    "docs/handoffs/H-M0-039.v1.json": "fea9f5a55ae491fadb16cc1a1793cf794fd69ecb",
+    "reports/M0.2-final-receipt-results.v1.json": "37feca60e34c0c1e4e74773ec4c4cdac3c252d37",
+    "docs/M0.2_ORCHESTRATION.md": "97e09636c3e8241ed38af24096d9ab8511b3c511",
+    "tests/test_skeptic_orchestration_v1.py": "3424affd1c777963887a906c99261181b5b7735b",
+    "tests/test_skeptic_orchestration_v2.py": "729f9a79f4b5abd247a7b958aa48f42754a6cda0",
+    "tests/test_skeptic_orchestration_v3.py": "337997e8ee018c3c063f6bce47cc540083065b9d",
+    "tests/test_skeptic_orchestration_v4.py": "9686fee2da212e2d1f277cfb69999ae15db97a1e",
+    "tests/test_skeptic_orchestration_v5.py": "c11c0cf1eb8845a9f1380bb2617ac8f36efeb764",
+    "tests/test_skeptic_orchestration_v6.py": "0e016909f1d74524faa8881cc9c957d2ae34c7cb",
+    "tests/test_skeptic_orchestration_v7.py": "baebfcbfb01c0a31b2494b3b5708d5399c5bb32c",
+    "src/edgelab/orchestration.py": "4fd425c179c134409d87f14ebe0a241f107435f0",
+    "orchestration/assignments/T-SYNTHETIC-001.v1.json": "1ec47d37edadd8d6ad8af19d46605cf7aaf2663b",
+    "orchestration/handoff-bindings/T-SYNTHETIC-001.v1.json": "24f75d9f7539e664c92c6d5e883490bb450aefec",
+    "orchestration/scheduler-state.json": "faa2ff032eaf79b25154917c101d43d1196d11de",
+    "orchestration/tasks/T-SYNTHETIC-001.v1.json": "e39445c833a1747e469ea79ea2d9a8fb60b2d0a9",
+    "orchestration/capabilities/C-REPOSITORY-READ.json": "21f2cd2fb4bad58c85617adbf3a10de142bbdcb2",
+    "tests/test_orchestration.py": "498149560d3a8ef8b14aadf86849c0ce35615866",
+    "tests/test_orchestration_final.py": "4f184f3e40776b938c0cbea17d8a97b972fca117",
+    "schemas/orchestration-task.schema.json": "fdc76ce1a9e9ca4d5220e88fc9b855baac0c854b",
+    "schemas/scheduler-state.schema.json": "bca79904afdd6f049b4c0b852d54946919b307e9",
+    "schemas/capability-registry.schema.json": "1c4a9698cedbebd51a2c1afa82a13ef1321b31f5"
+  },
+  "historical_v1_through_v7_preserved": true,
+  "director_completion_inventory_modified": false
+}
