@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-035",
+  "version": 1,
+  "occurred_at": "2026-10-02T00:42:08Z",
+  "actor": "05 Skeptic",
+  "role": "05 Skeptic",
+  "event_type": "M0_2_FINAL_BOUNDED_ACCEPTANCE_WITHHELD_MEDIUM_RESIDUALS",
+  "subject_ref": "docs/handoffs/H-M0-037.v3.json",
+  "previous_state": "M0_BLOCKED_STOP_OPEN_NUMERIC_HEAD_REMEDIATION_AWAITING_REVIEW",
+  "new_state": "M0_BLOCKED_STOP_OPEN_M0_2_NOT_ACCEPTED",
+  "reason": "Numeric heads close, but contradictory handoff semantics and omitted consumed denial records materially violate bounded assignment and receipt contracts.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-orchestration-final-bounded-rereview.v1.md",
+    "tests/test_skeptic_orchestration_v7.py",
+    "reports/skeptic-orchestration-final-bounded-rereview/results.v1.json",
+    "reports/skeptic-orchestration-final-bounded-rereview/preservation.v1.json",
+    "docs/handoffs/H-M0-038.v1.json"
+  ],
+  "code_ref": "6532ffb",
+  "config_ref": "orchestration/scheduler-state.json; orchestration/assignments/T-SYNTHETIC-001.v1.json; orchestration/tasks/T-SYNTHETIC-001.v1.json",
+  "correlation_id": "H-M0-037",
+  "supersedes": null
+}
