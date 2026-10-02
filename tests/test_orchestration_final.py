@@ -13,7 +13,7 @@ from src.edgelab.validate import ROOT, read
 class FinalOrchestrationTests(unittest.TestCase):
     def fixture(self):
         temporary = tempfile.TemporaryDirectory(); root = Path(temporary.name)
-        for rel in ("docs/project-state.json", "docs/handoffs/H-M0-036.v1.json", "docs/handoffs/H-M0-036.v2.json", "reports/stops/STOP-M0-001.v1.json", "orchestration/scheduler-state.json", "orchestration/tasks/T-SYNTHETIC-001.v1.json", "orchestration/assignments/T-SYNTHETIC-001.v1.json", "orchestration/capabilities/C-REPOSITORY-READ.json", "schemas/project-state.schema.json", "schemas/stop.schema.json", "schemas/handoff.schema.json", "schemas/orchestration-task.schema.json", "schemas/scheduler-state.schema.json", "schemas/capability-registry.schema.json"):
+        for rel in ("docs/project-state.json", "docs/handoffs/H-M0-038.v1.json", "docs/handoffs/H-M0-038.v2.json", "reports/stops/STOP-M0-001.v1.json", "orchestration/scheduler-state.json", "orchestration/tasks/T-SYNTHETIC-001.v1.json", "orchestration/assignments/T-SYNTHETIC-001.v1.json", "orchestration/handoff-bindings/T-SYNTHETIC-001.v1.json", "orchestration/capabilities/C-REPOSITORY-READ.json", "schemas/project-state.schema.json", "schemas/stop.schema.json", "schemas/handoff.schema.json", "schemas/orchestration-task.schema.json", "schemas/scheduler-state.schema.json", "schemas/capability-registry.schema.json"):
             target=root/rel; target.parent.mkdir(parents=True,exist_ok=True); shutil.copy2(ROOT/rel,target)
         return temporary, root
     def decide(self, root, intent):

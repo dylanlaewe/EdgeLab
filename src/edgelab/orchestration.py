@@ -85,7 +85,7 @@ def _denial_context(root: Path, intent: Any, reason: str) -> dict[str, Any]:
         state = read(root / "orchestration/scheduler-state.json")
     except Exception as error:
         state = {"unreadable": str(error)}
-    return {"intent": intent if isinstance(intent, dict) else repr(intent), "state": state, "project": records(root / "docs") , "stops": records(root / "reports/stops"), "assignments": records(root / "orchestration/assignments"), "tasks": records(root / "orchestration/tasks"), "capabilities": records(root / "orchestration/capabilities"), "decision": "DENY", "reason": reason}
+    return {"intent": intent if isinstance(intent, dict) else repr(intent), "state": state, "project": records(root / "docs"), "handoffs": records(root / "docs/handoffs"), "stops": records(root / "reports/stops"), "assignments": records(root / "orchestration/assignments"), "handoff_bindings": records(root / "orchestration/handoff-bindings"), "tasks": records(root / "orchestration/tasks"), "completions": records(root / "orchestration/completions"), "capabilities": records(root / "orchestration/capabilities"), "decision": "DENY", "reason": reason}
 
 
 def _load_scheduler_state(root: Path) -> dict[str, Any]:
@@ -188,7 +188,7 @@ def _current_handoff(root: Path, ref: str) -> dict[str, Any]:
     record = handoffs[0]
     schema = read(root / "schemas/handoff.schema.json")
     Draft202012Validator(schema).validate(record)
-    if record["id"] != "H-M0-036" or record["sender"] != "00 Director" or record["recipient"] != "00 Director":
+    if record["id"] != "H-M0-038" or record["sender"] != "00 Director" or record["recipient"] != "00 Director":
         raise ValueError("Claim handoff is not the authoritative assignment")
     newer = [read(path) for path in (root / "docs/handoffs").glob(f"{record['id']}.v*.json")]
     if any(item["version"] > record["version"] for item in newer):
@@ -253,6 +253,10 @@ def _validate_task(root: Path, state: dict[str, Any], intent: dict[str, Any]) ->
     expected_assignment = {"schema_version": 1, "task_id": task["task_id"], "attempt": task["attempt"], "owner": task["assigned_role"], "milestone": task["milestone"], "handoff_ref": task["handoff_ref"], "claim_generation": state["generation"], "status": "ACTIVE"}
     if assignment != expected_assignment:
         raise ValueError("Assignment record does not bind current task claim")
+    handoff_binding = read(root / "orchestration/handoff-bindings" / f"{task['task_id']}.v1.json")
+    expected_handoff_binding = {"schema_version": 1, "task_id": task["task_id"], "attempt": task["attempt"], "owner": task["assigned_role"], "milestone": task["milestone"], "handoff_ref": task["handoff_ref"], "handoff_sha256": _sha256(root / task["handoff_ref"]), "claim_generation": state["generation"]}
+    if handoff_binding != expected_handoff_binding:
+        raise ValueError("Consumed handoff does not bind current task identity")
     _validate_dependencies(root, state, task)
     _validate_capabilities(root, task)
     return task, handoff
@@ -271,7 +275,8 @@ def decision(root: Path, intent: dict[str, Any], **legacy_inputs: Any) -> dict[s
         state = _load_scheduler_state(root)
         project, stops = _validate_project_and_stops(root, state)
         task, handoff = _validate_task(root, state, intent)
-        context = {"intent": intent, "task": task, "state": state, "project": project, "stops": stops, "handoff": handoff, "assignment": read(root / "orchestration/assignments" / f"{task['task_id']}.v1.json"), "capabilities": [read(path) for path in sorted((root / "orchestration/capabilities").glob("*.json"))], "dependency_records": [read(root / state["tasks"][item]) for item in task["dependencies"]], "decision": "DISPATCH", "reason": "repository-resolved synthetic task passed preflight"}
+        dependency_records = [read(root / state["tasks"][item]) for item in task["dependencies"]]
+        context = {"intent": intent, "task": task, "state": state, "project": project, "stops": stops, "handoff": handoff, "assignment": read(root / "orchestration/assignments" / f"{task['task_id']}.v1.json"), "handoff_binding": read(root / "orchestration/handoff-bindings" / f"{task['task_id']}.v1.json"), "capabilities": [read(path) for path in sorted((root / "orchestration/capabilities").glob("*.json"))], "dependency_records": dependency_records, "completion_records": [read(root / record["completion_evidence"][0]) for record in dependency_records], "decision": "DISPATCH", "reason": "repository-resolved synthetic task passed preflight"}
         return {
             "decision": "DISPATCH",
             "decision_id": _receipt(context),
