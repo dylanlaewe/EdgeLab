@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-040",
+  "version": 1,
+  "occurred_at": "2026-10-04T19:07:23Z",
+  "actor": "05 Skeptic",
+  "role": "05 Skeptic",
+  "event_type": "M0_3A_CLOSED_CONTRACT_REQUIRES_NARROW_REVISION",
+  "subject_ref": "docs/handoffs/H-M0-046.v3.json",
+  "previous_state": "M0_BLOCKED_STOP_OPEN_M0_3A_CLOSED_CONTRACT_REVIEW_PENDING",
+  "new_state": "M0_BLOCKED_STOP_OPEN_M0_3A_IMPLEMENTATION_UNRELEASED",
+  "reason": "The v2 contract closes most prior HIGH findings but retains circular attachment/genesis sealing, omits required SQLite operational settings from the complete superseding contract, and cannot unambiguously sequence bidirectional remediation mutation in one singular-task event.",
+  "evidence_refs": [
+    "reports/reviews/M0.3A-closed-contract-final-planning-review.v1.md",
+    "reports/skeptic-m0.3a-final-plan-review/results.v1.json",
+    "reports/skeptic-m0.3a-final-plan-review/preservation.v1.json",
+    "reports/skeptic-m0.3a-final-plan-review/validation.v1.txt",
+    "docs/handoffs/H-M0-046.v3.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "code_ref": "6aadac1",
+  "config_ref": "docs/M0.3A_TRANSACTIONAL_CONTRACT.v2.md; docs/handoffs/H-M0-041.v3.json",
+  "correlation_id": "H-M0-046",
+  "supersedes": null
+}

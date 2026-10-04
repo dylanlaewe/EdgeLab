@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "review": "M0_3A_CLOSED_CONTRACT_FINAL_PLANNING_REVIEW_V1",
+  "verdict": "M0_3A_PLAN_REQUIRES_REVISION",
+  "reviewed_base_sha": "2ee6b25e97e9848ed8aaabdf79c68688fa006ff2",
+  "claim_sha": "6aadac1",
+  "stage_1_freeze_sha": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+  "stage_1_unchanged": true,
+  "prior_high_dispositions": {
+    "tuple_matrix_and_terminality": "CLOSED_EXCEPT_CROSS_TASK_REMEDIATION_EVENT_REPRESENTATION",
+    "committed_result_first_idempotency": "CLOSED",
+    "worker_reviewer_recovery_governance_fencing": "CLOSED",
+    "event_and_replay_bindings": "CLOSED_EXCEPT_CROSS_TASK_AND_RUNTIME_EVENT_SHAPES",
+    "git_sqlite_serialization_and_checkout_attachment": "SERIALIZATION_CLOSED_ATTACHMENT_SEALING_HIGH"
+  },
+  "planning_findings": {
+    "blocker": [],
+    "high": [
+      "attachment_manifest_digest_and_genesis_digest_are_circularly_defined",
+      "complete_superseding_contract_omits_required_sqlite_wal_synchronous_busy_integrity_and_permission_configuration",
+      "single_task_single_event_model_cannot_unambiguously_sequence_bidirectional_remediation_task_mutation"
+    ],
+    "medium": [
+      "repository_generation_import_and_revalidation_increment_semantics_are_not_explicit",
+      "stale_scheduler_lock_takeover_operation_and_evidence_are_not_defined",
+      "runtime_level_schema_migration_event_has_no_defined_non_task_shape",
+      "migration_and_snapshot_lock_ordering_should_use_the_common_scheduler_then_sqlite_order"
+    ],
+    "low": [
+      "future_optional_goal_and_milestone_identity_may_be_bound_as_non_authorizing_metadata"
+    ]
+  },
+  "handoff_h_m0_041_v3_implementation_ready": false,
+  "runtime_implemented": false,
+  "data_released": false,
+  "external_authority_changed": false,
+  "executor_added": false,
+  "stop": "OPEN",
+  "phase": "M0_BLOCKED",
+  "m1_released": false,
+  "executor": "MOCK_ONLY",
+  "capital_minor": {
+    "conceptual": 5000,
+    "deployable": 0,
+    "reserved": 0
+  },
+  "live": "LOCKED",
+  "kill": "ENGAGED"
+}
