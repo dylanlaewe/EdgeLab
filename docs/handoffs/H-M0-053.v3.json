@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-053",
+  "version": 3,
+  "created_at": "2026-10-04T20:26:14Z",
+  "sender": "05 Skeptic",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Perform the focused planning-acceptance review of the revised M0.2 decision-evidence envelope v2 and M0.3A v5 integration amendment.",
+  "work_done": "Review completed with verdict M0_2_M0_3_ADAPTER_PLAN_REQUIRES_REVISION. V2 correctly separates historical/current verification, retains blobs, uses the common lock and removes fake-receipt authority, but five HIGH planning ambiguities remain: the schema leaves authority-bearing sections open; DISPATCH omits unrelated handoff files parsed by frozen M0.2; raw-output bytes/digest and normalization derivation are undefined; deterministic clock/loader/checkout replay requires invention; and v5 evidence-only operations lack exact transition/event semantics. No contract, schema, adapter, runtime or production code changed. Data remains blocked and Skeptic yields the writer slot.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-M0.3-decision-envelope-plan-review.v2.md",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v2/results.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v2/preservation.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v2/validation.v1.txt",
+    "tests/test_skeptic_decision_envelope_plan_v2.py",
+    "reports/audit/A-M0-048.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-053.v2.json",
+    "tests/test_skeptic_decision_envelope_plan_v2.py",
+    "reports/reviews/M0.2-M0.3-decision-envelope-plan-review.v2.md",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v2/results.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v2/preservation.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v2/validation.v1.txt",
+    "reports/audit/A-M0-048.v1.json",
+    "docs/handoffs/H-M0-053.v3.json"
+  ],
+  "tests_run": [
+    "Schema probes, frozen Stage 1 regression, focused M0.3A regression, repository validation, compileall, preservation, JSON and diff checks are recorded in validation.v1.txt."
+  ],
+  "open_questions": [
+    "Director must close the exact envelope schema, full handoff parse closure, raw-output encoding, deterministic frozen replay mechanism and evidence-only transition rows."
+  ],
+  "blockers": [
+    "Five HIGH planning gaps prevent release of H-M0-041.v10 for implementation.",
+    "STOP-M0-3A-001 and STOP-M0-001 remain OPEN; M0 blocked; M1, Data resumption and operational activity remain prohibited."
+  ],
+  "next_action": "Director should publish corrected closed schema/specification and v5 transition rows, then request another focused Skeptic planning review before releasing Data.",
+  "completion_criteria": [
+    "The schema mechanically closes all authority-bearing structures and output relations.",
+    "The contract captures every frozen read and specifies deterministic equivalent historical replay.",
+    "Every evidence-only scheduler action has an exact non-operational transition/event definition."
+  ],
+  "depends_on": [
+    "H-M0-052"
+  ]
+}

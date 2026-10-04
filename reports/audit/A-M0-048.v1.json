@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-048",
+  "version": 1,
+  "occurred_at": "2026-10-04T20:26:14Z",
+  "actor": "05 Skeptic",
+  "role": "05 Skeptic",
+  "event_type": "M0_2_M0_3_ADAPTER_PLAN_V2_REQUIRES_REVISION",
+  "subject_ref": "docs/handoffs/H-M0-053.v3.json",
+  "previous_state": "M0_BLOCKED_ENVELOPE_V2_REVIEW_PENDING",
+  "new_state": "M0_BLOCKED_ENVELOPE_V2_REVISION_REQUIRED",
+  "reason": "Envelope v2 improves the architecture but its schema leaves authority-bearing sections open, its DISPATCH source manifest omits parsed handoff files, raw-output and deterministic replay mechanics remain underdefined, and v5 evidence-only operations lack closed scheduler semantics.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-M0.3-decision-envelope-plan-review.v2.md",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v2/results.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v2/preservation.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v2/validation.v1.txt",
+    "tests/test_skeptic_decision_envelope_plan_v2.py",
+    "docs/handoffs/H-M0-053.v3.json"
+  ],
+  "code_ref": "02fe6215341ab2c3cb9417146a91b5d612fbb7f9",
+  "config_ref": "docs/M0.2_DECISION_EVIDENCE_ENVELOPE.v2.md; schemas/m0-2-decision-evidence-envelope.v2.schema.json; docs/M0.3A_TRANSACTIONAL_CONTRACT.v5.md",
+  "correlation_id": "H-M0-053",
+  "supersedes": null
+}

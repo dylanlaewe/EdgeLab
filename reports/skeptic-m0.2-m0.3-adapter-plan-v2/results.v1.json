@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "review": "M0_2_M0_3_DECISION_EVIDENCE_ADAPTER_PLAN_V2_REVIEW",
+  "verdict": "M0_2_M0_3_ADAPTER_PLAN_REQUIRES_REVISION",
+  "reviewed_base_sha": "6aaec7f1e0294b6af6379c38017bca0536c34ea2",
+  "claim_sha": "02fe6215341ab2c3cb9417146a91b5d612fbb7f9",
+  "stage_1_freeze_sha": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+  "stage_1_unchanged": true,
+  "planning_findings": {
+    "blocker": [],
+    "high": [
+      "schema_leaves_authority_sections_open_and_does_not_enforce_output_conditionals_or_required_digests",
+      "dispatch_manifest_omits_unrelated_handoff_files_parsed_by_frozen_m0_2",
+      "exact_raw_output_bytes_digest_and_normalized_derivation_are_undefined",
+      "deterministic_clock_loader_checkout_ref_and_environment_replay_require_security_critical_invention",
+      "v5_evidence_only_operations_lack_closed_transition_and_event_semantics"
+    ],
+    "medium": [
+      "absence_and_inventory_evidence_need_explicit_tagged_schema_variants",
+      "wrong_runtime_result_should_preserve_historical_validity_separately_from_target_authorization",
+      "raw_mapping_property_order_semantics_need_explicit_definition"
+    ],
+    "low": []
+  },
+  "schema_characterization_probes": {
+    "empty_security_critical_sections_accepted": true,
+    "hidden_caller_authority_accepted": true,
+    "deny_non_null_operation_accepted": true,
+    "dispatch_null_operation_accepted": true
+  },
+  "handoff_h_m0_041_v10_implementation_ready": false,
+  "stop_m0_3a_001_planning_side_resolved": false,
+  "runtime_adapter_implemented": false,
+  "data_released": false,
+  "stop_records_open": ["STOP-M0-001", "STOP-M0-3A-001"],
+  "phase": "M0_BLOCKED",
+  "m1_released": false,
+  "executor": "MOCK_ONLY",
+  "capital_minor": {"conceptual": 5000, "deployable": 0, "reserved": 0},
+  "live": "LOCKED",
+  "kill": "ENGAGED"
+}
