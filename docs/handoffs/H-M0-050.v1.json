@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-050",
+  "version": 1,
+  "created_at": "2026-10-04T19:52:00Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "CLAIMED",
+  "request": "Plan the minimum immutable M0.2 decision-evidence envelope needed to resolve STOP-M0-3A-001 without changing frozen Stage 1 semantics or releasing Data.",
+  "work_done": "Director claims the yielded sole writer slot at clean synchronized base 17e0ceb. Scope: an implementation-authoritative envelope specification/schema, a narrow self-contained M0.3A contract revision, blocked queued Data handoff, Director planning completion/audit evidence, and focused Skeptic planning review request. Existing Data runtime code and accepted M0.2 decision engine are read-only.",
+  "evidence_refs": ["docs/handoffs/H-M0-041.v8.json", "reports/stops/STOP-M0-3A-001.v1.json", "reports/M0.3A-receipt-interface-blocker.v1.md", "reports/audit/A-M0-044.v1.json", "docs/M0.3A_TRANSACTIONAL_CONTRACT.v3.md", "docs/M0.2_ORCHESTRATION.md", "src/edgelab/orchestration.py", "reports/stops/STOP-M0-001.v1.json"],
+  "files_changed": ["docs/M0.2_DECISION_EVIDENCE_ENVELOPE.md", "schemas/m0-2-decision-envelope.schema.json", "docs/M0.3A_TRANSACTIONAL_CONTRACT.v4.md", "docs/handoffs/H-M0-041.v9.json", "docs/handoffs/H-M0-050.v2.json", "docs/handoffs/H-M0-051.v1.json", "reports/audit/A-M0-045.v1.json"],
+  "tests_run": ["Claim only; planning artifact validation follows."],
+  "open_questions": [],
+  "blockers": ["STOP-M0-3A-001 remains OPEN and Data remains blocked pending independent planning review and a later Director release.", "STOP-M0-001 remains OPEN; M0 blocked; M1 and operational scope prohibited."],
+  "next_action": "Publish the minimum adapter/envelope plan and request focused Skeptic review.",
+  "completion_criteria": ["The envelope captures/recomputes exactly frozen M0.2 inputs/outputs, detects substitution and staleness under local assumptions, and never upgrades decision_id into authentication.", "No Stage 1 semantic code change, runtime adapter implementation, Data release, STOP clearance, or operational work occurs."],
+  "depends_on": ["H-M0-041", "H-M0-049"]
+}
