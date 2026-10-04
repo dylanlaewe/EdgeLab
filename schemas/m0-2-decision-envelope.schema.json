@@ -1,0 +1,10 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "title":"M0.2 Decision Evidence Envelope v1",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["schema_version","envelope_id","freeze_commit","engine_identity","task_id","attempt","input_bundle","input_sha256","output_bundle","output_sha256","repository_bundle_sha256","repository_generation","created_at","content_sha256"],
+  "properties":{
+    "schema_version":{"const":1},"envelope_id":{"type":"string","minLength":1},"freeze_commit":{"type":"string","pattern":"^[0-9a-f]{40}$"},"engine_identity":{"type":"object","additionalProperties":false,"required":["path","sha256"],"properties":{"path":{"const":"src/edgelab/orchestration.py"},"sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"}}},"task_id":{"type":"string","minLength":1},"attempt":{"type":"integer","minimum":1},"assignment_head":{"type":["string","null"]},"input_bundle":{"type":"object"},"input_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},"output_bundle":{"type":"object"},"output_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},"repository_bundle_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},"repository_generation":{"type":"integer","minimum":0},"created_at":{"type":"string","format":"date-time"},"content_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"}
+  }
+}
