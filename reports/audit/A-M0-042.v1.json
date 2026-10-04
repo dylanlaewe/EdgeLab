@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-042",
+  "version": 1,
+  "occurred_at": "2026-10-04T19:16:42Z",
+  "actor": "05 Skeptic",
+  "role": "05 Skeptic",
+  "event_type": "M0_3A_V3_PLAN_ACCEPTED_FOR_SEPARATE_DATA_RELEASE",
+  "subject_ref": "docs/handoffs/H-M0-048.v3.json",
+  "previous_state": "M0_BLOCKED_STOP_OPEN_M0_3A_V3_PLANNING_REVIEW_PENDING",
+  "new_state": "M0_BLOCKED_STOP_OPEN_M0_3A_PLAN_ACCEPTED_DATA_UNRELEASED",
+  "reason": "The authoritative v3 contract closes all prior BLOCKER/HIGH and MEDIUM planning gaps and is sufficiently precise for Data implementation without security-critical invention. Acceptance is not Data release or runtime implementation approval.",
+  "evidence_refs": [
+    "reports/reviews/M0.3A-v3-final-planning-acceptance.v1.md",
+    "reports/skeptic-m0.3a-v3-plan-acceptance/results.v1.json",
+    "reports/skeptic-m0.3a-v3-plan-acceptance/preservation.v1.json",
+    "reports/skeptic-m0.3a-v3-plan-acceptance/validation.v1.txt",
+    "docs/handoffs/H-M0-048.v3.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "code_ref": "d14d3f5",
+  "config_ref": "docs/M0.3A_TRANSACTIONAL_CONTRACT.v3.md; docs/handoffs/H-M0-041.v4.json",
+  "correlation_id": "H-M0-048",
+  "supersedes": null
+}
