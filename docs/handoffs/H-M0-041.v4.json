@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-041",
+  "version": 4,
+  "created_at": "2026-10-04T19:12:00Z",
+  "sender": "00 Director",
+  "recipient": "01 Data",
+  "status": "QUEUED",
+  "request": "Implement the local synthetic M0.3A scheduler only after focused Skeptic acceptance of the single authoritative v3 contract and a separate Director implementation release.",
+  "work_done": "This supersedes H-M0-041.v3. docs/M0.3A_TRANSACTIONAL_CONTRACT.v3.md is the complete implementation authority, including closed task semantics, acyclic attachment/genesis/seal construction, mandatory verified SQLite profile, task/runtime event separation, atomic cross-task remediation lineage, repository generation, advisory-lock serialization, migration ledger, WAL-safe backups, exports, replay and all acceptance cases. This is queued only; no implementation release is granted.",
+  "evidence_refs": ["docs/M0.3A_TRANSACTIONAL_CONTRACT.v3.md", "docs/handoffs/H-M0-047.v2.json", "docs/handoffs/H-M0-046.v3.json", "docs/handoffs/H-M0-041.v3.json", "docs/handoffs/H-M0-039.v3.json", "reports/stops/STOP-M0-001.v1.json"],
+  "files_changed": [],
+  "tests_run": ["Planning only; Data may not claim or implement."],
+  "open_questions": ["M0.3B alone may add real identity/external authority; future Goal metadata remains unimplemented and non-authorizing."],
+  "blockers": ["Focused Skeptic acceptance plus a separate Director release are required before Data may claim.", "STOP-M0-001 OPEN; M0 blocked; M1/executor/network/Codex/plugins/MCP/credentials/operational/paper/live/capital work prohibited."],
+  "next_action": "05 Skeptic performs the focused v3 planning confirmation under H-M0-048.v1.",
+  "completion_criteria": ["Implement all and only v3 contract semantics and acceptance/failure-injection cases.", "Preserve frozen M0.2 and add no executor, M0.3B identity, Goal implementation, external capability, STOP clearance, or capital authority."],
+  "depends_on": ["H-M0-047", "H-M0-046"]
+}

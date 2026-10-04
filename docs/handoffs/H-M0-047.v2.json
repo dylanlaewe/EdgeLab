@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-047",
+  "version": 2,
+  "created_at": "2026-10-04T19:12:00Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Narrowly correct the H-M0-046.v3 M0.3A planning defects without implementation or release.",
+  "work_done": "Published the single self-contained v3 contract. It replaces the circular attachment/genesis digest with Phase A attachment, Phase B genesis, and Phase C seal; gives mandatory verified SQLite operational settings; defines task/runtime events and atomic two-event remediation lineage; defines repository generation, advisory-lock recovery, migrations, backups, exports and required acceptance cases. H-M0-041.v3 is superseded by queued/unreleased H-M0-041.v4.",
+  "evidence_refs": ["docs/M0.3A_TRANSACTIONAL_CONTRACT.v3.md", "docs/handoffs/H-M0-041.v4.json", "docs/handoffs/H-M0-046.v3.json", "reports/audit/A-M0-041.v1.json", "reports/stops/STOP-M0-001.v1.json"],
+  "files_changed": ["docs/M0.3A_TRANSACTIONAL_CONTRACT.v3.md", "docs/handoffs/H-M0-041.v4.json", "docs/handoffs/H-M0-047.v2.json", "docs/handoffs/H-M0-048.v1.json", "reports/audit/A-M0-041.v1.json"],
+  "tests_run": ["Repository validation, JSON parsing, v3 contract assertions, frozen-M0.2 orchestration regression, whitespace check and diff review passed. No runtime code changed; a full runtime suite does not exist yet."],
+  "open_questions": ["Focused Skeptic must determine whether v3 leaves any implementation-critical ambiguity."],
+  "blockers": ["Data remains unreleased pending Skeptic acceptance and a later Director release.", "STOP-M0-001 OPEN; M0 blocked; M1 and operational capability prohibited."],
+  "next_action": "05 Skeptic independently reviews v3 under H-M0-048.v1.",
+  "completion_criteria": ["Independent focused acceptance or exact residuals are published.", "This planning completion does not itself release Data."],
+  "depends_on": ["H-M0-046"]
+}

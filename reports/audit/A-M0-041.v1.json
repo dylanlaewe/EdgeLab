@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-041",
+  "version": 1,
+  "occurred_at": "2026-10-04T19:12:00Z",
+  "actor": "00 Director",
+  "role": "00 Director",
+  "event_type": "M0_3A_NARROW_CONTRACT_CORRECTION_AWAITING_SKEPTIC_REVIEW",
+  "subject_ref": "docs/handoffs/H-M0-047.v2.json",
+  "previous_state": "M0_BLOCKED_STOP_OPEN_M0_3A_IMPLEMENTATION_UNRELEASED",
+  "new_state": "M0_BLOCKED_STOP_OPEN_M0_3A_V3_PLANNING_REVIEW_PENDING",
+  "reason": "The Director published the complete v3 planning contract to close Skeptic's attachment/genesis, SQLite profile, remediation lineage, repository generation, stale-lock, runtime-event and common serialization findings. Data remains queued and unreleased.",
+  "evidence_refs": ["docs/M0.3A_TRANSACTIONAL_CONTRACT.v3.md", "docs/handoffs/H-M0-041.v4.json", "docs/handoffs/H-M0-047.v2.json", "docs/handoffs/H-M0-048.v1.json", "reports/stops/STOP-M0-001.v1.json"],
+  "code_ref": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+  "config_ref": "docs/M0.3A_TRANSACTIONAL_CONTRACT.v3.md",
+  "correlation_id": "H-M0-047",
+  "supersedes": null
+}
