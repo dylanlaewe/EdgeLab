@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from src.edgelab.transactional_scheduler import Scheduler, RuntimeUnavailable
+from src.edgelab.transactional_scheduler import Scheduler, RuntimeUnavailable, Bundle
 from src.edgelab.validate import ROOT
 
 class SchedulerTests(unittest.TestCase):
@@ -80,5 +80,13 @@ class SchedulerTests(unittest.TestCase):
         self.s.startup()
         for version in (0,2):
             with self.assertRaises(RuntimeUnavailable): self.s.migrate(version,"c"*64,backup)
+    def test_final_bundle_recheck_and_generation_advance(self):
+        original=self.s.bundle(); changed=Bundle(original.commit,"f"*64,original.project,original.stops,original.policy,original.tasks)
+        with patch.object(self.s,"bundle",side_effect=[original,changed]):
+            with self.assertRaises(RuntimeUnavailable): self.s.transition("CLAIM","T",{**self.req(),"actor":"worker"},operation_key="toctou")
+        self.assertEqual(self.row()["execution"],"CLAIMABLE")
+        self.s.import_repository(["T"]); self.assertEqual(self.row()["repository_generation"],0)
+        with patch.object(self.s,"bundle",return_value=changed): self.s.import_repository(["T"])
+        self.assertEqual(self.row()["repository_generation"],1)
 
 if __name__ == "__main__": unittest.main()

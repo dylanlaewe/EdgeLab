@@ -59,7 +59,9 @@ class Scheduler:
         selected = ["docs/project-state.json", *sorted(str(x.relative_to(self.root)) for x in (self.root/"reports/stops").glob("*.json")), *sorted(str(x.relative_to(self.root)) for x in (self.root/"orchestration").rglob("*.json")), *sorted(str(x.relative_to(self.root)) for x in (self.root/"portfolio").glob("*.json"))]
         pairs = [(p, hashlib.sha256((self.root/p).read_bytes()).hexdigest()) for p in selected]
         groups = lambda prefix: digest([x for x in pairs if x[0].startswith(prefix)])
-        return Bundle(commit, digest({"commit":commit,"files":pairs}), groups("docs/project-state"), groups("reports/stops"), digest([x for x in pairs if x[0].startswith("portfolio/") or x[0].startswith("orchestration/capabilities")]), groups("orchestration/"))
+        # A source commit is recorded with every binding, but only authoritative
+        # path content advances generation; a no-op commit must not fence work.
+        return Bundle(commit, digest({"files":pairs}), groups("docs/project-state"), groups("reports/stops"), digest([x for x in pairs if x[0].startswith("portfolio/") or x[0].startswith("orchestration/capabilities")]), groups("orchestration/"))
     @contextmanager
     def locked(self, purpose: str) -> Iterator[None]:
         self.dir.mkdir(mode=0o700, parents=True, exist_ok=True); _mode(self.dir, 0o700)
@@ -89,7 +91,7 @@ class Scheduler:
             try:
                 c.execute("BEGIN EXCLUSIVE"); self._schema(c)
                 runtime_id=str(uuid.uuid4()); genesis={"runtime_schema_version":SCHEMA_VERSION,"runtime_id":runtime_id,"attachment_id":att["attachment_id"],"attachment_digest":ad,"source_git_commit":b.commit,"m0_2_freeze_commit":FREEZE,"project_state_digest":b.project,"complete_stop_set_digest":b.stops,"policy_capability_bundle_digest":b.policy,"task_dependency_assignment_handoff_digest":b.tasks,"initial_repository_generation":0,"initial_scheduler_generation":0,"global_sequence":0,"predecessor_id":"GENESIS","predecessor_digest":hashlib.sha256(b"GENESIS").hexdigest(),"created_at":utc()}; gd=digest(genesis)
-                for k,v in {"schema_version":1,"runtime_id":runtime_id,"genesis":genesis,"genesis_digest":gd,"attachment_digest":ad,"repository_generation":0,"global_head_id":"GENESIS","global_head_digest":genesis["predecessor_digest"],"available":True}.items(): c.execute("INSERT INTO meta VALUES (?,?)",(k,json.dumps(v)))
+                for k,v in {"schema_version":1,"runtime_id":runtime_id,"genesis":genesis,"genesis_digest":gd,"attachment_digest":ad,"repository_generation":0,"bundle_digest":b.digest,"global_head_id":"GENESIS","global_head_digest":genesis["predecessor_digest"],"available":True}.items(): c.execute("INSERT INTO meta VALUES (?,?)",(k,json.dumps(v)))
                 seal={"runtime_id":runtime_id,"attachment_id":att["attachment_id"],"attachment_digest":ad,"genesis_digest":gd,"created_at":utc()}; seal["seal_digest"]=digest(seal); c.execute("INSERT INTO seals VALUES (?,?,?,?,?,?)",tuple(seal[k] for k in ("runtime_id","attachment_id","attachment_digest","genesis_digest","created_at","seal_digest")))
                 self._runtime_event(c,"GENESIS",{},b); c.commit()
             except Exception: c.rollback(); raise
@@ -259,9 +261,10 @@ class Scheduler:
         with self.locked("import"):
             b=self.bundle(); c=self.connect()
             try:
-                c.execute("BEGIN IMMEDIATE"); self._verify(c); old=self._meta(c,"repository_generation"); prior=self._meta(c,"genesis")["source_git_commit"]
-                if b.commit==prior and not affected: c.rollback(); return
+                c.execute("BEGIN IMMEDIATE"); self._verify(c); old=self._meta(c,"repository_generation"); prior=self._meta(c,"bundle_digest")
+                if b.digest==prior: c.rollback(); return
                 new=old+1; self._set(c,"repository_generation",new)
+                self._set(c,"bundle_digest",b.digest)
                 for tid in affected:
                     row=c.execute("SELECT * FROM tasks WHERE task_id=?",(tid,)).fetchone()
                     if not row: raise RuntimeUnavailable("unknown affected task")
