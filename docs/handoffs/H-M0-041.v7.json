@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-041",
+  "version": 7,
+  "created_at": "2026-10-04T19:43:17Z",
+  "sender": "01 Data",
+  "recipient": "00 Director",
+  "status": "BLOCKED",
+  "request": "M0.3A implementation under released H-M0-041.v5/v6 claim.",
+  "work_done": "Implemented and pushed local scheduler milestones through a26ef45: owner-only SQLite WAL runtime, attachment/genesis seal, task/attempt/claim/review state, idempotent transaction paths, fencing, event chains/replay, remediation two-event transaction, migration ledger path, backup/export and focused tests. Further completion is blocked by the absent frozen M0.2 exact receipt/input-bundle interface. STOP-M0-3A-001.v1 records the material contract mismatch. This is not a completion handoff and does not request Skeptic review.",
+  "evidence_refs": ["reports/M0.3A-receipt-interface-blocker.v1.md", "reports/stops/STOP-M0-3A-001.v1.json", "docs/M0.3A_TRANSACTIONAL_CONTRACT.v3.md", "docs/M0.2_ORCHESTRATION.md", "src/edgelab/orchestration.py", "docs/handoffs/H-M0-041.v6.json"],
+  "files_changed": ["reports/stops/STOP-M0-3A-001.v1.json", "reports/M0.3A-receipt-interface-blocker.v1.md", "docs/handoffs/H-M0-041.v7.json"],
+  "tests_run": ["Focused M0.3A suite: 12 passed before the blocked handoff.", "Frozen M0.2 preservation diff against bc3a40924ca580ca6eddc4c24e32ff99ddd95330: passed.", "Broad historic discovery: 404 tests, 63 failures and 69 errors in preserved historical/Skeptic suites; no M0.3A test failures observed. Raw log remains untracked while final evidence is unavailable."],
+  "open_questions": ["What exact immutable M0.2 receipt and input-bundle contract can M0.3A bind without changing Stage 1 semantics?"],
+  "blockers": ["STOP-M0-3A-001 OPEN: v3 R-gated transition semantics cannot be implemented truthfully without an authoritative frozen-M0.2 adapter.", "STOP-M0-001 remains OPEN; M0 blocked; M1 unreleased; executor MOCK_ONLY; capital locked."],
+  "next_action": "Director obtains an M0.2-authority resolution or reviewed contract amendment, then records a new release before Data resumes. Do not treat H-M0-041.v7 as M0.3A completion.",
+  "completion_criteria": ["A reviewed immutable receipt/input-bundle adapter or contract revision exists.", "Data replaces caller receipt fixtures, completes every v3 acceptance case and publishes final-tree completion evidence.", "Independent Skeptic implementation review is requested only after complete evidence exists."],
+  "depends_on": ["H-M0-048", "H-M0-049"]
+}

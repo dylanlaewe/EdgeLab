@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-001",
+  "version": 1,
+  "issued_at": "2026-10-04T19:43:17Z",
+  "issuer": "01 Data",
+  "reason": "M0.3A v3 requires R-gated transitions to bind the current exact frozen M0.2 receipt and input bundle. Frozen Stage 1 exposes only a deterministic decision_id and explicitly states that decision IDs are not authenticated receipts; it publishes no receipt schema, immutable receipt record, or exact input-bundle interface. The current M0.3A caller-supplied receipt_digest is therefore an invented semantics and cannot satisfy the v3 contract without changing frozen M0.2 or receiving an authoritative adapter contract.",
+  "affected_components": [
+    "M0.3A R-gated claim/start/continue/complete/revalidation transitions",
+    "M0.3A receipt/repository binding and replay evidence",
+    "H-M0-041.v6 completion eligibility"
+  ],
+  "evidence_refs": [
+    "docs/M0.3A_TRANSACTIONAL_CONTRACT.v3.md",
+    "docs/M0.2_ORCHESTRATION.md",
+    "src/edgelab/orchestration.py",
+    "docs/handoffs/H-M0-041.v6.json"
+  ],
+  "severity": "HIGH",
+  "remediation_required": [
+    "Director and the frozen-M0.2 authority must provide an immutable, exact, versioned M0.2 receipt/input-bundle contract or explicitly revise the accepted M0.3A contract through the documented review process.",
+    "The resolution must specify source records, canonical bytes/digests, currentness and how an M0.3A runtime verifies them without changing Stage 1 decision semantics.",
+    "Data must replace caller-supplied receipt_digest fixtures with that authoritative adapter and rerun the complete M0.3A acceptance matrix before completion."
+  ],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}
