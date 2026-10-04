@@ -9,3 +9,9 @@ __pycache__/
 .pytest_cache/
 data/raw/*
 !data/raw/README.md
+# M0.3A local-only scheduler runtime; no runtime state may enter Git.
+.edgelab-runtime/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+scheduler.lock
