@@ -62,5 +62,23 @@ class SchedulerTests(unittest.TestCase):
             with self.assertRaises(RuntimeUnavailable): self.s.transition("CLAIM","T",{**self.req(),"actor":"x"},operation_key="bad")
         r=self.req(); r["repository_generation"]+=1
         with self.assertRaises(RuntimeUnavailable): self.s.transition("CLAIM","T",{**r,"actor":"x"},operation_key="stale")
+    def test_remediation_is_two_event_atomic_and_replayable(self):
+        c=self.claim()["tuple"]; self.s.transition("START","T",{**self.req(),"claim_id":c["active_claim_id"],"fence":c["task_fence"]},operation_key="start")
+        r=self.req(); self.s.transition("COMPLETE","T",{**r,"claim_id":r["expected"]["active_claim_id"],"fence":r["expected"]["task_fence"]},operation_key="complete")
+        a=self.s.transition("ASSIGN_REVIEW","T",{**self.req(),"actor":"reviewer","role":"skeptic"},operation_key="assign")["tuple"]
+        self.s.transition("REMEDIATE","T",{**self.req(),"reviewer_id":a["reviewer_assignment_id"]},operation_key="remediate")
+        request={"expected":self.req()["expected"],"repository_generation":self.req()["repository_generation"],"decision_digest":"d"*64,"receipt_digest":"child","owner":"owner"}
+        with self.assertRaises(RuntimeError): self.s.create_remediation("T","C",request,operation_key="link-fail",inject="after_event")
+        c=self.s.connect(); self.assertIsNone(c.execute("select 1 from tasks where task_id='C'").fetchone()); c.close()
+        result=self.s.create_remediation("T","C",request,operation_key="link")
+        self.assertEqual(len(result["relationship_id"]),36); self.s.startup()
+        c=self.s.connect(); self.assertEqual(c.execute("select count(*) from task_events where task_id in ('T','C')").fetchone()[0],8); self.assertEqual(c.execute("select count(*) from remediation_links").fetchone()[0],1); c.close()
+    def test_migration_success_failure_and_schema_denial(self):
+        backup=Path(self.tmp.name)/"migration.sqlite"; self.s.migrate(1,"a"*64,backup)
+        c=self.s.connect(); self.assertEqual(c.execute("select count(*) from migration_ledger").fetchone()[0],1); c.close()
+        with self.assertRaises(RuntimeError): self.s.migrate(1,"b"*64,Path(self.tmp.name)/"failed.sqlite",inject=True)
+        self.s.startup()
+        for version in (0,2):
+            with self.assertRaises(RuntimeUnavailable): self.s.migrate(version,"c"*64,backup)
 
 if __name__ == "__main__": unittest.main()

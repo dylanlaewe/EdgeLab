@@ -147,6 +147,7 @@ class Scheduler:
                 if inject in {"after_event","after_state"}: raise RuntimeError("injected before idempotency")
                 response={"task_id":task_id,"operation":op,"tuple":after,"event":event,"global_head":self._meta(c,"global_head_id")}; c.execute("INSERT INTO idempotency VALUES (?,?,?)",(operation_key,rd,json.dumps(response)))
                 if inject=="after_idempotency": raise RuntimeError("injected before commit")
+                if self.bundle() != b: raise RuntimeUnavailable("authoritative Git bundle changed before commit")
                 c.commit()
                 if inject=="after_commit": raise ConnectionError("lost response after commit")
                 return response
@@ -184,6 +185,52 @@ class Scheduler:
         if op=="ROUTE" and (w,e,v)==("ACTIVE","EXECUTION_COMPLETED","APPROVED") and r.get("routing_evidence"):
             setstate(workflow="DIRECTOR_GATE_READY",scheduler_generation=S); return "DIRECTOR_ROUTED"
         raise RuntimeUnavailable("invalid or terminal transition")
+
+    def create_remediation(self, source_task: str, child_task: str, request: dict[str, Any], *, operation_key: str, inject: str|None=None) -> dict[str, Any]:
+        """Commit both reciprocal remediation events, child state, link and result or none."""
+        body={"operation":"CREATE_REMEDIATION_TASK","source":source_task,"child":child_task,"request":request}; rd=digest(body)
+        with self.locked("remediation"):
+            b=self.bundle(); c=self.connect()
+            try:
+                c.execute("BEGIN IMMEDIATE"); self._verify(c)
+                hit=c.execute("SELECT request_digest,response FROM idempotency WHERE operation_key=?",(operation_key,)).fetchone()
+                if hit:
+                    if hit["request_digest"]!=rd: raise RuntimeUnavailable("idempotency key reused with different request")
+                    c.rollback(); return json.loads(hit["response"])
+                source=c.execute("SELECT * FROM tasks WHERE task_id=?",(source_task,)).fetchone()
+                if not source or self.tuple(source)!=request.get("expected") or source["review"] not in {"REJECTED","REMEDIATION_REQUIRED"}: raise RuntimeUnavailable("stale or non-remediable source")
+                if request.get("repository_generation")!=self._meta(c,"repository_generation") or c.execute("SELECT 1 FROM tasks WHERE task_id=?",(child_task,)).fetchone(): raise RuntimeUnavailable("stale binding or child exists")
+                link=str(uuid.uuid4()); before=self.tuple(source); c.execute("UPDATE tasks SET scheduler_generation=scheduler_generation+1,successor_task=? WHERE task_id=?",(child_task,source_task)); source2=c.execute("SELECT * FROM tasks WHERE task_id=?",(source_task,)).fetchone()
+                first=self._task_event(c,source2,before,self.tuple(source2),"REMEDIATION_CREATED",{"relationship_id":link,"child":child_task,"decision":request["decision_digest"]})
+                if inject in {"before_event","after_event"}: raise RuntimeError("injected remediation failure")
+                c.execute("INSERT INTO tasks VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(child_task,1,"ACTIVE","CLAIMABLE","NOT_REQUIRED",0,0,0,None,None,0,self._meta(c,"repository_generation"),request["receipt_digest"],request["owner"],None,source_task,None)); c.execute("INSERT INTO attempts VALUES (?,?,?)",(child_task,1,None)); child=c.execute("SELECT * FROM tasks WHERE task_id=?",(child_task,)).fetchone()
+                second=self._task_event(c,child,None,self.tuple(child),"TASK_CREATED_FROM_REMEDIATION",{"relationship_id":link,"parent":source_task,"parent_attempt":source["attempt"],"decision":request["decision_digest"]})
+                ld=digest({"link_id":link,"source_task":source_task,"child_task":child_task,"source_event":first,"child_event":second,"decision_digest":request["decision_digest"]}); c.execute("INSERT INTO remediation_links VALUES (?,?,?,?,?,?,?)",(link,source_task,child_task,first,second,request["decision_digest"],ld))
+                if inject in {"after_state","after_idempotency"}: raise RuntimeError("injected remediation failure")
+                response={"relationship_id":link,"source_event":first,"child_event":second,"child_tuple":self.tuple(child)}; c.execute("INSERT INTO idempotency VALUES (?,?,?)",(operation_key,rd,json.dumps(response)))
+                if self.bundle()!=b: raise RuntimeUnavailable("authoritative Git bundle changed before commit")
+                c.commit(); return response
+            except Exception:
+                if c.in_transaction:c.rollback()
+                raise
+            finally:c.close()
+
+    def migrate(self, target_version: int, artifact_digest: str, backup_target: Path, *, inject: bool=False) -> None:
+        """Only v1 exists: v1→v1 records infrastructure; downgrade/newer schemas deny."""
+        if target_version != SCHEMA_VERSION: raise RuntimeUnavailable("unknown newer schema or downgrade denied")
+        backup_digest=self.backup(backup_target)
+        with self.locked("migration"):
+            c=self.connect()
+            try:
+                c.execute("BEGIN EXCLUSIVE"); self._verify(c)
+                current=self._meta(c,"schema_version")
+                if current != SCHEMA_VERSION: raise RuntimeUnavailable("schema mismatch")
+                if inject: raise RuntimeError("injected migration failure")
+                mid=str(uuid.uuid4()); c.execute("INSERT INTO migration_ledger VALUES (?,?,?,?,?,?,?,?)",(mid,current,target_version,artifact_digest,str(backup_target),backup_digest,"SUCCESS",utc())); self._runtime_event(c,"SCHEMA_MIGRATED",{"migration_id":mid,"from":current,"to":target_version,"backup_digest":backup_digest},self.bundle()); c.commit()
+            except Exception:
+                if c.in_transaction:c.rollback()
+                raise
+            finally:c.close()
 
     def replay(self, c: sqlite3.Connection) -> None:
         """Verify contiguous global/task chains and materialized tuple validity; deny on any anomaly."""
