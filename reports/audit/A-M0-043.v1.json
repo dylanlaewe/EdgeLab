@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-043",
+  "version": 1,
+  "occurred_at": "2026-10-04T19:20:00Z",
+  "actor": "00 Director",
+  "role": "00 Director",
+  "event_type": "M0_3A_DATA_IMPLEMENTATION_RELEASED",
+  "subject_ref": "docs/handoffs/H-M0-041.v5.json",
+  "previous_state": "M0_BLOCKED_STOP_OPEN_M0_3A_PLAN_ACCEPTED_DATA_UNRELEASED",
+  "new_state": "M0_BLOCKED_STOP_OPEN_M0_3A_DATA_IMPLEMENTATION_RELEASED",
+  "reason": "Director independently verified the remote Skeptic planning acceptance, current unsuperseded Data handoff, authoritative v3 contract, frozen Stage 1 and unchanged M0/STOP/capital state. The sole writer slot is reserved for Data's bounded synthetic M0.3A implementation.",
+  "evidence_refs": ["docs/handoffs/H-M0-048.v3.json", "reports/reviews/M0.3A-v3-final-planning-acceptance.v1.md", "reports/skeptic-m0.3a-v3-plan-acceptance/results.v1.json", "docs/M0.3A_TRANSACTIONAL_CONTRACT.v3.md", "docs/handoffs/H-M0-041.v5.json", "reports/M0.3A-data-release.v1.md", "reports/stops/STOP-M0-001.v1.json"],
+  "code_ref": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+  "config_ref": "docs/M0.3A_TRANSACTIONAL_CONTRACT.v3.md; docs/handoffs/H-M0-041.v5.json",
+  "correlation_id": "H-M0-049",
+  "supersedes": null
+}

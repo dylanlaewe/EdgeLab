@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-041",
+  "version": 5,
+  "created_at": "2026-10-04T19:20:00Z",
+  "sender": "00 Director",
+  "recipient": "01 Data",
+  "status": "QUEUED",
+  "request": "RELEASED: implement only M0.3A transactional scheduler and event store under docs/M0.3A_TRANSACTIONAL_CONTRACT.v3.md.",
+  "work_done": "Director release PASSED after independent consumption of Skeptic planning acceptance H-M0-048.v3 at 210269659ea8d41d1848d903ea6f2265d34cb20f. This version supersedes H-M0-041.v4 as the released authorization. The sole writer slot is reserved for 01 Data. Before implementation, Data must synchronize, append H-M0-041.v6 CLAIMED with an actual session ID, base SHA, exact file scope and prerequisite SHAs, then commit/push that claim. This release grants no other work.",
+  "evidence_refs": ["docs/M0.3A_TRANSACTIONAL_CONTRACT.v3.md", "docs/handoffs/H-M0-048.v3.json", "reports/reviews/M0.3A-v3-final-planning-acceptance.v1.md", "reports/skeptic-m0.3a-v3-plan-acceptance/results.v1.json", "docs/handoffs/H-M0-041.v4.json", "docs/handoffs/H-M0-049.v2.json", "reports/M0.3A-data-release.v1.md", "reports/stops/STOP-M0-001.v1.json"],
+  "files_changed": ["docs/handoffs/H-M0-041.v5.json"],
+  "tests_run": ["Director independently verified remote ancestry, current handoff version, accepted contract, safety state, repository validation and frozen-M0.2 regression before release."],
+  "open_questions": ["M0.3B remains responsible for real identity and external authority; Goal metadata is unimplemented and non-authorizing."],
+  "blockers": ["STOP-M0-001 remains OPEN; M0 remains blocked; M1, executor attachment and operational activity remain prohibited.", "Data may implement only the exact v3 contract and must pass every matrix, race, tamper and failure-injection acceptance case before independent implementation review."],
+  "next_action": "01 Data synchronizes and claims H-M0-041.v6 before implementation. No other writer may edit repository files concurrently.",
+  "completion_criteria": ["Implement only tables, state machine, transactions, events, replay, fencing, Git/runtime binding, snapshots/backups, migrations, tests and evidence explicitly required by v3.", "Preserve Stage 1 freeze and all STOP/M0/M1/capital invariants; publish implementation/completion evidence for independent Skeptic review.", "Do not add M0.3B identity, authenticated workers, model policy, Goal engine, executor/Codex, network, plugin/skill/MCP, external authority, Scout, sports data, Research/Quant, paper/live or capital mutation."],
+  "depends_on": ["H-M0-048", "H-M0-049"]
+}
