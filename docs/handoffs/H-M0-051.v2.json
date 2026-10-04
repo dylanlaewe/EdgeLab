@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-051",
+  "version": 2,
+  "created_at": "2026-10-04T20:01:30Z",
+  "sender": "05 Skeptic",
+  "recipient": "05 Skeptic",
+  "status": "CLAIMED",
+  "request": "Perform the focused planning review of the M0.2 Decision Evidence Envelope and M0.3A v4 integration amendment.",
+  "work_done": "Skeptic claims the sole-writer slot at synchronized base 612d4cf50336ec6e52653825acb6c9e20242e694. Scope is additive planning-review evidence only. Frozen M0.2, the M0.3A runtime implementation and production code remain read-only.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-051.v1.json",
+    "docs/M0.2_DECISION_EVIDENCE_ENVELOPE.md",
+    "schemas/m0-2-decision-envelope.schema.json",
+    "docs/M0.3A_TRANSACTIONAL_CONTRACT.v4.md",
+    "docs/handoffs/H-M0-041.v9.json",
+    "reports/stops/STOP-M0-3A-001.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-051.v2.json"
+  ],
+  "tests_run": [
+    "Preflight: clean EdgeLab main equals origin/main at 612d4cf50336ec6e52653825acb6c9e20242e694; frozen Stage 1 files unchanged from bc3a40924ca580ca6eddc4c24e32ff99ddd95330; both STOP records OPEN; M0 blocked; M1 unreleased; capital LOCKED."
+  ],
+  "open_questions": [
+    "Whether the envelope captures the complete transitive M0.2 dependency set, deterministic evaluation environment, historical bytes and distinct historical-validity/currentness semantics."
+  ],
+  "blockers": [
+    "H-M0-041.v9 remains QUEUED and Data remains blocked pending this disposition and any later Director release.",
+    "STOP-M0-3A-001 and STOP-M0-001 remain OPEN; no adapter implementation, M1 or operational activity is authorized."
+  ],
+  "next_action": "Publish the focused envelope planning disposition and exact residual revisions if required.",
+  "completion_criteria": [
+    "Actual frozen-M0.2 inputs, engine closure, canonicalization, recomputation, currentness and replay receive evidence-backed dispositions.",
+    "Any missing security-critical contract is stated precisely without modifying Stage 1 or implementing the adapter.",
+    "Review artifacts are validated, committed, pushed and the writer slot is yielded."
+  ],
+  "depends_on": [
+    "H-M0-050"
+  ]
+}
