@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "method": "git_blob_sha1_at_director_adapter_plan_completion",
+  "base_sha": "612d4cf50336ec6e52653825acb6c9e20242e694",
+  "artifacts": {
+    "docs/M0.2_DECISION_EVIDENCE_ENVELOPE.md": "9913fe5a106439736c39461c8b5a64d04e2dfe75",
+    "schemas/m0-2-decision-envelope.schema.json": "f7f7ef1b9fb3c1734337b41cd901391e863dbaa4",
+    "docs/M0.3A_TRANSACTIONAL_CONTRACT.v4.md": "731f08fb35a70fa8b336c4fdcb96c78475a1351f",
+    "docs/handoffs/H-M0-041.v9.json": "7a8777907ebbcbebd65a4b9b57ec79ca3b97409d",
+    "docs/handoffs/H-M0-051.v1.json": "c319549371301a405da998794688f5bcc73b8b3f",
+    "reports/stops/STOP-M0-3A-001.v1.json": "6c578f6d704dcdffe48e5945a38085cab571ae57",
+    "reports/stops/STOP-M0-001.v1.json": "09bdf12c3b9b9fb6588d600338e68298153dfa8f",
+    "src/edgelab/orchestration.py": "4fd425c179c134409d87f14ebe0a241f107435f0",
+    "src/edgelab/validate.py": "0ced262fd8b29a61ef2cf1b62470549da6419650",
+    "src/edgelab/data_integrity.py": "85fc94723b5ec563d27a410e29a05171a82e2e05",
+    "tests/test_skeptic_orchestration_v8.py": "be73350f3e621dbbbbd3f38106c005f742463066",
+    "reports/reviews/M0.2-orchestration-acceptance.v1.md": "f8272e0abcdfb305a523d74c4bd6ac7963c95c9d"
+  },
+  "director_adapter_plan_modified": false,
+  "accepted_stage_1_modified": false,
+  "production_runtime_modified": false
+}

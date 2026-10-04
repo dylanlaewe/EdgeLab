@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "review": "M0_2_M0_3_DECISION_EVIDENCE_ADAPTER_PLAN_REVIEW_V1",
+  "verdict": "M0_2_M0_3_ADAPTER_PLAN_REQUIRES_REVISION",
+  "reviewed_base_sha": "612d4cf50336ec6e52653825acb6c9e20242e694",
+  "claim_sha": "1e32effa5a5b8b77edb3bf6372902f6db6b707ab",
+  "stage_1_freeze_sha": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+  "stage_1_unchanged": true,
+  "planning_findings": {
+    "blocker": [],
+    "high": [
+      "transitive_and_branch_specific_frozen_m0_2_input_set_is_incomplete",
+      "engine_identity_omits_helper_modules_schemas_dependency_environment_and_deterministic_evaluation_clock",
+      "typed_schema_leaves_input_output_open_and_exact_raw_output_normalization_is_contradictory",
+      "source_digests_and_parsed_values_cannot_reconstruct_historical_raw_inputs_after_repository_change",
+      "generation_lacks_common_lock_snapshot_final_check_and_verifier_conflates_historical_validity_with_currentness"
+    ],
+    "medium": [
+      "duplicate_key_float_unicode_and_collection_order_canonicalization_need_explicit_rules",
+      "wrong_runtime_repository_attachment_status_needs_explicit_classification",
+      "post_governance_evidence_only_recording_boundary_should_remain_explicit"
+    ],
+    "low": []
+  },
+  "handoff_h_m0_041_v9_adapter_implementation_ready": false,
+  "stop_m0_3a_001_ready_for_resolution": false,
+  "runtime_adapter_implemented": false,
+  "data_released": false,
+  "external_authority_changed": false,
+  "stop_records_open": [
+    "STOP-M0-001",
+    "STOP-M0-3A-001"
+  ],
+  "phase": "M0_BLOCKED",
+  "m1_released": false,
+  "executor": "MOCK_ONLY",
+  "capital_minor": {
+    "conceptual": 5000,
+    "deployable": 0,
+    "reserved": 0
+  },
+  "live": "LOCKED",
+  "kill": "ENGAGED"
+}

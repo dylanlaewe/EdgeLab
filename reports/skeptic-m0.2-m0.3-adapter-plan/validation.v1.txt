@@ -1,0 +1,47 @@
+M0.2 to M0.3A decision-evidence adapter planning review v1
+Director adapter-plan base reviewed: 612d4cf50336ec6e52653825acb6c9e20242e694
+Accepted Stage 1 freeze: bc3a40924ca580ca6eddc4c24e32ff99ddd95330
+Skeptic claim commit: 1e32effa5a5b8b77edb3bf6372902f6db6b707ab
+
+1. Scope verification
+   PASS: planning-review artifacts only; no adapter, runtime or production implementation changed.
+
+2. Director plan and Stage 1 preservation
+   PASS: the 12-item preservation inventory matched the recorded Git blobs at
+   612d4cf50336ec6e52653825acb6c9e20242e694.
+   PASS: git diff --exit-code bc3a40924ca580ca6eddc4c24e32ff99ddd95330 --
+   src/edgelab/orchestration.py tests/test_orchestration.py
+   tests/test_orchestration_final.py
+
+3. Focused frozen-M0.2 regression
+   PASS at the accepted Stage 1 worktree bc3a40924ca580ca6eddc4c24e32ff99ddd95330:
+   .venv/bin/python -m unittest -q tests.test_skeptic_orchestration_v8
+   tests.test_orchestration tests.test_orchestration_final
+   Ran 37 tests; OK.
+
+   Current-repository contextual run: Ran 37 tests; 1 failure. The unchanged
+   historical test_denied_subject_and_reason_are_bound reaches the current STOP
+   inventory prerequisite first for both inputs, producing the same conservative
+   reason. Split result: test_orchestration + test_orchestration_final ran 8 tests,
+   OK; test_skeptic_orchestration_v8 ran 29 tests with that 1 failure. This is
+   preserved historical evidence and a current-context reachability limitation,
+   not evidence of an adapter regression or a reason to modify the historical test.
+
+4. M0.3A owner/preservation regression
+   PASS: .venv/bin/python -m unittest -q tests.test_transactional_scheduler
+   Ran 12 tests; OK.
+
+5. Repository validation and compileall
+   PASS: .venv/bin/python -m src.edgelab.validate
+   Validated 210 records and published history; M0 capital remains LOCKED.
+   No scientific or operational approval.
+   PASS: .venv/bin/python -m compileall -q src tests
+
+6. JSON parsing and git diff checks
+   PASS: 205 review-area JSON files parsed successfully.
+   PASS: git diff --check.
+   PASS: no src/, orchestration/, schemas/ or portfolio/ path differs from the
+   reviewed Director base because of this Skeptic review.
+
+7. Safety state
+   STOP-M0-001 and STOP-M0-3A-001 OPEN; phase M0 blocked; M1 unreleased; Data blocked; Scout inactive; executor MOCK_ONLY; conceptual bankroll 5000 minor, deployable/reserved 0, live LOCKED; kill ENGAGED. No operational activity occurred.

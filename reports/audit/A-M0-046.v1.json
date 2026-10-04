@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-046",
+  "version": 1,
+  "occurred_at": "2026-10-04T20:02:34Z",
+  "actor": "05 Skeptic",
+  "role": "05 Skeptic",
+  "event_type": "M0_2_M0_3_ADAPTER_PLAN_REQUIRES_REVISION",
+  "subject_ref": "docs/handoffs/H-M0-051.v3.json",
+  "previous_state": "M0_BLOCKED_TWO_STOPS_OPEN_ADAPTER_PLAN_REVIEW_PENDING",
+  "new_state": "M0_BLOCKED_TWO_STOPS_OPEN_M0_3A_DATA_BLOCKED",
+  "reason": "The envelope architecture preserves Stage 1 intent but omits transitive and branch-specific inputs, complete engine/environment identity, historical raw bytes and deterministic clock replay; its schema is open and generation/currentness verification is not serialized or phase-separated.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-M0.3-decision-envelope-plan-review.v1.md",
+    "reports/skeptic-m0.2-m0.3-adapter-plan/results.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan/preservation.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan/validation.v1.txt",
+    "docs/handoffs/H-M0-051.v3.json",
+    "reports/stops/STOP-M0-3A-001.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "code_ref": "1e32effa5a5b8b77edb3bf6372902f6db6b707ab",
+  "config_ref": "docs/M0.2_DECISION_EVIDENCE_ENVELOPE.md; schemas/m0-2-decision-envelope.schema.json; docs/M0.3A_TRANSACTIONAL_CONTRACT.v4.md",
+  "correlation_id": "H-M0-051",
+  "supersedes": null
+}
