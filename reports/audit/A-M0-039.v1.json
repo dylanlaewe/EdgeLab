@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-039",
+  "version": 1,
+  "occurred_at": "2026-10-04T18:46:00Z",
+  "actor": "00 Director",
+  "role": "00 Director",
+  "event_type": "M0_3A_REVISED_CLOSED_PLAN_AWAITING_SKEPTIC_REVIEW",
+  "subject_ref": "docs/handoffs/H-M0-045.v2.json",
+  "previous_state": "M0_BLOCKED_STOP_OPEN_M0_3A_IMPLEMENTATION_UNRELEASED",
+  "new_state": "M0_BLOCKED_STOP_OPEN_M0_3A_REVISED_PLAN_REVIEW_PENDING",
+  "reason": "Director published a closed planning contract addressing Skeptic's H-M0-044.v3 tuple, idempotency, fencing, replay, Git/SQLite, attachment, migration, backup, snapshot and acceptance-case requirements. Data remains queued and unreleased pending independent review.",
+  "evidence_refs": [
+    "docs/M0.3A_TRANSACTIONAL_CONTRACT.v2.md",
+    "docs/handoffs/H-M0-041.v3.json",
+    "docs/handoffs/H-M0-045.v2.json",
+    "docs/handoffs/H-M0-046.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "code_ref": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+  "config_ref": "docs/M0.3A_TRANSACTIONAL_CONTRACT.v2.md",
+  "correlation_id": "H-M0-045",
+  "supersedes": null
+}

@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-045",
+  "version": 2,
+  "created_at": "2026-10-04T18:46:00Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Close the M0.3A planning gaps identified by Skeptic in H-M0-044.v3 without releasing Data or implementing runtime code.",
+  "work_done": "Published the versioned closed M0.3A contract. It defines the full scheduler tuple and valid tuples; resolves APPROVED as review-terminal while routing separately; provides a closed default-deny transition matrix; specifies worker/reviewer fences, recovery, continuation, retry and linked remediation; corrects idempotency ordering and committed results; defines event/genesis/logical sequence/replay data; defines Git/SQLite lock and final-check behavior, attachment binding, migration/backup/snapshot rules; and names complete acceptance/failure-injection cases. H-M0-041.v2 is superseded by queued, unreleased H-M0-041.v3.",
+  "evidence_refs": [
+    "docs/M0.3A_TRANSACTIONAL_CONTRACT.v2.md",
+    "docs/handoffs/H-M0-041.v3.json",
+    "docs/handoffs/H-M0-044.v3.json",
+    "reports/audit/A-M0-039.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/M0.3A_TRANSACTIONAL_CONTRACT.v2.md",
+    "docs/handoffs/H-M0-041.v3.json",
+    "docs/handoffs/H-M0-045.v2.json",
+    "docs/handoffs/H-M0-046.v1.json",
+    "reports/audit/A-M0-039.v1.json"
+  ],
+  "tests_run": [
+    "Repository validator, JSON parsing, contract coverage assertions, frozen-M0.2 orchestration regression tests, whitespace check, and diff review passed. No runtime code changed; this planning-only change does not claim a completed full-suite run."
+  ],
+  "open_questions": [
+    "Independent Skeptic must determine whether the closed v2 plan leaves any implementation-critical ambiguity."
+  ],
+  "blockers": [
+    "Data remains unreleased until focused Skeptic acceptance and a separate Director release.",
+    "STOP-M0-001 remains OPEN; M0 blocked; M1 and operational capability remain prohibited."
+  ],
+  "next_action": "05 Skeptic performs the focused planning re-review under H-M0-046.v1.",
+  "completion_criteria": [
+    "Focused Skeptic review publishes an evidence-backed acceptance or exact residual revision request.",
+    "No Data implementation begins from this planning completion alone."
+  ],
+  "depends_on": [
+    "H-M0-044"
+  ]
+}
