@@ -245,6 +245,11 @@ class Scheduler:
             parent_id = row["prev_id"] if table == "runtime_events" else None
             parent_digest = row["prev_digest"] if table == "runtime_events" else row["prev_global_digest"]
             if (parent_id is not None and parent_id != prev_id) or parent_digest != prev: raise RuntimeUnavailable("global event chain mismatch")
+            if table == "runtime_events":
+                rebuilt=digest({"id":row["event_id"],"seq":row["global_seq"],"type":row["event_type"],"payload":json.loads(row["payload"]),"prev":row["prev_digest"]})
+            else:
+                rebuilt=digest({"id":row["event_id"],"n":row["global_seq"],"seq":row["task_seq"],"type":row["event_type"],"before":json.loads(row["before_json"]),"after":json.loads(row["after_json"]),"payload":json.loads(row["payload"]),"prev":row["prev_task_digest"]})
+            if rebuilt != row["event_digest"]: raise RuntimeUnavailable("event digest mutation")
             prev_id,prev=row["event_id"],row["event_digest"]
         if self._meta(c,"global_head_id") != prev_id or self._meta(c,"global_head_digest") != prev: raise RuntimeUnavailable("materialized global head mismatch")
         for task in c.execute("SELECT * FROM tasks"):
@@ -253,6 +258,7 @@ class Scheduler:
             for seq,row in enumerate(rows,1):
                 if row["task_seq"] != seq or row["prev_task_digest"] != pd: raise RuntimeUnavailable("task event chain mismatch")
                 pd=row["event_digest"]
+            if rows and json.loads(rows[-1]["after_json"]) != self.tuple(task): raise RuntimeUnavailable("replay/materialized tuple mismatch")
         for link in c.execute("SELECT * FROM remediation_links"):
             s=c.execute("SELECT 1 FROM task_events WHERE event_id=? AND task_id=?",(link["source_event"],link["source_task"])).fetchone(); child=c.execute("SELECT 1 FROM task_events WHERE event_id=? AND task_id=?",(link["child_event"],link["child_task"])).fetchone()
             if not s or not child or link["link_digest"] != digest({k:link[k] for k in ("link_id","source_task","child_task","source_event","child_event","decision_digest")}): raise RuntimeUnavailable("remediation link mismatch")

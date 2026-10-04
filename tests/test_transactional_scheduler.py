@@ -57,6 +57,13 @@ class SchedulerTests(unittest.TestCase):
         export=self.s.export(Path(self.tmp.name)/"export.json"); self.assertNotIn("checkout_local_nonce",json.dumps(export)); self.assertEqual(len(export["snapshot_digest"]),64)
         c=self.s.connect(); c.execute("update task_events set prev_task_digest='bad' where task_seq=1"); c.commit(); c.close()
         with self.assertRaises(RuntimeUnavailable): self.s.startup()
+    def test_replay_detects_event_digest_and_materialized_state_mutation(self):
+        c=self.s.connect(); c.execute("update tasks set scheduler_generation=99 where task_id='T'"); c.commit(); c.close()
+        with self.assertRaisesRegex(RuntimeUnavailable,"replay/materialized"): self.s.startup()
+        self.tmp.cleanup(); self.tmp=tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
+        self.s=Scheduler(ROOT,Path(self.tmp.name)/"runtime"); self.s.initialize(); self.s.create_task("T","receipt")
+        c=self.s.connect(); c.execute("update task_events set payload='{}' where task_seq=1"); c.commit(); c.close()
+        with self.assertRaisesRegex(RuntimeUnavailable,"event digest"): self.s.startup()
     def test_wrong_repo_and_generation_stale_deny(self):
         with patch.object(self.s,"bundle",side_effect=RuntimeUnavailable("wrong repository")):
             with self.assertRaises(RuntimeUnavailable): self.s.transition("CLAIM","T",{**self.req(),"actor":"x"},operation_key="bad")
@@ -88,5 +95,10 @@ class SchedulerTests(unittest.TestCase):
         self.s.import_repository(["T"]); self.assertEqual(self.row()["repository_generation"],0)
         with patch.object(self.s,"bundle",return_value=changed): self.s.import_repository(["T"])
         self.assertEqual(self.row()["repository_generation"],1)
+    def test_cooperative_lock_contention_denies_without_mutation(self):
+        with self.s.locked("holder"):
+            with self.assertRaisesRegex(RuntimeUnavailable,"lock held"):
+                with self.s.locked("second"): pass
+        self.s.startup()
 
 if __name__ == "__main__": unittest.main()
