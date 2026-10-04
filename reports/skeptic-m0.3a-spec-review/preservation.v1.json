@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "method": "git_blob_sha1_at_director_revision_completion",
+  "base_sha": "d2390eb6ef0f9d6fb63b46d84986095efa40e9a1",
+  "artifacts": {
+    "docs/M0.3A_TRANSACTIONAL_SPEC.md": "54e010ca4fc298b9cd16f2098c8374aa796c7a77",
+    "docs/handoffs/H-M0-041.v2.json": "73048113133fd21ff85a0aeafc1c321b0945b6da",
+    "docs/handoffs/H-M0-043.v2.json": "07dee5dd25a33bbd90c36fe512e7f07c07523eaa",
+    "docs/handoffs/H-M0-044.v1.json": "94ee778550d56eb71496efc411b7325d28f154cb",
+    "docs/handoffs/H-M0-039.v3.json": "2b573bc6bfebfd48fd6380647c00197b0146c925",
+    "reports/stops/STOP-M0-001.v1.json": "09bdf12c3b9b9fb6588d600338e68298153dfa8f",
+    "src/edgelab/orchestration.py": "4fd425c179c134409d87f14ebe0a241f107435f0",
+    "tests/test_skeptic_orchestration_v8.py": "be73350f3e621dbbbbd3f38106c005f742463066",
+    "reports/reviews/M0.2-orchestration-acceptance.v1.md": "f8272e0abcdfb305a523d74c4bd6ac7963c95c9d"
+  },
+  "director_revision_modified": false,
+  "accepted_stage_1_modified": false,
+  "production_runtime_modified": false
+}

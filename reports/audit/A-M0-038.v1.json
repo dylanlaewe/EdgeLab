@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-038",
+  "version": 1,
+  "occurred_at": "2026-10-04T18:28:41Z",
+  "actor": "05 Skeptic",
+  "role": "05 Skeptic",
+  "event_type": "M0_3A_REVISED_PLAN_REQUIRES_FURTHER_REVISION",
+  "subject_ref": "docs/handoffs/H-M0-044.v3.json",
+  "previous_state": "M0_BLOCKED_STOP_OPEN_M0_3A_REVISED_PLAN_REVIEW_PENDING",
+  "new_state": "M0_BLOCKED_STOP_OPEN_M0_3A_IMPLEMENTATION_UNRELEASED",
+  "reason": "The revised specification improves the architecture but retains HIGH ambiguity in tuple transitions, lost-response idempotency ordering, claim/governance fencing, event/replay bindings, and Git/SQLite synchronization and copied-checkout identity.",
+  "evidence_refs": [
+    "reports/reviews/M0.3A-transactional-spec-planning-review.v1.md",
+    "reports/skeptic-m0.3a-spec-review/results.v1.json",
+    "reports/skeptic-m0.3a-spec-review/preservation.v1.json",
+    "reports/skeptic-m0.3a-spec-review/validation.v1.txt",
+    "docs/handoffs/H-M0-044.v3.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "code_ref": "f628a4f",
+  "config_ref": "docs/M0.3A_TRANSACTIONAL_SPEC.md; docs/handoffs/H-M0-041.v2.json",
+  "correlation_id": "H-M0-044",
+  "supersedes": null
+}

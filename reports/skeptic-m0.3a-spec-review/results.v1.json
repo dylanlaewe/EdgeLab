@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "review": "M0_3A_TRANSACTIONAL_SPEC_PLANNING_REVIEW_V1",
+  "verdict": "M0_3A_PLAN_REQUIRES_REVISION",
+  "reviewed_base_sha": "d2390eb6ef0f9d6fb63b46d84986095efa40e9a1",
+  "claim_sha": "f628a4f",
+  "stage_1_freeze_sha": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+  "stage_1_unchanged": true,
+  "handoff_h_m0_041_v2_implementation_ready": false,
+  "planning_findings": {
+    "blocker": [],
+    "high": [
+      "three_state_tuple_transitions_are_contradictory_and_the_claimed_closed_matrix_is_absent",
+      "cas_and_fence_validation_before_idempotency_lookup_breaks_lost_response_recovery",
+      "worker_fence_and_stop_project_change_transitions_are_not_fully_defined",
+      "event_schema_and_replay_do_not_enumerate_complete_materialized_state_or_exact_decision_input_heads",
+      "git_sqlite_serialization_and_same_repository_copied_checkout_binding_are_unspecified"
+    ],
+    "medium": [
+      "wal_safe_database_backup_mechanism_is_not_named",
+      "genesis_omits_explicit_initial_project_stop_and_policy_digest_bundle",
+      "cross_schema_migration_event_atomicity_needs_clarification",
+      "acceptance_list_lacks_per_case_expected_tuple_generation_event_and_result_assertions"
+    ],
+    "low": []
+  },
+  "sqlite_suitable": true,
+  "external_authority_changed": false,
+  "runtime_implemented": false,
+  "data_released": false,
+  "executor_added": false,
+  "stop": "OPEN",
+  "phase": "M0_BLOCKED",
+  "m1_released": false,
+  "executor": "MOCK_ONLY",
+  "capital_minor": {
+    "conceptual": 5000,
+    "deployable": 0,
+    "reserved": 0
+  },
+  "live": "LOCKED",
+  "kill": "ENGAGED"
+}
