@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-044",
+  "version": 1,
+  "occurred_at": "2026-10-04T19:49:35Z",
+  "actor": "01a0bc25-2054-7bd1-8b82-991acc5416dd",
+  "role": "01 Data",
+  "event_type": "M0_3A_BLOCKED_EVIDENCE_PRESERVED_WRITER_SLOT_YIELDED",
+  "subject_ref": "docs/handoffs/H-M0-041.v8.json",
+  "previous_state": "H_M0_041_V7_BLOCKED_DATA_WRITER_ACTIVE_FOR_EVIDENCE_PRESERVATION",
+  "new_state": "H_M0_041_V8_BLOCKED_DATA_WRITER_SLOT_YIELDED_TO_DIRECTOR_PLANNING",
+  "reason": "Preserved the completed broad-suite log as content-bound blocked M0.3A evidence and yielded the sole repository writer slot. Data cannot resume until a new reviewed/released handoff follows resolution of STOP-M0-3A-001.",
+  "evidence_refs": [
+    "reports/m0.3a-data/full-suite.v1.txt",
+    "reports/m0.3a-data/full-suite.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json",
+    "docs/handoffs/H-M0-041.v7.json",
+    "docs/handoffs/H-M0-041.v8.json"
+  ],
+  "code_ref": "ca85cadc55b73843ad7f6a983050d1d951d52f8c",
+  "config_ref": "docs/M0.3A_TRANSACTIONAL_CONTRACT.v3.md",
+  "correlation_id": "H-M0-041",
+  "supersedes": null
+}

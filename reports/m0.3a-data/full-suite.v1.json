@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "artifact": "M0.3A broad repository test-discovery output",
+  "status": "PRE_COMPLETION_BLOCKED_EVIDENCE",
+  "log_ref": "reports/m0.3a-data/full-suite.v1.txt",
+  "log_sha256": "4d78bd09329ce701739c359d1a1b01c8e5bdfddecdf834d0fceb482af2ba7a9e",
+  "command": ".venv/bin/python -m unittest discover -s tests -v",
+  "observed": {
+    "tests_run": 404,
+    "failures": 63,
+    "errors": 69,
+    "duration_seconds": 849.387
+  },
+  "disposition": {
+    "m0_3a_owner_suite": "No failures observed in the separately executed 12-test focused M0.3A suite before STOP-M0-3A-001.",
+    "current_semantic_failures": "None attributed by this artifact; broad-suite failures/errors predate and are outside M0.3A implementation scope.",
+    "preserved_historical_failures": "The log records existing Skeptic/Quant/Risk characterization failures and errors. They are preserved evidence, not a green final-tree result.",
+    "completion": "M0.3A remains BLOCKED under H-M0-041.v7 and STOP-M0-3A-001; this artifact implies no completion, release, or Skeptic implementation review request."
+  },
+  "produced_by": "01 Data during the claimed M0.3A validation run before receipt-interface blocker publication",
+  "retention": "Immutable blocked-work evidence. Do not replace or delete; later validation must use a new versioned artifact."
+  ,"whitespace_check": "git diff --cached --check reports one trailing space at line 134. It is verbatim unittest progress output immediately before a historical test error and is retained deliberately so log_sha256 remains content-bound."
+}

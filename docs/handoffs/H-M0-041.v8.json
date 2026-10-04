@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-041",
+  "version": 8,
+  "created_at": "2026-10-04T19:49:35Z",
+  "sender": "01 Data",
+  "recipient": "00 Director",
+  "status": "BLOCKED",
+  "request": "Preserve blocked M0.3A broad-suite evidence and yield repository writer ownership for Director blocker-resolution planning.",
+  "work_done": "H-M0-041.v7 remains the substantive M0.3A receipt-interface blocker. Data verified that the formerly untracked full-suite.v1.txt is legitimate output from the M0.3A broad discovery run, content-bound it with full-suite.v1.json, and committed it as immutable PRE_COMPLETION_BLOCKED_EVIDENCE. Data yields the sole writer slot now. No scheduler implementation resumed, no M0.3A completion/release was claimed, and no Skeptic implementation review was requested.",
+  "evidence_refs": [
+    "reports/m0.3a-data/full-suite.v1.txt",
+    "reports/m0.3a-data/full-suite.v1.json",
+    "reports/M0.3A-receipt-interface-blocker.v1.md",
+    "reports/stops/STOP-M0-3A-001.v1.json",
+    "docs/handoffs/H-M0-041.v7.json",
+    "reports/audit/A-M0-044.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "reports/m0.3a-data/full-suite.v1.txt",
+    "reports/m0.3a-data/full-suite.v1.json",
+    "reports/audit/A-M0-044.v1.json",
+    "docs/handoffs/H-M0-041.v8.json"
+  ],
+  "tests_run": [
+    "Verified 2679 lines / 225101 bytes and SHA-256 4d78bd09329ce701739c359d1a1b01c8e5bdfddecdf834d0fceb482af2ba7a9e for full-suite.v1.txt.",
+    "The recorded broad command ran 404 tests in 849.387 seconds with 63 failures and 69 errors; it is pre-completion historical evidence, not M0.3A final validation.",
+    "Repository validator will be rerun against the evidence handoff before publication."
+  ],
+  "open_questions": [
+    "Director/M0.2 authority must provide the exact immutable receipt/input-bundle adapter or reviewed contract revision required by STOP-M0-3A-001."
+  ],
+  "blockers": [
+    "STOP-M0-3A-001 remains OPEN; M0.3A is BLOCKED and Data must not resume without a new reviewed/released handoff.",
+    "STOP-M0-001 remains OPEN; M0 blocked; M1 unreleased; executor MOCK_ONLY; capital locked."
+  ],
+  "next_action": "00 Director may safely claim the sole writer slot for blocker-resolution planning. Data remains inactive and may resume only after an explicit reviewed/released handoff following STOP-M0-3A-001 resolution.",
+  "completion_criteria": [
+    "This is not a completion handoff. M0.3A completion remains contingent on a resolved reviewed receipt-interface contract and a complete final-tree acceptance package.",
+    "Director verifies this evidence commit on origin/main before starting planning work.",
+    "No owner clears STOP-M0-3A-001 or releases M0.3A through this handoff."
+  ],
+  "depends_on": ["H-M0-048", "H-M0-049"]
+}
