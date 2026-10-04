@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-041",
+  "version": 6,
+  "created_at": "2026-10-04T19:23:37Z",
+  "sender": "01 Data",
+  "recipient": "01 Data",
+  "status": "CLAIMED",
+  "request": "Implement only the released M0.3A local transactional scheduler and event store under docs/M0.3A_TRANSACTIONAL_CONTRACT.v3.md.",
+  "work_done": "Claimed by Data session 01a0bc25-2054-7bd1-8b82-991acc5416dd after synchronizing clean main at f4d773c0286171f26d060a4c5748e90d39ac8125, verifying origin/main, H-M0-048.v3 planning acceptance at 210269659ea8d41d1848d903ea6f2265d34cb20f, H-M0-049.v2 release, H-M0-041.v5, contract v3, Stage 1 freeze, project state and OPEN STOP. Exclusive scope: M0.3A scheduler/runtime code, contract-required tests/fixtures, runtime schemas or documentation, .gitignore runtime exclusion, Data reports/audit/handoff/review request artifacts. No M0.3B or excluded scope.",
+  "evidence_refs": [
+    "docs/M0.3A_TRANSACTIONAL_CONTRACT.v3.md",
+    "docs/handoffs/H-M0-041.v5.json",
+    "docs/handoffs/H-M0-048.v3.json",
+    "docs/handoffs/H-M0-049.v2.json",
+    "reports/M0.3A-data-release.v1.md",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": ["docs/handoffs/H-M0-041.v6.json"],
+  "tests_run": [
+    "git fetch origin && git pull --ff-only origin main: already up to date at f4d773c0286171f26d060a4c5748e90d39ac8125.",
+    "Repository remote verified as https://github.com/dylanlaewe/EdgeLab.git; worktree clean before claim."
+  ],
+  "open_questions": [
+    "Real identity/external authority remains M0.3B-only and is not implemented.",
+    "Any materially unspecified transition, fencing, replay, recovery or Git/runtime-serialization semantic will be blocked and reported rather than invented."
+  ],
+  "blockers": [
+    "STOP-M0-001 remains OPEN; M0 blocked; M1, executor attachment and operational activity remain prohibited.",
+    "Capital remains USD 50 conceptual, USD 0 deployable/reserved, live LOCKED and kill ENGAGED."
+  ],
+  "next_action": "Commit/push this claim and then implement only M0.3A v3 with full acceptance, failure-injection and independent Skeptic review-request evidence.",
+  "completion_criteria": [
+    "Implement all and only v3 local scheduler/event-store tables, transitions, serialization, replay, fencing, repository binding, snapshots/backups, migrations and fail-closed checks.",
+    "Run and publish complete contract acceptance evidence without modifying frozen M0.2 semantics or original review evidence.",
+    "Publish completion handoff and independent Skeptic implementation-review request; do not release M0.3A."
+  ],
+  "depends_on": ["H-M0-048", "H-M0-049"]
+}
