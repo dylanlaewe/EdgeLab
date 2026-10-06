@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "review": "M0_2_M0_3_DECISION_EVIDENCE_ADAPTER_PLAN_V6_REVIEW",
+  "verdict": "M0_2_M0_3_ADAPTER_PLAN_REQUIRES_REVISION",
+  "reviewed_base_sha": "2bfa299c208fe19c5a670e7a8720e9596c98b26e",
+  "claim_sha": "bd5948a5bfc636cff4d8a141a51b785637db61d3",
+  "stage_1_freeze_sha": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+  "stage_1_unchanged": true,
+  "planning_findings": {
+    "blocker": [
+      "canonical_input_omits_project_stop_dependency_capability_bindings_and_git_observation_id_has_no_record",
+      "envelope_blobs_items_are_arbitrary_objects_instead_of_the_published_closed_blob_definition",
+      "engine_distribution_is_absent_from_v6_envelope_and_current_v1_schema_is_not_immutable",
+      "v6_supersedes_the_envelope_self_digest_rule_without_defining_envelope_sha256_calculation"
+    ],
+    "high": [
+      "directory_other_members_require_artifact_ids_but_no_other_artifact_variant_exists",
+      "source_import_validation_manifests_do_not_map_names_to_immutable_artifacts_or_define_digest_formulas",
+      "source_completeness_requires_invented_source_class_rules_because_explicit_canonical_bindings_are_absent"
+    ],
+    "medium": [
+      "deny_dispatch_conditionals_are_semantic_only_but_explicit",
+      "timestamp_and_base64_strictness_require_acceptance_tests",
+      "denial_reason_status_consistency_is_semantic_only_but_in_the_matrix"
+    ],
+    "low": []
+  },
+  "schema_characterization": {
+    "artifact_union_rejects_empty_unknown_and_operational_fields": true,
+    "arbitrary_blob_and_operational_smuggling_accepted": true,
+    "project_stop_dependency_capability_bindings_present": false,
+    "git_observation_record_present": false,
+    "engine_distribution_present": false,
+    "other_member_resolvable_to_other_artifact": false,
+    "impossible_raw_normalized_pairs_schema_valid": true,
+    "invalid_timestamp_and_base64_schema_valid": true,
+    "mutable_empty_engine_distribution_schema_valid": true,
+    "import_modules_bound_to_artifacts": false,
+    "unsafe_allow_combinations_rejected": true,
+    "envelope_self_digest_defined": false,
+    "v9_scheduler_evidence_prerequisites_restored": true
+  },
+  "generation_model_closed": true,
+  "repository_identity_unified": true,
+  "acceptance_matrix_complete_in_scope": true,
+  "evidence_only_operations_non_operational": true,
+  "v3_state_machine_preserved": true,
+  "handoff_h_m0_041_v14_implementation_ready": false,
+  "stop_m0_3a_001_planning_side_resolved": false,
+  "runtime_adapter_implemented": false,
+  "data_released": false,
+  "stop_records_open": [
+    "STOP-M0-001",
+    "STOP-M0-3A-001"
+  ],
+  "phase": "M0_BLOCKED",
+  "m1_released": false,
+  "executor": "MOCK_ONLY",
+  "capital_minor": {
+    "conceptual": 5000,
+    "deployable": 0,
+    "reserved": 0
+  },
+  "live": "LOCKED",
+  "kill": "ENGAGED"
+}

@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-061",
+  "version": 3,
+  "created_at": "2026-10-06T18:37:26Z",
+  "sender": "05 Skeptic",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Perform the final focused planning-acceptance gate for the M0.2 decision-evidence envelope v6 and M0.3A v9 contract set.",
+  "work_done": "Review completed with verdict M0_2_M0_3_ADAPTER_PLAN_REQUIRES_REVISION. V6 materially improves canonical/generation typing, artifact discrimination, closed output fields and the acceptance matrix; v9 restores actor, block, closed-claim/fence, generation and idempotency prerequisites. Four BLOCKERs remain: promised project/STOP/dependency/capability and Git-observation evidence is absent; blobs remain arbitrary objects; no engine distribution is present and current v1 remains non-immutable; and v6 supersedes the envelope self-digest rule without replacement. Three HIGH gaps remain in OTHER-member representation, immutable manifest linkage/digest rules, and source-completeness binding. No Director contract/schema, frozen Stage 1, adapter, scheduler runtime, production or safety-state artifact changed. Data remains blocked and Skeptic yields the writer slot.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-M0.3-decision-envelope-plan-review.v6.md",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v6/results.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v6/preservation.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v6/validation.v1.txt",
+    "tests/test_skeptic_decision_envelope_plan_v6.py",
+    "reports/audit/A-M0-055.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-061.v2.json",
+    "tests/test_skeptic_decision_envelope_plan_v6.py",
+    "reports/reviews/M0.2-M0.3-decision-envelope-plan-review.v6.md",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v6/results.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v6/preservation.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v6/validation.v1.txt",
+    "reports/audit/A-M0-055.v1.json",
+    "docs/handoffs/H-M0-061.v3.json"
+  ],
+  "tests_run": [
+    "V6 schema probes, frozen Stage 1 regression, focused M0.3A/current orchestration regressions, repository validation, compileall, preservation, JSON and diff checks are recorded in validation.v1.txt."
+  ],
+  "open_questions": [
+    "Director must connect the closed authority, blob, Git, engine and manifest records into one envelope and restore the explicit self-digest rule."
+  ],
+  "blockers": [
+    "Project/STOP/dependency/capability evidence and a resolvable historical Git-observation record are absent from the v6 envelope.",
+    "The retained blob array accepts arbitrary objects instead of the existing closed blob definition.",
+    "No engine-distribution record is carried by v6 and the available v1 schema does not preserve immutable third-party/environment closure.",
+    "V6 requires envelope_sha256 but supersedes and omits its calculation rule.",
+    "Three HIGH planning gaps prevent release of H-M0-041.v14 for implementation.",
+    "STOP-M0-3A-001 and STOP-M0-001 remain OPEN; M0 blocked; M1, Data resumption and operational activity remain prohibited."
+  ],
+  "next_action": "Director should publish one mechanically connected successor envelope using the existing closed pieces plus typed blobs/Git/engine records and digest rules, then request another focused Skeptic review before releasing Data.",
+  "completion_criteria": [
+    "Every promised authority input and Git observation is explicitly carried and cross-referenced.",
+    "Blob and engine/distribution records make historical replay self-contained and immutable.",
+    "Manifest/inventory/assertion/envelope digests and OTHER-member behavior are deterministic without Data invention."
+  ],
+  "depends_on": [
+    "H-M0-060"
+  ]
+}

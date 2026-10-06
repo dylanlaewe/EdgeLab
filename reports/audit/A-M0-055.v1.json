@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-055",
+  "version": 1,
+  "occurred_at": "2026-10-06T18:37:26Z",
+  "actor": "05 Skeptic",
+  "role": "05 Skeptic",
+  "event_type": "M0_2_M0_3_ADAPTER_PLAN_V6_REQUIRES_REVISION",
+  "subject_ref": "docs/handoffs/H-M0-061.v3.json",
+  "previous_state": "M0_BLOCKED_ENVELOPE_V6_REVIEW_PENDING",
+  "new_state": "M0_BLOCKED_ENVELOPE_V6_REVISION_REQUIRED",
+  "reason": "V6 closes artifact discrimination and V9 restores scheduler prerequisites, but required canonical authority/Git/engine records are absent, blobs remain arbitrary, replay manifests do not bind immutable bytes, and envelope self-digest authority was dropped.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-M0.3-decision-envelope-plan-review.v6.md",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v6/results.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v6/preservation.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v6/validation.v1.txt",
+    "tests/test_skeptic_decision_envelope_plan_v6.py",
+    "docs/handoffs/H-M0-061.v3.json"
+  ],
+  "code_ref": "bd5948a5bfc636cff4d8a141a51b785637db61d3",
+  "config_ref": "docs/M0.2_DECISION_EVIDENCE_ENVELOPE.v6.md; schemas/m0-2-decision-evidence-envelope.v6.schema.json; schemas/m0-2-evidence-artifacts.v1.schema.json; schemas/m0-2-engine-distribution.v1.schema.json; docs/M0.3A_TRANSACTIONAL_CONTRACT.v9.md",
+  "correlation_id": "H-M0-061",
+  "supersedes": null
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "method": "git_blob_sha1_at_director_v6_completion",
+  "base_sha": "2bfa299c208fe19c5a670e7a8720e9596c98b26e",
+  "artifacts": {
+    "docs/M0.2_DECISION_EVIDENCE_ENVELOPE.v6.md": "9b36601abf90b5a8c50ce6d1c7e7e237319c7526",
+    "schemas/m0-2-decision-evidence-envelope.v6.schema.json": "6c020336d87b637f9e9515586ee3432eb5ee440a",
+    "schemas/m0-2-evidence-artifacts.v1.schema.json": "f15094d584a47b526a0ccf081353f707628be565",
+    "schemas/m0-2-source-manifest.v1.schema.json": "5b0053ed321ec38431bf56d41f9769a620471405",
+    "schemas/m0-2-import-manifest.v1.schema.json": "4373d4eda783c48371df98b6f56372d9a49d0505",
+    "schemas/m0-2-validation-manifest.v1.schema.json": "57ad68a235ee27cfa1d40fd5d78b308ad7079aaf",
+    "schemas/m0-2-engine-distribution.v1.schema.json": "58a9fb874a5ec03e6dcc876e23b8e64ee2426ac1",
+    "schemas/m0-2-decision-evidence-verification-result.v2.schema.json": "8ecd74ab33f2654b35cac7c8ac2196ba6fbab2d9",
+    "schemas/m0-3a-evidence-only-payloads.v1.schema.json": "c0ccb50db88609967ab53a125775f35196953248",
+    "docs/M0.2_DECISION_EVIDENCE_ACCEPTANCE_MATRIX.v1.md": "a2ddc88182b6156eeba6eb362174369052874848",
+    "docs/M0.3A_TRANSACTIONAL_CONTRACT.v9.md": "74e8f89034c9212955a18e652f82ecc97141d842",
+    "docs/M0.3A_TRANSACTIONAL_CONTRACT.v3.md": "b2f910bce1ac396aecf3935c7fd80328dcaebea3",
+    "docs/handoffs/H-M0-041.v14.json": "4bddaf561da1c183f7b8d2ced35952b4a0d3f493",
+    "docs/handoffs/H-M0-060.v2.json": "6876b4fec027a76e0ad35ec8dfcd747a4179cbfc",
+    "docs/handoffs/H-M0-061.v1.json": "3ee3b5226ccff778e67c64a71fbe7adbafc285cb",
+    "reports/stops/STOP-M0-3A-001.v1.json": "6c578f6d704dcdffe48e5945a38085cab571ae57",
+    "reports/stops/STOP-M0-001.v1.json": "09bdf12c3b9b9fb6588d600338e68298153dfa8f",
+    "src/edgelab/orchestration.py": "4fd425c179c134409d87f14ebe0a241f107435f0",
+    "tests/test_skeptic_decision_envelope_plan_v5.py": "74885da2098494d1bdf5fc7608f31792081d21e3"
+  },
+  "director_v6_plan_modified": false,
+  "accepted_stage_1_modified": false,
+  "production_runtime_modified": false,
+  "historical_skeptic_probe_modified": false,
+  "versioned_successor": "tests/test_skeptic_decision_envelope_plan_v6.py"
+}
