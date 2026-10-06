@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "review": "M0_2_M0_3_DECISION_EVIDENCE_ADAPTER_PLAN_V5_REVIEW",
+  "verdict": "M0_2_M0_3_ADAPTER_PLAN_REQUIRES_REVISION",
+  "reviewed_base_sha": "4e99846997e15c63876828c0fb3d9a07c6d898a8",
+  "claim_sha": "22eef8794125905ed47f8e9222c2a45ef90e6ec0",
+  "stage_1_freeze_sha": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+  "stage_1_unchanged": true,
+  "planning_findings": {
+    "blocker": [
+      "authority_schema_leaves_canonical_input_artifacts_raw_mapping_and_normalized_output_open_and_omits_declared_input_fields",
+      "file_absent_directory_blob_and_manifest_representations_are_not_defined_by_the_authoritative_schema",
+      "engine_distribution_and_dependency_closure_are_not_immutable_or_mechanically_derivable"
+    ],
+    "high": [
+      "runtime_repository_assignment_handoff_and_claim_identities_or_generations_are_incompletely_typed_with_conflicting_repository_identity_shapes",
+      "v8_supersedes_v7_but_drops_actor_closed_claim_fence_and_idempotency_preconditions",
+      "raw_normalized_decision_shapes_and_full_implementation_acceptance_matrix_are_not_structurally_specified"
+    ],
+    "medium": [
+      "denial_reason_codes_can_contradict_status",
+      "evaluation_time_pattern_accepts_non_timestamp_Z",
+      "authority_identifiers_and_lists_lack_nonempty_or_uniqueness_constraints"
+    ],
+    "low": []
+  },
+  "schema_characterization": {
+    "empty_authority_objects_accepted": true,
+    "arbitrary_artifact_and_caller_authority_accepted": true,
+    "raw_and_normalized_operational_smuggling_accepted": true,
+    "declared_expected_operation_in_canonical_bundle": false,
+    "declared_generations_in_canonical_bundle": false,
+    "named_stage1_git_sha1_accepted": true,
+    "cross_labeled_git_identities_rejected": true,
+    "unsafe_allow_combinations_rejected": true,
+    "contradictory_denial_reason_codes_accepted": true,
+    "immutable_external_distribution_artifact_required": false,
+    "v7_evidence_actor_claim_idempotency_preconditions_retained_in_v8": false
+  },
+  "self_digest_rule_exact": true,
+  "wrong_runtime_fails_authorizing_use": true,
+  "evidence_only_operations_non_operational": true,
+  "v3_state_machine_preserved": true,
+  "handoff_h_m0_041_v13_implementation_ready": false,
+  "stop_m0_3a_001_planning_side_resolved": false,
+  "runtime_adapter_implemented": false,
+  "data_released": false,
+  "stop_records_open": [
+    "STOP-M0-001",
+    "STOP-M0-3A-001"
+  ],
+  "phase": "M0_BLOCKED",
+  "m1_released": false,
+  "executor": "MOCK_ONLY",
+  "capital_minor": {
+    "conceptual": 5000,
+    "deployable": 0,
+    "reserved": 0
+  },
+  "live": "LOCKED",
+  "kill": "ENGAGED"
+}

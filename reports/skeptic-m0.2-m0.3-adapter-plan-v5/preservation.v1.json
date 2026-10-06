@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "method": "git_blob_sha1_at_director_v5_completion",
+  "base_sha": "4e99846997e15c63876828c0fb3d9a07c6d898a8",
+  "artifacts": {
+    "docs/M0.2_DECISION_EVIDENCE_ENVELOPE.v5.md": "c70556d255dcb73da0850d3acb8745ba53cfa26f",
+    "schemas/m0-2-decision-evidence-envelope.v5.schema.json": "effe4a2cdd4aa5f765addd095bf368619a4bc70f",
+    "schemas/m0-2-engine-distribution.v1.schema.json": "58a9fb874a5ec03e6dcc876e23b8e64ee2426ac1",
+    "schemas/m0-2-decision-evidence-verification-result.v2.schema.json": "8ecd74ab33f2654b35cac7c8ac2196ba6fbab2d9",
+    "docs/M0.3A_TRANSACTIONAL_CONTRACT.v8.md": "132165dfc489672fc3ba6b19944b89283feb4a9f",
+    "docs/M0.3A_TRANSACTIONAL_CONTRACT.v3.md": "b2f910bce1ac396aecf3935c7fd80328dcaebea3",
+    "docs/handoffs/H-M0-041.v13.json": "bc25061bf299597ec40046e699a859c96b2d765c",
+    "docs/handoffs/H-M0-058.v2.json": "b32f95319cd4971b9291712f8e3909c3da120b1c",
+    "docs/handoffs/H-M0-059.v1.json": "a2a3f7756aeffaac01d53ec1f24d18a05c3e7a15",
+    "reports/stops/STOP-M0-3A-001.v1.json": "6c578f6d704dcdffe48e5945a38085cab571ae57",
+    "reports/stops/STOP-M0-001.v1.json": "09bdf12c3b9b9fb6588d600338e68298153dfa8f",
+    "src/edgelab/orchestration.py": "4fd425c179c134409d87f14ebe0a241f107435f0",
+    "src/edgelab/validate.py": "0ced262fd8b29a61ef2cf1b62470549da6419650",
+    "src/edgelab/data_integrity.py": "85fc94723b5ec563d27a410e29a05171a82e2e05",
+    "tests/test_skeptic_decision_envelope_plan_v4.py": "e6a7684c6f53d749e5025b951e031b8d427552ec"
+  },
+  "director_v5_plan_modified": false,
+  "accepted_stage_1_modified": false,
+  "production_runtime_modified": false,
+  "historical_skeptic_probe_modified": false,
+  "versioned_successor": "tests/test_skeptic_decision_envelope_plan_v5.py"
+}

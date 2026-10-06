@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-054",
+  "version": 1,
+  "occurred_at": "2026-10-06T18:21:53Z",
+  "actor": "05 Skeptic",
+  "role": "05 Skeptic",
+  "event_type": "M0_2_M0_3_ADAPTER_PLAN_V5_REQUIRES_REVISION",
+  "subject_ref": "docs/handoffs/H-M0-059.v3.json",
+  "previous_state": "M0_BLOCKED_ENVELOPE_V5_REVIEW_PENDING",
+  "new_state": "M0_BLOCKED_ENVELOPE_V5_REVISION_REQUIRED",
+  "reason": "V5 fixes Git discrimination, self-digest and ALLOW safety, but leaves canonical inputs, artifacts and outputs structurally open; engine distribution/dependency closure is not immutable; v8 drops evidence actor/claim/idempotency preconditions.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-M0.3-decision-envelope-plan-review.v5.md",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v5/results.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v5/preservation.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v5/validation.v1.txt",
+    "tests/test_skeptic_decision_envelope_plan_v5.py",
+    "docs/handoffs/H-M0-059.v3.json"
+  ],
+  "code_ref": "22eef8794125905ed47f8e9222c2a45ef90e6ec0",
+  "config_ref": "docs/M0.2_DECISION_EVIDENCE_ENVELOPE.v5.md; schemas/m0-2-decision-evidence-envelope.v5.schema.json; schemas/m0-2-engine-distribution.v1.schema.json; schemas/m0-2-decision-evidence-verification-result.v2.schema.json; docs/M0.3A_TRANSACTIONAL_CONTRACT.v8.md",
+  "correlation_id": "H-M0-059",
+  "supersedes": null
+}
