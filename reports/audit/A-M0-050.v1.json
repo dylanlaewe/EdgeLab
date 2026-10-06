@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-050",
+  "version": 1,
+  "occurred_at": "2026-10-06T17:36:23Z",
+  "actor": "05 Skeptic",
+  "role": "05 Skeptic",
+  "event_type": "M0_2_M0_3_ADAPTER_PLAN_V3_REQUIRES_REVISION",
+  "subject_ref": "docs/handoffs/H-M0-055.v3.json",
+  "previous_state": "M0_BLOCKED_ENVELOPE_V3_REVIEW_PENDING",
+  "new_state": "M0_BLOCKED_ENVELOPE_V3_REVISION_REQUIRED",
+  "reason": "M0.3A v6 contradicts the frozen scheduler tuple machine; Envelope v3 cannot represent the named frozen commit and retains unbound cross-field evidence, impossible subject derivation, incomplete engine-byte linkage and undefined evidence-only payload semantics.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-M0.3-decision-envelope-plan-review.v3.md",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v3/results.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v3/preservation.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v3/validation.v1.txt",
+    "tests/test_skeptic_decision_envelope_plan_v3.py",
+    "docs/handoffs/H-M0-055.v3.json"
+  ],
+  "code_ref": "9c1677ec59a0917a68da2cd50f12dab4e6e8bb80",
+  "config_ref": "docs/M0.2_DECISION_EVIDENCE_ENVELOPE.v3.md; schemas/m0-2-decision-evidence-envelope.v3.schema.json; docs/M0.3A_TRANSACTIONAL_CONTRACT.v6.md",
+  "correlation_id": "H-M0-055",
+  "supersedes": null
+}

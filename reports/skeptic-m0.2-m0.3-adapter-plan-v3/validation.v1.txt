@@ -1,0 +1,46 @@
+M0.2 to M0.3A decision-evidence adapter planning review v3
+Director v3 base reviewed: 20c2e9d831687c2fdd9663ce5d636f92f5535d6c
+Accepted Stage 1 freeze: bc3a40924ca580ca6eddc4c24e32ff99ddd95330
+Skeptic claim commit: 9c1677ec59a0917a68da2cd50f12dab4e6e8bb80
+
+1. Scope
+   PASS: additive Skeptic review artifacts only; no contract, schema, adapter,
+   runtime or production implementation changed.
+
+2. V3 schema and v6 state-machine adversarial probes
+   PASS: .venv/bin/python -m unittest -q
+   tests.test_skeptic_decision_envelope_plan_v3
+   Ran 7 tests; OK. Probes preserve nested-extra rejection and demonstrate the
+   unrepresentable authoritative freeze, impossible output pairs, subject
+   mismatch, duplicate/unbound evidence, invalid encoding/time acceptance and
+   the C0/R0 transition-table contradiction.
+
+3. Stage 1 and focused M0.3A regressions
+   PASS at accepted Stage 1 worktree bc3a40924ca580ca6eddc4c24e32ff99ddd95330:
+   tests.test_skeptic_orchestration_v8 + tests.test_orchestration +
+   tests.test_orchestration_final; Ran 37 tests; OK.
+   PASS current core: tests.test_orchestration + tests.test_orchestration_final;
+   Ran 8 tests; OK.
+   PASS focused M0.3A: tests.test_transactional_scheduler; Ran 12 tests; OK.
+   Current-repository contextual v8 run: Ran 29 tests; 1 known failure.
+   test_denied_subject_and_reason_are_bound reaches the expanded current STOP
+   inventory prerequisite for both inputs. The preserved suite passes at its
+   accepted Stage 1 worktree and was not modified.
+
+4. Repository validation and compileall
+   PASS: .venv/bin/python -m src.edgelab.validate
+   Validated 226 records and published history; M0 capital remains LOCKED.
+   No scientific or operational approval.
+   PASS: .venv/bin/python -m compileall -q src tests
+
+5. Preservation, JSON and diff checks
+   PASS: 14/14 Director/frozen artifacts match Git blobs at the reviewed base.
+   PASS: 221 review-area JSON files parsed.
+   PASS: frozen Stage 1 implementation and historical tests match the accepted
+   commit; no src/, orchestration/, schema, portfolio or reviewed contract path
+   was modified; git diff --check passed.
+
+6. Safety state
+   STOP-M0-001 and STOP-M0-3A-001 OPEN; M0 blocked; M1 unreleased;
+   Data blocked; executor MOCK_ONLY; conceptual bankroll 5000 minor,
+   deployable/reserved 0; live LOCKED; kill ENGAGED. No operational activity.

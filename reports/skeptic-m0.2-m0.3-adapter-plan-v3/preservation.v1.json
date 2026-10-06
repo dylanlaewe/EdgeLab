@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "method": "git_blob_sha1_at_director_v3_completion",
+  "base_sha": "20c2e9d831687c2fdd9663ce5d636f92f5535d6c",
+  "artifacts": {
+    "docs/M0.2_DECISION_EVIDENCE_ENVELOPE.v3.md": "814962afa8d44b065889e13c0d1d7ba9652c10f0",
+    "schemas/m0-2-decision-evidence-envelope.v3.schema.json": "4565c0e1525007c32cc0b53bde7e3ffe8b94e49d",
+    "docs/M0.3A_TRANSACTIONAL_CONTRACT.v6.md": "dc6ed42e61fe2402cb97522649370d399dd89e9f",
+    "docs/handoffs/H-M0-054.v2.json": "8d85bac6b93cb9c456c9fa8d84367134f2230c91",
+    "docs/handoffs/H-M0-055.v1.json": "31c7ea87fe657ffde3333e19fbae47628776fe1d",
+    "docs/handoffs/H-M0-041.v11.json": "3d4a5c48cfd3d5206578704c2a782b467f3d711e",
+    "reports/stops/STOP-M0-3A-001.v1.json": "6c578f6d704dcdffe48e5945a38085cab571ae57",
+    "reports/stops/STOP-M0-001.v1.json": "09bdf12c3b9b9fb6588d600338e68298153dfa8f",
+    "src/edgelab/orchestration.py": "4fd425c179c134409d87f14ebe0a241f107435f0",
+    "src/edgelab/validate.py": "0ced262fd8b29a61ef2cf1b62470549da6419650",
+    "src/edgelab/data_integrity.py": "85fc94723b5ec563d27a410e29a05171a82e2e05",
+    "tests/test_skeptic_orchestration_v8.py": "be73350f3e621dbbbbd3f38106c005f742463066",
+    "tests/test_skeptic_decision_envelope_plan_v2.py": "18e5589174175f6de5b0c46abae65213e6c8ed2a",
+    "reports/reviews/M0.2-M0.3-decision-envelope-plan-review.v2.md": "12074ffa018910a11d096254029480e2365df301"
+  },
+  "director_v3_plan_modified": false,
+  "accepted_stage_1_modified": false,
+  "production_runtime_modified": false
+}

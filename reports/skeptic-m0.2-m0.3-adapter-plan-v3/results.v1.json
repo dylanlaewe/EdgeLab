@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "review": "M0_2_M0_3_DECISION_EVIDENCE_ADAPTER_PLAN_V3_REVIEW",
+  "verdict": "M0_2_M0_3_ADAPTER_PLAN_REQUIRES_REVISION",
+  "reviewed_base_sha": "20c2e9d831687c2fdd9663ce5d636f92f5535d6c",
+  "claim_sha": "9c1677ec59a0917a68da2cd50f12dab4e6e8bb80",
+  "stage_1_freeze_sha": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+  "stage_1_unchanged": true,
+  "planning_findings": {
+    "blocker": [
+      "v6_transition_table_reuses_terminal_c0_for_claim_introduces_undefined_r0_and_replaces_v3_governance_revalidation",
+      "schema_rejects_the_authoritative_40_hex_stage1_freeze_commit_and_defines_no_alternate_identity"
+    ],
+    "high": [
+      "schema_accepts_impossible_output_pairs_and_unbound_subject_source_absence_relationships_while_prose_assigns_undeclared_verifier_authority",
+      "four_field_subject_cannot_be_derived_from_raw_or_normalized_output_as_required",
+      "directory_file_linkage_unique_source_exact_set_and_absence_inventory_binding_are_not_mechanically_defined",
+      "engine_dependency_and_shim_entries_are_not_linked_to_preserved_bytes_and_required_closure_manifest_is_absent",
+      "evidence_only_payload_shapes_and_referenced_envelope_historical_validation_are_undefined"
+    ],
+    "medium": [
+      "clock_shim_installation_point_needs_one_exact_mechanism",
+      "utc_z_and_base64_constraints_need_mechanical_enforcement",
+      "corrected_transition_rows_must_name_each_bound_generation_explicitly"
+    ],
+    "low": []
+  },
+  "schema_characterization": {
+    "nested_extra_rejected": true,
+    "authoritative_freeze_commit_rejected": true,
+    "deny_operational_value_accepted": true,
+    "dispatch_null_operation_accepted": true,
+    "subject_mismatch_accepted": true,
+    "duplicate_sources_and_unbound_absence_accepted": true,
+    "invalid_base64_arbitrary_freeze_and_offset_time_accepted": true
+  },
+  "v6_state_machine_consistent": false,
+  "handoff_h_m0_041_v11_implementation_ready": false,
+  "stop_m0_3a_001_planning_side_resolved": false,
+  "runtime_adapter_implemented": false,
+  "data_released": false,
+  "stop_records_open": ["STOP-M0-001", "STOP-M0-3A-001"],
+  "phase": "M0_BLOCKED",
+  "m1_released": false,
+  "executor": "MOCK_ONLY",
+  "capital_minor": {"conceptual": 5000, "deployable": 0, "reserved": 0},
+  "live": "LOCKED",
+  "kill": "ENGAGED"
+}
