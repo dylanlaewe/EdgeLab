@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-052",
+  "version": 1,
+  "occurred_at": "2026-10-06T17:59:49Z",
+  "actor": "05 Skeptic",
+  "role": "05 Skeptic",
+  "event_type": "M0_2_M0_3_ADAPTER_PLAN_V4_REQUIRES_REVISION",
+  "subject_ref": "docs/handoffs/H-M0-057.v3.json",
+  "previous_state": "M0_BLOCKED_ENVELOPE_V4_REVIEW_PENDING",
+  "new_state": "M0_BLOCKED_ENVELOPE_V4_REVISION_REQUIRED",
+  "reason": "V7 now preserves the accepted scheduler, but Envelope v4 cannot represent canonical input, captured Git observations, runtime/repository generations or a defined self-digest; Git discrimination, result authorization and artifact/engine closure retain HIGH ambiguities.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-M0.3-decision-envelope-plan-review.v4.md",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v4/results.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v4/preservation.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v4/validation.v1.txt",
+    "tests/test_skeptic_decision_envelope_plan_v4.py",
+    "docs/handoffs/H-M0-057.v3.json"
+  ],
+  "code_ref": "8a2a1a30a2e4d4352e0397d0b871696867cebc44",
+  "config_ref": "docs/M0.2_DECISION_EVIDENCE_ENVELOPE.v4.md; schemas/m0-2-decision-evidence-envelope.v4.schema.json; schemas/m0-2-decision-evidence-verification-result.v1.schema.json; docs/M0.3A_TRANSACTIONAL_CONTRACT.v7.md",
+  "correlation_id": "H-M0-057",
+  "supersedes": null
+}

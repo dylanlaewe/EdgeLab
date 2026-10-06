@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "review": "M0_2_M0_3_DECISION_EVIDENCE_ADAPTER_PLAN_V4_REVIEW",
+  "verdict": "M0_2_M0_3_ADAPTER_PLAN_REQUIRES_REVISION",
+  "reviewed_base_sha": "6345d628fae552c7947599fdf83a8b63f6d55dea",
+  "claim_sha": "8a2a1a30a2e4d4352e0397d0b871696867cebc44",
+  "stage_1_freeze_sha": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+  "stage_1_unchanged": true,
+  "scheduler_reconciliation": {
+    "claim_n0_n1": true,
+    "start_n1_n2": true,
+    "continue_n2_n2": true,
+    "complete_n2_c0_or_n3": true,
+    "revalidate_b0_n0_and_b1_n3": true,
+    "hidden_r0": false,
+    "c0_redefined": false,
+    "accepted_generation_and_fence_effects_preserved": true
+  },
+  "planning_findings": {
+    "blocker": [
+      "closed_schema_omits_canonical_input_and_captured_git_observations_required_for_subject_binding_and_replay",
+      "closed_schema_omits_runtime_repository_identities_and_generations_required_for_currentness_and_v7_authorization",
+      "envelope_sha256_has_no_canonical_bytes_or_self_field_calculation_rule"
+    ],
+    "high": [
+      "git_algorithm_discriminator_does_not_condition_digest_length",
+      "verification_result_schema_allows_authorizing_invalid_stale_and_wrong_runtime_combinations",
+      "absence_directory_dependency_manifest_and_distribution_closure_are_not_fully_representable"
+    ],
+    "medium": [
+      "evidence_only_digest_arrays_are_not_unique_or_explicitly_typed",
+      "verification_reason_codes_are_not_unique_or_conditionally_required"
+    ],
+    "low": []
+  },
+  "schema_characterization": {
+    "named_stage1_git_sha1_accepted": true,
+    "malformed_git_identity_rejected": true,
+    "git_sha1_with_64_hex_accepted": true,
+    "git_sha256_with_40_hex_accepted": true,
+    "canonical_input_representable": false,
+    "historical_git_observations_representable": false,
+    "repository_generation_representable": false,
+    "runtime_generation_representable": false,
+    "basic_impossible_output_pairs_rejected": true,
+    "cross_field_normalized_mutations_schema_valid_and_semantically_rejected": true,
+    "absence_scope_representable": false,
+    "directory_member_kind_representable": false,
+    "invalid_allow_result_combinations_schema_valid": true,
+    "operational_payload_smuggling_rejected": true,
+    "report_blocked_note_bounded": true
+  },
+  "evidence_only_operations_non_operational": true,
+  "v7_state_machine_consistent_with_v3": true,
+  "handoff_h_m0_041_v12_implementation_ready": false,
+  "stop_m0_3a_001_planning_side_resolved": false,
+  "runtime_adapter_implemented": false,
+  "data_released": false,
+  "stop_records_open": [
+    "STOP-M0-001",
+    "STOP-M0-3A-001"
+  ],
+  "phase": "M0_BLOCKED",
+  "m1_released": false,
+  "executor": "MOCK_ONLY",
+  "capital_minor": {
+    "conceptual": 5000,
+    "deployable": 0,
+    "reserved": 0
+  },
+  "live": "LOCKED",
+  "kill": "ENGAGED"
+}
