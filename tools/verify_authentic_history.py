@@ -7,7 +7,7 @@ from tools.reconstruct_persisted_history import reconstruct
 from tools.verify_trusted_authentic_capture import verify as trusted
 ROOT=Path(__file__).resolve().parents[1]
 def result(status,reasons,capture_id='UNKNOWN',root_id='M0-2-STAGE1-TRUST-ROOT-V1', evidence=None):
- hist='VALID' if status=='HISTORICALLY_VALID' else 'INVALID'; code='NONE' if status=='HISTORICALLY_VALID' else ('INCOMPATIBLE_RUNTIME' if status=='INCOMPATIBLE_RUNTIME' else 'VERIFIER_FAILURE'); return {'schema_version':1,'status':status,'capture_id':capture_id,'trusted_root_id':root_id,'reason_codes':sorted(reasons),'authorization_result':{'historical_status':hist,'currentness_status':'UNKNOWN','runtime_compatible':status!='INCOMPATIBLE_RUNTIME','verifier_status':'PASS' if status=='HISTORICALLY_VALID' else 'FAIL','generation_match':True,'authorizing_use':'DENY','reason_code':code},'replay':{'completed':status=='HISTORICALLY_VALID','raw_result_match':status=='HISTORICALLY_VALID'},'evidence':(evidence if evidence is not None else {'frozen_commit':'unknown','replay_root':'unavailable','raw_result_sha256':'','decision_id':None,'module_origins':[],'schema_origins':[],'package_origins':[],'python':{},'git':{},'environment_sha256':''})}
+ hist='VALID' if status=='HISTORICALLY_VALID' else 'INVALID'; code='NONE' if status=='HISTORICALLY_VALID' else ('INCOMPATIBLE_RUNTIME' if status=='INCOMPATIBLE_RUNTIME' else 'VERIFIER_FAILURE'); return {'schema_version':1,'status':status,'capture_id':capture_id,'trusted_root_id':root_id,'reason_codes':sorted(reasons),'authorization_result':{'historical_status':hist,'currentness_status':'UNKNOWN','runtime_compatible':status!='INCOMPATIBLE_RUNTIME','verifier_status':'PASS' if status=='HISTORICALLY_VALID' else 'FAIL','generation_match':True,'authorizing_use':'DENY','reason_code':code},'replay':{'completed':status=='HISTORICALLY_VALID','raw_result_match':status=='HISTORICALLY_VALID'},'evidence':(evidence if evidence is not None else {'frozen_commit':'unknown','replay_root':'unavailable','raw_result_sha256':'','decision_id':None,'module_origins':[],'schema_origins':[],'package_origins':observed['packages'],'python':{},'git':{},'environment_sha256':''})}
 def verify_authentic_history(capture_root,trusted_root=ROOT/'docs/M0.2_STAGE1_TRUST_ROOT.v1.json'):
  root=Path(capture_root); cap0=json.loads((root/'authentic-capture.v1.json').read_text()); cid=cap0['capture_id']; tr=json.loads(Path(trusted_root).read_text()); graph=generate(root)
  # every graph blob is reconstructable before authority checks
@@ -47,13 +47,14 @@ def replay_reconstructed(graph, intent):
 import json
 import edgelab.orchestration as orchestration
 import edgelab.validate as validate
+import jsonschema
 SCHEMAS=[str(p.resolve()) for p in (Path('repository')/'schemas').glob('*.json')]
 result = orchestration.decision(Path("repository"), json.loads(INTENT))
-print(json.dumps({"result": result, "modules": {"edgelab.orchestration": orchestration.__file__, "edgelab.validate": validate.__file__}, "schemas": SCHEMAS}, sort_keys=True))'''.replace('INTENT', repr(json.dumps(intent)))
+print(json.dumps({"result": result, "modules": {"edgelab.orchestration": orchestration.__file__, "edgelab.validate": validate.__file__}, "schemas": SCHEMAS, "packages": [str(Path(jsonschema.__file__).resolve())]}, sort_keys=True))'''.replace('INTENT', repr(json.dumps(intent)))
   env={'PYTHONDONTWRITEBYTECODE':'1','PYTHONHASHSEED':'0','LC_ALL':'C.UTF-8','TZ':'UTC','PYTHONIOENCODING':'utf-8','PYTHONPATH':os.pathsep.join([str(repo/'src'),*packages]),'PATH':os.environ.get('PATH','')}
   out=subprocess.check_output([sys.executable,'-S','-c',code],cwd=root,env=env,text=True)
   observed=json.loads(out); module_paths=observed['modules']; root_real=root.resolve();
   if any(not Path(path).resolve().is_relative_to(root_real) for path in module_paths.values()): raise RuntimeError('ambient module origin')
-  evidence={'frozen_commit':graph['git']['freeze_commit'],'replay_root':str(root_real),'raw_result_sha256':hashlib.sha256(cj(observed['result']).encode()).hexdigest(),'decision_id':observed['result'].get('decision_id'),'module_origins':[f'{name}:{Path(path).resolve()}' for name,path in sorted(module_paths.items())],'schema_origins':observed['schemas'],'package_origins':[],'python':{},'git':{},'environment_sha256':hashlib.sha256(cj(env).encode()).hexdigest()}
+  evidence={'frozen_commit':graph['git']['freeze_commit'],'replay_root':str(root_real),'raw_result_sha256':hashlib.sha256(cj(observed['result']).encode()).hexdigest(),'decision_id':observed['result'].get('decision_id'),'module_origins':[f'{name}:{Path(path).resolve()}' for name,path in sorted(module_paths.items())],'schema_origins':observed['schemas'],'package_origins':observed['packages'],'python':{},'git':{},'environment_sha256':hashlib.sha256(cj(env).encode()).hexdigest()}
   return observed['result'],evidence
  finally:d.cleanup()
