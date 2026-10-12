@@ -4,7 +4,7 @@ B={'repository':{'id':'repo','generation':1},'runtime':{'id':'run','generation':
 def a(s=B,**x):return verify('HISTORICALLY_VALID',B,dict(snapshot=copy.deepcopy(s),**x))
 def test_positive():assert a()['authorization']=='ALLOW'
 def test_drift():
- for p in [('dependencies',[]),('stops',[{'id':'S','head':'open','generation':1}]),('capabilities',[{'id':'C','head':'deny','generation':1}])]:
+ for p in [('dependencies',[{'id':'D','head':'changed','generation':1}]),('stops',[{'id':'S','head':'open','generation':1}]),('capabilities',[{'id':'C','head':'deny','generation':1}])]:
   s=copy.deepcopy(B);s[p[0]]=p[1];assert a(s)['authorization']=='DENY'
 def test_incompatible_missing_conflict_race():
  s=copy.deepcopy(B);s['runtime']['id']='other';assert a(s)['currentness_status']=='INCOMPATIBLE'
