@@ -1,1 +1,130 @@
-{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,"required":["schema_version","status","capture_id","trusted_root_id","reason_codes","authorization_result","replay"],"properties":{"schema_version":{"const":1},"status":{"enum":["HISTORICALLY_VALID","INVALID","INCOMPATIBLE_RUNTIME"]},"capture_id":{"type":"string"},"trusted_root_id":{"type":"string"},"reason_codes":{"type":"array","items":{"enum":["TRUSTED_ROOT_MISMATCH","MODULE_DIGEST_MISMATCH","SCHEMA_DIGEST_MISMATCH","PACKAGE_DIGEST_MISMATCH","PACKAGE_CLOSURE_MISMATCH","RAW_RESULT_MISMATCH","RECONSTRUCTION_FAILURE","RUNTIME_INCOMPATIBLE","GRAPH_INVALID","RECONSTRUCTED_REPLAY_FAILED","RECONSTRUCTED_RESULT_MISMATCH"]}},"authorization_result":{"$ref":"m0-2-decision-evidence-verification-result.v3.schema.json"},"replay":{"type":"object","additionalProperties":false,"required":["completed","raw_result_match"],"properties":{"completed":{"type":"boolean"},"raw_result_match":{"type":"boolean"}}}}}
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "capture_id",
+    "trusted_root_id",
+    "reason_codes",
+    "authorization_result",
+    "replay",
+    "evidence"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "status": {
+      "enum": [
+        "HISTORICALLY_VALID",
+        "INVALID",
+        "INCOMPATIBLE_RUNTIME"
+      ]
+    },
+    "capture_id": {
+      "type": "string"
+    },
+    "trusted_root_id": {
+      "type": "string"
+    },
+    "reason_codes": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "TRUSTED_ROOT_MISMATCH",
+          "MODULE_DIGEST_MISMATCH",
+          "SCHEMA_DIGEST_MISMATCH",
+          "PACKAGE_DIGEST_MISMATCH",
+          "PACKAGE_CLOSURE_MISMATCH",
+          "RAW_RESULT_MISMATCH",
+          "RECONSTRUCTION_FAILURE",
+          "RUNTIME_INCOMPATIBLE",
+          "GRAPH_INVALID",
+          "RECONSTRUCTED_REPLAY_FAILED",
+          "RECONSTRUCTED_RESULT_MISMATCH"
+        ]
+      }
+    },
+    "authorization_result": {
+      "$ref": "m0-2-decision-evidence-verification-result.v3.schema.json"
+    },
+    "replay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "completed",
+        "raw_result_match"
+      ],
+      "properties": {
+        "completed": {
+          "type": "boolean"
+        },
+        "raw_result_match": {
+          "type": "boolean"
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frozen_commit",
+        "replay_root",
+        "raw_result_sha256",
+        "decision_id",
+        "module_origins",
+        "schema_origins",
+        "package_origins",
+        "python",
+        "git",
+        "environment_sha256"
+      ],
+      "properties": {
+        "frozen_commit": {
+          "type": "string"
+        },
+        "replay_root": {
+          "type": "string"
+        },
+        "raw_result_sha256": {
+          "type": "string"
+        },
+        "decision_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "module_origins": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "schema_origins": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "package_origins": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "python": {
+          "type": "object"
+        },
+        "git": {
+          "type": "object"
+        },
+        "environment_sha256": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
