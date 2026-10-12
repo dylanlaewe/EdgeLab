@@ -27,5 +27,23 @@ def verify_authentic_history(capture_root,trusted_root=ROOT/'docs/M0.2_STAGE1_TR
  hb=tr['host_boundary']
  if platform.python_implementation()!=hb['python_implementation'] or not sys.version.startswith(hb['python_major_minor']+'.'):return result('INCOMPATIBLE',['RUNTIME_INCOMPATIBLE'])
  if cap['result']!=json.loads(graph['raw_result']['canonical_json']):return result('INVALID',['RAW_RESULT_MISMATCH'])
+ try:
+  actual=replay_reconstructed(graph,cap['intent'])
+ except Exception:return result('INVALID',['RECONSTRUCTED_REPLAY_FAILED'])
+ if actual!=cap['result']:return result('INVALID',['RECONSTRUCTED_RESULT_MISMATCH'])
  return result('HISTORICALLY_VALID',[])
 if __name__=='__main__':print(json.dumps(verify_authentic_history(__import__('sys').argv[1]),sort_keys=True))
+
+def replay_reconstructed(graph, intent):
+ """Execute only modules reconstructed from persisted bytes."""
+ import os,subprocess,sys,json
+ from pathlib import Path
+ d,root=reconstruct(graph)
+ try:
+  repo=root/'repository'; packages=[str(p) for p in (root/'packages').iterdir()]
+  for cmd in (['git','init','-q',str(repo)],['git','-C',str(repo),'config','user.email','replay@example.invalid'],['git','-C',str(repo),'config','user.name','replay'],['git','-C',str(repo),'add','.'],['git','-C',str(repo),'commit','-qm','replay'],['git','-C',str(repo),'remote','add','origin','https://github.com/dylanlaewe/EdgeLab.git'],['git','-C',str(repo),'update-ref','refs/remotes/origin/main','HEAD']): subprocess.run(cmd,check=True)
+  code="from pathlib import Path;import json;from edgelab.orchestration import decision;print(json.dumps(decision(Path('repository'),json.loads('''%s''')),sort_keys=True,separators=(',',':')))" % json.dumps(intent)
+  env={'PYTHONDONTWRITEBYTECODE':'1','PYTHONHASHSEED':'0','LC_ALL':'C.UTF-8','TZ':'UTC','PYTHONIOENCODING':'utf-8','PYTHONPATH':os.pathsep.join([str(repo/'src'),*packages]),'PATH':os.environ.get('PATH','')}
+  out=subprocess.check_output([sys.executable,'-S','-c',code],cwd=root,env=env,text=True)
+  return json.loads(out)
+ finally:d.cleanup()
