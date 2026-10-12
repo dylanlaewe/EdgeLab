@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-059",
+  "version": 1,
+  "occurred_at": "2026-10-12T18:11:04Z",
+  "actor": "05 Skeptic",
+  "role": "05 Skeptic",
+  "event_type": "M0_2_M0_3_ADAPTER_PLAN_V10_REQUIRES_REVISION",
+  "subject_ref": "docs/handoffs/H-M0-069.v3.json",
+  "previous_state": "M0_BLOCKED_ENVELOPE_V10_REVIEW_PENDING",
+  "new_state": "M0_BLOCKED_ENVELOPE_V10_REVISION_REQUIRED",
+  "reason": "V10 is structurally satisfiable and V11 adopts it, but canonical scheduler fields are absent from frozen M0.2 evidence, ABSENT cannot be recomputed, closure v4 is unreachable, and frozen/current authority predicates remain incomplete.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-M0.3-decision-envelope-plan-review.v10.md",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v10/results.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v10/preservation.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v10/validation.v1.txt",
+    "tests/test_skeptic_decision_envelope_plan_v10.py",
+    "docs/handoffs/H-M0-069.v3.json"
+  ],
+  "code_ref": "8297e3f3b48f882f774e7a3e4d2a82ee67785001",
+  "config_ref": "docs/M0.2_DECISION_EVIDENCE_ENVELOPE.v10.md; schemas/m0-2-decision-evidence-envelope.v10.schema.json; schemas/m0-2-engine-distribution.v4.schema.json; docs/M0.2_STAGE1_DEPENDENCY_CLOSURE.v4.json; docs/M0.3A_TRANSACTIONAL_CONTRACT.v11.md",
+  "correlation_id": "H-M0-069",
+  "supersedes": null
+}

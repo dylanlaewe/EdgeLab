@@ -1,0 +1,33 @@
+M0.2 -> M0.3A V10/V11 Skeptic planning-review validation
+
+Reviewed Director base: b4203351f930c26d63f1fdb7d713c97ae5b9a979
+Skeptic claim commit: 8297e3f3b48f882f774e7a3e4d2a82ee67785001
+Stage 1 freeze: bc3a40924ca580ca6eddc4c24e32ff99ddd95330
+
+PASS: .venv/bin/python -m unittest -q tests.test_skeptic_decision_envelope_plan_v10
+Ran 19 tests; OK.
+
+PASS: .venv/bin/python -m unittest -q tests.test_skeptic_decision_envelope_plan_v10 tests.test_skeptic_decision_envelope_plan_v9 tests.test_transactional_scheduler tests.test_orchestration tests.test_orchestration_final
+Ran 54 tests; OK.
+
+PASS at freeze commit: python -m unittest -q tests.test_skeptic_orchestration_v8 tests.test_orchestration tests.test_orchestration_final
+Ran 37 tests; OK.
+
+SUPPLEMENTAL REVIEWED-BASE RESULT: the same command at b4203351f930c26d63f1fdb7d713c97ae5b9a979 ran 37 tests with 1 failure. tests.test_skeptic_orchestration_v8.SkepticOrchestrationV8.test_denied_subject_and_reason_are_bound is repository-root-coupled and receives "STOP inventory is incomplete, altered, or superseded" before the expected malformed-intent distinction. The failure reproduces at the Director-reviewed base, while all 37 pass at the Stage 1 freeze. Frozen implementation/core test diff is empty. No production or historical test was changed.
+
+PASS: .venv/bin/python -m src.edgelab.validate
+Validated 277 records and published history; M0 capital remains LOCKED. No scientific or operational approval.
+
+PASS: .venv/bin/python -m compileall -q src tests
+
+PASS: parse every repository *.json with json.loads
+Parsed 486 JSON files.
+
+PASS: preservation verification
+24/24 recorded Git blob IDs match b4203351f930c26d63f1fdb7d713c97ae5b9a979.
+
+PASS: Stage 1 implementation/core-test diff
+git diff --quiet bc3a40924ca580ca6eddc4c24e32ff99ddd95330..b4203351f930c26d63f1fdb7d713c97ae5b9a979 -- src/edgelab/orchestration.py tests/test_orchestration.py tests/test_orchestration_final.py
+Diff is empty.
+
+PASS: git diff --check
