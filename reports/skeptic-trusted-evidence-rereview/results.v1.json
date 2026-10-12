@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "review": "H-M0-076",
+  "verdict": "M0_2_M0_3_ADAPTER_PLAN_REQUIRES_REVISION",
+  "requested_commit": "06630cf93616b6558e730fa17d5f5374493094ed",
+  "reviewed_repository_commit": "06630cf94567ee1ae0ac34caa04de2aa030f8da9",
+  "prior_high_dispositions": {
+    "self_consistent_forgery": "PARTIALLY_REMEDIATED_HIGH_REMAINS",
+    "unbound_captures": "OPEN_HIGH",
+    "currentness_contract": "OPEN_HIGH",
+    "persistence_mapping": "OPEN_HIGH",
+    "runtime_git_package_closure": "OPEN_HIGH"
+  },
+  "positive_results": {
+    "four_trusted_sidecars": "HISTORICALLY_VALID",
+    "four_exact_replays": "PASS",
+    "dependency_predicate_coverage": "PASS",
+    "historically_invalid_currentness": "DENY",
+    "scheduler_regression": "PASS"
+  },
+  "accepted_attacks": [
+    "forged sidecar result plus false repository inventory",
+    "retained package mutation plus recomputed capture-local package hash",
+    "unpinned frozen orchestration-task schema mutation",
+    "reduced package closure",
+    "duplicate package name under another version",
+    "impossible host runtime boundary",
+    "caller-supplied generation-inconsistent snapshot returning CURRENT/ALLOW"
+  ],
+  "contract_gaps": [
+    "authentic schema omits claimed evidence/persistence graph",
+    "currentness schema omits attachment",
+    "resolver does not read repository or SQLite authority or implement locks/recheck",
+    "currentness result does not validate against verification-result v3",
+    "matrix-named new test modules register zero unittest tests and pytest is unavailable",
+    "repository validation fails on future Director timestamps and a H-M0-041/H-M0-074 dependency cycle"
+  ],
+  "data_release": "NOT_AUTHORIZED",
+  "stops": ["STOP-M0-001:OPEN", "STOP-M0-3A-001:OPEN"],
+  "capital": {"conceptual_usd": 50, "deployable_usd": 0, "status": "LOCKED"}
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-062",
+  "version": 1,
+  "occurred_at": "2026-10-12T22:34:27Z",
+  "actor": "05 Skeptic",
+  "role": "05 Skeptic",
+  "event_type": "M0_2_M0_3_TRUSTED_PLAN_REREVIEW_REQUIRES_REVISION",
+  "subject_ref": "docs/handoffs/H-M0-076.v3.json",
+  "previous_state": "M0_BLOCKED_TRUSTED_PLAN_REREVIEW_PENDING",
+  "new_state": "M0_BLOCKED_TRUSTED_PLAN_REVISION_REQUIRED",
+  "reason": "Trusted capture verification still accepts coordinated package/result/schema/closure/runtime attacks, persistence mapping remains unspecified, and currentness accepts caller-supplied snapshots without authoritative resolution, locking, race recheck or v3 integration.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-M0.3-trusted-evidence-plan-rereview.v1.md",
+    "reports/skeptic-trusted-evidence-rereview/results.v1.json",
+    "reports/skeptic-trusted-evidence-rereview/preservation.v1.json",
+    "reports/skeptic-trusted-evidence-rereview/validation.v1.txt",
+    "tests/test_skeptic_trusted_evidence_plan_v14.py",
+    "docs/handoffs/H-M0-076.v3.json"
+  ],
+  "code_ref": "06630cf94567ee1ae0ac34caa04de2aa030f8da9",
+  "config_ref": "docs/M0.2_DECISION_EVIDENCE_AUTHORITATIVE_SET.v1.md; docs/M0.2_STAGE1_TRUST_ROOT.v1.json; docs/M0.2_AUTHENTIC_CAPTURE_FORMAT.v1.md; docs/M0.2_CURRENTNESS_EXECUTABLE_CONTRACT.v1.md; docs/M0.3A_TRANSACTIONAL_CONTRACT.v14.md",
+  "correlation_id": "H-M0-076",
+  "supersedes": null
+}
