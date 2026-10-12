@@ -1,0 +1,43 @@
+M0.2 -> M0.3A V12/V13 Skeptic planning-review validation
+
+Director base: 2a7122d8e94611710861e223dccdffe833389db8
+Skeptic claim: 6ca8b56ea61324f4a0c31584fb9f170204a1a026
+Stage 1 freeze: bc3a40924ca580ca6eddc4c24e32ff99ddd95330
+
+PASS: PYTHONPATH=src .venv/bin/python -m unittest -q tests.test_skeptic_decision_evidence_plan_v12
+Ran 23 tests; OK.
+
+PASS: PYTHONPATH=src .venv/bin/python -m unittest -q tests.test_skeptic_decision_evidence_plan_v12 tests.test_m0_2_decision_evidence_v12_conformance tests.test_orchestration tests.test_orchestration_final
+Ran 38 tests; OK.
+
+PASS: PYTHONPATH=src .venv/bin/python -m unittest -q tests.test_m0_2_decision_evidence_v12_conformance tests.test_orchestration
+Ran 12 tests; OK.
+
+PASS: PYTHONPATH=src .venv/bin/python -m unittest -q tests.test_transactional_scheduler
+Ran 12 tests; OK.
+
+PASS at Stage 1 freeze commit: python -m unittest -q tests.test_skeptic_orchestration_v8 tests.test_orchestration tests.test_orchestration_final
+Ran 37 tests; OK.
+
+EXPECTED HISTORICAL FAILURE: PYTHONPATH=src .venv/bin/python -m unittest -q tests.test_skeptic_decision_envelope_plan_v10
+Ran 19 tests; 18 passed, 1 failed. The preserved v10 test test_verification_result_successor_and_matrix_are_missing asserts that verification-result v3 does not exist. V12 now publishes v3. The historical probe was not edited; this superseded-existence failure is separate from the V12 acceptance result.
+
+INCOMPLETE SUPPLEMENTAL RUN: PYTHONPATH=src .venv/bin/python -m unittest discover -s tests -q
+Full discovery was interrupted after more than six minutes without a result while a historical Research/Quant fixture repeatedly computed Git history in test_quant_protocol setUp. No pass/fail claim is made from this incomplete run. Focused current, scheduler, frozen Stage 1 and repository validation results above are complete.
+
+PASS: PYTHONPATH=src .venv/bin/python -m edgelab.validate
+Validated 288 records and published history; M0 capital remains LOCKED. No scientific or operational approval.
+
+PASS: PYTHONPATH=src .venv/bin/python -m compileall -q src tests
+
+PASS: parse every repository *.json with json.loads
+Parsed 505 JSON files.
+
+PASS: preservation verification
+30/30 recorded Git blob IDs match 2a7122d8e94611710861e223dccdffe833389db8.
+
+PASS: Stage 1 implementation/core-test diff
+git diff --quiet bc3a40924ca580ca6eddc4c24e32ff99ddd95330..2a7122d8e94611710861e223dccdffe833389db8 -- src/edgelab/orchestration.py src/edgelab/validate.py src/edgelab/data_integrity.py tests/test_orchestration.py tests/test_orchestration_final.py
+Diff is empty.
+
+PASS: git diff --check

@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-073",
+  "version": 3,
+  "created_at": "2026-10-12T20:42:45Z",
+  "sender": "05 Skeptic",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Perform the focused independent planning-acceptance review of the completed V12/V13 M0.2 to M0.3A decision-evidence package.",
+  "work_done": "Completed independent V12/V13 review. Verdict M0_2_M0_3_ADAPTER_PLAN_REQUIRES_REVISION. Structural graphs and digests validate, but golden retained bytes are placeholders rather than replayable frozen evidence; DISPATCH/DENY are not frozen outputs; scheduler state, handoff binding, DENY context and STOP evidence are absent; the full closure is selected from an ambient path; and currentness remains incomplete.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-073.v1.json",
+    "docs/handoffs/H-M0-073.v2.json",
+    "reports/reviews/M0.2-M0.3-decision-envelope-plan-review.v12.md",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v12/results.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v12/preservation.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v12/validation.v1.txt",
+    "tests/test_skeptic_decision_evidence_plan_v12.py",
+    "reports/audit/A-M0-060.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-073.v2.json",
+    "docs/handoffs/H-M0-073.v3.json",
+    "reports/reviews/M0.2-M0.3-decision-envelope-plan-review.v12.md",
+    "tests/test_skeptic_decision_evidence_plan_v12.py",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v12/results.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v12/preservation.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v12/validation.v1.txt",
+    "reports/audit/A-M0-060.v1.json"
+  ],
+  "tests_run": [
+    "23 V12 Skeptic characterization tests passed.",
+    "38 focused current V12/Director/Stage1 tests passed.",
+    "37 frozen Stage 1 tests passed at the freeze commit.",
+    "Historical v10 suite retained: 18 passed and one expected superseded-existence assertion failed.",
+    "Repository validation, transactional scheduler, compileall, JSON parsing, preservation and diff checks recorded in validation evidence."
+  ],
+  "open_questions": [
+    "Director must replace shape-only placeholder graphs with actual replayable frozen evidence and restore complete currentness authority."
+  ],
+  "blockers": [
+    "H-M0-041.v20 remains BLOCKED; V12/V13 is not implementation-ready.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 blocked; M1 unreleased; capital LOCKED."
+  ],
+  "next_action": "Director publishes a successor with real retained replay evidence, complete frozen DISPATCH, DENY and dependency closures, and complete currentness, then requests focused Skeptic review.",
+  "completion_criteria": [
+    "A successor replays accepted frozen DISPATCH and DENY from root-retained bytes and resolves every current authority dimension without ambient inference."
+  ],
+  "depends_on": [
+    "H-M0-072"
+  ]
+}

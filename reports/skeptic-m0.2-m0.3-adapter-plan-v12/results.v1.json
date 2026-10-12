@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "review": "M0_2_M0_3_DECISION_EVIDENCE_ADAPTER_PLAN_V12_REVIEW",
+  "verdict": "M0_2_M0_3_ADAPTER_PLAN_REQUIRES_REVISION",
+  "reviewed_base_sha": "2a7122d8e94611710861e223dccdffe833389db8",
+  "claim_sha": "6ca8b56ea61324f4a0c31584fb9f170204a1a026",
+  "stage_1_freeze_sha": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+  "stage_1_unchanged": true,
+  "positive_results": {
+    "golden_fixtures_schema_valid": true,
+    "logical_digests_recompute": true,
+    "raw_internal_byte_chains_valid": true,
+    "deny_raw_five_fields_and_normalized_null": true,
+    "unique_id_semantic_rejection": true,
+    "engine_root_bindings_present": true,
+    "interpreter_boundary_bounded": true,
+    "closure_digest_valid": true,
+    "closure_package_names_complete": true,
+    "environment_exact": true,
+    "verification_result_v3_fail_closed": true,
+    "v13_adopts_v12": true,
+    "evidence_only_operations_non_operational": true,
+    "scheduler_reusable": true
+  },
+  "blockers": [
+    "golden_authority_engine_schema_and_package_blobs_are_placeholders_and_raw_outputs_are_not_frozen_stage1_results",
+    "historical_dispatch_graph_omits_consumed_scheduler_state_claim_and_handoff_binding",
+    "historical_deny_graph_omits_complete_denial_context_inventories_required_for_exact_receipt_replay",
+    "golden_stop_directory_contains_task_artifact_and_no_stop_record",
+    "dependency_closure_is_only_a_digest_stub_and_full_record_is_selected_from_ambient_repository_path"
+  ],
+  "high": [
+    "closed_currentness_omits_assignment_handoff_claim_heads_project_stops_dependencies_capabilities_inventories_git_and_current_source_resolution",
+    "absent_directory_and_source_rules_accept_root_escape_present_path_contradiction_and_dangling_absence",
+    "git_ancestry_operand_equality_is_absent_from_v12_and_unenforced",
+    "historical_record_derivations_and_claim_identity_are_unspecified_while_required_sources_are_excluded"
+  ],
+  "medium": [
+    "import_validation_and_artifact_path_schemas_are_weaker_than_explicit_v12_safe_path_rule",
+    "duplicate_artifact_and_blob_ids_are_schema_valid_but_semantically_rejected",
+    "duplicate_package_names_with_distinct_distribution_ids_pass_semantic_resolver"
+  ],
+  "low": [],
+  "data_implementation_ready": false,
+  "data_released": false,
+  "stop_m0_3a_001_resolved": false,
+  "stop_records_open": [
+    "STOP-M0-001",
+    "STOP-M0-3A-001"
+  ],
+  "phase": "M0_BLOCKED",
+  "m1_released": false,
+  "executor": "MOCK_ONLY",
+  "capital_minor": {
+    "conceptual": 5000,
+    "deployable": 0,
+    "reserved": 0
+  },
+  "live": "LOCKED",
+  "kill": "ENGAGED"
+}
