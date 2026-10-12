@@ -6,9 +6,10 @@ from tools.generate_persisted_authentic_capture import generate,cj
 from tools.reconstruct_persisted_history import reconstruct
 from tools.verify_trusted_authentic_capture import verify as trusted
 ROOT=Path(__file__).resolve().parents[1]
-def result(status,reasons):return {'schema_version':3,'verification_kind':'HISTORICAL','status':status,'authorization':'ALLOW' if status=='HISTORICALLY_VALID' else 'DENY','reason_codes':sorted(reasons)}
+def result(status,reasons,capture_id='UNKNOWN',root_id='M0-2-STAGE1-TRUST-ROOT-V1'):
+ hist='VALID' if status=='HISTORICALLY_VALID' else 'INVALID'; code='NONE' if status=='HISTORICALLY_VALID' else ('INCOMPATIBLE_RUNTIME' if status=='INCOMPATIBLE_RUNTIME' else 'VERIFIER_FAILURE'); return {'schema_version':1,'status':status,'capture_id':capture_id,'trusted_root_id':root_id,'reason_codes':sorted(reasons),'authorization_result':{'historical_status':hist,'currentness_status':'UNKNOWN','runtime_compatible':status!='INCOMPATIBLE_RUNTIME','verifier_status':'PASS' if status=='HISTORICALLY_VALID' else 'FAIL','generation_match':True,'authorizing_use':'DENY','reason_code':code},'replay':{'completed':status=='HISTORICALLY_VALID','raw_result_match':status=='HISTORICALLY_VALID'}}
 def verify_authentic_history(capture_root,trusted_root=ROOT/'docs/M0.2_STAGE1_TRUST_ROOT.v1.json'):
- root=Path(capture_root); tr=json.loads(Path(trusted_root).read_text()); graph=generate(root)
+ root=Path(capture_root); cap0=json.loads((root/'authentic-capture.v1.json').read_text()); cid=cap0['capture_id']; tr=json.loads(Path(trusted_root).read_text()); graph=generate(root)
  # every graph blob is reconstructable before authority checks
  try:
   _d,_r=reconstruct(graph); _d.cleanup()
