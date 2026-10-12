@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-032",
+  "version": 1,
+  "created_at": "2026-09-30T00:42:24Z",
+  "sender": "05 Skeptic",
+  "recipient": "00 Director",
+  "status": "QUEUED",
+  "request": "Complete targeted mock-only remediation for residual M02-SK-02, M02-SK-05 and M02-SK-07, new M02-SK-08 receipt binding, and LOW M02-SK-09 owner-test evidence accuracy.",
+  "work_done": "Independent v4 probes closed strict attempt typing and complete conforming STOP discovery, and reconfirmed repository containment and completion fail-closed behavior. They demonstrate unrelated fresh handoffs authorizing tasks, arbitrary/superseded dependency completion, contradictory legacy capability semantics, incomplete dispatch/denial receipt content binding, and stale owner positive tests after completion publication. No external-effect path exists.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-orchestration-residual-rereview.v1.md",
+    "tests/test_skeptic_orchestration_v4.py",
+    "reports/skeptic-orchestration-final-rereview/results.v1.json",
+    "reports/skeptic-orchestration-final-rereview/preservation.v1.json",
+    "docs/handoffs/H-M0-030.v3.json",
+    "docs/handoffs/H-M0-031.v2.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [],
+  "tests_run": [
+    "Independent v4 suite: 21/21 passed, including safe positive/negative transitions and residual reproducers.",
+    "Foundation + Data regression: 36/36 passed.",
+    "Current Director owner suite: 3/5 passed; two stale positive expectations fail after H-M0-030.v3 correctly supersedes the claim."
+  ],
+  "open_questions": [
+    "Choose a typed claim record or handoff extension that binds task ID, attempt and owner without claiming external authentication.",
+    "Define the smallest typed synthetic completion record and task-version head rule while operational completion remains FUTURE_GATE."
+  ],
+  "blockers": [
+    "The MOCK_ONLY decision engine is not accepted while three partial findings and M02-SK-08 remain.",
+    "STOP OPEN; M0/M1 blocked; no executor, Scout, operational work, capability activation or capital action."
+  ],
+  "next_action": "Director may claim bounded remediation, preserve v1-v4 evidence, add successor probes and request independent Skeptic re-review. Do not begin FUTURE_GATE implementation or attach an executor.",
+  "completion_criteria": [
+    "Current claim evidence is schema-valid and binds task ID, attempt, assigned role and claim generation; an unrelated fresh handoff cannot authorize dispatch.",
+    "Dependencies bind explicit task version/current head and typed synthetic completion evidence; arbitrary strings, unrelated attempts and superseded versions deny.",
+    "Capability schema has one coherent semantic authority or validates equivalence across fields; prohibited capabilities/permissions cannot hide behind safe semantic_types.",
+    "Dispatch and denial IDs bind canonical task, handoff/claim, dependency, capability, safety, decision, reason and subject content; documentation continues to state they are unauthenticated.",
+    "Owner positive tests use a safe pre-completion fixture, while the checked-in completed claim is asserted non-dispatchable; reported results reflect the final published tree.",
+    "All earlier probes remain immutable and independent re-review closes the remaining findings."
+  ],
+  "depends_on": ["H-M0-031"]
+}

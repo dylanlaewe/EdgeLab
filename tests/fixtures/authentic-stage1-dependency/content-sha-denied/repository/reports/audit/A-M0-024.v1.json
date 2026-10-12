@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-024",
+  "version": 1,
+  "occurred_at": "2026-09-28T23:42:53Z",
+  "actor": "06 Risk & Execution session risk-sr07-sr08-20260928T231247Z",
+  "role": "06 Risk & Execution",
+  "event_type": "RISK_SR07_SR08_REMEDIATION_IMPLEMENTED_REVIEW_REQUIRED",
+  "subject_ref": "docs/handoffs/H-M0-023.v3.json",
+  "previous_state": "SR02_SR05_CLOSED_SR01_SR06_PARTIAL_SR07_SR08_REMEDIATION_REQUIRED",
+  "new_state": "SR07_SR08_IMPLEMENTED_AWAITING_FOCUSED_INDEPENDENT_SKEPTIC_REREVIEW",
+  "reason": "Risk implemented exact Quant experiment binding through action/decision/token/ledger and stable semantic liability uniqueness across cosmetic wrappers. Owner and integration evidence passes, historical probes and capital safety anchors are preserved, and independent closure remains required.",
+  "evidence_refs": [
+    "reports/M0.1-risk-SR07-SR08-remediation.v1.md",
+    "reports/risk-sr07-sr08-remediation/results.v1.json",
+    "reports/risk-sr07-sr08-remediation/findings-to-tests.v1.json",
+    "reports/risk-sr07-sr08-remediation/preservation.v1.json",
+    "docs/handoffs/H-M0-024.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "code_ref": "a2e2ec880ae5ec21e726658db14b844ec6b91dcd",
+  "config_ref": "unchanged portfolio/risk-policy.json and portfolio/bankroll.json",
+  "correlation_id": "H-M0-023",
+  "supersedes": null
+}

@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "purpose": "H-M0-017 Q03 Quant remediation validation; no operational authorization",
+  "claim_commit": "2af72c0dfeb1e1fd839e95d831594acac012ba28",
+  "implementation_commit": "9e8b9c65c6233a271620fd07102eb61b1aabe4c5",
+  "verdict": "IMPLEMENTED_AWAITING_FOCUSED_INDEPENDENT_SKEPTIC_REVIEW",
+  "q01_disposition": "CLOSED_UNCHANGED_FROM_H_M0_016",
+  "q03": {
+    "valid_completed_timestamp_accepted": true,
+    "malformed_timestamp_rejected": true,
+    "altered_timestamp_without_rehash_rejected": true,
+    "future_timestamp_rejected": true,
+    "future_timestamp_with_recomputed_self_digest_rejected": true,
+    "future_rejection_surface": "Future completed fact: committed_at"
+  },
+  "focused": {
+    "quant_owner": {"methods": 24, "passed": 24, "failed": 0, "errored": 0, "skipped": 0},
+    "data": {"methods": 18, "passed": 18, "failed": 0, "errored": 0, "skipped": 0},
+    "research_history_v2": {"methods": 27, "passed": 27, "failed": 0, "errored": 0, "skipped": 0},
+    "skeptic_history_v4": {"methods": 15, "passed": 15, "failed": 0, "errored": 0, "skipped": 0},
+    "foundation": {"methods": 18, "passed": 18, "failed": 0, "errored": 0, "skipped": 0}
+  },
+  "skeptic_quant_v6_unchanged_probe_disposition": {
+    "methods": 13,
+    "passed": 12,
+    "errored": 1,
+    "failed": 0,
+    "skipped": 0,
+    "expected_remediation_error": "test_Q02_future_commitment_time_is_accepted_after_rehash",
+    "classification": "The preserved unsafe-acceptance probe now rejects at completed-time validation; independent Skeptic disposition remains required."
+  },
+  "skeptic_quant_v5_preserved_disposition": {
+    "methods": 7,
+    "passed": 2,
+    "errored": 4,
+    "failed": 1,
+    "skipped": 0
+  },
+  "full_discovery": {
+    "methods": 179,
+    "passing_methods": 133,
+    "errored_methods": 45,
+    "error_entries": 48,
+    "failure_count": 1,
+    "skip_count": 0,
+    "successful": false,
+    "historical_errored_methods": 40,
+    "historical_error_entries": 43,
+    "preserved_v5_error_methods": 4,
+    "preserved_v5_failures": 1,
+    "expected_v6_q03_error_methods": 1,
+    "unexpected_error_names": [],
+    "unexpected_failure_names": []
+  },
+  "risk_boundary": {
+    "local_content_binding": true,
+    "authority_authenticity": false,
+    "replay_persistence": false,
+    "commitment_id_global_uniqueness": false,
+    "key_custody": false,
+    "adapter_honesty": false,
+    "controller_authentication": false,
+    "durable_storage": false,
+    "true_external_atomicity": false,
+    "owner": "Risk/external trusted authority"
+  },
+  "repository_validation_before_completion_artifacts": {
+    "records": 72,
+    "published_history_valid": true,
+    "capital_status": "LOCKED",
+    "scientific_or_operational_approval": false
+  },
+  "repository_validation_with_completion_artifacts": {
+    "records": 75,
+    "published_history_valid": true,
+    "capital_status": "LOCKED",
+    "scientific_or_operational_approval": false
+  },
+  "commands": [
+    ".venv/bin/python -m unittest discover -s tests -p test_quant_protocol.py -v",
+    ".venv/bin/python -m unittest discover -s tests -p test_skeptic_quant_v6.py -v",
+    ".venv/bin/python -m unittest discover -s tests -p test_skeptic_quant_v5.py -v",
+    ".venv/bin/python -m unittest discover -s tests -p test_data_integrity.py -v",
+    ".venv/bin/python -m unittest discover -s tests -p test_research_history_v2.py -v",
+    ".venv/bin/python -m unittest discover -s tests -p test_skeptic_history_v4.py -v",
+    ".venv/bin/python -m unittest discover -s tests -p test_foundation.py -v",
+    "unittest.TestLoader().discover('tests') with machine-readable error/failure identities",
+    ".venv/bin/python -m src.edgelab.validate",
+    ".venv/bin/python -m compileall -q src tests",
+    "git diff --check"
+  ]
+}

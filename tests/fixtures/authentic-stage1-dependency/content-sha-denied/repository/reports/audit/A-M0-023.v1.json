@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-023",
+  "version": 1,
+  "occurred_at": "2026-09-28T22:48:26Z",
+  "actor": "05 Skeptic session skeptic-risk-sr01-sr06-rereview-20260928T223817Z-3f5dcfd",
+  "role": "05 Skeptic",
+  "event_type": "RISK_SR01_SR06_REREVIEW_BLOCKED_TARGETED_REMEDIATION_REQUIRED",
+  "subject_ref": "docs/handoffs/H-M0-022.v3.json",
+  "previous_state": "RISK_SR01_SR06_IMPLEMENTED_AWAITING_INDEPENDENT_SKEPTIC_REREVIEW",
+  "new_state": "SR02_SR05_CLOSED_SR01_SR06_PARTIAL_SR07_SR08_REMEDIATION_REQUIRED",
+  "reason": "Valid-prerequisite independent probes closed current-head, authority, STOP and canonical exposure attacks locally but demonstrated missing experiment binding in exact authorization and duplicate semantic reservation under cosmetic wrappers. STOP and capital remain unchanged.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-risk-SR01-SR06-rereview.v2.md",
+    "tests/test_skeptic_risk_v2.py",
+    "reports/skeptic-risk-rereview/results.v2.json",
+    "reports/skeptic-risk-rereview/preservation.v2.json",
+    "docs/handoffs/H-M0-023.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "code_ref": "f7187171e130c100978f5bf73436ab01547f23eb",
+  "config_ref": "unchanged portfolio/risk-policy.json and portfolio/bankroll.json",
+  "correlation_id": "H-M0-022",
+  "supersedes": null
+}

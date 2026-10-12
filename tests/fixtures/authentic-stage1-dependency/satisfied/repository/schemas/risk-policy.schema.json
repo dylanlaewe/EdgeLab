@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:risk-policy:1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "version",
+    "phase",
+    "live_enabled",
+    "kill_switch",
+    "limits",
+    "unresolved",
+    "failure_action",
+    "live_gate_requirements"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "phase": {
+      "const": "M0"
+    },
+    "live_enabled": {
+      "const": false
+    },
+    "kill_switch": {
+      "const": "ENGAGED"
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "position_minor",
+        "daily_exposure_minor",
+        "correlated_exposure_minor",
+        "strategy_exposure_minor",
+        "source_concentration_minor",
+        "max_drawdown_minor"
+      ],
+      "properties": {
+        "position_minor": {
+          "const": 0
+        },
+        "daily_exposure_minor": {
+          "const": 0
+        },
+        "correlated_exposure_minor": {
+          "const": 0
+        },
+        "strategy_exposure_minor": {
+          "const": 0
+        },
+        "source_concentration_minor": {
+          "const": 0
+        },
+        "max_drawdown_minor": {
+          "const": 0
+        }
+      }
+    },
+    "unresolved": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "failure_action": {
+      "const": "DENY_NEW_EXPOSURE"
+    },
+    "live_gate_requirements": {
+      "type": "array",
+      "minItems": 13,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

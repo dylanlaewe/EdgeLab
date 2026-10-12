@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-007",
+  "version": 1,
+  "occurred_at": "2026-09-20T00:52:58.640176+00:00",
+  "actor": "Director session 01a0bc0f-0f04-7c40-bc24-177858026bc8",
+  "role": "00 Director",
+  "event_type": "BOUNDED_RESEARCH_REMEDIATION_RELEASED",
+  "subject_ref": "docs/handoffs/H-M0-004.v4.json",
+  "previous_state": "RESEARCH_BLOCKED_PENDING_SKEPTIC_CONSULTATION",
+  "new_state": "RESEARCH_RELEASED_FOR_BOUNDED_M0_REMEDIATION",
+  "reason": "Independent consultation plus reproduced semantic coverage resolves dependency hold. STOP and all operational prohibitions unchanged.",
+  "evidence_refs": [
+    "reports/M0.1-research-release.v1.md",
+    "reports/director-verification/research-release-results.v1.json",
+    "docs/handoffs/H-M0-008.v3.json",
+    "docs/handoffs/H-M0-004.v4.json"
+  ],
+  "code_ref": "Reviewed consultation ae72047cc3f289885bfdcf5598fd06244bf4e80b; release commit is first adding docs/handoffs/H-M0-009.v2.json",
+  "config_ref": "docs/SPECIFICATIONS.md",
+  "correlation_id": "M0.1-RESEARCH-RELEASE",
+  "supersedes": null
+}

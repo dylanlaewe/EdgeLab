@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "review": "M0.2_ORCHESTRATION_RESIDUAL_REREVIEW_V1",
+  "verdict": "PARTIALLY_REMEDIATED_NOT_ACCEPTABLE",
+  "base_sha": "27bd30a71a39f414d1cf3dcc9e515961c731f752",
+  "claim_sha": "6932e8e",
+  "dispositions": {
+    "M02-SK-01": "CLOSED",
+    "M02-SK-02": "PARTIALLY_REMEDIATED",
+    "M02-SK-03": "CLOSED",
+    "M02-SK-04": "CLOSED_NO_REGRESSION",
+    "M02-SK-05": "PARTIALLY_REMEDIATED",
+    "M02-SK-06": "CLOSED_NO_REGRESSION",
+    "M02-SK-07": "PARTIALLY_REMEDIATED"
+  },
+  "new_findings": {
+    "M02-SK-08": "MEDIUM_INCOMPLETE_DECISION_RECEIPT_CONTENT_BINDING",
+    "M02-SK-09": "LOW_STALE_OWNER_POSITIVE_TEST_AND_RESULTS_CLAIM"
+  },
+  "preserved_current_reproducers": [
+    "fresh_unrelated_claim_handoff_authorizes_task",
+    "arbitrary_string_and_superseded_version_manufacture_dependency_completion",
+    "legacy_capability_semantics_contradict_safe_semantic_types",
+    "decision_receipts_omit_task_capability_handoff_dependency_and_denial_subject_content"
+  ],
+  "tests": {
+    "independent_v4": {"methods": 21, "passed": 21},
+    "owner_final_tree": {"methods": 5, "passed": 3, "classified_stale_positive_failures": 2},
+    "foundation_and_data": {"methods": 36, "passed": 36},
+    "full_discovery": {"methods": 308, "passed": 209, "classified_errors": 69, "classified_failures": 30, "skipped": 0},
+    "repository_validation_prepublication_records": 137,
+    "compileall": true
+  },
+  "external_effect_path": false,
+  "mock_only_engine_acceptable": false,
+  "future_gate_ready": false,
+  "stop": "OPEN",
+  "phase": "M0_BLOCKED",
+  "m1_released": false,
+  "capital_minor": {"conceptual": 5000, "deployable": 0, "reserved": 0},
+  "live": "LOCKED",
+  "kill": "ENGAGED"
+}

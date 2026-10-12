@@ -1,0 +1,53 @@
+{
+  "consultation_sha": "ae72047cc3f289885bfdcf5598fd06244bf4e80b",
+  "ancestry": "consultation and both Data commits verified on origin/main",
+  "records_before_release": 32,
+  "inventory_hashes_verified": 38,
+  "original_probe_sha256": "6e1c81b0e6f477c279b528899f34f4a41afc0c415a452980e6b31661f5006efa",
+  "history_counts": {
+    "4e99cfac90e0af601158c1528c70574dd5dafeda": 35,
+    "90c1a0a04216d737c3d6cbdd4a3404488fec7605": 62
+  },
+  "test_skeptic_semantic_v2.py": {
+    "methods": 12,
+    "failures": 0,
+    "error_entries": [],
+    "skipped": 0,
+    "successful": true
+  },
+  "test_data_integrity.py": {
+    "methods": 18,
+    "failures": 0,
+    "error_entries": [],
+    "skipped": 0,
+    "successful": true
+  },
+  "test_foundation.py": {
+    "methods": 18,
+    "failures": 0,
+    "error_entries": [],
+    "skipped": 0,
+    "successful": true
+  },
+  "test*.py": {
+    "methods": 63,
+    "failures": 0,
+    "error_entries": [
+      "test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='REGISTERED')",
+      "test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='BACKTESTED')",
+      "test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='PAPER_ELIGIBLE')",
+      "test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='PAPER_TRADING')",
+      "test_H01_rejected_version_resurrected_and_conflicting_versions_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_rejected_version_resurrected_and_conflicting_versions_accepted)",
+      "test_H03_open_stop_does_not_block_affected_paper_state (test_skeptic_adversarial.SkepticAdversarialTests.test_H03_open_stop_does_not_block_affected_paper_state)",
+      "test_H04_completed_confirmation_without_reproduction_inputs_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H04_completed_confirmation_without_reproduction_inputs_accepted)",
+      "test_H04_late_unknown_and_mutated_lineage_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H04_late_unknown_and_mutated_lineage_accepted)",
+      "test_H05_explored_dataset_reused_as_confirmation (test_skeptic_adversarial.SkepticAdversarialTests.test_H05_explored_dataset_reused_as_confirmation)",
+      "test_H06_history_mutation_deletion_and_circular_supersession_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H06_history_mutation_deletion_and_circular_supersession_accepted)",
+      "test_M01_identifiers_filenames_dependencies_and_project_state_unchecked (test_skeptic_adversarial.SkepticAdversarialTests.test_M01_identifiers_filenames_dependencies_and_project_state_unchecked)",
+      "test_M02_future_stale_times_and_unverified_permission_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_M02_future_stale_times_and_unverified_permission_evidence_accepted)"
+    ],
+    "skipped": 0,
+    "successful": false
+  },
+  "historical_error_entries_unchanged": true
+}

@@ -1,0 +1,30 @@
+H-M0-017 Q03 Quant remediation at implementation
+9e8b9c65c6233a271620fd07102eb61b1aabe4c5
+
+Quant owner: 24/24 pass.
+Data owner: 18/18 pass.
+Research history v2 owner: 27/27 pass.
+Current semantic adversarial v4: 15/15 pass.
+Foundation: 18/18 pass.
+
+Unchanged Skeptic Quant v6: 13 methods; 12 pass, 1 expected remediation
+error, 0 failures/skips. The future committed_at acceptance probe now rejects at
+"Future completed fact: committed_at" even with a correctly recomputed self-digest.
+Authentication, replay/uniqueness and fully self-consistent forgery boundary probes
+retain their documented Risk/external-trust dispositions.
+
+Preserved Skeptic Quant v5: 7 methods; 2 pass, 4 expected errors, 1 expected
+structured-return failure, 0 skips.
+
+Full discovery: 179 methods; 133 pass; 45 errored methods / 48 error entries;
+1 failure; 0 skips; NOT GREEN. Composition is the exact 40-method/43-entry
+historical corpus, four preserved v5 errors and its one failure, plus the single
+preserved v6 Q03 unsafe-acceptance expectation. No unexpected identity.
+
+Repository validation before completion artifacts: 72 records and published
+history valid. Compileall and git diff whitespace checks pass. STOP remains OPEN;
+capital remains LOCKED; no scientific or operational approval.
+
+Repository validation with completion handoffs and audit event: 75 records and
+published history valid; capital remains LOCKED; no scientific or operational
+approval.

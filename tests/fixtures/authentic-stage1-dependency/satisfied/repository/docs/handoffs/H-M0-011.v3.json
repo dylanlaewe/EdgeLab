@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-011",
+  "version": 3,
+  "created_at": "2026-09-20T01:46:43.936155+00:00",
+  "sender": "03 Research",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Remediate R01: carry supplied prior preregistration exposure disclosures forward when assessing the current holdout. Director scheduling required before implementation.",
+  "work_done": "Research-owned R01 remediation implemented at 0631102334d55fc93779fb3caf17ae1684632093, pushed and verified on origin/main. Consumed H-M0-011 v1 and H-M0-010 v3 at bad415b673d44fe0732e969c2ae7d9f4ba856ece; claim H-M0-011 v2 at 7a7850c6536727c11f582ce77bcf8b01f76e1ab4. Cumulative predecessor disclosure checks plus verifier-checkpoint-backed authoritative Research registry assessment implemented; no caller subset can suppress known records. User explicitly expanded R01 to unreferenced authoritative local Research evidence. Session 01a0bc5b-953d-76e0-9972-e4f74d7dbf1d yields writer slot after successful completion publication. R01 remains OPEN/HIGH for independent review; Quant not released.",
+  "evidence_refs": [
+    "reports/M0.1-research-R01.v1.md",
+    "reports/M0.1-research-R01.v2.md",
+    "reports/research-r01/results.v1.json",
+    "reports/research-r01/preservation.v1.json",
+    "reports/research-r01/completion-inventory.v1.json",
+    "reports/research-r01/completion-validation.v1.txt",
+    "tests/test_research_history_v2.py",
+    "docs/SPECIFICATIONS.md",
+    "docs/handoffs/H-M0-012.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/SPECIFICATIONS.md",
+    "docs/handoffs/H-M0-011.v2.json",
+    "reports/M0.1-research-R01.v1.md",
+    "reports/research-r01/baseline-consultation.v1.txt",
+    "reports/research-r01/baseline-initial.v1.txt",
+    "reports/research-r01/data.v1.txt",
+    "reports/research-r01/foundation.v1.txt",
+    "reports/research-r01/full.v1.txt",
+    "reports/research-r01/preservation.v1.json",
+    "reports/research-r01/r01.v1.txt",
+    "reports/research-r01/research-v1.v1.txt",
+    "reports/research-r01/results.v1.json",
+    "reports/research-r01/semantic-v2.v1.txt",
+    "reports/research-r01/semantic-v3.v1.txt",
+    "reports/research-r01/validation.v1.txt",
+    "src/edgelab/research_protocol.py",
+    "tests/test_research_history_v2.py",
+    "docs/handoffs/H-M0-011.v3.json",
+    "docs/handoffs/H-M0-012.v1.json",
+    "reports/audit/A-M0-010.v1.json",
+    "reports/M0.1-research-R01.v2.md",
+    "reports/research-r01/completion-inventory.v1.json",
+    "reports/research-r01/completion-validation.v1.txt",
+    "reports/research-r01/completion-foundation.v1.txt"
+  ],
+  "tests_run": [
+    "R01 successor suite: 27 pass; Data 18 pass; foundation 18 pass; semantic-v2 12 pass.",
+    "Research v1 20 and semantic-v3 10 error at missing mandatory verifier-history fixture setup; preserved, not credited as reached attacks.",
+    "Full discovery: 120 methods, 80 passing, 40 errored methods / 43 entries, no assertion failures/skips; NOT GREEN. Thirteen inherited entries plus thirty explained fixture migration errors.",
+    "Archived initial baseline: 33 pass. Archived consultation baseline: 93 methods, exact original 13 errors, no new baseline failures.",
+    "All 38 pre-existing tests/fixture files preserved; all three Skeptic suites byte-identical; 13/13 consultation inventory hashes preserved; history comparisons pass at exact initial/Research completion/consultation SHAs.",
+    "45 implementation-tree records validated with initial history; completion artifacts validated separately. Staged diff reviewed and whitespace check passed."
+  ],
+  "open_questions": [
+    "Independent Skeptic re-review must assess R01 semantics, expanded authoritative Research evidence scope, verifier checkpoint boundary, positive behavior and compatibility migration.",
+    "External trust/custody and accepted-checkpoint currency remain verifier responsibilities, not local guarantees.",
+    "Quant retains execution-time inventories, mandatory experiment integration, real split/input binding, reproduction and enforcement."
+  ],
+  "blockers": [
+    "R01 remains HIGH/open pending independent Skeptic re-review; Quant held.",
+    "STOP-M0-001 OPEN; $50 conceptual/$0 deployable/LOCKED; operational trust unprovisioned."
+  ],
+  "next_action": "Director: verify full landing SHA, hashes, tests and limits; schedule H-M0-012 independent re-review. Resolve completion SHA as first commit adding H-M0-011.v3.json and verify remote ancestry. Do not release Quant or close R01 based on Research completion alone. Research yields the writer slot on successful publication.",
+  "completion_criteria": [
+    "Reject examined and UNKNOWN exposures reachable through any prior preregistration version when evaluating current holdout.",
+    "Test one/multiple predecessor hops, renamed/partial overlap and unknown prior disclosures with valid prerequisites; preserve cycle/type/time/freeze-pin invariants.",
+    "A truly fresh disjoint v2 holdout passes with its own verifier pin, preserves all originals and returns no authorization.",
+    "Do not implement Quant global inventory/experiment execution, modify published probes, release Quant, clear STOP or change capital.",
+    "Publish tests, inventory, exact SHAs and handoff; obtain independent review."
+  ],
+  "depends_on": [
+    "H-M0-010"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "urn:edgelab:canonical-risk-identity:1", "$defs": {"sha": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "namespace", "canonical_id", "version", "authority_id", "status", "aliases", "identity_sha256"],
+  "properties": {"schema_version": {"const": 1}, "namespace": {"enum": ["strategy", "source", "event", "market", "selection"]}, "canonical_id": {"type": "string", "minLength": 1}, "version": {"type": "integer", "minimum": 1}, "authority_id": {"type": "string", "minLength": 1}, "status": {"enum": ["VERIFIED", "UNKNOWN"]}, "aliases": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}, "identity_sha256": {"$ref": "#/$defs/sha"}}
+}

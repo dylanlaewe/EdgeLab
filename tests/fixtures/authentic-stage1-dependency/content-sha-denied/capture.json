@@ -1,0 +1,23 @@
+{
+  "freeze_commit": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+  "intent": {
+    "task_id": "T-PRIMARY-001",
+    "attempt": 1
+  },
+  "result": {
+    "decision": "DENY",
+    "decision_id": "D-dd4e6244a8643854f113bef4892a457d",
+    "task_id": "T-PRIMARY-001",
+    "reason": "Dependency completion evidence does not bind current head",
+    "execution_adapter": "MOCK_ONLY"
+  },
+  "dependency_task_sha256": "ad7fe44dadb35d19f5083eadebef38574554ddc1538a3ca0891cb9d090553bdd",
+  "completion": {
+    "schema_version": 1,
+    "task_id": "T-DEP-001",
+    "attempt": 1,
+    "task_ref": "orchestration/tasks/T-DEP-001.v1.json",
+    "status": "COMPLETED",
+    "content_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  }
+}

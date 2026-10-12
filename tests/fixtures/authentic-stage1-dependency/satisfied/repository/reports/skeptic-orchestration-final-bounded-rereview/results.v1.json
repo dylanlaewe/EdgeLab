@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "review": "M0.2_ORCHESTRATION_FINAL_BOUNDED_REREVIEW_V1",
+  "verdict": "NOT_ACCEPTED_FOR_BOUNDED_M0_2_PURPOSE",
+  "director_base_sha": "a78a68d575bfc3ebf7e6da2719aa6ee7d8469887",
+  "claim_sha": "6532ffb",
+  "dispositions": {
+    "M02-SK-02": "PARTIALLY_REMEDIATED_MEDIUM_HANDOFF_CONSISTENCY",
+    "M02-SK-05": "CLOSED",
+    "M02-SK-08": "PARTIALLY_REMEDIATED_MEDIUM_DENIAL_CONTEXT",
+    "M02-SK-09": "CLOSED_NO_REGRESSION"
+  },
+  "new_blocker_or_high": [],
+  "material_medium_residuals": [
+    "expected_current_handoff_can_describe_unrelated_task_and_attempt_while_dispatching",
+    "denial_receipt_omits_consumed_dependency_completion_content",
+    "denial_receipt_omits_consumed_handoff_content"
+  ],
+  "tests": {
+    "current_semantic_v7": {"methods": 24, "passed": 24},
+    "current_owner": {"methods": 8, "passed": 8},
+    "historical_v6": {"methods": 17, "passed": 8, "classified_expected_failures_after_contract_change": 9},
+    "foundation_and_data": {"methods": 36, "passed": 36},
+    "repository_validation": "PASS",
+    "compileall": true,
+    "whitespace": true
+  },
+  "numeric_assignment_head_closed": true,
+  "numeric_dependency_head_closed": true,
+  "external_effect_path": false,
+  "mock_only_engine_acceptable": false,
+  "stage_1_frozen": false,
+  "director_may_plan_m0_3_runtime_foundation": false,
+  "stop": "OPEN",
+  "phase": "M0_BLOCKED",
+  "m1_released": false,
+  "executor": "MOCK_ONLY",
+  "capital_minor": {"conceptual": 5000, "deployable": 0, "reserved": 0},
+  "live": "LOCKED",
+  "kill": "ENGAGED"
+}

@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-002",
+  "version": 2,
+  "created_at": "2026-09-20T00:05:23.068038+00:00",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "CLAIMED",
+  "request": "H01 H02 H03 H06 M01: integrate review disposition, accountable review boundary, event-derived lifecycle, typed STOP propagation and immutable accepted history.",
+  "work_done": "Director claims coordination only under the owner follow-up instruction. Technical completion criteria in v1 remain unresolved and will be allocated to specialized owners; no control implementation or STOP clearance is claimed.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-skeptic-review.v1.md",
+    "tests/test_skeptic_adversarial.py",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/audit/A-M0-002.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-002.v2.json"
+  ],
+  "tests_run": [],
+  "open_questions": [
+    "Owner must state the trust boundary and remaining limitations; coordinate shared-file ownership with Director."
+  ],
+  "blockers": [
+    "STOP-M0-001 blocks operational reliance and M0 exit; remediation permitted."
+  ],
+  "next_action": "Claim a new handoff version before shared edits. Implement bounded owner changes, convert relevant gap probes into rejection regressions, preserve originals, and return evidence for independent Skeptic review.",
+  "completion_criteria": [
+    "Reject unsupported paper states, self-review, arbitrary STOP resolution, history rewrite/deletion and conflicting states.",
+    "Update project-state to reflect blocked approval and scoped STOP; sequence domain owners and return frozen work to Skeptic."
+  ],
+  "depends_on": []
+}

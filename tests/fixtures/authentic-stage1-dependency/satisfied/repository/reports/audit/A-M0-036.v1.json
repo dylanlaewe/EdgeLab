@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-036",
+  "version": 1,
+  "occurred_at": "2026-10-02T01:04:00Z",
+  "actor": "05 Skeptic",
+  "role": "05 Skeptic",
+  "event_type": "M0_2_MOCK_ONLY_ORCHESTRATION_ACCEPTED_FOR_BOUNDED_PURPOSE",
+  "subject_ref": "docs/handoffs/H-M0-039.v3.json",
+  "previous_state": "M0_BLOCKED_STOP_OPEN_FINAL_BOUNDED_ACCEPTANCE_PENDING",
+  "new_state": "M0_BLOCKED_STOP_OPEN_STAGE_1_DECISION_AUTONOMY_FROZEN",
+  "reason": "Independent v8 review confirms exact handoff/task binding and materially complete dispatch/denial receipt evidence for the bounded M0.2 decision. No BLOCKER, HIGH or material MEDIUM remains. Acceptance grants no executor, M1, operational or capital authority.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-orchestration-acceptance.v1.md",
+    "tests/test_skeptic_orchestration_v8.py",
+    "reports/skeptic-orchestration-acceptance/results.v1.json",
+    "reports/skeptic-orchestration-acceptance/preservation.v1.json",
+    "reports/skeptic-orchestration-acceptance/validation.v1.txt",
+    "docs/handoffs/H-M0-039.v3.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "code_ref": "d2a4dfd",
+  "config_ref": "orchestration/scheduler-state.json; orchestration/assignments/T-SYNTHETIC-001.v1.json; orchestration/handoff-bindings/T-SYNTHETIC-001.v1.json; orchestration/tasks/T-SYNTHETIC-001.v1.json",
+  "correlation_id": "H-M0-039",
+  "supersedes": null
+}

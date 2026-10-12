@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-002",
+  "version": 3,
+  "created_at": "2026-09-20T00:06:06.737523+00:00",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Coordinate remediation under the owner follow-up: assign all findings, dependency gates, Git protocol and bounded specialized handoffs. Original v1 technical requirements are delegated and remain open.",
+  "work_done": "Coordination layer complete only; M0 approval remains BLOCKED and STOP OPEN. Data is next, followed sequentially by Research, Quant, Risk and independent Skeptic re-review.",
+  "evidence_refs": [
+    "docs/REMEDIATION_PLAN.md",
+    "docs/GIT_COORDINATION.md",
+    "docs/project-state.json",
+    "reports/M0.1-remediation-coordination.v1.md",
+    "reports/reviews/M0.1-skeptic-review.v1.md",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/REMEDIATION_PLAN.md",
+    "docs/GIT_COORDINATION.md",
+    "docs/OPERATIONS.md",
+    "docs/project-state.json",
+    "docs/handoffs/H-M0-002.v2.json",
+    "docs/handoffs/H-M0-002.v3.json",
+    "docs/handoffs/H-M0-003.v2.json",
+    "docs/handoffs/H-M0-004.v2.json",
+    "docs/handoffs/H-M0-005.v2.json",
+    "docs/handoffs/H-M0-006.v2.json",
+    "reports/M0.1-remediation-coordination.v1.md",
+    "reports/audit/A-M0-003.v1.json"
+  ],
+  "tests_run": [
+    ".venv/bin/python -m unittest discover -s tests -v: 33 passed; H/M probes still demonstrate unsafe acceptance, not safety.",
+    ".venv/bin/python -m src.edgelab.validate: 20 records validated; M0 capital LOCKED.",
+    "git diff --check: passed.",
+    "Baseline byte comparison: all pre-existing files except authorized OPERATIONS/project-state updates unchanged; handoff filename/dependency graph checks passed; STOP OPEN."
+  ],
+  "open_questions": [
+    "Owner must state the trust boundary and remaining limitations; coordinate shared-file ownership with Director."
+  ],
+  "blockers": [
+    "All six HIGH and both MEDIUM control findings remain open; coordination completion is not technical approval."
+  ],
+  "next_action": "01 Data consumes H-M0-003 v2 after this commit lands; Director verifies completion evidence before releasing Research.",
+  "completion_criteria": [
+    "Every finding assigned to domain owners with explicit acceptance evidence",
+    "Sequential Git protocol, prerequisites and scheduling release recorded",
+    "Project summary reconciled to BLOCKED/OPEN without altering STOP or portfolio",
+    "Original adversarial tests and evidence preserved; independent re-review and authority limits explicit"
+  ],
+  "depends_on": []
+}

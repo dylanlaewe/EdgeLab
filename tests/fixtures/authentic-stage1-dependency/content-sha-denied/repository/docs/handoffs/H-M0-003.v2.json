@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-003",
+  "version": 2,
+  "created_at": "2026-09-20T00:05:23.068038+00:00",
+  "sender": "00 Director",
+  "recipient": "01 Data",
+  "status": "QUEUED",
+  "request": "Data lineage/history/registry foundation; H04 H06 M01 M02 and H03 dependency primitives. Apply docs/REMEDIATION_PLAN.md acceptance and ownership rules.",
+  "work_done": "Director clarification only. Original v1 preserved. No technical finding remediated. Claim only after prerequisites and scheduling release; append the next version.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-skeptic-review.v1.md",
+    "tests/test_skeptic_adversarial.py",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/audit/A-M0-002.v1.json",
+    "docs/REMEDIATION_PLAN.md",
+    "docs/GIT_COORDINATION.md"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-003.v2.json"
+  ],
+  "tests_run": [],
+  "open_questions": [
+    "Operational trust configuration and accepted-baseline protection are not provisioned; fail closed and document assurance limits."
+  ],
+  "blockers": [
+    "STOP-M0-001 remains OPEN; only synthetic remediation is allowed."
+  ],
+  "next_action": "After the coordination commit lands, synchronize, verify H-M0-002 v3 and claim H-M0-003 v3 with session ID and base SHA, following docs/GIT_COORDINATION.md.",
+  "completion_criteria": [
+    "Reject missing or mutated inputs, unknown/late availability, evaluation leakage, cycles and invalid access evidence.",
+    "Demonstrate a reconstructible synthetic dataset with parser/normalizer and parent versions; no production ingestion authorization implied.",
+    "Meet the owner-specific release gate in docs/REMEDIATION_PLAN.md; persist full evidence inventory and actual test dispositions.",
+    "Preserve original adversarial tests unchanged; add separate rejection regressions and positive controls. Do not clear STOP-M0-001."
+  ],
+  "depends_on": [
+    "H-M0-002"
+  ]
+}

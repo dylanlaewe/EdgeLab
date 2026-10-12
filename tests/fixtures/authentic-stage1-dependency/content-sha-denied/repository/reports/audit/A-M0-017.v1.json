@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-017",
+  "version": 1,
+  "occurred_at": "2026-09-20T19:26:28Z",
+  "actor": "Quant session quant-codex-20260920T191019Z-50c6193",
+  "role": "04 Quant",
+  "event_type": "QUANT_Q03_COMMITMENT_TIME_REMEDIATION_IMPLEMENTED",
+  "subject_ref": "docs/handoffs/H-M0-017.v3.json",
+  "previous_state": "Q02_PARTIALLY_REMEDIATED_Q03_OPEN",
+  "new_state": "Q03_IMPLEMENTED_AWAITING_FOCUSED_SKEPTIC_REVIEW",
+  "reason": "Authority commitment time now receives shared completed-fact plausibility validation, including after self-digest recomputation. External authentication, replay and durable uniqueness remain Risk-owned; no operational gate changed.",
+  "evidence_refs": [
+    "reports/M0.1-quant-Q03-remediation.v1.md",
+    "reports/quant-Q03-remediation/results.v1.json",
+    "reports/quant-Q03-remediation/preservation.v1.json",
+    "docs/handoffs/H-M0-018.v1.json"
+  ],
+  "code_ref": "9e8b9c65c6233a271620fd07102eb61b1aabe4c5",
+  "config_ref": "docs/SPECIFICATIONS.md",
+  "correlation_id": "H-M0-017",
+  "supersedes": null
+}

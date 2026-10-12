@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "method": "git_blob_sha1_at_director_completion",
+  "base_sha": "b5a706b5d670d4f7b10d14bc9142b7fc770d3427",
+  "artifacts": {
+    "docs/handoffs/H-M0-028.v3.json": "3ad056ae0418f976d2035087df06fb3562a29a6e",
+    "docs/handoffs/H-M0-029.v1.json": "0c22636c4b3d607367d2bba501015d34dc77efce",
+    "reports/M0.2-orchestration-remediation-results.v1.json": "ff37b303e7013fd0cfa476ca6e609c2442e8daee",
+    "docs/M0.2_ORCHESTRATION.md": "6daa0cc26e40f7c5e96dd75ae56075d01687a898",
+    "tests/test_skeptic_orchestration_v1.py": "3424affd1c777963887a906c99261181b5b7735b",
+    "tests/test_skeptic_orchestration_v2.py": "729f9a79f4b5abd247a7b958aa48f42754a6cda0",
+    "orchestration/scheduler-state.json": "4260e025393232d11a31cd342436c5d3731018cd",
+    "orchestration/tasks/T-SYNTHETIC-001.v1.json": "2598d4d9b23f51ecb54448ac2a1714864b5a2339",
+    "schemas/orchestration-task.schema.json": "2dd414cd901de92f7be6c106c66743e54094c9ab",
+    "schemas/scheduler-state.schema.json": "04ebd2423fa816e4f8707a4e6b7c6705b7ab0a4a",
+    "schemas/capability-registry.schema.json": "f9d3bc0aeb260c75587fc21f04bed4a8c9f69204",
+    "src/edgelab/orchestration.py": "01550f80856015bb51251e7eaed78efc1cfb3031",
+    "tests/test_orchestration.py": "41efb6a1b71f00278e5c2f2b6ceff32e554a3e9e"
+  },
+  "historical_v1_preserved": true,
+  "director_inventory_modified": false
+}

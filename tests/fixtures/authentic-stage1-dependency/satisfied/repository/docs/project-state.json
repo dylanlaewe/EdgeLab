@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "phase": "M0",
+  "increment": "M0.1",
+  "status": "BLOCKED_FOR_APPROVAL_REMEDIATION_ALLOWED",
+  "live_status": "LOCKED",
+  "demonstrated_edge": false,
+  "active_strategies": 0,
+  "completed_scope": [
+    "Constitution and seven role contracts",
+    "Repository architecture and durable handoff protocol",
+    "Nine strict record schemas and scientific specifications",
+    "Lifecycle, STOP and kill-switch design",
+    "Conceptual bankroll and zero-deployment risk policy",
+    "Data\u2192Research dependency gate passed after H-M0-008 consultation; bounded remediation release only",
+    "Research R01 reviewed within verifier assumptions; Quant dependency gate passed with explicit checkpoint-currency integration requirement"
+  ],
+  "remaining_m0": [
+    "Remediate all six HIGH and both MEDIUM findings and obtain independent frozen-candidate re-review",
+    "Data manifest and observation schemas with temporal/lineage validation",
+    "Authenticated review records and machine-enforced lifecycle transitions",
+    "Cross-record evidence validation, STOP propagation and append-only event handling",
+    "Risk accounting, paper policy, kill-switch implementation and adversarial tests",
+    "Justified validation thresholds and M0 exit review"
+  ],
+  "blockers": [
+    "STOP-M0-001 OPEN; M0 approval and exit blocked",
+    "H01-H06 and M01-M02 unresolved",
+    "Operational reviewer trust boundary and accepted-history protection unprovisioned",
+    "Statistical, freshness and post-M0 risk thresholds unresolved",
+    "Checkpoint preservation does not prove authoritative currency; trusted current-state integration remains required for confirmatory eligibility."
+  ],
+  "next_assignment": "Independent Skeptic review of the completed M0.2 non-operational orchestration sandbox",
+  "updated_at": "2026-09-20T02:06:05.946196+00:00",
+  "active_stop_refs": [
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "review_ref": "reports/reviews/M0.1-skeptic-review.v1.md",
+  "open_findings": [
+    "STOP-M0-001-CLEARANCE-AUTHORITY"
+  ],
+  "next_handoff_ref": "docs/handoffs/H-M0-027.v4.json",
+  "coordination_plan_ref": "docs/REMEDIATION_PLAN.md",
+  "git_protocol_ref": "docs/GIT_COORDINATION.md",
+  "writer_policy": "SEQUENTIAL_ONE_ACTIVE_WRITER",
+  "next_owner_release": "05 Skeptic may claim a read-only independent review of H-M0-027 v3. STOP remains OPEN, M0 remains blocked, M1 is not authorized and capital remains LOCKED."
+}

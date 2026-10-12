@@ -1,0 +1,24 @@
+{
+  "freeze_commit": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+  "intent": {
+    "task_id": "T-PRIMARY-001",
+    "attempt": 1
+  },
+  "result": {
+    "decision": "DISPATCH",
+    "decision_id": "D-03d6aa8e833902266a2547b9393ebd94",
+    "task_id": "T-PRIMARY-001",
+    "reason": "repository-resolved synthetic task passed preflight",
+    "execution_adapter": "MOCK_ONLY",
+    "operation": "SYNTHETIC_ASSERT"
+  },
+  "dependency_task_sha256": "ad7fe44dadb35d19f5083eadebef38574554ddc1538a3ca0891cb9d090553bdd",
+  "completion": {
+    "schema_version": 1,
+    "task_id": "T-DEP-001",
+    "attempt": 1,
+    "task_ref": "orchestration/tasks/T-DEP-001.v1.json",
+    "status": "COMPLETED",
+    "content_sha256": "ad7fe44dadb35d19f5083eadebef38574554ddc1538a3ca0891cb9d090553bdd"
+  }
+}

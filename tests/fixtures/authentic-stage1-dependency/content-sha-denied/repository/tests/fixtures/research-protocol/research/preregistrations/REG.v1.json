@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "id": "REG",
+  "version": 1,
+  "kind": "preregistration",
+  "created_at": "2026-09-19T12:00:00Z",
+  "supersedes": null,
+  "hypothesis_ref": {
+    "path": "research/hypotheses/H.v1.json",
+    "kind": "hypothesis",
+    "id": "H",
+    "version": 1,
+    "sha256": "14f1028ba41a9cdde3fa499e3b16f358b114c0372be18e2f7bdbde78687f62b7"
+  },
+  "frozen_at": "2026-09-19T12:00:00Z",
+  "holdout_ref": {
+    "path": "research/exposures/CUSTODY.v1.json",
+    "kind": "exposure",
+    "id": "CUSTODY",
+    "version": 1,
+    "sha256": "ff1db18f64420846728a2bd518c88897733ff293e28f5f49a88846e28521d2d9"
+  },
+  "exploratory_ancestors": [
+    {
+      "path": "research/exposures/OLD.v1.json",
+      "kind": "exposure",
+      "id": "OLD",
+      "version": 1,
+      "sha256": "ef908b0dc33477936794524df6fc88a490515d8733324d8a652f0974f590dbba"
+    }
+  ],
+  "thresholds": [
+    {
+      "metric": "synthetic_identity_error",
+      "operator": "==",
+      "value": "0",
+      "rationale": "Fixture equality only; not a statistical or profit threshold"
+    }
+  ],
+  "analysis_plan": {
+    "path": "research/evidence/plan.json",
+    "sha256": "c7177deef1d775ee8c6ae883e4dcf9ed6b0658de4b109d12dea9d91960c3a90f",
+    "media_type": "application/json"
+  },
+  "scope": "SYNTHETIC_PROTOCOL_ONLY"
+}

@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "scope": "frozen-stage1-dependency",
+  "baseline": "authentic-stage1-dependency/satisfied",
+  "results": [
+    {
+      "id": "zero-completion",
+      "reason": "Dependency lacks verified synthetic completion",
+      "decision": "DENY",
+      "pass": true
+    },
+    {
+      "id": "multiple-completion",
+      "reason": "Dependency lacks verified synthetic completion",
+      "decision": "DENY",
+      "pass": true
+    },
+    {
+      "id": "dependency-status",
+      "reason": "Dependency lacks verified synthetic completion",
+      "decision": "DENY",
+      "pass": true
+    },
+    {
+      "id": "scheduler-head",
+      "reason": "Dependency is not the current authoritative head",
+      "decision": "DENY",
+      "pass": true
+    },
+    {
+      "id": "completion-path",
+      "reason": "Dependency completion evidence is not typed",
+      "decision": "DENY",
+      "pass": true
+    },
+    {
+      "id": "completion-task-id",
+      "reason": "Dependency completion evidence does not bind current head",
+      "decision": "DENY",
+      "pass": true
+    },
+    {
+      "id": "completion-attempt",
+      "reason": "Dependency completion evidence does not bind current head",
+      "decision": "DENY",
+      "pass": true
+    },
+    {
+      "id": "completion-task-ref",
+      "reason": "Dependency completion evidence does not bind current head",
+      "decision": "DENY",
+      "pass": true
+    },
+    {
+      "id": "completion-status",
+      "reason": "Dependency completion evidence does not bind current head",
+      "decision": "DENY",
+      "pass": true
+    },
+    {
+      "id": "completion-content-sha",
+      "reason": "Dependency completion evidence does not bind current head",
+      "decision": "DENY",
+      "pass": true
+    },
+    {
+      "id": "task-byte",
+      "changed": "trailing whitespace in dependency task bytes",
+      "decision": "DENY",
+      "reason": "Dependency completion evidence does not bind current head",
+      "decision_id": "D-426dc899147a2e4c047de3216826ce45",
+      "pass": true
+    },
+    {
+      "id": "completion-serialization",
+      "changed": "whitespace only; identical parsed completion mapping",
+      "decision": "DISPATCH",
+      "reason": "repository-resolved synthetic task passed preflight",
+      "decision_id": "D-03d6aa8e833902266a2547b9393ebd94",
+      "pass": true
+    }
+  ]
+}

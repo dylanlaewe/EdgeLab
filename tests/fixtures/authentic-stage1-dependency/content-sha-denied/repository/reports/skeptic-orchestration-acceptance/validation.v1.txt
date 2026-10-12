@@ -1,0 +1,30 @@
+M0.2 MOCK_ONLY orchestration bounded acceptance v1
+Director base reviewed: f4889ddf646fe09f34ad56374d858c8c7a600c00
+Skeptic claim commit: d2a4dfd
+
+1. .venv/bin/python -m unittest -v tests.test_skeptic_orchestration_v8
+   PASS: 29/29 current binding, receipt, numeric-head and regression methods.
+
+2. .venv/bin/python -m unittest -v tests.test_orchestration tests.test_orchestration_final
+   PASS: 8/8 current owner methods. Temporary pre-completion H-M0-038 v2 fixture dispatches; checked-in v3-completed claim denies.
+
+3. .venv/bin/python -m unittest -v tests.test_skeptic_orchestration_v7
+   CLASSIFIED HISTORICAL RESULT: 24 methods; 15 pass, 9 fail because preserved v7 fixtures name H-M0-036 and predate the required H-M0-038 handoff-binding record. v8 is the current semantic successor.
+
+4. .venv/bin/python -m unittest -v tests.test_foundation tests.test_data_integrity
+   PASS: 36/36 methods.
+
+5. .venv/bin/python -m src.edgelab.validate
+   PASS: Validated 164 records and published history; M0 capital remains LOCKED. No scientific or operational approval.
+
+6. .venv/bin/python -m compileall -q src tests
+   PASS.
+
+7. git diff --check / git diff --cached --check
+   PASS.
+
+8. Historical and Director evidence preservation
+   PASS: 22/22 Director-base Git blob IDs in preservation.v1.json verified. Skeptic v1-v7 and the complete H-M0-038 inventory are unchanged.
+
+9. Safety state
+   STOP-M0-001 OPEN; phase M0; status BLOCKED_FOR_APPROVAL_REMEDIATION_ALLOWED; M1 unreleased; bankroll conceptual 5000, deployable 0, reserved 0, live LOCKED; risk live_enabled false; kill ENGAGED; executor MOCK_ONLY. No operational activity occurred.

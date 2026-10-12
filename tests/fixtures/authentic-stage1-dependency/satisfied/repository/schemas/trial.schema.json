@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:trial:1",
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "typed_ref": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "kind", "id", "version", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1}, "kind": {"type": "string", "minLength": 1},
+        "id": {"type": "string", "minLength": 1}, "version": {"type": "integer", "minimum": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "blob": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256", "media_type"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"},
+        "media_type": {"enum": ["application/json", "text/plain", "text/x-python"]}
+      }
+    },
+    "ref_list": {"type": "array", "items": {"$ref": "#/$defs/typed_ref"}, "uniqueItems": true},
+    "randomness": {
+      "type": "object", "additionalProperties": false,
+      "required": ["mode", "seed", "algorithm", "explanation"],
+      "properties": {
+        "mode": {"enum": ["SEEDED", "DETERMINISTIC_NO_RANDOMNESS"]},
+        "seed": {"type": ["integer", "null"]}, "algorithm": {"type": "string", "minLength": 1},
+        "explanation": {"type": "string", "minLength": 1}
+      }
+    }
+  },
+  "type": "object", "additionalProperties": false,
+  "required": [
+    "schema_version", "id", "version", "created_at", "supersedes", "kind",
+    "protocol_ref", "preregistration_ref", "attempt_ordinal", "started_at",
+    "completed_at", "status", "failure_reason", "actual_splits", "code",
+    "configuration", "environment", "randomness", "deterministic_settings",
+    "results_access_ref", "outputs", "metrics"
+  ],
+  "properties": {
+    "schema_version": {"const": 1}, "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$"},
+    "version": {"type": "integer", "minimum": 1}, "created_at": {"type": "string", "format": "date-time"},
+    "supersedes": {"anyOf": [{"$ref": "#/$defs/typed_ref"}, {"type": "null"}]},
+    "kind": {"const": "trial"}, "protocol_ref": {"$ref": "#/$defs/typed_ref"},
+    "preregistration_ref": {"$ref": "#/$defs/typed_ref"}, "attempt_ordinal": {"type": "integer", "minimum": 1},
+    "started_at": {"type": "string", "format": "date-time"},
+    "completed_at": {"anyOf": [{"type": "string", "format": "date-time"}, {"type": "null"}]},
+    "status": {"enum": ["ATTEMPTED", "SUCCEEDED", "FAILED", "CANCELLED"]},
+    "failure_reason": {"type": ["string", "null"], "minLength": 1},
+    "actual_splits": {
+      "type": "object", "additionalProperties": false, "required": ["train", "validation", "test", "holdout"],
+      "properties": {"train": {"$ref": "#/$defs/ref_list"}, "validation": {"$ref": "#/$defs/ref_list"}, "test": {"$ref": "#/$defs/ref_list"}, "holdout": {"$ref": "#/$defs/ref_list"}}
+    },
+    "code": {"$ref": "#/$defs/blob"}, "configuration": {"$ref": "#/$defs/blob"},
+    "environment": {"$ref": "#/$defs/blob"}, "randomness": {"$ref": "#/$defs/randomness"},
+    "deterministic_settings": {"$ref": "#/$defs/blob"},
+    "results_access_ref": {"anyOf": [{"$ref": "#/$defs/typed_ref"}, {"type": "null"}]},
+    "outputs": {
+      "type": "array", "items": {
+        "type": "object", "additionalProperties": false, "required": ["name", "artifact"],
+        "properties": {"name": {"type": "string", "minLength": 1}, "artifact": {"$ref": "#/$defs/blob"}}
+      }
+    },
+    "metrics": {"anyOf": [{"$ref": "#/$defs/blob"}, {"type": "null"}]}
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "purpose": "H-M0-021 SR01-SR06 historical evidence and capital-state preservation",
+  "base_commit": "9f9be8ff2fc63a3baaef10a8e55024907e0455c0",
+  "implementation_commit": "806ed55d68ae8bfafd3f1680960ba0baa339f011",
+  "skeptic_risk_v1_unchanged": true,
+  "skeptic_risk_v1_sha256": "c3d1c0c18d9443561fceaad297102abd26e36d00b2d49a5b39da9889a5ae4fcb",
+  "prior_skeptic_results_unchanged": true,
+  "prior_skeptic_preservation_unchanged": true,
+  "stop_sha256": "877eb367fde67eda4cbd33b72eea28e48d4f36f45253dc7fe40e3bfa9aa87571",
+  "bankroll_sha256": "9ed04c4fb32fed1ba50999abdc1a84fa298e58071ac9fac9b1be1d6accf0d77a",
+  "risk_policy_sha256": "766643a4d30984cbde5fe4194bb0e73a70cbd20366b95d268134d305b64806db",
+  "project_state_sha256": "7df67776db254a3cea31e0805acbd980151a5be9d51c203f6130eff309a23717",
+  "changed_stop_bankroll_policy_or_project_state_files": [],
+  "changed_data_research_quant_or_historical_skeptic_files": [],
+  "intentional_existing_file_changes": [
+    "docs/SPECIFICATIONS.md",
+    "schemas/exposure-position.schema.json",
+    "schemas/ledger-event.schema.json",
+    "schemas/ledger-snapshot.schema.json",
+    "schemas/risk-decision.schema.json",
+    "schemas/stop-resolution-event.schema.json",
+    "src/edgelab/risk_controls.py",
+    "tests/test_risk_controls.py"
+  ],
+  "capital_moved": false,
+  "stop_M0_001_status": "OPEN",
+  "live_status": "LOCKED"
+}

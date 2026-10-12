@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "purpose": "Independent H-M0-018 Q03 re-review; no operational authorization",
+  "review_base": "5ca9b53301d6dbcae0a0f944cd74071c0fcd46e3",
+  "claim_commit": "3609f7f1c88bddbb25481e5770b9070edf36cfb7",
+  "quant_implementation": "9e8b9c65c6233a271620fd07102eb61b1aabe4c5",
+  "verdict": "READY_FOR_DIRECTOR_GATE",
+  "q03_disposition": "CLOSED",
+  "new_findings": [],
+  "q03": {
+    "valid_completed_accepted": true,
+    "malformed_rejected": true,
+    "future_rejected": true,
+    "altered_without_rehash_rejected": true,
+    "future_with_recomputed_digest_rejected": true,
+    "full_commit_path_future_response_rejected": true,
+    "rejection_surface": "Future completed fact: committed_at"
+  },
+  "timestamp_boundaries": {
+    "exact_now_accepted": true,
+    "equivalent_offset_accepted": true,
+    "fraction_before_now_accepted": true,
+    "lowercase_t_z_accepted_where_schema_permits": true,
+    "one_microsecond_future_z_rejected": true,
+    "one_microsecond_future_offset_rejected": true,
+    "policy": "Existing completed-fact rule: parsed instant must be no later than verifier now."
+  },
+  "structural_bypasses": {
+    "omitted_committed_at_rejected": true,
+    "null_number_array_rejected": true,
+    "date_only_rejected": true,
+    "space_separated_parseable_iso_rejected": true,
+    "invalid_calendar_rejected": true,
+    "additional_or_alternate_field_rejected_by_closed_schema": true,
+    "self_digest_recomputation_does_not_bypass_time_check": true,
+    "alternate_authority_construction_path_rejected": true
+  },
+  "regression": {
+    "q01_prior_train_contamination_rejected": true,
+    "structured_current_state_binding_rejected_after_substitution": true,
+    "legitimate_commitment_accepted": true,
+    "positive_operational_authorization": false,
+    "positive_paper_authorization": false,
+    "positive_live_authorization": false,
+    "positive_risk_approval": false
+  },
+  "authority_boundary": {
+    "quant_local_structural_validation": true,
+    "quant_local_content_binding": true,
+    "quant_local_completed_time_plausibility": true,
+    "authority_authenticity": false,
+    "replay_persistence": false,
+    "commitment_id_global_uniqueness": false,
+    "key_custody": false,
+    "adapter_controller_honesty": false,
+    "durable_storage": false,
+    "true_external_atomicity": false,
+    "external_items_owner": "06 Risk & Execution / external trusted authority"
+  },
+  "focused": {
+    "skeptic_quant_v7": {"methods": 6, "passed": 6},
+    "quant_owner": {"methods": 24, "passed": 24},
+    "data_owner": {"methods": 18, "passed": 18},
+    "foundation": {"methods": 18, "passed": 18},
+    "skeptic_quant_v6_preserved": {
+      "methods": 13,
+      "passed": 12,
+      "errored": 1,
+      "expected_error": "test_Q02_future_commitment_time_is_accepted_after_rehash -> Future completed fact: committed_at"
+    }
+  },
+  "repository_validation_before_completion": {
+    "records": 76,
+    "published_history_valid": true,
+    "capital_status": "LOCKED",
+    "scientific_or_operational_approval": false
+  },
+  "repository_validation_with_completion": {
+    "records": 78,
+    "published_history_valid": true,
+    "capital_status": "LOCKED",
+    "scientific_or_operational_approval": false
+  },
+  "commands": [
+    ".venv/bin/python -m unittest discover -s tests -p 'test_skeptic_quant_v7.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_quant_protocol.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_skeptic_quant_v6.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_data_integrity.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_foundation.py' -v",
+    ".venv/bin/python -m src.edgelab.validate",
+    ".venv/bin/python -m compileall -q src tests",
+    "git diff --check"
+  ]
+}

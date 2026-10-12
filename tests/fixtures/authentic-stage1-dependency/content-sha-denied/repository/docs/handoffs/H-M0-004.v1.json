@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-004",
+  "version": 1,
+  "created_at": "2026-09-20T00:00:18.412757+00:00",
+  "sender": "05 Skeptic",
+  "recipient": "03 Research",
+  "status": "QUEUED",
+  "request": "H05: define prior exploration disclosure, immutable preregistration and unexamined confirmatory population contracts with Quant.",
+  "work_done": "Independent review and reproducible synthetic attacks completed; implementation belongs to recipient. Read the report for root causes, scope, smallest remediation and acceptance tests.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-skeptic-review.v1.md",
+    "tests/test_skeptic_adversarial.py",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/audit/A-M0-002.v1.json"
+  ],
+  "files_changed": [],
+  "tests_run": [
+    ".venv/bin/python -m unittest discover -s tests -v: 33 passed; H/M characterization tests prove current unsafe acceptance, not safety."
+  ],
+  "open_questions": [
+    "Owner must state the trust boundary and remaining limitations; coordinate shared-file ownership with Director."
+  ],
+  "blockers": [
+    "STOP-M0-001 blocks operational reliance and M0 exit; remediation permitted."
+  ],
+  "next_action": "Claim a new handoff version before shared edits. Implement bounded owner changes, convert relevant gap probes into rejection regressions, preserve originals, and return evidence for independent Skeptic review.",
+  "completion_criteria": [
+    "Identify exploratory ancestors and already observed outcomes.",
+    "Specify tests denying recycled/overlapping outcomes and post-result hypothesis edits; do not conduct strategy research for this task."
+  ],
+  "depends_on": []
+}

@@ -1,0 +1,1 @@
+{"schema_version":1,"scope":"H-M0-038 surgical MOCK_ONLY closure","result":"READY_FOR_FINAL_SKEPTIC_REREVIEW","controls":["typed local handoff content binding","receipt includes consumed handoff binding and completion records","final-tree owner fixture"],"boundary":"Deterministic content binding only; no authentication, executor or append-only authority."}

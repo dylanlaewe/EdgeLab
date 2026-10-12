@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-013",
+  "version": 2,
+  "created_at": "2026-09-20T02:06:05.946196+00:00",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Formal Quant release gate after independent R01 re-review; clarify checkpoint-currency responsibilities.",
+  "work_done": "Formal Quant gate PASSED for bounded H-M0-005 v3 remediation; checkpoint-currency integration explicitly assigned. No STOP/final finding closure. Director yields to Quant upon publication.",
+  "evidence_refs": [
+    "reports/M0.1-quant-release.v1.md",
+    "reports/director-verification/quant-release-results.v1.json",
+    "docs/handoffs/H-M0-005.v3.json",
+    "docs/handoffs/H-M0-012.v3.json"
+  ],
+  "files_changed": [
+    "reports/M0.1-quant-release.v1.md",
+    "reports/director-verification/quant-release-results.v1.json",
+    "docs/handoffs/H-M0-005.v3.json",
+    "docs/handoffs/H-M0-013.v2.json",
+    "docs/project-state.json",
+    "reports/audit/A-M0-012.v1.json"
+  ],
+  "tests_run": [
+    "Full discovery 135 methods: 95 passed, 40 errored methods/43 exact classified historical entries, no assertion failures/skips; NOT GREEN.",
+    "15 v4 and 27 Research-owner tests pass within full run; 38 preserved historical files, 30/30 Research inventory hashes, exact remote ancestry verified."
+  ],
+  "open_questions": [
+    "Current authoritative-state selection remains Quant integration requirement under external trust assumptions."
+  ],
+  "blockers": [
+    "STOP-M0-001 OPEN; all operational release remains prohibited."
+  ],
+  "next_action": "04 Quant consumes H-M0-005 v3 and claims v4 after synchronization. Risk remains unreleased.",
+  "completion_criteria": [
+    "Verify source evidence and ancestry",
+    "Classify every error and record explicit release decision",
+    "Publish bounded coordination updates without changing domain controls"
+  ],
+  "depends_on": [
+    "H-M0-011",
+    "H-M0-012"
+  ]
+}

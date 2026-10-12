@@ -1,2 +1,3 @@
 
 tests/fixtures/authentic-stage1/** -whitespace
+tests/fixtures/authentic-stage1-dependency/** -whitespace

@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-005",
+  "version": 4,
+  "created_at": "2026-09-20T02:13:42+00:00",
+  "sender": "04 Quant",
+  "recipient": "04 Quant",
+  "status": "CLAIMED",
+  "request": "Bounded Quant M0 remediation: mandatory Data/Research integration, complete trial/exposure history, actual input/split/config/code/seed/output/reproduction binding, and verifier-controlled checkpoint-currency enforcement.",
+  "work_done": "Quant session quant-codex-20260920T021342Z-0659967 claims the sole-writer slot at clean synchronized base 0659967261876ef70d2db0745a31b0a85a24cff3. Consumed H-M0-005 v3 and verified exact landed prerequisite ancestry on origin/main: Data H-M0-003 v4 at 90c1a0a04216d737c3d6cbdd4a3404488fec7605; Research H-M0-004 v6 at a23f5e996e8813593bd1dede77660f7023da4b24; R01 H-M0-011 v3 at d169ba3c2f5d5ac03cf4f7d148fa94da190f53fd; independent H-M0-012 v3 at 8e0040f3871e79457a5a1ec0d83ef818c0e8eb1b; Director H-M0-013 v2 at 0659967261876ef70d2db0745a31b0a85a24cff3. Exclusive scope: Quant experiment/reproduction/inventory/eligibility modules; additive Quant schemas and synthetic tests/fixtures; necessary validate.py and SPECIFICATIONS.md integration; Quant-owned reports, audit, handoff, completion inventory and independent-review request artifacts. No Data/Research behavior changes, Risk implementation, historical evidence edits or project-state edits.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-005.v3.json",
+    "docs/handoffs/H-M0-003.v4.json",
+    "docs/handoffs/H-M0-004.v6.json",
+    "docs/handoffs/H-M0-011.v3.json",
+    "docs/handoffs/H-M0-012.v3.json",
+    "docs/handoffs/H-M0-013.v2.json",
+    "reports/M0.1-quant-release.v1.md",
+    "reports/director-verification/quant-release-results.v1.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "docs/REMEDIATION_PLAN.md",
+    "docs/GIT_COORDINATION.md"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-005.v4.json"
+  ],
+  "tests_run": [
+    "Verified clean synchronized main and exact prerequisite landing SHAs as ancestors of origin/main."
+  ],
+  "open_questions": [
+    "An independently authoritative current-state provider is not provisioned; implement a fail-closed interface and synthetic trusted adapter without claiming external assurance.",
+    "Define the narrowest honest check/use guarantee at the local experiment-claim commit boundary and document what remains outside that boundary."
+  ],
+  "blockers": [
+    "STOP-M0-001 remains OPEN; scientific operational authorization, paper/live execution and capital use remain prohibited."
+  ],
+  "next_action": "Commit and push this claim, re-fetch and verify ancestry, then implement the bounded Quant contracts and regression evidence. Risk remains unreleased.",
+  "completion_criteria": [
+    "Mandatory checkpoint-aware Research/Data validation through one Quant confirmation gate; legacy or structural-only records cannot claim freshness.",
+    "Bind actual canonical inputs and disjoint train/validation/test/holdout memberships, frozen configuration/thresholds, code/environment, seed/determinism policy, outputs and metrics.",
+    "Require a complete accepted inventory of attempted, successful, failed, cancelled and repeated trials plus relevant exposure history; reject omission and canonical overlap despite rename or reorder.",
+    "Reject stale, rolled-back, unknown, incomplete or mismatched accepted-state checkpoints and recheck verifier-controlled currency at the claim-commit boundary.",
+    "Demonstrate deterministic synthetic reproduction without executing submitted commands; mutations to bound evidence invalidate reproduction.",
+    "Preserve all historical probes byte-for-byte, add separate positive and targeted rejection tests, report full-suite red classifications honestly, and keep STOP-M0-001 open.",
+    "Publish a content-hashed completion inventory, interface/migration notes, exact commands/results, finding-to-test map, landing SHAs, unresolved limits and an independent Skeptic review request."
+  ],
+  "depends_on": [
+    "H-M0-003",
+    "H-M0-004",
+    "H-M0-011",
+    "H-M0-012",
+    "H-M0-013"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "implementation_commit": "091f0af316682e141354c2ba014eab86ee46392b",
+  "files": {
+    "docs/SPECIFICATIONS.md": "84c671546a1aad9aba2c29af81d34a54e0a7f5e2fbf23b7067dad3dba56e125a",
+    "src/edgelab/validate.py": "2ee2e0bd6286642d031946a87eb2969f9347765cf5a3527ba55902689f2f98e7",
+    "src/edgelab/risk_controls.py": "f8ebf42977a69f01a6822ca68ed0a01a3160ccd91ebd342451df8cbc77c78423",
+    "tests/test_risk_controls.py": "99c882754ae9ea90e03d15edc0076d9789bf917d23ee4f9ffd9ebed2ab888614",
+    "schemas/approval-attestation.schema.json": "d138ecccb0251e265676533803f12f9d02d9a991acf60ead97a2b1b97d575f53",
+    "schemas/authority-policy.schema.json": "d52ad1d75dd77a010e0a853d548811f306f803e0edeed70d458f1425e713d7a7",
+    "schemas/exposure-position.schema.json": "2195fe5692fe4039c71cfec4c3b7dd2ba803ca26abefaaf3f918d1898f123795",
+    "schemas/kill-switch-event.schema.json": "cf56b4bd521f550ccf5220fbc2b69616d541e41830aa76c22ccba22be749be56",
+    "schemas/ledger-event.schema.json": "f64a8113d38315ac7f903c79d9df53de402a891655055393418b180171175c41",
+    "schemas/ledger-snapshot.schema.json": "9b9f01fbbb614d7aec89fe06706cc95d7f2a401c5e58dcc1238b9c40c6e438ac",
+    "schemas/lifecycle-event.schema.json": "15f26928e2f32d52c54b70cef8aa480c296f3b89fc5d80064a2b217f6060cca7",
+    "schemas/risk-decision.schema.json": "391b0581cb8703072fdafad53d6b7f8a052e30b0e301054bc3cae40258d5499b",
+    "schemas/stop-resolution-event.schema.json": "e6beaf813143eee89b522f05999de8c888af2cf3f8129becc5ef16c602de2695",
+    "schemas/stop-snapshot.schema.json": "0a5f27fba3a7cfc6d8dd8d283b6189ebf74501fc9cc9603ffb1ba05d43162965"
+  },
+  "preserved": {
+    "tests/test_skeptic_adversarial.py": "6e1c81b0e6f477c279b528899f34f4a41afc0c415a452980e6b31661f5006efa",
+    "reports/stops/STOP-M0-001.v1.json": "877eb367fde67eda4cbd33b72eea28e48d4f36f45253dc7fe40e3bfa9aa87571",
+    "portfolio/bankroll.json": "9ed04c4fb32fed1ba50999abdc1a84fa298e58071ac9fac9b1be1d6accf0d77a",
+    "portfolio/risk-policy.json": "766643a4d30984cbde5fe4194bb0e73a70cbd20366b95d268134d305b64806db",
+    "docs/handoffs/H-M0-006.v4.json": "6c93cae18ef3188c80b68191ad7b09071ee36cca0e666535eaa35ef2e8812fcb"
+  }
+}

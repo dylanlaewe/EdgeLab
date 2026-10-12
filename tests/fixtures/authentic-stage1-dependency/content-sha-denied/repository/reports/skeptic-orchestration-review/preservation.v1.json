@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "method": "git_blob_sha1_before_skeptic_review_edits",
+  "base_sha": "3a9442ca571bad285f896238a0dc6a8a51bfe9b1",
+  "artifacts": {
+    "src/edgelab/orchestration.py": "eda59c509c1300a7c06a215b92b9251bf3a0972f",
+    "schemas/orchestration-task.schema.json": "5ace01952b893a831573601f2c569642058cce19",
+    "schemas/capability-registry.schema.json": "f9d3bc0aeb260c75587fc21f04bed4a8c9f69204",
+    "tests/test_orchestration.py": "28ca72d45f4e366769a450ce0c42a01057352ced",
+    "docs/M0.2_ORCHESTRATION.md": "4d52f593ede8620745bb89c1b2d10db35cfa25c7",
+    "reports/M0.2-orchestration-results.v1.json": "0ffb3fc63e2e848b5acb0a0d3dad71d1d996def1",
+    "docs/handoffs/H-M0-027.v3.json": "c54de47a52d75d46e5001eabd179703363a5f059",
+    "docs/handoffs/H-M0-027.v4.json": "8d435bce5fd0629441ff194a43a5c91f1d264929"
+  },
+  "production_or_owner_artifacts_modified": false
+}

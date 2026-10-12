@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-001",
+  "version": 3,
+  "created_at": "2026-09-20T00:00:18.412757+00:00",
+  "sender": "05 Skeptic",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Independently review the M0.1 foundation before it is treated as an approved control design.",
+  "work_done": "Independent assignment complete; control approval BLOCKED. Six HIGH, two MEDIUM, no BLOCKER/LOW findings; scoped STOP issued and five role remediation handoffs queued. Completion of review is not approval.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-skeptic-review.v1.md",
+    "tests/test_skeptic_adversarial.py",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/audit/A-M0-002.v1.json"
+  ],
+  "files_changed": [
+    "reports/reviews/M0.1-skeptic-review.v1.md",
+    "tests/test_skeptic_adversarial.py",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/audit/A-M0-002.v1.json",
+    "docs/handoffs/H-M0-001.v2.json",
+    "docs/handoffs/H-M0-001.v3.json",
+    "docs/handoffs/H-M0-002.v1.json",
+    "docs/handoffs/H-M0-003.v1.json",
+    "docs/handoffs/H-M0-004.v1.json",
+    "docs/handoffs/H-M0-005.v1.json",
+    "docs/handoffs/H-M0-006.v1.json"
+  ],
+  "tests_run": [
+    "Baseline .venv/bin/python -m unittest discover -s tests -v: 18 passed.",
+    "Full .venv/bin/python -m unittest discover -s tests -v: 33 passed, including 15 new adversarial methods.",
+    "Final .venv/bin/python -m src.edgelab.validate: 13 records validated; M0 capital LOCKED.",
+    "git diff --check: passed."
+  ],
+  "open_questions": [
+    "Authenticated actor boundary and accepted immutable baseline require Director decisions.",
+    "Final commit is discoverable with git log --diff-filter=A -- reports/reviews/M0.1-skeptic-review.v1.md; push outcome reported after execution."
+  ],
+  "blockers": [
+    "H01-H06 and STOP-M0-001 block control-design approval/M0 exit; remediation can proceed."
+  ],
+  "next_action": "Consume H-M0-002, reconcile project-state, coordinate Data/Research/Quant/Risk assignments H-M0-003 through H-M0-006, then request independent re-review. Preserve live lock.",
+  "completion_criteria": [
+    "Independent report with pass/fail/blocked and scope",
+    "Reproduced checks with commands/results",
+    "Each material finding has evidence, impact and remediation",
+    "Director receives a versioned handoff; no gates weakened"
+  ],
+  "depends_on": []
+}

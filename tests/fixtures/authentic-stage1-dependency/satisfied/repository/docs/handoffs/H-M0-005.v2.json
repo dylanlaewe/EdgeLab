@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-005",
+  "version": 2,
+  "created_at": "2026-09-20T00:05:23.068038+00:00",
+  "sender": "00 Director",
+  "recipient": "04 Quant",
+  "status": "QUEUED",
+  "request": "Reproduction and contamination enforcement; H04 H05 and H06 trial retention. Apply docs/REMEDIATION_PLAN.md acceptance and ownership rules.",
+  "work_done": "Director clarification only. Original v1 preserved. No technical finding remediated. Claim only after prerequisites and scheduling release; append the next version.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-skeptic-review.v1.md",
+    "tests/test_skeptic_adversarial.py",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/audit/A-M0-002.v1.json",
+    "docs/REMEDIATION_PLAN.md",
+    "docs/GIT_COORDINATION.md"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-005.v2.json"
+  ],
+  "tests_run": [],
+  "open_questions": [
+    "Operational trust configuration and accepted-baseline protection are not provisioned; fail closed and document assurance limits."
+  ],
+  "blockers": [
+    "STOP-M0-001 remains OPEN; only synthetic remediation is allowed.",
+    "Prerequisite owner completion and Director release pending."
+  ],
+  "next_action": "Wait for completed prerequisite artifacts and Director release. Then synchronize and append a CLAIMED version with exact prerequisite versions/SHAs.",
+  "completion_criteria": [
+    "Reject missing results/config/environment/code and hidden failed trials.",
+    "Test identical and renamed/overlapping explored populations; reproduce a synthetic unexamined holdout bundle.",
+    "Meet the owner-specific release gate in docs/REMEDIATION_PLAN.md; persist full evidence inventory and actual test dispositions.",
+    "Preserve original adversarial tests unchanged; add separate rejection regressions and positive controls. Do not clear STOP-M0-001."
+  ],
+  "depends_on": [
+    "H-M0-002",
+    "H-M0-003",
+    "H-M0-004"
+  ]
+}

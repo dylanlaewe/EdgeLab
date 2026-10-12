@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-021",
+  "version": 1,
+  "occurred_at": "2026-09-28T01:45:44.758471+00:00",
+  "actor": "Independent Skeptic session skeptic-risk-rereview-20260928T012816Z-b8c0928",
+  "role": "05 Skeptic",
+  "event_type": "RISK_REVIEW_BLOCKED_NEW_FINDINGS",
+  "subject_ref": "docs/handoffs/H-M0-020.v3.json",
+  "previous_state": "RISK_IMPLEMENTED_AWAITING_INDEPENDENT_SKEPTIC_REVIEW",
+  "new_state": "RISK_REMEDIATION_REQUIRED_STOP_OPEN_CAPITAL_LOCKED",
+  "reason": "Independent valid-prerequisite attacks reproduced one BLOCKER, four HIGH and one MEDIUM Risk defects, including unsupported AUTHORIZED decisions from unbound caller assertions. Production controls were not changed; H-M0-021 assigns remediation to Risk.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-risk-rereview.v1.md",
+    "tests/test_skeptic_risk_v1.py",
+    "reports/skeptic-risk-rereview/results.v1.json",
+    "docs/handoffs/H-M0-021.v1.json"
+  ],
+  "code_ref": "Risk implementation 091f0af316682e141354c2ba014eab86ee46392b; review completion commit first adds docs/handoffs/H-M0-020.v3.json",
+  "config_ref": "portfolio/risk-policy.json remains unchanged with live disabled and kill engaged",
+  "correlation_id": "H-M0-020",
+  "supersedes": null
+}

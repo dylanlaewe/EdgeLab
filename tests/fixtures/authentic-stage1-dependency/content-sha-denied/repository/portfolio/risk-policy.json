@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "id": "risk-m0",
+  "version": 1,
+  "phase": "M0",
+  "live_enabled": false,
+  "kill_switch": "ENGAGED",
+  "limits": {
+    "position_minor": 0,
+    "daily_exposure_minor": 0,
+    "correlated_exposure_minor": 0,
+    "strategy_exposure_minor": 0,
+    "source_concentration_minor": 0,
+    "max_drawdown_minor": 0
+  },
+  "unresolved": [
+    "Evidence-backed statistical and minimum sample thresholds",
+    "Paper capital and sizing policy",
+    "Freshness and price tolerances",
+    "Post-M0 exposure, correlation and drawdown thresholds",
+    "Authenticated independent reviewer identities and promotion enforcement"
+  ],
+  "failure_action": "DENY_NEW_EXPOSURE",
+  "live_gate_requirements": [
+    "reliable_data",
+    "reproducible_research",
+    "registered_strategy",
+    "historical_evaluation_where_appropriate",
+    "robustness_analysis",
+    "independent_adversarial_review",
+    "forward_paper_evidence",
+    "bankroll_accounting",
+    "risk_limits",
+    "kill_switches",
+    "validated_execution_logic",
+    "audit_logging",
+    "strategy_specific_live_approval"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-023",
+  "version": 1,
+  "created_at": "2026-09-28T22:48:26Z",
+  "sender": "05 Skeptic",
+  "recipient": "06 Risk & Execution",
+  "status": "QUEUED",
+  "request": "Remediate SR07 HIGH and SR08 MEDIUM found by the independent H-M0-022 re-review without clearing STOP-M0-001, unlocking or moving capital, weakening historical probes, or changing external trust claims.",
+  "work_done": "Skeptic closed SR02-SR05 locally and preserved the remediated portions of SR01/SR06, but valid-prerequisite v2 successors demonstrated two remaining semantic defects. SR07: a valid Quant commitment for another experiment under the same strategy/version can authorize because experiment identity is absent from the exact Risk action and token. SR08: two reservations for the same position and canonical economic subject both reconcile when action, authorization and reservation wrapper IDs change. Reproducers are preserved in test_skeptic_risk_v2.py; no production control was modified.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-risk-SR01-SR06-rereview.v2.md",
+    "tests/test_skeptic_risk_v2.py",
+    "reports/skeptic-risk-rereview/results.v2.json",
+    "reports/skeptic-risk-rereview/preservation.v2.json",
+    "docs/handoffs/H-M0-022.v3.json",
+    "docs/handoffs/H-M0-021.v3.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-023.v1.json"
+  ],
+  "tests_run": [
+    "Skeptic Risk v2 10/10 passes; two characterization methods preserve SR07 and SR08 unsafe acceptances.",
+    "Risk owner 14/14 passes; existing happy-path and remediated attack coverage does not cover the two new semantic variants.",
+    "Unchanged Skeptic Risk v1 produces the expected one pass, 16 hardened-prerequisite errors and four contradicted historical vulnerable assertions."
+  ],
+  "open_questions": [
+    "Which existing Quant experiment identity must become the exact expected subject in risk-action, current-state assembly, decision and action-authorization without creating a competing identity system?",
+    "Which stable semantic liability identity can enforce reservation uniqueness across cosmetic wrappers while allowing genuinely distinct positions and valid lifecycle operations?"
+  ],
+  "blockers": [
+    "SR07 HIGH permits a scientifically valid but action-unselected experiment to support authorization for the same strategy/version.",
+    "SR08 MEDIUM permits duplicate reservation/liability for one semantic position under new wrapper identities.",
+    "STOP-M0-001 remains OPEN; capital is 5000 conceptual, 0 live deployable/reserved, live LOCKED and kill ENGAGED."
+  ],
+  "next_action": "Director schedules a targeted Risk remediation. Risk binds the exact expected experiment through action/decision/token and enforces stable semantic reservation uniqueness, preserves v1/v2 probes, publishes a frozen completion inventory, and requests focused independent re-review.",
+  "completion_criteria": [
+    "The exact action, authoritative current-state comparison, decision and action authorization bind the expected Quant experiment identity; a valid commitment for any other experiment rejects even under the same strategy/version.",
+    "Reservation uniqueness and settlement semantics use a stable liability identity or equivalent authoritative rule that survives changes to action, authorization, reservation and event wrapper IDs.",
+    "Legitimate distinct positions, exact settlement, synthetic PAPER authorization and M0 LIVE denial remain correct.",
+    "Historical Skeptic probes, Risk completion evidence, OPEN STOP and locked capital remain preserved and independently re-reviewed."
+  ],
+  "depends_on": [
+    "H-M0-022",
+    "H-M0-021"
+  ]
+}

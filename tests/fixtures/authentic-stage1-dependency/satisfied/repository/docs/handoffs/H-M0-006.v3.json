@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-006",
+  "version": 3,
+  "created_at": "2026-09-27T22:38:00Z",
+  "sender": "00 Director",
+  "recipient": "06 Risk & Execution",
+  "status": "QUEUED",
+  "request": "Bounded M0 Risk remediation: consume scientific evidence without operational authorization; enforce authority trust/replay, lifecycle, STOP, accounting, exposure, paper/live and kill-switch controls.",
+  "work_done": "Director gate passed after Quant Q01 local closure, Q02 structured binding with deferred authority authenticity/replay, and Q03 independent closure. The prior v2 did not contain the accumulated Risk scope. This version adds it without declaring any existing finding closed, clearing STOP-M0-001 or changing capital.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-005.v5.json",
+    "docs/handoffs/H-M0-015.v3.json",
+    "docs/handoffs/H-M0-016.v3.json",
+    "docs/handoffs/H-M0-017.v3.json",
+    "docs/handoffs/H-M0-018.v3.json",
+    "docs/handoffs/H-M0-019.v2.json",
+    "reports/M0.1-risk-release.v1.md",
+    "reports/reviews/M0.1-quant-Q03-rereview.v1.md",
+    "docs/SPECIFICATIONS.md",
+    "docs/LIFECYCLE.md",
+    "docs/GIT_COORDINATION.md",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-006.v3.json"
+  ],
+  "tests_run": [
+    "Director independently reproduced Data 18/18 and foundation 18/18, repository validation and compileall; inspected Skeptic v7 6/6, Quant 24/24 and published Q03 evidence.",
+    "Historical suites remain preserved and may be red by design; no green full-suite assertion is made."
+  ],
+  "open_questions": [
+    "No independently controlled production authority, durable replay store, live account, execution adapter or accepted external custody channel is provisioned. Missing trusted state must deny operations."
+  ],
+  "blockers": [
+    "STOP-M0-001 remains OPEN; M0 approval, paper/live execution and capital use remain blocked.",
+    "All H01-H06/M01-M02 project dispositions require Risk implementation and later independent review."
+  ],
+  "next_action": "After this release commit lands, synchronize and append H-M0-006 v4 CLAIMED with session ID, base SHA, exact prerequisite versions/SHAs and owned file scope. Commit/push the claim before implementation.",
+  "completion_criteria": [
+    "Scientific consistency is never operational authorization: SCIENTIFIC_INTEGRITY_CONSISTENT must not itself authorize strategy, paper, live, capital or execution action.",
+    "Define a verifier-controlled authority trust policy: canonical authority identity, controller authentication/allowed source, generation/state resolution, limitations and adapter assumptions. Reject self-issued or unmapped commitments. Local self-digests prove content integrity only.",
+    "Machine-enforce commitment-ID uniqueness, replay/duplicate consumption, stale generation and already-consumed evidence using durable replay state appropriate to M0. State explicitly what is synthetic versus durable and fail closed when unavailable.",
+    "Implement event-derived lifecycle transitions with exact evidence and independent-review requirements. Reject skipped, terminal-resurrected, conflicting or unsupported IDEA/BACKTESTED/REJECTED-to-live paths and paper states without prerequisites.",
+    "Implement distinct accountable review/approval records and trust-policy checks. Role strings, Git authorship and self-authored artifacts cannot establish human or cryptographic independence.",
+    "Implement typed STOP scope, precedence, acknowledgement, dependency propagation, quarantine, remediation evidence and clearing authority. OPEN, stale, missing or unreadable applicable STOP state blocks lifecycle/operational actions. STOP clearance remains unavailable until independent process evidence exists.",
+    "Implement M0 integer-minor-unit paper/live-separated ledger and reconciliation invariants: no money creation or negative balances; deployable cannot exceed reconciled available funds; reservations/liabilities settle idempotently; duplicate settlement rejects; stale/corrupt snapshots deny. Preserve ledger history with compensating corrections.",
+    "Represent position, daily, strategy, source, event and correlated exposure. Model overlapping source/market/strategy/event dependencies so duplicate opinions cannot count as diversification. Empirical thresholds remain configurable/unresolved and must deny live exposure while zero deployable capital persists.",
+    "Implement latched kill-switch state with global precedence, health/data/price/bankroll/reconciliation/execution/drawdown/degradation/limit/STOP triggers, execution-time recheck, durable evidence and authority-bound reset. Test pending authorization races and exposure-neutral settlement behavior.",
+    "Keep paper and live ledgers, eligibility and approvals distinct. A paper or live approval cannot make an individual execution safe; every future execution decision must recheck current controls. No sportsbook, prediction market, deposit, account authentication or wagering integration.",
+    "Preserve total conceptual bankroll 5000 minor units, deployable/reserved zero, live LOCKED and kill ENGAGED. M0 completion never unlocks capital; a later independently reviewed strategy-specific live-capital gate is required.",
+    "Publish tests, completion inventory/hashes, exact SHAs, interfaces/migrations, full-suite dispositions, authority assumptions and finding-to-test mapping. Obtain independent Skeptic Risk review and a new Director gate before any STOP-clearance consideration."
+  ],
+  "depends_on": [
+    "H-M0-002",
+    "H-M0-003",
+    "H-M0-004",
+    "H-M0-005",
+    "H-M0-015",
+    "H-M0-016",
+    "H-M0-017",
+    "H-M0-018",
+    "H-M0-019"
+  ]
+}

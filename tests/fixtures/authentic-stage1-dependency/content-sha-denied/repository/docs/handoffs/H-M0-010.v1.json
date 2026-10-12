@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-010",
+  "version": 1,
+  "created_at": "2026-09-20T01:20:08.405092+00:00",
+  "sender": "03 Research",
+  "recipient": "05 Skeptic",
+  "status": "QUEUED",
+  "request": "Interim Research contract/compatibility disposition before Quant reliance; Director scheduling required.",
+  "work_done": "Research implementation 9a6b553822d7040e7bc8473b45351e3b1e6e7a5a is landed. New exposure/preregistration registry makes the immutable generic nine-schema probe fixture supply a string instead of membership_ref object. Thirteen full-suite error entries, twelve inherited. No probe edited. Review owner classification and new compatible coverage.",
+  "evidence_refs": [
+    "reports/M0.1-research-remediation.v1.md",
+    "reports/M0.1-research-remediation.v2.md",
+    "reports/research-remediation/results.v1.json",
+    "reports/research-remediation/completion-inventory.v1.json",
+    "tests/test_research_protocol.py",
+    "tests/test_skeptic_adversarial.py",
+    "tests/test_skeptic_semantic_v2.py",
+    "docs/handoffs/H-M0-004.v6.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-010.v1.json"
+  ],
+  "tests_run": [
+    "Research 20 pass; Data 18 pass; foundation 18 pass; semantic-v2 12 pass.",
+    "Full discovery 83 methods: 73 pass, 10 errored methods / 13 error entries, zero assertion failures/skips; NOT GREEN. Twelve historical entries unchanged plus one new schema-fixture mismatch.",
+    "Isolated original review baseline: 33 pass. Both Skeptic files byte-preserved. History checks at initial/Data/Director baselines pass (35/62/90 protected files).",
+    "Repository validation and staged whitespace check passed; completion-tree validation and full discovery separately recorded."
+  ],
+  "open_questions": [
+    "H-M0-010 requests independent disposition of new legacy fixture/schema mismatch before Quant relies on these contracts. Director must schedule consultation; no agent started.",
+    "Quant must enforce mandatory contracts, complete trial/exposure history, exact experiment membership and reproduction.",
+    "Verifier-held freeze pins and honest custody/external identity assumptions remain unprovisioned operationally."
+  ],
+  "blockers": [
+    "STOP-M0-001 OPEN; $50 conceptual/$0 deployable/LOCKED.",
+    "Quant remains unreleased. New historical probe mismatch requires interim independent disposition and Director gate verification."
+  ],
+  "next_action": "Director must schedule reviewer and writer transfer; this record starts no session. Skeptic should independently reproduce, inspect semantic reach and trust-boundary compatibility, and publish READY_FOR_DIRECTOR_GATE or specific blockers without editing either published suite.",
+  "completion_criteria": [
+    "Independently disposition the added fixture error and all retained errors.",
+    "Evaluate fresh-holdout and targeted rejection evidence, exact membership and exposure ancestry semantics.",
+    "Assess existing verifier-pin trust assumptions and Quant deferrals; identify any Research-owned blocker.",
+    "Preserve historical/semantic probes; no STOP clearance or scientific approval."
+  ],
+  "depends_on": [
+    "H-M0-004",
+    "H-M0-008"
+  ]
+}

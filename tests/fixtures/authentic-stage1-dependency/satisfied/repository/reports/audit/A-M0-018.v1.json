@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-018",
+  "version": 1,
+  "occurred_at": "2026-09-27T22:23:50.772395+00:00",
+  "actor": "Independent Skeptic session skeptic-quant-q03-rereview-20260927T221353Z-5ca9b53",
+  "role": "05 Skeptic",
+  "event_type": "QUANT_Q03_CLOSED_READY_FOR_DIRECTOR_RISK_GATE",
+  "subject_ref": "docs/handoffs/H-M0-018.v3.json",
+  "previous_state": "Q03_REMEDIATED_AWAITING_INDEPENDENT_SKEPTIC_REVIEW",
+  "new_state": "Q03_CLOSED_RISK_UNRELEASED",
+  "reason": "Future committed_at values now reject under the shared completed-fact policy even after self-digest recomputation and through the full commit path; valid boundary commitments and directly affected regressions pass. Risk-owned external trust controls remain deferred, STOP remains open and capital remains locked.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-quant-Q03-rereview.v1.md",
+    "tests/test_skeptic_quant_v7.py",
+    "reports/skeptic-quant-Q03-rereview/results.v1.json",
+    "reports/skeptic-quant-Q03-rereview/preservation.v1.json"
+  ],
+  "code_ref": "Quant implementation 9e8b9c65c6233a271620fd07102eb61b1aabe4c5; review commit first adding docs/handoffs/H-M0-018.v3.json",
+  "config_ref": "schemas/authority-commitment.schema.json and shared COMPLETED_TIMES policy",
+  "correlation_id": "H-M0-018",
+  "supersedes": null
+}

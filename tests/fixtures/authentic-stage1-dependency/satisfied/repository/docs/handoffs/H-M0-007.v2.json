@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-007",
+  "version": 2,
+  "created_at": "2026-09-20T00:29:32.587533+00:00",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Independently verify Data completion at 90c1a0a and decide Research release; classify full-suite errors.",
+  "work_done": "Verification assignment complete with Research release DENIED pending Skeptic consultation. All Data hashes/ancestry and reported test counts independently reproduced; this is not Data finding closure.",
+  "evidence_refs": [
+    "reports/M0.1-director-data-gate.v1.md",
+    "reports/director-verification/data-gate-results.v1.json",
+    "docs/handoffs/H-M0-008.v1.json",
+    "docs/handoffs/H-M0-004.v3.json"
+  ],
+  "files_changed": [
+    "reports/M0.1-director-data-gate.v1.md",
+    "reports/director-verification/",
+    "docs/handoffs/H-M0-007.v2.json",
+    "docs/handoffs/H-M0-008.v1.json",
+    "docs/handoffs/H-M0-004.v3.json",
+    "docs/project-state.json",
+    "reports/audit/A-M0-005.v1.json"
+  ],
+  "tests_run": [
+    "18 Data tests passed; 18 foundation passed; candidate full suite 51 methods / 9 errored methods / 12 entries; NOT GREEN.",
+    "Baseline archived suite 33 passed; 38 inventory hashes match; 24 records validated at candidate; both SHAs verified ancestors of origin/main."
+  ],
+  "open_questions": [
+    "Skeptic disposition required for incompatible adversarial fixtures before downstream release."
+  ],
+  "blockers": [
+    "Research NOT RELEASED; independent fixture/coverage disposition required."
+  ],
+  "next_action": "05 Skeptic consumes H-M0-008 v1; Director revisits gate only after evidence-linked consultation and any fixes.",
+  "completion_criteria": [
+    "Verify source evidence and ancestry",
+    "Classify every error and record explicit release decision",
+    "Publish bounded coordination updates without changing domain controls"
+  ],
+  "depends_on": [
+    "H-M0-002",
+    "H-M0-003"
+  ]
+}

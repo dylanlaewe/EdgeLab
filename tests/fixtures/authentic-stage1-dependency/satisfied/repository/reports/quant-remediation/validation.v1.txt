@@ -1,0 +1,22 @@
+H-M0-005 Quant validation at implementation 4a4a7b2bb89b094161743c030334785630b50ce8
+
+Quant owner successors: 13/13 pass.
+Data owner: 18/18 pass.
+Research history v2 owner: 27/27 pass.
+Skeptic history v4: 15/15 pass.
+Foundation: 18/18 pass.
+
+Full discovery: 148 methods; 108 pass; 40 errored methods / 43 error entries;
+zero assertion failures; zero skips; exit 1; NOT GREEN. All normalized error
+identities exactly match the previously classified corpus in
+reports/director-verification/quant-release-results.v1.json. No new or missing
+error identity. Classification: 20 legacy Research-v1 checkpoint fixture errors,
+10 legacy Skeptic-v3 checkpoint fixture errors, and 13 inherited adversarial
+entries. Preserved originals were not edited, skipped or inverted.
+
+Repository validator: 56 records and published initial history validated; capital
+LOCKED; no scientific or operational approval. Python compileall and diff whitespace
+checks passed. Forty pre-existing test/fixture files are unchanged from release base
+0659967261876ef70d2db0745a31b0a85a24cff3; tests/test_quant_protocol.py is additive.
+Completion artifacts were then validated separately: 59 records and published
+history valid; foundation 18/18 pass; 29/29 frozen inventory hashes match.

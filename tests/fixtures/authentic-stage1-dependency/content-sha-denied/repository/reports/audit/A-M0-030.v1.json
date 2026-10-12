@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-030",
+  "version": 1,
+  "occurred_at": "2026-09-29T23:00:30Z",
+  "actor": "05 Skeptic",
+  "role": "05 Skeptic",
+  "event_type": "M0_2_ORCHESTRATION_INDEPENDENT_REVIEW_REJECTED_REMEDIATION_QUEUED",
+  "subject_ref": "docs/handoffs/H-M0-027.v6.json",
+  "previous_state": "M0_BLOCKED_STOP_OPEN_SANDBOX_AWAITING_INDEPENDENT_REVIEW",
+  "new_state": "M0_BLOCKED_STOP_OPEN_SANDBOX_REJECTED_AWAITING_REMEDIATION",
+  "reason": "Seven HIGH findings show caller-controlled DISPATCH or gate advancement; mock-only containment prevents current external effects but does not satisfy the governance decision invariant.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-orchestration-skeptic-review.v1.md",
+    "tests/test_skeptic_orchestration_v1.py",
+    "reports/skeptic-orchestration-review/results.v1.json",
+    "reports/skeptic-orchestration-review/preservation.v1.json",
+    "docs/handoffs/H-M0-028.v1.json"
+  ],
+  "code_ref": "660bc13b65a031e97611610a1833d9cfdf4657d4",
+  "config_ref": "docs/project-state.json; reports/stops/STOP-M0-001.v1.json; portfolio/bankroll.json; portfolio/risk-policy.json",
+  "correlation_id": "H-M0-027",
+  "supersedes": null
+}

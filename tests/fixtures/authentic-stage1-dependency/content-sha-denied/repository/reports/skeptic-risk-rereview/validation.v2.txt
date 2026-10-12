@@ -1,0 +1,47 @@
+H-M0-022 independent Risk SR01-SR06 re-review validation
+Timestamp: 2026-09-28T22:48:26Z
+Review base: 3f5dcfdd0cfda6db33f4eb2ca7447f2746253be1
+Claim commit: f7187171e130c100978f5bf73436ab01547f23eb
+Risk implementation: 806ed55d68ae8bfafd3f1680960ba0baa339f011
+
+Focused successor:
+  .venv/bin/python -m unittest discover -s tests -p 'test_skeptic_risk_v2.py' -v
+  10 methods, 10 passed.
+  SR07 HIGH and SR08 MEDIUM methods are successful vulnerability characterizations.
+
+Risk owner:
+  .venv/bin/python -m unittest discover -s tests -p 'test_risk_controls.py' -v
+  14 methods, 14 passed.
+
+Historical Skeptic Risk v1, byte-unchanged:
+  .venv/bin/python -m unittest discover -s tests -p 'test_skeptic_risk_v1.py' -v
+  21 methods: 1 passed, 16 errored, 4 failed.
+  This is the exact expected hardened-prerequisite/contradicted-assertion profile.
+
+Full discovery:
+  .venv/bin/python -m unittest discover -s tests -v
+  230 methods in 759.595s: 161 passed, 64 preserved errors, 5 preserved failures, 0 skips.
+  The 10 new v2 methods pass. The red identities are the previously published historical set.
+
+Other validation:
+  .venv/bin/python -m src.edgelab.validate
+  PASS: 98 records and published history validated; M0 capital remains LOCKED;
+  no scientific or operational approval.
+
+  .venv/bin/python -m compileall -q src tests
+  PASS.
+
+  git diff --check
+  PASS.
+
+Preservation:
+  tests/test_skeptic_risk_v1.py SHA-256 remains
+  c3d1c0c18d9443561fceaad297102abd26e36d00b2d49a5b39da9889a5ae4fcb.
+  All 13 Risk completion-inventory implementation files are unchanged.
+  STOP, bankroll, Risk policy and project state retain their published hashes.
+
+Safety state:
+  STOP-M0-001 OPEN.
+  Conceptual capital 5000 minor units.
+  Live deployable 0; reserved 0; live LOCKED; kill ENGAGED.
+  No scientific, paper, live, capital or operational authorization is created by this review.

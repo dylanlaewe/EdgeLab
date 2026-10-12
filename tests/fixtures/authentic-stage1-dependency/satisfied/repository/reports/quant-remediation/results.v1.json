@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "purpose": "H-M0-005 Quant remediation validation; synthetic scientific-integrity evidence only",
+  "claim_commit": "5ba62f353318c3050ed5b7ca10f6ac190b2228f0",
+  "implementation_commit": "4a4a7b2bb89b094161743c030334785630b50ce8",
+  "focused": {
+    "quant": {"methods": 13, "passed": 13, "failed": 0, "errored": 0, "skipped": 0},
+    "data": {"methods": 18, "passed": 18, "failed": 0, "errored": 0, "skipped": 0},
+    "research_history_v2": {"methods": 27, "passed": 27, "failed": 0, "errored": 0, "skipped": 0},
+    "skeptic_history_v4": {"methods": 15, "passed": 15, "failed": 0, "errored": 0, "skipped": 0},
+    "foundation": {"methods": 18, "passed": 18, "failed": 0, "errored": 0, "skipped": 0}
+  },
+  "full_discovery": {
+    "methods": 148,
+    "passing_methods": 108,
+    "errored_methods": 40,
+    "error_entries": 43,
+    "failure_count": 0,
+    "skip_count": 0,
+    "successful": false,
+    "historical_error_identities_match": true,
+    "new_error_names": [],
+    "missing_prior_error_names": [],
+    "classification": {
+      "legacy_research_v1_missing_mandatory_checkpoint_methods": 20,
+      "legacy_skeptic_v3_missing_mandatory_checkpoint_methods": 10,
+      "inherited_adversarial_error_entries": 13,
+      "note": "The four H01 state subtests make 43 entries from 40 methods. All identities equal reports/director-verification/quant-release-results.v1.json after normalizing unittest display syntax."
+    }
+  },
+  "repository_validation": {
+    "records": 56,
+    "published_history_checked": true,
+    "capital_status": "LOCKED",
+    "scientific_or_operational_approval": false
+  },
+  "preservation": {
+    "base": "0659967261876ef70d2db0745a31b0a85a24cff3",
+    "historical_test_and_fixture_files": 40,
+    "changed_historical_test_or_fixture_files": [],
+    "new_test_files": ["tests/test_quant_protocol.py"],
+    "changed_stop_or_review_files": []
+  },
+  "finding_to_test": {
+    "actual_input_and_split_binding": [
+      "test_split_swap_reorder_and_overlap_rejected",
+      "test_trial_config_code_seed_and_actual_input_substitution_rejected"
+    ],
+    "research_freshness_integration": [
+      "test_positive_current_disjoint_deterministic_claim_has_no_authorization",
+      "test_frozen_protocol_pin_and_preaccess_checkpoint_binding_rejected",
+      "test_prior_repeated_or_partial_holdout_trial_denied"
+    ],
+    "complete_trial_inventory": [
+      "test_positive_current_disjoint_deterministic_claim_has_no_authorization",
+      "test_missing_failed_trial_and_status_rewrite_rejected",
+      "test_prior_repeated_or_partial_holdout_trial_denied"
+    ],
+    "checkpoint_currency_and_race": [
+      "test_missing_unknown_and_stale_authority_deny",
+      "test_rollback_current_checkpoint_denied",
+      "test_later_accepted_exposure_deleted_cannot_hide_behind_old_checkpoint",
+      "test_atomic_compare_and_commit_denies_change_after_final_recheck"
+    ],
+    "config_code_seed_environment_binding": [
+      "test_trial_config_code_seed_and_actual_input_substitution_rejected",
+      "test_frozen_protocol_pin_and_preaccess_checkpoint_binding_rejected"
+    ],
+    "output_and_reproduction_binding": [
+      "test_output_metrics_reproduction_identity_and_runner_mutations_rejected",
+      "test_positive_current_disjoint_deterministic_claim_has_no_authorization"
+    ],
+    "schema_and_non_authorization": [
+      "test_quant_schema_required_fields_and_extra_properties",
+      "test_repository_structural_validation_is_not_confirmation",
+      "test_positive_current_disjoint_deterministic_claim_has_no_authorization"
+    ]
+  },
+  "commands": [
+    ".venv/bin/python -m unittest discover -s tests -p 'test_quant_protocol.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_data_integrity.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_research_history_v2.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_skeptic_history_v4.py' -v",
+    ".venv/bin/python -m unittest discover -s tests -p 'test_foundation.py' -v",
+    "unittest.TestLoader().discover('tests') executed with a machine-readable unittest.TestResult comparator against reports/director-verification/quant-release-results.v1.json",
+    ".venv/bin/python -m compileall -q src tests/test_quant_protocol.py",
+    ".venv/bin/python -m src.edgelab.validate",
+    "git diff --check"
+  ]
+}

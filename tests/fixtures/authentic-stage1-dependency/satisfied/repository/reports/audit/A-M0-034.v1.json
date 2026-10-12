@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-034",
+  "version": 1,
+  "occurred_at": "2026-09-30T20:46:04Z",
+  "actor": "05 Skeptic",
+  "role": "05 Skeptic",
+  "event_type": "M0_2_BOUNDED_ACCEPTANCE_DENIED_CURRENT_HEAD_RESIDUALS",
+  "subject_ref": "docs/handoffs/H-M0-035.v3.json",
+  "previous_state": "M0_BLOCKED_STOP_OPEN_M0_2_AWAITING_BOUNDED_ACCEPTANCE",
+  "new_state": "M0_BLOCKED_STOP_OPEN_M0_2_NOT_ACCEPTED",
+  "reason": "Stale assignment and dependency heads can dispatch, and denial receipts do not bind authoritative state.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-orchestration-bounded-acceptance-review.v1.md",
+    "tests/test_skeptic_orchestration_v6.py",
+    "reports/skeptic-orchestration-bounded-acceptance-review/results.v1.json",
+    "reports/skeptic-orchestration-bounded-acceptance-review/preservation.v1.json",
+    "docs/handoffs/H-M0-036.v1.json"
+  ],
+  "code_ref": "1fdbba4",
+  "config_ref": "orchestration/scheduler-state.json; orchestration/assignments/T-SYNTHETIC-001.v1.json; orchestration/tasks/T-SYNTHETIC-001.v1.json",
+  "correlation_id": "H-M0-035",
+  "supersedes": null
+}
