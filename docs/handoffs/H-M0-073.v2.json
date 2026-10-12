@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-073",
+  "version": 2,
+  "created_at": "2026-10-12T20:36:34Z",
+  "sender": "05 Skeptic",
+  "recipient": "05 Skeptic",
+  "status": "CLAIMED",
+  "request": "Perform the focused independent planning-acceptance review of the completed V12/V13 M0.2 to M0.3A decision-evidence package.",
+  "work_done": "Skeptic session 05-skeptic-envelope-v12-plan-review-20261012 claims the sole-writer slot at synchronized base 2a7122d8e94611710861e223dccdffe833389db8. Scope is additive Skeptic review evidence only. Frozen M0.2, Director contracts/schemas/fixtures, M0.3A runtime and production code remain read-only.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-073.v1.json",
+    "docs/handoffs/H-M0-072.v2.json",
+    "docs/M0.2_DECISION_EVIDENCE_ENVELOPE.v12.md",
+    "schemas/m0-2-decision-evidence-envelope.v12.schema.json",
+    "schemas/m0-2-engine-distribution.v5.schema.json",
+    "tests/fixtures/m0-2-v12-dispatch.json",
+    "tests/fixtures/m0-2-v12-deny.json",
+    "docs/M0.2_DECISION_EVIDENCE_ACCEPTANCE_MATRIX.v7.md",
+    "docs/M0.3A_TRANSACTIONAL_CONTRACT.v13.md",
+    "docs/handoffs/H-M0-041.v20.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-073.v2.json"
+  ],
+  "tests_run": [
+    "Preflight: clean EdgeLab main equals origin/main at 2a7122d8e94611710861e223dccdffe833389db8; required Director SHA is remote head; both STOPs OPEN; M0 blocked; M1 unreleased; Data blocked; capital LOCKED."
+  ],
+  "open_questions": [
+    "Whether V12/V13 is internally satisfiable, root-traversable and implementation-grade without security-critical invention."
+  ],
+  "blockers": [
+    "H-M0-041.v20 remains BLOCKED pending this disposition and a separate Director release.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN."
+  ],
+  "next_action": "Publish focused V12/V13 planning disposition and reproducible evidence.",
+  "completion_criteria": [
+    "Independently inspect and attack the golden graphs and all requested surfaces, validate, commit, push and yield the writer slot."
+  ],
+  "depends_on": [
+    "H-M0-072"
+  ]
+}
