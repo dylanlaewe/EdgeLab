@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-079",
+  "version": 3,
+  "created_at": "2026-10-12T23:00:28Z",
+  "sender": "05 Skeptic",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Perform the focused independent final re-review of the remediated authentic-history and authoritative-currentness planning package.",
+  "work_done": "Completed the focused final re-review. Verdict M0_2_M0_3_ADAPTER_PLAN_REQUIRES_REVISION. The composed verifier still accepts forged output, recomputed package bytes and an unpinned required schema because it regenerates a graph from mutable capture state and never runs frozen replay. Persisted blobs have no bytes/reconstruction contract. Currentness reads caller-selected JSON fixtures, misses repository A-to-B races and cross-generation inconsistency, and lacks actual repository/SQLite locking. Historical-invalid and historical-verifier outputs are not v3, and no composed R-gate exists.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-079.v1.json",
+    "docs/handoffs/H-M0-079.v2.json",
+    "reports/reviews/M0.2-M0.3-final-evidence-plan-rereview.v1.md",
+    "reports/skeptic-final-evidence-rereview/results.v1.json",
+    "reports/skeptic-final-evidence-rereview/preservation.v1.json",
+    "reports/skeptic-final-evidence-rereview/validation.v1.txt",
+    "tests/test_skeptic_final_evidence_plan_v15.py",
+    "reports/audit/A-M0-063.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-079.v2.json",
+    "docs/handoffs/H-M0-079.v3.json",
+    "reports/reviews/M0.2-M0.3-final-evidence-plan-rereview.v1.md",
+    "reports/skeptic-final-evidence-rereview/results.v1.json",
+    "reports/skeptic-final-evidence-rereview/preservation.v1.json",
+    "reports/skeptic-final-evidence-rereview/validation.v1.txt",
+    "tests/test_skeptic_final_evidence_plan_v15.py",
+    "reports/audit/A-M0-063.v1.json"
+  ],
+  "tests_run": [
+    "Four exact offline replay families passed.",
+    "Director composed-history plain-function checks were invoked explicitly; authoritative-currentness unittest suite passed.",
+    "Focused 13-method Skeptic suite reproduced six accepted attacks and persistence/v3 gaps.",
+    "Transactional scheduler regression, compileall, JSON parsing, preservation and frozen-diff checks passed.",
+    "Repository validation remains blocked by synchronized Director timestamps and the cyclic H-M0-041 dependency chain."
+  ],
+  "open_questions": [
+    "Director must publish a replaying verifier over independently persisted bytes and pinned package/schema/runtime/Git closure.",
+    "Director must bind currentness to actual repository/attachment/SQLite authority under locks and final source rechecks, then compose v3 R-gated authorization."
+  ],
+  "blockers": [
+    "Data remains BLOCKED; this review grants no release.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 blocked; M1 unreleased; capital LOCKED."
+  ],
+  "next_action": "Director remediates the remaining HIGH contract gaps, reconciles final authority/matrix references and completes H-M0-077/H-M0-078 before requesting another focused review.",
+  "completion_criteria": [
+    "Persisted bytes reconstruct exact frozen replay and coordinated result/package/schema forgery denies.",
+    "Currentness resolves actual locked authorities, catches repository/runtime races and generation inconsistency, and returns valid v3 for every outcome.",
+    "One defined R-gate consumes trusted historical evidence plus authoritative currentness without caller-selected trust inputs."
+  ],
+  "depends_on": ["H-M0-076", "H-M0-078"]
+}

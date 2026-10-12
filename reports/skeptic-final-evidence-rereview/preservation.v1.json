@@ -1,0 +1,199 @@
+{
+  "schema_version": 1,
+  "base_commit": "235c69e2e427ccb1883159a5bfe2913c0e62105b",
+  "files": [
+    {
+      "path": "docs/M0.2_DECISION_EVIDENCE_AUTHORITATIVE_SET.v1.md",
+      "git_blob_at_base": "a3c33bd4f6251cc81c0b7b712f9b948345a29a8e",
+      "sha256": "76ca90b8820b0c7c588a9fb564b1f0fbc56dfe17c33b26d8caad95f96fdcacba",
+      "preserved": true
+    },
+    {
+      "path": "docs/M0.2_DECISION_EVIDENCE_ACCEPTANCE_MATRIX.v9.md",
+      "git_blob_at_base": "838383408846961504850fd3de71e22eb05ca32a",
+      "sha256": "faa0a6e847f420e6f67deb170d0878b867cc260040f1fc1fdd3054ddb77abca6",
+      "preserved": true
+    },
+    {
+      "path": "docs/M0.2_STAGE1_TRUST_ROOT.v1.json",
+      "git_blob_at_base": "0a066269ba063416e82d39cca676de86adc850ac",
+      "sha256": "5000110166a5c0e55aab3656002f3413ffd2e445efc15a528a43f3c4b238f5dd",
+      "preserved": true
+    },
+    {
+      "path": "docs/M0.2_AUTHENTIC_CAPTURE_FORMAT.v1.md",
+      "git_blob_at_base": "67bde50be2df618aa4a02ab2e544e03a29a39016",
+      "sha256": "4d401c18976ad90997c334bbfd02837ba7741ace7515d98dcc020f5cfc3b8767",
+      "preserved": true
+    },
+    {
+      "path": "schemas/m0-2-authentic-capture.v1.schema.json",
+      "git_blob_at_base": "2554794da35d97c92675e2c23352d22d4615ec70",
+      "sha256": "517f6800d10d34cbadd185268dae1027ca9d0f2f61d1e190e472f7084ee6ed21",
+      "preserved": true
+    },
+    {
+      "path": "schemas/m0-2-persisted-authentic-capture.v1.schema.json",
+      "git_blob_at_base": "2f5f6e408f0aeb76075fd2cc7730e60b8edfe15f",
+      "sha256": "81b9067ec9d3d02dace9078bf2d4ad6100516f3f840277fccbb4c1034038b728",
+      "preserved": true
+    },
+    {
+      "path": "docs/M0.2_AUTHENTIC_CAPTURE_PROVENANCE.v1.md",
+      "git_blob_at_base": "3cc22433b40639f05201df7774bb6baaf361ac6f",
+      "sha256": "fbab8dd6dcc970fda0e2ddf47ce8b22e9e50dd3d388cd07e63968088fe5eefa5",
+      "preserved": true
+    },
+    {
+      "path": "docs/M0.2_CURRENTNESS_EXECUTABLE_CONTRACT.v1.md",
+      "git_blob_at_base": "91ff81df5c30a54f1b9a7efe46bd2f85c9e0a1e8",
+      "sha256": "69876327fb0a86e79e23a2be9efa29d3554d053ef056c18b39b65befcfc14759",
+      "preserved": true
+    },
+    {
+      "path": "schemas/m0-2-currentness-snapshot.v1.schema.json",
+      "git_blob_at_base": "a15ac7007737e0d82a3d8898dfd843080ba02d11",
+      "sha256": "d8d8765816766acda0e206373c86a3d2a7b8b5a640a544967a5d12733c04cc5a",
+      "preserved": true
+    },
+    {
+      "path": "schemas/m0-2-decision-evidence-verification-result.v3.schema.json",
+      "git_blob_at_base": "84503ca033425cf8eb34bed31bfa8638f1a21895",
+      "sha256": "7d6abd187ef1fe415c9e2fb701e0f0dfc306214d34592caf4858c221cf976ecf",
+      "preserved": true
+    },
+    {
+      "path": "tools/generate_persisted_authentic_capture.py",
+      "git_blob_at_base": "154f0277730048d0793adc813427c1459cd3137a",
+      "sha256": "76d2a846de2cb14f8abe66dcd508e096a53c099feb637e0158d2150ddd1bc910",
+      "preserved": true
+    },
+    {
+      "path": "tools/verify_authentic_history.py",
+      "git_blob_at_base": "243182e846d695c0370e6fe13d8a18c3411ffc44",
+      "sha256": "c461cbea53f9199704d75583bffc73f6bce7c6eee6257b9de1454311dea5ac21",
+      "preserved": true
+    },
+    {
+      "path": "tools/resolve_authoritative_currentness.py",
+      "git_blob_at_base": "ac649dff17e4f959556e904f4b910fa33f6f1f7a",
+      "sha256": "5482783bc81bbcb4b1881cd12adc7917bcd12ece11d99792462c71682f2f2b5c",
+      "preserved": true
+    },
+    {
+      "path": "tools/replay_frozen_stage1_evidence.py",
+      "git_blob_at_base": "644e5f1eb394f5e3664e32cfe6b064f76b002dc8",
+      "sha256": "853c4edb12062e8bf5da8daf4e2c9d67ee6446e9bad15d46c48a7cfdc8135869",
+      "preserved": true
+    },
+    {
+      "path": "tests/test_composed_authentic_history.py",
+      "git_blob_at_base": "5c803b86e7c395479d59fb42f1ba6a5bc1170d14",
+      "sha256": "f9a180cf78acad756103b0002a3db1ad4de1f298d2ae092e75b90957cd920406",
+      "preserved": true
+    },
+    {
+      "path": "tests/test_authoritative_currentness.py",
+      "git_blob_at_base": "5d42402dce371d95c6a3530e8883f87e9d9c1890",
+      "sha256": "2800c7334bb829b6d4c8765002fa9674cc86fdfcdc1504ffde7ec1f5fe628bd8",
+      "preserved": true
+    },
+    {
+      "path": "tests/test_authentic_stage1_replay.py",
+      "git_blob_at_base": "95dc92bfd19b8cb33870cb4590fb616abfafa788",
+      "sha256": "2ad6adb6892584ba99ea0015415342d1f8d0225e6a8a87fdfceee1395f10bdc8",
+      "preserved": true
+    },
+    {
+      "path": "tests/fixtures/authentic-stage1/dispatch/authentic-capture.v1.json",
+      "git_blob_at_base": "ea1b06907cbcfea7529915550487e8250eabe742",
+      "sha256": "baa1686bbc3f1f5ae94cf209904bea86539815735c3fc52558f137892d23ed79",
+      "preserved": true
+    },
+    {
+      "path": "tests/fixtures/authentic-stage1/deny/authentic-capture.v1.json",
+      "git_blob_at_base": "842eb09904946f4f3873b1a5711c1cdb6cd5c475",
+      "sha256": "f1c977d3fba8bc603f8be3e4f0043cae4072027ee785719c0522309f86dcf1e7",
+      "preserved": true
+    },
+    {
+      "path": "tests/fixtures/authentic-stage1-dependency/satisfied/authentic-capture.v1.json",
+      "git_blob_at_base": "5adce73ee5b39818c1a7956543b2223fba95e9a1",
+      "sha256": "0f050613def0faa85ad66fa3a7ba52c04fbd1d7e721137f71bd439b781f66f21",
+      "preserved": true
+    },
+    {
+      "path": "tests/fixtures/authentic-stage1-dependency/content-sha-denied/authentic-capture.v1.json",
+      "git_blob_at_base": "541f6d5d24d6739c266a1211eb725fb8425f7efa",
+      "sha256": "2dee7878660ef63b27e0cf7397be253206965f8553d072625a9ca5e392cee873",
+      "preserved": true
+    },
+    {
+      "path": "reports/authentic-stage1-dependency/mutation-results.v1.json",
+      "git_blob_at_base": "158f44e0b1502aa73ae8f77d33e87d3b9281f0a1",
+      "sha256": "7a73e73643b71b70bcffe372779c54ed2623da4eeeba25fa041e3b1c1da6b798",
+      "preserved": true
+    },
+    {
+      "path": "reports/authentic-stage1-dependency/predicate-coverage.v1.md",
+      "git_blob_at_base": "21547802d9080c86bd04119252ad986a6c7ceab5",
+      "sha256": "7cb805d9c49cf51d14dec9d49f4b389dffcfc83c957c508b55a81a35e2d432ef",
+      "preserved": true
+    },
+    {
+      "path": "reports/authentic-stage1-dependency/source-graph.v1.json",
+      "git_blob_at_base": "2ecd9a5cc850b66033ce782fefed1a4592da5dfe",
+      "sha256": "8ebf57b88e5ecfd4f3600fa041424a60c98bdc42a757c9c8998cd9b3caa7b30f",
+      "preserved": true
+    },
+    {
+      "path": "reports/authoritative-currentness/results.v1.json",
+      "git_blob_at_base": "62cba2cbcde3d79826611b5fa0819d89aa7ce93e",
+      "sha256": "418cafa6b79517037bc5904c6ddb30646a7a7b2699d1d72f78a34c90451e8677",
+      "preserved": true
+    },
+    {
+      "path": "docs/M0.3A_TRANSACTIONAL_CONTRACT.v15.md",
+      "git_blob_at_base": "40a1cf5007e86d43ac32c5b2e8562f9e5bdbff81",
+      "sha256": "67839f699170275111d456eaf2a900867506a22e8d8132f24456c69c54bada79",
+      "preserved": true
+    },
+    {
+      "path": "docs/handoffs/H-M0-041.v23.json",
+      "git_blob_at_base": "55760c17ce14f9a507bde7a7faf07c0535ab9542",
+      "sha256": "bc61fd490495c60afe5bc9f8fb4f46964d33cc883d1170550dab36b870019468",
+      "preserved": true
+    },
+    {
+      "path": "docs/handoffs/H-M0-077.v1.json",
+      "git_blob_at_base": "78f8af37a65d0e4ce43c41a9f4a2e66ce5cf0ae1",
+      "sha256": "4eea8e8e0482f300a97706c1aa1905b9d302f61662bb87a721cf86b127396364",
+      "preserved": true
+    },
+    {
+      "path": "docs/handoffs/H-M0-078.v1.json",
+      "git_blob_at_base": "b686035d702d9e0bbbe664af9e892d2779741946",
+      "sha256": "25d3a40efd0c78ff678b8519a5d47e231ba127614549c64a7a8d0f6878b6b145",
+      "preserved": true
+    },
+    {
+      "path": "docs/handoffs/H-M0-079.v1.json",
+      "git_blob_at_base": "495043aaab56d1f50b83c28e4ab9a314db900861",
+      "sha256": "451586af6a1cf4ea5f6a1986be26620cec58b899a160e7a953e35f5059b0106b",
+      "preserved": true
+    },
+    {
+      "path": "reports/stops/STOP-M0-001.v1.json",
+      "git_blob_at_base": "09bdf12c3b9b9fb6588d600338e68298153dfa8f",
+      "sha256": "877eb367fde67eda4cbd33b72eea28e48d4f36f45253dc7fe40e3bfa9aa87571",
+      "preserved": true
+    },
+    {
+      "path": "reports/stops/STOP-M0-3A-001.v1.json",
+      "git_blob_at_base": "6c578f6d704dcdffe48e5945a38085cab571ae57",
+      "sha256": "82a478a87869aea66217ae5b3462cbc4773eaf469d8439016809d0213099315f",
+      "preserved": true
+    }
+  ],
+  "all_preserved": true
+}

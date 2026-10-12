@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "review": "H-M0-079",
+  "verdict": "M0_2_M0_3_ADAPTER_PLAN_REQUIRES_REVISION",
+  "requested_commit": "235c69e338c70f1ed2d8c7f4b1c20ae3969bc66f",
+  "reviewed_repository_commit": "235c69e2e427ccb1883159a5bfe2913c0e62105b",
+  "prior_high_dispositions": {
+    "self_consistent_historical_forgery": "OPEN_HIGH",
+    "persisted_representation": "OPEN_HIGH",
+    "authoritative_currentness": "OPEN_HIGH",
+    "v3_composition": "PARTIALLY_REMEDIATED_HIGH_REMAINS",
+    "runtime_git_package_closure": "OPEN_HIGH"
+  },
+  "positive_results": {
+    "four_exact_replays": "PASS",
+    "four_canonical_composed_baselines": "HISTORICALLY_VALID",
+    "dependency_predicate_coverage": "PASS",
+    "normal_currentness_v3": "PASS",
+    "selected_drift_and_runtime_race": "DENY",
+    "scheduler_regression": "PASS"
+  },
+  "accepted_attacks": [
+    "forged raw decision output plus false repository inventory",
+    "retained package mutation plus recomputed capture-local hash",
+    "unpinned required orchestration-task schema mutation",
+    "impossible platform architecture and Git model",
+    "repository A-to-B race after initial read",
+    "cross-field generation inconsistency with matching supplied binding"
+  ],
+  "contract_gaps": [
+    "persisted blobs contain hashes but no bytes or immutable byte-store contract",
+    "no ABSENT records or full Git observations",
+    "no persisted-graph verifier or replay reconstruction",
+    "currentness reads caller-selected JSON fixtures rather than repository/SQLite authority",
+    "historical-invalid currentness output and historical verifier output do not validate against v3",
+    "no composed R-gated authorization operation",
+    "authority set and matrix retain stale v14/prototype references",
+    "H-M0-077 and H-M0-078 remain CLAIMED without completion successors"
+  ],
+  "data_release": "NOT_AUTHORIZED",
+  "stops": ["STOP-M0-001:OPEN", "STOP-M0-3A-001:OPEN"],
+  "capital": {"conceptual_usd": 50, "deployable_usd": 0, "status": "LOCKED"}
+}

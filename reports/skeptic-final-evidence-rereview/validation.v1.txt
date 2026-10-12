@@ -1,0 +1,63 @@
+PASS: composed-history plain-function checks invoked explicitly
+tests.test_composed_authentic_history.test_baselines: PASS
+tests.test_composed_authentic_history.test_closure_and_identity: PASS
+tests.test_composed_authentic_history.test_forgery_families: PASS
+
+PASS: authoritative currentness, authentic/dependency and Skeptic unittest suites
+test_attachment_and_missing (tests.test_authoritative_currentness.Currentness.test_attachment_and_missing) ... ok
+test_conflict_and_race_and_multi (tests.test_authoritative_currentness.Currentness.test_conflict_and_race_and_multi) ... ok
+test_current (tests.test_authoritative_currentness.Currentness.test_current) ... ok
+test_repo_drifts (tests.test_authoritative_currentness.Currentness.test_repo_drifts) ... ok
+test_runtime_drifts (tests.test_authoritative_currentness.Currentness.test_runtime_drifts) ... ok
+test_actual_frozen_deny_replays_exactly (tests.test_authentic_stage1_replay.AuthenticStage1Replay.test_actual_frozen_deny_replays_exactly) ... ok
+test_actual_frozen_dispatch_replays_exactly (tests.test_authentic_stage1_replay.AuthenticStage1Replay.test_actual_frozen_dispatch_replays_exactly) ... ok
+test_forged_output_and_historical_mutation_fail (tests.test_authentic_stage1_replay.AuthenticStage1Replay.test_forged_output_and_historical_mutation_fail) ... ok
+test_completion_sha_is_derived_from_retained_task_bytes (tests.test_authentic_dependency_source_graph.DependencySourceGraph.test_completion_sha_is_derived_from_retained_task_bytes) ... ok
+test_sources_exist_once_and_cover_frozen_dependency_reads (tests.test_authentic_dependency_source_graph.DependencySourceGraph.test_sources_exist_once_and_cover_frozen_dependency_reads) ... ok
+test_current_state_cannot_replace_historical_binding (tests.test_authentic_dependency_currentness.Currentness.test_current_state_cannot_replace_historical_binding) ... ok
+test_historical_package_is_immutable_for_currentness_cases (tests.test_authentic_dependency_currentness.Currentness.test_historical_package_is_immutable_for_currentness_cases) ... ok
+test_all_current_authority_mutations_fail_closed (tests.test_non_dependency_currentness.Currentness.test_all_current_authority_mutations_fail_closed) ... ok
+test_currentness_positive_output_is_v3 (tests.test_skeptic_final_evidence_plan_v15.FinalEvidencePlanV15Skeptic.test_currentness_positive_output_is_v3) ... ok
+test_forged_output_is_accepted_by_composed_verifier (tests.test_skeptic_final_evidence_plan_v15.FinalEvidencePlanV15Skeptic.test_forged_output_is_accepted_by_composed_verifier) ... ok
+test_four_canonical_histories_remain_valid (tests.test_skeptic_final_evidence_plan_v15.FinalEvidencePlanV15Skeptic.test_four_canonical_histories_remain_valid) ... ok
+test_generation_inconsistent_authority_and_binding_can_allow (tests.test_skeptic_final_evidence_plan_v15.FinalEvidencePlanV15Skeptic.test_generation_inconsistent_authority_and_binding_can_allow) ... ok
+test_historical_invalid_currentness_output_is_not_v3 (tests.test_skeptic_final_evidence_plan_v15.FinalEvidencePlanV15Skeptic.test_historical_invalid_currentness_output_is_not_v3) ... ok
+test_historical_verifier_output_is_not_verification_result_v3 (tests.test_skeptic_final_evidence_plan_v15.FinalEvidencePlanV15Skeptic.test_historical_verifier_output_is_not_verification_result_v3) ... ok
+test_persisted_graph_has_no_blob_bytes_or_absence_records (tests.test_skeptic_final_evidence_plan_v15.FinalEvidencePlanV15Skeptic.test_persisted_graph_has_no_blob_bytes_or_absence_records) ... ok
+test_platform_architecture_and_git_boundary_are_ignored (tests.test_skeptic_final_evidence_plan_v15.FinalEvidencePlanV15Skeptic.test_platform_architecture_and_git_boundary_are_ignored) ... ok
+test_recomputed_package_forgery_is_accepted_by_composed_verifier (tests.test_skeptic_final_evidence_plan_v15.FinalEvidencePlanV15Skeptic.test_recomputed_package_forgery_is_accepted_by_composed_verifier) ... ok
+test_repository_a_to_b_race_is_not_rechecked (tests.test_skeptic_final_evidence_plan_v15.FinalEvidencePlanV15Skeptic.test_repository_a_to_b_race_is_not_rechecked) ... ok
+test_resolver_uses_json_fixtures_without_sqlite_or_locking (tests.test_skeptic_final_evidence_plan_v15.FinalEvidencePlanV15Skeptic.test_resolver_uses_json_fixtures_without_sqlite_or_locking) ... ok
+test_trace_is_diagnostic_only_for_normal_current_case (tests.test_skeptic_final_evidence_plan_v15.FinalEvidencePlanV15Skeptic.test_trace_is_diagnostic_only_for_normal_current_case) ... ok
+test_unpinned_frozen_schema_is_accepted_by_composed_verifier (tests.test_skeptic_final_evidence_plan_v15.FinalEvidencePlanV15Skeptic.test_unpinned_frozen_schema_is_accepted_by_composed_verifier) ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 14.009s
+
+OK
+
+PASS: exact four replay commands
+{"decision": "DISPATCH", "decision_id": "D-0a6e8268c4309df969a5384c4ce33063", "execution_adapter": "MOCK_ONLY", "operation": "SYNTHETIC_ASSERT", "reason": "repository-resolved synthetic task passed preflight", "task_id": "T-SYNTHETIC-001"}
+{"decision": "DENY", "decision_id": "D-25150701cc9d3f301f686d420e407c2f", "execution_adapter": "MOCK_ONLY", "reason": "STOP resolution status and event must agree", "task_id": "T-SYNTHETIC-001"}
+{"decision": "DISPATCH", "decision_id": "D-03d6aa8e833902266a2547b9393ebd94", "execution_adapter": "MOCK_ONLY", "operation": "SYNTHETIC_ASSERT", "reason": "repository-resolved synthetic task passed preflight", "task_id": "T-PRIMARY-001"}
+{"decision": "DENY", "decision_id": "D-dd4e6244a8643854f113bef4892a457d", "execution_adapter": "MOCK_ONLY", "reason": "Dependency completion evidence does not bind current head", "task_id": "T-PRIMARY-001"}
+
+PASS: transactional scheduler regression
+----------------------------------------------------------------------
+Ran 12 tests in 2.069s
+
+OK
+
+EXPECTED SYNCHRONIZED-BASE VALIDATION FAILURES:
+ValueError: docs/handoffs/H-M0-041.v22.json: Future completed fact: created_at
+ValueError: Dependency cycle: H-M0-041
+
+PASS: compileall
+
+PASS: parsed 1806 repository JSON files
+PASS: preservation verification 32/32
+PASS: four generated graphs validate the published persisted schema
+CHARACTERIZED: composed-history module registers 0 unittest tests; pytest unavailable/undeclared
+PASS: trusted-root and dependency-closure self digests recompute
+PASS: frozen Stage 1 implementation/core-test diff empty through remediation base
+PASS: git diff --check

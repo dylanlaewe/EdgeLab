@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-063",
+  "version": 1,
+  "occurred_at": "2026-10-12T23:00:28Z",
+  "actor": "05 Skeptic",
+  "role": "05 Skeptic",
+  "event_type": "M0_2_M0_3_FINAL_PLAN_REREVIEW_REQUIRES_REVISION",
+  "subject_ref": "docs/handoffs/H-M0-079.v3.json",
+  "previous_state": "M0_BLOCKED_FINAL_EVIDENCE_REVIEW_PENDING",
+  "new_state": "M0_BLOCKED_FINAL_EVIDENCE_REVISION_REQUIRED",
+  "reason": "Composed history still accepts coordinated output/package/schema forgery and cannot replay persisted bytes; currentness does not bind or lock actual repository/SQLite authority and misses repository races/generation inconsistency; v3/R-gate composition remains incomplete.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-M0.3-final-evidence-plan-rereview.v1.md",
+    "reports/skeptic-final-evidence-rereview/results.v1.json",
+    "reports/skeptic-final-evidence-rereview/preservation.v1.json",
+    "reports/skeptic-final-evidence-rereview/validation.v1.txt",
+    "tests/test_skeptic_final_evidence_plan_v15.py",
+    "docs/handoffs/H-M0-079.v3.json"
+  ],
+  "code_ref": "235c69e2e427ccb1883159a5bfe2913c0e62105b",
+  "config_ref": "docs/M0.2_DECISION_EVIDENCE_AUTHORITATIVE_SET.v1.md; schemas/m0-2-persisted-authentic-capture.v1.schema.json; tools/verify_authentic_history.py; tools/resolve_authoritative_currentness.py; docs/M0.3A_TRANSACTIONAL_CONTRACT.v15.md",
+  "correlation_id": "H-M0-079",
+  "supersedes": null
+}
