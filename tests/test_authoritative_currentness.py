@@ -20,3 +20,8 @@ class Currentness(unittest.TestCase):
   for key,val in [(('claim','id'),'x'),(('claim','fence'),2),(('generations','runtime'),2),(('generations','scheduler'),2),(('generations','dispatch'),2),(('generations','claim'),2),(('generations','fence'),2)]:self.check('runtime',key,val)
  def test_attachment_and_missing(self):
   self.check('runtime',('attachment_repository_id',),'other');d,p=source();(p/'repository.json').unlink();self.assertEqual(verify(p)['currentness_status'],'UNKNOWN');d.cleanup()
+ # edge authority cases
+ def test_conflict_and_race_and_multi(self):
+  d,p=source(); r=json.loads((p/'runtime.json').read_text());r['attachment_repository_id']='conflict-repository';(p/'runtime.json').write_text(json.dumps(r));self.assertEqual(verify(p)['authorizing_use'],'DENY');d.cleanup()
+  d,p=source();r=json.loads((p/'runtime.json').read_text());r['generation']=2;(p/'race-runtime.json').write_text(json.dumps(r));self.assertEqual(verify(p)['authorizing_use'],'DENY');d.cleanup()
+  d,p=source();r=json.loads((p/'repository.json').read_text());r['assignment']['head']='changed';r['stops']=[{'id':'S','head':'OPEN','generation':1}];(p/'repository.json').write_text(json.dumps(r));m=json.loads((p/'runtime.json').read_text());m['generations']['runtime']=2;(p/'runtime.json').write_text(json.dumps(m));a=verify(p);b=verify(p);self.assertEqual(a,b);self.assertEqual(a['authorizing_use'],'DENY');d.cleanup()
