@@ -1,0 +1,58 @@
+M0.2 to M0.3A decision-evidence adapter planning review v9
+Director V9 base reviewed: 987ecaddcce89cd35179a74310c2ad0bc4011920
+Accepted Stage 1 freeze: bc3a40924ca580ca6eddc4c24e32ff99ddd95330
+Skeptic claim commit: 3ef37c6cbf3269cc23d5850cb76b22c0346db946
+
+1. Scope
+   PASS: additive Skeptic review artifacts only; no contract, schema, adapter,
+   scheduler, runtime, STOP, project-state, capital or production file changed.
+
+2. V9 schema adversarial probes
+   PASS: .venv/bin/python -m unittest discover -s tests -p
+   test_skeptic_decision_envelope_plan_v9.py -v
+   Ran 15 tests; OK. The probes confirm exact frozen raw DENY/DISPATCH,
+   normalized DENY, correct closure digest and DIRECTORY closure, and expose
+   unsatisfiable canonical input, missing evidence graph, engine-v3 replay
+   regression, impossible ABSENT digest inputs, incomplete transitive closure,
+   noncanonical replay paths, DENY/NONE acceptance and V10/V9 conflict.
+
+3. Current focused regressions
+   PASS: .venv/bin/python -m unittest -q
+   tests.test_skeptic_decision_envelope_plan_v9
+   tests.test_skeptic_decision_envelope_plan_v8
+   tests.test_transactional_scheduler tests.test_orchestration
+   tests.test_orchestration_final
+   Ran 47 tests; OK.
+
+4. Frozen Stage 1 regressions
+   PASS in detached temporary worktree at
+   bc3a40924ca580ca6eddc4c24e32ff99ddd95330 using the repository venv:
+   tests.test_skeptic_orchestration_v8 + tests.test_orchestration +
+   tests.test_orchestration_final; Ran 37 tests; OK. Temporary worktree removed.
+   Direct frozen calls returned five-field DENYs with no operation field;
+   frozen source defines the six-field DISPATCH branch including operation.
+
+5. Closure and package evidence
+   PASS: closure v3 claimed and recomputed digest both
+   cb7eeaac6c4840f1975c495cde27c98c84dc54cfbd741900bb14d04d4f4b0ad9;
+   a fixture mutation changed the digest.
+   FAIL: pinned jsonschema 4.23.0 unconditionally requires
+   jsonschema-specifications, but closure v3 omits it.
+
+6. Repository validation and compileall
+   PASS: .venv/bin/python -m src.edgelab.validate
+   Pre-publication run validated 270 records and published history.
+   M0 capital remains LOCKED; no scientific or operational approval.
+   PASS: .venv/bin/python -m compileall -q src tests
+
+7. Preservation, JSON and diff checks
+   PASS: 24/24 Director/frozen artifacts match Git blobs at the reviewed base.
+   PASS: 474 repository JSON files parsed before publication.
+   PASS: frozen Stage 1 and historical v8 probe unchanged; no src/,
+   orchestration/, contract, schema, portfolio, STOP or project-state file was
+   modified; git diff --check passed.
+
+8. Safety state
+   STOP-M0-001 and STOP-M0-3A-001 OPEN; M0 blocked; M1 unreleased;
+   Data blocked; executor MOCK_ONLY; conceptual bankroll 5000 minor,
+   deployable/reserved 0; live LOCKED; kill ENGAGED. No operational activity.

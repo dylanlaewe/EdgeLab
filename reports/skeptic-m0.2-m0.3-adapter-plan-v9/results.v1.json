@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "review": "M0_2_M0_3_DECISION_EVIDENCE_ADAPTER_PLAN_V9_REVIEW",
+  "verdict": "M0_2_M0_3_ADAPTER_PLAN_REQUIRES_REVISION",
+  "reviewed_base_sha": "987ecaddcce89cd35179a74310c2ad0bc4011920",
+  "claim_sha": "3ef37c6cbf3269cc23d5850cb76b22c0346db946",
+  "stage_1_freeze_sha": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+  "stage_1_unchanged": true,
+  "planning_findings": {
+    "blocker": [
+      "v9_canonical_input_allof_is_unsatisfiable_because_closed_v8_input_forbids_all_required_v9_extension_fields",
+      "v9_envelope_omits_and_does_not_reference_blob_artifact_source_git_engine_import_validation_and_closure_evidence",
+      "engine_distribution_v3_drops_interpreter_local_artifact_manifest_launcher_shim_workdir_module_path_and_environment_bindings",
+      "absent_schema_cannot_carry_source_class_and_absence_context_required_by_v9_digest_formula",
+      "transactional_contract_v10_adopts_envelope_v8_instead_of_v9"
+    ],
+    "high": [
+      "closure_v3_omits_unconditional_jsonschema_specifications_distribution",
+      "dependency_required_current_and_completion_predicates_do_not_directly_encode_frozen_logic",
+      "handoff_assignment_claim_relationship_omits_writer_and_assignment_head_equality",
+      "v9_supersedes_prior_plans_without_a_complete_separate_currentness_comparison"
+    ],
+    "medium": [
+      "import_and_validation_paths_accept_dot_and_empty_segments_despite_explicit_v9_grammar",
+      "verification_result_schema_accepts_deny_with_none_despite_explicit_v9_semantic_rejection"
+    ],
+    "low": []
+  },
+  "schema_characterization": {
+    "frozen_raw_deny_schema_valid": true,
+    "raw_deny_operation_rejected": true,
+    "normalized_deny_null_operation_required": true,
+    "frozen_dispatch_schema_valid": true,
+    "closure_digest_valid": true,
+    "closure_mutation_detected": true,
+    "canonical_input_satisfiable": false,
+    "evidence_graph_present_or_referenced": false,
+    "engine_replay_bindings_present": false,
+    "distribution_ids_present": true,
+    "directory_other_rejected_structurally": true,
+    "absent_digest_inputs_representable": false,
+    "noncanonical_dot_or_empty_path_segments_rejected_structurally": false,
+    "jsonschema_specifications_in_closure": false,
+    "v10_adopts_v9": false,
+    "unsafe_allow_combinations_rejected": true,
+    "contradictory_deny_none_rejected_structurally": false
+  },
+  "evidence_only_operations_non_operational": true,
+  "v3_state_machine_preserved": true,
+  "handoff_h_m0_041_v17_implementation_ready": false,
+  "stop_m0_3a_001_planning_side_resolved": false,
+  "runtime_adapter_implemented": false,
+  "data_released": false,
+  "stop_records_open": [
+    "STOP-M0-001",
+    "STOP-M0-3A-001"
+  ],
+  "phase": "M0_BLOCKED",
+  "m1_released": false,
+  "executor": "MOCK_ONLY",
+  "capital_minor": {
+    "conceptual": 5000,
+    "deployable": 0,
+    "reserved": 0
+  },
+  "live": "LOCKED",
+  "kill": "ENGAGED"
+}
