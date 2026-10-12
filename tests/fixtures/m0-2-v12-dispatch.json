@@ -1,0 +1,329 @@
+{
+  "schema_version": 12,
+  "metadata": {
+    "envelope_id": "E-DISPATCH",
+    "freeze_commit": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330"
+  },
+  "historical_input": {
+    "intent": {
+      "task_id": "T1",
+      "attempt": 1
+    },
+    "task": {
+      "id": "T1",
+      "artifact_id": "task",
+      "version": 1,
+      "head_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "assignment": {
+      "id": "A1",
+      "artifact_id": "assign",
+      "version": 1,
+      "head_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "handoff": {
+      "id": "H1",
+      "artifact_id": "handoff",
+      "version": 1,
+      "head_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "claim_fixture_id": "C1",
+    "project": {
+      "artifact_id": "project",
+      "phase": "M0",
+      "status": "BLOCKED",
+      "live_status": "LOCKED"
+    },
+    "stop_inventory_id": "stop",
+    "dependencies": [
+      {
+        "task": {
+          "id": "D1",
+          "artifact_id": "dep",
+          "version": 1,
+          "head_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "completion": {
+          "id": "CPL1",
+          "artifact_id": "completion",
+          "version": 1,
+          "head_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "completion_count": 1,
+        "content_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "CAP1",
+        "artifact_id": "cap",
+        "version": 1,
+        "head_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    ],
+    "repository_id": "R1",
+    "git_observation_id": "G1",
+    "evaluation_time": "2026-10-12T00:00:00Z",
+    "inventory_ids": [
+      "stop"
+    ]
+  },
+  "currentness_binding": {
+    "repository_id": "R1",
+    "runtime_id": "RT1",
+    "attachment_id": "AT1",
+    "task_id": "T1",
+    "attempt": 1,
+    "workflow": "ACTIVE",
+    "execution": "CLAIMED",
+    "review": "NOT_REQUIRED",
+    "generations": {
+      "repository": 0,
+      "runtime": 0,
+      "scheduler": 0,
+      "dispatch": 0,
+      "fence": 0,
+      "assignment": 0,
+      "handoff": 0,
+      "claim": 0
+    },
+    "claim_state": "ACTIVE",
+    "fence": 0
+  },
+  "source_manifest": {
+    "manifest_id": "SM1",
+    "version": 1,
+    "source_artifact_ids": [
+      "task"
+    ],
+    "inventory_ids": [
+      "stop"
+    ],
+    "absence_artifact_ids": [],
+    "canonical_input_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "source_set_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "artifacts": [
+    {
+      "kind": "FILE",
+      "artifact_id": "task",
+      "source_id": "s-task",
+      "blob_id": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "path": "replay/task.json",
+      "raw_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "kind": "FILE",
+      "artifact_id": "assign",
+      "source_id": "s-assign",
+      "blob_id": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "path": "replay/assign.json",
+      "raw_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "kind": "FILE",
+      "artifact_id": "handoff",
+      "source_id": "s-handoff",
+      "blob_id": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "path": "replay/handoff.json",
+      "raw_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "kind": "FILE",
+      "artifact_id": "project",
+      "source_id": "s-project",
+      "blob_id": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "path": "replay/project.json",
+      "raw_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "kind": "FILE",
+      "artifact_id": "stop",
+      "source_id": "s-stop",
+      "blob_id": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "path": "replay/stop.json",
+      "raw_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "kind": "FILE",
+      "artifact_id": "dep",
+      "source_id": "s-dep",
+      "blob_id": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "path": "replay/dep.json",
+      "raw_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "kind": "FILE",
+      "artifact_id": "completion",
+      "source_id": "s-completion",
+      "blob_id": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "path": "replay/completion.json",
+      "raw_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "kind": "FILE",
+      "artifact_id": "cap",
+      "source_id": "s-cap",
+      "blob_id": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "path": "replay/cap.json",
+      "raw_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "kind": "FILE",
+      "artifact_id": "engine",
+      "source_id": "s-engine",
+      "blob_id": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "path": "replay/engine.json",
+      "raw_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "kind": "FILE",
+      "artifact_id": "launcher",
+      "source_id": "s-launcher",
+      "blob_id": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "path": "replay/launcher.json",
+      "raw_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "kind": "FILE",
+      "artifact_id": "clock",
+      "source_id": "s-clock",
+      "blob_id": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "path": "replay/clock.json",
+      "raw_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "kind": "FILE",
+      "artifact_id": "git",
+      "source_id": "s-git",
+      "blob_id": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "path": "replay/git.json",
+      "raw_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "kind": "FILE",
+      "artifact_id": "schema",
+      "source_id": "s-schema",
+      "blob_id": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "path": "replay/schema.json",
+      "raw_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    }
+  ],
+  "blobs": [
+    {
+      "blob_id": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "algorithm": "sha256",
+      "digest": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "byte_length": 2,
+      "encoding": "base64",
+      "content_base64": "e30="
+    }
+  ],
+  "git_observation": {
+    "observation_id": "G1",
+    "repository_id": "R1",
+    "head": {
+      "algorithm": "git-sha1",
+      "value": "0000000000000000000000000000000000000000"
+    },
+    "origin_main": {
+      "algorithm": "git-sha1",
+      "value": "0000000000000000000000000000000000000000"
+    },
+    "origin_url": "x",
+    "ancestry_left": {
+      "algorithm": "git-sha1",
+      "value": "0000000000000000000000000000000000000000"
+    },
+    "ancestry_right": {
+      "algorithm": "git-sha1",
+      "value": "0000000000000000000000000000000000000000"
+    },
+    "head_reachable": true,
+    "observation_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "engine_distribution": {
+    "distribution_id": "ENG1",
+    "working_directory": "replay",
+    "environment": {
+      "PYTHONHASHSEED": "0",
+      "LC_ALL": "C.UTF-8",
+      "TZ": "UTC",
+      "PYTHONIOENCODING": "utf-8"
+    },
+    "packages": [
+      {
+        "distribution_id": "P1",
+        "name": "jsonschema",
+        "version": "4",
+        "blob_id": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "source_type": "wheel",
+        "python": "3.13",
+        "platform": "any"
+      }
+    ],
+    "launcher_artifact_id": "launcher",
+    "clock_shim_artifact_id": "clock",
+    "git_shim_artifact_id": "git"
+  },
+  "import_manifest": {
+    "manifest_id": "IM1",
+    "version": 1,
+    "local_modules": [
+      {
+        "module": "edgelab.orchestration",
+        "artifact_id": "engine",
+        "replay_path": "replay/orchestration.py",
+        "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+      }
+    ],
+    "external_imports": [
+      {
+        "module": "jsonschema",
+        "distribution_id": "P1"
+      }
+    ],
+    "digest": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "validation_manifest": {
+    "manifest_id": "VM1",
+    "version": 1,
+    "schemas": [
+      {
+        "schema_id": "scheduler",
+        "artifact_id": "schema",
+        "replay_path": "replay/schema.json",
+        "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "references": []
+      }
+    ],
+    "validator_distribution_id": "P1",
+    "digest": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "dependency_closure": {
+    "closure_id": "M0-2-STAGE1-CLOSURE",
+    "version": 4,
+    "closure_sha256": "cb7eeaac6c4840f1975c495cde27c98c84dc54cfbd741900bb14d04d4f4b0ad9"
+  },
+  "raw_evidence": {
+    "decision": "DISPATCH",
+    "decision_id": "D1",
+    "task_id": "T1",
+    "reason": "x",
+    "execution_adapter": "MOCK_ONLY",
+    "operation": "CONTINUE",
+    "bytes_base64": "eyJkZWNpc2lvbiI6IkRJU1BBVENIIiwiZGVjaXNpb25faWQiOiJEMSIsImV4ZWN1dGlvbl9hZGFwdGVyIjoiTU9DS19PTkxZIiwib3BlcmF0aW9uIjoiQ09OVElOVUUiLCJyZWFzb24iOiJ4IiwidGFza19pZCI6IlQxIn0=",
+    "byte_length": 125,
+    "sha256": "dd1aeac8313774f94184fcc2f14b50abf3d0975ff48009aaa484ad36d9146fd9"
+  },
+  "normalized_output": {
+    "decision": "DISPATCH",
+    "decision_id": "D1",
+    "task_id": "T1",
+    "reason": "x",
+    "execution_adapter": "MOCK_ONLY",
+    "operation": "CONTINUE"
+  },
+  "envelope_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+}
