@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "source": "actual authoritative resolver outputs",
+  "cases": {
+    "current": {
+      "historical_status": "VALID",
+      "currentness_status": "CURRENT",
+      "runtime_compatible": true,
+      "verifier_status": "PASS",
+      "generation_match": true,
+      "authorizing_use": "ALLOW",
+      "reason_code": "NONE"
+    },
+    "stale_handoff": {
+      "historical_status": "VALID",
+      "currentness_status": "STALE",
+      "runtime_compatible": true,
+      "verifier_status": "FAIL",
+      "generation_match": true,
+      "authorizing_use": "DENY",
+      "reason_code": "STALE"
+    },
+    "incompatible_attachment": {
+      "historical_status": "VALID",
+      "currentness_status": "INCOMPATIBLE",
+      "runtime_compatible": false,
+      "verifier_status": "FAIL",
+      "generation_match": true,
+      "authorizing_use": "DENY",
+      "reason_code": "INCOMPATIBLE_RUNTIME"
+    },
+    "missing_authority": {
+      "historical_status": "VALID",
+      "currentness_status": "UNKNOWN",
+      "runtime_compatible": false,
+      "verifier_status": "FAIL",
+      "generation_match": true,
+      "authorizing_use": "DENY",
+      "reason_code": "STALE"
+    }
+  }
+}
