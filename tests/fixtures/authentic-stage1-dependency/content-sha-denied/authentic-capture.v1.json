@@ -19,31 +19,31 @@
   "packages": [
     {
       "name": "attrs",
-      "version": "retained-unversioned",
+      "version": "26.1.0",
       "path": "packages/attrs",
       "files_sha256": "cf44846f0aaf2da9493eed9036b6ad10f9f742e9875bd277d05e2c6b3ea40599"
     },
     {
       "name": "jsonschema",
-      "version": "retained-unversioned",
+      "version": "4.23.0",
       "path": "packages/jsonschema",
       "files_sha256": "c2b84b4b799262f7ffdb9acc14251c4a4774d8df21a6da6f526bce37ac150004"
     },
     {
       "name": "jsonschema-specifications",
-      "version": "retained-unversioned",
+      "version": "2025.9.1",
       "path": "packages/jsonschema-specifications",
       "files_sha256": "81a5f98ad4adc045d60b9fd55f654cf4b969ac8de065ae620a03b4e04d34aa03"
     },
     {
       "name": "referencing",
-      "version": "retained-unversioned",
+      "version": "0.37.0",
       "path": "packages/referencing",
       "files_sha256": "7f4a39e8686f2cdce2c932a31516692a9e070b20b976d46caecea713e3f6f2cf"
     },
     {
       "name": "rpds-py",
-      "version": "retained-unversioned",
+      "version": "2026.6.3",
       "path": "packages/rpds-py",
       "files_sha256": "5959f70696d0b06b7b71515de9832a88ee8b92fedf91ccdf8fae5e4a959c12ea"
     }
