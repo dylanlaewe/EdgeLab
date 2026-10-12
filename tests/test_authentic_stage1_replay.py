@@ -13,5 +13,7 @@ class AuthenticStage1Replay(unittest.TestCase):
   with tempfile.TemporaryDirectory() as d:
    root=Path(d)/'copy';shutil.copytree(ROOT,root,ignore=shutil.ignore_patterns('.git','.venv','__pycache__'))
    cap=root/'tests/fixtures/authentic-stage1/dispatch/capture.json';x=json.loads(cap.read_text());x['result']['reason']='forged';cap.write_text(json.dumps(x));p=subprocess.run([str(ROOT/'.venv/bin/python'),str(root/'tools/replay_frozen_stage1_evidence.py'),'dispatch'],cwd=root,text=True,capture_output=True);self.assertNotEqual(p.returncode,0)
-   # Changing an actually retained STOP record fails before any host fallback.
+   # Changing retained historical records fails before any host fallback.
    cap.write_text((ROOT/'tests/fixtures/authentic-stage1/dispatch/capture.json').read_text());stop=root/'tests/fixtures/authentic-stage1/dispatch/repository/reports/stops/STOP-M0-001.v1.json';stop.write_text(stop.read_text()+' ');p=subprocess.run([str(ROOT/'.venv/bin/python'),str(root/'tools/replay_frozen_stage1_evidence.py'),'dispatch'],cwd=root,text=True,capture_output=True);self.assertNotEqual(p.returncode,0)
+   for relative in ('orchestration/capabilities/C-REPOSITORY-READ.json','orchestration/assignments/T-SYNTHETIC-001.v1.json','docs/handoffs/H-M0-038.v2.json'):
+    shutil.copytree(ROOT/'tests/fixtures/authentic-stage1/dispatch',root/'tests/fixtures/authentic-stage1/dispatch',dirs_exist_ok=True); q=root/'tests/fixtures/authentic-stage1/dispatch/repository'/relative;q.write_text(q.read_text()+' ');p=subprocess.run([str(ROOT/'.venv/bin/python'),str(root/'tools/replay_frozen_stage1_evidence.py'),'dispatch'],cwd=root,text=True,capture_output=True);self.assertNotEqual(p.returncode,0)
