@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-065",
+  "version": 2,
+  "created_at": "2026-10-12T17:20:48Z",
+  "sender": "05 Skeptic",
+  "recipient": "05 Skeptic",
+  "status": "CLAIMED",
+  "request": "Perform the focused planning-acceptance review of the V8/V10 M0.2 to M0.3A decision-evidence successor package.",
+  "work_done": "Skeptic session 05-skeptic-envelope-v8-plan-review-20261012 claims the sole-writer slot at synchronized successor base a4d4560f49d97680f6f9582857bfb4d87ccccb90. Scope is additive Skeptic review evidence only. Frozen M0.2, Director contracts/schemas, M0.3A runtime, and all production code remain read-only.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-065.v1.json",
+    "docs/handoffs/H-M0-064.v2.json",
+    "docs/M0.2_DECISION_EVIDENCE_ENVELOPE.v8.md",
+    "schemas/m0-2-decision-evidence-envelope.v8.schema.json",
+    "schemas/m0-2-import-manifest.v2.schema.json",
+    "schemas/m0-2-validation-manifest.v2.schema.json",
+    "docs/M0.2_STAGE1_DEPENDENCY_CLOSURE.v2.json",
+    "docs/M0.2_DECISION_EVIDENCE_ACCEPTANCE_MATRIX.v3.md",
+    "docs/M0.3A_TRANSACTIONAL_CONTRACT.v10.md",
+    "docs/handoffs/H-M0-041.v16.json",
+    "reports/stops/STOP-M0-3A-001.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-065.v2.json"
+  ],
+  "tests_run": [
+    "Preflight: clean EdgeLab main equals origin/main at a4d4560f49d97680f6f9582857bfb4d87ccccb90; both STOPs OPEN; M0 blocked; M1 unreleased; Data blocked; capital LOCKED."
+  ],
+  "open_questions": [
+    "Whether v8/v10 removes the v7 security-critical ambiguities and is implementation-ready without Data inventing semantics."
+  ],
+  "blockers": [
+    "H-M0-041.v16 remains BLOCKED pending this disposition and separate Director release.",
+    "STOP-M0-3A-001 and STOP-M0-001 remain OPEN."
+  ],
+  "next_action": "Publish the focused v8/v10 planning disposition and reproducible evidence.",
+  "completion_criteria": [
+    "Every requested V8/V10 acceptance surface receives an evidence-backed disposition under the stopping rule.",
+    "Review artifacts are validated, committed, pushed and the writer slot is yielded."
+  ],
+  "depends_on": [
+    "H-M0-064"
+  ]
+}
