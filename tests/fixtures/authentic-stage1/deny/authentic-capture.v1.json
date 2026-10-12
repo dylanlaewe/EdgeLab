@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "capture_id": "AUTH-AUTHENTIC-STAGE1-DENY",
+  "trusted_root_id": "M0-2-STAGE1-TRUST-ROOT-V1",
+  "freeze_commit": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+  "entrypoint": "edgelab.orchestration.decision",
+  "intent": {
+    "attempt": 1,
+    "task_id": "T-SYNTHETIC-001"
+  },
+  "result": {
+    "decision": "DENY",
+    "decision_id": "D-25150701cc9d3f301f686d420e407c2f",
+    "execution_adapter": "MOCK_ONLY",
+    "reason": "STOP resolution status and event must agree",
+    "task_id": "T-SYNTHETIC-001"
+  },
+  "repository_inventory_sha256": "a8e8f0edc1ced5e45e9b8a93236d16dad00f091fba777931305db546c90f0297",
+  "packages": [
+    {
+      "name": "attrs",
+      "version": "26.1.0",
+      "path": "packages/attrs",
+      "files_sha256": "50b52a609c640a22be590e0435d73f35e0227b0127a4516054d6e15d1975366b"
+    },
+    {
+      "name": "jsonschema",
+      "version": "4.23.0",
+      "path": "packages/jsonschema",
+      "files_sha256": "1e6ca40e2ec8a535661cdce7828c390fa8d2d55ccbd4ec4ff39b70230747f76b"
+    },
+    {
+      "name": "jsonschema-specifications",
+      "version": "2025.9.1",
+      "path": "packages/jsonschema-specifications",
+      "files_sha256": "9868dcff33fb743a4c93665c739e63526e4f01c890af16bc6b20c2fd17e68d4b"
+    },
+    {
+      "name": "referencing",
+      "version": "0.37.0",
+      "path": "packages/referencing",
+      "files_sha256": "bff17f29527c8b5e6ad3f53d1b006da6ae8a413bc9e7274b16bb41db07c2f718"
+    },
+    {
+      "name": "rpds-py",
+      "version": "2026.6.3",
+      "path": "packages/rpds-py",
+      "files_sha256": "2e66d4f8b5d6085982c5463c65297452b9b02a7ea51e5f80c7a576fa86a0c532"
+    }
+  ]
+}

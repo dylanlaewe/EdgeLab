@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "root_id": "M0-2-STAGE1-TRUST-ROOT-V1",
+  "freeze_commit": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+  "entrypoint": "edgelab.orchestration.decision",
+  "modules": [
+    {
+      "path": "src/edgelab/orchestration.py",
+      "sha256": "26f8cf28de3d92b31879299c354b392492dfe1d0a529a04b37db12069fb91be9"
+    },
+    {
+      "path": "src/edgelab/validate.py",
+      "sha256": "8f1fd5ef981ae901e86a8b928b3ec5fd3548e513aa685cd743828604d653329e"
+    },
+    {
+      "path": "src/edgelab/data_integrity.py",
+      "sha256": "8d00d421597518d2823f2d55e45bdc199a8a482cf9251bf07a3de9534aacb7df"
+    }
+  ],
+  "schemas": [
+    {
+      "path": "schemas/scheduler-state.schema.json",
+      "sha256": "cc7e0ab5a892203fcacb668ec2615bba78c6df67673f0be06f19494bd01e9d9f"
+    },
+    {
+      "path": "schemas/project-state.schema.json",
+      "sha256": "9e71888cfb18cbb15c49d3d419f625d71be04dba1ac3ee73cc3067cceac7b28d"
+    },
+    {
+      "path": "schemas/stop.schema.json",
+      "sha256": "c10ab22118d6b5d63f724af5bf1865067ce2c150920a95de2ca0404358e3f08f"
+    },
+    {
+      "path": "schemas/capability-registry.schema.json",
+      "sha256": "128a79e55dbb965e78994927705f8915cc5b65a24c36f2bcbe5c49620ad473d8"
+    }
+  ],
+  "dependency_closure": {
+    "path": "docs/M0.2_STAGE1_DEPENDENCY_CLOSURE.v4.json",
+    "closure_id": "M0-2-STAGE1-CLOSURE",
+    "version": 4,
+    "sha256": "d8e4772de0bbb2ad9f9dd73f173a3561d3896b87a4462522d82b9ec4adf3ba18"
+  },
+  "host_boundary": {
+    "python_implementation": "CPython",
+    "python_major_minor": "3.13",
+    "platform": "Darwin",
+    "architecture": "arm64",
+    "git_model": "host-git-checked",
+    "environment_allowlist": [
+      "LC_ALL",
+      "TZ",
+      "PYTHONHASHSEED",
+      "PYTHONIOENCODING",
+      "PYTHONDONTWRITEBYTECODE",
+      "PATH",
+      "PYTHONPATH"
+    ]
+  },
+  "root_sha256": "3b5c653e955a6f1be71c454e86339f39de1f1c864dbfeb71b43f993f9d6b3461"
+}
