@@ -63,7 +63,21 @@
       }
     },
     "multi_change": {
-      "actual_v3_output": "see authoritative unittest; v3 intentionally carries no changed-dimension list"
+      "actual_v3_output": {
+        "historical_status": "VALID",
+        "currentness_status": "STALE",
+        "runtime_compatible": true,
+        "verifier_status": "FAIL",
+        "generation_match": false,
+        "authorizing_use": "DENY",
+        "reason_code": "GENERATION_MISMATCH"
+      },
+      "actual_resolver_trace": [
+        "assignment.head",
+        "generations.runtime",
+        "stops"
+      ],
+      "trace_order": "lexicographic canonical order; excluded from v3 because schema additionalProperties=false"
     }
   }
 }

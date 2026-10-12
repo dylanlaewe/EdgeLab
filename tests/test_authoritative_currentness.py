@@ -1,6 +1,6 @@
 import copy,json,tempfile,unittest
 from pathlib import Path
-from tools.resolve_authoritative_currentness import resolve_and_verify_currentness
+from tools.resolve_authoritative_currentness import resolve_and_verify_currentness,resolve_with_trace
 from tests.test_currentness_reference import B
 REQ={'historical_status','currentness_status','runtime_compatible','verifier_status','generation_match','authorizing_use','reason_code'}
 def source():
@@ -24,4 +24,4 @@ class Currentness(unittest.TestCase):
  def test_conflict_and_race_and_multi(self):
   d,p=source(); r=json.loads((p/'runtime.json').read_text());r['attachment_repository_id']='conflict-repository';(p/'runtime.json').write_text(json.dumps(r));self.assertEqual(verify(p)['authorizing_use'],'DENY');d.cleanup()
   d,p=source();r=json.loads((p/'runtime.json').read_text());r['generation']=2;(p/'race-runtime.json').write_text(json.dumps(r));self.assertEqual(verify(p)['authorizing_use'],'DENY');d.cleanup()
-  d,p=source();r=json.loads((p/'repository.json').read_text());r['assignment']['head']='changed';r['stops']=[{'id':'S','head':'OPEN','generation':1}];(p/'repository.json').write_text(json.dumps(r));m=json.loads((p/'runtime.json').read_text());m['generations']['runtime']=2;(p/'runtime.json').write_text(json.dumps(m));a=verify(p);b=verify(p);self.assertEqual(a,b);self.assertEqual(a['authorizing_use'],'DENY');d.cleanup()
+  d,p=source();r=json.loads((p/'repository.json').read_text());r['assignment']['head']='changed';r['stops']=[{'id':'S','head':'OPEN','generation':1}];(p/'repository.json').write_text(json.dumps(r));m=json.loads((p/'runtime.json').read_text());m['generations']['runtime']=2;(p/'runtime.json').write_text(json.dumps(m));a,t1=resolve_with_trace('HISTORICALLY_VALID',B,p);b,t2=resolve_with_trace('HISTORICALLY_VALID',B,p);self.assertEqual(t1,t2);self.assertEqual(t1,sorted(t1));self.assertGreaterEqual(len(t1),3);self.assertEqual(a['authorizing_use'],'DENY');d.cleanup()
