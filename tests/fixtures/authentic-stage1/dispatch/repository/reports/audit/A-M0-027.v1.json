@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-027",
+  "version": 1,
+  "occurred_at": "2026-09-29T04:20:00Z",
+  "actor": "00 Director",
+  "role": "00 Director",
+  "event_type": "EXTERNAL_STOP_CLEARANCE_AUTHORITY_PROVISIONING_PLAN_RECORDED",
+  "subject_ref": "docs/handoffs/H-M0-026.v2.json",
+  "previous_state": "M0_EXIT_BLOCKED_STOP_OPEN_AWAITING_EXTERNAL_CLEARANCE_AUTHORITY",
+  "new_state": "M0_EXIT_BLOCKED_AWAITING_HUMAN_SELECTED_EXTERNAL_TRUST_ROOT_AND_VERIFIER_INTEGRATION",
+  "reason": "A planning-only review established that the existing caller-supplied authority policy is not external authentication. No self-issued material can resolve STOP-M0-001.",
+  "evidence_refs": [
+    "reports/M0.1-authority-provisioning-plan.v1.md",
+    "docs/handoffs/H-M0-025.v2.json",
+    "docs/SPECIFICATIONS.md"
+  ],
+  "code_ref": "0021153b572710ec98bba736b34c39e7024c4569",
+  "config_ref": "portfolio/risk-policy.json",
+  "correlation_id": "M0-AUTHORITY-PROVISIONING-20260929",
+  "supersedes": null
+}

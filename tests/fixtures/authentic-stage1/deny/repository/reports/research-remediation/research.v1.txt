@@ -1,0 +1,26 @@
+Command: .venv/bin/python -m unittest discover -s tests -p "test_research_protocol.py" -v
+test_exact_membership_not_dataset_label (test_research_protocol.ResearchProtocolTests.test_exact_membership_not_dataset_label) ... ok
+test_exposure_cannot_precede_membership_binding (test_research_protocol.ResearchProtocolTests.test_exposure_cannot_precede_membership_binding) ... ok
+test_exposure_order_and_missing_first_access (test_research_protocol.ResearchProtocolTests.test_exposure_order_and_missing_first_access) ... ok
+test_first_access_before_equal_after_freeze (test_research_protocol.ResearchProtocolTests.test_first_access_before_equal_after_freeze) ... ok
+test_first_access_cannot_hide_prior_access_ancestor (test_research_protocol.ResearchProtocolTests.test_first_access_cannot_hide_prior_access_ancestor) ... ok
+test_fresh_holdout_positive_and_repository (test_research_protocol.ResearchProtocolTests.test_fresh_holdout_positive_and_repository) ... ok
+test_frozen_fixture_positive (test_research_protocol.ResearchProtocolTests.test_frozen_fixture_positive) ... ok
+test_identical_renamed_partial_overlap_rejected (test_research_protocol.ResearchProtocolTests.test_identical_renamed_partial_overlap_rejected) ... ok
+test_missing_predecessor_and_mutated_custody_evidence (test_research_protocol.ResearchProtocolTests.test_missing_predecessor_and_mutated_custody_evidence) ... ok
+test_missing_unknown_stale_and_retrospective_holdout (test_research_protocol.ResearchProtocolTests.test_missing_unknown_stale_and_retrospective_holdout) ... ok
+test_mutated_hypothesis_threshold_plan_and_freeze_pin (test_research_protocol.ResearchProtocolTests.test_mutated_hypothesis_threshold_plan_and_freeze_pin) ... ok
+test_nested_ancestry_and_correction_cannot_hide_overlap (test_research_protocol.ResearchProtocolTests.test_nested_ancestry_and_correction_cannot_hide_overlap) ... ok
+test_rehashed_hypothesis_change_still_breaks_freeze (test_research_protocol.ResearchProtocolTests.test_rehashed_hypothesis_change_still_breaks_freeze) ... ok
+test_repository_rejects_targeted_overlap (test_research_protocol.ResearchProtocolTests.test_repository_rejects_targeted_overlap) ... ok
+test_required_fields_and_extra_properties (test_research_protocol.ResearchProtocolTests.test_required_fields_and_extra_properties) ... ok
+test_retroactive_hypothesis_and_unresolved_thresholds (test_research_protocol.ResearchProtocolTests.test_retroactive_hypothesis_and_unresolved_thresholds) ... ok
+test_unknown_exposure_recordable_but_ineligible (test_research_protocol.ResearchProtocolTests.test_unknown_exposure_recordable_but_ineligible) ... ok
+test_unknown_or_wrong_purpose_access_denied (test_research_protocol.ResearchProtocolTests.test_unknown_or_wrong_purpose_access_denied) ... ok
+test_versioned_registration_preserves_prior_without_reusing_pin (test_research_protocol.ResearchProtocolTests.test_versioned_registration_preserves_prior_without_reusing_pin) ... ok
+test_wrong_type_identity_digest_membership_and_missing_refs (test_research_protocol.ResearchProtocolTests.test_wrong_type_identity_digest_membership_and_missing_refs) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 6.016s
+
+OK

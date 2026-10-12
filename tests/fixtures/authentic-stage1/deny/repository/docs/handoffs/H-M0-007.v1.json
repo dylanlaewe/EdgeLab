@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-007",
+  "version": 1,
+  "created_at": "2026-09-20T00:27:22.862436+00:00",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "CLAIMED",
+  "request": "Independently verify Data completion at 90c1a0a and decide Research release; classify full-suite errors.",
+  "work_done": "Director session 01a0bc0f-0f04-7c40-bc24-177858026bc8 claims release-gate verification. Base 90c1a0a04216d737c3d6cbdd4a3404488fec7605; Data H-M0-003 v4 yields writer slot. Scope: new Director report/evidence/handoffs/audit and mutable project-state summary only. No code/schema/test/STOP/portfolio edits.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-003.v4.json",
+    "docs/GIT_COORDINATION.md",
+    "docs/REMEDIATION_PLAN.md"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-007.v1.json"
+  ],
+  "tests_run": [
+    "Read-only verification reproduced 18 Data and 18 foundation passes, 51-method full suite with 12 error entries across 9 methods, 38 inventory hashes, baseline 33 passes. Detailed evidence to follow."
+  ],
+  "open_questions": [
+    "Skeptic disposition required for incompatible adversarial fixtures before downstream release."
+  ],
+  "blockers": [
+    "Research unreleased; STOP-M0-001 OPEN."
+  ],
+  "next_action": "Persist independent gate report and route fixture incompatibilities to Skeptic.",
+  "completion_criteria": [
+    "Verify source evidence and ancestry",
+    "Classify every error and record explicit release decision",
+    "Publish bounded coordination updates without changing domain controls"
+  ],
+  "depends_on": [
+    "H-M0-002",
+    "H-M0-003"
+  ]
+}

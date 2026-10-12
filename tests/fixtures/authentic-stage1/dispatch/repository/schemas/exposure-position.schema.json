@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "urn:edgelab:exposure-position:2", "$defs": {"sha": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+  "type": "object", "additionalProperties": false,
+  "required": ["position_id", "action_sha256", "environment", "status", "stake_minor", "exposure_date", "strategy_identity_sha256", "source_identity_sha256", "event_identity_sha256", "market_identity_sha256", "selection_identity_sha256", "correlation_keys", "position_sha256"],
+  "properties": {"position_id": {"type": "string", "minLength": 1}, "action_sha256": {"$ref": "#/$defs/sha"}, "environment": {"enum": ["PAPER", "LIVE"]}, "status": {"enum": ["PENDING", "OPEN", "SETTLED", "CANCELLED"]}, "stake_minor": {"type": "integer", "minimum": 1}, "exposure_date": {"type": "string", "format": "date"}, "strategy_identity_sha256": {"$ref": "#/$defs/sha"}, "source_identity_sha256": {"$ref": "#/$defs/sha"}, "event_identity_sha256": {"$ref": "#/$defs/sha"}, "market_identity_sha256": {"$ref": "#/$defs/sha"}, "selection_identity_sha256": {"$ref": "#/$defs/sha"}, "correlation_keys": {"type": "array", "minItems": 5, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}, "position_sha256": {"$ref": "#/$defs/sha"}}
+}

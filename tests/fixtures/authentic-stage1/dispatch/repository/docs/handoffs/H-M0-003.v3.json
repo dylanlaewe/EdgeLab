@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-003",
+  "version": 3,
+  "created_at": "2026-09-20T00:09:56.345830+00:00",
+  "sender": "00 Director",
+  "recipient": "01 Data",
+  "status": "CLAIMED",
+  "request": "Data lineage/history/registry foundation; H04 H06 M01 M02 and H03 dependency primitives. Apply docs/REMEDIATION_PLAN.md acceptance and ownership rules.",
+  "work_done": "Claimed by Data session 01a0bc25-2054-7bd1-8b82-991acc5416dd. Base 0ee19f51a86eacc8c95f28847d5445afa5729813. Verified H-M0-002 v3 and docs/project-state.json next_owner_release on origin/main. Exclusive scope: Data lineage/reference/history modules and schemas, owner tests and synthetic fixtures, validate.py integration, SPECIFICATIONS.md, appended Data reports/audit/handoffs. No other roles activated.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-skeptic-review.v1.md",
+    "tests/test_skeptic_adversarial.py",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/audit/A-M0-002.v1.json",
+    "docs/REMEDIATION_PLAN.md",
+    "docs/GIT_COORDINATION.md"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-003.v3.json"
+  ],
+  "tests_run": [],
+  "open_questions": [
+    "Operational trust configuration and accepted-baseline protection are not provisioned; fail closed and document assurance limits."
+  ],
+  "blockers": [
+    "STOP-M0-001 remains OPEN; only synthetic remediation is allowed."
+  ],
+  "next_action": "Implement all Data-owned remediation, validate and publish completion for Director; no Research release by Data.",
+  "completion_criteria": [
+    "Reject missing or mutated inputs, unknown/late availability, evaluation leakage, cycles and invalid access evidence.",
+    "Demonstrate a reconstructible synthetic dataset with parser/normalizer and parent versions; no production ingestion authorization implied.",
+    "Meet the owner-specific release gate in docs/REMEDIATION_PLAN.md; persist full evidence inventory and actual test dispositions.",
+    "Preserve original adversarial tests unchanged; add separate rejection regressions and positive controls. Do not clear STOP-M0-001."
+  ],
+  "depends_on": [
+    "H-M0-002"
+  ]
+}

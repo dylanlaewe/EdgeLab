@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "review": "M0.2_ORCHESTRATION_CONSOLIDATION_REREVIEW_V1",
+  "verdict": "PARTIALLY_REMEDIATED_NOT_ACCEPTED",
+  "director_base_sha": "e5f8b587a6bcac7872c43113279e3a40f5616f88",
+  "claim_sha": "d98b1d9",
+  "dispositions": {
+    "M02-SK-01": "CLOSED_NO_REGRESSION",
+    "M02-SK-02": "PARTIALLY_REMEDIATED",
+    "M02-SK-03": "CLOSED_NO_REGRESSION",
+    "M02-SK-04": "CLOSED_NO_REGRESSION",
+    "M02-SK-05": "PARTIALLY_REMEDIATED",
+    "M02-SK-06": "CLOSED_NO_REGRESSION",
+    "M02-SK-07": "CLOSED",
+    "M02-SK-08": "PARTIALLY_REMEDIATED",
+    "M02-SK-09": "PARTIALLY_REMEDIATED"
+  },
+  "residual_reproducers": [
+    "schema_valid_H_M0_032_claim_with_unrelated_task_and_attempt_content_dispatches",
+    "prose_only_wrong_attempt_dependency_completion_dispatches",
+    "noncurrent_dependency_v1_dispatches_despite_v2",
+    "receipt_omits_resolved_capability_and_dependency_content",
+    "denial_receipt_omits_changed_authoritative_state"
+  ],
+  "new_findings": [],
+  "tests": {
+    "independent_v5": {"methods": 16, "passed": 16},
+    "designated_final_owner": {"methods": 3, "passed": 3},
+    "original_owner": {"methods": 5, "passed": 3, "classified_stale_positive_failures": 2},
+    "historical_v4": {"methods": 21, "passed": 11, "classified_expected_failures_after_remediation": 10},
+    "foundation_and_data": {"methods": 36, "passed": 36},
+    "full_discovery": {"methods": 327, "passed": 218, "classified_errors": 69, "classified_failures": 40, "skipped": 0},
+    "repository_validation": "PASS",
+    "compileall": true,
+    "whitespace": true
+  },
+  "external_effect_path": false,
+  "mock_only_engine_acceptable": false,
+  "future_gate_ready": false,
+  "stop": "OPEN",
+  "phase": "M0_BLOCKED",
+  "m1_released": false,
+  "executor": "MOCK_ONLY",
+  "capital_minor": {"conceptual": 5000, "deployable": 0, "reserved": 0},
+  "live": "LOCKED",
+  "kill": "ENGAGED"
+}

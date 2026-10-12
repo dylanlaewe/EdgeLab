@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-006",
+  "version": 5,
+  "created_at": "2026-09-28T01:10:47Z",
+  "sender": "06 Risk & Execution",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Complete bounded M0 Risk remediation under H-M0-006 v3/v4 without clearing STOP-M0-001, unlocking capital, or adding external execution.",
+  "work_done": "Risk session risk-codex-BC45FC3D-BBE7-4C1A-9AF7-DB28AF303B2E claimed at daee9ce1e6d60f25e963ab706b6322400f7d035f and implemented at 091f0af316682e141354c2ba014eab86ee46392b. Delivered verifier-controlled authority policy, durable local replay/uniqueness, structured Quant evidence consumption, event-derived lifecycle and independent approvals, typed STOP precedence/clearance eligibility, exact paper/live ledger and reconciliation, exposure/correlation enforcement, latched kill switch, and layered machine Risk decisions. Published findings mapping, validation, preservation inventory, full-suite classification and H-M0-020 independent Skeptic review request. No real portfolio, STOP, project state, venue or historical evidence was changed.",
+  "evidence_refs": [
+    "reports/M0.1-risk-remediation.v1.md",
+    "reports/risk-remediation/results.v1.json",
+    "reports/risk-remediation/findings-to-tests.v1.json",
+    "reports/risk-remediation/completion-inventory.v1.json",
+    "reports/risk-remediation/validation.v1.txt",
+    "src/edgelab/risk_controls.py",
+    "tests/test_risk_controls.py",
+    "docs/SPECIFICATIONS.md",
+    "docs/handoffs/H-M0-006.v4.json",
+    "docs/handoffs/H-M0-020.v1.json",
+    "reports/audit/A-M0-020.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/SPECIFICATIONS.md",
+    "src/edgelab/validate.py",
+    "src/edgelab/risk_controls.py",
+    "schemas/authority-policy.schema.json",
+    "schemas/approval-attestation.schema.json",
+    "schemas/lifecycle-event.schema.json",
+    "schemas/stop-snapshot.schema.json",
+    "schemas/stop-resolution-event.schema.json",
+    "schemas/ledger-event.schema.json",
+    "schemas/ledger-snapshot.schema.json",
+    "schemas/exposure-position.schema.json",
+    "schemas/kill-switch-event.schema.json",
+    "schemas/risk-decision.schema.json",
+    "tests/test_risk_controls.py",
+    "reports/M0.1-risk-remediation.v1.md",
+    "reports/risk-remediation/results.v1.json",
+    "reports/risk-remediation/findings-to-tests.v1.json",
+    "reports/risk-remediation/completion-inventory.v1.json",
+    "reports/risk-remediation/validation.v1.txt",
+    "reports/audit/A-M0-020.v1.json",
+    "docs/handoffs/H-M0-006.v5.json",
+    "docs/handoffs/H-M0-020.v1.json"
+  ],
+  "tests_run": [
+    "Risk owner 12/12, foundation 18/18, Data 18/18, Research history v2 27/27, Quant owner 24/24 and Skeptic Quant v7 6/6 pass.",
+    "Pinned original review baseline 4e99cfac90e0af601158c1528c70574dd5dafeda reproduced 33/33 in a disposable detached worktree.",
+    "Full discovery: 197 methods, 148 pass, 48 preserved historical/setup errors, one preserved contract-shape failure, zero skips; NOT GREEN; no Risk owner red result.",
+    "Repository accepted-history validation, all Risk schemas, compileall, diff whitespace, inventory hashes, origin/main synchronization and remote ancestry passed."
+  ],
+  "open_questions": [
+    "Independent Skeptic must verify the trust/replay boundary, exact transition/STOP semantics, accounting conservation, correlation, kill-switch reset/race behavior and decision-layer separation.",
+    "No production external authority/controller, authenticated identity/key custody, hostile-host persistence, remote durability, venue adapter or cross-system atomic boundary exists.",
+    "Empirical live exposure, drawdown, freshness and price thresholds remain unresolved and therefore deny live activity."
+  ],
+  "blockers": [
+    "STOP-M0-001 remains OPEN and all project finding dispositions await independent frozen-candidate review and later Director/domain gates.",
+    "Conceptual capital remains 5000 minor units; deployable/reserved 0; live LOCKED; kill ENGAGED. No operational paper/live activity is authorized."
+  ],
+  "next_action": "05 Skeptic independently consumes H-M0-020 v1, reproduces the frozen Risk implementation/evidence and publishes a finding-by-finding BLOCKED or READY_FOR_DIRECTOR_GATE disposition. Director must not clear STOP or unlock capital from this completion alone.",
+  "completion_criteria": [
+    "Scientific consistency remains non-authorizing and is consumed only through trusted generation/replay controls.",
+    "Lifecycle, independent review and STOP actions fail closed under missing, stale, conflicting, self-authored or unsupported evidence.",
+    "Paper/live-separated accounting, reservations, liabilities, settlement and reconciliation preserve exact conservation and idempotency.",
+    "Exposure/correlation and kill-switch primitives enforce current limits, global precedence and pending-authorization invalidation.",
+    "Machine decisions keep eligibility, capital and individual authorization separate while preserving the M0 capital lock.",
+    "Positive, adversarial, preservation, baseline and full-suite evidence plus independent review request are durably published."
+  ],
+  "depends_on": [
+    "H-M0-002", "H-M0-003", "H-M0-004", "H-M0-005", "H-M0-015", "H-M0-016", "H-M0-017", "H-M0-018", "H-M0-019"
+  ]
+}

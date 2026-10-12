@@ -1,0 +1,58 @@
+H-M0-024 independent Risk SR07-SR08 re-review validation
+Timestamp: 2026-09-29T02:36:27Z
+Review base: 7585c1642ec344cf91e73a1bb35e03abf0bf9904
+Claim commit: 566a8c457ec3466fdb99a81c6cdb3170c21dcda3
+Risk implementation: a2e2ec880ae5ec21e726658db14b844ec6b91dcd
+
+Focused successor:
+  .venv/bin/python -m unittest discover -s tests -p 'test_skeptic_risk_v3.py' -v
+  PASS: 9 methods, 9 passed.
+
+Risk owner:
+  .venv/bin/python -m unittest discover -s tests -p 'test_risk_controls.py' -v
+  PASS: 18 methods, 18 passed.
+
+Foundation regression:
+  .venv/bin/python -m unittest discover -s tests -p 'test_foundation.py' -v
+  PASS: 18 methods, 18 passed.
+
+Historical Skeptic Risk v2, byte-unchanged:
+  .venv/bin/python -m unittest discover -s tests -p 'test_skeptic_risk_v2.py' -v
+  EXPECTED CONTRACT BREAK: 10 methods; 8 passed, 2 errored.
+  SR07 rejects at Scientific evidence is bound to another strategy or experiment.
+  SR08 rejects at Invalid or duplicate reservation.
+  Both semantic families are reconstructed with current prerequisites in v3.
+
+Full discovery:
+  .venv/bin/python -m unittest discover -s tests -v
+  NOT GREEN: 243 methods in 770.981s; 172 passed, 66 classified errors,
+  5 classified failures, 0 skips. This is the exact published 234-method
+  baseline red set plus 9 new passing Skeptic Risk v3 methods; no unexpected
+  red identity appeared.
+
+Other validation:
+  .venv/bin/python -m src.edgelab.validate
+  PASS: 105 records and published history validated; M0 capital remains LOCKED;
+  no scientific or operational approval.
+
+  .venv/bin/python -m compileall -q src tests
+  PASS.
+
+  git diff --check
+  PASS.
+
+Preservation:
+  Skeptic Risk v1 SHA-256 remains
+  c3d1c0c18d9443561fceaad297102abd26e36d00b2d49a5b39da9889a5ae4fcb.
+  Skeptic Risk v2 SHA-256 remains
+  44c0d4a4a60bb0f80c42bd20a22f240c5d7fa867ddb6b8a81f30a071b799131b.
+  All 8 Risk completion implementation files and 9 preserved artifacts match
+  the frozen inventory. STOP, bankroll, Risk policy and project state retain
+  their published hashes.
+
+Safety state:
+  STOP-M0-001 OPEN.
+  Conceptual capital 5000 minor units.
+  Live deployable 0; reserved 0; live LOCKED; kill ENGAGED.
+  No scientific, paper, live, capital or operational authorization is created
+  by this review.

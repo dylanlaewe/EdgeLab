@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "review": "M0.2_ORCHESTRATION_REMEDIATION_REREVIEW_V1",
+  "verdict": "PARTIALLY_REMEDIATED_NOT_ACCEPTABLE",
+  "base_sha": "b5a706b5d670d4f7b10d14bc9142b7fc770d3427",
+  "claim_sha": "cce67b7",
+  "dispositions": {
+    "M02-SK-01": "PARTIALLY_REMEDIATED",
+    "M02-SK-02": "OPEN",
+    "M02-SK-03": "PARTIALLY_REMEDIATED",
+    "M02-SK-04": "CLOSED",
+    "M02-SK-05": "OPEN",
+    "M02-SK-06": "CLOSED",
+    "M02-SK-07": "OPEN"
+  },
+  "preserved_current_reproducers": [
+    "boolean_attempt_true_dispatches_as_attempt_one",
+    "completed_yielded_director_claim_dispatches",
+    "second_open_stop_id_is_ignored",
+    "nonexistent_or_cyclic_completed_dependency_dispatches",
+    "empty_or_semantically_prohibited_capability_binding_dispatches"
+  ],
+  "new_current_finding_ids": [],
+  "future_gate_clarification": "Decision receipts must bind canonical task, capability and safety heads plus result/reason and sequencing; the current deterministic label is not authentication.",
+  "tests": {
+    "owner_v2_v3_focused": {"methods": 28, "passed": 28},
+    "foundation_and_data": {"methods": 36, "passed": 36},
+    "full_discovery": {"methods": 286, "passed": 201, "historical_errors": 68, "historical_failures": 17, "skipped": 0},
+    "repository_validation_prepublication_records": 129,
+    "compileall": true
+  },
+  "external_effect_path": false,
+  "mock_only_engine_acceptable": false,
+  "stop": "OPEN",
+  "phase": "M0_BLOCKED",
+  "m1_released": false,
+  "capital_minor": {"conceptual": 5000, "deployable": 0, "reserved": 0},
+  "live": "LOCKED",
+  "kill": "ENGAGED"
+}

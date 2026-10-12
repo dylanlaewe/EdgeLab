@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-025",
+  "version": 2,
+  "created_at": "2026-09-29T03:35:00Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "BLOCKED",
+  "request": "Complete the final M0 laboratory-foundation and STOP-M0-001 adjudication gate.",
+  "work_done": "Director independently validated current local Data, Research, Quant and Risk controls, independent successor evidence, preservation, ancestry and current safety state. H-M0-024 v3 closes SR07/SR08 locally. M0 exit and STOP resolution remain blocked because no verifier-controlled external authority policy, required current independent STOP-clearance attestations, or typed resolution event exists. The repository cannot self-issue those inputs without violating its own trust contract.",
+  "evidence_refs": [
+    "reports/M0.1-final-gate.v1.md",
+    "docs/handoffs/H-M0-024.v3.json",
+    "reports/reviews/M0.1-risk-SR07-SR08-rereview.v3.md",
+    "docs/OPERATIONS.md",
+    "docs/SPECIFICATIONS.md",
+    "reports/stops/STOP-M0-001.v1.json",
+    "portfolio/bankroll.json",
+    "portfolio/risk-policy.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-025.v2.json",
+    "reports/M0.1-final-gate.v1.md",
+    "reports/audit/A-M0-026.v1.json",
+    "docs/project-state.json"
+  ],
+  "tests_run": [
+    "Repository validation: 105 records and published history valid; capital LOCKED and no approval.",
+    "Data 18/18, foundation 18/18, Risk owner 18/18, Skeptic Risk v3 9/9 and Skeptic semantic-v2 12/12 passed.",
+    "Research v1 historical suite was reproduced as its documented category-B verifier-history fixture migration; current R01 successor coverage was inspected against its independent review.",
+    "Compileall, whitespace, remote ancestry and clean-tree checks passed before publication."
+  ],
+  "open_questions": [
+    "Provision a verifier-controlled authority policy and accountable, independently sourced STOP-clearance attestation channel without representing repository-authored files as authentication."
+  ],
+  "blockers": [
+    "STOP-M0-001 remains OPEN because its typed clearance prerequisites are absent.",
+    "M0 exit and M1 are not authorized; capital remains 5000 conceptual minor units, 0 deployable/reserved, live LOCKED and kill ENGAGED."
+  ],
+  "next_action": "Human project governance must provision the external authority/trust channel. 05 Skeptic or an independent substitute, affected domain owners and 06 Risk must then issue typed, current, conflict-free STOP-clearance attestations against a content-bound resolution event. Director will validate that event, descendants and current state in a new gate.",
+  "completion_criteria": [
+    "An external verifier-controlled policy identifies trusted clearance actors, source, validity, revocation and conflicts.",
+    "A typed STOP resolution event binds the preserved OPEN STOP, exact remediation evidence and descendant revalidation.",
+    "All required independent domain and Risk clearance attestations validate under that policy and the current STOP head.",
+    "A new Director gate validates the evidence without changing capital, kill state or any live permission."
+  ],
+  "depends_on": [
+    "H-M0-024"
+  ]
+}

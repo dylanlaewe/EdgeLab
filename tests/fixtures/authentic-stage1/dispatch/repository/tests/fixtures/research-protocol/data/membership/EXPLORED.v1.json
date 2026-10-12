@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "id": "EXPLORED",
+  "version": 1,
+  "kind": "membership",
+  "created_at": "2026-09-19T11:00:00Z",
+  "supersedes": null,
+  "samples": [
+    {
+      "namespace": "synthetic-research-v1",
+      "event_id": "old-1",
+      "outcome_id": "target"
+    },
+    {
+      "namespace": "synthetic-research-v1",
+      "event_id": "old-2",
+      "outcome_id": "target"
+    }
+  ],
+  "membership_sha256": "0712a4b79f5eeedc0ee3105f7314acaf3668e80b073092777bad300c6b05f1a3"
+}

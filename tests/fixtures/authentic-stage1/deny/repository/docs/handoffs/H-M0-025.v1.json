@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-025",
+  "version": 1,
+  "created_at": "2026-09-29T03:20:00Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "CLAIMED",
+  "request": "Perform the final M0 laboratory-foundation and STOP-M0-001 adjudication gate after H-M0-024 v3.",
+  "work_done": "Director claims the sequential coordination writer slot for read-only gate verification plus Director-owned findings, state, audit and handoff artifacts. No domain remediation, STOP clearance, capital movement, M1 implementation, Scout activation or execution integration is in scope.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-024.v3.json",
+    "reports/reviews/M0.1-risk-SR07-SR08-rereview.v3.md",
+    "docs/OPERATIONS.md",
+    "reports/stops/STOP-M0-001.v1.json",
+    "docs/GIT_COORDINATION.md"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-025.v1.json"
+  ],
+  "tests_run": [
+    "Final validation is in progress; no verdict is asserted by this claim."
+  ],
+  "open_questions": [
+    "Whether the typed STOP clearance procedure has a non-self-issued authority policy and required independent domain attestations."
+  ],
+  "blockers": [
+    "STOP-M0-001 remains OPEN; capital remains conceptual 5000 minor units, deployable/reserved 0, live LOCKED and kill ENGAGED."
+  ],
+  "next_action": "Complete independent final-gate verification and publish either a typed, validated clearance package or a documented blocked disposition.",
+  "completion_criteria": [
+    "Reconcile all original and successor findings with independent evidence.",
+    "Validate current contracts, preservation, state and STOP-clearance prerequisites.",
+    "Record a supported Director disposition without treating local controls as external trust or operational authorization."
+  ],
+  "depends_on": [
+    "H-M0-003",
+    "H-M0-004",
+    "H-M0-005",
+    "H-M0-006",
+    "H-M0-024"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-026",
+  "version": 1,
+  "created_at": "2026-09-29T04:05:00Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "CLAIMED",
+  "request": "Produce the minimum safe external-authority provisioning plan for STOP-M0-001 without creating authority material, clearing STOP, or beginning M1.",
+  "work_done": "Director claims the sequential coordination writer slot for a planning-only artifact. Scope is the trust-bootstrap plan, a completed planning handoff, audit evidence and project-state routing. No policy, attestation, key, credential, STOP resolution, implementation or external service account is created.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-025.v2.json",
+    "docs/SPECIFICATIONS.md",
+    "docs/OPERATIONS.md",
+    "schemas/authority-policy.schema.json",
+    "schemas/approval-attestation.schema.json",
+    "schemas/stop-resolution-event.schema.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-026.v1.json"
+  ],
+  "tests_run": [
+    "Planning-only claim; no implementation validation is represented."
+  ],
+  "open_questions": [
+    "Which external identity/signing system the human owner will select and which independently authenticated delegates will hold Skeptic and Risk clearance authority."
+  ],
+  "blockers": [
+    "STOP-M0-001 remains OPEN; no self-issued authority, attestation, key, credential or resolution event may be created."
+  ],
+  "next_action": "Publish a concrete safe provisioning plan, then wait for explicit human selection and provisioning of the external trust root.",
+  "completion_criteria": [
+    "Identify all externally controlled facts and the existing contract's verification gap.",
+    "Specify the minimum safe bootstrap, typed evidence bindings, conflict rules, secret handling and verification sequence.",
+    "Preserve STOP, capital lock, kill switch and M1 hold."
+  ],
+  "depends_on": [
+    "H-M0-025"
+  ]
+}

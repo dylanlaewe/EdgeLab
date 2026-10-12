@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-018",
+  "version": 2,
+  "created_at": "2026-09-27T22:13:53.707779+00:00",
+  "sender": "05 Skeptic",
+  "recipient": "05 Skeptic",
+  "status": "CLAIMED",
+  "request": "Independently verify the H-M0-017 Q03 committed_at plausibility remediation at implementation 9e8b9c65c6233a271620fd07102eb61b1aabe4c5 before any Director or Risk gate.",
+  "work_done": "Skeptic session skeptic-quant-q03-rereview-20260927T221353Z-5ca9b53 claims the sole-writer review slot at synchronized base 5ca9b53301d6dbcae0a0f944cd74071c0fcd46e3 under explicit user authorization. H-M0-018 v1 and H-M0-017 v3 were consumed. Scope is additive versioned Skeptic probes and review evidence for Q03 and directly affected regression behavior only; existing probes, Quant production controls, STOP, capital, Risk controls and project state will not be modified.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-018.v1.json",
+    "docs/handoffs/H-M0-017.v3.json",
+    "reports/M0.1-quant-Q03-remediation.v1.md",
+    "reports/quant-Q03-remediation/results.v1.json",
+    "reports/quant-Q03-remediation/preservation.v1.json",
+    "reports/quant-Q03-remediation/validation.v1.txt",
+    "tests/test_skeptic_quant_v6.py",
+    "tests/test_quant_protocol.py",
+    "src/edgelab/data_integrity.py",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-018.v2.json"
+  ],
+  "tests_run": [],
+  "open_questions": [
+    "Does the Q03 fix reject future committed_at values after self-digest recomputation while accepting valid boundary and permitted-offset representations?",
+    "Can omission, alternate representations or another structured construction path bypass the shared completed-time policy?",
+    "Did the narrow fix preserve Q01, structured commitment binding, legitimate commitments and non-operational authorization separation?"
+  ],
+  "blockers": [
+    "STOP-M0-001 remains OPEN; Risk is unreleased and capital is LOCKED."
+  ],
+  "next_action": "Add a versioned Skeptic-owned Q03 semantic matrix, run focused regression and preservation checks, and publish the independent disposition without releasing Risk.",
+  "completion_criteria": [
+    "Reproduce valid, malformed, future, unrehashed-altered and correctly-rehashed-future committed_at outcomes at their intended validation surfaces.",
+    "Challenge meaningful structural and timestamp-boundary variants without inventing a new time policy.",
+    "Run representative Q01, commitment-binding, positive and non-operational regressions.",
+    "Confirm the Quant/local versus Risk/external authority boundary and publish CLOSED, PARTIALLY_REMEDIATED or OPEN for Q03."
+  ],
+  "depends_on": [
+    "H-M0-017"
+  ]
+}

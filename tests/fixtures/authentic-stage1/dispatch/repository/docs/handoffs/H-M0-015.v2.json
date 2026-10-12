@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-015",
+  "version": 2,
+  "created_at": "2026-09-20T03:32:46.336526+00:00",
+  "sender": "04 Quant",
+  "recipient": "04 Quant",
+  "status": "CLAIMED",
+  "request": "Bounded Q01/Q02 Quant remediation: reject prior consumed train/validation/test/holdout overlap with proposed confirmatory holdout and replace the opaque authority token with a locally verifiable structured commitment contract.",
+  "work_done": "Quant session quant-codex-20260920T033246Z-665cdbd claims the sole-writer slot at clean synchronized base 665cdbddcdce18af4b4332bb936d59a050ab6830. Consumed H-M0-015 v1 and independent H-M0-014 v3, both first added at that exact origin/main commit; verified Quant completion 34821bddf09a53dbbe01eaec324f788e66c98b75 and Skeptic claim e41da71d11bfe008044dbd97a9767b62105da504 as ancestors. User explicitly scheduled this continuation. Exclusive scope: src/edgelab/quant_protocol.py; additive Quant commitment schema; Quant owner tests/fixtures; necessary SPECIFICATIONS.md and validator integration; Quant-owned reports/audit/handoffs and independent re-review request. Skeptic v5 probes and all prior evidence remain read-only. No Risk implementation, project-state edit, STOP change or operational release.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-015.v1.json",
+    "docs/handoffs/H-M0-014.v3.json",
+    "reports/reviews/M0.1-quant-review.v1.md",
+    "tests/test_skeptic_quant_v5.py",
+    "reports/skeptic-quant-review/results.v1.json",
+    "reports/skeptic-quant-review/preservation.v1.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "docs/GIT_COORDINATION.md"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-015.v2.json"
+  ],
+  "tests_run": [
+    "Verified clean synchronized main, exact review/remediation artifact landing SHA and remote ancestry."
+  ],
+  "open_questions": [
+    "Treat every earlier accepted trial split as consumed for holdout-freshness when execution evidence cannot prove non-consumption, while limiting the rule to proposed confirmatory holdout eligibility.",
+    "Expose a structured commitment whose bindings are locally checkable without implying external authority authentication."
+  ],
+  "blockers": [
+    "Q01 HIGH and Q02 LOW remain open pending implementation and independent re-review.",
+    "STOP-M0-001 OPEN; Risk unreleased; USD 0 deployable; live LOCKED."
+  ],
+  "next_action": "Commit/push this claim and re-fetch, then implement the minimum Q01/Q02 remediation, owner successors and evidence package. Do not edit Skeptic probes or release Risk.",
+  "completion_criteria": [
+    "Reject canonical exact, renamed, reordered, partial and membership-version overlap between the proposed holdout and earlier consumed train, validation, test or holdout splits from complete accepted history.",
+    "Fail closed for earlier failed/cancelled/nonterminal trials when available evidence cannot prove overlapping inputs were not consumed; do not globally prohibit otherwise permitted non-holdout reuse.",
+    "Keep a genuinely fresh disjoint synthetic confirmation positive with every operational authorization false.",
+    "Return and independently verify a structured commitment binding authority, generation, assessment, current state, experiment identity, commitment identity and limitations.",
+    "Reject cross-assessment/state/authority/generation/experiment replay, malformed or missing commitment bindings while retaining the explicit dishonest-adapter/authentication limitation.",
+    "Preserve every Skeptic/historical artifact, run focused/current/full validation, publish hashes/SHAs/limits and request independent Skeptic re-review."
+  ],
+  "depends_on": [
+    "H-M0-014",
+    "H-M0-005"
+  ]
+}

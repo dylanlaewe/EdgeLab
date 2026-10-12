@@ -1,0 +1,17 @@
+test_v2_H01_terminal_resurrection_still_accepted (test_skeptic_semantic_v2.SemanticV2Tests.test_v2_H01_terminal_resurrection_still_accepted) ... ok
+test_v2_H01_unsupported_paper_states_still_accepted (test_skeptic_semantic_v2.SemanticV2Tests.test_v2_H01_unsupported_paper_states_still_accepted) ... ok
+test_v2_H03_open_stop_still_allows_paper_state (test_skeptic_semantic_v2.SemanticV2Tests.test_v2_H03_open_stop_still_allows_paper_state) ... ok
+test_v2_H04_correction_and_evaluation_input_rejected (test_skeptic_semantic_v2.SemanticV2Tests.test_v2_H04_correction_and_evaluation_input_rejected) ... ok
+test_v2_H04_missing_manifests_rejected_but_missing_reproduction_still_accepted (test_skeptic_semantic_v2.SemanticV2Tests.test_v2_H04_missing_manifests_rejected_but_missing_reproduction_still_accepted) ... ok
+test_v2_H04_mutated_snapshot_and_raw_rejected_semantically (test_skeptic_semantic_v2.SemanticV2Tests.test_v2_H04_mutated_snapshot_and_raw_rejected_semantically) ... ok
+test_v2_H04_unknown_and_late_availability_rejected_semantically (test_skeptic_semantic_v2.SemanticV2Tests.test_v2_H04_unknown_and_late_availability_rejected_semantically) ... ok
+test_v2_H05_explored_same_and_renamed_membership_still_accepted (test_skeptic_semantic_v2.SemanticV2Tests.test_v2_H05_explored_same_and_renamed_membership_still_accepted) ... ok
+test_v2_H06_baseline_detects_mutation_deletion_and_accepts_correction (test_skeptic_semantic_v2.SemanticV2Tests.test_v2_H06_baseline_detects_mutation_deletion_and_accepts_correction) ... ok
+test_v2_H06_self_supersession_rejected_at_correct_surface (test_skeptic_semantic_v2.SemanticV2Tests.test_v2_H06_self_supersession_rejected_at_correct_surface) ... ok
+test_v2_M01_independent_dependency_and_summary_denials (test_skeptic_semantic_v2.SemanticV2Tests.test_v2_M01_independent_dependency_and_summary_denials) ... ok
+test_v2_M02_permission_probe_reached_without_future_clock_error (test_skeptic_semantic_v2.SemanticV2Tests.test_v2_M02_permission_probe_reached_without_future_clock_error) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 9.217s
+
+OK

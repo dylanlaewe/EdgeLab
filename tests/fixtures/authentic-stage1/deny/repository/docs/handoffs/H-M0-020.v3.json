@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-020",
+  "version": 3,
+  "created_at": "2026-09-28T01:45:44.758471+00:00",
+  "sender": "05 Skeptic",
+  "recipient": "00 Director",
+  "status": "BLOCKED",
+  "request": "Independently and adversarially review the frozen H-M0-006 Risk implementation and determine readiness for the final M0/STOP gate.",
+  "work_done": "Review is BLOCKED by SR01 BLOCKER, SR02-SR05 HIGH and SR06 MEDIUM. Risk primitives provide useful local shape, hash-chain, replay, conservation, exposure, kill and separation behavior, but the assembled interface accepts unbound control assertions and caller-selected phase/capital to produce PAPER and LIVE AUTHORIZED decisions. Valid-prefix rollback, revoked/self-issued/conflicted authority, candidate-supplied STOP clearance, pending/renamed exposure and actionless ledger bindings also reproduce. H-M0-021 v1 queues Risk-owned remediation. STOP and capital remain unchanged.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-risk-rereview.v1.md",
+    "tests/test_skeptic_risk_v1.py",
+    "reports/skeptic-risk-rereview/results.v1.json",
+    "reports/skeptic-risk-rereview/preservation.v1.json",
+    "reports/skeptic-risk-rereview/validation.v1.txt",
+    "docs/handoffs/H-M0-021.v1.json",
+    "docs/handoffs/H-M0-006.v5.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-020.v2.json",
+    "tests/test_skeptic_risk_v1.py",
+    "reports/reviews/M0.1-risk-rereview.v1.md",
+    "reports/skeptic-risk-rereview/results.v1.json",
+    "reports/skeptic-risk-rereview/preservation.v1.json",
+    "reports/skeptic-risk-rereview/validation.v1.txt",
+    "docs/handoffs/H-M0-021.v1.json",
+    "docs/handoffs/H-M0-020.v3.json",
+    "reports/audit/A-M0-021.v1.json"
+  ],
+  "tests_run": [
+    "Skeptic Risk v1 21/21 and Risk owner 12/12 pass.",
+    "Full discovery 218 methods: 169 pass, 48 preserved errors, one preserved failure, zero skips; exact historical red identities preserved.",
+    "Repository validation reports 87 records before completion artifacts and 90 with completion/remediation handoffs and audit; compileall, whitespace and 19/19 completion/preservation hash checks pass."
+  ],
+  "open_questions": [
+    "Risk must choose and implement the verifier-controlled current-state/action authorization design requested by H-M0-021.",
+    "External authentication, hostile-host/remote durability, venue honesty and cross-system atomicity remain future operational prerequisites even after local remediation."
+  ],
+  "blockers": [
+    "SR01 BLOCKER and SR02-SR05 HIGH prevent final M0/STOP gate consideration.",
+    "STOP-M0-001 remains OPEN; capital is 5000 conceptual, 0 deployable/reserved, live LOCKED and kill ENGAGED."
+  ],
+  "next_action": "Director retains the final M0/STOP hold and schedules H-M0-021 Risk remediation followed by independent Skeptic re-review. Do not clear STOP or unlock capital.",
+  "completion_criteria": [
+    "Every requested Risk control family challenged with valid-prerequisite attacks and positives.",
+    "Genuine defects preserved in a versioned Skeptic successor and assigned to Risk without production edits.",
+    "External limitations distinguished from local defects.",
+    "Historical evidence and frozen Risk completion inventory preserved; review committed and pushed cleanly."
+  ],
+  "depends_on": [
+    "H-M0-006"
+  ]
+}

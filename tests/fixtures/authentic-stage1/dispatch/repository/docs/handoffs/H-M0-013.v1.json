@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-013",
+  "version": 1,
+  "created_at": "2026-09-20T02:03:12.808237+00:00",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "CLAIMED",
+  "request": "Formal Quant release gate after independent R01 re-review; clarify checkpoint-currency responsibilities.",
+  "work_done": "Director session 01a0bc0f-0f04-7c40-bc24-177858026bc8 claims sole-writer coordination slot yielded by H-M0-012 v3. Base 8e0040f3871e79457a5a1ec0d83ef818c0e8eb1b. Scope: Director release report, appended handoff/audit/evidence and mutable project-state only. No Quant implementation.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-012.v3.json",
+    "docs/handoffs/H-M0-011.v3.json",
+    "docs/GIT_COORDINATION.md"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-013.v1.json"
+  ],
+  "tests_run": [],
+  "open_questions": [
+    "Independent test reproduction and current-checkpoint integration scope must be verified."
+  ],
+  "blockers": [
+    "STOP-M0-001 OPEN; Quant awaits Director decision."
+  ],
+  "next_action": "Verify semantic coverage, preservation and dependencies; publish exact Quant scope and release decision.",
+  "completion_criteria": [
+    "Verify source evidence and ancestry",
+    "Classify every error and record explicit release decision",
+    "Publish bounded coordination updates without changing domain controls"
+  ],
+  "depends_on": [
+    "H-M0-011",
+    "H-M0-012"
+  ]
+}

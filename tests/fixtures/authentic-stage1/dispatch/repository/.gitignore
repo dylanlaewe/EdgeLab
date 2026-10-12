@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.env.*
+!.env.example
+.DS_Store
+.coverage
+.pytest_cache/
+data/raw/*
+!data/raw/README.md

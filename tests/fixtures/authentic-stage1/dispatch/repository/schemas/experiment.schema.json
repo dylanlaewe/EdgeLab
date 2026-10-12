@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:experiment:1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "version",
+    "mode",
+    "hypothesis_ref",
+    "protocol_frozen_at",
+    "started_at",
+    "completed_at",
+    "dataset_manifests",
+    "code_commit",
+    "config_ref",
+    "environment_ref",
+    "seed",
+    "seed_explanation",
+    "reproduction_command",
+    "temporal_review_ref",
+    "split_definition",
+    "cost_assumptions",
+    "trial_inventory_ref",
+    "metrics_ref",
+    "uncertainty_ref",
+    "robustness_ref",
+    "result",
+    "failures",
+    "assumptions"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "mode": {
+      "enum": [
+        "EXPLORATORY",
+        "CONFIRMATORY"
+      ]
+    },
+    "hypothesis_ref": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "protocol_frozen_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completed_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "dataset_manifests": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "code_commit": {
+      "type": "string",
+      "minLength": 1
+    },
+    "config_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "environment_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "seed": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "seed_explanation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reproduction_command": {
+      "type": "string",
+      "minLength": 1
+    },
+    "temporal_review_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "split_definition": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cost_assumptions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "trial_inventory_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "metrics_ref": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "uncertainty_ref": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "robustness_ref": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "result": {
+      "enum": [
+        "PENDING",
+        "NO_DEMONSTRATED_EDGE",
+        "INSUFFICIENT_DATA",
+        "REJECTED",
+        "PROMISING_REQUIRES_REVIEW"
+      ]
+    },
+    "failures": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "ancestry": "Both supplied SHAs ancestors of origin/main",
+  "completion_first_commit": "90c1a0a04216d737c3d6cbdd4a3404488fec7605",
+  "inventory_hashes_verified": 38,
+  "records": 24,
+  "initial_history_files": 35,
+  "completion_history_files": 62,
+  "original_probes": "byte-identical",
+  "test_data_integrity.py": {
+    "methods": 18,
+    "error_entries": 0,
+    "failures": 0,
+    "skipped": 0,
+    "errors": []
+  },
+  "test_foundation.py": {
+    "methods": 18,
+    "error_entries": 0,
+    "failures": 0,
+    "skipped": 0,
+    "errors": []
+  },
+  "test*.py": {
+    "methods": 51,
+    "error_entries": 12,
+    "failures": 0,
+    "skipped": 0,
+    "errors": [
+      {
+        "test": "test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='REGISTERED')",
+        "last_line": "ValueError: Identity/filename mismatch: strategies/S.v1.json",
+        "exception": "ValueError: Identity/filename mismatch: strategies/S.v1.json"
+      },
+      {
+        "test": "test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='BACKTESTED')",
+        "last_line": "ValueError: Identity/filename mismatch: strategies/S.v1.json",
+        "exception": "ValueError: Identity/filename mismatch: strategies/S.v1.json"
+      },
+      {
+        "test": "test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='PAPER_ELIGIBLE')",
+        "last_line": "ValueError: Identity/filename mismatch: strategies/S.v1.json",
+        "exception": "ValueError: Identity/filename mismatch: strategies/S.v1.json"
+      },
+      {
+        "test": "test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='PAPER_TRADING')",
+        "last_line": "ValueError: Identity/filename mismatch: strategies/S.v1.json",
+        "exception": "ValueError: Identity/filename mismatch: strategies/S.v1.json"
+      },
+      {
+        "test": "test_H01_rejected_version_resurrected_and_conflicting_versions_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_rejected_version_resurrected_and_conflicting_versions_accepted)",
+        "last_line": "ValueError: Identity/filename mismatch: strategies/S.v1.json",
+        "exception": "ValueError: Identity/filename mismatch: strategies/S.v1.json"
+      },
+      {
+        "test": "test_H03_open_stop_does_not_block_affected_paper_state (test_skeptic_adversarial.SkepticAdversarialTests.test_H03_open_stop_does_not_block_affected_paper_state)",
+        "last_line": "ValueError: Identity/filename mismatch: strategies/S.v1.json",
+        "exception": "ValueError: Identity/filename mismatch: strategies/S.v1.json"
+      },
+      {
+        "test": "test_H04_completed_confirmation_without_reproduction_inputs_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H04_completed_confirmation_without_reproduction_inputs_accepted)",
+        "last_line": "ValueError: Identity/filename mismatch: research/hypotheses/H.v1.json",
+        "exception": "ValueError: Identity/filename mismatch: research/hypotheses/H.v1.json"
+      },
+      {
+        "test": "test_H04_late_unknown_and_mutated_lineage_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H04_late_unknown_and_mutated_lineage_accepted)",
+        "last_line": "     'sha256': 'incorrect'}",
+        "exception": "jsonschema.exceptions.ValidationError: Additional properties are not allowed ('available_at', 'sha256' were unexpected)"
+      },
+      {
+        "test": "test_H05_explored_dataset_reused_as_confirmation (test_skeptic_adversarial.SkepticAdversarialTests.test_H05_explored_dataset_reused_as_confirmation)",
+        "last_line": "ValueError: Identity/filename mismatch: research/hypotheses/H.v1.json",
+        "exception": "ValueError: Identity/filename mismatch: research/hypotheses/H.v1.json"
+      },
+      {
+        "test": "test_H06_history_mutation_deletion_and_circular_supersession_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H06_history_mutation_deletion_and_circular_supersession_accepted)",
+        "last_line": "ValueError: Identity/filename mismatch: reports/audit/A.v1.json",
+        "exception": "ValueError: Identity/filename mismatch: reports/audit/A.v1.json"
+      },
+      {
+        "test": "test_M01_identifiers_filenames_dependencies_and_project_state_unchecked (test_skeptic_adversarial.SkepticAdversarialTests.test_M01_identifiers_filenames_dependencies_and_project_state_unchecked)",
+        "last_line": "ValueError: Invalid identifier: docs/handoffs/unrelated.v1.json",
+        "exception": "ValueError: Invalid identifier: docs/handoffs/unrelated.v1.json"
+      },
+      {
+        "test": "test_M02_future_stale_times_and_unverified_permission_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_M02_future_stale_times_and_unverified_permission_evidence_accepted)",
+        "last_line": "ValueError: Future completed fact: as_of",
+        "exception": "ValueError: Future completed fact: as_of"
+      }
+    ]
+  },
+  "baseline_suite": [
+    "Ran 33 tests in 1.944s",
+    "",
+    "OK"
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-035",
+  "version": 3,
+  "created_at": "2026-09-30T20:46:04Z",
+  "sender": "05 Skeptic",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Complete the bounded acceptance review of H-M0-034.v3 for the MOCK_ONLY M0.2 orchestration decision engine.",
+  "work_done": "Review completed with verdict NOT_ACCEPTED_FOR_BOUNDED_M0_2_PURPOSE. M02-SK-09 closes and M02-SK-01/03/04/06/07 remain closed. M02-SK-02/05/08 remain partial. Seventeen v6 probes preserve HIGH stale assignment/dependency-head dispatch variants and MEDIUM denial-receipt state omission. Current owner suites are green and the positive path remains MOCK_ONLY. No executor or external effect exists. Skeptic yields the writer slot.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-orchestration-bounded-acceptance-review.v1.md",
+    "tests/test_skeptic_orchestration_v6.py",
+    "reports/skeptic-orchestration-bounded-acceptance-review/results.v1.json",
+    "reports/skeptic-orchestration-bounded-acceptance-review/preservation.v1.json",
+    "reports/skeptic-orchestration-bounded-acceptance-review/validation.v1.txt",
+    "docs/handoffs/H-M0-036.v1.json",
+    "reports/audit/A-M0-034.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-035.v2.json",
+    "tests/test_skeptic_orchestration_v6.py",
+    "reports/reviews/M0.2-orchestration-bounded-acceptance-review.v1.md",
+    "reports/skeptic-orchestration-bounded-acceptance-review/results.v1.json",
+    "reports/skeptic-orchestration-bounded-acceptance-review/preservation.v1.json",
+    "reports/skeptic-orchestration-bounded-acceptance-review/validation.v1.txt",
+    "docs/handoffs/H-M0-035.v3.json",
+    "docs/handoffs/H-M0-036.v1.json",
+    "reports/audit/A-M0-034.v1.json"
+  ],
+  "tests_run": [
+    "Independent current-contract v6: 17/17 passed.",
+    "Current owner suites: 8/8 passed. Historical v5 remains preserved and is superseded by v6 for current semantics.",
+    "Foundation + Data: 36/36 passed.",
+    "Full discovery and validation details are frozen in the validation artifact."
+  ],
+  "open_questions": [
+    "The six FUTURE_GATE controls remain mandatory and absent by design.",
+    "Formal assignment/completion schemas and validator inventory coverage are deferred M0.3 hardening."
+  ],
+  "blockers": [
+    "HIGH M02-SK-02 assignment-head and M02-SK-05 dependency-head bypasses prevent bounded M0.2 acceptance.",
+    "MEDIUM M02-SK-08 denial receipt binding remains incomplete.",
+    "STOP OPEN; M0 blocked; M1 unreleased; capital LOCKED."
+  ],
+  "next_action": "Director may schedule only H-M0-036.v1 targeted remediation. Do not freeze Stage 1, plan M0.3 as executable work, attach an executor, begin M1, activate Scout, clear STOP or alter capital.",
+  "completion_criteria": [
+    "Every requested finding and acceptance condition has an evidence-backed disposition.",
+    "Historical and Director evidence inventories are preserved and no production control was modified.",
+    "Review is committed, pushed, remotely verified and leaves a clean tree."
+  ],
+  "depends_on": [
+    "H-M0-034"
+  ]
+}

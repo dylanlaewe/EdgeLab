@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:source:1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "version",
+    "name",
+    "source_type",
+    "url",
+    "access_status",
+    "access_evidence",
+    "terms_checked_at",
+    "allowed_uses",
+    "restrictions",
+    "cost",
+    "rate_limits",
+    "history_coverage",
+    "timestamp_quality",
+    "reliability",
+    "automation_feasibility",
+    "research_value",
+    "unknowns"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "access_status": {
+      "enum": [
+        "UNKNOWN",
+        "REVIEW_REQUIRED",
+        "PERMITTED",
+        "DENIED"
+      ]
+    },
+    "access_evidence": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "terms_checked_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "allowed_uses": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "restrictions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "cost": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "rate_limits": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "history_coverage": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "timestamp_quality": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "reliability": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "automation_feasibility": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "research_value": {
+      "type": "string",
+      "minLength": 1
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

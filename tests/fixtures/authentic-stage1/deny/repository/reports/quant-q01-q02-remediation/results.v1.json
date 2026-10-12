@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "purpose": "H-M0-015 Q01/Q02 Quant remediation validation; no operational authorization",
+  "claim_commit": "a367a5714617e25722c4c772339680b8f57c60c7",
+  "implementation_commit": "0319ff115707ad65f9f871275dc17740700ef3db",
+  "verdict": "IMPLEMENTED_AWAITING_INDEPENDENT_SKEPTIC_REVIEW",
+  "focused": {
+    "quant_owner": {"methods": 23, "passed": 23, "failed": 0, "errored": 0, "skipped": 0},
+    "data": {"methods": 18, "passed": 18, "failed": 0, "errored": 0, "skipped": 0},
+    "research_history_v2": {"methods": 27, "passed": 27, "failed": 0, "errored": 0, "skipped": 0},
+    "skeptic_history_v4": {"methods": 15, "passed": 15, "failed": 0, "errored": 0, "skipped": 0},
+    "foundation": {"methods": 18, "passed": 18, "failed": 0, "errored": 0, "skipped": 0}
+  },
+  "skeptic_quant_v5_unchanged_probe_disposition": {
+    "methods": 7,
+    "passed": 2,
+    "errored": 4,
+    "failed": 1,
+    "skipped": 0,
+    "expected_remediation_errors": [
+      "test_Q01_prior_training_use_of_current_holdout_is_accepted",
+      "test_Q01_prior_validation_use_of_current_holdout_is_accepted",
+      "test_Q01_renamed_partial_prior_training_use_is_accepted",
+      "test_dishonest_authority_can_return_replayed_token_and_commit_other_bytes"
+    ],
+    "expected_contract_shape_failure": "test_positive_assessment_digest_binds_non_authorized_risk_payload",
+    "passing_controls": [
+      "test_Q01_negative_control_prior_test_use_is_rejected",
+      "test_trusted_reproducer_can_echo_bound_bytes_without_executing"
+    ],
+    "classification": "Acceptance-characterization probes were preserved; non-green outcomes demonstrate rejection or the structured-contract change and require independent Skeptic disposition."
+  },
+  "full_discovery": {
+    "methods": 165,
+    "passing_methods": 120,
+    "errored_methods": 44,
+    "error_entries": 47,
+    "failure_count": 1,
+    "skip_count": 0,
+    "successful": false,
+    "historical_errored_methods": 40,
+    "historical_error_entries": 43,
+    "historical_error_identities_match": true,
+    "new_expected_skeptic_v5_error_methods": 4,
+    "new_expected_skeptic_v5_failures": 1,
+    "classification": "NOT GREEN: exact inherited historical corpus plus unchanged Q01/Q02 acceptance-characterization probes."
+  },
+  "repository_validation_before_completion_artifacts": {
+    "records": 64,
+    "published_history_valid": true,
+    "capital_status": "LOCKED",
+    "scientific_or_operational_approval": false
+  },
+  "repository_validation_with_completion_artifacts": {
+    "records": 67,
+    "published_history_valid": true,
+    "capital_status": "LOCKED",
+    "scientific_or_operational_approval": false
+  },
+  "controls": {
+    "q01": "All earlier declared train/validation/test/holdout inputs are compared by canonical sample identity with the proposed holdout; uncertain failed/cancelled/attempted consumption fails closed.",
+    "q02": "Structured commitment binds authority, generation, commitment identity, assessment, current state, experiment, exact claim references and limitations through schema checks and canonical digests.",
+    "external_boundary": "No authority authentication, signature trust root, key custody or proof of honest durable compare-and-commit is claimed."
+  },
+  "commands": [
+    ".venv/bin/python -m unittest discover -s tests -p test_quant_protocol.py -v",
+    ".venv/bin/python -m unittest discover -s tests -p test_skeptic_quant_v5.py -v",
+    ".venv/bin/python -m unittest discover -s tests -p test_data_integrity.py -v",
+    ".venv/bin/python -m unittest discover -s tests -p test_research_history_v2.py -v",
+    ".venv/bin/python -m unittest discover -s tests -p test_skeptic_history_v4.py -v",
+    ".venv/bin/python -m unittest discover -s tests -p test_foundation.py -v",
+    "unittest.TestLoader().discover('tests') with machine-readable error/failure identities",
+    ".venv/bin/python -m src.edgelab.validate",
+    ".venv/bin/python -m compileall -q src tests",
+    "git diff --check"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-038",
+  "version": 1,
+  "created_at": "2026-10-02T00:41:24Z",
+  "sender": "05 Skeptic",
+  "recipient": "00 Director",
+  "status": "QUEUED",
+  "request": "Complete the final targeted MOCK_ONLY closure for MEDIUM handoff/task consistency and denial-receipt inclusion of consumed handoff/completion records. Preserve v1-v7 probes; do not attach an executor or implement FUTURE_GATE.",
+  "work_done": "Independent v7 closes numeric assignment/dependency head attacks, including v2/v9/v10/v11/v100, malformed and ambiguous representations. It demonstrates that a schema-valid expected handoff explicitly describing another task still dispatches, and that different consumed dependency-completion or handoff content can produce the same denial ID and reason because those namespaces are absent from denial context. Owner tests and positive MOCK_ONLY behavior remain sound.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-orchestration-final-bounded-rereview.v1.md",
+    "tests/test_skeptic_orchestration_v7.py",
+    "reports/skeptic-orchestration-final-bounded-rereview/results.v1.json",
+    "reports/skeptic-orchestration-final-bounded-rereview/preservation.v1.json",
+    "docs/handoffs/H-M0-036.v3.json",
+    "docs/handoffs/H-M0-037.v3.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [],
+  "tests_run": [
+    "Current v7 semantic suite: 24/24 passed.",
+    "Current owner suites: 8/8 passed.",
+    "Foundation + Data: 36/36 passed."
+  ],
+  "open_questions": [
+    "Choose the smallest machine-readable handoff assignment binding consistent with the typed assignment record."
+  ],
+  "blockers": [
+    "MEDIUM M02-SK-02 handoff/task contradiction and M02-SK-08 denial-context omissions materially violate explicit bounded acceptance requirements.",
+    "STOP OPEN; M0/M1 blocked; no executor, Scout, operational activity or capital action."
+  ],
+  "next_action": "Director may claim only this narrow closure, publish final-tree evidence, yield the writer slot and request independent bounded acceptance re-review.",
+  "completion_criteria": [
+    "A schema-valid current handoff at the expected reference cannot authorize a different task or attempt than the typed assignment/task/claim.",
+    "Denial receipts canonically bind handoff and typed dependency-completion records available to and consumed by the denial path; the preserved v7 content mutations change IDs.",
+    "Current owner and current semantic successor suites are green; historical evidence remains immutable."
+  ],
+  "depends_on": [
+    "H-M0-037"
+  ]
+}

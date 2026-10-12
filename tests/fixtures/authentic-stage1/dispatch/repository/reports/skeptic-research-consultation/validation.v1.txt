@@ -1,0 +1,2 @@
+Validated 44 records and published history; M0 capital remains LOCKED. No scientific or operational approval.
+Read-only history preservation comparisons (not operational checkpoints): {"4e99cfac90e0af601158c1528c70574dd5dafeda": 35, "a23f5e996e8813593bd1dede77660f7023da4b24": 108}

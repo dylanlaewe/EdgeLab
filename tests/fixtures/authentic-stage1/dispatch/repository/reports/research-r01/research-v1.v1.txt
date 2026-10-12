@@ -1,0 +1,386 @@
+Command: /Users/dylanlaewe/Projects/Active/EdgeLab/.venv/bin/python -m unittest discover -s tests -p test_research_protocol.py -v
+test_exact_membership_not_dataset_label (test_research_protocol.ResearchProtocolTests.test_exact_membership_not_dataset_label) ... ERROR
+test_exposure_cannot_precede_membership_binding (test_research_protocol.ResearchProtocolTests.test_exposure_cannot_precede_membership_binding) ... ERROR
+test_exposure_order_and_missing_first_access (test_research_protocol.ResearchProtocolTests.test_exposure_order_and_missing_first_access) ... ERROR
+test_first_access_before_equal_after_freeze (test_research_protocol.ResearchProtocolTests.test_first_access_before_equal_after_freeze) ... ERROR
+test_first_access_cannot_hide_prior_access_ancestor (test_research_protocol.ResearchProtocolTests.test_first_access_cannot_hide_prior_access_ancestor) ... ERROR
+test_fresh_holdout_positive_and_repository (test_research_protocol.ResearchProtocolTests.test_fresh_holdout_positive_and_repository) ... ERROR
+test_frozen_fixture_positive (test_research_protocol.ResearchProtocolTests.test_frozen_fixture_positive) ... ERROR
+test_identical_renamed_partial_overlap_rejected (test_research_protocol.ResearchProtocolTests.test_identical_renamed_partial_overlap_rejected) ... ERROR
+test_missing_predecessor_and_mutated_custody_evidence (test_research_protocol.ResearchProtocolTests.test_missing_predecessor_and_mutated_custody_evidence) ... ERROR
+test_missing_unknown_stale_and_retrospective_holdout (test_research_protocol.ResearchProtocolTests.test_missing_unknown_stale_and_retrospective_holdout) ... ERROR
+test_mutated_hypothesis_threshold_plan_and_freeze_pin (test_research_protocol.ResearchProtocolTests.test_mutated_hypothesis_threshold_plan_and_freeze_pin) ... ERROR
+test_nested_ancestry_and_correction_cannot_hide_overlap (test_research_protocol.ResearchProtocolTests.test_nested_ancestry_and_correction_cannot_hide_overlap) ... ERROR
+test_rehashed_hypothesis_change_still_breaks_freeze (test_research_protocol.ResearchProtocolTests.test_rehashed_hypothesis_change_still_breaks_freeze) ... ERROR
+test_repository_rejects_targeted_overlap (test_research_protocol.ResearchProtocolTests.test_repository_rejects_targeted_overlap) ... ERROR
+test_required_fields_and_extra_properties (test_research_protocol.ResearchProtocolTests.test_required_fields_and_extra_properties) ... ERROR
+test_retroactive_hypothesis_and_unresolved_thresholds (test_research_protocol.ResearchProtocolTests.test_retroactive_hypothesis_and_unresolved_thresholds) ... ERROR
+test_unknown_exposure_recordable_but_ineligible (test_research_protocol.ResearchProtocolTests.test_unknown_exposure_recordable_but_ineligible) ... ERROR
+test_unknown_or_wrong_purpose_access_denied (test_research_protocol.ResearchProtocolTests.test_unknown_or_wrong_purpose_access_denied) ... ERROR
+test_versioned_registration_preserves_prior_without_reusing_pin (test_research_protocol.ResearchProtocolTests.test_versioned_registration_preserves_prior_without_reusing_pin) ... ERROR
+test_wrong_type_identity_digest_membership_and_missing_refs (test_research_protocol.ResearchProtocolTests.test_wrong_type_identity_digest_membership_and_missing_refs) ... ERROR
+
+======================================================================
+ERROR: test_exact_membership_not_dataset_label (test_research_protocol.ResearchProtocolTests.test_exact_membership_not_dataset_label)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_exposure_cannot_precede_membership_binding (test_research_protocol.ResearchProtocolTests.test_exposure_cannot_precede_membership_binding)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_exposure_order_and_missing_first_access (test_research_protocol.ResearchProtocolTests.test_exposure_order_and_missing_first_access)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_first_access_before_equal_after_freeze (test_research_protocol.ResearchProtocolTests.test_first_access_before_equal_after_freeze)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_first_access_cannot_hide_prior_access_ancestor (test_research_protocol.ResearchProtocolTests.test_first_access_cannot_hide_prior_access_ancestor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_fresh_holdout_positive_and_repository (test_research_protocol.ResearchProtocolTests.test_fresh_holdout_positive_and_repository)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_frozen_fixture_positive (test_research_protocol.ResearchProtocolTests.test_frozen_fixture_positive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_identical_renamed_partial_overlap_rejected (test_research_protocol.ResearchProtocolTests.test_identical_renamed_partial_overlap_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_missing_predecessor_and_mutated_custody_evidence (test_research_protocol.ResearchProtocolTests.test_missing_predecessor_and_mutated_custody_evidence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_missing_unknown_stale_and_retrospective_holdout (test_research_protocol.ResearchProtocolTests.test_missing_unknown_stale_and_retrospective_holdout)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_mutated_hypothesis_threshold_plan_and_freeze_pin (test_research_protocol.ResearchProtocolTests.test_mutated_hypothesis_threshold_plan_and_freeze_pin)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_nested_ancestry_and_correction_cannot_hide_overlap (test_research_protocol.ResearchProtocolTests.test_nested_ancestry_and_correction_cannot_hide_overlap)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_rehashed_hypothesis_change_still_breaks_freeze (test_research_protocol.ResearchProtocolTests.test_rehashed_hypothesis_change_still_breaks_freeze)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_repository_rejects_targeted_overlap (test_research_protocol.ResearchProtocolTests.test_repository_rejects_targeted_overlap)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_required_fields_and_extra_properties (test_research_protocol.ResearchProtocolTests.test_required_fields_and_extra_properties)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_retroactive_hypothesis_and_unresolved_thresholds (test_research_protocol.ResearchProtocolTests.test_retroactive_hypothesis_and_unresolved_thresholds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_unknown_exposure_recordable_but_ineligible (test_research_protocol.ResearchProtocolTests.test_unknown_exposure_recordable_but_ineligible)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_unknown_or_wrong_purpose_access_denied (test_research_protocol.ResearchProtocolTests.test_unknown_or_wrong_purpose_access_denied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_versioned_registration_preserves_prior_without_reusing_pin (test_research_protocol.ResearchProtocolTests.test_versioned_registration_preserves_prior_without_reusing_pin)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_wrong_type_identity_digest_membership_and_missing_refs (test_research_protocol.ResearchProtocolTests.test_wrong_type_identity_digest_membership_and_missing_refs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+----------------------------------------------------------------------
+Ran 20 tests in 3.197s
+
+FAILED (errors=20)

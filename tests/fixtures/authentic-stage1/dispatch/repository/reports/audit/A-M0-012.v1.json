@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-012",
+  "version": 1,
+  "occurred_at": "2026-09-20T02:06:05.946196+00:00",
+  "actor": "Director session 01a0bc0f-0f04-7c40-bc24-177858026bc8",
+  "role": "00 Director",
+  "event_type": "BOUNDED_QUANT_REMEDIATION_RELEASED",
+  "subject_ref": "docs/handoffs/H-M0-005.v3.json",
+  "previous_state": "QUANT_UNRELEASED_PENDING_R01_REVIEW_AND_DIRECTOR_GATE",
+  "new_state": "QUANT_RELEASED_FOR_BOUNDED_M0_REMEDIATION",
+  "reason": "Research and independent semantic review reproduced; stale-checkpoint limitation explicitly assigned to Quant current-state enforcement. STOP unchanged.",
+  "evidence_refs": [
+    "reports/M0.1-quant-release.v1.md",
+    "reports/director-verification/quant-release-results.v1.json",
+    "docs/handoffs/H-M0-012.v3.json",
+    "docs/handoffs/H-M0-005.v3.json"
+  ],
+  "code_ref": "Reviewed 8e0040f3871e79457a5a1ec0d83ef818c0e8eb1b; release commit first adds docs/handoffs/H-M0-013.v2.json",
+  "config_ref": "docs/SPECIFICATIONS.md",
+  "correlation_id": "M0.1-QUANT-RELEASE",
+  "supersedes": null
+}

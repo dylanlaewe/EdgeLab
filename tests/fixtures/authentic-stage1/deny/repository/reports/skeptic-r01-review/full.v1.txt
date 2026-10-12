@@ -1,0 +1,1193 @@
+test_availability_requires_content_and_no_backdating_capture (test_data_integrity.DataIntegrityTests.test_availability_requires_content_and_no_backdating_capture) ... ok
+test_clock_and_project_state (test_data_integrity.DataIntegrityTests.test_clock_and_project_state) ... ok
+test_correction_preserves_original (test_data_integrity.DataIntegrityTests.test_correction_preserves_original) ... ok
+test_evaluation_and_feature_time_leakage (test_data_integrity.DataIntegrityTests.test_evaluation_and_feature_time_leakage) ... ok
+test_frozen_synthetic_fixture (test_data_integrity.DataIntegrityTests.test_frozen_synthetic_fixture) ... ok
+test_history_preservation_and_checkpoint_boundary (test_data_integrity.DataIntegrityTests.test_history_preservation_and_checkpoint_boundary) ... ok
+test_identifier_filename_gaps_orphans_cycles (test_data_integrity.DataIntegrityTests.test_identifier_filename_gaps_orphans_cycles) ... ok
+test_legacy_supersession_and_handoff_graph (test_data_integrity.DataIntegrityTests.test_legacy_supersession_and_handoff_graph) ... ok
+test_manifest_orphan_and_blob_type (test_data_integrity.DataIntegrityTests.test_manifest_orphan_and_blob_type) ... ok
+test_membership_renaming_and_partial_overlap (test_data_integrity.DataIntegrityTests.test_membership_renaming_and_partial_overlap) ... ok
+test_missing_mutated_wrong_type_and_identity (test_data_integrity.DataIntegrityTests.test_missing_mutated_wrong_type_and_identity) ... ok
+test_new_schema_required_fields_and_versions (test_data_integrity.DataIntegrityTests.test_new_schema_required_fields_and_versions) ... ok
+test_permission_evidence_valid_denied_expired_wrong_uses_and_future (test_data_integrity.DataIntegrityTests.test_permission_evidence_valid_denied_expired_wrong_uses_and_future) ... ok
+test_positive_reconstruction_and_registry (test_data_integrity.DataIntegrityTests.test_positive_reconstruction_and_registry) ... ok
+test_reference_escape_and_alias (test_data_integrity.DataIntegrityTests.test_reference_escape_and_alias) ... ok
+test_snapshot_mutation_even_with_new_digest (test_data_integrity.DataIntegrityTests.test_snapshot_mutation_even_with_new_digest) ... ok
+test_transitive_global_and_retained_quarantine (test_data_integrity.DataIntegrityTests.test_transitive_global_and_retained_quarantine) ... ok
+test_unknown_late_and_later_corrections (test_data_integrity.DataIntegrityTests.test_unknown_late_and_later_corrections) ... ok
+test_capital_mutations_denied (test_foundation.FoundationTests.test_capital_mutations_denied) ... ok
+test_confirmation_requires_registration (test_foundation.FoundationTests.test_confirmation_requires_registration) ... ok
+test_confirmation_thresholds_and_registration_order (test_foundation.FoundationTests.test_confirmation_thresholds_and_registration_order) ... ok
+test_duplicate_identities_denied (test_foundation.FoundationTests.test_duplicate_identities_denied) ... ok
+test_duplicate_json_keys_denied (test_foundation.FoundationTests.test_duplicate_json_keys_denied) ... ok
+test_each_exposure_limit_locked (test_foundation.FoundationTests.test_each_exposure_limit_locked) ... ok
+test_gate_removal_replacement_and_duplication_denied (test_foundation.FoundationTests.test_gate_removal_replacement_and_duplication_denied) ... ok
+test_handoff_missing_evidence_denied (test_foundation.FoundationTests.test_handoff_missing_evidence_denied) ... ok
+test_live_enable_and_kill_reset_denied (test_foundation.FoundationTests.test_live_enable_and_kill_reset_denied) ... ok
+test_live_states_denied_even_with_review_strings (test_foundation.FoundationTests.test_live_states_denied_even_with_review_strings) ... ok
+test_missing_and_unknown_fields (test_foundation.FoundationTests.test_missing_and_unknown_fields) ... ok
+test_missing_portfolio_fails_closed (test_foundation.FoundationTests.test_missing_portfolio_fails_closed) ... ok
+test_missing_unused_schema_fails_closed (test_foundation.FoundationTests.test_missing_unused_schema_fails_closed) ... ok
+test_permission_requires_evidence (test_foundation.FoundationTests.test_permission_requires_evidence) ... ok
+test_protocol_and_completion_order (test_foundation.FoundationTests.test_protocol_and_completion_order) ... ok
+test_repository (test_foundation.FoundationTests.test_repository) ... ok
+test_stop_resolution_requires_event (test_foundation.FoundationTests.test_stop_resolution_requires_event) ... ok
+test_timestamp_requires_real_date_and_offset (test_foundation.FoundationTests.test_timestamp_requires_real_date_and_offset) ... ok
+test_R01_exact_prior_registration_attack_rejected_at_semantic_surface (test_research_history_v2.ResearchHistoryV2Tests.test_R01_exact_prior_registration_attack_rejected_at_semantic_surface) ... ok
+test_accepted_unrelated_exposure_found_without_candidate_ancestry (test_research_history_v2.ResearchHistoryV2Tests.test_accepted_unrelated_exposure_found_without_candidate_ancestry) ... ok
+test_altered_current_ancestry_cannot_hide_accepted_old_evidence (test_research_history_v2.ResearchHistoryV2Tests.test_altered_current_ancestry_cannot_hide_accepted_old_evidence) ... ok
+test_cycle_guard_and_late_ancestor_invariants (test_research_history_v2.ResearchHistoryV2Tests.test_cycle_guard_and_late_ancestor_invariants) ... ok
+test_deletion_of_accepted_exposure_or_prior_registration_denies (test_research_history_v2.ResearchHistoryV2Tests.test_deletion_of_accepted_exposure_or_prior_registration_denies) ... ok
+test_freeze_pin_times_membership_and_content_invariants_retained (test_research_history_v2.ResearchHistoryV2Tests.test_freeze_pin_times_membership_and_content_invariants_retained) ... ok
+test_fresh_checkpoint_and_disjoint_v2_positive (test_research_history_v2.ResearchHistoryV2Tests.test_fresh_checkpoint_and_disjoint_v2_positive) ... ok
+test_future_malformed_untyped_and_misplaced_local_evidence_denies (test_research_history_v2.ResearchHistoryV2Tests.test_future_malformed_untyped_and_misplaced_local_evidence_denies) ... ok
+test_historical_access_cannot_be_exempted_as_new_access (test_research_history_v2.ResearchHistoryV2Tests.test_historical_access_cannot_be_exempted_as_new_access) ... ok
+test_missing_baseline_inventory_or_wrong_inventory_denies (test_research_history_v2.ResearchHistoryV2Tests.test_missing_baseline_inventory_or_wrong_inventory_denies) ... ok
+test_multiple_predecessors_carry_disclosure_to_current_holdout (test_research_history_v2.ResearchHistoryV2Tests.test_multiple_predecessors_carry_disclosure_to_current_holdout) ... ok
+test_nested_registry_and_symlink_evidence_cannot_be_ignored (test_research_history_v2.ResearchHistoryV2Tests.test_nested_registry_and_symlink_evidence_cannot_be_ignored) ... ok
+test_new_id_and_no_prior_registration_reference_cannot_erase_history (test_research_history_v2.ResearchHistoryV2Tests.test_new_id_and_no_prior_registration_reference_cannot_erase_history) ... ok
+test_omitted_accepted_unreferenced_exposure_cannot_be_deleted (test_research_history_v2.ResearchHistoryV2Tests.test_omitted_accepted_unreferenced_exposure_cannot_be_deleted) ... ok
+test_partial_overlap_prior_registration (test_research_history_v2.ResearchHistoryV2Tests.test_partial_overlap_prior_registration) ... ok
+test_prior_confirmatory_access_contaminates_but_fresh_holdout_survives (test_research_history_v2.ResearchHistoryV2Tests.test_prior_confirmatory_access_contaminates_but_fresh_holdout_survives) ... ok
+test_renamed_reordered_canonical_equivalent_prior_membership (test_research_history_v2.ResearchHistoryV2Tests.test_renamed_reordered_canonical_equivalent_prior_membership) ... ok
+test_repackaged_exposure_correction_cannot_hide_original (test_research_history_v2.ResearchHistoryV2Tests.test_repackaged_exposure_correction_cannot_hide_original) ... ok
+test_rewrite_and_rehash_unreferenced_accepted_history_denies (test_research_history_v2.ResearchHistoryV2Tests.test_rewrite_and_rehash_unreferenced_accepted_history_denies) ... ok
+test_schema_successor_checks_valid_nested_records (test_research_history_v2.ResearchHistoryV2Tests.test_schema_successor_checks_valid_nested_records) ... ok
+test_standalone_omitted_exposure_found_without_disclosure_argument (test_research_history_v2.ResearchHistoryV2Tests.test_standalone_omitted_exposure_found_without_disclosure_argument) ... ok
+test_structural_validation_is_not_freshness_authorization (test_research_history_v2.ResearchHistoryV2Tests.test_structural_validation_is_not_freshness_authorization) ... ok
+test_threshold_hypothesis_plan_and_custody_rehash_cannot_evade_pins (test_research_history_v2.ResearchHistoryV2Tests.test_threshold_hypothesis_plan_and_custody_rehash_cannot_evade_pins) ... ok
+test_uncheckpointed_registration_cannot_supply_own_new_pin (test_research_history_v2.ResearchHistoryV2Tests.test_uncheckpointed_registration_cannot_supply_own_new_pin) ... ok
+test_unknown_prior_registration_disclosure_denies (test_research_history_v2.ResearchHistoryV2Tests.test_unknown_prior_registration_disclosure_denies) ... ok
+test_unknown_standalone_history_fails_closed (test_research_history_v2.ResearchHistoryV2Tests.test_unknown_standalone_history_fails_closed) ... ok
+test_wrong_type_missing_predecessor_and_version_gap (test_research_history_v2.ResearchHistoryV2Tests.test_wrong_type_missing_predecessor_and_version_gap) ... ok
+test_exact_membership_not_dataset_label (test_research_protocol.ResearchProtocolTests.test_exact_membership_not_dataset_label) ... ERROR
+test_exposure_cannot_precede_membership_binding (test_research_protocol.ResearchProtocolTests.test_exposure_cannot_precede_membership_binding) ... ERROR
+test_exposure_order_and_missing_first_access (test_research_protocol.ResearchProtocolTests.test_exposure_order_and_missing_first_access) ... ERROR
+test_first_access_before_equal_after_freeze (test_research_protocol.ResearchProtocolTests.test_first_access_before_equal_after_freeze) ... ERROR
+test_first_access_cannot_hide_prior_access_ancestor (test_research_protocol.ResearchProtocolTests.test_first_access_cannot_hide_prior_access_ancestor) ... ERROR
+test_fresh_holdout_positive_and_repository (test_research_protocol.ResearchProtocolTests.test_fresh_holdout_positive_and_repository) ... ERROR
+test_frozen_fixture_positive (test_research_protocol.ResearchProtocolTests.test_frozen_fixture_positive) ... ERROR
+test_identical_renamed_partial_overlap_rejected (test_research_protocol.ResearchProtocolTests.test_identical_renamed_partial_overlap_rejected) ... ERROR
+test_missing_predecessor_and_mutated_custody_evidence (test_research_protocol.ResearchProtocolTests.test_missing_predecessor_and_mutated_custody_evidence) ... ERROR
+test_missing_unknown_stale_and_retrospective_holdout (test_research_protocol.ResearchProtocolTests.test_missing_unknown_stale_and_retrospective_holdout) ... ERROR
+test_mutated_hypothesis_threshold_plan_and_freeze_pin (test_research_protocol.ResearchProtocolTests.test_mutated_hypothesis_threshold_plan_and_freeze_pin) ... ERROR
+test_nested_ancestry_and_correction_cannot_hide_overlap (test_research_protocol.ResearchProtocolTests.test_nested_ancestry_and_correction_cannot_hide_overlap) ... ERROR
+test_rehashed_hypothesis_change_still_breaks_freeze (test_research_protocol.ResearchProtocolTests.test_rehashed_hypothesis_change_still_breaks_freeze) ... ERROR
+test_repository_rejects_targeted_overlap (test_research_protocol.ResearchProtocolTests.test_repository_rejects_targeted_overlap) ... ERROR
+test_required_fields_and_extra_properties (test_research_protocol.ResearchProtocolTests.test_required_fields_and_extra_properties) ... ERROR
+test_retroactive_hypothesis_and_unresolved_thresholds (test_research_protocol.ResearchProtocolTests.test_retroactive_hypothesis_and_unresolved_thresholds) ... ERROR
+test_unknown_exposure_recordable_but_ineligible (test_research_protocol.ResearchProtocolTests.test_unknown_exposure_recordable_but_ineligible) ... ERROR
+test_unknown_or_wrong_purpose_access_denied (test_research_protocol.ResearchProtocolTests.test_unknown_or_wrong_purpose_access_denied) ... ERROR
+test_versioned_registration_preserves_prior_without_reusing_pin (test_research_protocol.ResearchProtocolTests.test_versioned_registration_preserves_prior_without_reusing_pin) ... ERROR
+test_wrong_type_identity_digest_membership_and_missing_refs (test_research_protocol.ResearchProtocolTests.test_wrong_type_identity_digest_membership_and_missing_refs) ... ERROR
+test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) ...
+  test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='REGISTERED') ... ERROR
+  test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='BACKTESTED') ... ERROR
+  test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='PAPER_ELIGIBLE') ... ERROR
+  test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='PAPER_TRADING') ... ERROR
+test_H01_rejected_version_resurrected_and_conflicting_versions_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_rejected_version_resurrected_and_conflicting_versions_accepted) ... ERROR
+test_H02_single_actor_can_claim_all_approvals (test_skeptic_adversarial.SkepticAdversarialTests.test_H02_single_actor_can_claim_all_approvals) ... ok
+test_H03_open_stop_does_not_block_affected_paper_state (test_skeptic_adversarial.SkepticAdversarialTests.test_H03_open_stop_does_not_block_affected_paper_state) ... ERROR
+test_H03_stop_resolved_by_arbitrary_file (test_skeptic_adversarial.SkepticAdversarialTests.test_H03_stop_resolved_by_arbitrary_file) ... ok
+test_H04_completed_confirmation_without_reproduction_inputs_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H04_completed_confirmation_without_reproduction_inputs_accepted) ... ERROR
+test_H04_late_unknown_and_mutated_lineage_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H04_late_unknown_and_mutated_lineage_accepted) ... ERROR
+test_H05_explored_dataset_reused_as_confirmation (test_skeptic_adversarial.SkepticAdversarialTests.test_H05_explored_dataset_reused_as_confirmation) ... ERROR
+test_H06_history_mutation_deletion_and_circular_supersession_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H06_history_mutation_deletion_and_circular_supersession_accepted) ... ERROR
+test_M01_identifiers_filenames_dependencies_and_project_state_unchecked (test_skeptic_adversarial.SkepticAdversarialTests.test_M01_identifiers_filenames_dependencies_and_project_state_unchecked) ... ERROR
+test_M02_future_stale_times_and_unverified_permission_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_M02_future_stale_times_and_unverified_permission_evidence_accepted) ... ERROR
+test_all_nine_schemas_reject_missing_extra_and_incompatible_version (test_skeptic_adversarial.SkepticAdversarialTests.test_all_nine_schemas_reject_missing_extra_and_incompatible_version) ... ERROR
+test_all_requested_live_skips_denied (test_skeptic_adversarial.SkepticAdversarialTests.test_all_requested_live_skips_denied) ... ok
+test_all_timestamp_fields_reject_malformed_dates (test_skeptic_adversarial.SkepticAdversarialTests.test_all_timestamp_fields_reject_malformed_dates) ... ok
+test_capital_negative_creation_overdeployment_and_kill_reset_denied (test_skeptic_adversarial.SkepticAdversarialTests.test_capital_negative_creation_overdeployment_and_kill_reset_denied) ... ok
+test_v4_accepted_and_current_standalone_repackaged_exposure_denied (test_skeptic_history_v4.SkepticHistoryV4Tests.test_v4_accepted_and_current_standalone_repackaged_exposure_denied) ... ok
+test_v4_accepted_standalone_delete_rewrite_relocate_denied (test_skeptic_history_v4.SkepticHistoryV4Tests.test_v4_accepted_standalone_delete_rewrite_relocate_denied) ... ok
+test_v4_checkpoint_missing_current_registration_denied (test_skeptic_history_v4.SkepticHistoryV4Tests.test_v4_checkpoint_missing_current_registration_denied) ... ok
+test_v4_first_access_exact_binding_retroactive_freeze_and_unknowns (test_skeptic_history_v4.SkepticHistoryV4Tests.test_v4_first_access_exact_binding_retroactive_freeze_and_unknowns) ... ok
+test_v4_legacy_temporal_threshold_reference_and_access_family (test_skeptic_history_v4.SkepticHistoryV4Tests.test_v4_legacy_temporal_threshold_reference_and_access_family) ... ok
+test_v4_misplaced_nested_untyped_and_malformed_evidence_denied (test_skeptic_history_v4.SkepticHistoryV4Tests.test_v4_misplaced_nested_untyped_and_malformed_evidence_denied) ... ok
+test_v4_missing_malformed_partial_and_inconsistent_checkpoint_denied (test_skeptic_history_v4.SkepticHistoryV4Tests.test_v4_missing_malformed_partial_and_inconsistent_checkpoint_denied) ... ok
+test_v4_new_id_omitted_predecessor_and_altered_ancestry_denied (test_skeptic_history_v4.SkepticHistoryV4Tests.test_v4_new_id_omitted_predecessor_and_altered_ancestry_denied) ... ok
+test_v4_positive_fresh_and_multiple_disjoint_versions_no_authorization (test_skeptic_history_v4.SkepticHistoryV4Tests.test_v4_positive_fresh_and_multiple_disjoint_versions_no_authorization) ... ok
+test_v4_prior_registration_multi_hop_same_renamed_partial_denied (test_skeptic_history_v4.SkepticHistoryV4Tests.test_v4_prior_registration_multi_hop_same_renamed_partial_denied) ... ok
+test_v4_proposed_access_cannot_exempt_accepted_access_or_ancestry (test_skeptic_history_v4.SkepticHistoryV4Tests.test_v4_proposed_access_cannot_exempt_accepted_access_or_ancestry) ... ok
+test_v4_rehashed_threshold_hypothesis_plan_custody_cannot_replace_pins (test_skeptic_history_v4.SkepticHistoryV4Tests.test_v4_rehashed_threshold_hypothesis_plan_custody_cannot_replace_pins) ... ok
+test_v4_schema_version_predecessor_and_exposure_order_successors (test_skeptic_history_v4.SkepticHistoryV4Tests.test_v4_schema_version_predecessor_and_exposure_order_successors) ... ok
+test_v4_stale_verifier_checkpoint_cannot_prove_latest_acceptance (test_skeptic_history_v4.SkepticHistoryV4Tests.test_v4_stale_verifier_checkpoint_cannot_prove_latest_acceptance) ... ok
+test_v4_structure_only_api_is_not_authoritative_freshness (test_skeptic_history_v4.SkepticHistoryV4Tests.test_v4_structure_only_api_is_not_authoritative_freshness) ... ok
+test_v3_access_order_and_retroactive_custody_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_access_order_and_retroactive_custody_rejected) ... ERROR
+test_v3_candidate_pin_does_not_authenticate_freeze (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_candidate_pin_does_not_authenticate_freeze) ... ERROR
+test_v3_exact_membership_binding_rejects_same_samples_other_reference (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_exact_membership_binding_rejects_same_samples_other_reference) ... ERROR
+test_v3_fresh_holdout_is_consistency_only (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_fresh_holdout_is_consistency_only) ... ERROR
+test_v3_frozen_threshold_hypothesis_plan_and_custody_rehash_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_frozen_threshold_hypothesis_plan_and_custody_rehash_rejected) ... ERROR
+test_v3_legacy_schema_attack_with_valid_current_prerequisites (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_legacy_schema_attack_with_valid_current_prerequisites) ... ERROR
+test_v3_omitted_exposure_still_accepted_until_caller_discloses (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_omitted_exposure_still_accepted_until_caller_discloses) ... ERROR
+test_v3_prior_registration_ancestry_not_carried_to_new_holdout (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_prior_registration_ancestry_not_carried_to_new_holdout) ... ERROR
+test_v3_same_renamed_partial_and_versioned_exposure_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_same_renamed_partial_and_versioned_exposure_rejected) ... ERROR
+test_v3_unknown_and_missing_evidence_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_unknown_and_missing_evidence_rejected) ... ERROR
+test_v2_H01_terminal_resurrection_still_accepted (test_skeptic_semantic_v2.SemanticV2Tests.test_v2_H01_terminal_resurrection_still_accepted) ... ok
+test_v2_H01_unsupported_paper_states_still_accepted (test_skeptic_semantic_v2.SemanticV2Tests.test_v2_H01_unsupported_paper_states_still_accepted) ... ok
+test_v2_H03_open_stop_still_allows_paper_state (test_skeptic_semantic_v2.SemanticV2Tests.test_v2_H03_open_stop_still_allows_paper_state) ... ok
+test_v2_H04_correction_and_evaluation_input_rejected (test_skeptic_semantic_v2.SemanticV2Tests.test_v2_H04_correction_and_evaluation_input_rejected) ... ok
+test_v2_H04_missing_manifests_rejected_but_missing_reproduction_still_accepted (test_skeptic_semantic_v2.SemanticV2Tests.test_v2_H04_missing_manifests_rejected_but_missing_reproduction_still_accepted) ... ok
+test_v2_H04_mutated_snapshot_and_raw_rejected_semantically (test_skeptic_semantic_v2.SemanticV2Tests.test_v2_H04_mutated_snapshot_and_raw_rejected_semantically) ... ok
+test_v2_H04_unknown_and_late_availability_rejected_semantically (test_skeptic_semantic_v2.SemanticV2Tests.test_v2_H04_unknown_and_late_availability_rejected_semantically) ... ok
+test_v2_H05_explored_same_and_renamed_membership_still_accepted (test_skeptic_semantic_v2.SemanticV2Tests.test_v2_H05_explored_same_and_renamed_membership_still_accepted) ... ok
+test_v2_H06_baseline_detects_mutation_deletion_and_accepts_correction (test_skeptic_semantic_v2.SemanticV2Tests.test_v2_H06_baseline_detects_mutation_deletion_and_accepts_correction) ... ok
+test_v2_H06_self_supersession_rejected_at_correct_surface (test_skeptic_semantic_v2.SemanticV2Tests.test_v2_H06_self_supersession_rejected_at_correct_surface) ... ok
+test_v2_M01_independent_dependency_and_summary_denials (test_skeptic_semantic_v2.SemanticV2Tests.test_v2_M01_independent_dependency_and_summary_denials) ... ok
+test_v2_M02_permission_probe_reached_without_future_clock_error (test_skeptic_semantic_v2.SemanticV2Tests.test_v2_M02_permission_probe_reached_without_future_clock_error) ... ok
+
+======================================================================
+ERROR: test_exact_membership_not_dataset_label (test_research_protocol.ResearchProtocolTests.test_exact_membership_not_dataset_label)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_exposure_cannot_precede_membership_binding (test_research_protocol.ResearchProtocolTests.test_exposure_cannot_precede_membership_binding)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_exposure_order_and_missing_first_access (test_research_protocol.ResearchProtocolTests.test_exposure_order_and_missing_first_access)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_first_access_before_equal_after_freeze (test_research_protocol.ResearchProtocolTests.test_first_access_before_equal_after_freeze)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_first_access_cannot_hide_prior_access_ancestor (test_research_protocol.ResearchProtocolTests.test_first_access_cannot_hide_prior_access_ancestor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_fresh_holdout_positive_and_repository (test_research_protocol.ResearchProtocolTests.test_fresh_holdout_positive_and_repository)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_frozen_fixture_positive (test_research_protocol.ResearchProtocolTests.test_frozen_fixture_positive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_identical_renamed_partial_overlap_rejected (test_research_protocol.ResearchProtocolTests.test_identical_renamed_partial_overlap_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_missing_predecessor_and_mutated_custody_evidence (test_research_protocol.ResearchProtocolTests.test_missing_predecessor_and_mutated_custody_evidence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_missing_unknown_stale_and_retrospective_holdout (test_research_protocol.ResearchProtocolTests.test_missing_unknown_stale_and_retrospective_holdout)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_mutated_hypothesis_threshold_plan_and_freeze_pin (test_research_protocol.ResearchProtocolTests.test_mutated_hypothesis_threshold_plan_and_freeze_pin)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_nested_ancestry_and_correction_cannot_hide_overlap (test_research_protocol.ResearchProtocolTests.test_nested_ancestry_and_correction_cannot_hide_overlap)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_rehashed_hypothesis_change_still_breaks_freeze (test_research_protocol.ResearchProtocolTests.test_rehashed_hypothesis_change_still_breaks_freeze)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_repository_rejects_targeted_overlap (test_research_protocol.ResearchProtocolTests.test_repository_rejects_targeted_overlap)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_required_fields_and_extra_properties (test_research_protocol.ResearchProtocolTests.test_required_fields_and_extra_properties)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_retroactive_hypothesis_and_unresolved_thresholds (test_research_protocol.ResearchProtocolTests.test_retroactive_hypothesis_and_unresolved_thresholds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_unknown_exposure_recordable_but_ineligible (test_research_protocol.ResearchProtocolTests.test_unknown_exposure_recordable_but_ineligible)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_unknown_or_wrong_purpose_access_denied (test_research_protocol.ResearchProtocolTests.test_unknown_or_wrong_purpose_access_denied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_versioned_registration_preserves_prior_without_reusing_pin (test_research_protocol.ResearchProtocolTests.test_versioned_registration_preserves_prior_without_reusing_pin)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_wrong_type_identity_digest_membership_and_missing_refs (test_research_protocol.ResearchProtocolTests.test_wrong_type_identity_digest_membership_and_missing_refs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='REGISTERED')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_adversarial.py", line 90, in test_H01_paper_promotion_without_evidence_accepted
+    self.assertEqual(validate_repository(self.root), 3)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/validate.py", line 139, in validate_repository
+    registry_checks(root, records, now=now)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/data_integrity.py", line 312, in registry_checks
+    raise ValueError('Identity/filename mismatch: ' + path)
+ValueError: Identity/filename mismatch: strategies/S.v1.json
+
+======================================================================
+ERROR: test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='BACKTESTED')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_adversarial.py", line 90, in test_H01_paper_promotion_without_evidence_accepted
+    self.assertEqual(validate_repository(self.root), 3)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/validate.py", line 139, in validate_repository
+    registry_checks(root, records, now=now)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/data_integrity.py", line 312, in registry_checks
+    raise ValueError('Identity/filename mismatch: ' + path)
+ValueError: Identity/filename mismatch: strategies/S.v1.json
+
+======================================================================
+ERROR: test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='PAPER_ELIGIBLE')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_adversarial.py", line 90, in test_H01_paper_promotion_without_evidence_accepted
+    self.assertEqual(validate_repository(self.root), 3)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/validate.py", line 139, in validate_repository
+    registry_checks(root, records, now=now)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/data_integrity.py", line 312, in registry_checks
+    raise ValueError('Identity/filename mismatch: ' + path)
+ValueError: Identity/filename mismatch: strategies/S.v1.json
+
+======================================================================
+ERROR: test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='PAPER_TRADING')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_adversarial.py", line 90, in test_H01_paper_promotion_without_evidence_accepted
+    self.assertEqual(validate_repository(self.root), 3)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/validate.py", line 139, in validate_repository
+    registry_checks(root, records, now=now)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/data_integrity.py", line 312, in registry_checks
+    raise ValueError('Identity/filename mismatch: ' + path)
+ValueError: Identity/filename mismatch: strategies/S.v1.json
+
+======================================================================
+ERROR: test_H01_rejected_version_resurrected_and_conflicting_versions_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_rejected_version_resurrected_and_conflicting_versions_accepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_adversarial.py", line 96, in test_H01_rejected_version_resurrected_and_conflicting_versions_accepted
+    self.assertEqual(validate_repository(self.root), 4)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/validate.py", line 139, in validate_repository
+    registry_checks(root, records, now=now)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/data_integrity.py", line 312, in registry_checks
+    raise ValueError('Identity/filename mismatch: ' + path)
+ValueError: Identity/filename mismatch: strategies/S.v1.json
+
+======================================================================
+ERROR: test_H03_open_stop_does_not_block_affected_paper_state (test_skeptic_adversarial.SkepticAdversarialTests.test_H03_open_stop_does_not_block_affected_paper_state)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_adversarial.py", line 114, in test_H03_open_stop_does_not_block_affected_paper_state
+    self.assertEqual(validate_repository(self.root), 4)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/validate.py", line 139, in validate_repository
+    registry_checks(root, records, now=now)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/data_integrity.py", line 312, in registry_checks
+    raise ValueError('Identity/filename mismatch: ' + path)
+ValueError: Identity/filename mismatch: strategies/S.v1.json
+
+======================================================================
+ERROR: test_H04_completed_confirmation_without_reproduction_inputs_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H04_completed_confirmation_without_reproduction_inputs_accepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_adversarial.py", line 130, in test_H04_completed_confirmation_without_reproduction_inputs_accepted
+    self.assertEqual(validate_repository(self.root), 4)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/validate.py", line 139, in validate_repository
+    registry_checks(root, records, now=now)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/data_integrity.py", line 312, in registry_checks
+    raise ValueError('Identity/filename mismatch: ' + path)
+ValueError: Identity/filename mismatch: research/hypotheses/H.v1.json
+
+======================================================================
+ERROR: test_H04_late_unknown_and_mutated_lineage_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H04_late_unknown_and_mutated_lineage_accepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/validate.py", line 123, in validate_repository
+    validate_data(root, kind, record, now=now)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/data_integrity.py", line 107, in validate_data
+    shape(root, kind, record)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/data_integrity.py", line 92, in shape
+    Draft202012Validator(read(root / f'schemas/{kind}.schema.json'), format_checker=CHECKER).validate(record)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/.venv/lib/python3.13/site-packages/jsonschema/validators.py", line 451, in validate
+    raise error
+jsonschema.exceptions.ValidationError: Additional properties are not allowed ('available_at', 'sha256' were unexpected)
+
+Failed validating 'additionalProperties' in schema:
+    {'$schema': 'https://json-schema.org/draft/2020-12/schema',
+     'type': 'object',
+     'additionalProperties': False,
+     'required': ['schema_version',
+                  'id',
+                  'version',
+                  'created_at',
+                  'supersedes',
+                  'kind',
+                  'inputs',
+                  'membership_ref',
+                  'decision_at',
+                  'purpose',
+                  'snapshot',
+                  'row_count',
+                  'quality_report',
+                  'parent_manifests'],
+     'properties': {'schema_version': {'const': 1},
+                    'id': {'type': 'string',
+                           'pattern': '^[A-Za-z0-9][A-Za-z0-9_-]*$'},
+                    'version': {'type': 'integer', 'minimum': 1},
+                    'created_at': {'type': 'string', 'format': 'date-time'},
+                    'supersedes': {'anyOf': [{'type': 'object',
+                                              'additionalProperties': False,
+                                              'required': ['path',
+                                                           'kind',
+                                                           'id',
+                                                           'version',
+                                                           'sha256'],
+                                              'properties': {'path': {'type': 'string',
+                                                                      'minLength': 1},
+                                                             'kind': {'type': 'string',
+                                                                      'minLength': 1},
+                                                             'id': {'type': 'string',
+                                                                    'minLength': 1},
+                                                             'version': {'type': 'integer',
+                                                                         'minimum': 1},
+                                                             'sha256': {'type': 'string',
+                                                                        'pattern': '^[0-9a-f]{64}$'}}},
+                                             {'type': 'null'}]},
+                    'kind': {'const': 'manifest'},
+                    'inputs': {'type': 'array',
+                               'minItems': 1,
+                               'uniqueItems': True,
+                               'items': {'type': 'object',
+                                         'additionalProperties': False,
+                                         'required': ['path',
+                                                      'kind',
+                                                      'id',
+                                                      'version',
+                                                      'sha256'],
+                                         'properties': {'path': {'type': 'string',
+                                                                 'minLength': 1},
+                                                        'kind': {'type': 'string',
+                                                                 'minLength': 1},
+                                                        'id': {'type': 'string',
+                                                               'minLength': 1},
+                                                        'version': {'type': 'integer',
+                                                                    'minimum': 1},
+                                                        'sha256': {'type': 'string',
+                                                                   'pattern': '^[0-9a-f]{64}$'}}}},
+                    'membership_ref': {'type': 'object',
+                                       'additionalProperties': False,
+                                       'required': ['path',
+                                                    'kind',
+                                                    'id',
+                                                    'version',
+                                                    'sha256'],
+                                       'properties': {'path': {'type': 'string',
+                                                               'minLength': 1},
+                                                      'kind': {'type': 'string',
+                                                               'minLength': 1},
+                                                      'id': {'type': 'string',
+                                                             'minLength': 1},
+                                                      'version': {'type': 'integer',
+                                                                  'minimum': 1},
+                                                      'sha256': {'type': 'string',
+                                                                 'pattern': '^[0-9a-f]{64}$'}}},
+                    'decision_at': {'type': 'string',
+                                    'format': 'date-time'},
+                    'purpose': {'enum': ['decision', 'evaluation']},
+                    'snapshot': {'type': 'object',
+                                 'additionalProperties': False,
+                                 'required': ['path',
+                                              'sha256',
+                                              'media_type'],
+                                 'properties': {'path': {'type': 'string',
+                                                         'minLength': 1},
+                                                'sha256': {'type': 'string',
+                                                           'pattern': '^[0-9a-f]{64}$'},
+                                                'media_type': {'enum': ['application/json',
+                                                                        'text/plain',
+                                                                        'text/x-python']}}},
+                    'row_count': {'type': 'integer', 'minimum': 1},
+                    'quality_report': {'type': 'object',
+                                       'additionalProperties': False,
+                                       'required': ['path',
+                                                    'sha256',
+                                                    'media_type'],
+                                       'properties': {'path': {'type': 'string',
+                                                               'minLength': 1},
+                                                      'sha256': {'type': 'string',
+                                                                 'pattern': '^[0-9a-f]{64}$'},
+                                                      'media_type': {'enum': ['application/json',
+                                                                              'text/plain',
+                                                                              'text/x-python']}}},
+                    'parent_manifests': {'type': 'array',
+                                         'items': {'type': 'object',
+                                                   'additionalProperties': False,
+                                                   'required': ['path',
+                                                                'kind',
+                                                                'id',
+                                                                'version',
+                                                                'sha256'],
+                                                   'properties': {'path': {'type': 'string',
+                                                                           'minLength': 1},
+                                                                  'kind': {'type': 'string',
+                                                                           'minLength': 1},
+                                                                  'id': {'type': 'string',
+                                                                         'minLength': 1},
+                                                                  'version': {'type': 'integer',
+                                                                              'minimum': 1},
+                                                                  'sha256': {'type': 'string',
+                                                                             'pattern': '^[0-9a-f]{64}$'}}},
+                                         'uniqueItems': True}}}
+
+On instance:
+    {'available_at': None,
+     'decision_at': '2026-09-18T00:00:00Z',
+     'sha256': 'incorrect'}
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_adversarial.py", line 139, in test_H04_late_unknown_and_mutated_lineage_accepted
+    self.assertEqual(validate_repository(self.root), 4)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/validate.py", line 132, in validate_repository
+    raise ValueError(f'{path.relative_to(root)}: {error}') from error
+ValueError: data/derived/manifest.json: Additional properties are not allowed ('available_at', 'sha256' were unexpected)
+
+Failed validating 'additionalProperties' in schema:
+    {'$schema': 'https://json-schema.org/draft/2020-12/schema',
+     'type': 'object',
+     'additionalProperties': False,
+     'required': ['schema_version',
+                  'id',
+                  'version',
+                  'created_at',
+                  'supersedes',
+                  'kind',
+                  'inputs',
+                  'membership_ref',
+                  'decision_at',
+                  'purpose',
+                  'snapshot',
+                  'row_count',
+                  'quality_report',
+                  'parent_manifests'],
+     'properties': {'schema_version': {'const': 1},
+                    'id': {'type': 'string',
+                           'pattern': '^[A-Za-z0-9][A-Za-z0-9_-]*$'},
+                    'version': {'type': 'integer', 'minimum': 1},
+                    'created_at': {'type': 'string', 'format': 'date-time'},
+                    'supersedes': {'anyOf': [{'type': 'object',
+                                              'additionalProperties': False,
+                                              'required': ['path',
+                                                           'kind',
+                                                           'id',
+                                                           'version',
+                                                           'sha256'],
+                                              'properties': {'path': {'type': 'string',
+                                                                      'minLength': 1},
+                                                             'kind': {'type': 'string',
+                                                                      'minLength': 1},
+                                                             'id': {'type': 'string',
+                                                                    'minLength': 1},
+                                                             'version': {'type': 'integer',
+                                                                         'minimum': 1},
+                                                             'sha256': {'type': 'string',
+                                                                        'pattern': '^[0-9a-f]{64}$'}}},
+                                             {'type': 'null'}]},
+                    'kind': {'const': 'manifest'},
+                    'inputs': {'type': 'array',
+                               'minItems': 1,
+                               'uniqueItems': True,
+                               'items': {'type': 'object',
+                                         'additionalProperties': False,
+                                         'required': ['path',
+                                                      'kind',
+                                                      'id',
+                                                      'version',
+                                                      'sha256'],
+                                         'properties': {'path': {'type': 'string',
+                                                                 'minLength': 1},
+                                                        'kind': {'type': 'string',
+                                                                 'minLength': 1},
+                                                        'id': {'type': 'string',
+                                                               'minLength': 1},
+                                                        'version': {'type': 'integer',
+                                                                    'minimum': 1},
+                                                        'sha256': {'type': 'string',
+                                                                   'pattern': '^[0-9a-f]{64}$'}}}},
+                    'membership_ref': {'type': 'object',
+                                       'additionalProperties': False,
+                                       'required': ['path',
+                                                    'kind',
+                                                    'id',
+                                                    'version',
+                                                    'sha256'],
+                                       'properties': {'path': {'type': 'string',
+                                                               'minLength': 1},
+                                                      'kind': {'type': 'string',
+                                                               'minLength': 1},
+                                                      'id': {'type': 'string',
+                                                             'minLength': 1},
+                                                      'version': {'type': 'integer',
+                                                                  'minimum': 1},
+                                                      'sha256': {'type': 'string',
+                                                                 'pattern': '^[0-9a-f]{64}$'}}},
+                    'decision_at': {'type': 'string',
+                                    'format': 'date-time'},
+                    'purpose': {'enum': ['decision', 'evaluation']},
+                    'snapshot': {'type': 'object',
+                                 'additionalProperties': False,
+                                 'required': ['path',
+                                              'sha256',
+                                              'media_type'],
+                                 'properties': {'path': {'type': 'string',
+                                                         'minLength': 1},
+                                                'sha256': {'type': 'string',
+                                                           'pattern': '^[0-9a-f]{64}$'},
+                                                'media_type': {'enum': ['application/json',
+                                                                        'text/plain',
+                                                                        'text/x-python']}}},
+                    'row_count': {'type': 'integer', 'minimum': 1},
+                    'quality_report': {'type': 'object',
+                                       'additionalProperties': False,
+                                       'required': ['path',
+                                                    'sha256',
+                                                    'media_type'],
+                                       'properties': {'path': {'type': 'string',
+                                                               'minLength': 1},
+                                                      'sha256': {'type': 'string',
+                                                                 'pattern': '^[0-9a-f]{64}$'},
+                                                      'media_type': {'enum': ['application/json',
+                                                                              'text/plain',
+                                                                              'text/x-python']}}},
+                    'parent_manifests': {'type': 'array',
+                                         'items': {'type': 'object',
+                                                   'additionalProperties': False,
+                                                   'required': ['path',
+                                                                'kind',
+                                                                'id',
+                                                                'version',
+                                                                'sha256'],
+                                                   'properties': {'path': {'type': 'string',
+                                                                           'minLength': 1},
+                                                                  'kind': {'type': 'string',
+                                                                           'minLength': 1},
+                                                                  'id': {'type': 'string',
+                                                                         'minLength': 1},
+                                                                  'version': {'type': 'integer',
+                                                                              'minimum': 1},
+                                                                  'sha256': {'type': 'string',
+                                                                             'pattern': '^[0-9a-f]{64}$'}}},
+                                         'uniqueItems': True}}}
+
+On instance:
+    {'available_at': None,
+     'decision_at': '2026-09-18T00:00:00Z',
+     'sha256': 'incorrect'}
+
+======================================================================
+ERROR: test_H05_explored_dataset_reused_as_confirmation (test_skeptic_adversarial.SkepticAdversarialTests.test_H05_explored_dataset_reused_as_confirmation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_adversarial.py", line 151, in test_H05_explored_dataset_reused_as_confirmation
+    self.assertEqual(validate_repository(self.root), 5)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/validate.py", line 139, in validate_repository
+    registry_checks(root, records, now=now)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/data_integrity.py", line 312, in registry_checks
+    raise ValueError('Identity/filename mismatch: ' + path)
+ValueError: Identity/filename mismatch: research/hypotheses/H.v1.json
+
+======================================================================
+ERROR: test_H06_history_mutation_deletion_and_circular_supersession_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H06_history_mutation_deletion_and_circular_supersession_accepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_adversarial.py", line 157, in test_H06_history_mutation_deletion_and_circular_supersession_accepted
+    self.assertEqual(validate_repository(self.root), 3)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/validate.py", line 139, in validate_repository
+    registry_checks(root, records, now=now)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/data_integrity.py", line 312, in registry_checks
+    raise ValueError('Identity/filename mismatch: ' + path)
+ValueError: Identity/filename mismatch: reports/audit/A.v1.json
+
+======================================================================
+ERROR: test_M01_identifiers_filenames_dependencies_and_project_state_unchecked (test_skeptic_adversarial.SkepticAdversarialTests.test_M01_identifiers_filenames_dependencies_and_project_state_unchecked)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_adversarial.py", line 168, in test_M01_identifiers_filenames_dependencies_and_project_state_unchecked
+    self.assertEqual(validate_repository(self.root), 3)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/validate.py", line 139, in validate_repository
+    registry_checks(root, records, now=now)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/data_integrity.py", line 310, in registry_checks
+    raise ValueError('Invalid identifier: ' + path)
+ValueError: Invalid identifier: docs/handoffs/unrelated.v1.json
+
+======================================================================
+ERROR: test_M02_future_stale_times_and_unverified_permission_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_M02_future_stale_times_and_unverified_permission_evidence_accepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_adversarial.py", line 172, in test_M02_future_stale_times_and_unverified_permission_evidence_accepted
+    self.accept('bankroll', {**self.fixture('bankroll'), 'as_of': date})
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_adversarial.py", line 45, in accept
+    validate_record(kind, record, self.root)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/validate.py", line 69, in validate_record
+    clock_checks(record, now)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/data_integrity.py", line 42, in clock_checks
+    raise ValueError(f'Future completed fact: {field}')
+ValueError: Future completed fact: as_of
+
+======================================================================
+ERROR: test_all_nine_schemas_reject_missing_extra_and_incompatible_version (test_skeptic_adversarial.SkepticAdversarialTests.test_all_nine_schemas_reject_missing_extra_and_incompatible_version)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_adversarial.py", line 54, in test_all_nine_schemas_reject_missing_extra_and_incompatible_version
+    self.accept(kind, r)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_adversarial.py", line 45, in accept
+    validate_record(kind, record, self.root)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/validate.py", line 67, in validate_record
+    Draft202012Validator(schema, format_checker=CHECKER).validate(record)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/.venv/lib/python3.13/site-packages/jsonschema/validators.py", line 451, in validate
+    raise error
+jsonschema.exceptions.ValidationError: 'synthetic' is not of type 'object'
+
+Failed validating 'type' in schema['properties']['membership_ref']:
+    {'type': 'object',
+     'additionalProperties': False,
+     'required': ['path', 'kind', 'id', 'version', 'sha256'],
+     'properties': {'path': {'type': 'string', 'minLength': 1},
+                    'kind': {'type': 'string', 'minLength': 1},
+                    'id': {'type': 'string', 'minLength': 1},
+                    'version': {'type': 'integer', 'minimum': 1},
+                    'sha256': {'type': 'string',
+                               'pattern': '^[0-9a-f]{64}$'}}}
+
+On instance['membership_ref']:
+    'synthetic'
+
+======================================================================
+ERROR: test_v3_access_order_and_retroactive_custody_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_access_order_and_retroactive_custody_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_research_v3.py", line 17, in setUp
+    self.f.setUp()
+    ~~~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_v3_candidate_pin_does_not_authenticate_freeze (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_candidate_pin_does_not_authenticate_freeze)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_research_v3.py", line 17, in setUp
+    self.f.setUp()
+    ~~~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_v3_exact_membership_binding_rejects_same_samples_other_reference (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_exact_membership_binding_rejects_same_samples_other_reference)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_research_v3.py", line 17, in setUp
+    self.f.setUp()
+    ~~~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_v3_fresh_holdout_is_consistency_only (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_fresh_holdout_is_consistency_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_research_v3.py", line 17, in setUp
+    self.f.setUp()
+    ~~~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_v3_frozen_threshold_hypothesis_plan_and_custody_rehash_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_frozen_threshold_hypothesis_plan_and_custody_rehash_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_research_v3.py", line 17, in setUp
+    self.f.setUp()
+    ~~~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_v3_legacy_schema_attack_with_valid_current_prerequisites (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_legacy_schema_attack_with_valid_current_prerequisites)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_research_v3.py", line 17, in setUp
+    self.f.setUp()
+    ~~~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_v3_omitted_exposure_still_accepted_until_caller_discloses (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_omitted_exposure_still_accepted_until_caller_discloses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_research_v3.py", line 17, in setUp
+    self.f.setUp()
+    ~~~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_v3_prior_registration_ancestry_not_carried_to_new_holdout (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_prior_registration_ancestry_not_carried_to_new_holdout)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_research_v3.py", line 17, in setUp
+    self.f.setUp()
+    ~~~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_v3_same_renamed_partial_and_versioned_exposure_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_same_renamed_partial_and_versioned_exposure_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_research_v3.py", line 17, in setUp
+    self.f.setUp()
+    ~~~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+======================================================================
+ERROR: test_v3_unknown_and_missing_evidence_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_unknown_and_missing_evidence_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_skeptic_research_v3.py", line 17, in setUp
+    self.f.setUp()
+    ~~~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 46, in setUp
+    self.check()
+    ~~~~~~~~~~^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/tests/test_research_protocol.py", line 83, in check
+    return check_confirmation_contract(self.root,self.regref,**args)
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 163, in check_confirmation_contract
+    authoritative_refs, snapshot = authoritative_research_history(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, registration_ref, access_ref, history_baseline, history_inventory, now=now)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dylanlaewe/Projects/Active/EdgeLab/src/edgelab/research_protocol.py", line 225, in authoritative_research_history
+    raise ValueError('Authoritative history requires verifier baseline and full inventory')
+ValueError: Authoritative history requires verifier baseline and full inventory
+
+----------------------------------------------------------------------
+Ran 135 tests in 139.190s
+
+FAILED (errors=43)

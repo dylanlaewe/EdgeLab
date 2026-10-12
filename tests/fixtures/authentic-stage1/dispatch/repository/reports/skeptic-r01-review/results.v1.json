@@ -1,0 +1,156 @@
+{
+  "v4": {
+    "exit_code": 0,
+    "summary": [
+      "----------------------------------------------------------------------",
+      "Ran 15 tests in 66.738s",
+      "",
+      "OK"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  "owner": {
+    "exit_code": 0,
+    "summary": [
+      "----------------------------------------------------------------------",
+      "Ran 27 tests in 54.630s",
+      "",
+      "OK"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  "data": {
+    "exit_code": 0,
+    "summary": [
+      "----------------------------------------------------------------------",
+      "Ran 18 tests in 2.980s",
+      "",
+      "OK"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  "foundation": {
+    "exit_code": 0,
+    "summary": [
+      "----------------------------------------------------------------------",
+      "Ran 18 tests in 0.588s",
+      "",
+      "OK"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  "semantic-v2": {
+    "exit_code": 0,
+    "summary": [
+      "----------------------------------------------------------------------",
+      "Ran 12 tests in 9.217s",
+      "",
+      "OK"
+    ],
+    "errors": [],
+    "failures": []
+  },
+  "full": {
+    "exit_code": 1,
+    "summary": [
+      "----------------------------------------------------------------------",
+      "Ran 135 tests in 139.190s",
+      "",
+      "FAILED (errors=43)"
+    ],
+    "errors": [
+      "test_exact_membership_not_dataset_label (test_research_protocol.ResearchProtocolTests.test_exact_membership_not_dataset_label)",
+      "test_exposure_cannot_precede_membership_binding (test_research_protocol.ResearchProtocolTests.test_exposure_cannot_precede_membership_binding)",
+      "test_exposure_order_and_missing_first_access (test_research_protocol.ResearchProtocolTests.test_exposure_order_and_missing_first_access)",
+      "test_first_access_before_equal_after_freeze (test_research_protocol.ResearchProtocolTests.test_first_access_before_equal_after_freeze)",
+      "test_first_access_cannot_hide_prior_access_ancestor (test_research_protocol.ResearchProtocolTests.test_first_access_cannot_hide_prior_access_ancestor)",
+      "test_fresh_holdout_positive_and_repository (test_research_protocol.ResearchProtocolTests.test_fresh_holdout_positive_and_repository)",
+      "test_frozen_fixture_positive (test_research_protocol.ResearchProtocolTests.test_frozen_fixture_positive)",
+      "test_identical_renamed_partial_overlap_rejected (test_research_protocol.ResearchProtocolTests.test_identical_renamed_partial_overlap_rejected)",
+      "test_missing_predecessor_and_mutated_custody_evidence (test_research_protocol.ResearchProtocolTests.test_missing_predecessor_and_mutated_custody_evidence)",
+      "test_missing_unknown_stale_and_retrospective_holdout (test_research_protocol.ResearchProtocolTests.test_missing_unknown_stale_and_retrospective_holdout)",
+      "test_mutated_hypothesis_threshold_plan_and_freeze_pin (test_research_protocol.ResearchProtocolTests.test_mutated_hypothesis_threshold_plan_and_freeze_pin)",
+      "test_nested_ancestry_and_correction_cannot_hide_overlap (test_research_protocol.ResearchProtocolTests.test_nested_ancestry_and_correction_cannot_hide_overlap)",
+      "test_rehashed_hypothesis_change_still_breaks_freeze (test_research_protocol.ResearchProtocolTests.test_rehashed_hypothesis_change_still_breaks_freeze)",
+      "test_repository_rejects_targeted_overlap (test_research_protocol.ResearchProtocolTests.test_repository_rejects_targeted_overlap)",
+      "test_required_fields_and_extra_properties (test_research_protocol.ResearchProtocolTests.test_required_fields_and_extra_properties)",
+      "test_retroactive_hypothesis_and_unresolved_thresholds (test_research_protocol.ResearchProtocolTests.test_retroactive_hypothesis_and_unresolved_thresholds)",
+      "test_unknown_exposure_recordable_but_ineligible (test_research_protocol.ResearchProtocolTests.test_unknown_exposure_recordable_but_ineligible)",
+      "test_unknown_or_wrong_purpose_access_denied (test_research_protocol.ResearchProtocolTests.test_unknown_or_wrong_purpose_access_denied)",
+      "test_versioned_registration_preserves_prior_without_reusing_pin (test_research_protocol.ResearchProtocolTests.test_versioned_registration_preserves_prior_without_reusing_pin)",
+      "test_wrong_type_identity_digest_membership_and_missing_refs (test_research_protocol.ResearchProtocolTests.test_wrong_type_identity_digest_membership_and_missing_refs)",
+      "test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='REGISTERED')",
+      "test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='BACKTESTED')",
+      "test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='PAPER_ELIGIBLE')",
+      "test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='PAPER_TRADING')",
+      "test_H01_rejected_version_resurrected_and_conflicting_versions_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_rejected_version_resurrected_and_conflicting_versions_accepted)",
+      "test_H03_open_stop_does_not_block_affected_paper_state (test_skeptic_adversarial.SkepticAdversarialTests.test_H03_open_stop_does_not_block_affected_paper_state)",
+      "test_H04_completed_confirmation_without_reproduction_inputs_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H04_completed_confirmation_without_reproduction_inputs_accepted)",
+      "test_H04_late_unknown_and_mutated_lineage_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H04_late_unknown_and_mutated_lineage_accepted)",
+      "test_H05_explored_dataset_reused_as_confirmation (test_skeptic_adversarial.SkepticAdversarialTests.test_H05_explored_dataset_reused_as_confirmation)",
+      "test_H06_history_mutation_deletion_and_circular_supersession_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H06_history_mutation_deletion_and_circular_supersession_accepted)",
+      "test_M01_identifiers_filenames_dependencies_and_project_state_unchecked (test_skeptic_adversarial.SkepticAdversarialTests.test_M01_identifiers_filenames_dependencies_and_project_state_unchecked)",
+      "test_M02_future_stale_times_and_unverified_permission_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_M02_future_stale_times_and_unverified_permission_evidence_accepted)",
+      "test_all_nine_schemas_reject_missing_extra_and_incompatible_version (test_skeptic_adversarial.SkepticAdversarialTests.test_all_nine_schemas_reject_missing_extra_and_incompatible_version)",
+      "test_v3_access_order_and_retroactive_custody_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_access_order_and_retroactive_custody_rejected)",
+      "test_v3_candidate_pin_does_not_authenticate_freeze (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_candidate_pin_does_not_authenticate_freeze)",
+      "test_v3_exact_membership_binding_rejects_same_samples_other_reference (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_exact_membership_binding_rejects_same_samples_other_reference)",
+      "test_v3_fresh_holdout_is_consistency_only (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_fresh_holdout_is_consistency_only)",
+      "test_v3_frozen_threshold_hypothesis_plan_and_custody_rehash_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_frozen_threshold_hypothesis_plan_and_custody_rehash_rejected)",
+      "test_v3_legacy_schema_attack_with_valid_current_prerequisites (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_legacy_schema_attack_with_valid_current_prerequisites)",
+      "test_v3_omitted_exposure_still_accepted_until_caller_discloses (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_omitted_exposure_still_accepted_until_caller_discloses)",
+      "test_v3_prior_registration_ancestry_not_carried_to_new_holdout (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_prior_registration_ancestry_not_carried_to_new_holdout)",
+      "test_v3_same_renamed_partial_and_versioned_exposure_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_same_renamed_partial_and_versioned_exposure_rejected)",
+      "test_v3_unknown_and_missing_evidence_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_unknown_and_missing_evidence_rejected)"
+    ],
+    "failures": []
+  },
+  "completion_hashes_verified": 30,
+  "preserved_tests": {
+    "tests/fixtures/data-integrity/data/availability/AV.v1.json": "1f9565fa9cd0e2351b9f9cf0769058b714b06cbcd664799d3ec843641a6d1f7a",
+    "tests/fixtures/data-integrity/data/derived/D.v1.json": "46582720d3a766e7e12a6c789da9e511eca16e0a70021e65f9d80435800a610b",
+    "tests/fixtures/data-integrity/data/features/F.v1.json": "00e6256ebfd1de4c270b7c341455e2173cdb644f453fc23a1699e803c2b740d6",
+    "tests/fixtures/data-integrity/data/membership/POP.v1.json": "9000b01285a27d4addc13d642394a140e81ea0bc4cf1c4a47b2e052b1e49dd5e",
+    "tests/fixtures/data-integrity/data/normalized/OBS.v1.json": "270eea5ca171a77566472c0a842ece2cb163c77156e70512216be7450f664cf4",
+    "tests/fixtures/data-integrity/data/raw/config.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "tests/fixtures/data-integrity/data/raw/normalizer.py": "b992e95fd53dde818b132dc5e708b0de5b306131f498b5189b791ba5c7dce38c",
+    "tests/fixtures/data-integrity/data/raw/parser.py": "da1dee5392c4a2fbcb167eeea6337250c6f3e004021d1d15ec4affd3ce8c81d9",
+    "tests/fixtures/data-integrity/data/raw/quality.json": "f1a8594e8976c89f1e5c028870c3d3764a7a5423473cd8635448d7f6d8cc6574",
+    "tests/fixtures/data-integrity/data/raw/raw.json": "f4e3fd0f3e5089925a3be5ca4ca6bda5ae7458159b32b1615c22ccaba8b005d9",
+    "tests/fixtures/data-integrity/data/raw/snapshot.json": "e75ad6152e265b288938719a9aebd479c7c77ddfcfd8be27f0b837f7bcfaf847",
+    "tests/fixtures/data-integrity/data/sources/SRC.v1.json": "843b0794bf06d4ba37a6f5c01d09efdbb40edfc84e0311cc1f917c50c8f0d351",
+    "tests/fixtures/research-protocol/cases.json": "f7d0eb97e6c8718b44997334fe2540dabab4fb0729449fc9523e1cd3476ef481",
+    "tests/fixtures/research-protocol/data/membership/EXPLORED.v1.json": "2e112a87bc5cc4d463790ec69af3a37045dcf59caee229ecaf9b17dfc32a8d4f",
+    "tests/fixtures/research-protocol/data/membership/FRESH.v1.json": "1fc1397fdc31524de31a4038abec5e4b7b9cbfef504554df618c20fa810138a7",
+    "tests/fixtures/research-protocol/data/membership/PARTIAL.v1.json": "3198eca23ea773e026797fc2124b075e5d265990193f78f106ca9f2010f270a7",
+    "tests/fixtures/research-protocol/data/membership/RENAMED.v1.json": "2199a4410979eeb90dfc838558eae97fc5328957abfffeb735447aca048a3b0e",
+    "tests/fixtures/research-protocol/research/evidence/ACCESS.json": "fb73bacd47fa7f63c13ff16de67a1f6471407c9aa6cd648c7b9afb81967bc283",
+    "tests/fixtures/research-protocol/research/evidence/CUSTODY.json": "5b7fb7e06de2f26edab7bb183455424787c4e47c17f0f0f89d9e674f30e5ec89",
+    "tests/fixtures/research-protocol/research/evidence/IDENTICAL.json": "fb73bacd47fa7f63c13ff16de67a1f6471407c9aa6cd648c7b9afb81967bc283",
+    "tests/fixtures/research-protocol/research/evidence/OLD.json": "fb73bacd47fa7f63c13ff16de67a1f6471407c9aa6cd648c7b9afb81967bc283",
+    "tests/fixtures/research-protocol/research/evidence/PARTIAL.json": "fb73bacd47fa7f63c13ff16de67a1f6471407c9aa6cd648c7b9afb81967bc283",
+    "tests/fixtures/research-protocol/research/evidence/RENAMED.json": "fb73bacd47fa7f63c13ff16de67a1f6471407c9aa6cd648c7b9afb81967bc283",
+    "tests/fixtures/research-protocol/research/evidence/plan.json": "c7177deef1d775ee8c6ae883e4dcf9ed6b0658de4b109d12dea9d91960c3a90f",
+    "tests/fixtures/research-protocol/research/exposures/ACCESS.v1.json": "528cba7584276916a7ba26464fd59cecb8bfeb515bc9b36b2d83ac0c74dd0051",
+    "tests/fixtures/research-protocol/research/exposures/CUSTODY.v1.json": "ff1db18f64420846728a2bd518c88897733ff293e28f5f49a88846e28521d2d9",
+    "tests/fixtures/research-protocol/research/exposures/IDENTICAL.v1.json": "df41e75c1e0a385faf87b444fc4aba3a07b919184d04743eb96a9805da654bbd",
+    "tests/fixtures/research-protocol/research/exposures/OLD.v1.json": "ef908b0dc33477936794524df6fc88a490515d8733324d8a652f0974f590dbba",
+    "tests/fixtures/research-protocol/research/exposures/PARTIAL.v1.json": "ddd587c219b0a46bddbe0a6bf3b574c5aa32c433d351869dea297a60cc310fbc",
+    "tests/fixtures/research-protocol/research/exposures/RENAMED.v1.json": "c8a165c4cd2d0a212b93d78a916d2e95d5903a6d32b64b39737817f0477db331",
+    "tests/fixtures/research-protocol/research/hypotheses/H.v1.json": "14f1028ba41a9cdde3fa499e3b16f358b114c0372be18e2f7bdbde78687f62b7",
+    "tests/fixtures/research-protocol/research/preregistrations/REG.v1.json": "24277b1bbcb24e6fcab312b247042430657a971e291839a931f5fff7aeccf216",
+    "tests/test_data_integrity.py": "346c5fc374d691c989d3f88fc835d52fdd6cfb68548c83a9977448cf743ada87",
+    "tests/test_foundation.py": "3f784a2918b34614a05342a1e9457e20e552a796a7b7bfd52e645990fe9ab7c4",
+    "tests/test_research_protocol.py": "093e728dca71e8636416edf9dcd7c6fcaac51e12ba657d90aa9ed6a88608ccf7",
+    "tests/test_skeptic_adversarial.py": "6e1c81b0e6f477c279b528899f34f4a41afc0c415a452980e6b31661f5006efa",
+    "tests/test_skeptic_research_v3.py": "f4dac34fd883100132401990dcb0496a1fc7d640498c38afcd17c9b014019dc4",
+    "tests/test_skeptic_semantic_v2.py": "96b0464e5271ab24b6d35b542f41a39027a113f9c17c3574ea41e0a9cdc70962"
+  },
+  "new_errors_independently_verified_at_setup": 30,
+  "all_43_error_identities_unchanged": true,
+  "preserved_test_count": 38
+}

@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-021",
+  "version": 3,
+  "created_at": "2026-09-28T03:48:48Z",
+  "sender": "06 Risk & Execution",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Complete the targeted SR01-SR06 Risk remediation without clearing STOP-M0-001, unlocking or moving capital, integrating a venue, or performing the independent review.",
+  "work_done": "Risk claimed at a3eb4167d823a885b18a726edf2d65e014b5392b and implemented at 806ed55d68ae8bfafd3f1680960ba0baa339f011. Caller-asserted final authorization is deny-only; the new exact-action assembler consumes verifier-controlled current state, fixed project/bankroll/policy bytes, Quant commitments, current history heads, authoritative STOP semantics, canonical pending exposure, exact reservation economics and single-use action authorization. Published owner tests, findings mapping, preservation inventory, validation/full-suite classification and H-M0-022 focused independent re-review request. No independent finding was self-closed.",
+  "evidence_refs": [
+    "reports/M0.1-risk-SR01-SR06-remediation.v1.md",
+    "reports/risk-sr01-sr06-remediation/results.v1.json",
+    "reports/risk-sr01-sr06-remediation/findings-to-tests.v1.json",
+    "reports/risk-sr01-sr06-remediation/completion-inventory.v1.json",
+    "reports/risk-sr01-sr06-remediation/preservation.v1.json",
+    "reports/risk-sr01-sr06-remediation/validation.v1.txt",
+    "src/edgelab/risk_controls.py",
+    "tests/test_risk_controls.py",
+    "tests/test_skeptic_risk_v1.py",
+    "docs/SPECIFICATIONS.md",
+    "docs/handoffs/H-M0-021.v2.json",
+    "docs/handoffs/H-M0-022.v1.json",
+    "reports/audit/A-M0-022.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/SPECIFICATIONS.md",
+    "src/edgelab/risk_controls.py",
+    "schemas/action-authorization.schema.json",
+    "schemas/canonical-risk-identity.schema.json",
+    "schemas/exposure-position.schema.json",
+    "schemas/ledger-event.schema.json",
+    "schemas/ledger-snapshot.schema.json",
+    "schemas/risk-action.schema.json",
+    "schemas/risk-current-state.schema.json",
+    "schemas/risk-decision.schema.json",
+    "schemas/stop-policy.schema.json",
+    "schemas/stop-resolution-event.schema.json",
+    "tests/test_risk_controls.py",
+    "reports/M0.1-risk-SR01-SR06-remediation.v1.md",
+    "reports/risk-sr01-sr06-remediation/results.v1.json",
+    "reports/risk-sr01-sr06-remediation/findings-to-tests.v1.json",
+    "reports/risk-sr01-sr06-remediation/completion-inventory.v1.json",
+    "reports/risk-sr01-sr06-remediation/preservation.v1.json",
+    "reports/risk-sr01-sr06-remediation/validation.v1.txt",
+    "reports/audit/A-M0-022.v1.json",
+    "docs/handoffs/H-M0-021.v3.json",
+    "docs/handoffs/H-M0-022.v1.json"
+  ],
+  "tests_run": [
+    "Risk owner 14/14, Foundation 18/18, Data 18/18, Research history v2 27/27, Quant 24/24, semantic-v2 12/12 and Skeptic Quant v7 6/6 pass.",
+    "Unchanged Skeptic Risk v1: 21 methods, one pass, 16 expected hardened-contract errors and four contradicted vulnerable assertions; requires independent successor disposition.",
+    "Full discovery: 220 methods, 151 pass, 64 errors, five failures, zero skips; exact prior red set plus expected Skeptic Risk v1 delta, no unexpected identity.",
+    "All 39 schemas meta-validate; repository validation, compileall, diff whitespace, preservation hashes and implementation origin/main synchronization pass."
+  ],
+  "open_questions": [
+    "Independent Skeptic must determine whether each SR01-SR06 root cause is closed at the documented local trust boundary and publish a successor disposition.",
+    "Production external provider authentication, key custody, hostile-host currency, remote durability, venue truth and cross-system atomicity remain unprovisioned.",
+    "Domain-specific sports correlation remains conservative and incomplete; unresolved identity/correlation must continue to deny live activity."
+  ],
+  "blockers": [
+    "SR01-SR06 remain formally open until independent H-M0-022 re-review.",
+    "STOP-M0-001 remains OPEN; conceptual capital is 5000 minor units, live deployable/reserved are 0, live is LOCKED and kill is ENGAGED."
+  ],
+  "next_action": "05 Skeptic independently claims H-M0-022, verifies the frozen implementation/inventories, authors a versioned successor to the unchanged v1 probes where contracts changed, and publishes BLOCKED or READY_FOR_DIRECTOR_GATE. Do not clear STOP or move capital.",
+  "completion_criteria": [
+    "Every SR01-SR06 implementation and test mapping is frozen and reproducible.",
+    "Actual M0 state cannot authorize live exposure and direct phase/capital/path substitution rejects.",
+    "Positive synthetic paper and exposure-neutral settlement controls remain possible only under exact contracts.",
+    "Historical Skeptic evidence, OPEN STOP, bankroll, Risk policy and project state remain unchanged.",
+    "Independent focused re-review is explicitly queued without self-approval."
+  ],
+  "depends_on": ["H-M0-020", "H-M0-006"]
+}

@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "purpose": "H-M0-006 bounded Risk remediation validation; no operational authorization",
+  "claim_commit": "daee9ce1e6d60f25e963ab706b6322400f7d035f",
+  "implementation_commit": "091f0af316682e141354c2ba014eab86ee46392b",
+  "verdict": "IMPLEMENTED_AWAITING_INDEPENDENT_SKEPTIC_REVIEW",
+  "focused": {
+    "risk_owner": {"methods": 12, "passed": 12, "failed": 0, "errored": 0, "skipped": 0},
+    "foundation": {"methods": 18, "passed": 18, "failed": 0, "errored": 0, "skipped": 0},
+    "data": {"methods": 18, "passed": 18, "failed": 0, "errored": 0, "skipped": 0},
+    "research_history_v2": {"methods": 27, "passed": 27, "failed": 0, "errored": 0, "skipped": 0},
+    "quant_owner": {"methods": 24, "passed": 24, "failed": 0, "errored": 0, "skipped": 0},
+    "skeptic_quant_v7": {"methods": 6, "passed": 6, "failed": 0, "errored": 0, "skipped": 0},
+    "pinned_review_baseline": {"commit": "4e99cfac90e0af601158c1528c70574dd5dafeda", "methods": 33, "passed": 33, "failed": 0, "errored": 0, "skipped": 0}
+  },
+  "full_discovery": {
+    "methods": 197,
+    "passing_methods": 148,
+    "errored_methods": 48,
+    "failure_count": 1,
+    "skip_count": 0,
+    "successful": false,
+    "seconds": 695.25,
+    "classification": "NOT GREEN: all red identities are preserved historical/setup or acceptance-characterization expectations; the 12 Risk owner methods introduce no failure or error.",
+    "error_identities": {
+      "research_protocol_legacy_setup_errors": [
+        "test_exact_membership_not_dataset_label", "test_exposure_cannot_precede_membership_binding", "test_exposure_order_and_missing_first_access", "test_first_access_before_equal_after_freeze", "test_first_access_cannot_hide_prior_access_ancestor", "test_fresh_holdout_positive_and_repository", "test_frozen_fixture_positive", "test_identical_renamed_partial_overlap_rejected", "test_missing_predecessor_and_mutated_custody_evidence", "test_missing_unknown_stale_and_retrospective_holdout", "test_mutated_hypothesis_threshold_plan_and_freeze_pin", "test_nested_ancestry_and_correction_cannot_hide_overlap", "test_rehashed_hypothesis_change_still_breaks_freeze", "test_repository_rejects_targeted_overlap", "test_required_fields_and_extra_properties", "test_retroactive_hypothesis_and_unresolved_thresholds", "test_unknown_exposure_recordable_but_ineligible", "test_unknown_or_wrong_purpose_access_denied", "test_versioned_registration_preserves_prior_without_reusing_pin", "test_wrong_type_identity_digest_membership_and_missing_refs"
+      ],
+      "skeptic_adversarial_preserved_errors": [
+        "test_H01_paper_promotion_without_evidence_accepted[REGISTERED]", "test_H01_paper_promotion_without_evidence_accepted[BACKTESTED]", "test_H01_paper_promotion_without_evidence_accepted[PAPER_ELIGIBLE]", "test_H01_paper_promotion_without_evidence_accepted[PAPER_TRADING]", "test_H01_rejected_version_resurrected_and_conflicting_versions_accepted", "test_H03_open_stop_does_not_block_affected_paper_state", "test_H04_completed_confirmation_without_reproduction_inputs_accepted", "test_H04_late_unknown_and_mutated_lineage_accepted", "test_H05_explored_dataset_reused_as_confirmation", "test_H06_history_mutation_deletion_and_circular_supersession_accepted", "test_M01_identifiers_filenames_dependencies_and_project_state_unchecked", "test_M02_future_stale_times_and_unverified_permission_evidence_accepted", "test_all_nine_schemas_reject_missing_extra_and_incompatible_version"
+      ],
+      "skeptic_quant_v5_preserved_errors": [
+        "test_Q01_prior_training_use_of_current_holdout_is_accepted", "test_Q01_prior_validation_use_of_current_holdout_is_accepted", "test_Q01_renamed_partial_prior_training_use_is_accepted", "test_dishonest_authority_can_return_replayed_token_and_commit_other_bytes"
+      ],
+      "skeptic_quant_v6_preserved_errors": ["test_Q02_future_commitment_time_is_accepted_after_rehash"],
+      "skeptic_research_v3_preserved_setup_errors": [
+        "test_v3_access_order_and_retroactive_custody_rejected", "test_v3_candidate_pin_does_not_authenticate_freeze", "test_v3_exact_membership_binding_rejects_same_samples_other_reference", "test_v3_fresh_holdout_is_consistency_only", "test_v3_frozen_threshold_hypothesis_plan_and_custody_rehash_rejected", "test_v3_legacy_schema_attack_with_valid_current_prerequisites", "test_v3_omitted_exposure_still_accepted_until_caller_discloses", "test_v3_prior_registration_ancestry_not_carried_to_new_holdout", "test_v3_same_renamed_partial_and_versioned_exposure_rejected", "test_v3_unknown_and_missing_evidence_rejected"
+      ]
+    },
+    "failure_identities": ["test_skeptic_quant_v5.SkepticQuantV5Tests.test_positive_assessment_digest_binds_non_authorized_risk_payload"]
+  },
+  "repository_validation": {
+    "records_before_completion_artifacts": 83,
+    "published_history_valid": true,
+    "capital_status": "LOCKED",
+    "scientific_or_operational_approval": false
+  },
+  "preservation": {
+    "skeptic_adversarial_sha256": "6e1c81b0e6f477c279b528899f34f4a41afc0c415a452980e6b31661f5006efa",
+    "stop_sha256": "877eb367fde67eda4cbd33b72eea28e48d4f36f45253dc7fe40e3bfa9aa87571",
+    "bankroll_sha256": "9ed04c4fb32fed1ba50999abdc1a84fa298e58071ac9fac9b1be1d6accf0d77a",
+    "risk_policy_sha256": "766643a4d30984cbde5fe4194bb0e73a70cbd20366b95d268134d305b64806db"
+  },
+  "commands": [
+    ".venv/bin/python -m unittest discover -s tests -p test_risk_controls.py -v",
+    ".venv/bin/python -m unittest discover -s tests -p test_foundation.py -v",
+    ".venv/bin/python -m unittest discover -s tests -p test_data_integrity.py -v",
+    ".venv/bin/python -m unittest discover -s tests -p test_research_history_v2.py -v",
+    ".venv/bin/python -m unittest discover -s tests -p test_quant_protocol.py -v",
+    ".venv/bin/python -m unittest discover -s tests -p test_skeptic_quant_v7.py -v",
+    "unittest.TestLoader().discover('tests') with exact error/failure identities",
+    "detached worktree at 4e99cfac90e0af601158c1528c70574dd5dafeda: unittest discovery",
+    ".venv/bin/python -m src.edgelab.validate",
+    ".venv/bin/python -m compileall -q src tests",
+    "git diff --check"
+  ]
+}

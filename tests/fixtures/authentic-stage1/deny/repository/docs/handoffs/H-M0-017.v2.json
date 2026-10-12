@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-017",
+  "version": 2,
+  "created_at": "2026-09-20T19:10:19Z",
+  "sender": "04 Quant",
+  "recipient": "04 Quant",
+  "status": "CLAIMED",
+  "request": "Narrow Q03 remediation: apply completed-evidence clock semantics to authority commitment committed_at, preserve the explicit Quant/Risk trust boundary, validate, publish completion evidence, and request focused independent Skeptic re-review.",
+  "work_done": "Quant session quant-codex-20260920T191019Z-50c6193 claims the sole-writer slot at clean synchronized base 50c619318423737cef372dabaa79ce8119f3a4ba. Consumed H-M0-016 v3 and H-M0-017 v1, both first added at that exact origin/main commit. Q01 remains closed and is outside scope absent regression evidence. Exclusive scope: the existing shared completed-time field registry or equivalent Quant verifier check for committed_at; additive Quant owner tests; necessary Quant specification language; Quant-owned Q03 reports, audit and handoffs. Skeptic v6/v5 and prior evidence remain read-only. No Risk authentication/replay implementation, STOP change, bankroll/project-state edit, or operational release.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-016.v3.json",
+    "docs/handoffs/H-M0-017.v1.json",
+    "reports/reviews/M0.1-quant-Q01-Q02-rereview.v1.md",
+    "tests/test_skeptic_quant_v6.py",
+    "reports/skeptic-quant-rereview/results.v1.json",
+    "reports/skeptic-quant-rereview/preservation.v1.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "docs/GIT_COORDINATION.md"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-017.v2.json"
+  ],
+  "tests_run": [
+    "Verified clean synchronized EdgeLab main at 50c619318423737cef372dabaa79ce8119f3a4ba, exact review/remediation artifact landing SHA, OPEN STOP and locked bankroll."
+  ],
+  "open_questions": [
+    "Whether the minimal correction is the shared COMPLETED_TIMES registry entry or an equivalent explicit verifier check; current architecture favors the shared registry.",
+    "Independent Skeptic must verify the exact future-time attack after implementation."
+  ],
+  "blockers": [
+    "Q03 LOW remains open pending implementation and independent focused re-review.",
+    "STOP-M0-001 remains OPEN; Risk unreleased; USD 0 deployable; live LOCKED."
+  ],
+  "next_action": "Commit and push this claim, re-fetch, then add committed_at to completed-time plausibility validation, owner attack coverage, explicit boundary documentation and Q03 completion evidence. Preserve Skeptic probes and do not implement Risk-owned authentication/replay controls.",
+  "completion_criteria": [
+    "A valid non-future completed commitment timestamp verifies.",
+    "Malformed committed_at, future committed_at, and unrehashed timestamp mutation reject.",
+    "A future timestamp with a correctly recomputed commitment self-digest still rejects at completed-time validation.",
+    "Quant documentation explicitly limits local content binding and leaves authenticity, replay persistence, commitment-ID global uniqueness, key custody, adapter/controller trust, durable storage and true external atomicity to Risk/external trust.",
+    "Q01 and existing Q02 core bindings regress cleanly; preserved Skeptic probes receive documented dispositions; STOP and capital remain unchanged."
+  ],
+  "depends_on": [
+    "H-M0-016",
+    "H-M0-015"
+  ]
+}

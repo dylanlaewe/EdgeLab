@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-010",
+  "version": 3,
+  "created_at": "2026-09-20T01:29:55.563119+00:00",
+  "sender": "05 Skeptic",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Interim Research contract/compatibility disposition before Quant reliance; Director scheduling required.",
+  "work_done": "Independent consultation completed; recommendation BLOCKED pending R01 Research remediation. Legacy generic fixture error independently classified and compatible v3 schema successor passes. New HIGH gap: current holdout comparison omits exposure disclosures in supplied prior preregistration versions. H-M0-011 requests bounded fix. No H04/H05 closure, Quant release, STOP clearance or capital changes. Writer slot yielded after verified publication.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-research-consultation.v1.md",
+    "tests/test_skeptic_research_v3.py",
+    "reports/skeptic-research-consultation/results.v1.json",
+    "reports/skeptic-research-consultation/full.v1.txt",
+    "reports/skeptic-research-consultation/validation.v1.txt",
+    "docs/handoffs/H-M0-011.v1.json",
+    "docs/handoffs/H-M0-004.v6.json"
+  ],
+  "files_changed": [
+    "reports/reviews/M0.1-research-consultation.v1.md",
+    "tests/test_skeptic_research_v3.py",
+    "reports/skeptic-research-consultation/",
+    "docs/handoffs/H-M0-010.v2.json",
+    "docs/handoffs/H-M0-010.v3.json",
+    "docs/handoffs/H-M0-011.v1.json",
+    "reports/audit/A-M0-009.v1.json"
+  ],
+  "tests_run": [
+    "Research 20, Data 18, foundation 18, semantic-v2 12 and semantic-v3 10 passed.",
+    "Full discovery: 93 methods, 83 passed, ten errored methods/thirteen unchanged historical error entries; exit 1, NOT GREEN; zero assertion failures/skips.",
+    "Both historical Skeptic files byte-identical; 48/48 Research inventory hashes match."
+  ],
+  "open_questions": [
+    "Director must schedule Research follow-up H-M0-011 and subsequent independent verification before reconsidering Quant release.",
+    "Quant complete inventory/experiment binding/reproduction and external custody/freeze-pin trust remain unresolved."
+  ],
+  "blockers": [
+    "R01 HIGH supplied prior registration disclosures omitted against current holdout.",
+    "STOP-M0-001 OPEN; Quant not released."
+  ],
+  "next_action": "Verify landed consultation evidence and retain Quant release hold; schedule H-M0-011. Resolve containing SHA with git log --diff-filter=A -- docs/handoffs/H-M0-010.v3.json. No prior finding waived.",
+  "completion_criteria": [
+    "Independently disposition the added fixture error and all retained errors.",
+    "Evaluate fresh-holdout and targeted rejection evidence, exact membership and exposure ancestry semantics.",
+    "Assess existing verifier-pin trust assumptions and Quant deferrals; identify any Research-owned blocker.",
+    "Preserve historical/semantic probes; no STOP clearance or scientific approval."
+  ],
+  "depends_on": [
+    "H-M0-004",
+    "H-M0-008"
+  ]
+}

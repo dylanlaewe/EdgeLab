@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-010",
+  "version": 1,
+  "occurred_at": "2026-09-20T01:46:43.936155+00:00",
+  "actor": "Research session 01a0bc5b-953d-76e0-9972-e4f74d7dbf1d",
+  "role": "03 Research",
+  "event_type": "R01_RESEARCH_REMEDIATION_DELIVERED",
+  "subject_ref": "docs/handoffs/H-M0-011.v3.json",
+  "previous_state": "R01_OPEN_RESEARCH_CLAIMED",
+  "new_state": "R01_OPEN_AWAITING_INDEPENDENT_REVIEW",
+  "reason": "Cumulative and authoritative Research history semantics implemented and tested. No R01 closure, Quant release or operational approval.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-011.v3.json",
+    "docs/handoffs/H-M0-012.v1.json",
+    "reports/M0.1-research-R01.v1.md"
+  ],
+  "code_ref": "0631102334d55fc93779fb3caf17ae1684632093",
+  "config_ref": "docs/SPECIFICATIONS.md",
+  "correlation_id": "M0.1-RESEARCH-R01",
+  "supersedes": null
+}

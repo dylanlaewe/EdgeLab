@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-021",
+  "version": 1,
+  "created_at": "2026-09-28T01:45:44.758471+00:00",
+  "sender": "05 Skeptic",
+  "recipient": "06 Risk & Execution",
+  "status": "QUEUED",
+  "request": "Remediate SR01 BLOCKER, SR02-SR05 HIGH and SR06 MEDIUM from the independent H-M0-020 review without clearing STOP-M0-001, unlocking capital, or weakening historical probes.",
+  "work_done": "Skeptic reproduced schema-valid unsupported PAPER and LIVE AUTHORIZED decisions from unbound caller assertions; reusable actionless tokens; lifecycle/ledger/kill prefix rollback; revoked and self-issued scientific authority; mutually conflicted independent approvers; relabeled OPEN STOP applicability; future self-scoped fake clearance; truncated reconciliation; actionless reservations; and pending/cosmetically renamed exposure bypass. Positive local replay, structural, conservation, M0 denial and neutral-settlement controls were preserved. Production controls were not modified.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-risk-rereview.v1.md",
+    "tests/test_skeptic_risk_v1.py",
+    "reports/skeptic-risk-rereview/results.v1.json",
+    "reports/skeptic-risk-rereview/preservation.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-021.v1.json"
+  ],
+  "tests_run": [
+    "Skeptic Risk v1 21/21 passes as preserved adversarial characterization and positive controls.",
+    "Risk owner 12/12 passes, demonstrating the findings bypass controls outside the owner happy-path matrix.",
+    "Full discovery 218 methods: 169 pass, 48 preserved errors, one preserved failure, zero skips; no unexpected historical identity."
+  ],
+  "open_questions": [
+    "What verifier-controlled current-state authority will bind project phase, capital, STOP, lifecycle, ledger, exposure and kill heads into one exact action decision?",
+    "Which Data canonical event/outcome identities and conservative unresolved-correlation rule will Risk consume?",
+    "What durable atomic store will consume exact per-action authorizations and coordinate reservations with execution?"
+  ],
+  "blockers": [
+    "SR01 permits unsupported paper/live AUTHORIZED decisions at the local machine interface.",
+    "SR02-SR05 leave major current-state, authority, STOP and exposure controls bypassable.",
+    "STOP-M0-001 remains OPEN; capital is 5000 conceptual, 0 deployable/reserved, live LOCKED and kill ENGAGED."
+  ],
+  "next_action": "Director schedules Risk remediation. Risk implements the smallest coherent typed and current-state-bound authorization pipeline, preserves this v1 suite unchanged, adds owner coverage, publishes a frozen completion inventory, and requests focused independent re-review.",
+  "completion_criteria": [
+    "Final decisions consume digest-bound typed control results for one exact action and verifier-controlled current state; caller booleans/configuration cannot authorize.",
+    "Single-use expiring action authorization binds action, amount, strategy/version, event, environment, decision, controls and kill/current-state generations and is atomically consumed.",
+    "Lifecycle, ledger, STOP, exposure and kill histories prove currency against verifier-controlled heads/inventories; valid prefixes deny.",
+    "Revoked/self-issued/conflicted authorities deny with mandatory provenance and pairwise independence checks.",
+    "STOP action/scope and clearance requirements derive from trusted policy/record; future/fake remediation and wrong authorities deny.",
+    "Reservations bind exact actions; pending exposure counts; canonical Data identities resist cosmetic renaming; unresolved identity/correlation denies.",
+    "All positive controls remain possible at their intended non-live level and no M0 capital unlock path exists."
+  ],
+  "depends_on": [
+    "H-M0-020"
+  ]
+}

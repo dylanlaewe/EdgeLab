@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "implementation_commit": "091f0af316682e141354c2ba014eab86ee46392b",
+  "mappings": {
+    "H01_UNSUPPORTED_PROMOTION": ["test_fully_evidenced_synthetic_paper_path_is_eligible_not_authorized", "test_lifecycle_skip_terminal_resurrection_self_review_and_stop_deny"],
+    "H02_INVENTED_INDEPENDENCE": ["test_authority_forgery_missing_store_stale_generation_and_self_issue_deny", "test_lifecycle_skip_terminal_resurrection_self_review_and_stop_deny", "test_stop_clearance_requires_typed_independent_authority_and_revalidation"],
+    "H03_INEFFECTIVE_STOP": ["test_real_open_stop_blocks_and_missing_stale_state_fail_closed", "test_stop_clearance_requires_typed_independent_authority_and_revalidation", "test_kill_switch_latches_invalidates_pending_and_allows_neutral_settlement"],
+    "H04_TEMPORAL_REPRODUCTION": ["test_scientific_commitment_is_consumed_once_and_never_authorizes", "test_quant_protocol.py:24/24", "test_skeptic_quant_v7.py:6/6"],
+    "H05_EXPLORED_OUTCOME_REUSE": ["test_quant_protocol.py prior split/holdout contamination matrix", "test_research_history_v2.py:27/27", "test_scientific_commitment_is_consumed_once_and_never_authorizes"],
+    "H06_LOST_REWRITTEN_HISTORY": ["repository validation against pinned history", "pinned baseline 33/33", "test_scientific_commitment_is_consumed_once_and_never_authorizes"],
+    "M01_INCONSISTENT_STATE": ["test_lifecycle_skip_terminal_resurrection_self_review_and_stop_deny", "test_exact_ledger_reservation_settlement_and_reconciliation", "test_ledger_rejects_money_creation_negative_duplicate_settlement_and_stale_state"],
+    "M02_TIME_ACCESS_ASSERTIONS": ["test_authority_forgery_missing_store_stale_generation_and_self_issue_deny", "test_real_open_stop_blocks_and_missing_stale_state_fail_closed", "test_ledger_rejects_money_creation_negative_duplicate_settlement_and_stale_state", "test_skeptic_quant_v7.py:6/6"],
+    "ACCOUNTING_RESERVATION_SETTLEMENT": ["test_exact_ledger_reservation_settlement_and_reconciliation", "test_ledger_rejects_money_creation_negative_duplicate_settlement_and_stale_state"],
+    "EXPOSURE_CORRELATION": ["test_correlation_aggregates_duplicate_opinions_and_limits_each_dimension"],
+    "PAPER_LIVE_SEPARATION": ["test_ledger_rejects_money_creation_negative_duplicate_settlement_and_stale_state", "test_machine_decision_keeps_all_layers_distinct_and_capital_locked"],
+    "KILL_SWITCH": ["test_kill_switch_latches_invalidates_pending_and_allows_neutral_settlement"],
+    "CAPITAL_LOCK_AND_PER_ACTION_AUTHORIZATION": ["test_machine_decision_keeps_all_layers_distinct_and_capital_locked", "test_eligibility_and_controls_do_not_replace_individual_authorization", "test_foundation.py:18/18"]
+  },
+  "limitations": [
+    "Mappings show local enforcement coverage, not independent closure of project findings.",
+    "Final finding disposition belongs to the requested independent Skeptic review.",
+    "External authority/controller integrity, hostile-host persistence, custody and cross-system atomicity are not proven by local tests."
+  ]
+}

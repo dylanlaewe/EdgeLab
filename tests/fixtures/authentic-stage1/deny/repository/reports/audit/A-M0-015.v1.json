@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-015",
+  "version": 1,
+  "occurred_at": "2026-09-20T03:55:29Z",
+  "actor": "Quant session quant-codex-20260920T033246Z-665cdbd",
+  "role": "04 Quant",
+  "event_type": "QUANT_Q01_Q02_REMEDIATION_IMPLEMENTED",
+  "subject_ref": "docs/handoffs/H-M0-015.v3.json",
+  "previous_state": "QUANT_REMEDIATION_BLOCKED_Q01_HIGH_Q02_LOW",
+  "new_state": "QUANT_REMEDIATION_AWAITING_INDEPENDENT_SKEPTIC_REVIEW",
+  "reason": "Canonical all-split prior-consumption checks and a structured locally verifiable authority commitment are implemented and owner-validated. Independent Skeptic review remains mandatory; no Risk or capital gate changed.",
+  "evidence_refs": [
+    "reports/M0.1-quant-q01-q02-remediation.v1.md",
+    "reports/quant-q01-q02-remediation/results.v1.json",
+    "reports/quant-q01-q02-remediation/preservation.v1.json",
+    "docs/handoffs/H-M0-016.v1.json"
+  ],
+  "code_ref": "0319ff115707ad65f9f871275dc17740700ef3db",
+  "config_ref": "docs/SPECIFICATIONS.md",
+  "correlation_id": "H-M0-015",
+  "supersedes": null
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:risk-current-state:1",
+  "$defs": {
+    "sha": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "binding": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"], "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha"}}},
+    "head": {"type": "object", "additionalProperties": false, "required": ["count", "last_sha256", "inventory_sha256"], "properties": {"count": {"type": "integer", "minimum": 0}, "last_sha256": {"anyOf": [{"$ref": "#/$defs/sha"}, {"type": "null"}]}, "inventory_sha256": {"$ref": "#/$defs/sha"}}}
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "authority_id", "generation", "decision_id", "generated_at", "valid_until", "action_sha256", "phase", "project_state", "bankroll", "risk_policy", "scientific", "lifecycle", "stop", "ledger", "exposure", "kill", "state_sha256"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "authority_id": {"type": "string", "minLength": 1},
+    "generation": {"type": "integer", "minimum": 1},
+    "decision_id": {"type": "string", "minLength": 1},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "valid_until": {"type": "string", "format": "date-time"},
+    "action_sha256": {"$ref": "#/$defs/sha"},
+    "phase": {"type": "string", "minLength": 1},
+    "project_state": {"$ref": "#/$defs/binding"},
+    "bankroll": {"$ref": "#/$defs/binding"},
+    "risk_policy": {"$ref": "#/$defs/binding"},
+    "scientific": {"anyOf": [{"type": "null"}, {"type": "object", "additionalProperties": false, "required": ["assessment", "commitment", "assessment_author_ids", "strategy_id", "strategy_version", "experiment_identity_sha256"], "properties": {"assessment": {"type": "object"}, "commitment": {"type": "object"}, "assessment_author_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}, "strategy_id": {"type": "string", "minLength": 1}, "strategy_version": {"type": "integer", "minimum": 1}, "experiment_identity_sha256": {"$ref": "#/$defs/sha"}}}]},
+    "lifecycle": {"anyOf": [{"type": "null"}, {"type": "object", "additionalProperties": false, "required": ["events", "attestations", "head"], "properties": {"events": {"type": "array", "minItems": 1, "items": {"type": "object"}}, "attestations": {"type": "array", "items": {"type": "object"}}, "head": {"$ref": "#/$defs/head"}}}]},
+    "stop": {"type": "object", "additionalProperties": false, "required": ["snapshot", "policy", "head", "dependency_graph"], "properties": {"snapshot": {"type": "object"}, "policy": {"type": "object"}, "head": {"type": "object", "additionalProperties": false, "required": ["generation", "inventory_sha256"], "properties": {"generation": {"type": "integer", "minimum": 1}, "inventory_sha256": {"$ref": "#/$defs/sha"}}}, "dependency_graph": {"type": "object", "additionalProperties": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}}}},
+    "ledger": {"type": "object", "additionalProperties": false, "required": ["events", "snapshot", "head", "opening_minor"], "properties": {"events": {"type": "array", "minItems": 1, "items": {"type": "object"}}, "snapshot": {"type": "object"}, "head": {"$ref": "#/$defs/head"}, "opening_minor": {"type": "integer", "minimum": 0}}},
+    "exposure": {"type": "object", "additionalProperties": false, "required": ["positions", "head", "canonical_identities", "limits", "request"], "properties": {"positions": {"type": "array", "items": {"type": "object"}}, "head": {"$ref": "#/$defs/head"}, "canonical_identities": {"type": "array", "items": {"type": "object"}}, "limits": {"type": "object", "additionalProperties": false, "required": ["position_minor", "daily_exposure_minor", "strategy_exposure_minor", "source_concentration_minor", "event_exposure_minor", "correlated_exposure_minor"], "properties": {"position_minor": {"type": ["integer", "null"], "minimum": 0}, "daily_exposure_minor": {"type": ["integer", "null"], "minimum": 0}, "strategy_exposure_minor": {"type": ["integer", "null"], "minimum": 0}, "source_concentration_minor": {"type": ["integer", "null"], "minimum": 0}, "event_exposure_minor": {"type": ["integer", "null"], "minimum": 0}, "correlated_exposure_minor": {"type": ["integer", "null"], "minimum": 0}}}, "request": {"type": "object"}}},
+    "kill": {"type": "object", "additionalProperties": false, "required": ["events", "attestations", "head", "health_ok"], "properties": {"events": {"type": "array", "minItems": 1, "items": {"type": "object"}}, "attestations": {"type": "array", "items": {"type": "object"}}, "head": {"$ref": "#/$defs/head"}, "health_ok": {"type": "boolean"}}},
+    "state_sha256": {"$ref": "#/$defs/sha"}
+  }
+}

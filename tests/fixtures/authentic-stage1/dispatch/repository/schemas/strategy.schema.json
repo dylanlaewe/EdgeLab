@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:strategy:1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "version",
+    "hypothesis_ref",
+    "state",
+    "owner",
+    "experiment_refs",
+    "review_refs",
+    "transition_event_refs",
+    "active_stop_refs",
+    "risk_policy_ref",
+    "supersedes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "hypothesis_ref": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "state": {
+      "enum": [
+        "IDEA",
+        "REGISTERED",
+        "RESEARCHING",
+        "BACKTESTED",
+        "ROBUSTNESS_REVIEW",
+        "ADVERSARIAL_REVIEW",
+        "PAPER_ELIGIBLE",
+        "PAPER_TRADING",
+        "LIVE_CANDIDATE",
+        "LIVE_APPROVED",
+        "LIVE",
+        "SUSPENDED",
+        "RETIRED",
+        "REJECTED"
+      ]
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "experiment_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "review_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "transition_event_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "active_stop_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "risk_policy_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "supersedes": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    }
+  }
+}

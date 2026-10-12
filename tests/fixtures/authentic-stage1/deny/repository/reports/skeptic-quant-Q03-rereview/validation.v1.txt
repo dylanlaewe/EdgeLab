@@ -1,0 +1,35 @@
+H-M0-018 independent Skeptic Q03 re-review
+Base: 5ca9b53301d6dbcae0a0f944cd74071c0fcd46e3
+Quant implementation: 9e8b9c65c6233a271620fd07102eb61b1aabe4c5
+
+Skeptic Quant v7: 6/6 pass.
+Quant owner: 24/24 pass.
+Data owner: 18/18 pass.
+Foundation: 18/18 pass.
+
+Unchanged Skeptic Quant v6: 13 methods; 12 pass and one expected remediation
+error. test_Q02_future_commitment_time_is_accepted_after_rehash now raises
+ValueError: Future completed fact: committed_at after correctly recomputing the
+self-digest. The other 12 preserved methods pass.
+
+Boundary probes accept exact verifier now, its equivalent offset, a fractional
+instant immediately before now, and the schema-permitted lowercase form. They
+reject one microsecond after now in Z and equivalent-offset forms.
+
+Omission, alternate JSON types, date-only, space-separated parseable ISO text,
+invalid calendar input, correctly rehashed future values, and a rehashed future
+response from the full authority commit path all reject.
+
+Repository validation before completion artifacts: 76 records and published
+history valid; M0 capital LOCKED; no scientific or operational approval.
+compileall and git diff whitespace checks pass. Eleven of eleven Quant Q03
+completion inventory files are unchanged. Skeptic v5/v6, STOP and bankroll
+hashes match their published values.
+
+Repository validation with completion handoff and audit: 78 records and
+published history valid; M0 capital LOCKED; no scientific or operational
+approval.
+
+Disposition: Q03 CLOSED. No new finding. No additional Quant remediation.
+Risk authentication, replay persistence, global uniqueness, key custody,
+adapter/controller honesty, durable storage and external atomicity remain deferred.

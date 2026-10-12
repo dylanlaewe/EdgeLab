@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "purpose": "H-M0-018 Q03 re-review preservation verification",
+  "review_base": "5ca9b53301d6dbcae0a0f944cd74071c0fcd46e3",
+  "quant_completion_commit": "5ca9b53301d6dbcae0a0f944cd74071c0fcd46e3",
+  "skeptic_v5_sha256_expected": "2f79c91ef57e4cf5c0ca0966d25eb825d41898666b14f7e4413203863943f7cd",
+  "skeptic_v5_sha256_observed": "2f79c91ef57e4cf5c0ca0966d25eb825d41898666b14f7e4413203863943f7cd",
+  "skeptic_v6_sha256_expected": "496f1104f7e3d4c48bfaa1ee1be8d61a5d900148c2f068648da59303d533d9a7",
+  "skeptic_v6_sha256_observed": "496f1104f7e3d4c48bfaa1ee1be8d61a5d900148c2f068648da59303d533d9a7",
+  "stop_sha256_expected": "877eb367fde67eda4cbd33b72eea28e48d4f36f45253dc7fe40e3bfa9aa87571",
+  "stop_sha256_observed": "877eb367fde67eda4cbd33b72eea28e48d4f36f45253dc7fe40e3bfa9aa87571",
+  "bankroll_sha256_expected": "9ed04c4fb32fed1ba50999abdc1a84fa298e58071ac9fac9b1be1d6accf0d77a",
+  "bankroll_sha256_observed": "9ed04c4fb32fed1ba50999abdc1a84fa298e58071ac9fac9b1be1d6accf0d77a",
+  "changed_historical_skeptic_files": [],
+  "changed_quant_q03_completion_files": [],
+  "quant_q03_completion_inventory_files_checked": 11,
+  "changed_stop_bankroll_risk_or_project_state_files": [],
+  "versioned_successor": "tests/test_skeptic_quant_v7.py",
+  "production_files_modified_by_review": []
+}

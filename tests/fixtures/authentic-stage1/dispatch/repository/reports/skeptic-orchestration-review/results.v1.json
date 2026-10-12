@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "review": "M0.2_ORCHESTRATION_SKEPTIC_V1",
+  "verdict": "REJECTED_GOVERNANCE_ENGINE_CONTAINED_MOCK_ONLY",
+  "base_sha": "3a9442ca571bad285f896238a0dc6a8a51bfe9b1",
+  "claim_sha": "660bc13b65a031e97611610a1833d9cfdf4657d4",
+  "finding_counts": {
+    "BLOCKER": 0,
+    "HIGH": 7,
+    "MEDIUM": 0,
+    "LOW": 0,
+    "FUTURE_GATE": 4
+  },
+  "findings": [
+    "M02-SK-01_CALLER_CLASSIFICATION_AND_SCHEMA_BYPASS",
+    "M02-SK-02_STALE_ASSIGNMENT_ACCEPTED",
+    "M02-SK-03_UNVALIDATED_STALE_SAFETY_HEAD",
+    "M02-SK-04_CLONEABLE_REPOSITORY_IDENTITY",
+    "M02-SK-05_CALLER_AUTHORITATIVE_WRITER_AND_DEPENDENCIES",
+    "M02-SK-06_UNAUTHENTICATED_COMPLETION_AND_REVIEW",
+    "M02-SK-07_OPTIONAL_INCOMPLETE_CAPABILITY_ENFORCEMENT"
+  ],
+  "passed_boundaries": [
+    "unknown_and_explicit_prohibited_labels_deny",
+    "project_and_stop_files_are_reread_per_decision",
+    "obvious_wrong_remote_or_missing_markers_deny",
+    "approval_routes_to_director_gate_without_releasing_state",
+    "mock_only_module_has_no_task_or_external_executor"
+  ],
+  "tests": {
+    "focused_orchestration": {"methods": 21, "passed": 21},
+    "foundation": {"methods": 18, "passed": 18},
+    "full_discovery": {"methods": 264, "passed": 193, "historical_errors": 66, "historical_failures": 5, "skipped": 0},
+    "repository_validation_prepublication_records": 121,
+    "compileall": true
+  },
+  "current_external_effect_path": false,
+  "real_executor_attachment_permitted": false,
+  "stop": "OPEN",
+  "phase": "M0_BLOCKED",
+  "m1_released": false,
+  "capital_minor": {"conceptual": 5000, "deployable": 0, "reserved": 0},
+  "live": "LOCKED",
+  "kill": "ENGAGED"
+}

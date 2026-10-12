@@ -1,0 +1,39 @@
+Command: /Users/dylanlaewe/Projects/Active/EdgeLab/.venv/bin/python -m unittest discover -s tests -p test*.py -v
+test_capital_mutations_denied (test_foundation.FoundationTests.test_capital_mutations_denied) ... ok
+test_confirmation_requires_registration (test_foundation.FoundationTests.test_confirmation_requires_registration) ... ok
+test_confirmation_thresholds_and_registration_order (test_foundation.FoundationTests.test_confirmation_thresholds_and_registration_order) ... ok
+test_duplicate_identities_denied (test_foundation.FoundationTests.test_duplicate_identities_denied) ... ok
+test_duplicate_json_keys_denied (test_foundation.FoundationTests.test_duplicate_json_keys_denied) ... ok
+test_each_exposure_limit_locked (test_foundation.FoundationTests.test_each_exposure_limit_locked) ... ok
+test_gate_removal_replacement_and_duplication_denied (test_foundation.FoundationTests.test_gate_removal_replacement_and_duplication_denied) ... ok
+test_handoff_missing_evidence_denied (test_foundation.FoundationTests.test_handoff_missing_evidence_denied) ... ok
+test_live_enable_and_kill_reset_denied (test_foundation.FoundationTests.test_live_enable_and_kill_reset_denied) ... ok
+test_live_states_denied_even_with_review_strings (test_foundation.FoundationTests.test_live_states_denied_even_with_review_strings) ... ok
+test_missing_and_unknown_fields (test_foundation.FoundationTests.test_missing_and_unknown_fields) ... ok
+test_missing_portfolio_fails_closed (test_foundation.FoundationTests.test_missing_portfolio_fails_closed) ... ok
+test_missing_unused_schema_fails_closed (test_foundation.FoundationTests.test_missing_unused_schema_fails_closed) ... ok
+test_permission_requires_evidence (test_foundation.FoundationTests.test_permission_requires_evidence) ... ok
+test_protocol_and_completion_order (test_foundation.FoundationTests.test_protocol_and_completion_order) ... ok
+test_repository (test_foundation.FoundationTests.test_repository) ... ok
+test_stop_resolution_requires_event (test_foundation.FoundationTests.test_stop_resolution_requires_event) ... ok
+test_timestamp_requires_real_date_and_offset (test_foundation.FoundationTests.test_timestamp_requires_real_date_and_offset) ... ok
+test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) ... ok
+test_H01_rejected_version_resurrected_and_conflicting_versions_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_rejected_version_resurrected_and_conflicting_versions_accepted) ... ok
+test_H02_single_actor_can_claim_all_approvals (test_skeptic_adversarial.SkepticAdversarialTests.test_H02_single_actor_can_claim_all_approvals) ... ok
+test_H03_open_stop_does_not_block_affected_paper_state (test_skeptic_adversarial.SkepticAdversarialTests.test_H03_open_stop_does_not_block_affected_paper_state) ... ok
+test_H03_stop_resolved_by_arbitrary_file (test_skeptic_adversarial.SkepticAdversarialTests.test_H03_stop_resolved_by_arbitrary_file) ... ok
+test_H04_completed_confirmation_without_reproduction_inputs_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H04_completed_confirmation_without_reproduction_inputs_accepted) ... ok
+test_H04_late_unknown_and_mutated_lineage_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H04_late_unknown_and_mutated_lineage_accepted) ... ok
+test_H05_explored_dataset_reused_as_confirmation (test_skeptic_adversarial.SkepticAdversarialTests.test_H05_explored_dataset_reused_as_confirmation) ... ok
+test_H06_history_mutation_deletion_and_circular_supersession_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H06_history_mutation_deletion_and_circular_supersession_accepted) ... ok
+test_M01_identifiers_filenames_dependencies_and_project_state_unchecked (test_skeptic_adversarial.SkepticAdversarialTests.test_M01_identifiers_filenames_dependencies_and_project_state_unchecked) ... ok
+test_M02_future_stale_times_and_unverified_permission_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_M02_future_stale_times_and_unverified_permission_evidence_accepted) ... ok
+test_all_nine_schemas_reject_missing_extra_and_incompatible_version (test_skeptic_adversarial.SkepticAdversarialTests.test_all_nine_schemas_reject_missing_extra_and_incompatible_version) ... ok
+test_all_requested_live_skips_denied (test_skeptic_adversarial.SkepticAdversarialTests.test_all_requested_live_skips_denied) ... ok
+test_all_timestamp_fields_reject_malformed_dates (test_skeptic_adversarial.SkepticAdversarialTests.test_all_timestamp_fields_reject_malformed_dates) ... ok
+test_capital_negative_creation_overdeployment_and_kill_reset_denied (test_skeptic_adversarial.SkepticAdversarialTests.test_capital_negative_creation_overdeployment_and_kill_reset_denied) ... ok
+
+----------------------------------------------------------------------
+Ran 33 tests in 1.906s
+
+OK

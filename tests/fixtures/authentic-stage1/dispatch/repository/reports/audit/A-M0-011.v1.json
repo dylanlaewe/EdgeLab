@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-011",
+  "version": 1,
+  "occurred_at": "2026-09-20T01:59:44.501500+00:00",
+  "actor": "Independent Skeptic session identified in H-M0-012.v2",
+  "role": "05 Skeptic",
+  "event_type": "R01_RESEARCH_SCOPE_REREVIEW_COMPLETE",
+  "subject_ref": "docs/handoffs/H-M0-012.v3.json",
+  "previous_state": "R01_RESEARCH_REMEDIATION_AWAITING_REVIEW",
+  "new_state": "REMEDIATED_WITHIN_VERIFIER_ASSUMPTIONS_READY_FOR_DIRECTOR_GATE",
+  "reason": "Compatible semantic attacks denied; fresh holdout passes without authority. Thirty new historical setup errors separately dispositioned; stale verifier checkpoint limitation demonstrated. STOP OPEN; no operational authorization.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-R01-rereview.v1.md",
+    "tests/test_skeptic_history_v4.py",
+    "reports/skeptic-r01-review/legacy-disposition.v1.json"
+  ],
+  "code_ref": "Research implementation 0631102334d55fc93779fb3caf17ae1684632093; review commit first adding H-M0-012.v3.json",
+  "config_ref": "portfolio/risk-policy.json",
+  "correlation_id": "H-M0-012",
+  "supersedes": null
+}

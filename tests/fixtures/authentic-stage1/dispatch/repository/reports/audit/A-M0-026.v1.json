@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-026",
+  "version": 1,
+  "occurred_at": "2026-09-29T03:35:00Z",
+  "actor": "00 Director",
+  "role": "00 Director",
+  "event_type": "M0_FINAL_GATE_BLOCKED_STOP_CLEARANCE_AUTHORITY_UNPROVISIONED",
+  "subject_ref": "docs/handoffs/H-M0-025.v2.json",
+  "previous_state": "LOCAL_RISK_FINDINGS_CLOSED_READY_FOR_DIRECTOR_M0_STOP_GATE",
+  "new_state": "M0_EXIT_BLOCKED_STOP_OPEN_AWAITING_EXTERNAL_CLEARANCE_AUTHORITY",
+  "reason": "Independent local remediation evidence is sufficient for the local-control disposition but the typed STOP procedure requires externally controlled authority policy and independent clearance attestations that are not present. Director cannot self-issue them.",
+  "evidence_refs": [
+    "reports/M0.1-final-gate.v1.md",
+    "docs/handoffs/H-M0-024.v3.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "docs/OPERATIONS.md"
+  ],
+  "code_ref": "b9db7439e363cbad6a93f33b719d10660fe9b969",
+  "config_ref": "portfolio/bankroll.json; portfolio/risk-policy.json",
+  "correlation_id": "M0-FINAL-GATE-20260929",
+  "supersedes": null
+}

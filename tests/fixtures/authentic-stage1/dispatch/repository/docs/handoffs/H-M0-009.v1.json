@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-009",
+  "version": 1,
+  "created_at": "2026-09-20T00:51:06.027826+00:00",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "CLAIMED",
+  "request": "Re-run bounded Research release gate after H-M0-008 consultation.",
+  "work_done": "Director session 01a0bc0f-0f04-7c40-bc24-177858026bc8 claims coordination writer slot yielded by H-M0-008 v3. Base ae72047cc3f289885bfdcf5598fd06244bf4e80b. Scope: appended Director release/report/evidence/audit/handoffs and project-state summary only.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-008.v3.json",
+    "docs/handoffs/H-M0-003.v4.json",
+    "docs/GIT_COORDINATION.md"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-009.v1.json"
+  ],
+  "tests_run": [],
+  "open_questions": [
+    "Verify semantic coverage and exact downstream contract requirements."
+  ],
+  "blockers": [
+    "STOP-M0-001 remains OPEN; Research awaits Director release."
+  ],
+  "next_action": "Publish Director gate decision after independent validation; no Research implementation.",
+  "completion_criteria": [
+    "Verify source evidence and ancestry",
+    "Classify every error and record explicit release decision",
+    "Publish bounded coordination updates without changing domain controls"
+  ],
+  "depends_on": [
+    "H-M0-007",
+    "H-M0-008"
+  ]
+}

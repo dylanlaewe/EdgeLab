@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "purpose": "H-M0-021 targeted Risk SR01-SR06 remediation validation; no operational authorization",
+  "claim_commit": "a3eb4167d823a885b18a726edf2d65e014b5392b",
+  "implementation_commit": "806ed55d68ae8bfafd3f1680960ba0baa339f011",
+  "verdict": "IMPLEMENTED_AWAITING_INDEPENDENT_SKEPTIC_REREVIEW",
+  "focused": {
+    "risk_owner": {"methods": 14, "passed": 14, "failed": 0, "errored": 0, "skipped": 0},
+    "foundation": {"methods": 18, "passed": 18, "failed": 0, "errored": 0, "skipped": 0},
+    "data": {"methods": 18, "passed": 18, "failed": 0, "errored": 0, "skipped": 0},
+    "research_history_v2": {"methods": 27, "passed": 27, "failed": 0, "errored": 0, "skipped": 0},
+    "quant_owner": {"methods": 24, "passed": 24, "failed": 0, "errored": 0, "skipped": 0},
+    "semantic_v2": {"methods": 12, "passed": 12, "failed": 0, "errored": 0, "skipped": 0},
+    "skeptic_quant_v7": {"methods": 6, "passed": 6, "failed": 0, "errored": 0, "skipped": 0},
+    "skeptic_risk_v1_unchanged": {"methods": 21, "passed": 1, "failed": 4, "errored": 16, "skipped": 0}
+  },
+  "skeptic_risk_v1_disposition": {
+    "classification": "EXPECTED VERSIONED-CONTRACT BREAK: 20 formerly successful vulnerability demonstrations can no longer satisfy the hardened boundary; one pre-existing defense method still passes. This is owner evidence only and requires independent successor review.",
+    "unchanged_sha256": "c3d1c0c18d9443561fceaad297102abd26e36d00b2d49a5b39da9889a5ae4fcb",
+    "failed_assertions": [
+      "test_R01_decision_accepts_unbound_assertions_and_phase_substitution",
+      "test_R06_reservation_and_settlement_have_no_action_binding",
+      "test_positive_current_locked_path_and_neutral_settlement",
+      "test_replay_store_serializes_local_double_consumption"
+    ],
+    "contract_error_count": 16,
+    "passing_methods": ["test_authority_alias_source_role_scope_and_generation_defenses_hold"]
+  },
+  "full_discovery": {
+    "methods": 220,
+    "passing_methods": 151,
+    "errored_methods": 64,
+    "failure_count": 5,
+    "skip_count": 0,
+    "seconds": 691.743,
+    "successful": false,
+    "classification": "NOT GREEN: exact prior 48 historical/setup errors plus 16 expected Skeptic Risk v1 hardened-contract errors; exact prior Quant-v5 failure plus four contradicted Skeptic Risk v1 vulnerable assertions. No unexpected red identity and all 14 Risk owner methods pass."
+  },
+  "positive_controls": {
+    "scientific_consumption_remains_non_authorizing": true,
+    "isolated_synthetic_paper_lifecycle_eligible": true,
+    "isolated_exact_new_exposure_authorization_with_all_controls": true,
+    "actual_M0_live_authorization_denied": true,
+    "single_use_exact_action_authorization": true,
+    "exposure_neutral_settlement_under_engaged_kill": true
+  },
+  "repository_validation": {
+    "records_before_completion_artifacts": 91,
+    "records_with_completion_artifacts": 94,
+    "published_history_valid": true,
+    "capital_status": "LOCKED",
+    "scientific_or_operational_approval": false
+  },
+  "capital": {
+    "conceptual_minor": 5000,
+    "live_deployable_minor": 0,
+    "reserved_minor": 0,
+    "live_status": "LOCKED",
+    "kill_switch": "ENGAGED",
+    "stop_M0_001": "OPEN",
+    "capital_moved": false
+  },
+  "external_limitations": [
+    "External controller/provider authentication and key custody",
+    "Hostile-host rollback protection and remote durability",
+    "Venue/execution honesty and external settlement truth",
+    "Cross-system atomicity and undisclosed off-system activity",
+    "Complete sport-specific correlation truth"
+  ]
+}

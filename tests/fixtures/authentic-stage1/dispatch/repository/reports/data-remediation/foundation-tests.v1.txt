@@ -1,0 +1,23 @@
+test_capital_mutations_denied (test_foundation.FoundationTests.test_capital_mutations_denied) ... ok
+test_confirmation_requires_registration (test_foundation.FoundationTests.test_confirmation_requires_registration) ... ok
+test_confirmation_thresholds_and_registration_order (test_foundation.FoundationTests.test_confirmation_thresholds_and_registration_order) ... ok
+test_duplicate_identities_denied (test_foundation.FoundationTests.test_duplicate_identities_denied) ... ok
+test_duplicate_json_keys_denied (test_foundation.FoundationTests.test_duplicate_json_keys_denied) ... ok
+test_each_exposure_limit_locked (test_foundation.FoundationTests.test_each_exposure_limit_locked) ... ok
+test_gate_removal_replacement_and_duplication_denied (test_foundation.FoundationTests.test_gate_removal_replacement_and_duplication_denied) ... ok
+test_handoff_missing_evidence_denied (test_foundation.FoundationTests.test_handoff_missing_evidence_denied) ... ok
+test_live_enable_and_kill_reset_denied (test_foundation.FoundationTests.test_live_enable_and_kill_reset_denied) ... ok
+test_live_states_denied_even_with_review_strings (test_foundation.FoundationTests.test_live_states_denied_even_with_review_strings) ... ok
+test_missing_and_unknown_fields (test_foundation.FoundationTests.test_missing_and_unknown_fields) ... ok
+test_missing_portfolio_fails_closed (test_foundation.FoundationTests.test_missing_portfolio_fails_closed) ... ok
+test_missing_unused_schema_fails_closed (test_foundation.FoundationTests.test_missing_unused_schema_fails_closed) ... ok
+test_permission_requires_evidence (test_foundation.FoundationTests.test_permission_requires_evidence) ... ok
+test_protocol_and_completion_order (test_foundation.FoundationTests.test_protocol_and_completion_order) ... ok
+test_repository (test_foundation.FoundationTests.test_repository) ... ok
+test_stop_resolution_requires_event (test_foundation.FoundationTests.test_stop_resolution_requires_event) ... ok
+test_timestamp_requires_real_date_and_offset (test_foundation.FoundationTests.test_timestamp_requires_real_date_and_offset) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.552s
+
+OK

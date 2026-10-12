@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "urn:edgelab:lifecycle-event:1",
+  "$defs": {"state": {"enum": ["IDEA", "REGISTERED", "RESEARCHING", "BACKTESTED", "ROBUSTNESS_REVIEW", "ADVERSARIAL_REVIEW", "PAPER_ELIGIBLE", "PAPER_TRADING", "LIVE_CANDIDATE", "LIVE_APPROVED", "LIVE", "SUSPENDED", "RETIRED", "REJECTED"]}, "sha": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "event_id", "sequence", "strategy_id", "strategy_version", "occurred_at", "actor_alias", "actor_role", "from_state", "to_state", "evidence_sha256", "approval_ids", "trigger_refs", "previous_event_sha256", "event_sha256"],
+  "properties": {
+    "schema_version": {"const": 1}, "event_id": {"type": "string", "minLength": 1}, "sequence": {"type": "integer", "minimum": 1},
+    "strategy_id": {"type": "string", "minLength": 1}, "strategy_version": {"type": "integer", "minimum": 1}, "occurred_at": {"type": "string", "format": "date-time"},
+    "actor_alias": {"type": "string", "minLength": 1}, "actor_role": {"type": "string", "minLength": 1},
+    "from_state": {"anyOf": [{"$ref": "#/$defs/state"}, {"type": "null"}]}, "to_state": {"$ref": "#/$defs/state"},
+    "evidence_sha256": {"$ref": "#/$defs/sha"}, "approval_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "trigger_refs": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "previous_event_sha256": {"anyOf": [{"$ref": "#/$defs/sha"}, {"type": "null"}]}, "event_sha256": {"$ref": "#/$defs/sha"}
+  }
+}

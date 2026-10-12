@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-006",
+  "version": 1,
+  "occurred_at": "2026-09-20T00:37:29.683465+00:00",
+  "actor": "Skeptic consultation session identified in H-M0-008.v2.json",
+  "role": "05 Skeptic",
+  "event_type": "DATA_GATE_CONSULTATION_COMPLETE",
+  "subject_ref": "docs/handoffs/H-M0-008.v3.json",
+  "previous_state": "CONSULTATION_REQUIRED",
+  "new_state": "READY_FOR_DIRECTOR_GATE",
+  "reason": "Compatible semantic probes distinguish remediated Data invariants from remaining downstream attacks; no Research release or finding closure.",
+  "evidence_refs": [
+    "reports/reviews/M0.1-data-consultation.v1.md",
+    "tests/test_skeptic_semantic_v2.py",
+    "reports/skeptic-consultation/results.v1.json"
+  ],
+  "code_ref": "Data completion 90c1a0a04216d737c3d6cbdd4a3404488fec7605; consultation commit first adding H-M0-008.v3.json",
+  "config_ref": "portfolio/risk-policy.json",
+  "correlation_id": "H-M0-008",
+  "supersedes": null
+}

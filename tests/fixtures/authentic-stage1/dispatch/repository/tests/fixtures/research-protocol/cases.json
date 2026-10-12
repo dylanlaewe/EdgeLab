@@ -1,0 +1,40 @@
+{
+  "synthetic": true,
+  "registration_ref": {
+    "path": "research/preregistrations/REG.v1.json",
+    "kind": "preregistration",
+    "id": "REG",
+    "version": 1,
+    "sha256": "24277b1bbcb24e6fcab312b247042430657a971e291839a931f5fff7aeccf216"
+  },
+  "access_ref": {
+    "path": "research/exposures/ACCESS.v1.json",
+    "kind": "exposure",
+    "id": "ACCESS",
+    "version": 1,
+    "sha256": "528cba7584276916a7ba26464fd59cecb8bfeb515bc9b36b2d83ac0c74dd0051"
+  },
+  "contamination_refs": [
+    {
+      "path": "research/exposures/IDENTICAL.v1.json",
+      "kind": "exposure",
+      "id": "IDENTICAL",
+      "version": 1,
+      "sha256": "df41e75c1e0a385faf87b444fc4aba3a07b919184d04743eb96a9805da654bbd"
+    },
+    {
+      "path": "research/exposures/RENAMED.v1.json",
+      "kind": "exposure",
+      "id": "RENAMED",
+      "version": 1,
+      "sha256": "c8a165c4cd2d0a212b93d78a916d2e95d5903a6d32b64b39737817f0477db331"
+    },
+    {
+      "path": "research/exposures/PARTIAL.v1.json",
+      "kind": "exposure",
+      "id": "PARTIAL",
+      "version": 1,
+      "sha256": "ddd587c219b0a46bddbe0a6bf3b574c5aa32c433d351869dea297a60cc310fbc"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-022",
+  "version": 2,
+  "created_at": "2026-09-28T22:38:17.430053+00:00",
+  "sender": "05 Skeptic",
+  "recipient": "05 Skeptic",
+  "status": "CLAIMED",
+  "request": "Independently re-review frozen Risk SR01-SR06 implementation 806ed55d68ae8bfafd3f1680960ba0baa339f011 under the documented trust boundaries.",
+  "work_done": "Skeptic session skeptic-risk-sr01-sr06-rereview-20260928T223817Z-3f5dcfd claims the sole-writer review slot at synchronized base 3f5dcfdd0cfda6db33f4eb2ca7447f2746253be1 under explicit user authorization. H-M0-022 v1 and H-M0-021 v3 were consumed with their referenced evidence. Scope is additive versioned Skeptic successor probes and review evidence; test_skeptic_risk_v1.py, Risk production controls, STOP, capital, policy and project state will remain unchanged.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-022.v1.json",
+    "docs/handoffs/H-M0-021.v3.json",
+    "reports/M0.1-risk-SR01-SR06-remediation.v1.md",
+    "reports/risk-sr01-sr06-remediation/results.v1.json",
+    "reports/risk-sr01-sr06-remediation/findings-to-tests.v1.json",
+    "reports/risk-sr01-sr06-remediation/completion-inventory.v1.json",
+    "src/edgelab/risk_controls.py",
+    "tests/test_risk_controls.py",
+    "tests/test_skeptic_risk_v1.py",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-022.v2.json"
+  ],
+  "tests_run": [],
+  "open_questions": [
+    "Do valid current prerequisites close each SR01-SR06 semantic attack rather than merely reject stale fixture shapes?",
+    "Can caller-controlled state, action mutation, valid-prefix rollback, authority ambiguity, STOP relabeling, canonical identity manipulation or economic substitution still authorize?",
+    "Are remaining dishonest-provider and hostile-host cases explicit verifier assumptions rather than silently accepted caller state?"
+  ],
+  "blockers": [
+    "STOP-M0-001 remains OPEN; capital is 5000 conceptual, 0 deployable/reserved, live LOCKED and kill ENGAGED."
+  ],
+  "next_action": "Inspect the frozen current contracts, classify unchanged v1 outcomes, create valid-prerequisite v2 successors, and publish finding-by-finding dispositions without clearing STOP or beginning M1.",
+  "completion_criteria": [
+    "SR01-SR06 attacked through current typed actions, providers, heads, identities, reservations and token state.",
+    "Every early v1 rejection classified and semantic coverage restored in a versioned successor where needed.",
+    "Positive paper and neutral-settlement behavior preserved while every M0 live path denies.",
+    "Historical evidence and Risk remediation inventory preserved; review committed and pushed cleanly."
+  ],
+  "depends_on": [
+    "H-M0-021",
+    "H-M0-020"
+  ]
+}

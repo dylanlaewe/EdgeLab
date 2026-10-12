@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-014",
+  "version": 1,
+  "created_at": "2026-09-20T02:42:17.442120+00:00",
+  "sender": "04 Quant",
+  "recipient": "05 Skeptic",
+  "status": "QUEUED",
+  "request": "Independently review H-M0-005 Quant remediation before any Risk release. Reproduce actual input/split/config/code/seed/output binding, complete trial/exposure history, Research integration, stale-current-state attacks, check/use races and deterministic reproduction. Director scheduling is required.",
+  "work_done": "Quant implementation 4a4a7b2bb89b094161743c030334785630b50ce8 is on origin/main. H-M0-005 v5 publishes the completion package. Owner successors pass 13/13; full discovery preserves the exact classified historical red corpus. No finding closure or operational authorization is claimed.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-005.v5.json",
+    "reports/M0.1-quant-remediation.v1.md",
+    "reports/quant-remediation/results.v1.json",
+    "reports/quant-remediation/completion-inventory.v1.json",
+    "tests/test_quant_protocol.py",
+    "src/edgelab/quant_protocol.py",
+    "docs/SPECIFICATIONS.md",
+    "reports/M0.1-quant-release.v1.md",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-014.v1.json"
+  ],
+  "tests_run": [
+    "Quant 13/13; Data 18/18; Research-history v2 27/27; Skeptic-history v4 15/15; foundation 18/18.",
+    "Full discovery 148 methods: 108 pass, 40 errored methods/43 exact historical entries, zero assertion failures/skips; NOT GREEN; no new/missing error identity."
+  ],
+  "open_questions": [
+    "Does the current-state adapter contract and atomic compare-and-commit boundary support exactly the documented guarantee, with no stronger implied concurrency claim?",
+    "Do current accepted-state scans, complete inventories and Research integration reject all assigned stale/deletion/omission/repeat contamination variants?",
+    "Are compatibility and historical red-suite dispositions complete enough for Director's eventual Risk gate?"
+  ],
+  "blockers": [
+    "Skeptic review has not started and requires Director scheduling.",
+    "STOP-M0-001 OPEN; Risk unreleased; no production authority; no paper/live/capital authorization."
+  ],
+  "next_action": "After Director scheduling, Skeptic independently reproduces the completion evidence, attacks currency/inventory/reproduction/race boundaries, preserves prior probes and publishes a versioned verdict. Do not release Risk or clear the STOP from this queue record.",
+  "completion_criteria": [
+    "Independently reproduce positive and every mapped negative control using accepted current state rather than submitter metadata.",
+    "Attack old-checkpoint rollback, later accepted evidence deletion, authority absence/substitution, registry mismatch and both pre-commit race windows.",
+    "Attack actual input/split replacement, renamed/partial overlap, hidden failures/cancellations/attempts/repeats, config/code/environment/seed and output/reproduction mutation.",
+    "Verify no submitted command executes, no operational authorization leaks, all originals remain preserved and full-suite errors are accurately classified.",
+    "Publish limitations and an explicit READY_FOR_DIRECTOR_GATE or BLOCKED verdict without self-releasing Risk."
+  ],
+  "depends_on": [
+    "H-M0-005"
+  ]
+}

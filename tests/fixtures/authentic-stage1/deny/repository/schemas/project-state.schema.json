@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "phase",
+    "increment",
+    "status",
+    "live_status",
+    "demonstrated_edge",
+    "active_strategies",
+    "completed_scope",
+    "remaining_m0",
+    "blockers",
+    "next_assignment",
+    "updated_at",
+    "active_stop_refs",
+    "review_ref",
+    "open_findings",
+    "next_handoff_ref",
+    "coordination_plan_ref",
+    "git_protocol_ref",
+    "writer_policy",
+    "next_owner_release"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "phase": {
+      "type": "string",
+      "minLength": 1
+    },
+    "increment": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "live_status": {
+      "const": "LOCKED"
+    },
+    "demonstrated_edge": {
+      "type": "boolean"
+    },
+    "active_strategies": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "completed_scope": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "remaining_m0": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "next_assignment": {
+      "type": "string",
+      "minLength": 1
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "active_stop_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "review_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "open_findings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "next_handoff_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "coordination_plan_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "git_protocol_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "writer_policy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "next_owner_release": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

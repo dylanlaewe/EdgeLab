@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-003",
+  "version": 1,
+  "occurred_at": "2026-09-20T00:06:06.737523+00:00",
+  "actor": "00 Director coordination session following Skeptic review",
+  "role": "00 Director",
+  "event_type": "REMEDIATION_COORDINATION_RECORDED",
+  "subject_ref": "docs/project-state.json",
+  "previous_state": "IMPLEMENTED_VALIDATED_AWAITING_INDEPENDENT_REVIEW",
+  "new_state": "BLOCKED_FOR_APPROVAL_REMEDIATION_ALLOWED",
+  "reason": "Reconcile stale summary with independent review and coordinate bounded sequential remediation; no finding closed and STOP unchanged.",
+  "evidence_refs": [
+    "docs/REMEDIATION_PLAN.md",
+    "docs/GIT_COORDINATION.md",
+    "docs/handoffs/H-M0-002.v3.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "code_ref": "Base 4e99cfac90e0af601158c1528c70574dd5dafeda; coordination commit is the commit first adding reports/audit/A-M0-003.v1.json",
+  "config_ref": "portfolio/risk-policy.json",
+  "correlation_id": "M0.1-REMEDIATION-COORDINATION",
+  "supersedes": null
+}

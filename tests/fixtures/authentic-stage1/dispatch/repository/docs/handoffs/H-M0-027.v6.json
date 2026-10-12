@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-027",
+  "version": 6,
+  "created_at": "2026-09-29T23:00:30Z",
+  "sender": "05 Skeptic",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Independently review the bounded M0.2 non-operational orchestration sandbox and directly affected governance boundaries.",
+  "work_done": "Review completed with verdict REJECTED AS A GOVERNANCE DECISION ENGINE; CONTAINED AS MOCK-ONLY CODE. Seven HIGH findings demonstrate DISPATCH or gate advancement from caller-controlled classification, stale assignment, incomplete safety heads, cloneable repository identity, writer/dependency assertions, unauthenticated completion/review and optional capability metadata. No BLOCKER or external-effect path was demonstrated because the implementation has no executor. Approval still routes only to a Director gate and does not release state.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-orchestration-skeptic-review.v1.md",
+    "tests/test_skeptic_orchestration_v1.py",
+    "reports/skeptic-orchestration-review/results.v1.json",
+    "reports/skeptic-orchestration-review/preservation.v1.json",
+    "docs/handoffs/H-M0-028.v1.json",
+    "reports/audit/A-M0-030.v1.json",
+    "reports/stops/STOP-M0-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-027.v5.json",
+    "tests/test_skeptic_orchestration_v1.py",
+    "reports/reviews/M0.2-orchestration-skeptic-review.v1.md",
+    "reports/skeptic-orchestration-review/results.v1.json",
+    "reports/skeptic-orchestration-review/preservation.v1.json",
+    "reports/skeptic-orchestration-review/validation.v1.txt",
+    "docs/handoffs/H-M0-027.v6.json",
+    "docs/handoffs/H-M0-028.v1.json",
+    "reports/audit/A-M0-030.v1.json"
+  ],
+  "tests_run": [
+    "Focused owner plus Skeptic orchestration suite: 21/21 passed; the 15 Skeptic methods preserve both positive controls and successful adversarial reproductions.",
+    "Foundation regression: 18/18 passed.",
+    "Full discovery, repository validation, compileall, whitespace, preservation and final safety-state results are frozen in reports/skeptic-orchestration-review/validation.v1.txt."
+  ],
+  "open_questions": [
+    "A durable authenticated scheduler/audit store and model/usage policy remain mandatory future gates before any real executor; they are not current mock-only external-effect defects.",
+    "Local repository controls cannot prove external identity, hostile-host durability or global execution truth."
+  ],
+  "blockers": [
+    "M02-SK-01 through M02-SK-07 remain OPEN and block acceptance of the governance engine or attachment of an executor.",
+    "STOP-M0-001 remains OPEN; M0 remains blocked; M1, Scout, operational work, plugins and capital remain unavailable."
+  ],
+  "next_action": "Director may schedule only the bounded remediation in H-M0-028.v1. Do not accept M0.2, attach an executor, begin M1, activate Scout, clear STOP or alter capital.",
+  "completion_criteria": [
+    "All requested adversarial categories receive evidence-backed dispositions and preserved reproducers.",
+    "Current defects are separated from future real-executor gates and no production control is changed by Skeptic.",
+    "Historical owner evidence and final safety invariants are preserved; work is committed, pushed and remotely verified cleanly."
+  ],
+  "depends_on": [
+    "H-M0-025",
+    "H-M0-026"
+  ]
+}

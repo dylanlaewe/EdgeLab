@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "review": "M0.2_ORCHESTRATION_BOUNDED_ACCEPTANCE_REVIEW_V1",
+  "verdict": "NOT_ACCEPTED_FOR_BOUNDED_M0_2_PURPOSE",
+  "director_base_sha": "035ce4f16faacbc44bc46cadbcbfddeacda7ef5d",
+  "claim_sha": "1fdbba4",
+  "dispositions": {
+    "M02-SK-01": "CLOSED_NO_REGRESSION",
+    "M02-SK-02": "PARTIALLY_REMEDIATED_HIGH_CURRENT_HEAD_RESIDUAL",
+    "M02-SK-03": "CLOSED_NO_REGRESSION",
+    "M02-SK-04": "CLOSED_NO_REGRESSION",
+    "M02-SK-05": "PARTIALLY_REMEDIATED_HIGH_NUMERIC_HEAD_RESIDUAL",
+    "M02-SK-06": "CLOSED_NO_REGRESSION",
+    "M02-SK-07": "CLOSED_NO_REGRESSION",
+    "M02-SK-08": "PARTIALLY_REMEDIATED_MEDIUM_DENIAL_STATE_RESIDUAL",
+    "M02-SK-09": "CLOSED"
+  },
+  "new_current_scope_variants": {
+    "high": [
+      "superseding_completed_assignment_v2_is_ignored_while_active_v1_dispatches",
+      "lexicographic_dependency_head_accepts_completed_v2_despite_blocked_v10"
+    ],
+    "medium": [
+      "schema_valid_current_handoff_can_describe_another_task",
+      "different_authoritative_denial_states_with_same_reason_share_receipt"
+    ],
+    "blocker": []
+  },
+  "tests": {
+    "current_semantic_v6": {"methods": 17, "passed": 17},
+    "current_owner": {"methods": 8, "passed": 8},
+    "historical_v5": {"methods": 16, "passed": 9, "classified_expected_failures_after_contract_change": 7},
+    "foundation_and_data": {"methods": 36, "passed": 36},
+    "full_discovery": {"methods": 344, "passed": 230, "classified_errors": 69, "classified_failures": 45, "skipped": 0},
+    "repository_validation": "PASS",
+    "compileall": true,
+    "whitespace": true
+  },
+  "external_effect_path": false,
+  "mock_only_engine_acceptable": false,
+  "stage_1_freeze_ready": false,
+  "m0_3_runtime_foundation_ready_to_plan_as_next_executable_milestone": false,
+  "stop": "OPEN",
+  "phase": "M0_BLOCKED",
+  "m1_released": false,
+  "executor": "MOCK_ONLY",
+  "capital_minor": {"conceptual": 5000, "deployable": 0, "reserved": 0},
+  "live": "LOCKED",
+  "kill": "ENGAGED"
+}

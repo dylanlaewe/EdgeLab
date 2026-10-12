@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "implementation_commit": "806ed55d68ae8bfafd3f1680960ba0baa339f011",
+  "files": {
+    "docs/SPECIFICATIONS.md": "a931b5cc5fb9da47f16f4c8e4a6300ea187d26f65496dce8d07ba848b5aed94e",
+    "schemas/action-authorization.schema.json": "479d9ddd1375ed434859904bf2ce5783cc4d610889475319620596b474a93043",
+    "schemas/canonical-risk-identity.schema.json": "f2c816674aa7a2b6991d5e195bb26fdb6afc5cd9a03fcbd017314dcd7e29b723",
+    "schemas/exposure-position.schema.json": "6bb4f29fe4f8d38b6b1985cb5341b3465dbc91b0e35a0f1a7adfed33c4792dea",
+    "schemas/ledger-event.schema.json": "251f1348d912a6f4d18c84d26a729ef112031edbbece510dcc486fc9596d4be7",
+    "schemas/ledger-snapshot.schema.json": "0b58045684219e3e77340ee5fba6f310cd036c293aa44a1fd9689afcf63db048",
+    "schemas/risk-action.schema.json": "40ba025635d71d2d6665e3db483d5ce9cff15f002aa87cb434da7443dc3ad696",
+    "schemas/risk-current-state.schema.json": "9bba01769096f390ad9e0ed81bc174e212308f5e65c33461e6bd2b8edb753c28",
+    "schemas/risk-decision.schema.json": "3ccb9a8e176a44e797cd5fea2b20b575e32129841f17b6407005007ce83fe638",
+    "schemas/stop-policy.schema.json": "0bf1b756cbb21111d4e36a5b7580948a0e06fa1a2cdb213486b9a371c5049e6b",
+    "schemas/stop-resolution-event.schema.json": "a535073256cae253c2e420f8adaa0357070227f67254eaef66214a2a3be6acd2",
+    "src/edgelab/risk_controls.py": "9cdaf66b22330486631e7eb52212a1970a2341fbfd33266a78def84c0b9524f4",
+    "tests/test_risk_controls.py": "5a5c9baa73611db2bad2c2c13061df780f0a9ff0249c4ceeb2a72a1d4b7f618d"
+  },
+  "preserved": {
+    "tests/test_skeptic_risk_v1.py": "c3d1c0c18d9443561fceaad297102abd26e36d00b2d49a5b39da9889a5ae4fcb",
+    "reports/skeptic-risk-rereview/results.v1.json": "7ee77dff05848d0463ceb9cd78d64e4ec699e77af062f3d11bf9a0e528f6a5e0",
+    "reports/skeptic-risk-rereview/preservation.v1.json": "409876636514995d76870f060c107473be9566fb96c60c2306e697f79e082494",
+    "reports/stops/STOP-M0-001.v1.json": "877eb367fde67eda4cbd33b72eea28e48d4f36f45253dc7fe40e3bfa9aa87571",
+    "portfolio/bankroll.json": "9ed04c4fb32fed1ba50999abdc1a84fa298e58071ac9fac9b1be1d6accf0d77a",
+    "portfolio/risk-policy.json": "766643a4d30984cbde5fe4194bb0e73a70cbd20366b95d268134d305b64806db",
+    "docs/project-state.json": "7df67776db254a3cea31e0805acbd980151a5be9d51c203f6130eff309a23717"
+  }
+}
