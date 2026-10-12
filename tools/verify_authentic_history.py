@@ -47,12 +47,13 @@ def replay_reconstructed(graph, intent):
 import json
 import edgelab.orchestration as orchestration
 import edgelab.validate as validate
+SCHEMAS=[str(p.resolve()) for p in (Path('repository')/'schemas').glob('*.json')]
 result = orchestration.decision(Path("repository"), json.loads(INTENT))
-print(json.dumps({"result": result, "modules": {"edgelab.orchestration": orchestration.__file__, "edgelab.validate": validate.__file__}}, sort_keys=True))'''.replace('INTENT', repr(json.dumps(intent)))
+print(json.dumps({"result": result, "modules": {"edgelab.orchestration": orchestration.__file__, "edgelab.validate": validate.__file__}, "schemas": SCHEMAS}, sort_keys=True))'''.replace('INTENT', repr(json.dumps(intent)))
   env={'PYTHONDONTWRITEBYTECODE':'1','PYTHONHASHSEED':'0','LC_ALL':'C.UTF-8','TZ':'UTC','PYTHONIOENCODING':'utf-8','PYTHONPATH':os.pathsep.join([str(repo/'src'),*packages]),'PATH':os.environ.get('PATH','')}
   out=subprocess.check_output([sys.executable,'-S','-c',code],cwd=root,env=env,text=True)
   observed=json.loads(out); module_paths=observed['modules']; root_real=root.resolve();
   if any(not Path(path).resolve().is_relative_to(root_real) for path in module_paths.values()): raise RuntimeError('ambient module origin')
-  evidence={'frozen_commit':graph['git']['freeze_commit'],'replay_root':str(root_real),'raw_result_sha256':hashlib.sha256(cj(observed['result']).encode()).hexdigest(),'decision_id':observed['result'].get('decision_id'),'module_origins':[f'{name}:{Path(path).resolve()}' for name,path in sorted(module_paths.items())],'schema_origins':[],'package_origins':[],'python':{},'git':{},'environment_sha256':hashlib.sha256(cj(env).encode()).hexdigest()}
+  evidence={'frozen_commit':graph['git']['freeze_commit'],'replay_root':str(root_real),'raw_result_sha256':hashlib.sha256(cj(observed['result']).encode()).hexdigest(),'decision_id':observed['result'].get('decision_id'),'module_origins':[f'{name}:{Path(path).resolve()}' for name,path in sorted(module_paths.items())],'schema_origins':observed['schemas'],'package_origins':[],'python':{},'git':{},'environment_sha256':hashlib.sha256(cj(env).encode()).hexdigest()}
   return observed['result'],evidence
  finally:d.cleanup()
