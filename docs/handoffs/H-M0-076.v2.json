@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-076",
+  "version": 2,
+  "created_at": "2026-10-13T00:08:00Z",
+  "sender": "05 Skeptic",
+  "recipient": "05 Skeptic",
+  "status": "CLAIMED",
+  "request": "Perform the focused independent re-review of the remediated authentic M0.2 evidence and executable M0.3A currentness planning package.",
+  "work_done": "Skeptic session 05-skeptic-trusted-evidence-rereview-20261013 claims additive review evidence at clean synchronized origin/main commit 06630cf94567ee1ae0ac34caa04de2aa030f8da9. Director H-M0-074.v3 explicitly yielded the writer slot and H-M0-076.v1 schedules this review. Production code, Director authority artifacts, authentic fixtures, project state, STOPs and capital records remain read-only.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-076.v1.json",
+    "docs/handoffs/H-M0-074.v3.json",
+    "docs/M0.2_DECISION_EVIDENCE_AUTHORITATIVE_SET.v1.md",
+    "docs/M0.2_DECISION_EVIDENCE_ACCEPTANCE_MATRIX.v9.md",
+    "docs/M0.3A_TRANSACTIONAL_CONTRACT.v14.md",
+    "docs/handoffs/H-M0-041.v22.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": ["docs/handoffs/H-M0-076.v2.json"],
+  "tests_run": [
+    "Preflight: EdgeLab main clean and synchronized to origin/main at 06630cf94567ee1ae0ac34caa04de2aa030f8da9; both STOPs OPEN; Data blocked; capital LOCKED.",
+    "The request's full SHA 06630cf93616b6558e730fa17d5f5374493094ed is absent after fetch; repository HEAD with the same short prefix is 06630cf94567ee1ae0ac34caa04de2aa030f8da9."
+  ],
+  "open_questions": [
+    "Whether the trusted-root, persistence and executable-currentness remediation closes all five prior HIGH findings without security-policy invention."
+  ],
+  "blockers": [
+    "Data remains BLOCKED pending this review and separate Director release.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN."
+  ],
+  "next_action": "Independently attack trusted capture, persistence, replay, runtime closure and currentness, then publish a focused disposition.",
+  "completion_criteria": [
+    "Reproduce positive paths and strongest coordinated forgery/currentness failures, disposition all prior HIGH findings, validate, commit, push and yield the writer slot."
+  ],
+  "depends_on": ["H-M0-075", "H-M0-074"]
+}
