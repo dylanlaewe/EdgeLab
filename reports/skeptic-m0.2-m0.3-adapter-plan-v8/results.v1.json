@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "review": "M0_2_M0_3_DECISION_EVIDENCE_ADAPTER_PLAN_V8_REVIEW",
+  "verdict": "M0_2_M0_3_ADAPTER_PLAN_REQUIRES_REVISION",
+  "reviewed_base_sha": "a4d4560f49d97680f6f9582857bfb4d87ccccb90",
+  "claim_sha": "f5ae4e870a70da031ae4f1c3ac0de52cb72903dc",
+  "stage_1_freeze_sha": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+  "stage_1_unchanged": true,
+  "planning_findings": {
+    "blocker": [
+      "v8_raw_deny_requires_operation_null_but_frozen_stage1_raw_deny_omits_operation",
+      "accepted_stage1_closure_v2_digest_does_not_recompute",
+      "canonical_input_and_source_closure_omit_primary_task_scheduler_state_and_handoff_binding_authorities",
+      "envelope_has_no_direct_raw_output_byte_digest_length_or_blob_binding"
+    ],
+    "high": [
+      "external_and_validator_distribution_ids_have_no_resolvable_engine_package_identity_and_transitive_closure_is_incomplete",
+      "dependency_required_and_current_head_relationships_are_not_represented",
+      "working_directory_and_module_paths_allow_type_and_traversal_bypasses_while_environment_literals_are_optional",
+      "absent_digest_and_exact_git_operand_formulas_are_not_defined_by_authoritative_v8",
+      "normalized_recomputation_and_complete_historical_currentness_comparison_are_not_explicit"
+    ],
+    "medium": [
+      "directory_other_remains_structurally_valid",
+      "project_record_and_project_artifact_duplicate_identity_equality_is_not_explicit",
+      "reason_status_consistency_has_no_complete_mapping"
+    ],
+    "low": []
+  },
+  "schema_characterization": {
+    "canonical_input_closed": true,
+    "raw_output_closed": true,
+    "normalized_output_closed": true,
+    "frozen_raw_deny_schema_valid": false,
+    "project_consumed_fields_present": true,
+    "primary_task_scheduler_and_handoff_binding_artifacts_present": false,
+    "dependency_task_and_completion_artifacts_present": true,
+    "dependency_required_current_relationship_present": false,
+    "local_module_and_schema_artifact_mapping_present": true,
+    "external_distribution_reference_resolvable": false,
+    "stage1_direct_schema_dependencies_missing": [],
+    "stage1_closure_digest_claimed": "2f3c549c0a1ee3bc5721cfcb462992bd9db5144b45f5ac7afde8496882ff3f31",
+    "stage1_closure_digest_recomputed": "598171b65804bc938aa2b5755f960ddaf02a5c475099063ad270ce59dc0322f3",
+    "stage1_closure_digest_valid": false,
+    "engine_traversal_paths_accepted": true,
+    "engine_non_string_working_directory_accepted": true,
+    "engine_fixed_environment_required": false,
+    "directory_other_rejected_structurally": false,
+    "raw_output_byte_binding_present": false,
+    "unsafe_allow_combinations_rejected": true,
+    "v10_adopts_v8": true,
+    "contradictory_deny_none_reason_rejected": false
+  },
+  "evidence_only_operations_non_operational": true,
+  "v3_state_machine_preserved": true,
+  "handoff_h_m0_041_v16_implementation_ready": false,
+  "stop_m0_3a_001_planning_side_resolved": false,
+  "runtime_adapter_implemented": false,
+  "data_released": false,
+  "stop_records_open": [
+    "STOP-M0-001",
+    "STOP-M0-3A-001"
+  ],
+  "phase": "M0_BLOCKED",
+  "m1_released": false,
+  "executor": "MOCK_ONLY",
+  "capital_minor": {
+    "conceptual": 5000,
+    "deployable": 0,
+    "reserved": 0
+  },
+  "live": "LOCKED",
+  "kill": "ENGAGED"
+}

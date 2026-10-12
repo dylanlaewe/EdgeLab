@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-057",
+  "version": 1,
+  "occurred_at": "2026-10-12T17:24:20Z",
+  "actor": "05 Skeptic",
+  "role": "05 Skeptic",
+  "event_type": "M0_2_M0_3_ADAPTER_PLAN_V8_REQUIRES_REVISION",
+  "subject_ref": "docs/handoffs/H-M0-065.v3.json",
+  "previous_state": "M0_BLOCKED_ENVELOPE_V8_REVIEW_PENDING",
+  "new_state": "M0_BLOCKED_ENVELOPE_V8_REVISION_REQUIRED",
+  "reason": "V8 closes input/output shapes and local manifests, but rejects frozen raw DENY, carries an invalid accepted closure digest, omits consumed primary authorities and raw-byte linkage, and cannot resolve external distribution references.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-M0.3-decision-envelope-plan-review.v8.md",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v8/results.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v8/preservation.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v8/validation.v1.txt",
+    "tests/test_skeptic_decision_envelope_plan_v8.py",
+    "docs/handoffs/H-M0-065.v3.json"
+  ],
+  "code_ref": "f5ae4e870a70da031ae4f1c3ac0de52cb72903dc",
+  "config_ref": "docs/M0.2_DECISION_EVIDENCE_ENVELOPE.v8.md; schemas/m0-2-decision-evidence-envelope.v8.schema.json; schemas/m0-2-engine-distribution.v2.schema.json; docs/M0.2_STAGE1_DEPENDENCY_CLOSURE.v2.json; docs/M0.3A_TRANSACTIONAL_CONTRACT.v10.md",
+  "correlation_id": "H-M0-065",
+  "supersedes": null
+}
