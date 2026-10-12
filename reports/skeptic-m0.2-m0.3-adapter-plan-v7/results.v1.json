@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "review": "M0_2_M0_3_DECISION_EVIDENCE_ADAPTER_PLAN_V7_REVIEW",
+  "verdict": "M0_2_M0_3_ADAPTER_PLAN_REQUIRES_REVISION",
+  "reviewed_base_sha": "e3c10fbc677c43d9055aee1db20087044bce0cc6",
+  "claim_sha": "5f4e3fc72e988cfedbf0de10a201b05ac63b0938",
+  "stage_1_freeze_sha": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+  "stage_1_unchanged": true,
+  "planning_findings": {
+    "blocker": [
+      "v7_canonical_input_bundle_is_an_unrestricted_object_after_superseding_the_typed_v6_bundle",
+      "v7_raw_and_normalized_outputs_are_unrestricted_objects_without_an_authoritative_frozen_result_union",
+      "accepted_stage1_dependency_closure_omits_four_directly_loaded_schemas_external_transitives_and_its_digest_value"
+    ],
+    "high": [
+      "import_and_validation_manifests_do_not_map_names_to_immutable_artifacts_or_package_records",
+      "v9_adopts_superseded_envelope_v6_instead_of_authoritative_v7",
+      "project_dependency_and_source_bindings_do_not_mechanically_connect_all_consumed_values_and_task_artifacts"
+    ],
+    "medium": [
+      "directory_other_remains_schema_valid_despite_v7_prohibition",
+      "replay_paths_allow_traversal_or_non_string_working_directory_and_fixed_environment_keys_are_optional",
+      "git_ancestry_and_denial_reason_consistency_are_semantic_only_but_explicit"
+    ],
+    "low": []
+  },
+  "schema_characterization": {
+    "canonical_input_operational_smuggling_accepted": true,
+    "raw_output_live_operational_smuggling_accepted": true,
+    "normalized_output_caller_verification_accepted": true,
+    "project_phase_status_and_declared_capital_present": false,
+    "dependency_task_artifact_and_record_version_present": false,
+    "blob_empty_and_operational_fields_rejected": true,
+    "git_identity_discriminated": true,
+    "git_ancestry_operand_consistency_structural": false,
+    "engine_traversal_paths_accepted": true,
+    "engine_non_string_working_directory_accepted": true,
+    "engine_fixed_environment_required": false,
+    "external_package_immutable_identity_present": true,
+    "module_and_schema_names_bound_to_artifacts": false,
+    "stage1_direct_schema_dependencies_missing": [
+      "project-state.schema.json",
+      "stop.schema.json",
+      "capability-registry.schema.json",
+      "handoff.schema.json"
+    ],
+    "stage1_closure_digest_value_present": false,
+    "directory_other_rejected_structurally": false,
+    "v9_adopts_v7": false,
+    "unsafe_allow_combinations_rejected": true
+  },
+  "blob_model_closed": true,
+  "git_observation_model_closed": true,
+  "envelope_self_digest_defined": true,
+  "evidence_only_operations_non_operational": true,
+  "v3_state_machine_preserved": true,
+  "handoff_h_m0_041_v15_implementation_ready": false,
+  "stop_m0_3a_001_planning_side_resolved": false,
+  "runtime_adapter_implemented": false,
+  "data_released": false,
+  "stop_records_open": [
+    "STOP-M0-001",
+    "STOP-M0-3A-001"
+  ],
+  "phase": "M0_BLOCKED",
+  "m1_released": false,
+  "executor": "MOCK_ONLY",
+  "capital_minor": {
+    "conceptual": 5000,
+    "deployable": 0,
+    "reserved": 0
+  },
+  "live": "LOCKED",
+  "kill": "ENGAGED"
+}

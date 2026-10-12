@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-056",
+  "version": 1,
+  "occurred_at": "2026-10-12T16:56:24Z",
+  "actor": "05 Skeptic",
+  "role": "05 Skeptic",
+  "event_type": "M0_2_M0_3_ADAPTER_PLAN_V7_REQUIRES_REVISION",
+  "subject_ref": "docs/handoffs/H-M0-063.v3.json",
+  "previous_state": "M0_BLOCKED_ENVELOPE_V7_REVIEW_PENDING",
+  "new_state": "M0_BLOCKED_ENVELOPE_V7_REVISION_REQUIRED",
+  "reason": "V7 adds closed blob/Git/engine records, but canonical input and outputs remain unrestricted, the accepted Stage 1 closure omits directly loaded schemas and its digest, manifests do not map names to immutable bytes, and v9 adopts superseded v6.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-M0.3-decision-envelope-plan-review.v7.md",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v7/results.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v7/preservation.v1.json",
+    "reports/skeptic-m0.2-m0.3-adapter-plan-v7/validation.v1.txt",
+    "tests/test_skeptic_decision_envelope_plan_v7.py",
+    "docs/handoffs/H-M0-063.v3.json"
+  ],
+  "code_ref": "5f4e3fc72e988cfedbf0de10a201b05ac63b0938",
+  "config_ref": "docs/M0.2_DECISION_EVIDENCE_ENVELOPE.v7.md; schemas/m0-2-decision-evidence-envelope.v7.schema.json; schemas/m0-2-engine-distribution.v2.schema.json; docs/M0.2_STAGE1_DEPENDENCY_CLOSURE.v1.json; docs/M0.3A_TRANSACTIONAL_CONTRACT.v9.md",
+  "correlation_id": "H-M0-063",
+  "supersedes": null
+}
