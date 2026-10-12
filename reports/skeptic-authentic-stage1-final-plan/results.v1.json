@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "review": "H-M0-075",
+  "verdict": "M0_2_M0_3_ADAPTER_PLAN_REQUIRES_REVISION",
+  "base_commit": "670b1df2e7b8f59a739dc4c15bf21c6c2868b966",
+  "freeze_commit": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+  "authentic_replays": {
+    "dispatch": "PASS_EXACT",
+    "deny": "PASS_EXACT",
+    "dependency_satisfied": "PASS_EXACT",
+    "dependency_content_sha_denied": "PASS_EXACT"
+  },
+  "adversarial_results": {
+    "self_consistent_frozen_source_output_forgery": "ACCEPTED_BY_REFERENCE_REPLAYER",
+    "altered_freeze_head_origin_labels": "ACCEPTED_BY_REFERENCE_REPLAYER",
+    "altered_declared_package_bytes": "ACCEPTED_BY_REFERENCE_REPLAYER",
+    "dependency_retained_source_mutation": "ACCEPTED_WITHOUT_CAPTURE_UPDATE",
+    "currentness_execution": "NO_EXECUTABLE_VERIFIER_OR_CLOSED_RECORD"
+  },
+  "high_findings": [
+    "No trusted immutable root binds retained frozen source, historical authority and output.",
+    "Dependency captures omit repository and runtime-package integrity bindings.",
+    "Currentness requires security-critical structures, source resolution and comparisons absent from the schema and executable evidence.",
+    "Authentic directory captures have no authoritative mapping into the V12 artifact/blob/engine persistence model.",
+    "Runtime, package, interpreter and historical Git closure is declared but not verified as one binding."
+  ],
+  "governance_inconsistency": "H-M0-074 remains CLAIMED; its promised v2 completion, v13 root schema and M0.3A v14 contract are absent.",
+  "data_release": "NOT_AUTHORIZED",
+  "stops": ["STOP-M0-001:OPEN", "STOP-M0-3A-001:OPEN"],
+  "capital": {"conceptual_usd": 50, "deployable_usd": 0, "status": "LOCKED"}
+}

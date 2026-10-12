@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-075",
+  "version": 3,
+  "created_at": "2026-10-12T22:06:30Z",
+  "sender": "05 Skeptic",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Perform the independent final planning-acceptance review of the authentic M0.2 decision-evidence and M0.3A integration package.",
+  "work_done": "Completed the independent final planning review. Verdict M0_2_M0_3_ADAPTER_PLAN_REQUIRES_REVISION. Published captures replay exactly and retained frozen source is genuine, but the reference verifier accepts a coordinated replacement of frozen source, inventory and output; dependency captures omit repository/package bindings; currentness has no closed executable contract; and authentic captures are not mapped into the V12 persistence graph.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-075.v1.json",
+    "docs/handoffs/H-M0-075.v2.json",
+    "reports/reviews/M0.2-M0.3-authentic-evidence-final-plan-review.v1.md",
+    "reports/skeptic-authentic-stage1-final-plan/results.v1.json",
+    "reports/skeptic-authentic-stage1-final-plan/preservation.v1.json",
+    "reports/skeptic-authentic-stage1-final-plan/validation.v1.txt",
+    "tests/test_skeptic_authentic_stage1_plan_v13.py",
+    "reports/audit/A-M0-061.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-075.v3.json",
+    "reports/reviews/M0.2-M0.3-authentic-evidence-final-plan-review.v1.md",
+    "reports/skeptic-authentic-stage1-final-plan/results.v1.json",
+    "reports/skeptic-authentic-stage1-final-plan/preservation.v1.json",
+    "reports/skeptic-authentic-stage1-final-plan/validation.v1.txt",
+    "tests/test_skeptic_authentic_stage1_plan_v13.py",
+    "reports/audit/A-M0-061.v1.json"
+  ],
+  "tests_run": [
+    "16 focused authentic/currentness/Skeptic tests passed.",
+    "Exact original DISPATCH, DENY, dependency-satisfied and dependency-denied replay passed.",
+    "Skeptic probes reproduced self-consistent source/output forgery, ignored Git labels, ignored package hash and unbound dependency-source mutation.",
+    "Repository validation, compileall, JSON parsing, preservation and diff checks passed."
+  ],
+  "open_questions": [
+    "Director must choose and publish the trusted immutable root and canonical authentic-capture persistence mapping.",
+    "Director must publish a closed currentness binding/source-resolution/comparison contract.",
+    "Director must reconcile H-M0-074, which remains CLAIMED without its promised completion artifacts."
+  ],
+  "blockers": [
+    "Data remains BLOCKED; this review does not release implementation.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 blocked; M1 unreleased; capital LOCKED."
+  ],
+  "next_action": "Director publishes a coherent successor that cryptographically anchors authentic historical replay, binds dependency/runtime closure, closes currentness semantics and requests focused Skeptic review.",
+  "completion_criteria": [
+    "A self-consistent replacement of retained historical source/evidence/output fails against an externally pinned authoritative root.",
+    "All authentic captures use one closed persisted format with verified runtime/Git/package closure.",
+    "Every currentness dimension is schema-bound, deterministically resolved and empirically denied on drift."
+  ],
+  "depends_on": ["H-M0-074"]
+}

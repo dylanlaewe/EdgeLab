@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-061",
+  "version": 1,
+  "occurred_at": "2026-10-12T22:06:30Z",
+  "actor": "05 Skeptic",
+  "role": "05 Skeptic",
+  "event_type": "M0_2_M0_3_AUTHENTIC_PLAN_REQUIRES_REVISION",
+  "subject_ref": "docs/handoffs/H-M0-075.v3.json",
+  "previous_state": "M0_BLOCKED_AUTHENTIC_PLAN_REVIEW_PENDING",
+  "new_state": "M0_BLOCKED_AUTHENTIC_PLAN_REVISION_REQUIRED",
+  "reason": "Authentic executions exist, but replay accepts self-consistent frozen-source/output substitution, dependency captures lack integrity bindings, and currentness/persistence integration still requires security-policy invention.",
+  "evidence_refs": [
+    "reports/reviews/M0.2-M0.3-authentic-evidence-final-plan-review.v1.md",
+    "reports/skeptic-authentic-stage1-final-plan/results.v1.json",
+    "reports/skeptic-authentic-stage1-final-plan/preservation.v1.json",
+    "reports/skeptic-authentic-stage1-final-plan/validation.v1.txt",
+    "tests/test_skeptic_authentic_stage1_plan_v13.py",
+    "docs/handoffs/H-M0-075.v3.json"
+  ],
+  "code_ref": "670b1df2e7b8f59a739dc4c15bf21c6c2868b966",
+  "config_ref": "docs/M0.2_DECISION_EVIDENCE_AUTHORITATIVE_SET.v1.md; docs/M0.2_DECISION_EVIDENCE_ENVELOPE.v13.md; docs/M0.2_CURRENTNESS_MODEL.v1.md; docs/M0.3A_TRANSACTIONAL_CONTRACT.v13.md",
+  "correlation_id": "H-M0-075",
+  "supersedes": null
+}

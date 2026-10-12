@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "base_commit": "670b1df2e7b8f59a739dc4c15bf21c6c2868b966",
+  "files": [
+    {
+      "path": "tests/test_authentic_stage1_replay.py",
+      "git_blob_at_base": "95dc92bfd19b8cb33870cb4590fb616abfafa788",
+      "sha256": "2ad6adb6892584ba99ea0015415342d1f8d0225e6a8a87fdfceee1395f10bdc8",
+      "preserved": true
+    },
+    {
+      "path": "tests/test_authentic_dependency_source_graph.py",
+      "git_blob_at_base": "44c026694c2e152407597752920faf7051ea34c9",
+      "sha256": "b2afa0cd6142d999ad2760728b687a15d6b65e5d5665fecf11b7db90d84a1b7a",
+      "preserved": true
+    },
+    {
+      "path": "tests/test_authentic_dependency_currentness.py",
+      "git_blob_at_base": "05e29dfb1c9506af2d5a26e0bd1eeb33c57756be",
+      "sha256": "3e69cddc644b79c1d69b7628878663a77b04a2f6baabd030a80b0de6736a84f2",
+      "preserved": true
+    },
+    {
+      "path": "tests/test_non_dependency_currentness.py",
+      "git_blob_at_base": "2cc71084a09f0b0ee2588f74a5f01af9eae84385",
+      "sha256": "819a251566c422ce071eb0faa30c2f5960fb81254ab6f352bf4fc1bf235ff91e",
+      "preserved": true
+    },
+    {
+      "path": "tests/fixtures/authentic-stage1/dispatch/capture.json",
+      "git_blob_at_base": "5f5f8b283b4b461e9d631dfed0a58212a64ffcb6",
+      "sha256": "fc718811c39fb8f4a1ca40ff400a2bfaaa9dbe8f3259961d242ba04ee90b71a1",
+      "preserved": true
+    },
+    {
+      "path": "tests/fixtures/authentic-stage1/deny/capture.json",
+      "git_blob_at_base": "40278e45ab13d0dadfda8b475cb3040c7a5e4376",
+      "sha256": "fd5b4200939291dc1106daee9495f834cf207d911f298ea7e241500311821645",
+      "preserved": true
+    },
+    {
+      "path": "tests/fixtures/authentic-stage1-dependency/satisfied/capture.json",
+      "git_blob_at_base": "ddd6744ce4221bbba5f13d96002eebbd6597f962",
+      "sha256": "b36a501e2385a7b270157f0afa1bde6f37e2c4964d0db6963d96e3905efc88e7",
+      "preserved": true
+    },
+    {
+      "path": "tests/fixtures/authentic-stage1-dependency/content-sha-denied/capture.json",
+      "git_blob_at_base": "d9402baa482dc2232476079825cd6ad547cec155",
+      "sha256": "4b8786503f98f1ec119575a41c8bda234f617ae8d3df51e382ce95f502c396f5",
+      "preserved": true
+    },
+    {
+      "path": "reports/authentic-stage1-dependency/mutation-results.v1.json",
+      "git_blob_at_base": "158f44e0b1502aa73ae8f77d33e87d3b9281f0a1",
+      "sha256": "7a73e73643b71b70bcffe372779c54ed2623da4eeeba25fa041e3b1c1da6b798",
+      "preserved": true
+    },
+    {
+      "path": "reports/authentic-stage1-dependency/source-graph.v1.json",
+      "git_blob_at_base": "2ecd9a5cc850b66033ce782fefed1a4592da5dfe",
+      "sha256": "8ebf57b88e5ecfd4f3600fa041424a60c98bdc42a757c9c8998cd9b3caa7b30f",
+      "preserved": true
+    },
+    {
+      "path": "reports/authentic-stage1-dependency/currentness-results.v1.json",
+      "git_blob_at_base": "c70f28ea5ca395fe55e81c66cac7928a38de24b8",
+      "sha256": "4c0f9840599062bd9d881b46add0f36de346d7ba4b881f055af8afc96b233e46",
+      "preserved": true
+    },
+    {
+      "path": "reports/authentic-stage1-dependency/non-dependency-currentness-results.v1.json",
+      "git_blob_at_base": "f1c8732b869b0af6b3a0e80e6bcbb4c16870d17f",
+      "sha256": "5edc57a9cd0f99024aef0ed72c75ba5e40ce0bc157e11a07c33e09c54adc1e65",
+      "preserved": true
+    },
+    {
+      "path": "docs/M0.2_DECISION_EVIDENCE_AUTHORITATIVE_SET.v1.md",
+      "git_blob_at_base": "d0a1f3ac8c6a922c8f883aac0029e35bb87a2c01",
+      "sha256": "39384212bd692f060551f019e0e125c4902e70f916b016358a5971bbc87634a8",
+      "preserved": true
+    },
+    {
+      "path": "docs/M0.2_DECISION_EVIDENCE_ENVELOPE.v13.md",
+      "git_blob_at_base": "679a5014aec23822b666aff120f0db09f84ce6e0",
+      "sha256": "ed5d7bf0cd639bef0a5b7795830332c0d5a0dd072fada59fe710fc4ab3f2a5a3",
+      "preserved": true
+    },
+    {
+      "path": "docs/M0.2_AUTHENTIC_CAPTURE_PROVENANCE.v1.md",
+      "git_blob_at_base": "3cc22433b40639f05201df7774bb6baaf361ac6f",
+      "sha256": "fbab8dd6dcc970fda0e2ddf47ce8b22e9e50dd3d388cd07e63968088fe5eefa5",
+      "preserved": true
+    },
+    {
+      "path": "docs/M0.2_CURRENTNESS_MODEL.v1.md",
+      "git_blob_at_base": "9ff0220dded76991b4b450dd549115aa5638899c",
+      "sha256": "6cff27c0c208df2c4eec393f70766bfcc24992c1a2ab078650054964e6ea10db",
+      "preserved": true
+    },
+    {
+      "path": "docs/M0.2_DECISION_EVIDENCE_ACCEPTANCE_MATRIX.v8.md",
+      "git_blob_at_base": "4baf9a1bc7dcf638c781a7f2ab65093760505e64",
+      "sha256": "aecb8c0ac146d125ca0b27c771f04d376affcd1460de18170d7de910da441bc7",
+      "preserved": true
+    },
+    {
+      "path": "docs/M0.3A_TRANSACTIONAL_CONTRACT.v13.md",
+      "git_blob_at_base": "d2e61c413f83dbde85339da432b2fda8a6e619c2",
+      "sha256": "8247fea8a7069f5acf9cf3c43fef575c33acf86107e973667b1f423ef8a44fbe",
+      "preserved": true
+    },
+    {
+      "path": "docs/handoffs/H-M0-075.v1.json",
+      "git_blob_at_base": "70541afd6bc116552be1d1bdda197696391e78e2",
+      "sha256": "2e728066ee30070403b99287c74353b9bf5a170b335b0db4062df46e1996d91f",
+      "preserved": true
+    },
+    {
+      "path": "docs/handoffs/H-M0-074.v1.json",
+      "git_blob_at_base": "c2bb8ae0f26a3d0b2455a4af279809c92a5f02b7",
+      "sha256": "01812864de27568ada00d66b20d0dfb6dd763b607924a0b77ef70eacf7dec782",
+      "preserved": true
+    },
+    {
+      "path": "docs/handoffs/H-M0-041.v21.json",
+      "git_blob_at_base": "04f6851e7a9a0fba21e86a235368e2cf7f2ce28a",
+      "sha256": "f866048ee8f8bc8ff24b9be17d5a95d1bc3ddfc26e48e35b885feb0374831b32",
+      "preserved": true
+    },
+    {
+      "path": "reports/stops/STOP-M0-001.v1.json",
+      "git_blob_at_base": "09bdf12c3b9b9fb6588d600338e68298153dfa8f",
+      "sha256": "877eb367fde67eda4cbd33b72eea28e48d4f36f45253dc7fe40e3bfa9aa87571",
+      "preserved": true
+    },
+    {
+      "path": "reports/stops/STOP-M0-3A-001.v1.json",
+      "git_blob_at_base": "6c578f6d704dcdffe48e5945a38085cab571ae57",
+      "sha256": "82a478a87869aea66217ae5b3462cbc4773eaf469d8439016809d0213099315f",
+      "preserved": true
+    }
+  ],
+  "all_preserved": true
+}
