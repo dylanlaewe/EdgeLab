@@ -3,11 +3,16 @@
 import copy,hashlib,json,platform,sys
 from pathlib import Path
 from tools.generate_persisted_authentic_capture import generate,cj
+from tools.reconstruct_persisted_history import reconstruct
 from tools.verify_trusted_authentic_capture import verify as trusted
 ROOT=Path(__file__).resolve().parents[1]
 def result(status,reasons):return {'schema_version':3,'verification_kind':'HISTORICAL','status':status,'authorization':'ALLOW' if status=='HISTORICALLY_VALID' else 'DENY','reason_codes':sorted(reasons)}
 def verify_authentic_history(capture_root,trusted_root=ROOT/'docs/M0.2_STAGE1_TRUST_ROOT.v1.json'):
  root=Path(capture_root); tr=json.loads(Path(trusted_root).read_text()); graph=generate(root)
+ # every graph blob is reconstructable before authority checks
+ try:
+  _d,_r=reconstruct(graph); _d.cleanup()
+ except Exception:return result('INVALID',['PERSISTED_BLOB_INVALID'])
  if graph['self_sha256']!=hashlib.sha256(cj({k:v for k,v in graph.items() if k!='self_sha256'}).encode()).hexdigest():return result('INVALID',['GRAPH_DIGEST_INVALID'])
  ids=[x['id'] for x in graph['artifacts']]
  if len(ids)!=len(set(ids)):return result('INVALID',['DUPLICATE_ARTIFACT_ID'])
