@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-080",
+  "version": 3,
+  "created_at": "2026-10-13T00:26:29Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "CLAIMED",
+  "request": "Amend the resumed H-M0-080 historical-verifier scope only to add the missing external per-capture trust manifest and its closed schema; preserved captures remain immutable.",
+  "work_done": "Owner 00-director-historical-verifier-goal-01a13292 retains the sole-writer slot at synchronized base bbcc6530952f059d108f8181b3a36c5488d06ad9. Read-only native implementation analysis reproduced capture-local package rehash, required-schema mutation, forged capture identity/intent, package shadowing, unpinned executable initializer, runtime-boundary and v3 projection defects. The existing trusted root does not pin per-capture sidecar, package and repository graph identities, so the scope is additively amended with a versioned historical-capture trust manifest and schema. No existing trust root, fixture, STOP, currentness or R-gate artifact may be rewritten.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-080.v2.json",
+    "docs/handoffs/H-M0-079.v3.json",
+    "docs/M0.2_STAGE1_TRUST_ROOT.v1.json",
+    "docs/M0.2_AUTHENTIC_CAPTURE_FORMAT.v1.md",
+    "docs/GIT_COORDINATION.md"
+  ],
+  "files_changed": [
+    "docs/M0.2_HISTORICAL_CAPTURE_ROOT.v1.json",
+    "schemas/m0-2-historical-capture-root.v1.schema.json",
+    "tools/generate_persisted_authentic_capture.py",
+    "tools/reconstruct_persisted_history.py",
+    "tools/verify_authentic_history.py",
+    "tools/verify_trusted_authentic_capture.py",
+    "schemas/m0-2-persisted-authentic-capture.v1.schema.json",
+    "schemas/m0-2-historical-verification-result.v1.schema.json",
+    "tests/test_composed_authentic_history.py",
+    "tests/test_trusted_authentic_capture.py",
+    "tests/test_skeptic_trusted_evidence_plan_v14.py",
+    "tests/test_skeptic_final_evidence_plan_v15.py",
+    "tests/test_reconstructed_module_origins.py",
+    "tests/test_reconstructed_package_origins.py",
+    "docs/handoffs/H-M0-080.v4.json",
+    "reports/reviews/H-M0-080-native-engineering-review.v1.md"
+  ],
+  "tests_run": [
+    "Pre-change reproduction: focused 15-test suite ran with 1 failure and 1 error; invalid result and module CLI each reproduced the undefined observed failure, and module CLI first reproduced replay_reconstructed-before-definition."
+  ],
+  "open_questions": [],
+  "blockers": [
+    "Data remains BLOCKED; STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked; M1 remains unreleased; capital remains LOCKED.",
+    "The additive manifest is repository-authoritative planning trust only and does not resolve external authentication under STOP-M0-001."
+  ],
+  "next_action": "Commit and push this scope amendment, then implement the closed historical trust/reconstruction path and discoverable adversarial tests.",
+  "completion_criteria": [
+    "The H-M0-080.v2 historical-verifier criteria pass without modifying preserved fixture bytes or weakening attack expectations.",
+    "The external manifest pins all four canonical capture sidecars, repositories, package closures and persisted graph identities and validates its own digest.",
+    "No currentness-locking or composed R-gate code is changed or claimed complete."
+  ],
+  "depends_on": [
+    "H-M0-080"
+  ]
+}
