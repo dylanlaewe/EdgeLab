@@ -358,7 +358,10 @@ def verify_authentic_history(
     except Exception:
         return result("INVALID", ["TRUSTED_ROOT_MISMATCH"], capture_id, trusted_root_id)
 
-    compatible, _, _ = _runtime(trust)
+    try:
+        compatible, _, _ = _runtime(trust)
+    except Exception:
+        return result("INVALID", ["TRUSTED_ROOT_MISMATCH"], capture_id, trusted_root_id)
     if not compatible:
         return result(
             "INCOMPATIBLE_RUNTIME", ["RUNTIME_INCOMPATIBLE"], capture_id, trusted_root_id

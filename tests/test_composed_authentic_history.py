@@ -157,6 +157,46 @@ class HistoricalVerifierAcceptance(unittest.TestCase):
             self.assertEqual(schema_errors(observed), ([], []))
             self.assertFalse(observed["authorization_result"]["runtime_compatible"])
 
+    def test_malformed_self_rehashed_runtime_boundary_returns_typed_denial(self):
+        for mutation in ("missing", "wrong-type"):
+            with self.subTest(mutation=mutation), tempfile.TemporaryDirectory() as directory:
+                temporary = Path(directory)
+                trust = json.loads((ROOT / "docs/M0.2_STAGE1_TRUST_ROOT.v1.json").read_text())
+                if mutation == "missing":
+                    trust.pop("host_boundary")
+                else:
+                    trust["host_boundary"]["python_major_minor"] = 313
+                trust["root_sha256"] = hashlib.sha256(
+                    cj({key: value for key, value in trust.items() if key != "root_sha256"}).encode()
+                ).hexdigest()
+                trust_path = temporary / "trust.json"
+                trust_path.write_text(json.dumps(trust))
+
+                capture_root = json.loads(
+                    (ROOT / "docs/M0.2_HISTORICAL_CAPTURE_ROOT.v1.json").read_text()
+                )
+                capture_root["base_trusted_root_sha256"] = trust["root_sha256"]
+                capture_root["root_sha256"] = hashlib.sha256(
+                    cj(
+                        {
+                            key: value
+                            for key, value in capture_root.items()
+                            if key != "root_sha256"
+                        }
+                    ).encode()
+                ).hexdigest()
+                capture_path = temporary / "captures.json"
+                capture_path.write_text(json.dumps(capture_root))
+
+                observed = verify_authentic_history(
+                    DISPATCH, trusted_root=trust_path, capture_trust_root=capture_path
+                )
+                self.assertEqual(observed["status"], "INVALID")
+                self.assertEqual(observed["reason_codes"], ["TRUSTED_ROOT_MISMATCH"])
+                self.assertEqual(schema_errors(observed), ([], []))
+                self.assertEqual(observed["authorization_result"]["currentness_status"], "UNKNOWN")
+                self.assertEqual(observed["authorization_result"]["authorizing_use"], "DENY")
+
     def test_coordinated_output_and_inventory_forgery_rejects(self):
         temporary, fixture = self.copied_fixture()
         self.addCleanup(temporary.cleanup)
