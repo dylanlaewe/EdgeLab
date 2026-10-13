@@ -48,16 +48,17 @@ not the stale edge that returns the long component to H-M0-041.
 Every row below is the literal `depends_on` edge contributed by the listed
 immutable record(s). Each SHA is the commit that first added that record.
 “Execution” means an implementation/revision/review needs the prior work product.
-“Review” means a revision waits for an independent review disposition. No
+"Review" means a revision waits for an independent review disposition. No
 cross-ID edge is a supersession edge; supersession occurs through the increasing
-versions of the same handoff ID. “Provenance” is context, not prerequisite
-completion.
+versions of the same handoff ID. The repository does not unambiguously establish
+that any published `depends_on` edge was merely provenance, so none is
+retrospectively relabeled that way here.
 
 | Edge | Exact source records and introducing SHAs | Meaning |
 |---|---|---|
 | H-M0-041 -> H-M0-074 | `H-M0-041.v22` @ `06630cf94567ee1ae0ac34caa04de2aa030f8da9` | Execution prerequisite for blocked future Data work. |
 | H-M0-041 -> H-M0-078 | `H-M0-041.v23` @ `235c69e2e427ccb1883159a5bfe2913c0e62105b` | Execution prerequisite for blocked future Data work. |
-| H-M0-050 -> H-M0-041 | `H-M0-050.v1` @ `9fd115c4bb0e73142292f6bcff227004627912d6` | **Provenance/reference misencoded as a prerequisite.** It cites blocked `H-M0-041.v8`; `H-M0-050.v2` removes this edge and retains later H-M0-041 state only in `evidence_refs`. |
+| H-M0-050 -> H-M0-041 | `H-M0-050.v1` @ `9fd115c4bb0e73142292f6bcff227004627912d6` | Historical execution/blocker-context prerequisite exactly as v1 recorded it. Authoritative `H-M0-050.v2` supersedes that assignment state and removes this edge from the current `depends_on` set while retaining related H-M0-041 context in `evidence_refs`. The v1 edge remains preserved and is not relabeled. |
 | H-M0-051 -> H-M0-050 | `v1` @ `612d4cf50336ec6e52653825acb6c9e20242e694`; `v2` @ `1e32effa5a5b8b77edb3bf6372902f6db6b707ab`; `v3` @ `320d9372e252de34452e2bf2a8560ea13b749db1` | Execution prerequisite: review consumes H-M0-050 work. |
 | H-M0-052 -> H-M0-050 | `v1` @ `179b8099a28ea7b9210d14392ed48b65c6a4e0c9` | Execution prerequisite for the first revision claim. |
 | H-M0-052 -> H-M0-051 | `v2` @ `6aaec7f1e0294b6af6379c38017bca0536c34ea2` | Review prerequisite for completed revision. |
@@ -100,11 +101,13 @@ graph's authoritative state is the highest version for each handoff ID.
 
 The pre-change validator instead unioned `depends_on` from every historical
 version. That made a dependency removed by an audited successor remain active
-forever. The concrete return edge demonstrates the error:
+forever. The concrete return edge demonstrates the stale-version union error
+without requiring a judgment that the original edge was wrong:
 
-- `H-M0-050.v1` was a CLAIMED blocker-remediation plan. Its H-M0-041 reference
-  was context for why the plan existed, not evidence that blocked H-M0-041 had
-  completed as a prerequisite.
+- `H-M0-050.v1` was a CLAIMED blocker-remediation plan and literally recorded
+  H-M0-041 in `depends_on`. That historical prerequisite remains valid evidence
+  of the v1 assignment state; existing rules do not unambiguously establish that
+  it was erroneous or provenance-only.
 - `H-M0-050.v2` is the current COMPLETED record and removes H-M0-041 from
   `depends_on`. It preserves H-M0-041 context through exact `evidence_refs`.
 
@@ -112,7 +115,9 @@ The repair changes only cycle evaluation to use each handoff ID's highest
 version. Every historical version remains present and still receives schema,
 filename, version-gap, evidence-reference, and orphan-dependency validation.
 Current-head cycles are still passed unchanged to the same `acyclic` function.
-This neither relabels nor removes any genuine current prerequisite.
+This neither relabels nor deletes the v1 edge and does not remove any genuine
+current prerequisite; it applies the existing same-ID supersession/current-head
+semantics to cycle evaluation.
 
 ## Changed validation outcome
 
