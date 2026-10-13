@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-081",
+  "version": 2,
+  "created_at": "2026-10-13T17:38:39Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Resolve only the repository validator's stale-version H-M0-041 dependency-cycle failure through existing current-handoff-head semantics, with separate native read-only review.",
+  "work_done": "Completed the bounded engineering correction under sole writer /root/h_m0_041_cycle_lead. The pre-change validator unioned depends_on edges from every version of each handoff ID, retaining H-M0-050.v1's historical H-M0-041 edge even after authoritative H-M0-050.v2 removed it. Cycle evaluation now uses each handoff ID's highest version while every historical version remains schema, filename, version, evidence-reference and orphan-ID validated. The original 29-ID SCC, six H-M0-041 return paths, 33 internal edge pairs, exact source records, semantic classifications and introducing Git SHAs are preserved in the analysis report. A separate reviewer identified and the writer repaired one report-only retrospective classification overclaim in round one; round two accepted the exact pushed repair with no remaining in-scope findings. This is bounded engineering completion, not formal project approval.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-081.v1.json",
+    "reports/H-M0-081-handoff-cycle-analysis.v1.md",
+    "reports/reviews/H-M0-081-native-engineering-review.v1.md",
+    "docs/handoffs/H-M0-080.v4.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-081.v1.json",
+    "src/edgelab/data_integrity.py",
+    "tests/test_data_integrity.py",
+    "docs/SPECIFICATIONS.md",
+    "reports/H-M0-081-handoff-cycle-analysis.v1.md",
+    "reports/reviews/H-M0-081-native-engineering-review.v1.md",
+    "docs/handoffs/H-M0-081.v2.json"
+  ],
+  "tests_run": [
+    "Pre-change at actual 2026-10-13T17:24:03Z: PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m src.edgelab.validate exited 1 with the aggregate legacy-ID dependency cycle; independent base reproduction reported Dependency cycle: H-M0-041.",
+    "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest -v tests.test_data_integrity: final-tree run 21 tests in 7.046 seconds, all passed.",
+    "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest -v tests.test_composed_authentic_history tests.test_trusted_authentic_capture tests.test_reconstructed_module_origins tests.test_reconstructed_package_origins tests.test_skeptic_trusted_evidence_plan_v14 tests.test_skeptic_final_evidence_plan_v15: final-tree run 47 tests in 26.064 seconds, all passed; independent review also reproduced 47/47 passing.",
+    "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m compileall -q src tests: passed.",
+    "git diff --check and staged diff check: passed at implementation and report-repair checkpoints.",
+    "Independent production validation at actual 2026-10-13T17:37:58Z and final-tree production validation at actual 2026-10-13T17:39:58Z, both with no clock override, advanced past the original H-M0-041 stale-version return paths and exited 1 on separate unchanged Dependency cycle: H-M0-075."
+  ],
+  "open_questions": [
+    "The current-head H-M0-074.v3 to H-M0-075 and H-M0-075.v3 to H-M0-074 ordering conflict requires a separately authorized policy/record decision; it was not changed here.",
+    "Formal project/Skeptic approval remains separate from native engineering review."
+  ],
+  "blockers": [
+    "Production repository validation is not green: the separate current-head H-M0-074/H-M0-075 cycle remains and is reported without being broadened into this task.",
+    "Data remains BLOCKED; STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked; M1 remains unreleased; capital remains LOCKED.",
+    "No historical-verifier behavior, currentness, R-gate, capability, execution, research, or capital behavior was modified or authorized."
+  ],
+  "next_action": "Treat H-M0-081 as engineering-complete only. If authorized separately, resolve the genuine H-M0-074/H-M0-075 current-head ordering conflict under existing policy; formal project approval remains a separate action.",
+  "completion_criteria": [
+    "The original aggregate H-M0-041 cycle is reproduced and fully explained with exact records, fields, edges and Git SHAs.",
+    "Current-head semantics remove only superseded assignment edges from cycle ordering while all historical versions and dependency IDs remain validated.",
+    "A genuine current-head cycle still rejects, and the newly exposed repository cycle is disclosed without silent exclusion or scope expansion.",
+    "Focused validation passes 21/21 and the preserved H-M0-080 suite passes 47/47.",
+    "Separate native read-only review accepts the bounded engineering correction after one documentation-only repair round."
+  ],
+  "depends_on": []
+}
