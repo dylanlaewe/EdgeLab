@@ -1,0 +1,65 @@
+{
+  "base_trusted_root_id": "M0-2-STAGE1-TRUST-ROOT-V1",
+  "base_trusted_root_sha256": "3b5c653e955a6f1be71c454e86339f39de1f1c864dbfeb71b43f993f9d6b3461",
+  "captures": [
+    {
+      "capture_id": "AUTH-AUTHENTIC-STAGE1-DISPATCH",
+      "fixture_path": "tests/fixtures/authentic-stage1/dispatch",
+      "graph_sha256": "f2b8ca98631d9acf8bf1038e62b91494aaa206432828ebd4b692fc9eea27294e",
+      "packages": [
+        {"files_sha256": "ad6a63dc8d0596ceb3bb5a70bab3aeb2bb798d3b6a7b2dfd84e8b9a1c55da588", "name": "attrs", "path": "packages/attrs", "version": "26.1.0"},
+        {"files_sha256": "16af9701080016207296d6ba68cd22fe7157aed6b024bda85f072353c214c012", "name": "jsonschema", "path": "packages/jsonschema", "version": "4.23.0"},
+        {"files_sha256": "82cc62602a82db5de1f0b2c594400c1e2db21e9cdff562d7bc9a046ec570966d", "name": "jsonschema-specifications", "path": "packages/jsonschema-specifications", "version": "2025.9.1"},
+        {"files_sha256": "22d43752b410c59bfa70c6dfd52f60492843edbcaacf23add25b440ea8e27843", "name": "referencing", "path": "packages/referencing", "version": "0.37.0"},
+        {"files_sha256": "6620c492752d7492f83a335c52e26a701176e63563a7c8ac0c9a2560c73af6a3", "name": "rpds-py", "path": "packages/rpds-py", "version": "2026.6.3"}
+      ],
+      "repository_inventory_sha256": "dde5609e67fc7afc532bf08cf38884e3e62d2193da14a6f4026a0c4cb32a2b05",
+      "sidecar_sha256": "baa1686bbc3f1f5ae94cf209904bea86539815735c3fc52558f137892d23ed79"
+    },
+    {
+      "capture_id": "AUTH-AUTHENTIC-STAGE1-DENY",
+      "fixture_path": "tests/fixtures/authentic-stage1/deny",
+      "graph_sha256": "15d8f5421816114ba4fb398634872c750c59c96daaf642b39859e969a4203fe8",
+      "packages": [
+        {"files_sha256": "50b52a609c640a22be590e0435d73f35e0227b0127a4516054d6e15d1975366b", "name": "attrs", "path": "packages/attrs", "version": "26.1.0"},
+        {"files_sha256": "1e6ca40e2ec8a535661cdce7828c390fa8d2d55ccbd4ec4ff39b70230747f76b", "name": "jsonschema", "path": "packages/jsonschema", "version": "4.23.0"},
+        {"files_sha256": "9868dcff33fb743a4c93665c739e63526e4f01c890af16bc6b20c2fd17e68d4b", "name": "jsonschema-specifications", "path": "packages/jsonschema-specifications", "version": "2025.9.1"},
+        {"files_sha256": "bff17f29527c8b5e6ad3f53d1b006da6ae8a413bc9e7274b16bb41db07c2f718", "name": "referencing", "path": "packages/referencing", "version": "0.37.0"},
+        {"files_sha256": "2e66d4f8b5d6085982c5463c65297452b9b02a7ea51e5f80c7a576fa86a0c532", "name": "rpds-py", "path": "packages/rpds-py", "version": "2026.6.3"}
+      ],
+      "repository_inventory_sha256": "76c372a3328bbf6a596f12b09a8af33f99e618c576f43e2f3d60dc0ec3a7fc5b",
+      "sidecar_sha256": "f1c977d3fba8bc603f8be3e4f0043cae4072027ee785719c0522309f86dcf1e7"
+    },
+    {
+      "capture_id": "AUTH-AUTHENTIC-STAGE1-DEPENDENCY-SATISFIED",
+      "fixture_path": "tests/fixtures/authentic-stage1-dependency/satisfied",
+      "graph_sha256": "6ae873e3e4de38beff7719bde7387622d6a3b99decfca4a4bfdfb81db08aaddd",
+      "packages": [
+        {"files_sha256": "0d6f0a62c52f4ddfdb4a1c7a1f48cbb38021d1e150b66a79f543103b2790b120", "name": "attrs", "path": "packages/attrs", "version": "26.1.0"},
+        {"files_sha256": "8bf8c3a2650dbb879a7eee63c9189be2ea0521976e93889762a5d887f1f7d243", "name": "jsonschema", "path": "packages/jsonschema", "version": "4.23.0"},
+        {"files_sha256": "869184ec2ac0c70a199a02ee8422444a2d96360286aa782d0daaed79cf3972c1", "name": "jsonschema-specifications", "path": "packages/jsonschema-specifications", "version": "2025.9.1"},
+        {"files_sha256": "5048abd65e806006168b9289703f41f3ef23b27d3870f971b6a685c1d100210b", "name": "referencing", "path": "packages/referencing", "version": "0.37.0"},
+        {"files_sha256": "475fefd0b38d8a91f7583315d979fd97c37602d0484c69caa44bc77d038de412", "name": "rpds-py", "path": "packages/rpds-py", "version": "2026.6.3"}
+      ],
+      "repository_inventory_sha256": "ecb3e62b5c4e8e0f99ac0bdafde0dae986328fd911f767091776c531729b44df",
+      "sidecar_sha256": "0f050613def0faa85ad66fa3a7ba52c04fbd1d7e721137f71bd439b781f66f21"
+    },
+    {
+      "capture_id": "AUTH-AUTHENTIC-STAGE1-DEPENDENCY-CONTENT-SHA-DENIED",
+      "fixture_path": "tests/fixtures/authentic-stage1-dependency/content-sha-denied",
+      "graph_sha256": "9bbcb568ad62b0d30924453f19443b768e162d15624668449311811c962fc681",
+      "packages": [
+        {"files_sha256": "cf44846f0aaf2da9493eed9036b6ad10f9f742e9875bd277d05e2c6b3ea40599", "name": "attrs", "path": "packages/attrs", "version": "26.1.0"},
+        {"files_sha256": "c2b84b4b799262f7ffdb9acc14251c4a4774d8df21a6da6f526bce37ac150004", "name": "jsonschema", "path": "packages/jsonschema", "version": "4.23.0"},
+        {"files_sha256": "81a5f98ad4adc045d60b9fd55f654cf4b969ac8de065ae620a03b4e04d34aa03", "name": "jsonschema-specifications", "path": "packages/jsonschema-specifications", "version": "2025.9.1"},
+        {"files_sha256": "7f4a39e8686f2cdce2c932a31516692a9e070b20b976d46caecea713e3f6f2cf", "name": "referencing", "path": "packages/referencing", "version": "0.37.0"},
+        {"files_sha256": "5959f70696d0b06b7b71515de9832a88ee8b92fedf91ccdf8fae5e4a959c12ea", "name": "rpds-py", "path": "packages/rpds-py", "version": "2026.6.3"}
+      ],
+      "repository_inventory_sha256": "780960823c6da3b3ca11d4fd49a351e790c3d5388d2e897b2600fd6543327976",
+      "sidecar_sha256": "2dee7878660ef63b27e0cf7397be253206965f8553d072625a9ca5e392cee873"
+    }
+  ],
+  "root_id": "M0-2-HISTORICAL-CAPTURE-ROOT-V1",
+  "root_sha256": "7e2e36c17c742c21c45c5d962dcf2119260148ed30b0a3080029622316857490",
+  "schema_version": 1
+}

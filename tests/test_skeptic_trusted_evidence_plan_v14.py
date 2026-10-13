@@ -1,8 +1,4 @@
-"""Focused Skeptic probes for the remediated trusted-evidence planning package.
-
-Passing adversarial tests below preserve evidence that the published reference
-accepts the characterized input; they are not assertions that acceptance is safe.
-"""
+"""Regression probes for the V14 findings remediated by H-M0-080."""
 from __future__ import annotations
 
 import copy
@@ -76,13 +72,12 @@ class TrustedEvidencePlanV14Skeptic(unittest.TestCase):
         )
         self.assertEqual([trusted.verify(path) for path in fixtures], ["HISTORICALLY_VALID"] * 4)
 
-    def test_director_reference_test_modules_register_no_unittest_tests(self):
+    def test_historical_reference_tests_are_now_discoverable(self):
         loader = unittest.defaultTestLoader
-        for name in ("tests.test_trusted_authentic_capture", "tests.test_currentness_reference"):
-            module = importlib.import_module(name)
-            self.assertEqual(loader.loadTestsFromModule(module).countTestCases(), 0, name)
+        module = importlib.import_module("tests.test_trusted_authentic_capture")
+        self.assertGreater(loader.loadTestsFromModule(module).countTestCases(), 0)
 
-    def test_forged_result_and_repository_inventory_remain_trusted(self):
+    def test_forged_result_and_repository_inventory_are_rejected(self):
         temporary, fixture = self.copied_fixture()
         self.addCleanup(temporary.cleanup)
         sidecar = fixture / "authentic-capture.v1.json"
@@ -90,9 +85,9 @@ class TrustedEvidencePlanV14Skeptic(unittest.TestCase):
         capture["result"] = {"decision": "DISPATCH", "operation": "FORGED", "authorized": True}
         capture["repository_inventory_sha256"] = "0" * 64
         sidecar.write_text(json.dumps(capture))
-        self.assertEqual(trusted.verify(fixture), "HISTORICALLY_VALID")
+        self.assertTrue(trusted.verify(fixture).startswith("INVALID:"))
 
-    def test_package_mutation_with_recomputed_capture_hash_remains_trusted(self):
+    def test_package_mutation_with_recomputed_capture_hash_is_rejected(self):
         temporary, fixture = self.copied_fixture()
         self.addCleanup(temporary.cleanup)
         changed = next((fixture / "packages/attrs").rglob("__init__.py"))
@@ -102,16 +97,16 @@ class TrustedEvidencePlanV14Skeptic(unittest.TestCase):
         attrs = next(item for item in capture["packages"] if item["name"] == "attrs")
         attrs["files_sha256"] = package_digest(fixture / attrs["path"])
         sidecar.write_text(json.dumps(capture))
-        self.assertEqual(trusted.verify(fixture), "HISTORICALLY_VALID")
+        self.assertTrue(trusted.verify(fixture).startswith("INVALID:"))
 
-    def test_unpinned_frozen_schema_mutation_remains_trusted(self):
+    def test_required_frozen_schema_mutation_is_rejected(self):
         temporary, fixture = self.copied_fixture()
         self.addCleanup(temporary.cleanup)
         schema = fixture / "repository/schemas/orchestration-task.schema.json"
         schema.write_text(schema.read_text() + " ")
-        self.assertEqual(trusted.verify(fixture), "HISTORICALLY_VALID")
+        self.assertTrue(trusted.verify(fixture).startswith("INVALID:"))
 
-    def test_package_closure_can_be_reduced_or_duplicate_a_name(self):
+    def test_package_closure_reduction_and_duplicate_are_rejected(self):
         for mutation in ("remove", "duplicate"):
             temporary, fixture = self.copied_fixture()
             self.addCleanup(temporary.cleanup)
@@ -124,9 +119,9 @@ class TrustedEvidencePlanV14Skeptic(unittest.TestCase):
                 duplicate["version"] = "attacker-version"
                 capture["packages"].append(duplicate)
             sidecar.write_text(json.dumps(capture))
-            self.assertEqual(trusted.verify(fixture), "HISTORICALLY_VALID", mutation)
+            self.assertTrue(trusted.verify(fixture).startswith("INVALID:"), mutation)
 
-    def test_incompatible_host_boundary_is_not_checked(self):
+    def test_tampered_trust_root_is_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             alternate_root = Path(directory)
             (alternate_root / "docs").mkdir()
@@ -138,7 +133,7 @@ class TrustedEvidencePlanV14Skeptic(unittest.TestCase):
             original = trusted.ROOT
             trusted.ROOT = alternate_root
             try:
-                self.assertEqual(trusted.verify(DISPATCH), "HISTORICALLY_VALID")
+                self.assertTrue(trusted.verify(DISPATCH).startswith("INVALID:"))
             finally:
                 trusted.ROOT = original
 

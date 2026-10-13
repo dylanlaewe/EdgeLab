@@ -1,8 +1,4 @@
-"""Skeptic probes for the final M0.2/M0.3A planning package.
-
-An adversarial test passes when it reproduces the characterized acceptance. It
-does not assert that accepting the input is safe.
-"""
+"""V15 regression probes; H-M0-080 changes only historical-verifier expectations."""
 from __future__ import annotations
 
 import copy
@@ -72,7 +68,7 @@ class FinalEvidencePlanV15Skeptic(unittest.TestCase):
             ["HISTORICALLY_VALID"] * 4,
         )
 
-    def test_forged_output_is_accepted_by_composed_verifier(self):
+    def test_forged_output_is_rejected_by_composed_verifier(self):
         temporary, fixture = self.copied_fixture()
         self.addCleanup(temporary.cleanup)
         sidecar = fixture / "authentic-capture.v1.json"
@@ -80,9 +76,9 @@ class FinalEvidencePlanV15Skeptic(unittest.TestCase):
         capture["result"] = {"decision": "DISPATCH", "operation": "FORGED", "authorized": True}
         capture["repository_inventory_sha256"] = "0" * 64
         sidecar.write_text(json.dumps(capture))
-        self.assertEqual(verify_authentic_history(fixture)["status"], "HISTORICALLY_VALID")
+        self.assertEqual(verify_authentic_history(fixture)["status"], "INVALID")
 
-    def test_recomputed_package_forgery_is_accepted_by_composed_verifier(self):
+    def test_recomputed_package_forgery_is_rejected_by_composed_verifier(self):
         temporary, fixture = self.copied_fixture()
         self.addCleanup(temporary.cleanup)
         changed = next((fixture / "packages/attrs").rglob("__init__.py"))
@@ -92,16 +88,16 @@ class FinalEvidencePlanV15Skeptic(unittest.TestCase):
         attrs = next(item for item in capture["packages"] if item["name"] == "attrs")
         attrs["files_sha256"] = package_digest(fixture / attrs["path"])
         sidecar.write_text(json.dumps(capture))
-        self.assertEqual(verify_authentic_history(fixture)["status"], "HISTORICALLY_VALID")
+        self.assertEqual(verify_authentic_history(fixture)["status"], "INVALID")
 
-    def test_unpinned_frozen_schema_is_accepted_by_composed_verifier(self):
+    def test_required_frozen_schema_forgery_is_rejected_by_composed_verifier(self):
         temporary, fixture = self.copied_fixture()
         self.addCleanup(temporary.cleanup)
         schema = fixture / "repository/schemas/orchestration-task.schema.json"
         schema.write_text(schema.read_text() + " ")
-        self.assertEqual(verify_authentic_history(fixture)["status"], "HISTORICALLY_VALID")
+        self.assertEqual(verify_authentic_history(fixture)["status"], "INVALID")
 
-    def test_platform_architecture_and_git_boundary_are_ignored(self):
+    def test_tampered_runtime_trust_record_is_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             trust_path = Path(directory) / "trust.json"
             trust = json.loads((ROOT / "docs/M0.2_STAGE1_TRUST_ROOT.v1.json").read_text())
@@ -109,23 +105,22 @@ class FinalEvidencePlanV15Skeptic(unittest.TestCase):
                 {"platform": "ImpossibleOS", "architecture": "none", "git_model": "impossible-git"}
             )
             trust_path.write_text(json.dumps(trust))
-            self.assertEqual(
-                verify_authentic_history(DISPATCH, trusted_root=trust_path)["status"],
-                "HISTORICALLY_VALID",
-            )
+            self.assertEqual(verify_authentic_history(DISPATCH, trusted_root=trust_path)["status"], "INVALID")
 
-    def test_persisted_graph_has_no_blob_bytes_or_absence_records(self):
+    def test_persisted_graph_has_deduplicated_blob_bytes(self):
         graph = generate(DISPATCH)
         self.assertTrue(graph["blobs"])
-        self.assertTrue(all(set(blob) == {"id", "sha256"} for blob in graph["blobs"]))
-        self.assertNotIn("absence_assertions", graph)
-        self.assertEqual(graph["git"], {"freeze_commit": json.loads(
+        self.assertTrue(all(set(blob) == {"id", "sha256", "byte_length", "bytes_b64"} for blob in graph["blobs"]))
+        self.assertEqual(len(graph["blobs"]), len({blob["id"] for blob in graph["blobs"]}))
+        self.assertEqual(graph["git"]["freeze_commit"], json.loads(
             (DISPATCH / "authentic-capture.v1.json").read_text()
-        )["freeze_commit"]})
+        )["freeze_commit"])
 
-    def test_historical_verifier_output_is_not_verification_result_v3(self):
+    def test_historical_verifier_embeds_valid_v3_denial(self):
         result = verify_authentic_history(DISPATCH)
-        self.assertTrue(list(Draft202012Validator(V3).iter_errors(result)))
+        self.assertFalse(list(Draft202012Validator(V3).iter_errors(result["authorization_result"])))
+        self.assertEqual(result["authorization_result"]["currentness_status"], "UNKNOWN")
+        self.assertEqual(result["authorization_result"]["authorizing_use"], "DENY")
 
     def test_currentness_positive_output_is_v3(self):
         temporary, source_root, _ = self.source()

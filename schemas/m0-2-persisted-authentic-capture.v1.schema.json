@@ -1,1 +1,112 @@
-{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,"required":["schema_version","trusted_root_id","capture_id","artifacts","blobs","directories","source_manifest","packages","git","raw_result","self_sha256"],"properties":{"schema_version":{"const":1},"trusted_root_id":{"const":"M0-2-STAGE1-TRUST-ROOT-V1"},"capture_id":{"type":"string"},"artifacts":{"type":"array"},"blobs":{"type":"array"},"directories":{"type":"array"},"source_manifest":{"type":"array"},"packages":{"type":"array"},"git":{"type":"object"},"raw_result":{"type":"object"},"self_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"}}}
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trusted_root_id",
+    "capture_id",
+    "capture",
+    "artifacts",
+    "blobs",
+    "directories",
+    "source_manifest",
+    "packages",
+    "git",
+    "raw_result",
+    "self_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "trusted_root_id": {"const": "M0-2-STAGE1-TRUST-ROOT-V1"},
+    "capture_id": {"type": "string", "pattern": "^[A-Z0-9-]+$"},
+    "capture": {"$ref": "m0-2-authentic-capture.v1.schema.json"},
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/artifact"}
+    },
+    "blobs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/blob"}
+    },
+    "directories": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {"$ref": "#/$defs/directory"}
+    },
+    "source_manifest": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^FILE:"}
+    },
+    "packages": {
+      "$ref": "m0-2-authentic-capture.v1.schema.json#/properties/packages"
+    },
+    "git": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["freeze_commit", "model", "origin_url"],
+      "properties": {
+        "freeze_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "model": {"const": "host-git-checked"},
+        "origin_url": {"const": "https://github.com/dylanlaewe/EdgeLab.git"}
+      }
+    },
+    "raw_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canonical_json", "sha256"],
+      "properties": {
+        "canonical_json": {"type": "string", "minLength": 2},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "self_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "path", "blob_id", "byte_length", "sha256"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^FILE:"},
+        "kind": {"const": "FILE"},
+        "path": {"type": "string", "minLength": 1},
+        "blob_id": {"type": "string", "pattern": "^B:[0-9a-f]{64}$"},
+        "byte_length": {"type": "integer", "minimum": 0},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "blob": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "sha256", "byte_length", "bytes_b64"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^B:[0-9a-f]{64}$"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "byte_length": {"type": "integer", "minimum": 0},
+        "bytes_b64": {"type": "string"}
+      }
+    },
+    "directory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "path", "members", "sha256"],
+      "properties": {
+        "id": {"enum": ["DIRECTORY:repository", "DIRECTORY:packages"]},
+        "path": {"enum": ["repository", "packages"]},
+        "members": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^FILE:"}
+        },
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

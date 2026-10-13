@@ -12,9 +12,9 @@ class ReconstructedPackageOrigins(unittest.TestCase):
     else:os.environ['PYTHONPATH']=old
    self.assertEqual(r['status'],'HISTORICALLY_VALID')
    origins=r['evidence']['package_origins'];self.assertTrue(origins)
-   origin=Path(next(x for x in origins if '/jsonschema/' in x)).resolve()
-   replay_root=Path(r['evidence']['replay_root']).resolve()
-   self.assertTrue(origin.is_relative_to(replay_root/'packages'))
-   self.assertFalse(origin.is_relative_to(ROOT));self.assertFalse(origin.is_relative_to(Path(d)))
+   _,origin,digest=next(x for x in origins if ':packages/jsonschema/' in x).split(':',2)
+   self.assertTrue(origin.startswith('packages/jsonschema/'))
+   self.assertEqual(len(digest),64)
+   self.assertNotIn(str(ROOT),origin);self.assertNotIn(str(Path(d)),origin)
    self.assertEqual(r['authorization_result']['authorizing_use'],'DENY')
    self.assertEqual(r['authorization_result']['currentness_status'],'UNKNOWN')

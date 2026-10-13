@@ -8,5 +8,8 @@ class ReconstructedModuleOrigins(unittest.TestCase):
   origins=r['evidence']['module_origins'];self.assertTrue(origins)
   self.assertTrue(any(x.startswith('edgelab.orchestration:') for x in origins))
   for item in origins:
-   path=Path(item.split(':',1)[1]);self.assertTrue(path.is_relative_to(Path(r['evidence']['replay_root'])));self.assertFalse(path.is_relative_to(ROOT/'src'))
+   _,relative,digest=item.split(':',2)
+   self.assertTrue(relative.startswith('repository/src/edgelab/'))
+   self.assertEqual(len(digest),64)
+  self.assertTrue(r['evidence']['replay_root'].startswith('persisted-graph:'))
   self.assertEqual(r['authorization_result']['authorizing_use'],'DENY')
