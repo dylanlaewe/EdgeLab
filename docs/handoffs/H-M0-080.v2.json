@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-080",
+  "version": 2,
+  "created_at": "2026-10-13T00:17:48Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "CLAIMED",
+  "request": "Resume only the reconstructable trusted historical-verifier scope of H-M0-080 under the native Goal; currentness locking and composed R-gate work remain separate.",
+  "work_done": "Owner 00-director-historical-verifier-goal-01a13292 resumes the existing H-M0-080 sole-writer claim on clean synchronized main at base b2ccf2e485f79ceb92d37928942ef6a72d2cf433. H-M0-080.v1 already superseded overlapping H-M0-077/H-M0-078 work; this version supplies the concrete owner identity, verified base and bounded file scope required by docs/GIT_COORDINATION.md. The earlier v1 created_at is ahead of the observed host clock and is preserved rather than rewritten.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-080.v1.json",
+    "docs/handoffs/H-M0-079.v3.json",
+    "reports/reviews/M0.2-M0.3-final-evidence-plan-rereview.v1.md",
+    "docs/GIT_COORDINATION.md"
+  ],
+  "files_changed": [
+    "tools/generate_persisted_authentic_capture.py",
+    "tools/reconstruct_persisted_history.py",
+    "tools/verify_authentic_history.py",
+    "tools/verify_trusted_authentic_capture.py",
+    "schemas/m0-2-persisted-authentic-capture.v1.schema.json",
+    "schemas/m0-2-historical-verification-result.v1.schema.json",
+    "tests/test_composed_authentic_history.py",
+    "tests/test_reconstructed_module_origins.py",
+    "tests/test_reconstructed_package_origins.py",
+    "docs/handoffs/H-M0-080.v2.json",
+    "docs/handoffs/H-M0-080.v3.json",
+    "reports/reviews/H-M0-080-native-engineering-review.v1.md"
+  ],
+  "tests_run": [
+    "Claim only; implementation validation follows after this claim is committed, pushed and remote ancestry is verified."
+  ],
+  "open_questions": [
+    "Whether the existing immutable trust material fully pins every required package and reached schema will be resolved by the historical forgery tests without changing preserved fixtures."
+  ],
+  "blockers": [
+    "Data remains BLOCKED; STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked; M1 remains unreleased; capital remains LOCKED.",
+    "This claim does not authorize currentness integration, R-gate implementation or EdgeLab execution."
+  ],
+  "next_action": "Commit and push this continuation claim, reproduce the two known verifier defects, then implement and test only the bounded historical-verifier remediation.",
+  "completion_criteria": [
+    "All four authentic capture families replay exact stored results exclusively from reconstructed retained evidence.",
+    "Coordinated output, module, schema, package, closure and frozen-identity forgeries deny, including mutable package-metadata rehashes.",
+    "Runtime and reconstructed-origin boundaries use execution-derived diagnostics.",
+    "Every exercised success and failure returns a schema-valid historical wrapper with an independently schema-valid v3 UNKNOWN/DENY projection.",
+    "Project-supported test discovery records exact commands, counts and results, and a separate native reviewer reproduces decisive checks without claiming formal project approval."
+  ],
+  "depends_on": [
+    "H-M0-079"
+  ]
+}
