@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-081",
+  "version": 1,
+  "created_at": "2026-10-13T17:26:25Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "CLAIMED",
+  "request": "Resolve only the repository validator's legacy handoff dependency-cycle failure through the smallest correction consistent with existing versioned-handoff semantics, without weakening cycle detection or changing operational authority.",
+  "work_done": "Native writer lead /root/h_m0_041_cycle_lead claims the sole writer slot on clean synchronized main at base d19020b37b80bc85915a39166980fbbaad7daaa3. The production validator was reproduced at the actual 2026-10-13T17:24:03Z clock and reported Dependency cycle: H-M0-074 within the same strongly connected legacy-ID component previously reported at H-M0-041. Scope is limited to exact cycle evidence, current-version legacy handoff dependency validation, its specification, focused tests, and this task's review/completion artifacts. Published handoffs remain immutable.",
+  "evidence_refs": [
+    "docs/GIT_COORDINATION.md",
+    "docs/OPERATIONS.md",
+    "docs/SPECIFICATIONS.md",
+    "docs/handoffs/H-M0-041.v23.json",
+    "docs/handoffs/H-M0-080.v4.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-081.v1.json",
+    "src/edgelab/data_integrity.py",
+    "tests/test_data_integrity.py",
+    "docs/SPECIFICATIONS.md",
+    "reports/H-M0-081-handoff-cycle-analysis.v1.md",
+    "reports/reviews/H-M0-081-native-engineering-review.v1.md",
+    "docs/handoffs/H-M0-081.v2.json"
+  ],
+  "tests_run": [
+    "Pre-change: date -u +%Y-%m-%dT%H:%M:%SZ printed 2026-10-13T17:24:03Z; PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m src.edgelab.validate reproduced ValueError: Dependency cycle: H-M0-074."
+  ],
+  "open_questions": [
+    "After correcting the H-M0-041 component under current-version semantics, the validator may expose a distinct cycle or other failure; any such result will be reported without expanding this task."
+  ],
+  "blockers": [
+    "Data remains BLOCKED; STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked; M1 remains unreleased; capital remains LOCKED.",
+    "This claim does not authorize historical-verifier, currentness, R-gate, capability, execution, research, or capital changes."
+  ],
+  "next_action": "Commit and push this claim, verify remote ancestry, then implement and test only the bounded legacy handoff dependency correction.",
+  "completion_criteria": [
+    "The complete original H-M0-041 strongly connected component and every responsible edge are recorded with exact handoff versions and introducing Git SHAs.",
+    "Legacy dependency validation uses the authoritative current handoff version without deleting or mutating historical versions, and genuine cycles among current handoffs still reject.",
+    "The production validator is rerun at the actual current time; any subsequent independent failure is reported separately.",
+    "The H-M0-080 focused 47-test suite remains passing and an independent native reviewer accepts or blocks the bounded correction."
+  ],
+  "depends_on": []
+}
