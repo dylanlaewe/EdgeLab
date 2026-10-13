@@ -275,6 +275,62 @@ class DataIntegrityTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'Orphan|cycle'):
                 registry_checks(self.root,{'docs/handoffs/H.v1.json':('handoff',{**h,'depends_on':dependencies})})
 
+    def test_handoff_head_replaces_stale_dependency_without_erasing_history(self):
+        h=read(ROOT/'docs/handoffs/H-M0-003.v2.json')
+        old={**h,'id':'H','version':1,'depends_on':['J']}
+        head={**h,'id':'H','version':2,'depends_on':[]}
+        dependent={**h,'id':'J','version':1,'depends_on':['H']}
+        records={
+            'docs/handoffs/H.v1.json':('handoff',old),
+            'docs/handoffs/H.v2.json':('handoff',head),
+            'docs/handoffs/J.v1.json':('handoff',dependent),
+        }
+        registry_checks(self.root,records)
+        self.assertEqual(records['docs/handoffs/H.v1.json'][1]['depends_on'],['J'])
+
+        orphan={**old,'depends_on':['MISSING']}
+        records['docs/handoffs/H.v1.json']=('handoff',orphan)
+        with self.assertRaisesRegex(ValueError,'Orphan dependency: MISSING'):
+            registry_checks(self.root,records)
+
+    def test_superseded_handoff_versions_remain_fully_validated(self):
+        def handoff(ident,version,dependencies):
+            return dict(schema_version=1,id=ident,version=version,created_at=T,
+                        sender='synthetic',recipient='synthetic',status='COMPLETED',
+                        request='Synthetic handoff.',work_done='Synthetic evidence.',
+                        evidence_refs=['data/raw/raw.json'],files_changed=[],
+                        tests_run=[],open_questions=[],blockers=[],
+                        next_action='None.',completion_criteria=['Synthetic only.'],
+                        depends_on=dependencies)
+        old=handoff('H',1,['J'])
+        head=handoff('H',2,[])
+        dependent=handoff('J',1,['H'])
+        self.content('docs/handoffs/H.v1.json',old)
+        self.content('docs/handoffs/H.v2.json',head)
+        self.content('docs/handoffs/J.v1.json',dependent)
+        validate_repository(self.root,now=NOW)
+
+        self.content('docs/handoffs/H.v1.json',{**old,'evidence_refs':['missing']})
+        with self.assertRaisesRegex(ValueError,'H.v1.json: Missing'):
+            validate_repository(self.root,now=NOW)
+        self.content('docs/handoffs/H.v1.json',{**old,'unexpected':True})
+        with self.assertRaisesRegex(ValueError,'Additional properties'):
+            validate_repository(self.root,now=NOW)
+        self.content('docs/handoffs/H.v1.json',old)
+        (self.root/'docs/handoffs/H.v1.json').rename(self.root/'docs/handoffs/WRONG.v1.json')
+        with self.assertRaisesRegex(ValueError,'Identity/filename mismatch'):
+            validate_repository(self.root,now=NOW)
+
+    def test_current_handoff_heads_still_reject_genuine_cycle(self):
+        h=read(ROOT/'docs/handoffs/H-M0-003.v2.json')
+        records={
+            'docs/handoffs/H.v1.json':('handoff',{**h,'id':'H','version':1,'depends_on':[]}),
+            'docs/handoffs/H.v2.json':('handoff',{**h,'id':'H','version':2,'depends_on':['J']}),
+            'docs/handoffs/J.v1.json':('handoff',{**h,'id':'J','version':1,'depends_on':['H']}),
+        }
+        with self.assertRaisesRegex(ValueError,'Dependency cycle: [HJ]'):
+            registry_checks(self.root,records)
+
     def test_manifest_orphan_and_blob_type(self):
         self.check('manifest',self.manifest)
         r=copy.deepcopy(self.manifest)

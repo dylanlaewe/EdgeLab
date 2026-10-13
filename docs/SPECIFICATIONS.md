@@ -49,9 +49,12 @@ confer no confirmation, paper, source acquisition or operational approval.
   portfolio configuration is exempt from versioned filenames. Audit/hypothesis
   corrections require same-ID previous-version supersession; new Data records
   also bind that predecessor's digest. Graphs reject orphans and cycles.
-- Legacy handoff dependency IDs are checked as an acyclic assignment graph.
-  They are not an exact prerequisite release: downstream claims must still cite
-  the completed handoff version and full landing SHA required by Git protocol.
+- Legacy handoff dependency IDs on each ID's authoritative highest version are
+  checked as an acyclic current-assignment graph. Older versions remain
+  validated and preserved, including orphan rejection, but a prerequisite
+  removed by a later version is no longer a current edge. This is not an exact
+  prerequisite release: downstream claims must still cite the completed handoff
+  version and full landing SHA required by Git protocol.
 - Observations bind source/version/URL, raw snapshot, parser/normalizer code and
   versions, config, retrieved/publication/event/correction times, classification,
   and value. Unknown timestamps retain a reason. Availability evidence binds the

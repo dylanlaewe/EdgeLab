@@ -305,7 +305,8 @@ def registry_checks(root: Path, records: dict[str, tuple[str, dict]], *,
     """Exact version graph; legacy handoff ID edges remain readable, not release proof."""
     graph = {p: set() for p in records}
     versions: dict[tuple[str, str], list[int]] = {}
-    handoffs: dict[str, set[str]] = {}
+    handoff_heads: dict[str, tuple[int, set[str]]] = {}
+    historical_handoff_dependencies: set[str] = set()
     for path, (kind, record) in records.items():
         if 'id' not in record or kind in {'risk-policy', 'bankroll'}:
             continue
@@ -315,7 +316,11 @@ def registry_checks(root: Path, records: dict[str, tuple[str, dict]], *,
             raise ValueError('Identity/filename mismatch: ' + path)
         versions.setdefault((kind, record['id']), []).append(record['version'])
         if kind == 'handoff':
-            handoffs.setdefault(record['id'], set()).update(record['depends_on'])
+            dependencies = set(record['depends_on'])
+            historical_handoff_dependencies.update(dependencies)
+            head = handoff_heads.get(record['id'])
+            if head is None or record['version'] > head[0]:
+                handoff_heads[record['id']] = (record['version'], dependencies)
         if kind == 'experiment':
             for ref in record['dataset_manifests']:
                 if ref not in records or records[ref][0] != 'manifest':
@@ -348,6 +353,14 @@ def registry_checks(root: Path, records: dict[str, tuple[str, dict]], *,
     for key, values in versions.items():
         if sorted(values) != list(range(1, max(values) + 1)):
             raise ValueError('Version gap: ' + str(key))
-    acyclic(handoffs)
+    missing_handoffs = historical_handoff_dependencies - handoff_heads.keys()
+    if missing_handoffs:
+        raise ValueError('Orphan dependency: ' + sorted(missing_handoffs)[0])
+    # A handoff's later version supersedes its earlier assignment state.  Keep
+    # every historical record schema/reference-valid above, but evaluate the
+    # legacy ID graph from authoritative version heads so removed prerequisites
+    # do not remain active forever.  This remains structural validation only;
+    # exact completion version/SHA release is enforced by the Git protocol.
+    acyclic({handoff_id: dependencies for handoff_id, (_, dependencies) in handoff_heads.items()})
     acyclic(graph)
     return graph
