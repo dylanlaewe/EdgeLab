@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-082",
+  "version": 1,
+  "created_at": "2026-10-13T18:39:29Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "CLAIMED",
+  "request": "Implement the explicitly authorized additive handoff-schema successor, canonical revision-node dependency resolution, and metadata-only H-M0-075.v4 exact prerequisite correction, with focused tests, one separate read-only native engineering review, and publication.",
+  "work_done": "Native writer /root under Goal 01a1368f-3feb-7f00-af21-3d528df9d4a6 claims the sole-writer slot on clean synchronized main at base 59a9297eaff2c28df126b8ff07c504dd7d5ff864. The user explicitly authorized this governance/schema correction after H-M0-081 exposed the separate H-M0-074/H-M0-075 current-head cycle. Scope is limited to an additive handoff schema version, per-record schema selection, canonical (handoff ID, record version) dependency resolution, focused validation tests/specification, H-M0-075.v4 metadata correction, independent engineering review, completion/audit evidence, commit, and push. H-M0-074.v1 bytes and reported source commit were independently verified before this claim; all published predecessors remain immutable.",
+  "evidence_refs": [
+    "docs/GIT_COORDINATION.md",
+    "docs/OPERATIONS.md",
+    "docs/SPECIFICATIONS.md",
+    "docs/handoffs/H-M0-074.v1.json",
+    "docs/handoffs/H-M0-075.v3.json",
+    "docs/handoffs/H-M0-080.v4.json",
+    "docs/handoffs/H-M0-081.v2.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-082.v1.json",
+    "schemas/handoff.v2.schema.json",
+    "src/edgelab/validate.py",
+    "src/edgelab/data_integrity.py",
+    "tests/test_data_integrity.py",
+    "docs/SPECIFICATIONS.md",
+    "docs/handoffs/H-M0-075.v4.json",
+    "reports/H-M0-082-handoff-revision-resolution.v1.md",
+    "reports/reviews/H-M0-082-native-engineering-review.v1.md",
+    "reports/audit/A-M0-063.v1.json",
+    "docs/handoffs/H-M0-082.v2.json"
+  ],
+  "tests_run": [
+    "Claim preflight only; clean main and origin/main both resolved to 59a9297eaff2c28df126b8ff07c504dd7d5ff864.",
+    "Independent byte verification: SHA-256(docs/handoffs/H-M0-074.v1.json) = 01812864de27568ada00d66b20d0dfb6dd763b607924a0b77ef70eacf7dec782 both in the working tree and at reported source commit 670b1df2e7b8f59a739dc4c15bf21c6c2868b966."
+  ],
+  "open_questions": [],
+  "blockers": [
+    "Data remains BLOCKED; STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked; M1 remains unreleased; capital remains LOCKED.",
+    "The separate H-M0-080.v4 exact self-cycle is explicitly excluded and must remain unchanged; production validation may continue to report it after the authorized H-M0-075 correction."
+  ],
+  "next_action": "Commit and push this claim, re-fetch and verify remote ancestry, then implement and test only the authorized handoff revision-resolution and metadata-correction scope.",
+  "completion_criteria": [
+    "Schema version 1 and all historical records remain unchanged and fully validated, while schema version 2 admits bare handoff IDs or the existing exact typed-reference shape in depends_on.",
+    "Dependencies resolve to canonical handoff revision nodes and reject missing, mismatched, duplicate/conflicting, ambiguous, and cyclic current/exact/mixed graphs without inferring dependency semantics from evidence_refs.",
+    "H-M0-075.v4 preserves the original independent review verdict/evidence while binding the reviewed prerequisite exactly to H-M0-074.v1 and truthfully records the correction author and explicit user authority without claiming new Skeptic approval.",
+    "H-M0-081 regressions and the H-M0-080 focused 47-test suite pass; production validation runs at the actual host clock and any excluded remaining cycle is reported separately.",
+    "One separate read-only native reviewer inspects the actual diff and reproduces decisive tests; bounded findings are repaired within at most two rounds before commit and push."
+  ],
+  "depends_on": [
+    "H-M0-081"
+  ]
+}
