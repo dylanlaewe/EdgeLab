@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-080",
+  "version": 4,
+  "created_at": "2026-10-13T01:08:04Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Complete only the reconstructable trusted historical-verifier scope of H-M0-080, with native implementation analysis and a separate read-only engineering review.",
+  "work_done": "Completed and pushed the bounded historical verifier at implementation commit 6385603ab5b8034bf33c2c6a7efc0ed256f6feb9 and fail-closed repair commit 9c16242f9803690a76e13a676d0b60dd0def4f68. Four canonical retained captures reconstruct and replay exact results; externally pinned capture, repository, package and graph identities reject coordinated forgeries; closed graph validation and reconstructed execution enforce runtime/origin boundaries; all covered results emit schema-valid non-authorizing wrappers and embedded v3 projections. A native read-only reviewer found one malformed trust-root exception in round one; the repair converted it to typed INVALID/TRUSTED_ROOT_MISMATCH, and round two accepted the bounded engineering scope. This is not formal Skeptic approval.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-080.v2.json",
+    "docs/handoffs/H-M0-080.v3.json",
+    "reports/reviews/H-M0-080-native-engineering-review.v1.md",
+    "docs/M0.2_HISTORICAL_CAPTURE_ROOT.v1.json",
+    "schemas/m0-2-historical-capture-root.v1.schema.json"
+  ],
+  "files_changed": [
+    "docs/M0.2_HISTORICAL_CAPTURE_ROOT.v1.json",
+    "schemas/m0-2-historical-capture-root.v1.schema.json",
+    "schemas/m0-2-persisted-authentic-capture.v1.schema.json",
+    "tools/generate_persisted_authentic_capture.py",
+    "tools/reconstruct_persisted_history.py",
+    "tools/verify_authentic_history.py",
+    "tools/verify_trusted_authentic_capture.py",
+    "tests/test_composed_authentic_history.py",
+    "tests/test_trusted_authentic_capture.py",
+    "tests/test_reconstructed_module_origins.py",
+    "tests/test_reconstructed_package_origins.py",
+    "tests/test_skeptic_trusted_evidence_plan_v14.py",
+    "tests/test_skeptic_final_evidence_plan_v15.py",
+    "reports/reviews/H-M0-080-native-engineering-review.v1.md",
+    "docs/handoffs/H-M0-080.v4.json"
+  ],
+  "tests_run": [
+    "Pre-change focused 15-test reproduction: 1 failure and 1 error; reproduced undefined observed and replay_reconstructed-before-definition defects.",
+    "Implementation focused suite: 46 tests in 35.092 seconds, all passed.",
+    "Repair focused suite: 47 tests in 27.846 seconds, all passed.",
+    "Independent reviewer round two: 47 tests in 26.862 seconds, all passed; missing and wrongly typed self-rehashed runtime-boundary attacks returned schema-valid UNKNOWN/DENY results.",
+    "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m compileall -q tools tests: passed.",
+    "git diff --check: passed at implementation and repair checkpoints.",
+    "Full unittest discovery: 604 tests in 1180.965 seconds; not green with 70 failures and 75 errors. Superseded vulnerability-characterization tests and repository-wide governance-state failures remain disclosed outside the bounded historical-verifier acceptance surface.",
+    "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m src.edgelab.validate: the pre-handoff run failed because docs/handoffs/H-M0-080.v1.json was future-dated relative to the validator clock; the final run after that timestamp passed failed at the pre-existing Dependency cycle: H-M0-041."
+  ],
+  "open_questions": [
+    "Formal project/Skeptic acceptance remains a separate governance action.",
+    "Authoritative locked currentness and composed R-gate work require a separately authorized task."
+  ],
+  "blockers": [
+    "Data remains BLOCKED; STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked; M1 remains unreleased; capital remains LOCKED.",
+    "Repository-wide validation is not green for disclosed historical/governance reasons and is not claimed as passing."
+  ],
+  "next_action": "Request formal project/Skeptic review of the bounded H-M0-080 historical-verifier evidence. Do not release Data or begin currentness/R-gate implementation without separate authorization.",
+  "completion_criteria": [
+    "All four canonical capture families reconstruct and replay their exact stored results from retained evidence.",
+    "Required coordinated forgery families, including package metadata rehash and malformed self-rehashed trust roots, fail closed.",
+    "Every covered result validates against both the historical wrapper and embedded v3 schemas and remains UNKNOWN/DENY for current use.",
+    "Historical tests are discoverable and pass under the project-supported unittest runner.",
+    "Independent native read-only engineering review accepts the bounded historical-verifier scope after repair.",
+    "No currentness, composed R-gate, Data-release, STOP-clearance, capital, or execution-enablement work is claimed."
+  ],
+  "depends_on": [
+    "H-M0-080"
+  ]
+}
