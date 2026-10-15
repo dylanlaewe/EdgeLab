@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-065",
+  "version": 1,
+  "occurred_at": "2026-10-15T18:36:13Z",
+  "actor": "/root",
+  "role": "00 Director",
+  "event_type": "MOCK_ONLY_DEVELOPER_ALPHA_DELIVERED",
+  "subject_ref": "src/edgelab/alpha.py",
+  "previous_state": "NO_RUNNABLE_ALPHA_WORKFLOW_REPORT",
+  "new_state": "CONTENT_BOUND_NON_OPERATIONAL_ALPHA_AVAILABLE",
+  "reason": "The user explicitly authorized a runnable developer alpha using retained synthetic and MOCK_ONLY evidence while preserving every STOP, Data block, phase restriction, capital lock, and non-authorization boundary.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-083.v1.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "reports/H-M0-083-alpha-delivery.v1.md",
+    "reports/reviews/H-M0-083-native-engineering-review.v1.md",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "code_ref": "2372a7c213844e653da4c5c29783094fa5210e63",
+  "config_ref": "examples/alpha/sample-workflow.v1.json",
+  "correlation_id": "H-M0-083",
+  "supersedes": null
+}

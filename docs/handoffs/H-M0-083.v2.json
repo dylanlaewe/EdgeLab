@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-083",
+  "version": 2,
+  "created_at": "2026-10-15T18:36:13Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Deliver the smallest permissible runnable EdgeLab developer alpha from retained MOCK_ONLY and synthetic evidence, with visible role contributions, provenance, uncertainty, review outcomes, current STOP/capital state, focused tests, independent read-only engineering review, commit, and push.",
+  "work_done": "Delivered and pushed the read-only content-bound alpha at implementation commit 2372a7c213844e653da4c5c29783094fa5210e63. The CLI renders text, JSON or Markdown; exercises retained Data and Research validators; distinguishes a historical frozen MOCK_ONLY DISPATCH from the current DENY; displays Director, Data, Research, Quant, Skeptic and Risk contributions; reports uncertainty, SHA-256 provenance, current numeric STOP heads and locked capital. Round-one engineering review found repository-output overwrite and historical-STOP-head defects; the sole writer repaired both, expanded the focused suite from five to eight tests, and the reviewer accepted round two with no remaining findings. The sample concludes NO_DEMONSTRATED_EDGE / BLOCKED and performs no operational transition or external action.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-083.v1.json",
+    "examples/alpha/README.md",
+    "examples/alpha/sample-workflow.v1.json",
+    "src/edgelab/alpha.py",
+    "tests/test_alpha.py",
+    "reports/H-M0-083-alpha-delivery.v1.md",
+    "reports/reviews/H-M0-083-native-engineering-review.v1.md",
+    "reports/audit/A-M0-065.v1.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-083.v1.json",
+    "README.md",
+    "examples/alpha/README.md",
+    "examples/alpha/sample-workflow.v1.json",
+    "src/edgelab/alpha.py",
+    "tests/test_alpha.py",
+    "reports/H-M0-083-alpha-delivery.v1.md",
+    "reports/reviews/H-M0-083-native-engineering-review.v1.md",
+    "reports/audit/A-M0-065.v1.json",
+    "docs/handoffs/H-M0-083.v2.json"
+  ],
+  "tests_run": [
+    "Final writer run: PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest -v tests.test_alpha tests.test_orchestration tests.test_data_integrity — 41 tests passed in 10.821 seconds.",
+    "Final writer run: exact H-M0-080 six-module preservation suite — 47 tests passed in 32.863 seconds.",
+    "Writer and reviewer: tests.test_alpha — 8 tests passed; direct and alias repository outputs denied, outside output created exclusively, resolved STOP successor selected, and tampered/incomplete evidence denied.",
+    "Text, JSON and Markdown CLI runs succeeded; rendered JSON parsed successfully; PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m compileall -q src tests/test_alpha.py and git diff --check passed.",
+    "Production validation at actual 2026-10-15T18:36:13Z exited 1 only at the separately tracked Dependency cycle: H-M0-080.v4.",
+    "Legacy research-protocol discovery executed 20 methods and retained its known missing authoritative-history-baseline errors; an earlier named-module invocation also reproduced its top-level import-layout error. Neither suite is claimed green or used as alpha acceptance evidence."
+  ],
+  "open_questions": [
+    "Formal project/Skeptic approval of the historical verifier remains separate."
+  ],
+  "blockers": [
+    "Production repository validation remains non-green on H-M0-080.v4's exact self-cycle.",
+    "Authoritative currentness and exact M0.2 receipt/R-gate integration remain unresolved under STOP-M0-3A-001.",
+    "Data remains BLOCKED; STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked; M1 remains unreleased; capital remains LOCKED."
+  ],
+  "next_action": "Seek separate formal review of H-M0-080, then implement authoritative locked currentness and composed R-gate/receipt integration under new explicit authority; do not release Data or clear either STOP from this alpha.",
+  "completion_criteria": [
+    "The documented command deterministically renders a human-readable sample workflow and inspectable JSON/Markdown from retained local MOCK_ONLY/synthetic evidence.",
+    "All six requested role contributions, uncertainty, review limitations, content provenance, current numeric STOP heads and locked capital controls are visible.",
+    "The aggregate outcome cannot imply scientific, source-access, paper, live or capital authorization; altered, missing, aliased or contradictory evidence fails closed.",
+    "Focused and preservation tests pass, confirmed review defects are repaired, and separate native engineering re-review accepts the bounded result.",
+    "The implementation and completion evidence are committed and pushed without changing Data, STOP, project, phase, scheduler, portfolio or capital authority."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-082.v2.json",
+      "kind": "handoff",
+      "id": "H-M0-082",
+      "version": 2,
+      "sha256": "603f6f0c4a800d02b0d994ba3e104666657f8560f01848eb66c1f5e4a3b21834"
+    }
+  ]
+}
