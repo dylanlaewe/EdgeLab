@@ -351,6 +351,24 @@ class DataIntegrityTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'Dependency cycle: [HJ]'):
             registry_checks(self.root,records)
 
+    def test_successor_replaces_historical_same_id_shorthand_but_current_self_cycle_rejects(self):
+        records = {}
+        prerequisite = self.put_handoff(records, self.handoff('PRIOR', 1, []))
+        historical = self.handoff('WORK', 1, ['WORK'])
+        successor = self.handoff('WORK', 2, [prerequisite], schema_version=2)
+        self.put_handoff(records, historical)
+        self.put_handoff(records, successor)
+
+        # The preserved v1 shorthand still resolves and validates, but it is not
+        # a current root after v2 supersedes the assignment state.
+        registry_checks(self.root, records, now=NOW)
+        self.assertEqual(historical['depends_on'], ['WORK'])
+
+        records['docs/handoffs/WORK.v2.json'] = (
+            'handoff', {**successor, 'depends_on': ['WORK']})
+        with self.assertRaisesRegex(ValueError, r'Dependency cycle: WORK\.v2'):
+            registry_checks(self.root, records, now=NOW)
+
     def test_handoff_v2_schema_selection_and_bare_id_head_behavior(self):
         records = {}
         old = self.handoff('H', 1, ['J'])

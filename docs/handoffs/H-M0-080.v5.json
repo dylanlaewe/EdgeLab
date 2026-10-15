@@ -1,0 +1,59 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-080",
+  "version": 5,
+  "created_at": "2026-10-15T19:25:46Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Apply the explicitly authorized metadata-only correction to H-M0-080's dependency representation so its completed historical-verifier assignment retains the exact external review prerequisite without a same-ID current-head self-cycle.",
+  "work_done": "Metadata-only successor authored by native writer /root acting as 00 Director under the user's explicit bounded correction authority. H-M0-080.v4's completed historical-verifier result remains unchanged: implementation commits 6385603ab5b8034bf33c2c6a7efc0ed256f6feb9 and 9c16242f9803690a76e13a676d0b60dd0def4f68 retain their exact evidence, tests, independent engineering acceptance, limitations and non-authorization boundary. Preserved v3 and v4 used bare H-M0-080 dependencies as shorthand for continuation of the prior version of the same assignment. Existing approved semantics instead resolve every bare ID to its authoritative current head, making v4 depend on itself. Same-ID assignment history is already preserved by immutable consecutive versions and evidence_refs; it is not an external work prerequisite. This successor therefore removes only the invalid self-prerequisite representation and pins the actual external prerequisite exactly to H-M0-079.v3, the completed review whose requires-revision verdict caused H-M0-080. It claims no new Skeptic approval, verifier behavior, currentness, R-gate, Data release, STOP clearance, execution or capital authority.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-079.v3.json",
+    "docs/handoffs/H-M0-080.v1.json",
+    "docs/handoffs/H-M0-080.v2.json",
+    "docs/handoffs/H-M0-080.v3.json",
+    "docs/handoffs/H-M0-080.v4.json",
+    "reports/reviews/H-M0-080-native-engineering-review.v1.md",
+    "docs/M0.2_HISTORICAL_CAPTURE_ROOT.v1.json",
+    "schemas/m0-2-historical-capture-root.v1.schema.json",
+    "reports/H-M0-081-handoff-cycle-analysis.v1.md",
+    "reports/H-M0-082-handoff-revision-resolution.v1.md",
+    "docs/handoffs/H-M0-084.v1.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-080.v5.json"
+  ],
+  "tests_run": [
+    "Pre-correction production validation at the actual 2026-10-15 clock exited 1 with Dependency cycle: H-M0-080.v4.",
+    "H-M0-080.v1-v4 SHA-256 values were recorded before this successor and remain unchanged; focused and production validation results are recorded by H-M0-084 completion evidence."
+  ],
+  "open_questions": [
+    "Formal project/Skeptic acceptance remains a separate governance action.",
+    "Authoritative locked currentness and composed R-gate work require a separately authorized task."
+  ],
+  "blockers": [
+    "Data remains BLOCKED; STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked; M1 remains unreleased; capital remains LOCKED.",
+    "This metadata correction grants no operational authority and does not change the historical verifier's UNKNOWN/DENY current-use boundary."
+  ],
+  "next_action": "Preserve the completed H-M0-080 engineering result for separate formal review; do not release Data or begin currentness/R-gate work without separate authorization.",
+  "completion_criteria": [
+    "All four canonical capture families reconstruct and replay their exact stored results from retained evidence.",
+    "Required coordinated forgery families, including package metadata rehash and malformed self-rehashed trust roots, fail closed.",
+    "Every covered result validates against both historical-wrapper and embedded-v3 schemas and remains UNKNOWN/DENY for current use.",
+    "Historical tests remain discoverable and pass under the project-supported unittest runner.",
+    "Independent native engineering review of the historical verifier remains preserved without being relabeled formal Skeptic approval.",
+    "No currentness, composed R-gate, Data-release, STOP-clearance, capital or execution-enablement work is claimed."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-079.v3.json",
+      "kind": "handoff",
+      "id": "H-M0-079",
+      "version": 3,
+      "sha256": "8c0cf6d242fda7474e5eb990be1bc6dd6d79250d7f7fad9d25ecb3af581d57bd"
+    }
+  ]
+}
