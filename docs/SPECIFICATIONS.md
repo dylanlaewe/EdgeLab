@@ -49,12 +49,22 @@ confer no confirmation, paper, source acquisition or operational approval.
   portfolio configuration is exempt from versioned filenames. Audit/hypothesis
   corrections require same-ID previous-version supersession; new Data records
   also bind that predecessor's digest. Graphs reject orphans and cycles.
-- Legacy handoff dependency IDs on each ID's authoritative highest version are
-  checked as an acyclic current-assignment graph. Older versions remain
-  validated and preserved, including orphan rejection, but a prerequisite
-  removed by a later version is no longer a current edge. This is not an exact
-  prerequisite release: downstream claims must still cite the completed handoff
-  version and full landing SHA required by Git protocol.
+- Handoff schema v1 remains unchanged and its bare dependency IDs resolve to
+  each target ID's authoritative highest version. Additive handoff schema v2
+  permits each `depends_on` entry to be either that legacy bare ID or an exact
+  typed reference `{path, kind, id, version, sha256}` with kind `handoff`.
+  Validation selects the schema declared by each record. Exact references must
+  match immutable repository bytes, registry path, kind, ID and version.
+- The handoff dependency graph uses `(handoff ID, record version)` revision
+  identity. Every current head remains a graph root; traversal recursively
+  follows bare references to current heads and exact references to historical
+  revisions, then follows every dependency of each reached revision. Duplicate
+  or conflicting representations, missing/ambiguous revisions and genuine
+  current, historical or mixed-reference cycles reject regardless of record
+  status. `evidence_refs` never imply exact dependency semantics. All historical
+  records remain schema/reference/filename/version/preservation validated, but
+  an unreferenced older assignment edge is not a current graph root. This is
+  structural validation, not scientific approval or operational release.
 - Observations bind source/version/URL, raw snapshot, parser/normalizer code and
   versions, config, retrieved/publication/event/correction times, classification,
   and value. Unknown timestamps retain a reason. Availability evidence binds the

@@ -28,6 +28,10 @@ LOCATIONS = {
     'capability-registry': 'orchestration/capabilities/*.json',
 }
 CHECKER = FormatChecker()
+HANDOFF_SCHEMAS = {
+    1: 'handoff.schema.json',
+    2: 'handoff.v2.schema.json',
+}
 
 
 @CHECKER.checks('date-time', raises=(ValueError, TypeError))
@@ -64,7 +68,14 @@ def reference(root: Path, value: str) -> Path:
 
 
 def validate_record(kind: str, record: dict, root: Path = ROOT, *, now: datetime | None = None) -> None:
-    schema = read(root / 'schemas' / f'{kind}.schema.json')
+    if kind == 'handoff':
+        schema_version = record.get('schema_version')
+        if type(schema_version) is not int or schema_version not in HANDOFF_SCHEMAS:
+            raise ValueError(f'Unsupported handoff schema version: {schema_version!r}')
+        schema_name = HANDOFF_SCHEMAS[schema_version]
+    else:
+        schema_name = f'{kind}.schema.json'
+    schema = read(root / 'schemas' / schema_name)
     Draft202012Validator.check_schema(schema)
     Draft202012Validator(schema, format_checker=CHECKER).validate(record)
     from .data_integrity import clock_checks, permission_check
@@ -114,6 +125,8 @@ def validate_repository(root: Path = ROOT, *, now: datetime | None = None,
     for kind in set(locations) | RISK_SCHEMA_KINDS:
         path = reference(root, f'schemas/{kind}.schema.json')
         Draft202012Validator.check_schema(read(path))
+    for schema_name in HANDOFF_SCHEMAS.values():
+        Draft202012Validator.check_schema(read(reference(root, f'schemas/{schema_name}')))
     for required in ('portfolio/bankroll.json', 'portfolio/risk-policy.json'):
         reference(root, required)
     count = 0

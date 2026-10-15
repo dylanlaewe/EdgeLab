@@ -7,6 +7,7 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from jsonschema import ValidationError
 from src.edgelab.validate import ROOT, read, validate_record, validate_repository
@@ -85,6 +86,25 @@ class DataIntegrityTests(unittest.TestCase):
     def deny(self, kind, record, message=None):
         with self.assertRaisesRegex((ValueError, ValidationError), message or '.'):
             self.check(kind, record)
+
+    def handoff(self, ident, version, dependencies, *, schema_version=1,
+                evidence_refs=None, status='COMPLETED'):
+        return dict(schema_version=schema_version, id=ident, version=version,
+                    created_at=T, sender='synthetic', recipient='synthetic',
+                    status=status, request='Synthetic handoff.',
+                    work_done='Synthetic evidence.',
+                    evidence_refs=evidence_refs or ['data/raw/raw.json'],
+                    files_changed=[], tests_run=[], open_questions=[], blockers=[],
+                    next_action='None.', completion_criteria=['Synthetic only.'],
+                    depends_on=dependencies)
+
+    def put_handoff(self, records, record):
+        path = f"docs/handoffs/{record['id']}.v{record['version']}.json"
+        self.content(path, record)
+        records[path] = ('handoff', record)
+        return dict(path=path, kind='handoff', id=record['id'],
+                    version=record['version'],
+                    sha256=digest((self.root / path).read_bytes()))
 
     def test_positive_reconstruction_and_registry(self):
         self.check('manifest', self.manifest)
@@ -330,6 +350,114 @@ class DataIntegrityTests(unittest.TestCase):
         }
         with self.assertRaisesRegex(ValueError,'Dependency cycle: [HJ]'):
             registry_checks(self.root,records)
+
+    def test_handoff_v2_schema_selection_and_bare_id_head_behavior(self):
+        records = {}
+        old = self.handoff('H', 1, ['J'])
+        head = self.handoff('H', 2, [])
+        dependent = self.handoff('J', 1, ['H'], schema_version=2)
+        for record in (old, head, dependent):
+            self.put_handoff(records, record)
+            validate_record('handoff', record, self.root, now=NOW)
+        registry_checks(self.root, records, now=NOW)
+
+        with self.assertRaises(ValidationError):
+            validate_record('handoff', {**dependent, 'schema_version': 1,
+                                        'depends_on': [self.put_handoff({}, old)]},
+                            self.root, now=NOW)
+        with self.assertRaisesRegex(ValueError, 'Unsupported handoff schema version'):
+            validate_record('handoff', {**dependent, 'schema_version': 3},
+                            self.root, now=NOW)
+
+    def test_exact_handoff_dependency_stays_pinned_to_reviewed_revision(self):
+        records = {}
+        h74v1_ref = None
+        for version in range(1, 4):
+            ref = self.put_handoff(
+                records, self.handoff('H-M0-074', version, []))
+            if version == 1:
+                h74v1_ref = ref
+        for version in range(1, 4):
+            self.put_handoff(records, self.handoff('H-M0-075', version, []))
+        corrected_review = self.handoff(
+            'H-M0-075', 4, [h74v1_ref], schema_version=2)
+        self.put_handoff(records, corrected_review)
+
+        # The remediation head depends on the corrected review head.  This is
+        # acyclic only if that review remains pinned to H-M0-074.v1 rather than
+        # being flattened to current H-M0-074.v3.
+        h74v3 = self.handoff('H-M0-074', 3, ['H-M0-075'])
+        self.put_handoff(records, h74v3)
+        validate_record('handoff', corrected_review, self.root, now=NOW)
+        registry_checks(self.root, records, now=NOW)
+        self.assertEqual(h74v1_ref['version'], 1)
+
+    def test_invalid_exact_handoff_reference_bindings_reject(self):
+        records = {}
+        target = self.handoff('TARGET', 1, [])
+        target_ref = self.put_handoff(records, target)
+        source = self.handoff('SOURCE', 1, [target_ref], schema_version=2)
+        self.put_handoff(records, source)
+        validate_record('handoff', source, self.root, now=NOW)
+        registry_checks(self.root, records, now=NOW)
+
+        source_path = 'docs/handoffs/SOURCE.v1.json'
+        source_ref = dict(path=source_path, kind='handoff', id='SOURCE', version=1,
+                          sha256=digest((self.root / source_path).read_bytes()))
+        cases = {
+            'hash': ({**target_ref, 'sha256': '0' * 64}, 'Content digest mismatch'),
+            'id': ({**target_ref, 'id': 'OTHER'}, 'Reference identity mismatch'),
+            'version': ({**target_ref, 'version': 2}, 'Reference identity mismatch'),
+            'path': ({**source_ref, 'id': 'TARGET'}, 'Reference identity mismatch'),
+        }
+        for name, (bad_ref, error) in cases.items():
+            with self.subTest(name=name), self.assertRaisesRegex(ValueError, error):
+                changed = copy.deepcopy(records)
+                changed[source_path] = ('handoff', {**source,
+                                                     'depends_on': [bad_ref]})
+                registry_checks(self.root, changed, now=NOW)
+
+    def test_exact_revision_cycle_rejects_after_reference_validation(self):
+        records = {}
+        refs = {
+            'A': dict(path='docs/handoffs/A.v1.json', kind='handoff', id='A',
+                      version=1, sha256='a' * 64),
+            'B': dict(path='docs/handoffs/B.v1.json', kind='handoff', id='B',
+                      version=1, sha256='b' * 64),
+        }
+        self.put_handoff(records, self.handoff('A', 1, [refs['B']], schema_version=2))
+        self.put_handoff(records, self.handoff('B', 1, [refs['A']], schema_version=2))
+        # Content-bound exact references cannot normally form a digest fixed
+        # point.  Mock only the already-tested binding boundary to exercise the
+        # resolver's independent exact-revision cycle rejection.
+        with patch('src.edgelab.data_integrity.exact'):
+            with self.assertRaisesRegex(ValueError, 'Dependency cycle: [AB]\\.v1'):
+                registry_checks(self.root, records, now=NOW)
+
+    def test_mixed_handoff_reference_cycle_rejects(self):
+        records = {}
+        current = self.handoff('A', 1, ['B'])
+        current_ref = self.put_handoff(records, current)
+        exact_back = self.handoff('B', 1, [current_ref], schema_version=2)
+        self.put_handoff(records, exact_back)
+        with self.assertRaisesRegex(ValueError, 'Dependency cycle: [AB]\\.v1'):
+            registry_checks(self.root, records, now=NOW)
+
+    def test_conflicting_bare_and_exact_revision_representations_reject(self):
+        records = {}
+        target_ref = self.put_handoff(records, self.handoff('TARGET', 1, []))
+        source = self.handoff('SOURCE', 1, ['TARGET', target_ref], schema_version=2)
+        self.put_handoff(records, source)
+        with self.assertRaisesRegex(ValueError,
+                                    'Duplicate/conflicting handoff dependency: TARGET.v1'):
+            registry_checks(self.root, records, now=NOW)
+
+    def test_handoff_evidence_paths_do_not_create_dependency_edges(self):
+        records = {}
+        a_ref = self.put_handoff(records, self.handoff('A', 1, []))
+        b = self.handoff('B', 1, ['A'], evidence_refs=[a_ref['path']])
+        self.put_handoff(records, b)
+        registry_checks(self.root, records, now=NOW)
 
     def test_manifest_orphan_and_blob_type(self):
         self.check('manifest',self.manifest)

@@ -302,11 +302,11 @@ def verify_checkpoint(root: Path, checkpoint: dict, trusted_digest: str, predece
 
 def registry_checks(root: Path, records: dict[str, tuple[str, dict]], *,
                     now: datetime | None = None) -> dict[str, set[str]]:
-    """Exact version graph; legacy handoff ID edges remain readable, not release proof."""
+    """Validate registries and resolve handoff dependencies to revision nodes."""
     graph = {p: set() for p in records}
     versions: dict[tuple[str, str], list[int]] = {}
-    handoff_heads: dict[str, tuple[int, set[str]]] = {}
-    historical_handoff_dependencies: set[str] = set()
+    handoffs: dict[str, tuple[str, dict]] = {}
+    handoff_heads: dict[str, str] = {}
     for path, (kind, record) in records.items():
         if 'id' not in record or kind in {'risk-policy', 'bankroll'}:
             continue
@@ -316,11 +316,13 @@ def registry_checks(root: Path, records: dict[str, tuple[str, dict]], *,
             raise ValueError('Identity/filename mismatch: ' + path)
         versions.setdefault((kind, record['id']), []).append(record['version'])
         if kind == 'handoff':
-            dependencies = set(record['depends_on'])
-            historical_handoff_dependencies.update(dependencies)
+            node = f"{record['id']}.v{record['version']}"
+            if node in handoffs:
+                raise ValueError('Ambiguous handoff revision: ' + node)
+            handoffs[node] = (path, record)
             head = handoff_heads.get(record['id'])
-            if head is None or record['version'] > head[0]:
-                handoff_heads[record['id']] = (record['version'], dependencies)
+            if head is None or record['version'] > handoffs[head][1]['version']:
+                handoff_heads[record['id']] = node
         if kind == 'experiment':
             for ref in record['dataset_manifests']:
                 if ref not in records or records[ref][0] != 'manifest':
@@ -349,18 +351,49 @@ def registry_checks(root: Path, records: dict[str, tuple[str, dict]], *,
             elif isinstance(value, list):
                 for child in value:
                     edges(child)
-        edges(record)
+        # Handoff depends_on has dedicated revision-node semantics below.  In
+        # particular, evidence_refs are ordinary path evidence and never exact
+        # dependency declarations.
+        edges({k: v for k, v in record.items() if kind != 'handoff' or k != 'depends_on'})
     for key, values in versions.items():
         if sorted(values) != list(range(1, max(values) + 1)):
             raise ValueError('Version gap: ' + str(key))
-    missing_handoffs = historical_handoff_dependencies - handoff_heads.keys()
-    if missing_handoffs:
-        raise ValueError('Orphan dependency: ' + sorted(missing_handoffs)[0])
-    # A handoff's later version supersedes its earlier assignment state.  Keep
-    # every historical record schema/reference-valid above, but evaluate the
-    # legacy ID graph from authoritative version heads so removed prerequisites
-    # do not remain active forever.  This remains structural validation only;
-    # exact completion version/SHA release is enforced by the Git protocol.
-    acyclic({handoff_id: dependencies for handoff_id, (_, dependencies) in handoff_heads.items()})
+    resolved: dict[str, set[str]] = {}
+    for node, (_, record) in handoffs.items():
+        dependencies: set[str] = set()
+        for dependency in record['depends_on']:
+            if isinstance(dependency, str):
+                target = handoff_heads.get(dependency)
+                if target is None:
+                    raise ValueError('Orphan dependency: ' + dependency)
+            elif isinstance(dependency, dict):
+                if set(dependency) != {'path', 'kind', 'id', 'version', 'sha256'}:
+                    raise ValueError('Malformed exact handoff dependency')
+                exact(root, dependency, {'handoff'}, now=now)
+                target = f"{dependency['id']}.v{dependency['version']}"
+                target_entry = handoffs.get(target)
+                if target_entry is None or target_entry[0] != dependency['path']:
+                    raise ValueError('Missing or ambiguous exact handoff revision: ' + target)
+            else:
+                raise ValueError('Malformed handoff dependency')
+            if target in dependencies:
+                raise ValueError('Duplicate/conflicting handoff dependency: ' + target)
+            dependencies.add(target)
+        resolved[node] = dependencies
+
+    # H-M0-081 established every authoritative head as a root.  Exact
+    # dependencies can enter history; recursively retain those revision nodes
+    # and their own dependencies rather than collapsing them back to bare IDs.
+    reached: set[str] = set()
+    pending = list(handoff_heads.values())
+    while pending:
+        node = pending.pop()
+        if node in reached:
+            continue
+        if node not in resolved:
+            raise ValueError('Orphan dependency: ' + node)
+        reached.add(node)
+        pending.extend(resolved[node])
+    acyclic({node: resolved[node] for node in reached})
     acyclic(graph)
     return graph
