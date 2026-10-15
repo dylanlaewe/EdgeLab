@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-067",
+  "version": 1,
+  "occurred_at": "2026-10-15T19:56:26Z",
+  "actor": "/root",
+  "role": "00 Director",
+  "event_type": "FORMAL_HISTORICAL_VERIFIER_REVIEW_REQUESTED",
+  "subject_ref": "docs/handoffs/H-M0-086.v1.json",
+  "previous_state": "ENGINEERING_ACCEPTED_FORMAL_SKEPTIC_PENDING",
+  "new_state": "FORMAL_SKEPTIC_REVIEW_QUEUED_WITH_RESIDUAL_PROBES",
+  "reason": "The H-M0-080 historical verifier is engineering-complete and preserved, but the authoring Director lacks independent Skeptic authority. A single evidence-bound request records candidate HIGH dispositions, exact reproduced tests, residual Git/runtime/wrapper probes, and the claim/review/publication step required from a separately accountable 05 Skeptic.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-079.v3.json",
+    "docs/handoffs/H-M0-080.v5.json",
+    "docs/handoffs/H-M0-085.v1.json",
+    "docs/handoffs/H-M0-085.v2.json",
+    "docs/handoffs/H-M0-086.v1.json",
+    "reports/H-M0-085-focused-historical-verifier-review-request.v1.md",
+    "reports/reviews/M0.2-M0.3-final-evidence-plan-rereview.v1.md",
+    "reports/reviews/H-M0-080-native-engineering-review.v1.md",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "code_ref": "9c16242f9803690a76e13a676d0b60dd0def4f68",
+  "config_ref": "agents/05-skeptic.md; docs/OPERATIONS.md; docs/GIT_COORDINATION.md",
+  "correlation_id": "H-M0-085",
+  "supersedes": null
+}

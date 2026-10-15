@@ -1,0 +1,74 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-086",
+  "version": 1,
+  "created_at": "2026-10-15T19:57:33Z",
+  "sender": "00 Director",
+  "recipient": "05 Skeptic",
+  "status": "QUEUED",
+  "request": "Perform one focused independent formal re-review of H-M0-080's historical-verifier implementation only. Reconstruct the historical portions of H-M0-079.v3's HIGH attacks from their original commit, inspect the actual implementation/repair and current exact evidence, reproduce the bounded suites and residual probes, and publish separate evidence-based dispositions for historical HIGH 1, HIGH 2, historical HIGH 4, and HIGH 5. Keep authoritative currentness and the composed R-gate OPEN and out of scope.",
+  "work_done": "Director prepared and validated the review package but did not issue a formal verdict because the Director authored H-M0-080 and lacks independent Skeptic authority. The package freezes implementation commits 6385603ab5b8034bf33c2c6a7efc0ed256f6feb9 and 9c16242f9803690a76e13a676d0b60dd0def4f68, current handoff H-M0-080.v5, the original H-M0-079 rejection at commit 819e925d8aa1e8a2fb734e0bea1a26a6ef271cf4, current engineering review, exact reproduced test results, and three narrow residual probes. No formal reviewer has claimed this assignment yet.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-079.v3.json",
+    "docs/handoffs/H-M0-080.v5.json",
+    "docs/handoffs/H-M0-085.v2.json",
+    "reports/H-M0-085-focused-historical-verifier-review-request.v1.md",
+    "reports/reviews/M0.2-M0.3-final-evidence-plan-rereview.v1.md",
+    "reports/reviews/H-M0-080-native-engineering-review.v1.md",
+    "docs/M0.2_HISTORICAL_CAPTURE_ROOT.v1.json",
+    "schemas/m0-2-historical-capture-root.v1.schema.json",
+    "schemas/m0-2-persisted-authentic-capture.v1.schema.json",
+    "schemas/m0-2-historical-verification-result.v1.schema.json",
+    "tests/test_composed_authentic_history.py",
+    "tests/test_trusted_authentic_capture.py",
+    "tests/test_reconstructed_module_origins.py",
+    "tests/test_reconstructed_package_origins.py",
+    "tests/test_skeptic_trusted_evidence_plan_v14.py",
+    "tests/test_skeptic_final_evidence_plan_v15.py",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": [],
+  "tests_run": [
+    "Director preparation: exact H-M0-080 six-module suite 47/47 passed in 32.216 seconds; tests.test_data_integrity 29/29 passed in 9.261 seconds.",
+    "Supporting non-formal audit: exact H-M0-080 suite 47/47 passed in 28.646 seconds.",
+    "Director production validator before completion artifacts: exit 0 after validating 326 records; compileall and git diff --check passed.",
+    "Formal Skeptic must independently rerun and record its own commands/results; preparation results are not substitutes for review."
+  ],
+  "open_questions": [
+    "Whether omitted legacy capture.json Git/result observations contradict the claimed closed historical graph or are explicitly superseded evidence.",
+    "Whether the outer historical-wrapper schema must reject arbitrary nested evidence and contradictory status/replay/reason combinations.",
+    "Whether observed-but-unpinned Python ABI fields and generic host-Git checking satisfy the prior trusted runtime/Git boundary requirement."
+  ],
+  "blockers": [
+    "No formal acceptance exists until a separately accountable 05 Skeptic claims, executes, publishes, commits, and pushes this review.",
+    "Authoritative currentness remains OPEN: caller-selected fixture authority, repository race, cross-generation consistency, attachment/SQLite authority and locking are unresolved.",
+    "The composed R-gate remains OPEN; no historical-verifier verdict may be represented as operational authorization.",
+    "Data remains BLOCKED; STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked; M1 remains unreleased; executor remains MOCK_ONLY; live remains LOCKED; kill remains ENGAGED; capital remains unchanged."
+  ],
+  "next_action": "A separately accountable 05 Skeptic appends and pushes a CLAIMED successor with concrete actor identity, exact base SHA, conflict disclosure and read-only scope; reconstructs original H-M0-079 probes; reproduces the residual cases; and publishes the formal disposition or bounded correction request exactly once.",
+  "completion_criteria": [
+    "The reviewer is a distinct accountable actor, discloses conflicts, did not author H-M0-080, and does not rely on a role label or ordinary subagent identity as authentication.",
+    "Original H-M0-079 historical attack shapes are reconstructed from commit 819e925 or independently reimplemented, rather than accepted solely from owner-modified test expectations.",
+    "Four exact replay families, coordinated result/module/schema/package/rehash/closure attacks, persisted reconstruction, runtime/Git/environment boundaries, wrapper semantics and embedded-v3 denial are independently examined.",
+    "Every prior historical HIGH receives CLOSED, PARTIALLY_REMEDIATED or OPEN with exact evidence; currentness and composed R-gate findings remain explicitly OPEN.",
+    "Any confirmed defect includes the smallest reproducer and bounded remediation requirement instead of a broad redesign or softened approval.",
+    "The formal Skeptic report, audit record, preservation evidence and completion handoff are committed and pushed with remote ancestry and clean-tree verification, without changing operational or capital authority."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-085.v2.json",
+      "kind": "handoff",
+      "id": "H-M0-085",
+      "version": 2,
+      "sha256": "6c7d83fc7577d3aaea99b2a7088660b08fbab1850e493f1eea41ac46cc02abfc"
+    },
+    {
+      "path": "docs/handoffs/H-M0-080.v5.json",
+      "kind": "handoff",
+      "id": "H-M0-080",
+      "version": 5,
+      "sha256": "78485aa127c8c6a611bcb22330312baf04df03ba70f4982b1a5d8488762ea96c"
+    }
+  ]
+}
