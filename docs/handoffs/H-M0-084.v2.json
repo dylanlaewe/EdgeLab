@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-084",
+  "version": 2,
+  "created_at": "2026-10-15T19:30:51Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Resolve only the production validator's H-M0-080.v4 dependency self-cycle through an audited versioned successor under existing exact-revision semantics, with focused regressions, preserved historical-verifier tests, independent read-only engineering review, commit, and push.",
+  "work_done": "Published metadata-only H-M0-080.v5 at implementation commit 70c9da7ced264ee1ab2c62c0c8c348a3ddca7d66. Preserved H-M0-080.v1-v4 remain byte-identical. Historical evidence established that v3/v4's bare same-ID references were continuation shorthand, not actual prerequisites; approved bare-ID semantics made the current v4 resolve to itself. The successor removes only that invalid representation and exactly pins the actual external prerequisite H-M0-079.v3. No resolver or validator exception was introduced, and focused coverage proves a genuine current self-cycle still rejects. The separate read-only reviewer accepted the bounded correction without findings after independently reproducing the failure, verifying hashes and history, and rerunning decisive tests.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-084.v1.json",
+    "docs/handoffs/H-M0-079.v3.json",
+    "docs/handoffs/H-M0-080.v1.json",
+    "docs/handoffs/H-M0-080.v2.json",
+    "docs/handoffs/H-M0-080.v3.json",
+    "docs/handoffs/H-M0-080.v4.json",
+    "docs/handoffs/H-M0-080.v5.json",
+    "tests/test_data_integrity.py",
+    "reports/H-M0-084-handoff-self-cycle-correction.v1.md",
+    "reports/reviews/H-M0-084-native-engineering-review.v1.md",
+    "reports/audit/A-M0-066.v1.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-084.v1.json",
+    "docs/handoffs/H-M0-080.v5.json",
+    "tests/test_data_integrity.py",
+    "reports/H-M0-084-handoff-self-cycle-correction.v1.md",
+    "reports/reviews/H-M0-084-native-engineering-review.v1.md",
+    "reports/audit/A-M0-066.v1.json",
+    "docs/handoffs/H-M0-084.v2.json"
+  ],
+  "tests_run": [
+    "Pre-correction production validation at the actual 2026-10-15 clock exited 1 with ValueError: Dependency cycle: H-M0-080.v4.",
+    "Writer focused dependency-resolution regressions, including genuine current self-, exact-revision and mixed cycles: 4 tests passed in 0.138 seconds.",
+    "Writer accepted H-M0-081 tests.test_data_integrity suite: 29 tests passed in 7.508 seconds.",
+    "Writer exact H-M0-080 six-module historical-verifier suite: 47 tests passed in 33.591 seconds.",
+    "Writer production validator at the actual clock: exit 0, validating 323 records and published history; compileall and git diff --check passed.",
+    "Final completion-tree writer run: focused dependency/cycle regressions 4/4 passed in 0.129 seconds; tests.test_data_integrity 29/29 passed in 9.103 seconds; exact H-M0-080 suite 47/47 passed in 33.911 seconds; actual-clock production validation exited 0 after validating 325 records and published history; compileall and git diff --check passed.",
+    "Independent reviewer: focused dependency/cycle tests 10/10 passed in 0.324 seconds; tests.test_data_integrity 29/29 passed in 8.659 seconds; H-M0-080 suite 47/47 passed in 30.928 seconds; actual-clock production validation, compileall and diff checks passed."
+  ],
+  "open_questions": [
+    "Formal project/Skeptic acceptance of the H-M0-080 historical verifier remains separate."
+  ],
+  "blockers": [
+    "Data remains BLOCKED; STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked; M1 remains unreleased; executor remains MOCK_ONLY; live remains LOCKED; kill remains ENGAGED; USD 50.00 remains conceptual with USD 0.00 deployable.",
+    "Authoritative currentness, composed R-gate/receipt integration and new operational capabilities remain unresolved and outside this assignment."
+  ],
+  "next_action": "Preserve this correction for separate formal review; pursue currentness or R-gate work only under new explicit authority, without releasing Data or changing either STOP in this assignment.",
+  "completion_criteria": [
+    "H-M0-080.v1-v4 remain byte-identical while v5 preserves the completed verifier result and exactly binds its actual external prerequisite H-M0-079.v3.",
+    "Focused tests distinguish superseded same-ID shorthand from a genuine current self-cycle without weakening dependency resolution.",
+    "H-M0-081 data-integrity regressions, the H-M0-080 47-test suite, production validation, compilation and diff checks pass.",
+    "A separate native read-only reviewer inspects the actual correction, reproduces decisive tests and accepts it without an unresolved implementation defect.",
+    "Implementation and completion evidence are committed and pushed without changing Data, STOP, phase, scheduler, execution, portfolio or capital authority."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-083.v2.json",
+      "kind": "handoff",
+      "id": "H-M0-083",
+      "version": 2,
+      "sha256": "28a10cbee5f778db9f35d610f3b794f9d623b3e2589245da7a330289aa31757e"
+    }
+  ]
+}

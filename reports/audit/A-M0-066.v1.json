@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-066",
+  "version": 1,
+  "occurred_at": "2026-10-15T19:30:51Z",
+  "actor": "/root",
+  "role": "00 Director",
+  "event_type": "H_M0_080_DEPENDENCY_SELF_CYCLE_CORRECTED",
+  "subject_ref": "docs/handoffs/H-M0-080.v5.json",
+  "previous_state": "CURRENT_HEAD_SELF_DEPENDENCY_BLOCKED_VALIDATION",
+  "new_state": "EXACT_EXTERNAL_PREREQUISITE_VALIDATION_GREEN",
+  "reason": "H-M0-080.v3 and v4 encoded same-assignment historical continuation as a bare current-head dependency, causing v4 to resolve to itself. The additive v5 successor preserves the completed historical result and binds the actual external review prerequisite exactly to H-M0-079.v3 under existing approved semantics.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-084.v1.json",
+    "docs/handoffs/H-M0-079.v3.json",
+    "docs/handoffs/H-M0-080.v5.json",
+    "tests/test_data_integrity.py",
+    "reports/H-M0-084-handoff-self-cycle-correction.v1.md",
+    "reports/reviews/H-M0-084-native-engineering-review.v1.md",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "code_ref": "70c9da7ced264ee1ab2c62c0c8c348a3ddca7d66",
+  "config_ref": "docs/SPECIFICATIONS.md; schemas/handoff.v2.schema.json",
+  "correlation_id": "H-M0-084",
+  "supersedes": null
+}
