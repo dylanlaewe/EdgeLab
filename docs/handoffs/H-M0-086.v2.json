@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-086",
+  "version": 2,
+  "created_at": "2026-10-15T21:38:14Z",
+  "sender": "/root (formal Skeptic authority not established)",
+  "recipient": "00 Director",
+  "status": "BLOCKED",
+  "request": "Perform the focused independent formal re-review of H-M0-080's historical verifier requested by H-M0-086.v1, but only after establishing the repository-required distinct accountable 05 Skeptic authority.",
+  "work_done": "Synchronized the clean EdgeLab main checkout to origin/main at exact required commit d3189a7e37e9d867d63c9523763b1e0bd3ab57dd; read the constitution, role and coordination rules, both OPEN STOP records, H-M0-086, H-M0-085, H-M0-080 and H-M0-079 authority/evidence records; and performed the mandatory pre-review authority assessment. No formal claim or verdict was issued because the active /root actor is repository-identified as the authoring H-M0-080 Director, while the project requires a separately accountable authorized Skeptic and explicitly rejects role labels, prompts, ordinary subagent identity and Git attribution as sufficient authentication. Published the exact authority blocker without beginning the substantive review or changing production evidence.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-086.v1.json",
+    "docs/handoffs/H-M0-085.v2.json",
+    "docs/handoffs/H-M0-080.v2.json",
+    "docs/handoffs/H-M0-080.v5.json",
+    "docs/handoffs/H-M0-079.v3.json",
+    "reports/H-M0-085-focused-historical-verifier-review-request.v1.md",
+    "reports/H-M0-086-formal-authority-blocker.v1.md",
+    "reports/audit/A-M0-068.v1.json",
+    "docs/OPERATIONS.md",
+    "docs/GIT_COORDINATION.md",
+    "PROJECT_CONSTITUTION.md",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": [
+    "reports/H-M0-086-formal-authority-blocker.v1.md",
+    "reports/audit/A-M0-068.v1.json",
+    "docs/handoffs/H-M0-086.v2.json"
+  ],
+  "tests_run": [
+    "Preflight: pwd, remote, branch/status, fetch, ff-only synchronization, exact HEAD comparison and required-commit ancestry all passed; main and origin/main were clean and equal at d3189a7e37e9d867d63c9523763b1e0bd3ab57dd.",
+    "Authority assessment only: substantive historical attacks, residual probes and authentic replay suites were intentionally not run under a fabricated formal identity.",
+    "Draft 2020-12 validation with format checking: docs/handoffs/H-M0-086.v2.json passed schemas/handoff.v2.schema.json; reports/audit/A-M0-068.v1.json passed schemas/audit.schema.json.",
+    "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m src.edgelab.validate: passed; validated 331 records and published history, M0 capital remained LOCKED, and no scientific or operational approval was granted.",
+    "git diff --check: passed."
+  ],
+  "open_questions": [
+    "Which separately accountable actor and trusted authorization evidence will satisfy the existing formal 05 Skeptic requirement for H-M0-086?"
+  ],
+  "blockers": [
+    "Formal review authority is unavailable: the active /root actor is the repository-identified H-M0-080 authoring Director and cannot independently review its own work.",
+    "Reviewer authentication/enforcement remains pending M0; no trusted distinct actor identity, authorization attestation, or conflict evidence was supplied.",
+    "Historical HIGH 1, HIGH 2, historical HIGH 4 and HIGH 5 therefore remain without a formal disposition; authoritative currentness and the composed R-gate remain OPEN.",
+    "Data remains BLOCKED; STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked; M1 remains unreleased; executor remains MOCK_ONLY; live remains LOCKED; kill remains ENGAGED; capital remains unchanged."
+  ],
+  "next_action": "Director must schedule a genuinely distinct accountable actor with trusted 05 Skeptic authorization and no H-M0-080 authorship/conflict. That actor must append and push a CLAIMED successor before executing the focused H-M0-086 review. Do not treat this BLOCKED record as a review verdict.",
+  "completion_criteria": [
+    "A distinct accountable reviewer establishes 05 Skeptic authority through an accepted trusted boundary, discloses conflicts and establishes no H-M0-080 authorship.",
+    "That reviewer appends and pushes a valid CLAIMED H-M0-086 successor before substantive review.",
+    "The focused attack, residual, preservation and validation work from H-M0-086.v1 is executed and published without changing production controls or safety state."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-085.v2.json",
+      "kind": "handoff",
+      "id": "H-M0-085",
+      "version": 2,
+      "sha256": "6c7d83fc7577d3aaea99b2a7088660b08fbab1850e493f1eea41ac46cc02abfc"
+    },
+    {
+      "path": "docs/handoffs/H-M0-080.v5.json",
+      "kind": "handoff",
+      "id": "H-M0-080",
+      "version": 5,
+      "sha256": "78485aa127c8c6a611bcb22330312baf04df03ba70f4982b1a5d8488762ea96c"
+    }
+  ]
+}

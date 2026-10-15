@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-068",
+  "version": 1,
+  "occurred_at": "2026-10-15T21:38:14Z",
+  "actor": "/root",
+  "role": "authority-unverified review assignee",
+  "event_type": "FORMAL_HISTORICAL_VERIFIER_REVIEW_BLOCKED_ON_AUTHORITY",
+  "subject_ref": "docs/handoffs/H-M0-086.v2.json",
+  "previous_state": "FORMAL_SKEPTIC_REVIEW_QUEUED_WITH_RESIDUAL_PROBES",
+  "new_state": "FORMAL_SKEPTIC_REVIEW_BLOCKED_ON_DISTINCT_ACTOR_AUTHORITY",
+  "reason": "The active /root actor is identified by repository evidence as the H-M0-080 authoring Director. EdgeLab requires a separately accountable authorized Skeptic, forbids author self-review, rejects role labels and Git attribution as identity proof, and states authentication enforcement is pending. No independent trusted identity or authorization evidence was supplied, so no claim, substantive review, or verdict was fabricated.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-086.v1.json",
+    "docs/handoffs/H-M0-085.v2.json",
+    "docs/handoffs/H-M0-080.v2.json",
+    "reports/H-M0-085-focused-historical-verifier-review-request.v1.md",
+    "reports/H-M0-086-formal-authority-blocker.v1.md",
+    "docs/OPERATIONS.md",
+    "docs/GIT_COORDINATION.md",
+    "PROJECT_CONSTITUTION.md",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "code_ref": "d3189a7e37e9d867d63c9523763b1e0bd3ab57dd",
+  "config_ref": "agents/05-skeptic.md; docs/OPERATIONS.md; docs/GIT_COORDINATION.md",
+  "correlation_id": "H-M0-086",
+  "supersedes": null
+}
