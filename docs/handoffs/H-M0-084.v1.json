@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-084",
+  "version": 1,
+  "created_at": "2026-10-15T19:25:13Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "CLAIMED",
+  "request": "Resolve only the production validator's H-M0-080.v4 dependency self-cycle through an audited versioned successor under existing exact-revision semantics, with focused regressions, preserved historical-verifier tests, independent read-only engineering review, commit, and push.",
+  "work_done": "Native lead /root claims the sole production-code writer slot on clean synchronized main at base 1845af2e6bd0591ef9f320d2c5b6789454166481 under the user's explicit bounded Director assignment. Production validation at the actual 2026-10-15 clock reproduced Dependency cycle: H-M0-080.v4. Preserved H-M0-080.v3 and v4 use bare same-ID dependencies as version-continuation shorthand; under the approved rule that bare IDs resolve to the authoritative current head, v4 resolves to itself. H-M0-080.v1-v3 and H-M0-079.v3 establish the actual external prerequisite: the completed H-M0-079.v3 review that required the historical-verifier remediation. Scope is limited to an additive metadata-only H-M0-080.v5 successor pinning that exact external prerequisite, a focused regression proving superseded same-ID shorthand is not a current root while genuine current self-cycles still reject, delivery/review/audit evidence, and completion handoff. No historical record will be changed.",
+  "evidence_refs": [
+    "docs/GIT_COORDINATION.md",
+    "docs/OPERATIONS.md",
+    "docs/SPECIFICATIONS.md",
+    "docs/handoffs/H-M0-079.v3.json",
+    "docs/handoffs/H-M0-080.v2.json",
+    "docs/handoffs/H-M0-080.v3.json",
+    "docs/handoffs/H-M0-080.v4.json",
+    "docs/handoffs/H-M0-082.v2.json",
+    "docs/handoffs/H-M0-083.v2.json",
+    "reports/H-M0-081-handoff-cycle-analysis.v1.md",
+    "reports/H-M0-082-handoff-revision-resolution.v1.md",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-084.v1.json",
+    "docs/handoffs/H-M0-080.v5.json",
+    "tests/test_data_integrity.py",
+    "reports/H-M0-084-handoff-self-cycle-correction.v1.md",
+    "reports/reviews/H-M0-084-native-engineering-review.v1.md",
+    "reports/audit/A-M0-066.v1.json",
+    "docs/handoffs/H-M0-084.v2.json"
+  ],
+  "tests_run": [
+    "Pre-change production validation at the actual host clock exited 1 with ValueError: Dependency cycle: H-M0-080.v4."
+  ],
+  "open_questions": [],
+  "blockers": [
+    "Data remains BLOCKED; STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked; M1 remains unreleased; capital remains LOCKED.",
+    "Currentness, the R-gate and operational capabilities remain outside this correction."
+  ],
+  "next_action": "Commit and push this claim, verify remote ancestry, then publish and test only the additive H-M0-080 metadata successor and focused regression.",
+  "completion_criteria": [
+    "H-M0-080.v1-v4 remain byte-identical and historically validated while v5 preserves the completed verifier verdict/evidence and binds its actual external prerequisite exactly to H-M0-079.v3.",
+    "Focused tests prove a superseded historical same-ID shorthand is not a current root and a genuine current self-cycle still rejects without weakening the resolver.",
+    "H-M0-081 dependency regressions and H-M0-080's 47-test historical-verifier suite pass; production validation runs at the actual clock and any new distinct failure is separately reported.",
+    "One separate native read-only reviewer inspects the actual correction and reproduces decisive tests; confirmed defects are repaired and re-reviewed before completion.",
+    "Validated implementation and completion evidence are committed and pushed without changing Data, STOP, phase, scheduler, execution, portfolio or capital authority."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-083.v2.json",
+      "kind": "handoff",
+      "id": "H-M0-083",
+      "version": 2,
+      "sha256": "28a10cbee5f778db9f35d610f3b794f9d623b3e2589245da7a330289aa31757e"
+    }
+  ]
+}
