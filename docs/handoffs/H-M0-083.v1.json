@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-083",
+  "version": 1,
+  "created_at": "2026-10-15T18:25:11Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "CLAIMED",
+  "request": "Deliver the smallest permissible runnable EdgeLab developer alpha from retained MOCK_ONLY and synthetic evidence, with visible role contributions, provenance, uncertainty, review outcomes, current STOP/capital state, focused tests, independent read-only engineering review, commit, and push.",
+  "work_done": "Native lead /root claims the sole production-code writer slot on clean synchronized main at base 7a3480253c0412ebd563868a0623ec7a517aac07 under the user's explicit Director recovery and alpha-delivery authority. The previously drafted exact-revision repair is already complete, independently reviewed, committed, and pushed through H-M0-082.v2. This new scope is additive and non-operational: a standard-library CLI/report assembled from retained repository fixtures and evidence, a closed sample manifest with content hashes, focused tests and documentation. It will not change Data status, project state, STOP status, M0/M1 authority, capabilities, scheduler transitions, portfolio state, live integrations, or capital controls.",
+  "evidence_refs": [
+    "PROJECT_CONSTITUTION.md",
+    "docs/GIT_COORDINATION.md",
+    "docs/OPERATIONS.md",
+    "docs/handoffs/H-M0-082.v2.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json",
+    "tests/fixtures/authentic-stage1/dispatch/authentic-capture.v1.json",
+    "tests/fixtures/data-integrity/data/normalized/OBS.v1.json",
+    "tests/fixtures/research-protocol/research/preregistrations/REG.v1.json",
+    "reports/quant-Q03-remediation/results.v1.json",
+    "reports/skeptic-quant-Q03-rereview/results.v1.json",
+    "reports/skeptic-risk-rereview/results.v3.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-083.v1.json",
+    "src/edgelab/alpha.py",
+    "examples/alpha/sample-workflow.v1.json",
+    "examples/alpha/README.md",
+    "tests/test_alpha.py",
+    "README.md",
+    "reports/H-M0-083-alpha-delivery.v1.md",
+    "reports/reviews/H-M0-083-native-engineering-review.v1.md",
+    "reports/audit/A-M0-065.v1.json",
+    "docs/handoffs/H-M0-083.v2.json"
+  ],
+  "tests_run": [
+    "Claim preflight: fetched origin; clean main and origin/main both resolved to 7a3480253c0412ebd563868a0623ec7a517aac07."
+  ],
+  "open_questions": [],
+  "blockers": [
+    "Production repository validation remains non-green on the separately tracked H-M0-080.v4 exact self-cycle; this alpha must report rather than waive it.",
+    "Data remains BLOCKED; STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked; M1 remains unreleased; capital remains LOCKED."
+  ],
+  "next_action": "Commit and push this claim, re-fetch and verify remote ancestry, then implement only the bounded developer-alpha scope.",
+  "completion_criteria": [
+    "One documented command renders a deterministic human-readable sample workflow and an inspectable JSON form using only retained local MOCK_ONLY/synthetic evidence.",
+    "The report visibly distinguishes Director, Data, Research, Quant, Skeptic and Risk contributions; binds provenance by SHA-256; states uncertainty and review limitations; and reports every current OPEN STOP plus locked capital state.",
+    "The aggregate sample outcome cannot imply scientific, paper, live, source-access or capital authorization, and tampered or missing bound evidence fails closed.",
+    "Focused tests pass, one separate native read-only reviewer challenges the actual diff and reproduces decisive checks, confirmed defects are repaired, and validated checkpoints are committed and pushed.",
+    "H-M0-082 remains completed; H-M0-080/currentness/R-gate work stays separately tracked; no STOP, Data, project, M0/M1, scheduler, portfolio or capital authority changes."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-082.v2.json",
+      "kind": "handoff",
+      "id": "H-M0-082",
+      "version": 2,
+      "sha256": "603f6f0c4a800d02b0d994ba3e104666657f8560f01848eb66c1f5e4a3b21834"
+    }
+  ]
+}
