@@ -1,0 +1,58 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-085",
+  "version": 1,
+  "created_at": "2026-10-15T19:52:28Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "CLAIMED",
+  "request": "Prepare the bounded formal Skeptic re-review package for H-M0-080's completed historical verifier, determine whether this Director session has independent review authority, reproduce preservation evidence, and publish exactly one review request if formal authority is unavailable.",
+  "work_done": "Native lead /root claims the sole writer slot on clean synchronized main at base 586da88a80e1c1ae81db8bca4d9e333ad992c773 under the user's explicit focused-review assignment. Repository rules require a distinct accountable reviewer, prohibit an author from reviewing its own work as independent, state that role labels are insufficient, and leave authentication/enforcement pending M0. This Director authored H-M0-080 and therefore cannot issue its formal Skeptic verdict. An ordinary read-only subagent may support evidence analysis but is not treated as formal authority. Scope is limited to reproducing existing historical-verifier evidence, mapping prior historical HIGH findings to candidate dispositions, publishing a Skeptic-owned review request and exact approval step, and recording completion/audit evidence. No implementation, currentness, R-gate, STOP, project, execution, portfolio, or capital file will change.",
+  "evidence_refs": [
+    "AGENTS.md",
+    "PROJECT_CONSTITUTION.md",
+    "agents/05-skeptic.md",
+    "docs/GIT_COORDINATION.md",
+    "docs/OPERATIONS.md",
+    "docs/handoffs/H-M0-079.v3.json",
+    "docs/handoffs/H-M0-080.v5.json",
+    "docs/handoffs/H-M0-084.v2.json",
+    "reports/reviews/M0.2-M0.3-final-evidence-plan-rereview.v1.md",
+    "reports/reviews/H-M0-080-native-engineering-review.v1.md",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-085.v1.json",
+    "reports/H-M0-085-focused-historical-verifier-review-request.v1.md",
+    "docs/handoffs/H-M0-086.v1.json",
+    "reports/audit/A-M0-067.v1.json",
+    "docs/handoffs/H-M0-085.v2.json"
+  ],
+  "tests_run": [
+    "Claim preparation only; synchronized local main and origin/main both equal 586da88a80e1c1ae81db8bca4d9e333ad992c773 with a clean tree."
+  ],
+  "open_questions": [],
+  "blockers": [
+    "A formal historical-verifier disposition requires a separate accountable 05 Skeptic actor; the current Director cannot self-approve and supporting subagent analysis is non-formal.",
+    "Authoritative currentness and composed R-gate findings remain OPEN and outside this review package.",
+    "Data remains BLOCKED; STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked; M1 remains unreleased; executor remains MOCK_ONLY; live remains LOCKED; kill remains ENGAGED; capital is unchanged."
+  ],
+  "next_action": "Commit and push this sole-writer claim, reproduce the bounded evidence and tests, then publish one complete QUEUED request for a separately accountable 05 Skeptic without fabricating a verdict.",
+  "completion_criteria": [
+    "Prior historical HIGH findings are mapped to exact H-M0-080 evidence and clearly labeled candidate dispositions pending formal Skeptic acceptance.",
+    "The bounded historical-verifier suite, data-integrity preservation suite, production validator, compilation, and diff checks are reproduced on current HEAD.",
+    "One versioned review request states the precise independent claim, reproduction, disposition, conflict-disclosure, and publication steps required for formal approval.",
+    "Currentness/R-gate findings and all operational restrictions remain explicitly open and unchanged.",
+    "Coordination, request, audit, and completion artifacts are committed and pushed with verified remote ancestry and a clean tree."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-084.v2.json",
+      "kind": "handoff",
+      "id": "H-M0-084",
+      "version": 2,
+      "sha256": "e521998844e971171f36c665e8070a093def612f6afdc3b546a377ad1fb05845"
+    }
+  ]
+}
