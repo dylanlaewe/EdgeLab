@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "sample_id": "ALPHA-SYNTHETIC-001",
+  "title": "Retained synthetic hypothesis workflow",
+  "scope": "DEVELOPER_ALPHA_MOCK_ONLY",
+  "scenario": "A synthetic confirmatory hypothesis is traced through retained orchestration, Data, Research, Quant, Skeptic, and Risk evidence. This sample tests workflow visibility, not sports-market profitability.",
+  "artifacts": {
+    "director_capture": {
+      "path": "tests/fixtures/authentic-stage1/dispatch/authentic-capture.v1.json",
+      "sha256": "baa1686bbc3f1f5ae94cf209904bea86539815735c3fc52558f137892d23ed79"
+    },
+    "data_source": {
+      "path": "tests/fixtures/data-integrity/data/sources/SRC.v1.json",
+      "sha256": "843b0794bf06d4ba37a6f5c01d09efdbb40edfc84e0311cc1f917c50c8f0d351"
+    },
+    "data_observation": {
+      "path": "tests/fixtures/data-integrity/data/normalized/OBS.v1.json",
+      "sha256": "270eea5ca171a77566472c0a842ece2cb163c77156e70512216be7450f664cf4"
+    },
+    "research_hypothesis": {
+      "path": "tests/fixtures/research-protocol/research/hypotheses/H.v1.json",
+      "sha256": "14f1028ba41a9cdde3fa499e3b16f358b114c0372be18e2f7bdbde78687f62b7"
+    },
+    "research_preregistration": {
+      "path": "tests/fixtures/research-protocol/research/preregistrations/REG.v1.json",
+      "sha256": "24277b1bbcb24e6fcab312b247042430657a971e291839a931f5fff7aeccf216"
+    },
+    "quant_result": {
+      "path": "reports/quant-Q03-remediation/results.v1.json",
+      "sha256": "6adde47de2b811b38c9e67ba0da3066f051968a9a3efc9b67a30b2ea2a2da188"
+    },
+    "skeptic_result": {
+      "path": "reports/skeptic-quant-Q03-rereview/results.v1.json",
+      "sha256": "76540bbc9a78a0319e0125c3caf71e9c21a68410371d190a8e5428943806d668"
+    },
+    "risk_result": {
+      "path": "reports/skeptic-risk-rereview/results.v3.json",
+      "sha256": "62a795aaa55e87aaf89adb2c5236905aba5079f9efed68360dce3d69a2aaafce"
+    },
+    "bankroll": {
+      "path": "portfolio/bankroll.json",
+      "sha256": "9ed04c4fb32fed1ba50999abdc1a84fa298e58071ac9fac9b1be1d6accf0d77a"
+    },
+    "risk_policy": {
+      "path": "portfolio/risk-policy.json",
+      "sha256": "766643a4d30984cbde5fe4194bb0e73a70cbd20366b95d268134d305b64806db"
+    }
+  },
+  "current_stop_artifacts": [
+    {
+      "path": "reports/stops/STOP-M0-001.v1.json",
+      "sha256": "877eb367fde67eda4cbd33b72eea28e48d4f36f45253dc7fe40e3bfa9aa87571"
+    },
+    {
+      "path": "reports/stops/STOP-M0-3A-001.v1.json",
+      "sha256": "82a478a87869aea66217ae5b3462cbc4773eaf469d8439016809d0213099315f"
+    }
+  ],
+  "expected_controls": {
+    "historical_execution_adapter": "MOCK_ONLY",
+    "historical_operation": "SYNTHETIC_ASSERT",
+    "current_open_stop_ids": [
+      "STOP-M0-001",
+      "STOP-M0-3A-001"
+    ],
+    "live_status": "LOCKED",
+    "kill_switch": "ENGAGED",
+    "live_deployable_minor": 0,
+    "live_enabled": false
+  }
+}

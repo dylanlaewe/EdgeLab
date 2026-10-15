@@ -31,3 +31,17 @@ The validator checks record shape and M0 capital invariants. It does **not** aut
 - `src/`, `tests/`: local validation and regression checks.
 
 No demonstrated edge exists. No strategy has earned paper or live eligibility.
+
+## Developer alpha
+
+A read-only, content-bound walkthrough of the intended workflow is available
+using retained synthetic and `MOCK_ONLY` evidence:
+
+```sh
+.venv/bin/python -m src.edgelab.alpha
+```
+
+It shows the Director, Data, Research, Quant, Skeptic, and Risk contributions,
+including provenance, uncertainty, current OPEN STOPs, and locked capital. The
+sample is a developer demonstration only and ends `NO_DEMONSTRATED_EDGE /
+BLOCKED`; see [examples/alpha/README.md](examples/alpha/README.md).
