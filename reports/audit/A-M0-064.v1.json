@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-064",
+  "version": 1,
+  "occurred_at": "2026-10-15T16:55:23Z",
+  "actor": "/root",
+  "role": "00 Director",
+  "event_type": "HANDOFF_REVISION_DEPENDENCY_SCHEMA_CORRECTED",
+  "subject_ref": "docs/handoffs/H-M0-075.v4.json",
+  "previous_state": "HANDOFF_DEPENDENCIES_BARE_CURRENT_HEAD_ONLY",
+  "new_state": "HANDOFF_DEPENDENCIES_BARE_OR_EXACT_REVISION_RESOLVED",
+  "reason": "Explicit user authority approved an additive schema successor and metadata-only correction so the preserved H-M0-075 Skeptic review binds the exact H-M0-074.v1 revision it consumed while legacy bare IDs retain current-head behavior.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-082.v1.json",
+    "docs/handoffs/H-M0-075.v4.json",
+    "reports/H-M0-082-handoff-revision-resolution.v1.md",
+    "reports/reviews/H-M0-082-native-engineering-review.v1.md",
+    "schemas/handoff.v2.schema.json",
+    "tests/test_data_integrity.py"
+  ],
+  "code_ref": "54b587c4c6aecab00db48bc6e371839937c96fe3",
+  "config_ref": "docs/SPECIFICATIONS.md; schemas/handoff.schema.json; schemas/handoff.v2.schema.json",
+  "correlation_id": "H-M0-082",
+  "supersedes": null
+}

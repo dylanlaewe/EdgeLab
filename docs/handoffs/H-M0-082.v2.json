@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-082",
+  "version": 2,
+  "created_at": "2026-10-15T16:55:23Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Complete the explicitly authorized additive handoff-schema successor, canonical revision-node dependency resolution, and metadata-only H-M0-075.v4 exact prerequisite correction with focused tests, one separate read-only native engineering review, audit evidence, commit, and push.",
+  "work_done": "Completed and pushed the bounded correction at implementation commit 54b587c4c6aecab00db48bc6e371839937c96fe3. Handoff schema v1 and historical records remain unchanged; additive schema v2 accepts bare IDs or exact typed handoff references; validation selects the declared schema per record; dependency resolution retains handoff ID plus record version, preserves every current head as a root, recursively follows exact historical revisions, and rejects missing, mismatched, ambiguous, duplicate/conflicting, current, exact and mixed cycles. H-M0-075.v4 is metadata-only, pins the independently verified H-M0-074.v1 bytes, preserves the original Skeptic verdict/evidence, identifies /root acting as 00 Director under explicit user authority, and claims no new Skeptic approval. The single read-only reviewer accepted the bounded engineering scope with no findings. Data, STOPs, operational permissions, historical-verifier/currentness behavior and capital state were not changed.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-082.v1.json",
+    "docs/handoffs/H-M0-075.v4.json",
+    "reports/H-M0-082-handoff-revision-resolution.v1.md",
+    "reports/reviews/H-M0-082-native-engineering-review.v1.md",
+    "reports/audit/A-M0-064.v1.json",
+    "docs/handoffs/H-M0-080.v4.json",
+    "docs/handoffs/H-M0-081.v2.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": [
+    "schemas/handoff.v2.schema.json",
+    "src/edgelab/validate.py",
+    "src/edgelab/data_integrity.py",
+    "tests/test_data_integrity.py",
+    "docs/SPECIFICATIONS.md",
+    "docs/handoffs/H-M0-075.v4.json",
+    "reports/H-M0-082-handoff-revision-resolution.v1.md",
+    "reports/reviews/H-M0-082-native-engineering-review.v1.md",
+    "reports/audit/A-M0-064.v1.json",
+    "docs/handoffs/H-M0-082.v2.json"
+  ],
+  "tests_run": [
+    "Writer implementation and final-tree runs: PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest tests.test_data_integrity — 28 tests passed in 7.566 and 7.062 seconds.",
+    "Writer implementation and final-tree runs: exact H-M0-080 six-module focused suite — 47 tests passed in 29.595 and 26.701 seconds.",
+    "Reviewer: tests.test_data_integrity — 28 tests passed in 7.149 seconds; exact H-M0-080 six-module suite — 47 tests passed in 28.944 seconds.",
+    "Writer and reviewer independently verified SHA-256 01812864de27568ada00d66b20d0dfb6dd763b607924a0b77ef70eacf7dec782 for docs/handoffs/H-M0-074.v1.json from working-tree bytes and source commit 670b1df2e7b8f59a739dc4c15bf21c6c2868b966.",
+    "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m compileall -q src tests and git diff --check passed.",
+    "Production validation without clock override at actual 2026-10-15T16:51:56Z and final-tree 2026-10-15T16:56:32Z exited 1 only on the unchanged excluded Dependency cycle: H-M0-080.v4; reviewer reproduced the same result at 2026-10-15T16:53:30Z."
+  ],
+  "open_questions": [
+    "Formal project/Skeptic approval remains a separate governance action."
+  ],
+  "blockers": [
+    "Production repository validation is not green because the explicitly excluded H-M0-080.v4 current-head self-cycle remains unchanged.",
+    "Data remains BLOCKED; STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked; M1 remains unreleased; capital remains LOCKED."
+  ],
+  "next_action": "Treat H-M0-082 as bounded engineering completion only. Address H-M0-080.v4 or seek formal project approval only under separate explicit authority.",
+  "completion_criteria": [
+    "Schema v1 and all historical records remain unchanged and fully validated while schema v2 supports legacy bare IDs and exact typed handoff references.",
+    "Resolved dependency graphs retain revision identity, current-head roots, recursive exact-history traversal and fail-closed target and cycle validation.",
+    "H-M0-075.v4 preserves the original review verdict/evidence and binds H-M0-074.v1 exactly without claiming new Skeptic approval.",
+    "Focused dependency and H-M0-080 suites pass, the excluded production-validator blocker is separately reported, and the single independent reviewer accepts the bounded engineering scope.",
+    "Implementation and completion evidence are committed and pushed without releasing Data, clearing STOPs or changing operational/capital authority."
+  ],
+  "depends_on": [
+    "H-M0-081"
+  ]
+}
