@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-069",
+  "version": 1,
+  "occurred_at": "2026-10-16T21:31:00Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_3A_REPOSITORY_IMPORT_REPLAY_DEFECT_REPAIRED",
+  "subject_ref": "reports/H-M0-087-repository-import-replay-repair.v1.md",
+  "previous_state": "REPOSITORY_IMPORT_MUTATED_TASK_WITHOUT_MATCHING_TASK_EVENT",
+  "new_state": "REPOSITORY_IMPORT_TASK_MUTATIONS_ARE_EVENT_BOUND_AND_REPLAYABLE",
+  "reason": "A reproduced repository-generation import caused the next scheduler startup to deny with a replay/materialized tuple mismatch. Commit e113de8 records each affected task mutation as an atomic task event and denies duplicate affected-task identities. This is engineering repair only and grants no release, scientific, operational or capital authority.",
+  "evidence_refs": [
+    "src/edgelab/transactional_scheduler.py",
+    "tests/test_transactional_scheduler.py",
+    "reports/H-M0-087-repository-import-replay-repair.v1.md",
+    "docs/handoffs/H-M0-041.v23.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "code_ref": "e113de8e424c580b62ceb988c9d3e9df75cf52a6",
+  "config_ref": "docs/M0.3_RUNTIME_FOUNDATION.md; docs/M0.3A_TRANSACTIONAL_CONTRACT.v15.md",
+  "correlation_id": "H-M0-087",
+  "supersedes": null
+}

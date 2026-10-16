@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-087",
+  "version": 1,
+  "created_at": "2026-10-16T21:31:00Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Reproduce and repair the M0.3A repository-import replay defect without extending scheduler authority or changing any STOP, execution or capital state.",
+  "work_done": "Reproduced the post-import startup failure, traced it to task mutations without matching task events, and repaired import_repository so every affected task mutation emits an atomic REPOSITORY_GENERATION_APPLIED event before the global generation event. Added restart coverage for claimable and governance-blocked tasks and rejected duplicate affected-task identities. Published the engineering report and audit record. No scheduler call was connected to the web viewer, no executor or external service was introduced, and no approval or safety state changed.",
+  "evidence_refs": [
+    "reports/H-M0-087-repository-import-replay-repair.v1.md",
+    "reports/audit/A-M0-069.v1.json",
+    "src/edgelab/transactional_scheduler.py",
+    "tests/test_transactional_scheduler.py",
+    "docs/M0.3_RUNTIME_FOUNDATION.md",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": [
+    "src/edgelab/transactional_scheduler.py",
+    "tests/test_transactional_scheduler.py",
+    "reports/H-M0-087-repository-import-replay-repair.v1.md",
+    "reports/audit/A-M0-069.v1.json",
+    "docs/handoffs/H-M0-087.v1.json"
+  ],
+  "tests_run": [
+    "Focused scheduler suite: 13 tests passed in 3.425 seconds.",
+    "Combined transactional scheduler, alpha and web suite: 27 tests passed in 6.240 seconds.",
+    "Production validator: 331 records and published history validated; M0 capital remained LOCKED and no scientific or operational approval was granted.",
+    "git diff --check passed before the engineering commit.",
+    "Two overlapping full discovery runs were stopped after concurrency produced unreliable legacy-fixture errors; they are not claimed as passing validation."
+  ],
+  "open_questions": [
+    "How should the 630-test corpus be tiered and isolated so a routine full validation is both reproducible and practical?",
+    "Which additional auxiliary scheduler tables must be reconstructed or integrity-bound before M0.3A can make a complete replay guarantee?"
+  ],
+  "blockers": [
+    "H-M0-086 remains blocked on a genuinely distinct trusted 05 Skeptic authority; this Director-authored repair is not independently approved.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; authoritative receipt/currentness/R-gate integration remains unresolved.",
+    "M0 remains blocked; M1 remains unreleased; executor remains MOCK_ONLY; live remains LOCKED; kill remains ENGAGED; deployable capital remains USD 0."
+  ],
+  "next_action": "Director may reconcile stale mutable status documents and create a deterministic tiered test command while preserving all open STOPs. Any M0.3A release or formal acceptance still requires independent authorized Skeptic review and the existing Director gate.",
+  "completion_criteria": [
+    "A repository import cannot leave an affected task's materialized tuple ahead of its task-event history.",
+    "Both claimable and governance-blocked import paths survive startup replay.",
+    "Duplicate affected-task identities fail closed without mutation.",
+    "Focused tests, repository validation and the exact non-authorizing safety boundary are recorded durably.",
+    "No STOP, project release, executor, live, kill-switch or capital state is changed."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-041.v23.json",
+      "kind": "handoff",
+      "id": "H-M0-041",
+      "version": 23,
+      "sha256": "bc61fd490495c60afe5bc9f8fb4f46964d33cc883d1170550dab36b870019468"
+    }
+  ]
+}
