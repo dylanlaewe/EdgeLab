@@ -32,6 +32,12 @@ VALID = {("ACTIVE","CLAIMABLE","NOT_REQUIRED"), ("ACTIVE","CLAIMED","NOT_REQUIRE
 def canonical(value: Any) -> bytes:
     return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True, allow_nan=False).encode()
 def digest(value: Any) -> str: return hashlib.sha256(canonical(value) if not isinstance(value, bytes) else value).hexdigest()
+def is_sha256(value: Any) -> bool: return isinstance(value,str) and len(value)==64 and all(character in "0123456789abcdef" for character in value)
+def strict_equal(left: Any, right: Any) -> bool:
+    if type(left) is not type(right): return False
+    if isinstance(left,dict): return left.keys()==right.keys() and all(strict_equal(left[key],right[key]) for key in left)
+    if isinstance(left,list): return len(left)==len(right) and all(strict_equal(a,b) for a,b in zip(left,right))
+    return left==right
 def utc() -> str: return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
 def _mode(path: Path, wanted: int, *, repair: bool = True) -> None:
     try:
@@ -134,6 +140,7 @@ class Scheduler:
         return self.transition("INITIALIZE", task_id, {"receipt_digest":receipt_digest,"owner":owner}, operation_key="init-"+task_id)
 
     def transition(self, op: str, task_id: str, request: dict[str, Any], *, operation_key: str, inject: str|None=None) -> dict[str, Any]:
+        if not isinstance(task_id,str) or not task_id: raise RuntimeUnavailable("invalid task identity")
         body={"operation":op,"task_id":task_id,"request":request}; rd=digest(body)
         with self.locked(op):
             b=self.bundle(); c=self.connect()
@@ -146,12 +153,14 @@ class Scheduler:
                 if inject=="before_event": raise RuntimeError("injected before event")
                 if op=="INITIALIZE":
                     if c.execute("SELECT 1 FROM tasks WHERE task_id=?",(task_id,)).fetchone(): raise RuntimeUnavailable("task exists")
+                    if set(request)!={"receipt_digest","owner"} or not isinstance(request.get("receipt_digest"),str) or not request["receipt_digest"] or not isinstance(request.get("owner"),str) or not request["owner"]: raise RuntimeUnavailable("invalid task origin binding")
                     c.execute("INSERT INTO tasks VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(task_id,1,"ACTIVE","CLAIMABLE","NOT_REQUIRED",0,0,0,None,None,0,self._meta(c,"repository_generation"),request["receipt_digest"],request["owner"],None,None,None)); c.execute("INSERT INTO attempts VALUES (?,?,?)",(task_id,1,None)); event="TASK_INITIALIZED"; before=None
                 else:
                     row=c.execute("SELECT * FROM tasks WHERE task_id=?",(task_id,)).fetchone()
                     if not row: raise RuntimeUnavailable("unknown task")
-                    if request.get("expected") != self.tuple(row): raise RuntimeUnavailable("stale tuple")
-                    if request.get("repository_generation") != self._meta(c,"repository_generation") or request.get("receipt_digest") != row["receipt_digest"]: raise RuntimeUnavailable("stale repository or M0.2 receipt")
+                    if not strict_equal(request.get("expected"),self.tuple(row)): raise RuntimeUnavailable("stale tuple")
+                    repository_generation=self._meta(c,"repository_generation")
+                    if type(request.get("repository_generation")) is not int or request["repository_generation"] != repository_generation or row["repository_generation"] != repository_generation or not isinstance(request.get("receipt_digest"),str) or request["receipt_digest"] != row["receipt_digest"]: raise RuntimeUnavailable("stale repository or M0.2 receipt")
                     before=self.tuple(row); event=self._apply(c,row,op,request)
                 row=c.execute("SELECT * FROM tasks WHERE task_id=?",(task_id,)).fetchone(); after=self.tuple(row); self._task_event(c,row,before,after,event,{"request":body,"bundle":b.digest})
                 if inject in {"after_event","after_state"}: raise RuntimeError("injected before idempotency")
@@ -171,35 +180,45 @@ class Scheduler:
         def setstate(**k):
             now={x:row[x] for x in row.keys()}; now.update(k); c.execute("UPDATE tasks SET workflow=?,execution=?,review=?,scheduler_generation=?,dispatch_generation=?,task_fence=?,claim_id=?,reviewer_id=?,continuations=?,repository_generation=?,successor_task=? WHERE task_id=?",(now["workflow"],now["execution"],now["review"],now["scheduler_generation"],now["dispatch_generation"],now["task_fence"],now["claim_id"],now["reviewer_id"],now["continuations"],now["repository_generation"],now["successor_task"],row["task_id"]))
         if op=="CLAIM" and (w,e,v)==("ACTIVE","CLAIMABLE","NOT_REQUIRED"):
+            if not isinstance(r.get("actor"),str) or not r["actor"]: raise RuntimeUnavailable("invalid claim actor")
             cid=str(uuid.uuid4()); setstate(execution="CLAIMED",scheduler_generation=S,dispatch_generation=D+1,task_fence=F+1,claim_id=cid); c.execute("INSERT INTO claims VALUES (?,?,?,?,?,?)",(cid,row["task_id"],row["attempt"],F+1,"ACTIVE",r["actor"])); return "CLAIM_ISSUED"
         if op in {"START","CONTINUE","YIELD","FAIL","COMPLETE"}:
-            if r.get("claim_id")!=row["claim_id"] or r.get("fence")!=F: raise RuntimeUnavailable("stale worker fence")
+            if not isinstance(r.get("claim_id"),str) or r["claim_id"]!=row["claim_id"] or type(r.get("fence")) is not int or r["fence"]!=F: raise RuntimeUnavailable("stale worker fence")
             if op=="START" and e=="CLAIMED": setstate(execution="IN_PROGRESS",scheduler_generation=S); return "TASK_STARTED"
             if op=="CONTINUE" and e=="IN_PROGRESS": setstate(scheduler_generation=S,continuations=row["continuations"]+1); return "TASK_CONTINUED"
-            if op in {"YIELD","FAIL","COMPLETE"} and e in {"CLAIMED","IN_PROGRESS"}:
+            if ((op in {"YIELD","FAIL"} and e in {"CLAIMED","IN_PROGRESS"}) or
+                    (op=="COMPLETE" and e=="IN_PROGRESS")):
+                if op=="COMPLETE" and r.get("close") is not None and type(r["close"]) is not bool: raise RuntimeUnavailable("invalid completion mode")
                 execution="CLAIMABLE" if op=="YIELD" else "FAILED" if op=="FAIL" else "EXECUTION_COMPLETED"; review="REVIEW_PENDING" if op=="COMPLETE" and not r.get("close") else "NOT_REQUIRED"; workflow="CLOSED" if op=="COMPLETE" and r.get("close") else "ACTIVE"; setstate(workflow=workflow,execution=execution,review=review,scheduler_generation=S,dispatch_generation=D+1,task_fence=F+1,claim_id=None); c.execute("UPDATE claims SET status='CLOSED' WHERE claim_id=?",(row["claim_id"],)); return "TASK_"+op+"D"
-        if op=="RECOVER" and (w,e,v)==("ACTIVE","CLAIMED","NOT_REQUIRED") and r.get("liveness_evidence"):
+        if op=="RECOVER" and (w,e,v)==("ACTIVE","CLAIMED","NOT_REQUIRED") and isinstance(r.get("liveness_evidence"),str) and r["liveness_evidence"]:
             setstate(execution="CLAIMABLE",scheduler_generation=S,dispatch_generation=D+1,task_fence=F+1,claim_id=None); c.execute("UPDATE claims SET status='RECOVERED' WHERE claim_id=?",(row["claim_id"],)); return "CLAIM_RECOVERED"
-        if op=="RETRY" and (w,e,v)==("ACTIVE","FAILED","NOT_REQUIRED") and r.get("retryable"):
+        if op=="RETRY" and (w,e,v)==("ACTIVE","FAILED","NOT_REQUIRED") and r.get("retryable") is True:
             c.execute("INSERT INTO attempts VALUES (?,?,?)",(row["task_id"],row["attempt"]+1,row["attempt"])); c.execute("UPDATE tasks SET attempt=?,execution='CLAIMABLE',scheduler_generation=?,dispatch_generation=?,task_fence=?,claim_id=NULL WHERE task_id=?",(row["attempt"]+1,S,D+1,F+1,row["task_id"])); return "TASK_RETRIED"
-        if op=="GOVERNANCE_BLOCK" and (w,e,v) in VALID:
+        if op=="GOVERNANCE_BLOCK" and (w,e,v) in {
+                ("ACTIVE","CLAIMABLE","NOT_REQUIRED"),
+                ("ACTIVE","CLAIMED","NOT_REQUIRED"),
+                ("ACTIVE","IN_PROGRESS","NOT_REQUIRED"),
+                ("ACTIVE","EXECUTION_COMPLETED","REVIEW_PENDING"),
+                ("ACTIVE","EXECUTION_COMPLETED","REVIEWING")}:
             if row["claim_id"] is not None: c.execute("UPDATE claims SET status='GOVERNANCE_BLOCKED' WHERE claim_id=?",(row["claim_id"],))
             if row["reviewer_id"] is not None: c.execute("UPDATE reviews SET status='GOVERNANCE_BLOCKED' WHERE assignment_id=?",(row["reviewer_id"],))
             rv="REVIEW_PENDING" if v in {"REVIEW_PENDING","REVIEWING"} else "NOT_REQUIRED"; setstate(workflow="GOVERNANCE_BLOCKED",execution="EXECUTION_BLOCKED",review=rv,scheduler_generation=S,dispatch_generation=D+1,task_fence=F+1,claim_id=None,reviewer_id=None); return "GOVERNANCE_BLOCKED"
         if op=="REVALIDATE" and (w,e,v) in {("GOVERNANCE_BLOCKED","EXECUTION_BLOCKED","NOT_REQUIRED"),("GOVERNANCE_BLOCKED","EXECUTION_BLOCKED","REVIEW_PENDING")}:
             setstate(workflow="ACTIVE",execution="CLAIMABLE" if v=="NOT_REQUIRED" else "EXECUTION_COMPLETED",review=v,scheduler_generation=S); return "GOVERNANCE_REVALIDATED"
         if op=="ASSIGN_REVIEW" and (w,e,v)==("ACTIVE","EXECUTION_COMPLETED","REVIEW_PENDING"):
-            if r["actor"]==row["owner"] or r["role"]=="owner": raise RuntimeUnavailable("review independence denied")
+            if any(not isinstance(r.get(field),str) or not r[field] for field in ("actor","role")) or r["actor"]==row["owner"] or r["role"]=="owner": raise RuntimeUnavailable("review independence denied")
             aid=str(uuid.uuid4()); setstate(review="REVIEWING",scheduler_generation=S,reviewer_id=aid); c.execute("INSERT INTO reviews VALUES (?,?,?,?,?)",(aid,row["task_id"],r["actor"],r["role"],"ACTIVE")); return "REVIEW_ASSIGNED"
         if op in {"APPROVE","REJECT","REMEDIATE"} and (w,e,v)==("ACTIVE","EXECUTION_COMPLETED","REVIEWING"):
             if r.get("reviewer_id")!=row["reviewer_id"]: raise RuntimeUnavailable("stale reviewer")
+            if not is_sha256(r.get("decision_digest")): raise RuntimeUnavailable("invalid review decision digest")
             review={"APPROVE":"APPROVED","REJECT":"REJECTED","REMEDIATE":"REMEDIATION_REQUIRED"}[op]; setstate(review=review,scheduler_generation=S,reviewer_id=None); c.execute("UPDATE reviews SET status=? WHERE assignment_id=?",(review,row["reviewer_id"])); return "REVIEW_"+op+"D"
-        if op=="ROUTE" and (w,e,v)==("ACTIVE","EXECUTION_COMPLETED","APPROVED") and r.get("routing_evidence"):
+        if op=="ROUTE" and (w,e,v)==("ACTIVE","EXECUTION_COMPLETED","APPROVED") and isinstance(r.get("routing_evidence"),str) and r["routing_evidence"]:
             setstate(workflow="DIRECTOR_GATE_READY",scheduler_generation=S); return "DIRECTOR_ROUTED"
         raise RuntimeUnavailable("invalid or terminal transition")
 
     def create_remediation(self, source_task: str, child_task: str, request: dict[str, Any], *, operation_key: str, inject: str|None=None) -> dict[str, Any]:
         """Commit both reciprocal remediation events, child state, link and result or none."""
+        if any(not isinstance(task_id,str) or not task_id for task_id in (source_task,child_task)): raise RuntimeUnavailable("invalid remediation task identity")
         body={"operation":"CREATE_REMEDIATION_TASK","source":source_task,"child":child_task,"request":request}; rd=digest(body)
         with self.locked("remediation"):
             b=self.bundle(); c=self.connect()
@@ -210,13 +229,20 @@ class Scheduler:
                     if hit["request_digest"]!=rd: raise RuntimeUnavailable("idempotency key reused with different request")
                     c.rollback(); return json.loads(hit["response"])
                 source=c.execute("SELECT * FROM tasks WHERE task_id=?",(source_task,)).fetchone()
-                if not source or self.tuple(source)!=request.get("expected") or source["review"] not in {"REJECTED","REMEDIATION_REQUIRED"}: raise RuntimeUnavailable("stale or non-remediable source")
-                if request.get("repository_generation")!=self._meta(c,"repository_generation") or c.execute("SELECT 1 FROM tasks WHERE task_id=?",(child_task,)).fetchone(): raise RuntimeUnavailable("stale binding or child exists")
+                if not source or not strict_equal(self.tuple(source),request.get("expected")) or source["review"] not in {"REJECTED","REMEDIATION_REQUIRED"}: raise RuntimeUnavailable("stale or non-remediable source")
+                if source_task==child_task or source["successor_task"] is not None: raise RuntimeUnavailable("invalid remediation lineage")
+                if not is_sha256(request.get("decision_digest")) or any(not isinstance(request.get(key),str) or not request[key] for key in ("receipt_digest","owner")): raise RuntimeUnavailable("invalid remediation binding")
+                review_event=c.execute("SELECT payload FROM task_events WHERE task_id=? AND event_type IN ('REVIEW_REJECTD','REVIEW_REMEDIATED') ORDER BY task_seq DESC LIMIT 1",(source_task,)).fetchone()
+                try: reviewed_digest=json.loads(review_event["payload"])["request"]["request"]["decision_digest"] if review_event else None
+                except (TypeError,KeyError,json.JSONDecodeError): reviewed_digest=None
+                if request["decision_digest"]!=reviewed_digest: raise RuntimeUnavailable("remediation decision mismatch")
+                repository_generation=self._meta(c,"repository_generation")
+                if type(request.get("repository_generation")) is not int or request["repository_generation"]!=repository_generation or source["repository_generation"]!=repository_generation or c.execute("SELECT 1 FROM tasks WHERE task_id=?",(child_task,)).fetchone(): raise RuntimeUnavailable("stale binding or child exists")
                 link=str(uuid.uuid4()); before=self.tuple(source); c.execute("UPDATE tasks SET scheduler_generation=scheduler_generation+1,successor_task=? WHERE task_id=?",(child_task,source_task)); source2=c.execute("SELECT * FROM tasks WHERE task_id=?",(source_task,)).fetchone()
-                first=self._task_event(c,source2,before,self.tuple(source2),"REMEDIATION_CREATED",{"relationship_id":link,"child":child_task,"decision":request["decision_digest"]})
+                first=self._task_event(c,source2,before,self.tuple(source2),"REMEDIATION_CREATED",{"relationship_id":link,"child":child_task,"decision":request["decision_digest"],"child_owner":request["owner"],"child_receipt_digest":request["receipt_digest"]})
                 if inject in {"before_event","after_event"}: raise RuntimeError("injected remediation failure")
                 c.execute("INSERT INTO tasks VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(child_task,1,"ACTIVE","CLAIMABLE","NOT_REQUIRED",0,0,0,None,None,0,self._meta(c,"repository_generation"),request["receipt_digest"],request["owner"],None,source_task,None)); c.execute("INSERT INTO attempts VALUES (?,?,?)",(child_task,1,None)); child=c.execute("SELECT * FROM tasks WHERE task_id=?",(child_task,)).fetchone()
-                second=self._task_event(c,child,None,self.tuple(child),"TASK_CREATED_FROM_REMEDIATION",{"relationship_id":link,"parent":source_task,"parent_attempt":source["attempt"],"decision":request["decision_digest"]})
+                second=self._task_event(c,child,None,self.tuple(child),"TASK_CREATED_FROM_REMEDIATION",{"relationship_id":link,"parent":source_task,"parent_attempt":source["attempt"],"decision":request["decision_digest"],"owner":request["owner"],"receipt_digest":request["receipt_digest"]})
                 ld=digest({"link_id":link,"source_task":source_task,"child_task":child_task,"source_event":first,"child_event":second,"decision_digest":request["decision_digest"]}); c.execute("INSERT INTO remediation_links VALUES (?,?,?,?,?,?,?)",(link,source_task,child_task,first,second,request["decision_digest"],ld))
                 if inject in {"after_state","after_idempotency"}: raise RuntimeError("injected remediation failure")
                 response={"relationship_id":link,"source_event":first,"child_event":second,"child_tuple":self.tuple(child)}; c.execute("INSERT INTO idempotency VALUES (?,?,?)",(operation_key,rd,json.dumps(response)))
@@ -245,7 +271,34 @@ class Scheduler:
             finally:c.close()
 
     def replay(self, c: sqlite3.Connection) -> None:
-        """Verify contiguous global/task chains and materialized tuple validity; deny on any anomaly."""
+        """Rebuild task and auxiliary state from events; deny on any anomaly."""
+        def load_json(value: str, label: str) -> Any:
+            try: return json.loads(value)
+            except (TypeError, json.JSONDecodeError) as error: raise RuntimeUnavailable(f"invalid {label}") from error
+        def require(condition: bool, message: str) -> None:
+            if not condition: raise RuntimeUnavailable(message)
+        def advanced(before: dict[str,Any], **changes: Any) -> dict[str,Any]:
+            result=dict(before); result.update(changes); return result
+        def triple(value: dict[str,Any]) -> tuple[str,str,str]:
+            return value["workflow"],value["execution"],value["review"]
+        def normal_payload(row: sqlite3.Row, payload: Any, before: dict[str,Any], operation: str) -> dict[str,Any]:
+            require(isinstance(payload,dict) and set(payload)=={"request","bundle"} and isinstance(payload["bundle"],str) and bool(payload["bundle"]),"invalid task event payload")
+            outer=payload["request"]
+            require(isinstance(outer,dict) and set(outer)=={"operation","task_id","request"},"invalid task event request")
+            require(outer["operation"]==operation and outer["task_id"]==row["task_id"] and isinstance(outer["request"],dict),"task event request mismatch")
+            request=outer["request"]
+            require(strict_equal(request.get("expected"),before),"task event expected tuple mismatch")
+            require(type(request.get("repository_generation")) is int and request["repository_generation"]==before["repository_generation"] and isinstance(request.get("receipt_digest"),str) and request["receipt_digest"]==before["decision_receipt_digest"],"task event binding mismatch")
+            return request
+        def close_claim(claims: dict[str,dict[str,Any]], before: dict[str,Any], status: str) -> None:
+            claim_id=before["active_claim_id"]
+            require(isinstance(claim_id,str) and claim_id in claims and claims[claim_id]["status"]=="ACTIVE","claim lifecycle mismatch")
+            claims[claim_id]["status"]=status
+        def close_review(reviews: dict[str,dict[str,Any]], before: dict[str,Any], status: str) -> None:
+            assignment=before["reviewer_assignment_id"]
+            require(isinstance(assignment,str) and assignment in reviews and reviews[assignment]["status"]=="ACTIVE","review lifecycle mismatch")
+            reviews[assignment]["status"]=status
+
         events=[]
         for table in ("runtime_events","task_events"):
             events += [(r["global_seq"],table,r) for r in c.execute(f"SELECT * FROM {table}")]
@@ -256,49 +309,184 @@ class Scheduler:
             parent_digest = row["prev_digest"] if table == "runtime_events" else row["prev_global_digest"]
             if (parent_id is not None and parent_id != prev_id) or parent_digest != prev: raise RuntimeUnavailable("global event chain mismatch")
             if table == "runtime_events":
-                rebuilt=digest({"id":row["event_id"],"seq":row["global_seq"],"type":row["event_type"],"payload":json.loads(row["payload"]),"prev":row["prev_digest"]})
+                rebuilt=digest({"id":row["event_id"],"seq":row["global_seq"],"type":row["event_type"],"payload":load_json(row["payload"],"runtime event payload"),"prev":row["prev_digest"]})
             else:
-                rebuilt=digest({"id":row["event_id"],"n":row["global_seq"],"seq":row["task_seq"],"type":row["event_type"],"before":json.loads(row["before_json"]),"after":json.loads(row["after_json"]),"payload":json.loads(row["payload"]),"prev":row["prev_task_digest"]})
+                rebuilt=digest({"id":row["event_id"],"n":row["global_seq"],"seq":row["task_seq"],"type":row["event_type"],"before":load_json(row["before_json"],"task event before"),"after":load_json(row["after_json"],"task event after"),"payload":load_json(row["payload"],"task event payload"),"prev":row["prev_task_digest"]})
             if rebuilt != row["event_digest"]: raise RuntimeUnavailable("event digest mutation")
             prev_id,prev=row["event_id"],row["event_digest"]
         if self._meta(c,"global_head_id") != prev_id or self._meta(c,"global_head_digest") != prev: raise RuntimeUnavailable("materialized global head mismatch")
         tasks={row["task_id"]:row for row in c.execute("SELECT * FROM tasks")}
         event_task_ids={row[0] for row in c.execute("SELECT DISTINCT task_id FROM task_events")}
         if set(tasks) != event_task_ids: raise RuntimeUnavailable("replay task inventory mismatch")
+        expected_attempts: dict[tuple[str,int],dict[str,Any]]={}
+        expected_claims: dict[str,dict[str,Any]]={}
+        expected_reviews: dict[str,dict[str,Any]]={}
+        expected_metadata: dict[str,dict[str,Any]]={}
+        remediation_decisions: dict[str,str]={}
+        remediation_sources: dict[str,dict[str,Any]]={}
+        remediation_children: dict[str,dict[str,Any]]={}
         for task_id,task in tasks.items():
             if (task["workflow"],task["execution"],task["review"]) not in VALID: raise RuntimeUnavailable("invalid materialized tuple")
             rows=list(c.execute("SELECT * FROM task_events WHERE task_id=? ORDER BY task_seq",(task_id,))); pd=digest("TASK_GENESIS:"+task_id); previous=None
             tuple_fields=set(self.tuple(task))
             for seq,row in enumerate(rows,1):
                 if row["task_seq"] != seq or row["prev_task_digest"] != pd: raise RuntimeUnavailable("task event chain mismatch")
-                before=json.loads(row["before_json"]); after=json.loads(row["after_json"])
+                before=load_json(row["before_json"],"task event before"); after=load_json(row["after_json"],"task event after"); payload=load_json(row["payload"],"task event payload")
                 if before != previous: raise RuntimeUnavailable("task event before/after discontinuity")
                 if not isinstance(after,dict) or set(after) != tuple_fields: raise RuntimeUnavailable("invalid replayed task tuple")
                 if (after["workflow"],after["execution"],after["review"]) not in VALID: raise RuntimeUnavailable("invalid replayed task tuple")
+                integer_fields=("attempt_no","scheduler_generation","dispatch_generation","task_fence","continuation_count","repository_generation")
+                if any(type(after[field]) is not int or after[field] < (1 if field=="attempt_no" else 0) for field in integer_fields): raise RuntimeUnavailable("invalid replayed task tuple")
+                if any(after[field] is not None and (not isinstance(after[field],str) or not after[field]) for field in ("active_claim_id","reviewer_assignment_id")) or not isinstance(after["decision_receipt_digest"],str) or not after["decision_receipt_digest"]: raise RuntimeUnavailable("invalid replayed task tuple")
                 if type(after["attempt_no"]) is not int or after["attempt_no"] < 1 or row["attempt"] != after["attempt_no"]: raise RuntimeUnavailable("task event attempt mismatch")
                 if seq == 1:
                     if row["event_type"] not in {"TASK_INITIALIZED","TASK_CREATED_FROM_REMEDIATION"}: raise RuntimeUnavailable("task event origin mismatch")
                     expected_origin={"workflow":"ACTIVE","execution":"CLAIMABLE","review":"NOT_REQUIRED","attempt_no":1,"scheduler_generation":0,"dispatch_generation":0,"task_fence":0,"active_claim_id":None,"reviewer_assignment_id":None,"continuation_count":0}
                     if any(after.get(key) != value for key,value in expected_origin.items()) or type(after["repository_generation"]) is not int or after["repository_generation"] < 0 or not isinstance(after["decision_receipt_digest"],str) or not after["decision_receipt_digest"]: raise RuntimeUnavailable("task event origin tuple mismatch")
+                    expected_attempts[(task_id,1)]={"task_id":task_id,"attempt":1,"predecessor_attempt":None}
+                    if row["event_type"]=="TASK_INITIALIZED":
+                        require(isinstance(payload,dict) and set(payload)=={"request","bundle"} and isinstance(payload["bundle"],str) and bool(payload["bundle"]),"invalid task origin payload")
+                        outer=payload["request"]
+                        require(isinstance(outer,dict) and set(outer)=={"operation","task_id","request"} and outer["operation"]=="INITIALIZE" and outer["task_id"]==task_id,"task origin request mismatch")
+                        request=outer["request"]
+                        require(isinstance(request,dict) and set(request)=={"receipt_digest","owner"} and request["receipt_digest"]==after["decision_receipt_digest"] and isinstance(request["owner"],str) and bool(request["owner"]),"task origin binding mismatch")
+                        expected_metadata[task_id]={"owner":request["owner"],"reviewer":None,"predecessor_task":None,"successor_task":None}
+                    else:
+                        require(isinstance(payload,dict) and set(payload)=={"relationship_id","parent","parent_attempt","decision","owner","receipt_digest"},"invalid remediation child payload")
+                        require(all(isinstance(payload[key],str) and bool(payload[key]) for key in ("relationship_id","parent","decision","owner","receipt_digest")) and type(payload["parent_attempt"]) is int and payload["parent_attempt"] >= 1,"invalid remediation child binding")
+                        require(payload["receipt_digest"]==after["decision_receipt_digest"] and payload["parent"]!=task_id,"remediation child binding mismatch")
+                        expected_metadata[task_id]={"owner":payload["owner"],"reviewer":None,"predecessor_task":payload["parent"],"successor_task":None}
+                        require(payload["relationship_id"] not in remediation_children,"duplicate remediation child")
+                        remediation_children[payload["relationship_id"]]={"task_id":task_id,"event_id":row["event_id"],"global_seq":row["global_seq"],**payload}
                 if seq > 1 and row["event_type"] in {"TASK_INITIALIZED","TASK_CREATED_FROM_REMEDIATION"}: raise RuntimeUnavailable("task event origin mismatch")
+                if seq > 1:
+                    typ=row["event_type"]
+                    operation_by_type={"CLAIM_ISSUED":"CLAIM","TASK_STARTED":"START","TASK_CONTINUED":"CONTINUE","TASK_YIELDD":"YIELD","TASK_FAILD":"FAIL","TASK_COMPLETED":"COMPLETE","CLAIM_RECOVERED":"RECOVER","TASK_RETRIED":"RETRY","GOVERNANCE_BLOCKED":"GOVERNANCE_BLOCK","GOVERNANCE_REVALIDATED":"REVALIDATE","REVIEW_ASSIGNED":"ASSIGN_REVIEW","REVIEW_APPROVED":"APPROVE","REVIEW_REJECTD":"REJECT","REVIEW_REMEDIATED":"REMEDIATE","DIRECTOR_ROUTED":"ROUTE"}
+                    if typ=="REMEDIATION_CREATED":
+                        require(triple(before) in {("ACTIVE","EXECUTION_COMPLETED","REJECTED"),("ACTIVE","EXECUTION_COMPLETED","REMEDIATION_REQUIRED")},"invalid remediation source tuple")
+                        require(isinstance(payload,dict) and set(payload)=={"relationship_id","child","decision","child_owner","child_receipt_digest"},"invalid remediation source payload")
+                        require(all(isinstance(payload[key],str) and bool(payload[key]) for key in payload) and payload["child"]!=task_id and is_sha256(payload["decision"]),"invalid remediation source binding")
+                        require(remediation_decisions.get(task_id)==payload["decision"],"remediation decision mismatch")
+                        require(after==advanced(before,scheduler_generation=before["scheduler_generation"]+1),"invalid remediation source delta")
+                        require(expected_metadata[task_id]["successor_task"] is None and payload["relationship_id"] not in remediation_sources,"duplicate remediation source")
+                        expected_metadata[task_id]["successor_task"]=payload["child"]
+                        remediation_sources[payload["relationship_id"]]={"task_id":task_id,"attempt":before["attempt_no"],"event_id":row["event_id"],"global_seq":row["global_seq"],**payload}
+                    elif typ=="REPOSITORY_GENERATION_APPLIED":
+                        require(isinstance(payload,dict) and set(payload)=={"old","new","task_old","bundle","source_commit","reason"},"invalid repository event payload")
+                        require(type(payload["old"]) is int and type(payload["new"]) is int and type(payload["task_old"]) is int and payload["new"]==payload["old"]+1 and 0<=payload["task_old"]<=payload["old"] and before["repository_generation"]==payload["task_old"],"repository event generation mismatch")
+                        require(all(isinstance(payload[key],str) and bool(payload[key]) for key in ("bundle","source_commit","reason")),"invalid repository event binding")
+                        updates={"scheduler_generation":before["scheduler_generation"]+1,"repository_generation":payload["new"]}
+                        source=triple(before)
+                        if source==("ACTIVE","CLAIMABLE","NOT_REQUIRED"): pass
+                        elif source in {("ACTIVE","CLAIMED","NOT_REQUIRED"),("ACTIVE","IN_PROGRESS","NOT_REQUIRED"),("ACTIVE","EXECUTION_COMPLETED","REVIEW_PENDING"),("ACTIVE","EXECUTION_COMPLETED","REVIEWING")}:
+                            if before["active_claim_id"] is not None: close_claim(expected_claims,before,"GOVERNANCE_BLOCKED")
+                            if before["reviewer_assignment_id"] is not None: close_review(expected_reviews,before,"GOVERNANCE_BLOCKED")
+                            updates.update({"workflow":"GOVERNANCE_BLOCKED","execution":"EXECUTION_BLOCKED","review":"REVIEW_PENDING" if before["review"] in {"REVIEW_PENDING","REVIEWING"} else "NOT_REQUIRED","active_claim_id":None,"reviewer_assignment_id":None,"dispatch_generation":before["dispatch_generation"]+1,"task_fence":before["task_fence"]+1})
+                        else: raise RuntimeUnavailable("invalid repository transition scope")
+                        require(after==advanced(before,**updates),"invalid repository event delta")
+                    else:
+                        require(typ in operation_by_type,"unknown task event type")
+                        operation=operation_by_type[typ]; request=normal_payload(row,payload,before,operation); source=triple(before)
+                        expected: dict[str,Any]
+                        if operation=="CLAIM":
+                            require(source==("ACTIVE","CLAIMABLE","NOT_REQUIRED") and after["active_claim_id"] is not None and isinstance(request.get("actor"),str) and bool(request["actor"]),"invalid claim transition")
+                            expected=advanced(before,execution="CLAIMED",scheduler_generation=before["scheduler_generation"]+1,dispatch_generation=before["dispatch_generation"]+1,task_fence=before["task_fence"]+1,active_claim_id=after["active_claim_id"])
+                            require(after["active_claim_id"] not in expected_claims,"duplicate claim")
+                            expected_claims[after["active_claim_id"]]={"claim_id":after["active_claim_id"],"task_id":task_id,"attempt":before["attempt_no"],"fence":after["task_fence"],"status":"ACTIVE","actor":request["actor"]}
+                        elif operation=="START":
+                            require(source==("ACTIVE","CLAIMED","NOT_REQUIRED") and isinstance(request.get("claim_id"),str) and request["claim_id"]==before["active_claim_id"] and type(request.get("fence")) is int and request["fence"]==before["task_fence"],"invalid start transition")
+                            expected=advanced(before,execution="IN_PROGRESS",scheduler_generation=before["scheduler_generation"]+1)
+                        elif operation=="CONTINUE":
+                            require(source==("ACTIVE","IN_PROGRESS","NOT_REQUIRED") and isinstance(request.get("claim_id"),str) and request["claim_id"]==before["active_claim_id"] and type(request.get("fence")) is int and request["fence"]==before["task_fence"],"invalid continue transition")
+                            expected=advanced(before,scheduler_generation=before["scheduler_generation"]+1,continuation_count=before["continuation_count"]+1)
+                        elif operation in {"YIELD","FAIL","COMPLETE"}:
+                            allowed=source in {("ACTIVE","CLAIMED","NOT_REQUIRED"),("ACTIVE","IN_PROGRESS","NOT_REQUIRED")} if operation!="COMPLETE" else source==("ACTIVE","IN_PROGRESS","NOT_REQUIRED")
+                            require(allowed and isinstance(request.get("claim_id"),str) and request["claim_id"]==before["active_claim_id"] and type(request.get("fence")) is int and request["fence"]==before["task_fence"],"invalid worker terminal transition")
+                            require(operation!="COMPLETE" or request.get("close") is None or type(request["close"]) is bool,"invalid completion mode")
+                            close_claim(expected_claims,before,"CLOSED")
+                            execution="CLAIMABLE" if operation=="YIELD" else "FAILED" if operation=="FAIL" else "EXECUTION_COMPLETED"
+                            review="REVIEW_PENDING" if operation=="COMPLETE" and not request.get("close") else "NOT_REQUIRED"
+                            workflow="CLOSED" if operation=="COMPLETE" and request.get("close") else "ACTIVE"
+                            expected=advanced(before,workflow=workflow,execution=execution,review=review,scheduler_generation=before["scheduler_generation"]+1,dispatch_generation=before["dispatch_generation"]+1,task_fence=before["task_fence"]+1,active_claim_id=None)
+                        elif operation=="RECOVER":
+                            require(source==("ACTIVE","CLAIMED","NOT_REQUIRED") and isinstance(request.get("liveness_evidence"),str) and bool(request["liveness_evidence"]),"invalid recovery transition")
+                            close_claim(expected_claims,before,"RECOVERED")
+                            expected=advanced(before,execution="CLAIMABLE",scheduler_generation=before["scheduler_generation"]+1,dispatch_generation=before["dispatch_generation"]+1,task_fence=before["task_fence"]+1,active_claim_id=None)
+                        elif operation=="RETRY":
+                            require(source==("ACTIVE","FAILED","NOT_REQUIRED") and request.get("retryable") is True,"invalid retry transition")
+                            next_attempt=before["attempt_no"]+1; expected_attempts[(task_id,next_attempt)]={"task_id":task_id,"attempt":next_attempt,"predecessor_attempt":before["attempt_no"]}
+                            expected=advanced(before,attempt_no=next_attempt,execution="CLAIMABLE",scheduler_generation=before["scheduler_generation"]+1,dispatch_generation=before["dispatch_generation"]+1,task_fence=before["task_fence"]+1,active_claim_id=None)
+                        elif operation=="GOVERNANCE_BLOCK":
+                            require(source in {("ACTIVE","CLAIMABLE","NOT_REQUIRED"),("ACTIVE","CLAIMED","NOT_REQUIRED"),("ACTIVE","IN_PROGRESS","NOT_REQUIRED"),("ACTIVE","EXECUTION_COMPLETED","REVIEW_PENDING"),("ACTIVE","EXECUTION_COMPLETED","REVIEWING")},"invalid governance transition scope")
+                            if before["active_claim_id"] is not None: close_claim(expected_claims,before,"GOVERNANCE_BLOCKED")
+                            if before["reviewer_assignment_id"] is not None: close_review(expected_reviews,before,"GOVERNANCE_BLOCKED")
+                            expected=advanced(before,workflow="GOVERNANCE_BLOCKED",execution="EXECUTION_BLOCKED",review="REVIEW_PENDING" if before["review"] in {"REVIEW_PENDING","REVIEWING"} else "NOT_REQUIRED",scheduler_generation=before["scheduler_generation"]+1,dispatch_generation=before["dispatch_generation"]+1,task_fence=before["task_fence"]+1,active_claim_id=None,reviewer_assignment_id=None)
+                        elif operation=="REVALIDATE":
+                            require(source in {("GOVERNANCE_BLOCKED","EXECUTION_BLOCKED","NOT_REQUIRED"),("GOVERNANCE_BLOCKED","EXECUTION_BLOCKED","REVIEW_PENDING")},"invalid revalidation transition")
+                            expected=advanced(before,workflow="ACTIVE",execution="CLAIMABLE" if before["review"]=="NOT_REQUIRED" else "EXECUTION_COMPLETED",scheduler_generation=before["scheduler_generation"]+1)
+                        elif operation=="ASSIGN_REVIEW":
+                            require(source==("ACTIVE","EXECUTION_COMPLETED","REVIEW_PENDING") and isinstance(request.get("actor"),str) and bool(request["actor"]) and isinstance(request.get("role"),str) and bool(request["role"]) and request["actor"]!=expected_metadata[task_id]["owner"] and request["role"]!="owner" and isinstance(after["reviewer_assignment_id"],str),"invalid review assignment")
+                            expected=advanced(before,review="REVIEWING",scheduler_generation=before["scheduler_generation"]+1,reviewer_assignment_id=after["reviewer_assignment_id"])
+                            require(after["reviewer_assignment_id"] not in expected_reviews,"duplicate review assignment")
+                            expected_reviews[after["reviewer_assignment_id"]]={"assignment_id":after["reviewer_assignment_id"],"task_id":task_id,"actor":request["actor"],"role":request["role"],"status":"ACTIVE"}
+                        elif operation in {"APPROVE","REJECT","REMEDIATE"}:
+                            require(source==("ACTIVE","EXECUTION_COMPLETED","REVIEWING") and isinstance(request.get("reviewer_id"),str) and request["reviewer_id"]==before["reviewer_assignment_id"] and is_sha256(request.get("decision_digest")),"invalid review decision")
+                            review={"APPROVE":"APPROVED","REJECT":"REJECTED","REMEDIATE":"REMEDIATION_REQUIRED"}[operation]
+                            close_review(expected_reviews,before,review)
+                            expected=advanced(before,review=review,scheduler_generation=before["scheduler_generation"]+1,reviewer_assignment_id=None)
+                            if operation in {"REJECT","REMEDIATE"}: remediation_decisions[task_id]=request["decision_digest"]
+                        else:
+                            require(operation=="ROUTE" and source==("ACTIVE","EXECUTION_COMPLETED","APPROVED") and isinstance(request.get("routing_evidence"),str) and bool(request["routing_evidence"]),"invalid director route")
+                            expected=advanced(before,workflow="DIRECTOR_GATE_READY",scheduler_generation=before["scheduler_generation"]+1)
+                        require(after==expected,"invalid task event delta")
                 previous=after; pd=row["event_digest"]
             if previous != self.tuple(task): raise RuntimeUnavailable("replay/materialized tuple mismatch")
-        for link in c.execute("SELECT * FROM remediation_links"):
-            s=c.execute("SELECT 1 FROM task_events WHERE event_id=? AND task_id=?",(link["source_event"],link["source_task"])).fetchone(); child=c.execute("SELECT 1 FROM task_events WHERE event_id=? AND task_id=?",(link["child_event"],link["child_task"])).fetchone()
-            if not s or not child or link["link_digest"] != digest({k:link[k] for k in ("link_id","source_task","child_task","source_event","child_event","decision_digest")}): raise RuntimeUnavailable("remediation link mismatch")
+            metadata=expected_metadata[task_id]
+            if task["owner"]!=metadata["owner"] or task["reviewer"] is not None or task["predecessor_task"]!=metadata["predecessor_task"] or task["successor_task"]!=metadata["successor_task"]: raise RuntimeUnavailable("task metadata replay mismatch")
+
+        actual_attempts={(row["task_id"],row["attempt"]):dict(row) for row in c.execute("SELECT * FROM attempts")}
+        if actual_attempts!=expected_attempts: raise RuntimeUnavailable("attempt replay mismatch")
+        actual_claims={row["claim_id"]:dict(row) for row in c.execute("SELECT * FROM claims")}
+        if actual_claims!=expected_claims: raise RuntimeUnavailable("claim replay mismatch")
+        actual_reviews={row["assignment_id"]:dict(row) for row in c.execute("SELECT * FROM reviews")}
+        if actual_reviews!=expected_reviews: raise RuntimeUnavailable("review replay mismatch")
+
+        require(set(remediation_sources)==set(remediation_children),"remediation reciprocal mismatch")
+        expected_links: dict[str,dict[str,Any]]={}
+        for link_id,source in remediation_sources.items():
+            child=remediation_children[link_id]
+            require(source["child"]==child["task_id"] and child["parent"]==source["task_id"] and child["parent_attempt"]==source["attempt"] and child["decision"]==source["decision"],"remediation reciprocal mismatch")
+            require(child["owner"]==source["child_owner"] and child["receipt_digest"]==source["child_receipt_digest"] and child["global_seq"]==source["global_seq"]+1,"remediation child metadata mismatch")
+            material={"link_id":link_id,"source_task":source["task_id"],"child_task":child["task_id"],"source_event":source["event_id"],"child_event":child["event_id"],"decision_digest":source["decision"]}
+            expected_links[link_id]={**material,"link_digest":digest(material)}
+        actual_links={row["link_id"]:dict(row) for row in c.execute("SELECT * FROM remediation_links")}
+        if actual_links!=expected_links: raise RuntimeUnavailable("remediation link mismatch")
+
+        # A lineage is a set of one-way parent/child edges, never a self-link or cycle.
+        for task_id in tasks:
+            seen:set[str]=set(); cursor=task_id
+            while cursor is not None:
+                require(cursor not in seen,"remediation lineage cycle")
+                seen.add(cursor)
+                cursor=expected_metadata[cursor]["successor_task"] if cursor in expected_metadata else None
 
     def import_repository(self, affected: list[str], reason: str="IMPORT") -> None:
+        if not isinstance(affected,list) or any(not isinstance(task_id,str) or not task_id for task_id in affected) or not isinstance(reason,str) or not reason: raise RuntimeUnavailable("invalid repository import binding")
         with self.locked("import"):
             b=self.bundle(); c=self.connect()
             try:
                 c.execute("BEGIN IMMEDIATE"); self._verify(c); old=self._meta(c,"repository_generation"); prior=self._meta(c,"bundle_digest")
                 if b.digest==prior: c.rollback(); return
                 if len(affected) != len(set(affected)): raise RuntimeUnavailable("duplicate affected task")
+                importable={("ACTIVE","CLAIMABLE","NOT_REQUIRED"),("ACTIVE","CLAIMED","NOT_REQUIRED"),("ACTIVE","IN_PROGRESS","NOT_REQUIRED"),("ACTIVE","EXECUTION_COMPLETED","REVIEW_PENDING"),("ACTIVE","EXECUTION_COMPLETED","REVIEWING")}
+                for tid in affected:
+                    candidate=c.execute("SELECT * FROM tasks WHERE task_id=?",(tid,)).fetchone()
+                    if not candidate: raise RuntimeUnavailable("unknown affected task")
+                    if (candidate["workflow"],candidate["execution"],candidate["review"]) not in importable: raise RuntimeUnavailable("invalid repository transition scope")
                 new=old+1; self._set(c,"repository_generation",new)
                 self._set(c,"bundle_digest",b.digest)
                 for tid in affected:
                     row=c.execute("SELECT * FROM tasks WHERE task_id=?",(tid,)).fetchone()
-                    if not row: raise RuntimeUnavailable("unknown affected task")
                     before=self.tuple(row)
                     if (row["workflow"],row["execution"],row["review"]) in {( "ACTIVE","CLAIMABLE","NOT_REQUIRED")}:
                         c.execute("UPDATE tasks SET scheduler_generation=scheduler_generation+1,repository_generation=? WHERE task_id=?",(new,tid))
@@ -313,7 +501,7 @@ class Scheduler:
                         before,
                         self.tuple(updated),
                         "REPOSITORY_GENERATION_APPLIED",
-                        {"old":old,"new":new,"bundle":b.digest,"source_commit":b.commit,"reason":reason},
+                        {"old":old,"new":new,"task_old":before["repository_generation"],"bundle":b.digest,"source_commit":b.commit,"reason":reason},
                     )
                 self._runtime_event(c,"REPOSITORY_GENERATION_ADVANCED",{"old":old,"new":new,"bundle":b.digest,"source_commit":b.commit,"project":b.project,"stops":b.stops,"policy":b.policy,"reason":reason,"affected":affected},b); c.commit()
             except Exception:

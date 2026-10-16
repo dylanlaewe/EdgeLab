@@ -26,7 +26,7 @@ _LIMITATIONS = (
     "caller-supplied snapshots, bindings, and receipts are not accepted",
     "stored decision_receipt_digest remains caller-supplied and non-authoritative",
     "historical INVALID means unavailable gate input, not a finding that preserved evidence is false",
-    "auxiliary scheduler history is checked for consistency but is not yet fully event-bound",
+    "task, attempt, claim, review, and remediation history is event-reconstructed; runtime metadata, idempotency, seal, migration, and snapshot history remain outside that closure",
 )
 
 

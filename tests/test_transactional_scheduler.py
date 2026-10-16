@@ -46,7 +46,7 @@ class SchedulerTests(unittest.TestCase):
         c=self.claim()["tuple"]; self.s.transition("START","T",{**self.req(),"claim_id":c["active_claim_id"],"fence":c["task_fence"]},operation_key="start")
         r=self.req(); self.s.transition("COMPLETE","T",{**r,"claim_id":r["expected"]["active_claim_id"],"fence":r["expected"]["task_fence"]},operation_key="complete")
         a=self.s.transition("ASSIGN_REVIEW","T",{**self.req(),"actor":"reviewer","role":"skeptic"},operation_key="assign")["tuple"]
-        approved=self.s.transition("APPROVE","T",{**self.req(),"reviewer_id":a["reviewer_assignment_id"]},operation_key="approve")["tuple"]
+        approved=self.s.transition("APPROVE","T",{**self.req(),"reviewer_id":a["reviewer_assignment_id"],"decision_digest":"a"*64},operation_key="approve")["tuple"]
         self.assertEqual(approved["review"],"APPROVED")
         self.s.transition("ROUTE","T",{**self.req(),"routing_evidence":"synthetic"},operation_key="route")
         with self.assertRaises(RuntimeUnavailable): self.s.transition("REJECT","T",{**self.req(),"reviewer_id":"x"},operation_key="resurrect")
@@ -56,6 +56,30 @@ class SchedulerTests(unittest.TestCase):
         self.s.transition("RETRY","T",{**self.req(),"retryable":True},operation_key="retry")
         self.s.transition("GOVERNANCE_BLOCK","T",self.req(),operation_key="block")
         self.s.transition("REVALIDATE","T",self.req(),operation_key="revalidate"); self.s.startup()
+    def test_writer_request_domains_are_exact_and_replayable(self):
+        malformed=self.req(); malformed["expected"]={**malformed["expected"],"scheduler_generation":False}; malformed["repository_generation"]=False
+        with self.assertRaisesRegex(RuntimeUnavailable,"stale tuple"):
+            self.s.transition("CLAIM","T",{**malformed,"actor":"worker"},operation_key="boolean-cas")
+        with self.assertRaisesRegex(RuntimeUnavailable,"task identity"): self.s.create_task("","receipt")
+        with self.assertRaisesRegex(RuntimeUnavailable,"origin binding"):
+            self.s.transition("INITIALIZE","U",{"receipt_digest":"receipt","owner":"owner","extra":"denied"},operation_key="extra-origin")
+
+        claim=self.claim()["tuple"]
+        with self.assertRaises(RuntimeUnavailable):
+            self.s.transition("RECOVER","T",{**self.req(),"liveness_evidence":{"documented":False}},operation_key="untyped-liveness")
+        with self.assertRaisesRegex(RuntimeUnavailable,"worker fence"):
+            self.s.transition("START","T",{**self.req(),"claim_id":claim["active_claim_id"],"fence":True},operation_key="boolean-fence")
+        self.s.transition("START","T",{**self.req(),"claim_id":claim["active_claim_id"],"fence":claim["task_fence"]},operation_key="start")
+        current=self.req()
+        with self.assertRaisesRegex(RuntimeUnavailable,"completion mode"):
+            self.s.transition("COMPLETE","T",{**current,"claim_id":current["expected"]["active_claim_id"],"fence":current["expected"]["task_fence"],"close":"false"},operation_key="string-close")
+        current=self.req(); self.s.transition("FAIL","T",{**current,"claim_id":current["expected"]["active_claim_id"],"fence":current["expected"]["task_fence"]},operation_key="fail")
+        with self.assertRaises(RuntimeUnavailable): self.s.transition("RETRY","T",{**self.req(),"retryable":1},operation_key="numeric-retry")
+
+        original=self.s.bundle(); changed=Bundle(original.commit,"f"*64,original.project,original.stops,original.policy,original.tasks)
+        with patch.object(self.s,"bundle",return_value=changed):
+            with self.assertRaisesRegex(RuntimeUnavailable,"import binding"): self.s.import_repository(["T"],reason="")
+        self.s.startup()
     def test_backup_export_and_corruption_fail_closed(self):
         backup=Path(self.tmp.name)/"backup.sqlite"; digest=self.s.backup(backup); self.assertEqual(len(digest),64)
         export=self.s.export(Path(self.tmp.name)/"export.json"); self.assertNotIn("checkout_local_nonce",json.dumps(export)); self.assertEqual(len(export["snapshot_digest"]),64)
@@ -104,7 +128,7 @@ class SchedulerTests(unittest.TestCase):
         c=self.claim()["tuple"]; self.s.transition("START","T",{**self.req(),"claim_id":c["active_claim_id"],"fence":c["task_fence"]},operation_key="start")
         r=self.req(); self.s.transition("COMPLETE","T",{**r,"claim_id":r["expected"]["active_claim_id"],"fence":r["expected"]["task_fence"]},operation_key="complete")
         a=self.s.transition("ASSIGN_REVIEW","T",{**self.req(),"actor":"reviewer","role":"skeptic"},operation_key="assign")["tuple"]
-        self.s.transition("REMEDIATE","T",{**self.req(),"reviewer_id":a["reviewer_assignment_id"]},operation_key="remediate")
+        self.s.transition("REMEDIATE","T",{**self.req(),"reviewer_id":a["reviewer_assignment_id"],"decision_digest":"d"*64},operation_key="remediate")
         request={"expected":self.req()["expected"],"repository_generation":self.req()["repository_generation"],"decision_digest":"d"*64,"receipt_digest":"child","owner":"owner"}
         with self.assertRaises(RuntimeError): self.s.create_remediation("T","C",request,operation_key="link-fail",inject="after_event")
         c=self.s.connect(); self.assertIsNone(c.execute("select 1 from tasks where task_id='C'").fetchone()); c.close()
@@ -140,11 +164,147 @@ class SchedulerTests(unittest.TestCase):
         row=self.row()
         self.assertEqual((row["workflow"],row["execution"],row["repository_generation"]),("GOVERNANCE_BLOCKED","EXECUTION_BLOCKED",1))
         self.s.startup()
+    def test_repository_import_supports_lagging_tasks_but_denies_stale_transition(self):
+        self.s.create_task("U","receipt-u")
+        original=self.s.bundle(); first=Bundle(original.commit,"1"*64,original.project,original.stops,original.policy,original.tasks); second=Bundle(original.commit,"2"*64,original.project,original.stops,original.policy,original.tasks)
+        with patch.object(self.s,"bundle",return_value=first): self.s.import_repository(["T"])
+        c=self.s.connect(); u=c.execute("select * from tasks where task_id='U'").fetchone(); c.close()
+        stale={"expected":self.s.tuple(u),"repository_generation":1,"receipt_digest":u["receipt_digest"],"actor":"worker"}
+        with patch.object(self.s,"bundle",return_value=first):
+            with self.assertRaisesRegex(RuntimeUnavailable,"stale repository"): self.s.transition("CLAIM","U",stale,operation_key="stale-u")
+        with patch.object(self.s,"bundle",return_value=second): self.s.import_repository(["U"])
+        self.s.startup()
+        c=self.s.connect(); event=c.execute("select payload from task_events where task_id='U' order by task_seq desc limit 1").fetchone(); c.close()
+        payload=json.loads(event["payload"]); self.assertEqual((payload["old"],payload["task_old"],payload["new"]),(1,0,2))
     def test_cooperative_lock_contention_denies_without_mutation(self):
         with self.s.locked("holder"):
             with self.assertRaisesRegex(RuntimeUnavailable,"lock held"):
                 with self.s.locked("second"): pass
         self.s.startup()
+
+    def test_complete_requires_started_work_and_governance_scope_is_bounded(self):
+        for actor in ("", None):
+            with self.subTest(actor=actor):
+                with self.assertRaisesRegex(RuntimeUnavailable,"claim actor"):
+                    self.s.transition("CLAIM","T",{**self.req(),"actor":actor},operation_key=f"bad-actor-{actor!r}")
+        claim=self.claim()["tuple"]
+        request={**self.req(),"claim_id":claim["active_claim_id"],"fence":claim["task_fence"],"close":True}
+        with self.assertRaises(RuntimeUnavailable):
+            self.s.transition("COMPLETE","T",request,operation_key="premature-complete")
+        self.s.transition("START","T",{**self.req(),"claim_id":claim["active_claim_id"],"fence":claim["task_fence"]},operation_key="start")
+        current=self.req()
+        self.s.transition("COMPLETE","T",{**current,"claim_id":current["expected"]["active_claim_id"],"fence":current["expected"]["task_fence"],"close":True},operation_key="complete")
+        with self.assertRaises(RuntimeUnavailable):
+            self.s.transition("GOVERNANCE_BLOCK","T",self.req(),operation_key="block-terminal")
+        original=self.s.bundle(); changed=Bundle(original.commit,"f"*64,original.project,original.stops,original.policy,original.tasks)
+        with patch.object(self.s,"bundle",return_value=changed):
+            with self.assertRaisesRegex(RuntimeUnavailable,"transition scope"):
+                self.s.import_repository(["T"])
+        self.s.startup()
+
+    def test_review_assignment_requires_nonempty_independent_identity(self):
+        claim=self.claim()["tuple"]
+        self.s.transition("START","T",{**self.req(),"claim_id":claim["active_claim_id"],"fence":claim["task_fence"]},operation_key="start")
+        current=self.req()
+        self.s.transition("COMPLETE","T",{**current,"claim_id":current["expected"]["active_claim_id"],"fence":current["expected"]["task_fence"]},operation_key="complete")
+        for actor,role in (("","skeptic"),("reviewer",""),(None,"skeptic"),("reviewer",None)):
+            with self.subTest(actor=actor,role=role):
+                with self.assertRaisesRegex(RuntimeUnavailable,"review independence"):
+                    self.s.transition("ASSIGN_REVIEW","T",{**self.req(),"actor":actor,"role":role},operation_key=f"bad-review-{actor!r}-{role!r}")
+        self.s.startup()
+
+    def test_replay_rejects_rehashed_semantically_impossible_event_delta_and_binding(self):
+        self.claim()
+        c=self.s.connect(); row=c.execute("select * from task_events where task_id='T' order by task_seq desc limit 1").fetchone()
+        after=json.loads(row["after_json"]); after["execution"]="IN_PROGRESS"
+        body={"id":row["event_id"],"n":row["global_seq"],"seq":row["task_seq"],"type":row["event_type"],"before":json.loads(row["before_json"]),"after":after,"payload":json.loads(row["payload"]),"prev":row["prev_task_digest"]}; event_digest=digest(body)
+        c.execute("update task_events set after_json=?,event_digest=? where event_id=?",(json.dumps(after),event_digest,row["event_id"])); c.execute("update tasks set execution='IN_PROGRESS' where task_id='T'"); c.execute("update meta set v=? where k='global_head_digest'",(json.dumps(event_digest),)); c.commit(); c.close()
+        with self.assertRaisesRegex(RuntimeUnavailable,"claim transition|event delta"):
+            self.s.startup()
+
+        self.tmp.cleanup(); self.tmp=tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
+        self.s=Scheduler(ROOT,Path(self.tmp.name)/"runtime"); self.s.initialize(); self.s.create_task("T","receipt"); self.claim()
+        c=self.s.connect(); row=c.execute("select * from task_events where task_id='T' order by task_seq desc limit 1").fetchone()
+        payload=json.loads(row["payload"]); payload["request"]["task_id"]="OTHER"
+        body={"id":row["event_id"],"n":row["global_seq"],"seq":row["task_seq"],"type":row["event_type"],"before":json.loads(row["before_json"]),"after":json.loads(row["after_json"]),"payload":payload,"prev":row["prev_task_digest"]}; event_digest=digest(body)
+        c.execute("update task_events set payload=?,event_digest=? where event_id=?",(json.dumps(payload),event_digest,row["event_id"])); c.execute("update meta set v=? where k='global_head_digest'",(json.dumps(event_digest),)); c.commit(); c.close()
+        with self.assertRaisesRegex(RuntimeUnavailable,"request mismatch"):
+            self.s.startup()
+
+    def test_replay_reconstructs_attempt_claim_review_and_task_metadata(self):
+        self.claim()
+        mutations=(("tasks","owner='other'","task metadata"),("tasks","reviewer='forged'","task metadata"),("attempts","predecessor_attempt=99","attempt replay"),("claims","actor='other'","claim replay"),("claims","status='CLOSED'","claim replay"))
+        for table,change,message in mutations:
+            with self.subTest(table=table,change=change):
+                c=self.s.connect(); c.execute(f"update {table} set {change}"); c.commit(); c.close()
+                with self.assertRaisesRegex(RuntimeUnavailable,message): self.s.startup()
+                self.tmp.cleanup(); self.tmp=tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
+                self.s=Scheduler(ROOT,Path(self.tmp.name)/"runtime"); self.s.initialize(); self.s.create_task("T","receipt"); self.claim()
+
+        self.s.transition("START","T",{**self.req(),"claim_id":self.req()["expected"]["active_claim_id"],"fence":self.req()["expected"]["task_fence"]},operation_key="start")
+        current=self.req(); self.s.transition("COMPLETE","T",{**current,"claim_id":current["expected"]["active_claim_id"],"fence":current["expected"]["task_fence"]},operation_key="complete")
+        self.s.transition("ASSIGN_REVIEW","T",{**self.req(),"actor":"reviewer","role":"skeptic"},operation_key="review")
+        c=self.s.connect(); c.execute("update reviews set role='owner'"); c.commit(); c.close()
+        with self.assertRaisesRegex(RuntimeUnavailable,"review replay"): self.s.startup()
+
+    def test_replay_rejects_deleted_historical_claim(self):
+        claim=self.claim()["tuple"]
+        self.s.transition("YIELD","T",{**self.req(),"claim_id":claim["active_claim_id"],"fence":claim["task_fence"]},operation_key="yield")
+        c=self.s.connect(); c.execute("delete from claims where task_id='T'"); c.commit(); c.close()
+        with self.assertRaisesRegex(RuntimeUnavailable,"claim replay"): self.s.startup()
+
+    def test_remediation_replay_binds_reciprocal_child_metadata_and_one_successor(self):
+        claim=self.claim()["tuple"]
+        self.s.transition("START","T",{**self.req(),"claim_id":claim["active_claim_id"],"fence":claim["task_fence"]},operation_key="start")
+        current=self.req(); self.s.transition("COMPLETE","T",{**current,"claim_id":current["expected"]["active_claim_id"],"fence":current["expected"]["task_fence"]},operation_key="complete")
+        assigned=self.s.transition("ASSIGN_REVIEW","T",{**self.req(),"actor":"reviewer","role":"skeptic"},operation_key="review")["tuple"]
+        with self.assertRaisesRegex(RuntimeUnavailable,"decision digest"):
+            self.s.transition("REMEDIATE","T",{**self.req(),"reviewer_id":assigned["reviewer_assignment_id"]},operation_key="missing-decision")
+        self.s.transition("REMEDIATE","T",{**self.req(),"reviewer_id":assigned["reviewer_assignment_id"],"decision_digest":"d"*64},operation_key="remediate")
+        request={"expected":self.req()["expected"],"repository_generation":self.req()["repository_generation"],"decision_digest":"d"*64,"receipt_digest":"child-receipt","owner":"child-owner"}
+        with self.assertRaisesRegex(RuntimeUnavailable,"task identity"):
+            self.s.create_remediation("T","",request,operation_key="empty-child")
+        with self.assertRaisesRegex(RuntimeUnavailable,"remediation binding"):
+            self.s.create_remediation("T","C",{**request,"decision_digest":"not-a-digest"},operation_key="bad-decision")
+        with self.assertRaisesRegex(RuntimeUnavailable,"decision mismatch"):
+            self.s.create_remediation("T","C",{**request,"decision_digest":"e"*64},operation_key="wrong-decision")
+        self.s.startup()
+        result=self.s.create_remediation("T","C",request,operation_key="link")
+        self.s.startup()
+        c=self.s.connect(); child_payload=json.loads(c.execute("select payload from task_events where task_id='C'").fetchone()[0]); c.close()
+        self.assertEqual((child_payload["owner"],child_payload["receipt_digest"]),("child-owner","child-receipt"))
+        request={**request,"expected":self.req()["expected"]}
+        with self.assertRaisesRegex(RuntimeUnavailable,"lineage"):
+            self.s.create_remediation("T","D",request,operation_key="second-link")
+
+        c=self.s.connect(); link=dict(c.execute("select * from remediation_links").fetchone()); c.execute("delete from remediation_links"); c.commit(); c.close()
+        with self.assertRaisesRegex(RuntimeUnavailable,"remediation link"): self.s.startup()
+        c=self.s.connect(); c.execute("insert into remediation_links values (?,?,?,?,?,?,?)",tuple(link[key] for key in ("link_id","source_task","child_task","source_event","child_event","decision_digest","link_digest")))
+        row=c.execute("select * from task_events where task_id='C'").fetchone(); payload=json.loads(row["payload"]); payload["owner"]="other"
+        body={"id":row["event_id"],"n":row["global_seq"],"seq":row["task_seq"],"type":row["event_type"],"before":json.loads(row["before_json"]),"after":json.loads(row["after_json"]),"payload":payload,"prev":row["prev_task_digest"]}; event_digest=digest(body)
+        c.execute("update task_events set payload=?,event_digest=? where event_id=?",(json.dumps(payload),event_digest,row["event_id"])); c.execute("update tasks set owner='other' where task_id='C'"); c.execute("update meta set v=? where k='global_head_digest'",(json.dumps(event_digest),)); c.commit(); c.close()
+        with self.assertRaisesRegex(RuntimeUnavailable,"child metadata"): self.s.startup()
+
+        self.assertEqual(len(result["relationship_id"]),36)
+
+    def test_replay_binds_remediation_to_exact_review_decision(self):
+        claim=self.claim()["tuple"]
+        self.s.transition("START","T",{**self.req(),"claim_id":claim["active_claim_id"],"fence":claim["task_fence"]},operation_key="start")
+        current=self.req(); self.s.transition("COMPLETE","T",{**current,"claim_id":current["expected"]["active_claim_id"],"fence":current["expected"]["task_fence"]},operation_key="complete")
+        assigned=self.s.transition("ASSIGN_REVIEW","T",{**self.req(),"actor":"reviewer","role":"skeptic"},operation_key="review")["tuple"]
+        self.s.transition("REMEDIATE","T",{**self.req(),"reviewer_id":assigned["reviewer_assignment_id"],"decision_digest":"d"*64},operation_key="remediate")
+        request={"expected":self.req()["expected"],"repository_generation":self.req()["repository_generation"],"decision_digest":"d"*64,"receipt_digest":"child-receipt","owner":"child-owner"}
+        self.s.create_remediation("T","C",request,operation_key="link")
+
+        c=self.s.connect(); source=c.execute("select * from task_events where event_type='REMEDIATION_CREATED'").fetchone(); child=c.execute("select * from task_events where event_type='TASK_CREATED_FROM_REMEDIATION'").fetchone(); replacement="e"*64
+        source_payload=json.loads(source["payload"]); source_payload["decision"]=replacement
+        source_digest=digest({"id":source["event_id"],"n":source["global_seq"],"seq":source["task_seq"],"type":source["event_type"],"before":json.loads(source["before_json"]),"after":json.loads(source["after_json"]),"payload":source_payload,"prev":source["prev_task_digest"]})
+        child_payload=json.loads(child["payload"]); child_payload["decision"]=replacement
+        child_digest=digest({"id":child["event_id"],"n":child["global_seq"],"seq":child["task_seq"],"type":child["event_type"],"before":json.loads(child["before_json"]),"after":json.loads(child["after_json"]),"payload":child_payload,"prev":child["prev_task_digest"]})
+        c.execute("update task_events set payload=?,event_digest=? where event_id=?",(json.dumps(source_payload),source_digest,source["event_id"])); c.execute("update task_events set payload=?,event_digest=?,prev_global_digest=? where event_id=?",(json.dumps(child_payload),child_digest,source_digest,child["event_id"]))
+        link=dict(c.execute("select * from remediation_links").fetchone()); material={key:link[key] for key in ("link_id","source_task","child_task","source_event","child_event")}; material["decision_digest"]=replacement
+        c.execute("update remediation_links set decision_digest=?,link_digest=? where link_id=?",(replacement,digest(material),link["link_id"])); c.execute("update meta set v=? where k='global_head_digest'",(json.dumps(child_digest),)); c.commit(); c.close()
+        with self.assertRaisesRegex(RuntimeUnavailable,"remediation decision mismatch"): self.s.startup()
 
 
 class LockedAuthorityTests(unittest.TestCase):
@@ -284,7 +444,8 @@ class LockedAuthorityTests(unittest.TestCase):
 
         self.tmp.cleanup(); self.tmp=tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
         self.s=Scheduler(ROOT,Path(self.tmp.name)/"runtime"); self.s.initialize(); self.s.create_task("T","receipt")
-        self.s.transition("CLAIM","T",{**self.req(),"actor":""},operation_key="claim")
+        self.s.transition("CLAIM","T",{**self.req(),"actor":"worker"},operation_key="claim")
+        c=self.s.connect(); c.execute("update claims set actor='' where task_id='T'"); c.commit(); c.close()
         actor=read_locked_authority(self.s,"T")
         self.assert_closed(actor); self.assertEqual(actor["failure_reason"],"AUTHORITY_INVALID")
 
@@ -302,19 +463,19 @@ class LockedAuthorityTests(unittest.TestCase):
         self.s.transition("CLAIM","T",{**self.req(),"actor":"worker"},operation_key="claim")
         c=self.s.connect(); c.execute("update claims set fence=fence+1 where task_id='T'"); c.commit(); c.close()
         result=read_locked_authority(self.s,"T")
-        self.assert_closed(result); self.assertEqual(result["failure_reason"],"CLAIM_INCONSISTENT")
+        self.assert_closed(result); self.assertEqual(result["failure_reason"],"AUTHORITY_INVALID")
 
     def test_claim_actor_attempt_and_review_inconsistency_deny(self):
         self.s.transition("CLAIM","T",{**self.req(),"actor":"worker"},operation_key="claim")
         c=self.s.connect(); c.execute("update claims set actor='other' where task_id='T'"); c.commit(); c.close()
         actor=read_locked_authority(self.s,"T")
-        self.assert_closed(actor); self.assertEqual(actor["failure_reason"],"CLAIM_INCONSISTENT")
+        self.assert_closed(actor); self.assertEqual(actor["failure_reason"],"AUTHORITY_INVALID")
 
         self.tmp.cleanup(); self.tmp=tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
         self.s=Scheduler(ROOT,Path(self.tmp.name)/"runtime"); self.s.initialize(); self.s.create_task("T","receipt")
         c=self.s.connect(); c.execute("delete from attempts where task_id='T'"); c.commit(); c.close()
         attempt=read_locked_authority(self.s,"T")
-        self.assert_closed(attempt); self.assertEqual(attempt["failure_reason"],"ATTEMPT_INCONSISTENT")
+        self.assert_closed(attempt); self.assertEqual(attempt["failure_reason"],"AUTHORITY_INVALID")
 
         self.tmp.cleanup(); self.tmp=tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
         self.s=Scheduler(ROOT,Path(self.tmp.name)/"runtime"); self.s.initialize(); self.s.create_task("T","receipt")
@@ -324,7 +485,7 @@ class LockedAuthorityTests(unittest.TestCase):
         self.s.transition("ASSIGN_REVIEW","T",{**self.req(),"actor":"reviewer","role":"skeptic"},operation_key="review")
         c=self.s.connect(); c.execute("delete from reviews where task_id='T'"); c.commit(); c.close()
         review=read_locked_authority(self.s,"T")
-        self.assert_closed(review); self.assertEqual(review["failure_reason"],"REVIEW_INCONSISTENT")
+        self.assert_closed(review); self.assertEqual(review["failure_reason"],"AUTHORITY_INVALID")
 
     def test_governance_block_fences_auxiliary_rows_and_remains_readable(self):
         self.s.transition("CLAIM","T",{**self.req(),"actor":"worker"},operation_key="claim")
