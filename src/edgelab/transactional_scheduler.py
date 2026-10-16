@@ -269,15 +269,26 @@ class Scheduler:
             try:
                 c.execute("BEGIN IMMEDIATE"); self._verify(c); old=self._meta(c,"repository_generation"); prior=self._meta(c,"bundle_digest")
                 if b.digest==prior: c.rollback(); return
+                if len(affected) != len(set(affected)): raise RuntimeUnavailable("duplicate affected task")
                 new=old+1; self._set(c,"repository_generation",new)
                 self._set(c,"bundle_digest",b.digest)
                 for tid in affected:
                     row=c.execute("SELECT * FROM tasks WHERE task_id=?",(tid,)).fetchone()
                     if not row: raise RuntimeUnavailable("unknown affected task")
+                    before=self.tuple(row)
                     if (row["workflow"],row["execution"],row["review"]) in {( "ACTIVE","CLAIMABLE","NOT_REQUIRED")}:
                         c.execute("UPDATE tasks SET scheduler_generation=scheduler_generation+1,repository_generation=? WHERE task_id=?",(new,tid))
                     else:
                         c.execute("UPDATE tasks SET workflow='GOVERNANCE_BLOCKED',execution='EXECUTION_BLOCKED',review=?,claim_id=NULL,reviewer_id=NULL,scheduler_generation=scheduler_generation+1,dispatch_generation=dispatch_generation+1,task_fence=task_fence+1,repository_generation=? WHERE task_id=?",("REVIEW_PENDING" if row["review"] in {"REVIEW_PENDING","REVIEWING"} else "NOT_REQUIRED",new,tid))
+                    updated=c.execute("SELECT * FROM tasks WHERE task_id=?",(tid,)).fetchone()
+                    self._task_event(
+                        c,
+                        updated,
+                        before,
+                        self.tuple(updated),
+                        "REPOSITORY_GENERATION_APPLIED",
+                        {"old":old,"new":new,"bundle":b.digest,"source_commit":b.commit,"reason":reason},
+                    )
                 self._runtime_event(c,"REPOSITORY_GENERATION_ADVANCED",{"old":old,"new":new,"bundle":b.digest,"source_commit":b.commit,"project":b.project,"stops":b.stops,"policy":b.policy,"reason":reason,"affected":affected},b); c.commit()
             except Exception:
                 if c.in_transaction:c.rollback()

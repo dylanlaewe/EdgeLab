@@ -95,6 +95,20 @@ class SchedulerTests(unittest.TestCase):
         self.s.import_repository(["T"]); self.assertEqual(self.row()["repository_generation"],0)
         with patch.object(self.s,"bundle",return_value=changed): self.s.import_repository(["T"])
         self.assertEqual(self.row()["repository_generation"],1)
+        self.s.startup()
+        c=self.s.connect(); event=c.execute("select * from task_events where task_id='T' order by task_seq desc limit 1").fetchone(); c.close()
+        self.assertEqual(event["event_type"],"REPOSITORY_GENERATION_APPLIED")
+        self.assertEqual(json.loads(event["before_json"])["repository_generation"],0)
+        self.assertEqual(json.loads(event["after_json"])["repository_generation"],1)
+    def test_generation_advance_governance_block_is_replayable_and_duplicates_deny(self):
+        self.claim(); original=self.s.bundle(); changed=Bundle(original.commit,"e"*64,original.project,original.stops,original.policy,original.tasks)
+        with patch.object(self.s,"bundle",return_value=changed):
+            with self.assertRaisesRegex(RuntimeUnavailable,"duplicate affected"):
+                self.s.import_repository(["T","T"])
+            self.s.import_repository(["T"])
+        row=self.row()
+        self.assertEqual((row["workflow"],row["execution"],row["repository_generation"]),("GOVERNANCE_BLOCKED","EXECUTION_BLOCKED",1))
+        self.s.startup()
     def test_cooperative_lock_contention_denies_without_mutation(self):
         with self.s.locked("holder"):
             with self.assertRaisesRegex(RuntimeUnavailable,"lock held"):
