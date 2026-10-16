@@ -8,8 +8,10 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from jsonschema import Draft202012Validator
+from jsonschema import Draft202012Validator, RefResolver
 
+import src.edgelab.authority_binding as authority_binding
+from src.edgelab.authority_binding import compose_authority_binding, verify_binding_integrity
 from src.edgelab.locked_authority import read_locked_authority
 from src.edgelab.transactional_scheduler import Scheduler, RuntimeUnavailable, Bundle, digest
 from src.edgelab.validate import ROOT
@@ -513,5 +515,163 @@ class LockedAuthorityTests(unittest.TestCase):
             result=read_locked_authority(self.s,"T")
         self.assert_closed(result); self.assertEqual(result["observation_status"],"COHERENT_DENY_ONLY")
         c=self.s.connect(read_only=True); self.assertEqual(c.execute("select status from claims where task_id='T'").fetchone()[0],"GOVERNANCE_BLOCKED"); c.close()
+
+
+class AuthorityBindingTests(unittest.TestCase):
+    capture_id="AUTH-AUTHENTIC-STAGE1-DISPATCH"
+    task_id="T-SYNTHETIC-001"
+
+    @classmethod
+    def setUpClass(cls):
+        cls.historical=authority_binding.verify_authentic_history(ROOT/"tests/fixtures/authentic-stage1/dispatch")
+        if cls.historical["status"]!="HISTORICALLY_VALID": raise RuntimeError("historical test fixture unavailable")
+
+    def setUp(self):
+        self.tmp=tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
+        self.s=Scheduler(ROOT,Path(self.tmp.name)/"runtime"); self.s.initialize(); self.s.create_task(self.task_id,"untrusted-receipt")
+        self.seal_schema=json.loads((ROOT/"schemas/m0-3a-historical-decision-seal.v1.schema.json").read_text())
+        self.candidate_schema=json.loads((ROOT/"schemas/m0-3a-authority-binding-candidate.v1.schema.json").read_text())
+        self.v3=json.loads((ROOT/"schemas/m0-2-decision-evidence-verification-result.v3.schema.json").read_text())
+
+    def assert_candidate(self,result):
+        resolver=RefResolver(
+            (ROOT/"schemas").as_uri()+"/",
+            self.candidate_schema,
+            store={self.seal_schema["$id"]:self.seal_schema},
+        )
+        Draft202012Validator(self.candidate_schema,resolver=resolver).validate(result)
+        Draft202012Validator(self.v3).validate(result["verification"])
+        self.assertTrue(verify_binding_integrity(result))
+        self.assertEqual(result["verification"]["authorizing_use"],"DENY")
+        self.assertNotEqual(result["verification"]["currentness_status"],"CURRENT")
+        self.assertEqual(result["candidate_sha256"],digest({key:value for key,value in result.items() if key!="candidate_sha256"}))
+        if result["historical_seal"] is not None:
+            seal=result["historical_seal"]
+            Draft202012Validator(self.seal_schema).validate(seal)
+            self.assertEqual(seal["seal_sha256"],digest({key:value for key,value in seal.items() if key!="seal_sha256"}))
+
+    def runtime_state(self):
+        c=self.s.connect(read_only=True)
+        try: dump="\n".join(c.iterdump())
+        finally: c.close()
+        files={path.name:digest(path.read_bytes()) for path in self.s.dir.iterdir() if path.is_file()}
+        return dump,files
+
+    def test_real_historical_dispatch_binds_but_remains_deny_only_and_read_only(self):
+        before=self.runtime_state(); result=compose_authority_binding(self.s,self.task_id,self.capture_id); after=self.runtime_state()
+        self.assert_candidate(result)
+        self.assertEqual(result["status"],"BOUND_DENY_ONLY")
+        self.assertEqual(result["evidence_class"],"R_GATE_CANDIDATE_EVIDENCE")
+        self.assertEqual(result["attempt"],1)
+        self.assertEqual(result["historical_seal"]["subject"],{"attempt":1,"task_id":self.task_id})
+        self.assertEqual(result["historical_seal"]["decision"]["operation"],"SYNTHETIC_ASSERT")
+        self.assertEqual(before,after)
+
+    def test_historical_deny_is_non_authorizing_evidence(self):
+        deny=authority_binding.verify_authentic_history(ROOT/"tests/fixtures/authentic-stage1/deny")
+        with patch.object(authority_binding,"verify_authentic_history",return_value=deny):
+            result=compose_authority_binding(self.s,self.task_id,"AUTH-AUTHENTIC-STAGE1-DENY")
+        self.assert_candidate(result)
+        self.assertEqual((result["status"],result["evidence_class"]),("BOUND_DENY_ONLY","NON_AUTHORIZING_EVIDENCE"))
+        self.assertIsNone(result["historical_seal"]["decision"].get("operation"))
+
+    def test_api_has_no_caller_source_receipt_or_snapshot_inputs(self):
+        self.assertEqual(tuple(inspect.signature(compose_authority_binding).parameters),("scheduler","task_id","capture_id"))
+        with self.assertRaises(TypeError): compose_authority_binding(self.s,self.task_id,self.capture_id,snapshot={})
+        for task,capture,reason in (("",self.capture_id,"INPUT_INVALID"),(self.task_id,"","INPUT_INVALID"),(self.task_id,"UNKNOWN","CAPTURE_UNKNOWN")):
+            with self.subTest(task=task,capture=capture):
+                result=compose_authority_binding(self.s,task,capture); self.assert_candidate(result); self.assertEqual(result["failure_reason"],reason)
+
+    def test_subject_attempt_and_runtime_mismatch_fail_closed(self):
+        with patch.object(authority_binding,"verify_authentic_history",return_value=self.historical):
+            unknown=compose_authority_binding(self.s,"OTHER",self.capture_id)
+        self.assert_candidate(unknown); self.assertEqual(unknown["failure_reason"],"RUNTIME_UNAVAILABLE")
+
+        claimed=self.s.transition("CLAIM",self.task_id,{"expected":self.s.tuple(self._row()),"repository_generation":0,"receipt_digest":"untrusted-receipt","actor":"worker"},operation_key="claim")["tuple"]
+        self.s.transition("FAIL",self.task_id,{"expected":self.s.tuple(self._row()),"repository_generation":0,"receipt_digest":"untrusted-receipt","claim_id":claimed["active_claim_id"],"fence":claimed["task_fence"]},operation_key="fail")
+        self.s.transition("RETRY",self.task_id,{"expected":self.s.tuple(self._row()),"repository_generation":0,"receipt_digest":"untrusted-receipt","retryable":True},operation_key="retry")
+        with patch.object(authority_binding,"verify_authentic_history",return_value=self.historical):
+            attempt=compose_authority_binding(self.s,self.task_id,self.capture_id)
+        self.assert_candidate(attempt); self.assertEqual(attempt["failure_reason"],"SUBJECT_MISMATCH")
+
+    def _row(self):
+        c=self.s.connect(read_only=True); row=c.execute("select * from tasks where task_id=?",(self.task_id,)).fetchone(); c.close(); return row
+
+    def test_source_and_runtime_races_fail_closed(self):
+        original_sources=authority_binding._source_bytes; calls=0
+        def raced_sources(root,fixture=None):
+            nonlocal calls
+            calls+=1; value=original_sources(root,fixture)
+            if calls==3: value={**value,"sidecar":value["sidecar"]+b"race"}
+            return value
+        with patch.object(authority_binding,"verify_authentic_history",return_value=self.historical), patch.object(authority_binding,"_source_bytes",side_effect=raced_sources):
+            source=compose_authority_binding(self.s,self.task_id,self.capture_id)
+        self.assert_candidate(source); self.assertEqual(source["failure_reason"],"RACE_DETECTED")
+
+        actual=read_locked_authority(self.s,self.task_id); calls=0
+        def raced_authority(*args):
+            nonlocal calls
+            calls+=1; value=json.loads(json.dumps(actual))
+            if calls==2: value["authority_sha256"]="f"*64
+            return value
+        with patch.object(authority_binding,"verify_authentic_history",return_value=self.historical), patch.object(authority_binding,"read_locked_authority",side_effect=raced_authority):
+            runtime=compose_authority_binding(self.s,self.task_id,self.capture_id)
+        self.assert_candidate(runtime); self.assertEqual(runtime["failure_reason"],"RACE_DETECTED")
+
+    def test_invalid_history_and_positive_tampering_fail_closed(self):
+        invalid={**self.historical,"status":"INVALID","authorization_result":{**self.historical["authorization_result"],"historical_status":"INVALID","runtime_compatible":False,"reason_code":"HISTORICAL_INVALID"}}
+        with patch.object(authority_binding,"verify_authentic_history",return_value=invalid):
+            result=compose_authority_binding(self.s,self.task_id,self.capture_id)
+        self.assert_candidate(result); self.assertEqual(result["failure_reason"],"HISTORICAL_INVALID")
+
+        with patch.object(authority_binding,"verify_authentic_history",return_value=self.historical):
+            bound=compose_authority_binding(self.s,self.task_id,self.capture_id)
+        bound["verification"].update({"currentness_status":"CURRENT","verifier_status":"PASS","generation_match":True,"authorizing_use":"ALLOW","reason_code":"NONE"})
+        resolver=RefResolver((ROOT/"schemas").as_uri()+"/",self.candidate_schema,store={self.seal_schema["$id"]:self.seal_schema})
+        with self.assertRaises(Exception): Draft202012Validator(self.candidate_schema,resolver=resolver).validate(bound)
+
+        with patch.object(authority_binding,"verify_authentic_history",return_value=self.historical):
+            bound=compose_authority_binding(self.s,self.task_id,self.capture_id)
+        bound["evidence_class"]="NON_AUTHORIZING_EVIDENCE"
+        with self.assertRaises(Exception): Draft202012Validator(self.candidate_schema,resolver=resolver).validate(bound)
+
+        unavailable=compose_authority_binding(self.s,"UNKNOWN",self.capture_id)
+        unavailable["attempt"]=1
+        with self.assertRaises(Exception): Draft202012Validator(self.candidate_schema,resolver=resolver).validate(unavailable)
+
+    def test_source_pins_canonical_root_and_semantic_verifier_deny_substitution(self):
+        original=authority_binding._source_bytes
+        def substituted(root,fixture=None):
+            value=original(root,fixture)
+            return {**value,"mapping":b"not the mapping contract\n"}
+        with patch.object(authority_binding,"_source_bytes",side_effect=substituted):
+            result=compose_authority_binding(self.s,self.task_id,self.capture_id)
+        self.assert_candidate(result); self.assertEqual(result["failure_reason"],"SOURCE_INVALID")
+
+        original_load=authority_binding.load_trust
+        def substituted_capture_root(*args,**kwargs):
+            trust,capture_root=original_load(*args,**kwargs)
+            capture_root=json.loads(json.dumps(capture_root)); capture_root["root_sha256"]="f"*64
+            return trust,capture_root
+        with patch.object(authority_binding,"load_trust",side_effect=substituted_capture_root):
+            result=compose_authority_binding(self.s,self.task_id,self.capture_id)
+        self.assert_candidate(result); self.assertEqual(result["failure_reason"],"SOURCE_INVALID")
+
+        alternate=Scheduler(Path(self.tmp.name)/"alternate-root",Path(self.tmp.name)/"alternate-runtime")
+        result=compose_authority_binding(alternate,self.task_id,self.capture_id)
+        self.assert_candidate(result); self.assertEqual(result["failure_reason"],"SOURCE_INVALID")
+
+        with patch.object(authority_binding,"verify_authentic_history",return_value=self.historical):
+            bound=compose_authority_binding(self.s,self.task_id,self.capture_id)
+        attacks=(
+            lambda r: r.update(task_id="OTHER"),
+            lambda r: r["historical_seal"]["subject"].update(attempt=2),
+            lambda r: r["historical_seal"]["historical_verification"].update(decision_id="D-"+"f"*32),
+            lambda r: r["historical_seal"].update(raw_result_sha256="f"*64),
+            lambda r: r.update(candidate_sha256="f"*64),
+        )
+        for attack in attacks:
+            forged=json.loads(json.dumps(bound)); attack(forged)
+            with self.subTest(attack=attack): self.assertFalse(verify_binding_integrity(forged))
 
 if __name__ == "__main__": unittest.main()

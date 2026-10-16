@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edgelab.local/schemas/m0-3a-authority-binding-candidate.v1.schema.json",
+  "title": "EdgeLab DENY-only authority binding candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "capture_id", "task_id", "attempt", "historical_seal", "locked_authority_sha256", "evidence_class", "failure_reason", "verification", "limitations", "candidate_sha256"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "status": {"enum": ["BOUND_DENY_ONLY", "UNAVAILABLE"]},
+    "capture_id": {"type": "string"},
+    "task_id": {"type": "string"},
+    "attempt": {"type": ["integer", "null"], "minimum": 1},
+    "historical_seal": {"oneOf": [{"type": "null"}, {"$ref": "m0-3a-historical-decision-seal.v1.schema.json"}]},
+    "locked_authority_sha256": {"oneOf": [{"type": "null"}, {"$ref": "https://edgelab.local/schemas/m0-3a-authority-binding-candidate.v1.schema.json#/$defs/sha256"}]},
+    "evidence_class": {"type": ["string", "null"], "enum": ["R_GATE_CANDIDATE_EVIDENCE", "NON_AUTHORIZING_EVIDENCE", null]},
+    "failure_reason": {"type": ["string", "null"], "enum": ["INPUT_INVALID", "CAPTURE_UNKNOWN", "SOURCE_INVALID", "HISTORICAL_INVALID", "SUBJECT_MISMATCH", "RUNTIME_UNAVAILABLE", "RACE_DETECTED", "INTERNAL_FAILURE", null]},
+    "verification": {"$ref": "https://edgelab.local/schemas/m0-3a-authority-binding-candidate.v1.schema.json#/$defs/verification"},
+    "limitations": {"type": "array", "minItems": 5, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "candidate_sha256": {"$ref": "https://edgelab.local/schemas/m0-3a-authority-binding-candidate.v1.schema.json#/$defs/sha256"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "BOUND_DENY_ONLY"}}},
+      "then": {
+        "properties": {
+          "attempt": {"type": "integer", "minimum": 1},
+          "historical_seal": {"$ref": "m0-3a-historical-decision-seal.v1.schema.json"},
+          "locked_authority_sha256": {"$ref": "https://edgelab.local/schemas/m0-3a-authority-binding-candidate.v1.schema.json#/$defs/sha256"},
+          "evidence_class": {"enum": ["R_GATE_CANDIDATE_EVIDENCE", "NON_AUTHORIZING_EVIDENCE"]},
+          "failure_reason": {"type": "null"},
+          "verification": {"$ref": "https://edgelab.local/schemas/m0-3a-authority-binding-candidate.v1.schema.json#/$defs/bound_verification"},
+          "capture_id": {"type": "string", "minLength": 1},
+          "task_id": {"type": "string", "minLength": 1}
+        }
+      },
+      "else": {
+        "properties": {
+          "attempt": {"type": "null"},
+          "historical_seal": {"type": "null"},
+          "locked_authority_sha256": {"type": "null"},
+          "evidence_class": {"type": "null"},
+          "failure_reason": {"type": "string"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"evidence_class": {"const": "R_GATE_CANDIDATE_EVIDENCE"}}, "required": ["evidence_class"]},
+      "then": {
+        "properties": {
+          "historical_seal": {
+            "properties": {"decision": {"properties": {"decision": {"const": "DISPATCH"}}}}
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"evidence_class": {"const": "NON_AUTHORIZING_EVIDENCE"}}, "required": ["evidence_class"]},
+      "then": {
+        "properties": {
+          "historical_seal": {
+            "properties": {"decision": {"properties": {"decision": {"const": "DENY"}}}}
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "verification": {
+      "type": "object", "additionalProperties": false,
+      "required": ["historical_status", "currentness_status", "runtime_compatible", "verifier_status", "generation_match", "authorizing_use", "reason_code"],
+      "properties": {
+        "historical_status": {"enum": ["VALID", "INVALID"]},
+        "currentness_status": {"enum": ["STALE", "INCOMPATIBLE", "UNKNOWN"]},
+        "runtime_compatible": {"type": "boolean"},
+        "verifier_status": {"const": "FAIL"},
+        "generation_match": {"const": false},
+        "authorizing_use": {"const": "DENY"},
+        "reason_code": {"enum": ["HISTORICAL_INVALID", "STALE", "INCOMPATIBLE_RUNTIME", "GENERATION_MISMATCH", "VERIFIER_FAILURE"]}
+      }
+    },
+    "bound_verification": {
+      "type": "object", "additionalProperties": false,
+      "required": ["historical_status", "currentness_status", "runtime_compatible", "verifier_status", "generation_match", "authorizing_use", "reason_code"],
+      "properties": {
+        "historical_status": {"const": "VALID"},
+        "currentness_status": {"const": "UNKNOWN"},
+        "runtime_compatible": {"const": true},
+        "verifier_status": {"const": "FAIL"},
+        "generation_match": {"const": false},
+        "authorizing_use": {"const": "DENY"},
+        "reason_code": {"const": "VERIFIER_FAILURE"}
+      }
+    }
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edgelab.local/schemas/m0-3a-historical-decision-seal.v1.schema.json",
+  "title": "EdgeLab historical decision seal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "seal_id", "mapping_contract", "trusted_root", "capture_root", "capture", "subject", "decision", "raw_result_sha256", "historical_verification", "stable_projection_sha256", "source_projection_sha256", "seal_sha256"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "seal_id": {"type": "string", "pattern": "^HS-[0-9a-f]{32}$"},
+    "mapping_contract": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "version", "sha256"],
+      "properties": {
+        "id": {"const": "M0.3A-AUTHORITY-SOURCE-MAPPING"},
+        "version": {"const": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "trusted_root": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "sha256", "freeze_commit", "entrypoint"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "freeze_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "entrypoint": {"type": "string", "minLength": 1}
+      }
+    },
+    "capture_root": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "sha256"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "capture": {
+      "type": "object", "additionalProperties": false,
+      "required": ["capture_id", "fixture_path", "sidecar_sha256", "graph_sha256", "repository_inventory_sha256"],
+      "properties": {
+        "capture_id": {"type": "string", "minLength": 1},
+        "fixture_path": {"type": "string", "minLength": 1},
+        "sidecar_sha256": {"$ref": "#/$defs/sha256"},
+        "graph_sha256": {"$ref": "#/$defs/sha256"},
+        "repository_inventory_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "subject": {
+      "type": "object", "additionalProperties": false,
+      "required": ["task_id", "attempt"],
+      "properties": {
+        "task_id": {"type": "string", "minLength": 1},
+        "attempt": {"type": "integer", "minimum": 1}
+      }
+    },
+    "decision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["decision", "decision_id", "task_id", "reason", "execution_adapter"],
+      "properties": {
+        "decision": {"enum": ["DISPATCH", "DENY"]},
+        "decision_id": {"type": "string", "pattern": "^D-[0-9a-f]{32}$"},
+        "task_id": {"type": "string", "minLength": 1},
+        "reason": {"type": "string", "minLength": 1},
+        "execution_adapter": {"const": "MOCK_ONLY"},
+        "operation": {"type": ["string", "null"], "minLength": 1}
+      }
+    },
+    "raw_result_sha256": {"$ref": "#/$defs/sha256"},
+    "historical_verification": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "capture_id", "trusted_root_id", "replay_completed", "raw_result_match", "frozen_commit", "replay_root", "raw_result_sha256", "decision_id"],
+      "properties": {
+        "status": {"const": "HISTORICALLY_VALID"},
+        "capture_id": {"type": "string", "minLength": 1},
+        "trusted_root_id": {"type": "string", "minLength": 1},
+        "replay_completed": {"const": true},
+        "raw_result_match": {"const": true},
+        "frozen_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "replay_root": {"type": "string", "pattern": "^persisted-graph:[0-9a-f]{64}$"},
+        "raw_result_sha256": {"$ref": "#/$defs/sha256"},
+        "decision_id": {"type": "string", "pattern": "^D-[0-9a-f]{32}$"}
+      }
+    },
+    "stable_projection_sha256": {"$ref": "#/$defs/sha256"},
+    "source_projection_sha256": {"$ref": "#/$defs/sha256"},
+    "seal_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"decision": {"properties": {"decision": {"const": "DISPATCH"}}}}},
+      "then": {"properties": {"decision": {"required": ["operation"], "properties": {"operation": {"type": "string", "minLength": 1}}}}},
+      "else": {"properties": {"decision": {"properties": {"operation": {"type": "null"}}}}}
+    }
+  ],
+  "$defs": {"sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}
