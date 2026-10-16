@@ -1,0 +1,59 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-090",
+  "version": 1,
+  "created_at": "2026-10-16T22:39:22Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Harden the locally implementable M0.3A task replay boundary without inventing authoritative receipt/currentness semantics or changing any approval, STOP, execution, or capital state.",
+  "work_done": "Reproduced task-event identity and inventory gaps; made startup require exact task/event inventory equality, continuous before/after history, exact tuple shape, event/tuple attempt agreement, valid task origin events, exact N0 origin state, and final tuple equality. Added adversarial tests for task and attempt substitution, deleted and eventless task rows, rehashed discontinuity, and rehashed advanced origin state. A separate read-only review found the origin bypass and verified the final bounded patch. Broader task metadata and auxiliary-table replay remain explicitly open.",
+  "evidence_refs": [
+    "reports/H-M0-090-task-replay-closure.v1.md",
+    "reports/audit/A-M0-072.v1.json",
+    "src/edgelab/transactional_scheduler.py",
+    "tests/test_transactional_scheduler.py",
+    "docs/M0.3A_TRANSACTIONAL_CONTRACT.v3.md",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": [
+    "src/edgelab/transactional_scheduler.py",
+    "tests/test_transactional_scheduler.py",
+    "docs/project-state.json",
+    "reports/H-M0-090-task-replay-closure.v1.md",
+    "reports/audit/A-M0-072.v1.json",
+    "docs/handoffs/H-M0-090.v1.json"
+  ],
+  "tests_run": [
+    "Focused scheduler suite: 17 tests passed in 3.158 seconds.",
+    "Fast tier: 66 tests passed across 7 isolated modules in 11.933 seconds.",
+    "Production validator after evidence publication: 339 records and published history validated; M0 capital remained LOCKED and no scientific or operational approval was granted.",
+    "git diff --check passed."
+  ],
+  "open_questions": [
+    "How should remaining task metadata and attempts, claims, reviews, idempotency, seal, snapshot, migration, and meta rows be replay-derived or immutably bound?",
+    "Which reviewed field mappings and generation rules can eventually support a positive authoritative-currentness result?"
+  ],
+  "blockers": [
+    "Task IDs and attempts remain outside the current event-digest body, and broader auxiliary replay is incomplete.",
+    "H-M0-086 remains blocked on a genuinely distinct trusted 05 Skeptic authority; H-M0-041 remains BLOCKED.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; authoritative receipt/currentness/R-gate integration remains unresolved; M0 remains blocked, M1 remains unreleased, live remains LOCKED, kill remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Build a non-authorizing locked-authority read substrate over actual Git, attachment, and SQLite state that always emits UNKNOWN/DENY, while continuing bounded auxiliary replay hardening. Do not define CURRENT/ALLOW or integrate R-gated transitions without a reviewed mapping contract.",
+  "completion_criteria": [
+    "Task/event inventory mismatch, task or attempt substitution, discontinuity, invalid origin, and final tuple drift all deny startup.",
+    "Legitimate retry, repository import, remediation, review, migration, backup, and export paths remain green.",
+    "Residual auxiliary/materialization gaps and missing authoritative currentness remain explicit.",
+    "No STOP, project release, executor, live, kill-switch, or capital state changes."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-089.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-089",
+      "version": 1,
+      "sha256": "6bff7c326026c522160c0300ed691793b966a742a71c0567d6261ac878628ca1"
+    }
+  ]
+}

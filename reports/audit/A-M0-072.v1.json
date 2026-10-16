@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-072",
+  "version": 1,
+  "occurred_at": "2026-10-16T22:39:22Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_3A_TASK_TUPLE_REPLAY_HARDENED",
+  "subject_ref": "reports/H-M0-090-task-replay-closure.v1.md",
+  "previous_state": "TASK_EVENT_STREAMS_DID_NOT_CLOSE_TASK_INVENTORY_CONTINUITY_ATTEMPT_OR_ORIGIN",
+  "new_state": "TASK_TUPLE_INVENTORY_HISTORY_ATTEMPT_AND_ORIGIN_REPLAY_FAIL_CLOSED",
+  "reason": "Commit 1628573 makes startup deny event task/attempt substitution, missing or eventless materialized tasks, discontinuous before/after history, and rehashed advanced origin tuples. The change is bounded task-tuple replay hardening; auxiliary replay, authoritative currentness, R-gating, acceptance, STOP resolution, and capital authority remain pending.",
+  "evidence_refs": [
+    "reports/H-M0-090-task-replay-closure.v1.md",
+    "src/edgelab/transactional_scheduler.py",
+    "tests/test_transactional_scheduler.py",
+    "docs/M0.3A_TRANSACTIONAL_CONTRACT.v3.md",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "code_ref": "1628573d8679ac1c814df75756742bd3d0d70722",
+  "config_ref": "docs/M0.3_RUNTIME_FOUNDATION.md; docs/M0.3A_TRANSACTIONAL_CONTRACT.v15.md",
+  "correlation_id": "H-M0-090",
+  "supersedes": null
+}

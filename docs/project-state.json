@@ -10,6 +10,7 @@
     "M0.1 Data, Research, Quant, and Risk control foundations implemented with preserved evidence; M0 exit remains unapproved",
     "M0.2 eligibility decision engine accepted only for bounded non-operational use and frozen at bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
     "M0.3A local synthetic transactional scheduler and event-store engineering implemented; repository-import task-event replay defect repaired",
+    "M0.3A task tuple replay now rejects inventory drift, discontinuous history, attempt substitution, and invalid advanced origin state; broader auxiliary replay remains pending",
     "Historical capture reconstruction/verifier engineering completed with native engineering review; formal Skeptic acceptance remains pending",
     "Revision-aware handoff dependency validation and production repository validation restored",
     "Read-only MOCK_ONLY developer alpha and loopback-only local viewer delivered",
@@ -30,8 +31,8 @@
     "Authoritative currentness and composed receipt/R-gate integration remain unresolved",
     "M0.3A engineering completion does not constitute formal acceptance or operational authority"
   ],
-  "next_assignment": "Continue bounded M0.3A replay/integrity hardening and authoritative currentness design; formal H-M0-080 review remains blocked on H-M0-086 authority",
-  "updated_at": "2026-10-16T22:28:39Z",
+  "next_assignment": "Implement a non-authorizing locked-authority read substrate and continue bounded auxiliary scheduler replay hardening; formal H-M0-080 review remains blocked on H-M0-086 authority",
+  "updated_at": "2026-10-16T22:39:22Z",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json",
     "reports/stops/STOP-M0-3A-001.v1.json"
