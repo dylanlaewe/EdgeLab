@@ -365,7 +365,7 @@ def build_report(root: Path = ROOT, manifest_path: Path | None = None) -> dict[s
             "Historical MOCK_ONLY DISPATCH is retained evidence; current repository preflight is DENY.",
             "Data remains BLOCKED; both current STOPs remain OPEN; M0 is blocked and M1 is unreleased.",
             "The sample contains no real sport, market, odds, performance, or profitability evidence.",
-            "Production repository validation remains separately blocked by the H-M0-080.v4 exact self-cycle.",
+            "Production repository validation is structurally green but does not establish scientific or operational approval.",
         ],
         "provenance": sorted(provenance, key=lambda item: item["path"]),
     }

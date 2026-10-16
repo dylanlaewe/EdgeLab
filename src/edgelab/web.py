@@ -1,6 +1,6 @@
-"""Loopback-only, read-only web viewer for the EdgeLab developer alpha.
+"""Loopback-only, read-only EdgeLab laboratory observatory.
 
-This module exposes the existing content-bound alpha report. It is not an
+This module exposes governed project status and the content-bound alpha. It is not an
 operational dashboard, scheduler, approval surface, or execution API.
 """
 from __future__ import annotations
@@ -14,7 +14,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any, Iterable
 from urllib.parse import urlsplit
 
-from . import alpha
+from . import alpha, project_status
 
 
 LOOPBACK_HOST = "127.0.0.1"
@@ -32,7 +32,7 @@ PAGE = r"""<!doctype html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>EdgeLab Developer Alpha</title>
+  <title>EdgeLab Laboratory Observatory</title>
   <style nonce="__EDGELAB_NONCE__">
     :root {
       color-scheme: dark;
@@ -103,8 +103,18 @@ PAGE = r"""<!doctype html>
     .unavailable { margin-top: 28px; padding: 26px; border: 1px solid var(--red); background: rgba(255, 107, 98, .07); }
     .unavailable h2 { color: var(--red); }
     .unavailable p { color: var(--muted); font-family: Inter, ui-sans-serif, system-ui, sans-serif; line-height: 1.55; }
+    .evidence-banner { display: grid; grid-template-columns: 1.15fr 1fr; gap: 22px; padding: 20px; border: 1px solid var(--amber); background: rgba(255, 189, 89, .055); }
+    .evidence-banner strong { display: block; color: var(--amber); font-size: .82rem; letter-spacing: .08em; margin-bottom: 9px; }
+    .evidence-banner p { margin: 0; color: #d5d7d0; font: .88rem/1.55 Inter, ui-sans-serif, system-ui, sans-serif; }
+    .next { border-left: 3px solid var(--cyan); grid-column: 1 / -1; }
+    .next .label { color: var(--cyan); }
+    .progress-list { margin: 0; padding: 0; list-style: none; }
+    .progress-list li { padding: 12px 0; border-bottom: 1px solid var(--line); color: #d3d5ce; font: .86rem/1.5 Inter, ui-sans-serif, system-ui, sans-serif; }
+    .progress-list li::before { content: "→ "; color: var(--acid); }
+    .progress-list.blockers li::before { content: "! "; color: var(--red); }
+    .micro { color: var(--muted); font-size: .68rem; line-height: 1.55; overflow-wrap: anywhere; }
     footer { margin-top: 54px; color: var(--muted); font-size: .68rem; line-height: 1.7; }
-    @media (max-width: 820px) { .status-grid { grid-template-columns: repeat(2, 1fr); } .cards { grid-template-columns: 1fr; } }
+    @media (max-width: 820px) { .status-grid { grid-template-columns: repeat(2, 1fr); } .cards { grid-template-columns: 1fr; } .evidence-banner { grid-template-columns: 1fr; } }
     @media (max-width: 560px) { main { width: min(100% - 20px, 1180px); padding-top: 20px; } header { display: block; } .scope { display: inline-block; margin-top: 22px; } .status-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
@@ -112,18 +122,18 @@ PAGE = r"""<!doctype html>
 <main>
   <header>
     <div>
-      <div class="eyebrow">DEVELOPER ALPHA · RETAINED EVIDENCE</div>
+      <div class="eyebrow">LOCAL LABORATORY OBSERVATORY · GOVERNED STATUS</div>
       <h1>EdgeLab</h1>
-      <p class="subtitle">A truth-first laboratory for sports-market research. This local viewer makes the current synthetic workflow and safety state visible; it cannot approve research, trade, or move capital.</p>
+      <p class="subtitle">A truth-first laboratory for sports-market research. This read-only local view exposes the repository's actual M0 state, open safety stops, evidence limits, and next engineering work. It cannot approve research, trade, or move capital.</p>
     </div>
-    <div class="scope">MOCK_ONLY</div>
+    <div class="scope">READ_ONLY · DENY_DEFAULT</div>
   </header>
   <div id="app" aria-live="polite">
     <section class="status-grid" aria-label="Verifying status">
       <div class="metric"><div class="label">Evidence</div><div class="value">VERIFYING</div></div>
     </section>
   </div>
-  <footer>LOCAL VIEW · GET/HEAD ONLY · CACHE DISABLED · NO EXTERNAL ASSETS · NO OPERATIONAL AUTHORITY</footer>
+  <footer>LOCAL VIEW · GET/HEAD ONLY · CACHE DISABLED · NO EXTERNAL ASSETS · NO MUTATIONS · NO OPERATIONAL AUTHORITY</footer>
 </main>
 <script nonce="__EDGELAB_NONCE__">
   const app = document.getElementById('app');
@@ -142,15 +152,15 @@ PAGE = r"""<!doctype html>
   };
   const money = (minor, currency) => new Intl.NumberFormat('en-US', {style: 'currency', currency}).format(minor / 100);
 
-  function render(report) {
+  function render(status, alphaReport) {
     app.replaceChildren();
-    const capital = report.controls.capital;
+    const capital = status.safety;
     const grid = el('section', 'status-grid');
     [
-      ['Edge conclusion', report.outcome.edge_conclusion, 'safe'],
-      ['Workflow', report.outcome.workflow_disposition, 'blocked'],
+      ['Milestone', `${status.project.phase} · ${status.project.increment}`, 'safe'],
+      ['Project state', 'BLOCKED', 'blocked'],
       ['Live capital', capital.live_status, 'locked'],
-      ['Deployable', money(capital.live_deployable_minor, capital.currency), 'locked']
+      ['Deployable', money(capital.deployable_minor, capital.currency), 'locked']
     ].forEach(([label, value, state]) => {
       const cell = el('div', 'metric');
       cell.append(el('div', 'label', label), el('div', `value ${state}`, value));
@@ -158,12 +168,22 @@ PAGE = r"""<!doctype html>
     });
     app.append(grid);
 
-    const stops = section('Open STOPs', `${report.controls.open_stops.length} ACTIVE`);
+    const evidence = el('section', 'evidence-banner');
+    const evidenceState = el('div');
+    evidenceState.append(el('strong', '', `${status.evidence.freshness} · ${status.evidence.authorizing_use}`));
+    evidenceState.append(el('p', '', status.evidence.reason));
+    const safetyState = el('div');
+    safetyState.append(el('strong', '', `${capital.kill_switch} KILL SWITCH · ${capital.failure_action}`));
+    safetyState.append(el('p', '', `Conceptual bankroll ${money(capital.conceptual_minor, capital.currency)}. Live deployment ${money(capital.deployable_minor, capital.currency)}. All M0 exposure limits remain zero.`));
+    evidence.append(evidenceState, safetyState);
+    app.append(evidence);
+
+    const stops = section('Open STOPs', `${status.open_stops.length} ACTIVE`);
     const stopCards = el('div', 'cards');
-    report.controls.open_stops.forEach(stop => {
+    status.open_stops.forEach(stop => {
       const card = el('article', 'card stop');
       const top = el('div', 'card-top');
-      top.append(el('div', 'role open', `${stop.severity} · OPEN`), el('div', 'tag', stop.id));
+      top.append(el('div', 'role open', `${stop.severity} · OPEN`), el('div', 'tag', `${stop.id} · v${stop.version}`));
       card.append(top, el('h3', '', stop.reason));
       card.append(el('div', 'affected', `AFFECTS: ${stop.affected_components.join(' · ')}`));
       stopCards.append(card);
@@ -171,9 +191,28 @@ PAGE = r"""<!doctype html>
     stops.append(stopCards);
     app.append(stops);
 
-    const workflow = section('Synthetic workflow', `${report.stages.length} ROLES`);
+    const direction = section('Current direction', `${status.progress.remaining_m0.length} REMAINING M0 ITEMS`);
+    const directionCards = el('div', 'cards');
+    const next = el('article', 'card next');
+    next.append(el('div', 'label', 'NEXT ASSIGNMENT'), el('p', '', status.progress.next_assignment));
+    directionCards.append(next);
+    const remaining = el('article', 'card');
+    remaining.append(el('div', 'role', 'Remaining M0'));
+    const remainingList = el('ul', 'progress-list');
+    status.progress.remaining_m0.forEach(item => remainingList.append(el('li', '', item)));
+    remaining.append(remainingList);
+    const blockers = el('article', 'card');
+    blockers.append(el('div', 'role open', 'Active blockers'));
+    const blockerList = el('ul', 'progress-list blockers');
+    status.progress.blockers.forEach(item => blockerList.append(el('li', '', item)));
+    blockers.append(blockerList);
+    directionCards.append(remaining, blockers);
+    direction.append(directionCards);
+    app.append(direction);
+
+    const workflow = section('Retained synthetic walkthrough', `${alphaReport.stages.length} ROLES · MOCK_ONLY`);
     const stageCards = el('div', 'cards');
-    report.stages.forEach(stage => {
+    alphaReport.stages.forEach(stage => {
       const card = el('article', 'card');
       const top = el('div', 'card-top');
       top.append(el('div', 'role', stage.role), el('div', 'tag', stage.status));
@@ -183,16 +222,22 @@ PAGE = r"""<!doctype html>
     workflow.append(stageCards);
     app.append(workflow);
 
-    const limits = section('Known limitations', `${report.known_limitations.length} DECLARED`);
+    const completed = section('Foundation delivered', `${status.progress.completed_scope.length} RECORDED`);
+    const completedList = el('ul', 'progress-list');
+    status.progress.completed_scope.forEach(item => completedList.append(el('li', '', item)));
+    completed.append(completedList);
+    app.append(completed);
+
+    const limits = section('Known limitations', `${alphaReport.known_limitations.length} DECLARED`);
     const list = el('ul', 'limitations');
-    report.known_limitations.forEach(item => list.append(el('li', '', item)));
+    alphaReport.known_limitations.forEach(item => list.append(el('li', '', item)));
     limits.append(list);
     app.append(limits);
 
-    const provenance = section('Content-bound provenance', `${report.provenance.length} SHA-256 RECORDS`);
-    report.provenance.forEach(item => {
+    const provenance = section('Status source digests', `${status.source_digests.length} REOBSERVED FILES`);
+    status.source_digests.forEach(item => {
       const detail = el('details');
-      detail.append(el('summary', '', `${item.label} · ${item.path}`), el('div', 'hash', item.sha256));
+      detail.append(el('summary', '', item.path), el('div', 'hash', item.sha256));
       provenance.append(detail);
     });
     app.append(provenance);
@@ -202,13 +247,16 @@ PAGE = r"""<!doctype html>
     app.replaceChildren();
     const box = el('section', 'unavailable');
     box.append(el('h2', '', 'UNAVAILABLE_FAIL_CLOSED'));
-    box.append(el('p', '', 'The content-bound alpha report could not be verified. No cached or partial project state is being displayed.'));
+    box.append(el('p', '', 'The governed project snapshot or retained alpha could not be verified. No cached or partial project state is being displayed.'));
     app.append(box);
   }
 
-  fetch('/api/v1/alpha', {cache: 'no-store', credentials: 'same-origin'})
-    .then(response => response.ok ? response.json() : Promise.reject(new Error('unavailable')))
-    .then(payload => render(payload.report))
+  Promise.all([
+    fetch('/api/v1/status', {cache: 'no-store', credentials: 'same-origin'}),
+    fetch('/api/v1/alpha', {cache: 'no-store', credentials: 'same-origin'})
+  ])
+    .then(responses => responses.every(response => response.ok) ? Promise.all(responses.map(response => response.json())) : Promise.reject(new Error('unavailable')))
+    .then(payloads => render(payloads[0].status, payloads[1].report))
     .catch(unavailable);
 </script>
 </body>
@@ -217,9 +265,9 @@ PAGE = r"""<!doctype html>
 
 
 class AlphaViewerHandler(BaseHTTPRequestHandler):
-    """Serve only the static viewer and the verified alpha JSON report."""
+    """Serve only the observatory page and verified read-only JSON reports."""
 
-    server_version = "EdgeLabAlphaViewer/1"
+    server_version = "EdgeLabLaboratoryObservatory/1"
     sys_version = ""
 
     def _send(self, status: HTTPStatus, body: bytes, content_type: str, *, head: bool = False,
@@ -261,6 +309,26 @@ class AlphaViewerHandler(BaseHTTPRequestHandler):
             return
         if target.path == "/healthz":
             self._json(HTTPStatus.OK, {"schema_version": 1, "status": "PROCESS_UP"}, head=head)
+            return
+        if target.path == "/api/v1/status":
+            try:
+                status = project_status.build_status()
+            except Exception:
+                self._json(
+                    HTTPStatus.SERVICE_UNAVAILABLE,
+                    {"schema_version": 1, "status": "UNAVAILABLE_FAIL_CLOSED"},
+                    head=head,
+                )
+                return
+            self._json(
+                HTTPStatus.OK,
+                {
+                    "schema_version": 1,
+                    "served_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+                    "status": status,
+                },
+                head=head,
+            )
             return
         if target.path == "/api/v1/alpha":
             try:
@@ -327,8 +395,8 @@ def main(argv: Iterable[str] | None = None) -> int:
     except (OSError, ValueError) as error:
         parser.error(str(error))
     host, port = server.server_address
-    print(f"EdgeLab developer alpha viewer: http://{host}:{port}")
-    print("Read-only MOCK_ONLY visibility; no operational authority.")
+    print(f"EdgeLab laboratory observatory: http://{host}:{port}")
+    print("Read-only governed visibility; no mutation or operational authority.")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

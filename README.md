@@ -67,13 +67,18 @@ including provenance, uncertainty, current OPEN STOPs, and locked capital. The
 sample is a developer demonstration only and ends `NO_DEMONSTRATED_EDGE /
 BLOCKED`; see [examples/alpha/README.md](examples/alpha/README.md).
 
-The same report is available as a loopback-only local viewer:
+The loopback-only laboratory observatory exposes both governed repository
+status and the retained alpha walkthrough:
 
 ```sh
 .venv/bin/python -m src.edgelab.web
 ```
 
-Open `http://127.0.0.1:8765`. The viewer supports only `GET` and `HEAD`,
-rebuilds the content-bound report for each API request, disables caching, and
-fails closed when evidence cannot be verified. It is not an authoritative
-whole-project dashboard or an operational control surface.
+Open `http://127.0.0.1:8765`. The observatory supports only `GET` and `HEAD`,
+rebuilds its source snapshot for every request, disables caching, and fails
+closed when governed state or retained evidence cannot be verified.
+`/api/v1/status` reports the current M0 project, OPEN STOPs, locked bankroll,
+kill switch, remaining work, and explicit `UNKNOWN / DENY` evidence boundary;
+`/api/v1/alpha` preserves the synthetic `MOCK_ONLY` walkthrough. This remains
+a local read-only visibility surface, not positive currentness, an approval
+workflow, scheduler interface, or execution control.

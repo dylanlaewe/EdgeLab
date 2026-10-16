@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edgelab.local/schemas/local-observatory-status.v1.schema.json",
+  "title": "EdgeLab local observatory status",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "observatory_status", "project", "safety", "open_stops", "progress", "evidence", "capabilities", "source_digests"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "observatory_status": {"const": "VERIFIED_READ_ONLY_SNAPSHOT"},
+    "project": {
+      "type": "object", "additionalProperties": false,
+      "required": ["phase", "increment", "status", "updated_at", "demonstrated_edge", "active_strategies"],
+      "properties": {
+        "phase": {"const": "M0"}, "increment": {"type": "string", "minLength": 1},
+        "status": {"const": "BLOCKED_FOR_APPROVAL_REMEDIATION_ALLOWED"},
+        "updated_at": {"type": "string", "format": "date-time"},
+        "demonstrated_edge": {"const": false}, "active_strategies": {"const": 0}
+      }
+    },
+    "safety": {
+      "type": "object", "additionalProperties": false,
+      "required": ["live_status", "kill_switch", "failure_action", "currency", "capital_basis", "conceptual_minor", "deployable_minor", "paper_capital_minor", "live_enabled", "all_m0_limits_minor"],
+      "properties": {
+        "live_status": {"const": "LOCKED"}, "kill_switch": {"const": "ENGAGED"},
+        "failure_action": {"const": "DENY_NEW_EXPOSURE"}, "currency": {"const": "USD"},
+        "capital_basis": {"const": "CONCEPTUAL_UNVERIFIED"}, "conceptual_minor": {"const": 5000},
+        "deployable_minor": {"const": 0}, "paper_capital_minor": {"type": "null"},
+        "live_enabled": {"const": false},
+        "all_m0_limits_minor": {
+          "type": "object", "additionalProperties": false,
+          "required": ["position_minor", "daily_exposure_minor", "correlated_exposure_minor", "strategy_exposure_minor", "source_concentration_minor", "max_drawdown_minor"],
+          "properties": {
+            "position_minor": {"const": 0}, "daily_exposure_minor": {"const": 0},
+            "correlated_exposure_minor": {"const": 0}, "strategy_exposure_minor": {"const": 0},
+            "source_concentration_minor": {"const": 0}, "max_drawdown_minor": {"const": 0}
+          }
+        }
+      }
+    },
+    "open_stops": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/stop"}},
+    "progress": {
+      "type": "object", "additionalProperties": false,
+      "required": ["completed_scope", "remaining_m0", "blockers", "next_assignment", "open_findings"],
+      "properties": {
+        "completed_scope": {"$ref": "#/$defs/nonempty_strings"},
+        "remaining_m0": {"$ref": "#/$defs/nonempty_strings"},
+        "blockers": {"$ref": "#/$defs/nonempty_strings"},
+        "next_assignment": {"type": "string", "minLength": 1},
+        "open_findings": {"$ref": "#/$defs/nonempty_strings"}
+      }
+    },
+    "evidence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["freshness", "currentness", "authorizing_use", "reason"],
+      "properties": {
+        "freshness": {"const": "UNVERIFIED_OR_STALE"}, "currentness": {"const": "UNKNOWN"},
+        "authorizing_use": {"const": "DENY"}, "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "capabilities": {
+      "type": "object", "additionalProperties": false,
+      "required": ["read_only", "repository_mutation", "scheduler_transition", "paper_execution", "live_execution", "capital_movement"],
+      "properties": {
+        "read_only": {"const": true}, "repository_mutation": {"const": false},
+        "scheduler_transition": {"const": false}, "paper_execution": {"const": false},
+        "live_execution": {"const": false}, "capital_movement": {"const": false}
+      }
+    },
+    "source_digests": {
+      "type": "array", "minItems": 10, "uniqueItems": true,
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["path", "sha256"],
+        "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "nonempty_strings": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "stop": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "version", "severity", "issued_at", "issuer", "reason", "affected_components", "remediation_required", "path"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1}, "version": {"type": "integer", "minimum": 1},
+        "severity": {"enum": ["CRITICAL", "HIGH", "MEDIUM"]}, "issued_at": {"type": "string", "format": "date-time"},
+        "issuer": {"type": "string", "minLength": 1}, "reason": {"type": "string", "minLength": 1},
+        "affected_components": {"$ref": "#/$defs/nonempty_strings"},
+        "remediation_required": {"$ref": "#/$defs/nonempty_strings"},
+        "path": {"type": "string", "pattern": "^reports/stops/STOP-.+\\.v[1-9][0-9]*\\.json$"}
+      }
+    }
+  }
+}
