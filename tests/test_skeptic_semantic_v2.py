@@ -201,7 +201,10 @@ class SemanticV2Tests(unittest.TestCase):
                 self.valid()
         self.put('docs/handoffs', h)
         self.valid()
-        state = read(data.ROOT / 'docs/project-state.json')
+        state = read(
+            data.ROOT
+            / 'tests/fixtures/authentic-stage1/dispatch/repository/docs/project-state.json'
+        )
         self.f.content('docs/project-state.json', state)
         self.valid()
         self.f.content('docs/project-state.json', {**state, 'active_strategies': -1})

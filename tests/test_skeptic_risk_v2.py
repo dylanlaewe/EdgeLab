@@ -229,9 +229,12 @@ class SkepticRiskV2Tests(unittest.TestCase):
                 now=owner.NOW)
 
         action = self.o.action()
-        snapshot = self.o.stop_snapshot()
+        m0_directory = tempfile.TemporaryDirectory()
+        self.addCleanup(m0_directory.cleanup)
+        root = self.o.m0_root(m0_directory.name)
+        snapshot = self.o.stop_snapshot(root)
         result = evaluate_stop_snapshot(
-            ROOT, snapshot, action=action,
+            root, snapshot, action=action,
             dependency_graph=self.o.action_graph(action),
             stop_policy=self.o.stop_policy(),
             current_head=self.o.stop_head(snapshot), now=owner.NOW)
@@ -240,7 +243,7 @@ class SkepticRiskV2Tests(unittest.TestCase):
         omitted['stops'] = []
         with self.assertRaisesRegex(ValueError, 'inventory'):
             evaluate_stop_snapshot(
-                ROOT, omitted, action=action,
+                root, omitted, action=action,
                 dependency_graph=self.o.action_graph(action),
                 stop_policy=self.o.stop_policy(),
                 current_head=self.o.stop_head(snapshot), now=owner.NOW)
@@ -372,36 +375,41 @@ class SkepticRiskV2Tests(unittest.TestCase):
             self.assertFalse(decision['live_eligible'])
             self.assertIsNotNone(token)
 
-        action, state = self.o.m0_live_state()
-        decision, token, _ = assemble_authoritative_decision(
-            ROOT, action,
-            authority=owner.StaticRiskAuthority(state, action),
-            policy=self.o.policy(),
-            expected_policy_source='synthetic-verifier://risk-tests',
-            scientific_replay_store=None, authorization_store=None,
-            now=owner.NOW)
-        self.assertEqual(decision['verdict'], 'DENIED')
-        self.assertFalse(decision['live_eligible'])
-        self.assertFalse(decision['capital_available'])
-        self.assertIsNone(token)
+        with tempfile.TemporaryDirectory() as directory:
+            root = self.o.m0_root(directory)
+            action, state = self.o.m0_live_state(root)
+            decision, token, _ = assemble_authoritative_decision(
+                root, action,
+                authority=owner.StaticRiskAuthority(state, action),
+                policy=self.o.policy(),
+                expected_policy_source='synthetic-verifier://risk-tests',
+                scientific_replay_store=None, authorization_store=None,
+                now=owner.NOW)
+            self.assertEqual(decision['verdict'], 'DENIED')
+            self.assertFalse(decision['live_eligible'])
+            self.assertFalse(decision['capital_available'])
+            self.assertIsNone(token)
 
         self.assertTrue(owner.settlement_allowed_while_engaged(
             adds_exposure=False, reservation_exists=True))
 
     def test_actual_M0_live_new_exposure_fails_closed_on_authoritative_zero_limits(self):
+        m0_directory = tempfile.TemporaryDirectory()
+        self.addCleanup(m0_directory.cleanup)
+        root = self.o.m0_root(m0_directory.name)
         action = self.o.action(environment='LIVE')
         opening = self.o.ledger_event(
             1, 'OPENING', amount=0, account='LIVE')
         ledger_events = [opening]
         ledger_state = replay_ledger(
-            ROOT, ledger_events, account='LIVE', expected_opening_minor=0,
+            root, ledger_events, account='LIVE', expected_opening_minor=0,
             current_head=history_head(
                 ledger_events, digest_field='event_sha256'), now=owner.NOW)
         snapshot = owner.seal({
             'schema_version': 1, **ledger_state,
             'as_of': '2026-09-27T23:50:00Z',
             'valid_until': '2026-09-28T00:10:00Z'}, 'snapshot_sha256')
-        stop_snapshot = self.o.stop_snapshot()
+        stop_snapshot = self.o.stop_snapshot(root)
         kill_events = [self.o.kill_event(1, 'INITIAL_ENGAGE', 1)]
         lifecycle_events, lifecycle_approvals = self.o.lifecycle()
         assessment, commitment = self.o.assessment_commitment()
@@ -417,13 +425,13 @@ class SkepticRiskV2Tests(unittest.TestCase):
             'action_sha256': action['action_sha256'], 'phase': 'M0',
             'project_state': {
                 'path': 'docs/project-state.json',
-                'sha256': digest((ROOT / 'docs/project-state.json').read_bytes())},
+                'sha256': digest((root / 'docs/project-state.json').read_bytes())},
             'bankroll': {
                 'path': 'portfolio/bankroll.json',
-                'sha256': digest((ROOT / 'portfolio/bankroll.json').read_bytes())},
+                'sha256': digest((root / 'portfolio/bankroll.json').read_bytes())},
             'risk_policy': {
                 'path': 'portfolio/risk-policy.json',
-                'sha256': digest((ROOT / 'portfolio/risk-policy.json').read_bytes())},
+                'sha256': digest((root / 'portfolio/risk-policy.json').read_bytes())},
             'scientific': {
                 'assessment': assessment, 'commitment': commitment,
                 'assessment_author_ids': ['research'],
@@ -461,7 +469,7 @@ class SkepticRiskV2Tests(unittest.TestCase):
             with self.assertRaisesRegex(
                     ValueError, 'Unresolved live exposure limits deny'):
                 assemble_authoritative_decision(
-                    ROOT, action,
+                    root, action,
                     authority=owner.StaticRiskAuthority(state, action),
                     policy=self.o.policy(),
                     expected_policy_source='synthetic-verifier://risk-tests',

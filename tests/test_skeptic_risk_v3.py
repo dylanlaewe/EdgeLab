@@ -470,18 +470,20 @@ class SkepticRiskV3Tests(unittest.TestCase):
             self.assertFalse(decision['live_eligible'])
             self.assertIsNotNone(token)
 
-        action, state = self.o.m0_live_state()
-        decision, token, _ = assemble_authoritative_decision(
-            ROOT, action,
-            authority=owner.StaticRiskAuthority(state, action),
-            policy=self.o.policy(),
-            expected_policy_source='synthetic-verifier://risk-tests',
-            scientific_replay_store=None, authorization_store=None,
-            now=owner.NOW)
-        self.assertEqual(decision['verdict'], 'DENIED')
-        self.assertFalse(decision['live_eligible'])
-        self.assertFalse(decision['capital_available'])
-        self.assertIsNone(token)
+        with tempfile.TemporaryDirectory() as directory:
+            root = self.o.m0_root(directory)
+            action, state = self.o.m0_live_state(root)
+            decision, token, _ = assemble_authoritative_decision(
+                root, action,
+                authority=owner.StaticRiskAuthority(state, action),
+                policy=self.o.policy(),
+                expected_policy_source='synthetic-verifier://risk-tests',
+                scientific_replay_store=None, authorization_store=None,
+                now=owner.NOW)
+            self.assertEqual(decision['verdict'], 'DENIED')
+            self.assertFalse(decision['live_eligible'])
+            self.assertFalse(decision['capital_available'])
+            self.assertIsNone(token)
 
 
 if __name__ == '__main__':

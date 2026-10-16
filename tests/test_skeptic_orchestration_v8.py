@@ -19,6 +19,10 @@ from src.edgelab.validate import ROOT, read
 
 
 INTENT = {"task_id": "T-SYNTHETIC-001", "attempt": 1}
+M0_2_PROJECT_STATE = (
+    ROOT
+    / "tests/fixtures/authentic-stage1/dispatch/repository/docs/project-state.json"
+)
 
 
 class SkepticOrchestrationV8(unittest.TestCase):
@@ -45,7 +49,8 @@ class SkepticOrchestrationV8(unittest.TestCase):
         for relative in paths:
             target = root / relative
             target.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(ROOT / relative, target)
+            source = M0_2_PROJECT_STATE if relative == "docs/project-state.json" else ROOT / relative
+            shutil.copy2(source, target)
         return temporary, root
 
     @staticmethod
@@ -398,9 +403,10 @@ class SkepticOrchestrationV8(unittest.TestCase):
         self.assertEqual(original["decision_id"], changed["decision_id"])
 
     def test_denied_subject_and_reason_are_bound(self):
-        a = decision(ROOT, {"task_id": "T-UNKNOWN-A", "attempt": 1})
-        b = decision(ROOT, {"task_id": "T-UNKNOWN-B", "attempt": 1})
-        c = decision(ROOT, {"task_id": "T-UNKNOWN-A"})
+        temporary, root = self.fixture(); self.addCleanup(temporary.cleanup)
+        a = self.decide(root, {"task_id": "T-UNKNOWN-A", "attempt": 1})
+        b = self.decide(root, {"task_id": "T-UNKNOWN-B", "attempt": 1})
+        c = self.decide(root, {"task_id": "T-UNKNOWN-A"})
         self.assertEqual(a["reason"], b["reason"]); self.assertNotEqual(a["decision_id"], b["decision_id"])
         self.assertNotEqual(a["reason"], c["reason"]); self.assertNotEqual(a["decision_id"], c["decision_id"])
 
