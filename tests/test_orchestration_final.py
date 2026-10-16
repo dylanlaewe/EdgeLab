@@ -9,12 +9,19 @@ from unittest.mock import patch
 from src.edgelab.orchestration import EXPECTED_REMOTE, decision
 from src.edgelab.validate import ROOT, read
 
+M0_2_PROJECT_STATE = (
+    ROOT
+    / "tests/fixtures/authentic-stage1/dispatch/repository/docs/project-state.json"
+)
+
 
 class FinalOrchestrationTests(unittest.TestCase):
     def fixture(self):
         temporary = tempfile.TemporaryDirectory(); root = Path(temporary.name)
         for rel in ("docs/project-state.json", "docs/handoffs/H-M0-038.v1.json", "docs/handoffs/H-M0-038.v2.json", "reports/stops/STOP-M0-001.v1.json", "orchestration/scheduler-state.json", "orchestration/tasks/T-SYNTHETIC-001.v1.json", "orchestration/assignments/T-SYNTHETIC-001.v1.json", "orchestration/handoff-bindings/T-SYNTHETIC-001.v1.json", "orchestration/capabilities/C-REPOSITORY-READ.json", "schemas/project-state.schema.json", "schemas/stop.schema.json", "schemas/handoff.schema.json", "schemas/orchestration-task.schema.json", "schemas/scheduler-state.schema.json", "schemas/capability-registry.schema.json"):
-            target=root/rel; target.parent.mkdir(parents=True,exist_ok=True); shutil.copy2(ROOT/rel,target)
+            target=root/rel; target.parent.mkdir(parents=True,exist_ok=True)
+            source = M0_2_PROJECT_STATE if rel == "docs/project-state.json" else ROOT/rel
+            shutil.copy2(source,target)
         return temporary, root
     def decide(self, root, intent):
         with patch("src.edgelab.orchestration.ROOT",root), patch("src.edgelab.orchestration._remote",return_value=EXPECTED_REMOTE), patch("src.edgelab.orchestration._is_ancestor_of_remote_main",return_value=True): return decision(root,intent)

@@ -1,47 +1,52 @@
 {
   "schema_version": 1,
   "phase": "M0",
-  "increment": "M0.1",
+  "increment": "M0.3A",
   "status": "BLOCKED_FOR_APPROVAL_REMEDIATION_ALLOWED",
   "live_status": "LOCKED",
   "demonstrated_edge": false,
   "active_strategies": 0,
   "completed_scope": [
-    "Constitution and seven role contracts",
-    "Repository architecture and durable handoff protocol",
-    "Nine strict record schemas and scientific specifications",
-    "Lifecycle, STOP and kill-switch design",
-    "Conceptual bankroll and zero-deployment risk policy",
-    "Data\u2192Research dependency gate passed after H-M0-008 consultation; bounded remediation release only",
-    "Research R01 reviewed within verifier assumptions; Quant dependency gate passed with explicit checkpoint-currency integration requirement"
+    "M0.1 Data, Research, Quant, and Risk control foundations implemented with preserved evidence; M0 exit remains unapproved",
+    "M0.2 eligibility decision engine accepted only for bounded non-operational use and frozen at bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+    "M0.3A local synthetic transactional scheduler and event-store engineering implemented; repository-import task-event replay defect repaired",
+    "Historical capture reconstruction/verifier engineering completed with native engineering review; formal Skeptic acceptance remains pending",
+    "Revision-aware handoff dependency validation and production repository validation restored",
+    "Read-only MOCK_ONLY developer alpha and loopback-only local viewer delivered",
+    "Deterministic isolated fast, domain, and historical test tiers implemented; historical expected-outcome fingerprint remains pending"
   ],
   "remaining_m0": [
-    "Remediate all six HIGH and both MEDIUM findings and obtain independent frozen-candidate re-review",
-    "Data manifest and observation schemas with temporal/lineage validation",
-    "Authenticated review records and machine-enforced lifecycle transitions",
-    "Cross-record evidence validation, STOP propagation and append-only event handling",
-    "Risk accounting, paper policy, kill-switch implementation and adversarial tests",
-    "Justified validation thresholds and M0 exit review"
+    "Obtain a genuinely distinct trusted 05 Skeptic review and formal disposition of H-M0-080 under H-M0-086",
+    "Implement authoritative locked currentness and one composed M0.2-to-M0.3A R-gate without caller-invented receipt semantics",
+    "Complete M0.3A replay and integrity coverage for auxiliary scheduler state and obtain independent acceptance plus Director release",
+    "Run and review the complete isolated historical audit, then codify an exact expected-outcome fingerprint without converting preserved failures into false passes",
+    "Provision the trusted external authority boundary and satisfy typed STOP-clearance prerequisites",
+    "Resolve statistical, freshness, paper-capital, exposure, correlation, drawdown, and live-gate thresholds before M0 exit"
   ],
   "blockers": [
-    "STOP-M0-001 OPEN; M0 approval and exit blocked",
-    "H01-H06 and M01-M02 unresolved",
-    "Operational reviewer trust boundary and accepted-history protection unprovisioned",
-    "Statistical, freshness and post-M0 risk thresholds unresolved",
-    "Checkpoint preservation does not prove authoritative currency; trusted current-state integration remains required for confirmatory eligibility."
+    "STOP-M0-001 and STOP-M0-3A-001 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
+    "H-M0-086 is BLOCKED because no genuinely distinct trusted 05 Skeptic authority is provisioned",
+    "H-M0-041.v23 remains BLOCKED pending formal Skeptic acceptance and separate Director release",
+    "Authoritative currentness and composed receipt/R-gate integration remain unresolved",
+    "M0.3A engineering completion does not constitute formal acceptance or operational authority"
   ],
-  "next_assignment": "Independent Skeptic review of the completed M0.2 non-operational orchestration sandbox",
-  "updated_at": "2026-09-20T02:06:05.946196+00:00",
+  "next_assignment": "Run one isolated complete historical audit, review its exact outcomes, and continue bounded M0.3A replay/integrity hardening; formal H-M0-080 review remains blocked on H-M0-086 authority",
+  "updated_at": "2026-10-16T21:36:28Z",
   "active_stop_refs": [
-    "reports/stops/STOP-M0-001.v1.json"
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
   ],
-  "review_ref": "reports/reviews/M0.1-skeptic-review.v1.md",
+  "review_ref": "reports/reviews/M0.2-M0.3-final-evidence-plan-rereview.v1.md",
   "open_findings": [
-    "STOP-M0-001-CLEARANCE-AUTHORITY"
+    "STOP-M0-001-CLEARANCE-AUTHORITY",
+    "STOP-M0-3A-001-AUTHORITATIVE-RECEIPT-CURRENTNESS-R-GATE",
+    "H-M0-079-HIGH-1-HIGH-2-HIGH-4-HIGH-5-PENDING-FORMAL-DISPOSITION",
+    "H-M0-079-HIGH-3-AUTHORITATIVE-CURRENTNESS-OPEN",
+    "H-M0-086-FORMAL-SKEPTIC-AUTHORITY"
   ],
-  "next_handoff_ref": "docs/handoffs/H-M0-027.v4.json",
-  "coordination_plan_ref": "docs/REMEDIATION_PLAN.md",
+  "next_handoff_ref": "docs/handoffs/H-M0-086.v2.json",
+  "coordination_plan_ref": "docs/M0.3_RUNTIME_FOUNDATION.md",
   "git_protocol_ref": "docs/GIT_COORDINATION.md",
   "writer_policy": "SEQUENTIAL_ONE_ACTIVE_WRITER",
-  "next_owner_release": "05 Skeptic may claim a read-only independent review of H-M0-027 v3. STOP remains OPEN, M0 remains blocked, M1 is not authorized and capital remains LOCKED."
+  "next_owner_release": "00 Director may perform only bounded status reconciliation, deterministic test-tiering, and M0.3A replay/integrity engineering. H-M0-086 may advance only after a genuinely distinct trusted 05 Skeptic actor is provisioned. No Data release, M0.3A acceptance, STOP clearance, executor attachment, M1 release, or capital authority is granted."
 }

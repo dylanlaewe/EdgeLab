@@ -2,7 +2,7 @@
 
 A laboratory for testing whether sports-market edges exist. A reproducible rejection is a successful result.
 
-Current milestone: **M0 — Laboratory Foundation**, increment **M0.1**. Conceptual experimental bankroll: **USD 50.00**; deployable live capital: **USD 0.00**; live status: **LOCKED**. This is a declared budget, not a verified account balance. No providers, wagering adapters, deposits, or execution are implemented.
+Current milestone: **M0 — Laboratory Foundation**, active increment **M0.3A — Transactional Scheduler / Event Store**. Bounded local scheduler and viewer engineering exist, but M0.3A is **not formally accepted**; both `STOP-M0-001` and `STOP-M0-3A-001` remain **OPEN**. Conceptual experimental bankroll: **USD 50.00**; deployable live capital: **USD 0.00**; live status: **LOCKED**; kill switch: **ENGAGED**. This is a declared budget, not a verified account balance. No providers, wagering adapters, deposits, external executor, or live/paper execution are implemented.
 
 Start with [AGENTS.md](AGENTS.md), [constitution](PROJECT_CONSTITUTION.md), [operating guide](docs/OPERATIONS.md), and [project state](docs/project-state.json). Role contracts live in `agents/`; queued assignments live in `docs/handoffs/`.
 
@@ -13,9 +13,24 @@ Python 3.11 or newer:
 ```sh
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements-dev.txt
-.venv/bin/python -m unittest discover -s tests -v
+.venv/bin/python tools/run_test_tier.py fast
+.venv/bin/python tools/run_test_tier.py domain
 .venv/bin/python -m src.edgelab.validate
 ```
+
+The fast and domain tiers are green gates. Run them serially: the runner holds a
+repository-specific cooperative lock and executes each module in an isolated
+process. The retained historical/adversarial corpus is a separate audit:
+
+```sh
+.venv/bin/python tools/run_test_tier.py historical
+```
+
+That audit currently includes documented preserved red results and must not be
+called green until its exact outcomes have been captured and independently
+reviewed. The runner observes every historical module and returns nonzero when
+any fail. `tools/run_test_tier.py all` runs all three tiers in order. Do not run
+overlapping test processes against the retained fixture corpus.
 
 The validator checks record shape and M0 capital invariants. It does **not** authenticate reviewers, enforce append-only storage, validate scientific evidence, or implement promotion/execution. Those limitations are explicit M0 blockers, not approvals.
 

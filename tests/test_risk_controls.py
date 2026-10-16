@@ -26,6 +26,10 @@ from src.edgelab.validate import ROOT, read
 
 NOW = datetime(2026, 9, 28, 0, 0, tzinfo=timezone.utc)
 SHA = 'a' * 64
+M0_PROJECT_STATE = (
+    ROOT
+    / 'tests/fixtures/authentic-stage1/dispatch/repository/docs/project-state.json'
+)
 
 
 def seal(record: dict, field: str) -> dict:
@@ -455,25 +459,27 @@ class RiskControlTests(unittest.TestCase):
                 current_head=history_head(events, digest_field='event_sha256'), now=NOW)
 
     def test_authoritative_stop_ignores_candidate_relabel_and_inventory_omission(self):
-        action = self.action(); snapshot = self.stop_snapshot()
-        graph = self.action_graph(action)
-        result = evaluate_stop_snapshot(
-            ROOT, snapshot, action=action, dependency_graph=graph,
-            stop_policy=self.stop_policy(), current_head=self.stop_head(snapshot), now=NOW)
-        self.assertEqual(result['decision'], 'DENY')
-        snapshot['stops'] = []
-        with self.assertRaisesRegex(ValueError, 'inventory'):
-            evaluate_stop_snapshot(
-                ROOT, snapshot, action=action, dependency_graph=graph,
+        with tempfile.TemporaryDirectory() as directory:
+            root = self.m0_root(directory)
+            action = self.action(); snapshot = self.stop_snapshot(root)
+            graph = self.action_graph(action)
+            result = evaluate_stop_snapshot(
+                root, snapshot, action=action, dependency_graph=graph,
                 stop_policy=self.stop_policy(), current_head=self.stop_head(snapshot), now=NOW)
-        omitted = self.stop_snapshot()
-        incomplete_graph = self.action_graph(action)
-        del incomplete_graph[f"market:{action['market_identity_sha256']}"]
-        with self.assertRaisesRegex(ValueError, 'omitted'):
-            evaluate_stop_snapshot(
-                ROOT, omitted, action=action, dependency_graph=incomplete_graph,
-                stop_policy=self.stop_policy(), current_head=self.stop_head(omitted),
-                now=NOW)
+            self.assertEqual(result['decision'], 'DENY')
+            snapshot['stops'] = []
+            with self.assertRaisesRegex(ValueError, 'inventory'):
+                evaluate_stop_snapshot(
+                    root, snapshot, action=action, dependency_graph=graph,
+                    stop_policy=self.stop_policy(), current_head=self.stop_head(snapshot), now=NOW)
+            omitted = self.stop_snapshot(root)
+            incomplete_graph = self.action_graph(action)
+            del incomplete_graph[f"market:{action['market_identity_sha256']}"]
+            with self.assertRaisesRegex(ValueError, 'omitted'):
+                evaluate_stop_snapshot(
+                    root, omitted, action=action, dependency_graph=incomplete_graph,
+                    stop_policy=self.stop_policy(), current_head=self.stop_head(omitted),
+                    now=NOW)
 
     def test_stop_clearance_derives_roles_and_rejects_future(self):
         stop = read(ROOT / 'reports/stops/STOP-M0-001.v1.json')
@@ -834,6 +840,18 @@ class RiskControlTests(unittest.TestCase):
                      root / 'reports/stops/STOP-M0-001.v1.json')
         return root
 
+    def m0_root(self, directory: str) -> Path:
+        """Build the exact bounded M0 configuration used by these 2026-09 tests."""
+        root = Path(directory) / 'm0-root'
+        shutil.copytree(ROOT / 'schemas', root / 'schemas')
+        shutil.copytree(ROOT / 'portfolio', root / 'portfolio')
+        (root / 'docs').mkdir()
+        (root / 'reports/stops').mkdir(parents=True)
+        shutil.copy2(M0_PROJECT_STATE, root / 'docs/project-state.json')
+        shutil.copy2(ROOT / 'reports/stops/STOP-M0-001.v1.json',
+                     root / 'reports/stops/STOP-M0-001.v1.json')
+        return root
+
     def settlement_state(self, root: Path) -> tuple[dict, dict]:
         reserve_events = self.ledger()[:2]
         related = reserve_events[1]['action_sha256']
@@ -877,19 +895,19 @@ class RiskControlTests(unittest.TestCase):
         seal(state, 'state_sha256')
         return action, state
 
-    def m0_live_state(self) -> tuple[dict, dict]:
+    def m0_live_state(self, root: Path) -> tuple[dict, dict]:
         action = self.action(action_type='SETTLEMENT', environment='LIVE',
                              amount=1, related='f' * 64, reservation='NONE')
         opening = self.ledger_event(1, 'OPENING', amount=0, account='LIVE')
         events = [opening]
         ledger_state = replay_ledger(
-            ROOT, events, account='LIVE', expected_opening_minor=0,
+            root, events, account='LIVE', expected_opening_minor=0,
             current_head=history_head(events, digest_field='event_sha256'), now=NOW)
         snapshot = seal({'schema_version': 1, **ledger_state,
                          'as_of': '2026-09-27T23:50:00Z',
                          'valid_until': '2026-09-28T00:10:00Z'},
                         'snapshot_sha256')
-        stop_snapshot = self.stop_snapshot()
+        stop_snapshot = self.stop_snapshot(root)
         kill_events = [self.kill_event(1, 'INITIAL_ENGAGE', 1)]
         state = {
             'schema_version': 1, 'authority_id': 'RISK-STATE-1', 'generation': 4,
@@ -898,11 +916,11 @@ class RiskControlTests(unittest.TestCase):
             'valid_until': '2026-09-28T00:06:00Z',
             'action_sha256': action['action_sha256'], 'phase': 'M0',
             'project_state': {'path': 'docs/project-state.json',
-                              'sha256': digest((ROOT/'docs/project-state.json').read_bytes())},
+                              'sha256': digest((root/'docs/project-state.json').read_bytes())},
             'bankroll': {'path': 'portfolio/bankroll.json',
-                         'sha256': digest((ROOT/'portfolio/bankroll.json').read_bytes())},
+                         'sha256': digest((root/'portfolio/bankroll.json').read_bytes())},
             'risk_policy': {'path': 'portfolio/risk-policy.json',
-                            'sha256': digest((ROOT/'portfolio/risk-policy.json').read_bytes())},
+                            'sha256': digest((root/'portfolio/risk-policy.json').read_bytes())},
             'scientific': None, 'lifecycle': None,
             'stop': {'snapshot': stop_snapshot,
                      'policy': self.stop_policy(actions=['NEW_EXPOSURE']),
@@ -1221,44 +1239,46 @@ class RiskControlTests(unittest.TestCase):
             self.assertIsNotNone(token)
 
     def test_actual_m0_and_fixed_state_substitution_cannot_authorize_live(self):
-        action, state = self.m0_live_state()
-        decision, token, _ = assemble_authoritative_decision(
-            ROOT, action, authority=StaticRiskAuthority(state, action),
-            policy=self.policy(),
-            expected_policy_source='synthetic-verifier://risk-tests',
-            scientific_replay_store=None, authorization_store=None, now=NOW)
-        self.assertEqual(decision['verdict'], 'DENIED')
-        self.assertFalse(decision['live_eligible'])
-        self.assertFalse(decision['capital_available'])
-        self.assertIsNone(token)
-        forged = copy.deepcopy(state)
-        forged['ledger']['opening_minor'] = 10000
-        seal(forged, 'state_sha256')
-        with self.assertRaisesRegex(ValueError, 'authoritative capital'):
-            assemble_authoritative_decision(
-                ROOT, action, authority=StaticRiskAuthority(forged, action),
+        with tempfile.TemporaryDirectory() as directory:
+            root = self.m0_root(directory)
+            action, state = self.m0_live_state(root)
+            decision, token, _ = assemble_authoritative_decision(
+                root, action, authority=StaticRiskAuthority(state, action),
                 policy=self.policy(),
                 expected_policy_source='synthetic-verifier://risk-tests',
                 scientific_replay_store=None, authorization_store=None, now=NOW)
-        phase = copy.deepcopy(state)
-        phase['phase'] = 'M1'
-        seal(phase, 'state_sha256')
-        with self.assertRaisesRegex(ValueError, 'phase'):
-            assemble_authoritative_decision(
-                ROOT, action, authority=StaticRiskAuthority(phase, action),
-                policy=self.policy(),
-                expected_policy_source='synthetic-verifier://risk-tests',
-                scientific_replay_store=None, authorization_store=None, now=NOW)
-        alternate = copy.deepcopy(state)
-        alternate['bankroll']['path'] = 'portfolio/risk-policy.json'
-        alternate['bankroll']['sha256'] = alternate['risk_policy']['sha256']
-        seal(alternate, 'state_sha256')
-        with self.assertRaisesRegex(ValueError, 'fixed-state'):
-            assemble_authoritative_decision(
-                ROOT, action, authority=StaticRiskAuthority(alternate, action),
-                policy=self.policy(),
-                expected_policy_source='synthetic-verifier://risk-tests',
-                scientific_replay_store=None, authorization_store=None, now=NOW)
+            self.assertEqual(decision['verdict'], 'DENIED')
+            self.assertFalse(decision['live_eligible'])
+            self.assertFalse(decision['capital_available'])
+            self.assertIsNone(token)
+            forged = copy.deepcopy(state)
+            forged['ledger']['opening_minor'] = 10000
+            seal(forged, 'state_sha256')
+            with self.assertRaisesRegex(ValueError, 'authoritative capital'):
+                assemble_authoritative_decision(
+                    root, action, authority=StaticRiskAuthority(forged, action),
+                    policy=self.policy(),
+                    expected_policy_source='synthetic-verifier://risk-tests',
+                    scientific_replay_store=None, authorization_store=None, now=NOW)
+            phase = copy.deepcopy(state)
+            phase['phase'] = 'M1'
+            seal(phase, 'state_sha256')
+            with self.assertRaisesRegex(ValueError, 'phase'):
+                assemble_authoritative_decision(
+                    root, action, authority=StaticRiskAuthority(phase, action),
+                    policy=self.policy(),
+                    expected_policy_source='synthetic-verifier://risk-tests',
+                    scientific_replay_store=None, authorization_store=None, now=NOW)
+            alternate = copy.deepcopy(state)
+            alternate['bankroll']['path'] = 'portfolio/risk-policy.json'
+            alternate['bankroll']['sha256'] = alternate['risk_policy']['sha256']
+            seal(alternate, 'state_sha256')
+            with self.assertRaisesRegex(ValueError, 'fixed-state'):
+                assemble_authoritative_decision(
+                    root, action, authority=StaticRiskAuthority(alternate, action),
+                    policy=self.policy(),
+                    expected_policy_source='synthetic-verifier://risk-tests',
+                    scientific_replay_store=None, authorization_store=None, now=NOW)
 
     def test_neutral_settlement_rule_preserved(self):
         self.assertTrue(settlement_allowed_while_engaged(

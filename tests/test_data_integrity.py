@@ -251,9 +251,11 @@ class DataIntegrityTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'Future completed'): validate_record('bankroll',{**bank,'as_of':'2999-01-01T00:00:00Z'},self.root,now=NOW)
         r=copy.deepcopy(self.observation); r['event_at']='2999-01-01T00:00:00Z'
         self.check('observation',r) # scheduled event, not completed fact
-        state=read(ROOT/'docs/project-state.json'); validate_record('project-state',state,self.root,now=NOW)
+        state=read(ROOT/'docs/project-state.json')
+        state_now=datetime.fromisoformat(state['updated_at'].replace('Z','+00:00'))
+        validate_record('project-state',state,self.root,now=state_now)
         for update in ({'live_status':'UNLOCKED'},{'active_strategies':-1}):
-            with self.assertRaises(ValidationError): validate_record('project-state',{**state,**update},self.root,now=NOW)
+            with self.assertRaises(ValidationError): validate_record('project-state',{**state,**update},self.root,now=state_now)
 
     def test_new_schema_required_fields_and_versions(self):
         permission=self.base('permission','P',source_id='SRC',source_version=1,source_url=self.source['url'],

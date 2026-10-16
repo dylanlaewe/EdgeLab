@@ -30,4 +30,15 @@ The kill switch is latched and initially ENGAGED. Its eventual operational scope
 
 Inspect state, choose a coherent scope, implement, validate, inspect diff, update artifacts, commit and push without force. Preserve unrelated work. Never commit credentials. Run the README checks. Sensitive future logic needs positive and adversarial tests: odds/payout rounding, integer money, correlated exposure, settlement idempotency, timezone boundaries, late corrections, lineage, skipped stages, identity spoofing, stale reviews, STOP propagation and kill-switch races. Test failures are blockers, never hidden.
 
+Use `tools/run_test_tier.py` for repository tests. `fast` and `domain` are green
+gates; each test module runs serially in an isolated interpreter while a
+repository-specific cooperative lock prevents overlapping tiered runs. Every
+test file is explicitly assigned, and an unclassified file fails manifest
+validation. `historical` is an audit corpus containing documented preserved red
+results: it runs every assigned module, summarizes all nonzero outcomes, and
+returns nonzero. It is not a green gate until an isolated complete run produces
+a reviewed expected-outcome fingerprint. Never hide its failures or run the
+fixture-heavy historical modules concurrently. `all` runs the tiers in order
+and retains the same fail-closed behavior.
+
 JSON Schema checks shape only. The current validator additionally checks the initial capital lock, record IDs, reference existence where implemented, and basic confirmatory ordering. It is not the future scientific approval engine or a tamper-proof audit log. All external access and live execution remain unimplemented.
