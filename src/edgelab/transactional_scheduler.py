@@ -252,13 +252,27 @@ class Scheduler:
             if rebuilt != row["event_digest"]: raise RuntimeUnavailable("event digest mutation")
             prev_id,prev=row["event_id"],row["event_digest"]
         if self._meta(c,"global_head_id") != prev_id or self._meta(c,"global_head_digest") != prev: raise RuntimeUnavailable("materialized global head mismatch")
-        for task in c.execute("SELECT * FROM tasks"):
+        tasks={row["task_id"]:row for row in c.execute("SELECT * FROM tasks")}
+        event_task_ids={row[0] for row in c.execute("SELECT DISTINCT task_id FROM task_events")}
+        if set(tasks) != event_task_ids: raise RuntimeUnavailable("replay task inventory mismatch")
+        for task_id,task in tasks.items():
             if (task["workflow"],task["execution"],task["review"]) not in VALID: raise RuntimeUnavailable("invalid materialized tuple")
-            rows=list(c.execute("SELECT * FROM task_events WHERE task_id=? ORDER BY task_seq",(task["task_id"],))); pd=digest("TASK_GENESIS:"+task["task_id"])
+            rows=list(c.execute("SELECT * FROM task_events WHERE task_id=? ORDER BY task_seq",(task_id,))); pd=digest("TASK_GENESIS:"+task_id); previous=None
+            tuple_fields=set(self.tuple(task))
             for seq,row in enumerate(rows,1):
                 if row["task_seq"] != seq or row["prev_task_digest"] != pd: raise RuntimeUnavailable("task event chain mismatch")
-                pd=row["event_digest"]
-            if rows and json.loads(rows[-1]["after_json"]) != self.tuple(task): raise RuntimeUnavailable("replay/materialized tuple mismatch")
+                before=json.loads(row["before_json"]); after=json.loads(row["after_json"])
+                if before != previous: raise RuntimeUnavailable("task event before/after discontinuity")
+                if not isinstance(after,dict) or set(after) != tuple_fields: raise RuntimeUnavailable("invalid replayed task tuple")
+                if (after["workflow"],after["execution"],after["review"]) not in VALID: raise RuntimeUnavailable("invalid replayed task tuple")
+                if type(after["attempt_no"]) is not int or after["attempt_no"] < 1 or row["attempt"] != after["attempt_no"]: raise RuntimeUnavailable("task event attempt mismatch")
+                if seq == 1:
+                    if row["event_type"] not in {"TASK_INITIALIZED","TASK_CREATED_FROM_REMEDIATION"}: raise RuntimeUnavailable("task event origin mismatch")
+                    expected_origin={"workflow":"ACTIVE","execution":"CLAIMABLE","review":"NOT_REQUIRED","attempt_no":1,"scheduler_generation":0,"dispatch_generation":0,"task_fence":0,"active_claim_id":None,"reviewer_assignment_id":None,"continuation_count":0}
+                    if any(after.get(key) != value for key,value in expected_origin.items()) or type(after["repository_generation"]) is not int or after["repository_generation"] < 0 or not isinstance(after["decision_receipt_digest"],str) or not after["decision_receipt_digest"]: raise RuntimeUnavailable("task event origin tuple mismatch")
+                if seq > 1 and row["event_type"] in {"TASK_INITIALIZED","TASK_CREATED_FROM_REMEDIATION"}: raise RuntimeUnavailable("task event origin mismatch")
+                previous=after; pd=row["event_digest"]
+            if previous != self.tuple(task): raise RuntimeUnavailable("replay/materialized tuple mismatch")
         for link in c.execute("SELECT * FROM remediation_links"):
             s=c.execute("SELECT 1 FROM task_events WHERE event_id=? AND task_id=?",(link["source_event"],link["source_task"])).fetchone(); child=c.execute("SELECT 1 FROM task_events WHERE event_id=? AND task_id=?",(link["child_event"],link["child_task"])).fetchone()
             if not s or not child or link["link_digest"] != digest({k:link[k] for k in ("link_id","source_task","child_task","source_event","child_event","decision_digest")}): raise RuntimeUnavailable("remediation link mismatch")

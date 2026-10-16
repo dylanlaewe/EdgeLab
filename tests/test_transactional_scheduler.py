@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from src.edgelab.transactional_scheduler import Scheduler, RuntimeUnavailable, Bundle
+from src.edgelab.transactional_scheduler import Scheduler, RuntimeUnavailable, Bundle, digest
 from src.edgelab.validate import ROOT
 
 class SchedulerTests(unittest.TestCase):
@@ -64,6 +64,33 @@ class SchedulerTests(unittest.TestCase):
         self.s=Scheduler(ROOT,Path(self.tmp.name)/"runtime"); self.s.initialize(); self.s.create_task("T","receipt")
         c=self.s.connect(); c.execute("update task_events set payload='{}' where task_seq=1"); c.commit(); c.close()
         with self.assertRaisesRegex(RuntimeUnavailable,"event digest"): self.s.startup()
+    def test_replay_rejects_task_event_task_and_attempt_substitution(self):
+        c=self.s.connect(); c.execute("update task_events set task_id='OTHER' where task_seq=1"); c.commit(); c.close()
+        with self.assertRaisesRegex(RuntimeUnavailable,"task inventory"): self.s.startup()
+        self.tmp.cleanup(); self.tmp=tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
+        self.s=Scheduler(ROOT,Path(self.tmp.name)/"runtime"); self.s.initialize(); self.s.create_task("T","receipt")
+        c=self.s.connect(); c.execute("update task_events set attempt=99 where task_seq=1"); c.commit(); c.close()
+        with self.assertRaisesRegex(RuntimeUnavailable,"attempt mismatch"): self.s.startup()
+    def test_replay_rejects_missing_and_eventless_task_materialization(self):
+        c=self.s.connect(); c.execute("delete from tasks where task_id='T'"); c.commit(); c.close()
+        with self.assertRaisesRegex(RuntimeUnavailable,"task inventory"): self.s.startup()
+        self.tmp.cleanup(); self.tmp=tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
+        self.s=Scheduler(ROOT,Path(self.tmp.name)/"runtime"); self.s.initialize(); self.s.create_task("T","receipt")
+        c=self.s.connect(); c.execute("INSERT INTO tasks SELECT 'EXTRA',attempt,workflow,execution,review,scheduler_generation,dispatch_generation,task_fence,claim_id,reviewer_id,continuations,repository_generation,receipt_digest,owner,reviewer,predecessor_task,successor_task FROM tasks WHERE task_id='T'"); c.commit(); c.close()
+        with self.assertRaisesRegex(RuntimeUnavailable,"task inventory"): self.s.startup()
+    def test_replay_rejects_before_after_discontinuity_even_when_rehashed(self):
+        self.claim(); c=self.s.connect(); row=c.execute("select * from task_events where task_id='T' order by task_seq desc limit 1").fetchone()
+        before=json.loads(row["before_json"]); before["scheduler_generation"]=99
+        rebuilt={"id":row["event_id"],"n":row["global_seq"],"seq":row["task_seq"],"type":row["event_type"],"before":before,"after":json.loads(row["after_json"]),"payload":json.loads(row["payload"]),"prev":row["prev_task_digest"]}
+        event_digest=digest(rebuilt)
+        c.execute("update task_events set before_json=?,event_digest=? where event_id=?",(json.dumps(before),event_digest,row["event_id"])); c.execute("update meta set v=? where k='global_head_digest'",(json.dumps(event_digest),)); c.commit(); c.close()
+        with self.assertRaisesRegex(RuntimeUnavailable,"before/after discontinuity"): self.s.startup()
+    def test_replay_rejects_rehashed_advanced_origin_tuple(self):
+        c=self.s.connect(); row=c.execute("select * from task_events where task_id='T' and task_seq=1").fetchone(); after=json.loads(row["after_json"])
+        after.update({"workflow":"DIRECTOR_GATE_READY","execution":"EXECUTION_COMPLETED","review":"APPROVED","scheduler_generation":777})
+        rebuilt={"id":row["event_id"],"n":row["global_seq"],"seq":row["task_seq"],"type":row["event_type"],"before":None,"after":after,"payload":json.loads(row["payload"]),"prev":row["prev_task_digest"]}; event_digest=digest(rebuilt)
+        c.execute("update task_events set after_json=?,event_digest=? where event_id=?",(json.dumps(after),event_digest,row["event_id"])); c.execute("update tasks set workflow=?,execution=?,review=?,scheduler_generation=? where task_id='T'",(after["workflow"],after["execution"],after["review"],after["scheduler_generation"])); c.execute("update meta set v=? where k='global_head_digest'",(json.dumps(event_digest),)); c.commit(); c.close()
+        with self.assertRaisesRegex(RuntimeUnavailable,"origin tuple"): self.s.startup()
     def test_wrong_repo_and_generation_stale_deny(self):
         with patch.object(self.s,"bundle",side_effect=RuntimeUnavailable("wrong repository")):
             with self.assertRaises(RuntimeUnavailable): self.s.transition("CLAIM","T",{**self.req(),"actor":"x"},operation_key="bad")
