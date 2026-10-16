@@ -16,7 +16,7 @@
     "Pinned M0.2 historical decisions can now be sealed to a twice-observed M0.3A task ID and attempt through a read-only diagnostic that remains structurally UNKNOWN/FAIL/false/DENY",
     "Historical capture reconstruction/verifier engineering completed with native engineering review; formal Skeptic acceptance remains pending",
     "Revision-aware handoff dependency validation and production repository validation restored",
-    "Read-only MOCK_ONLY developer alpha and loopback-only local viewer delivered",
+    "Read-only local laboratory observatory exposes governed project status and the retained MOCK_ONLY walkthrough through a fail-closed loopback interface",
     "Deterministic isolated fast, domain, and historical test tiers implemented; the complete 484-test historical audit has an exact reviewed non-green outcome fingerprint"
   ],
   "remaining_m0": [
@@ -34,8 +34,8 @@
     "The locked authority and historical binding substrates are diagnostic and DENY-only; positive authoritative currentness and authenticated receipt/R-gate integration remain unresolved",
     "M0.3A engineering completion does not constitute formal acceptance or operational authority"
   ],
-  "next_assignment": "Expose governed repository status through a read-only loopback laboratory observatory, then specify the versioned successor event/runtime format and separate positive-currentness/R-gate contract; formal H-M0-080 review remains blocked on H-M0-086 authority",
-  "updated_at": "2026-10-16T23:44:03Z",
+  "next_assignment": "Specify the versioned successor event/runtime format, then the separate positive-currentness/R-gate contract; formal H-M0-080 review remains blocked on H-M0-086 authority",
+  "updated_at": "2026-10-16T23:55:50Z",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json",
     "reports/stops/STOP-M0-3A-001.v1.json"

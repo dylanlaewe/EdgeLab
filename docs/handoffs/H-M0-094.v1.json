@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-094",
+  "version": 1,
+  "created_at": "2026-10-16T23:55:50Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Expose governed EdgeLab repository status through a read-only loopback laboratory observatory without adding operational authority.",
+  "work_done": "Added a schema-validated governed status builder, a loopback-only GET/HEAD interface, visible blocked/locked/DENY controls, provenance digests, fail-closed source handling, documentation, and adversarial regressions. Independent review found source alias, hidden inventory, hard-link, and ancestor-directory swap weaknesses; all were repaired and the final review was clean.",
+  "evidence_refs": [
+    "reports/H-M0-094-local-observatory.v1.md",
+    "reports/audit/A-M0-076.v1.json",
+    "src/edgelab/project_status.py",
+    "src/edgelab/web.py",
+    "src/edgelab/alpha.py",
+    "schemas/local-observatory-status.v1.schema.json",
+    "tests/test_web.py",
+    "README.md",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": [
+    "README.md",
+    "schemas/local-observatory-status.v1.schema.json",
+    "src/edgelab/alpha.py",
+    "src/edgelab/project_status.py",
+    "src/edgelab/web.py",
+    "tests/test_web.py",
+    "docs/project-state.json",
+    "reports/H-M0-094-local-observatory.v1.md",
+    "reports/audit/A-M0-076.v1.json",
+    "docs/handoffs/H-M0-094.v1.json"
+  ],
+  "tests_run": [
+    "Focused observatory suite: 10 tests passed.",
+    "Fast tier: 102 tests passed across 7 isolated modules in 26.480 seconds.",
+    "Independent final review: no actionable findings; HTTP safety, alpha compatibility, compilation, and diff checks passed.",
+    "Production validator before evidence publication: 345 records and published history validated; M0 capital remained LOCKED and no scientific or operational approval was granted.",
+    "Production validator after evidence publication: 347 records and published history validated with the same locked and non-authorizing result."
+  ],
+  "open_questions": [
+    "Which versioned successor event/runtime format should close the remaining idempotency, genesis, seal, migration, snapshot, predecessor, and rewrite-resistance gaps?",
+    "What separately reviewed positive-currentness and generation contract can safely support an authenticated receipt/R-gate?",
+    "Which future status projections can be added without turning local visibility into an authority or mutation interface?"
+  ],
+  "blockers": [
+    "The observatory is read-only and non-authorizing; positive currentness, authenticated receipts, and an R-gate remain absent.",
+    "H-M0-086 remains blocked on a genuinely distinct trusted 05 Skeptic authority; H-M0-041 remains BLOCKED.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked, M1 remains unreleased, live remains LOCKED, kill remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Specify the versioned successor event/runtime format, then the separate positive-currentness/R-gate contract, without treating the observatory or historical binding diagnostic as authority.",
+  "completion_criteria": [
+    "Governed M0 project, STOP, bankroll, risk, and schema sources are exposed through a coherent read-only snapshot.",
+    "Unexpected or changing files, aliases, links, directory swaps, malformed records, and invariant drift fail closed.",
+    "The local web surface supports no mutation, execution, scheduler transition, external listening, approval, or capital control.",
+    "OPEN STOPs, blocked M0.3A, locked capital, engaged kill switch, no demonstrated edge, and DENY-only authority remain explicit."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-093.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-093",
+      "version": 1,
+      "sha256": "cd3287276b07eb1a966acf73dabbf7e42965e6af71ccbbff5e4cb58cf2c0e9d9"
+    }
+  ]
+}

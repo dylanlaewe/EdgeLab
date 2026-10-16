@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-076",
+  "version": 1,
+  "occurred_at": "2026-10-16T23:55:50Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_READ_ONLY_LOCAL_OBSERVATORY_ADDED",
+  "subject_ref": "reports/H-M0-094-local-observatory.v1.md",
+  "previous_state": "GOVERNED_PROJECT_STATUS_WAS_NOT_EXPOSED_THROUGH_THE_LOCAL_VIEWER",
+  "new_state": "GOVERNED_PROJECT_STATUS_IS_VISIBLE_THROUGH_A_FAIL_CLOSED_LOOPBACK_ONLY_READ_ONLY_OBSERVATORY",
+  "reason": "Commit 1e63a9c adds a descriptor-pinned governed status snapshot and local read-only web surface, with independent adversarial review closing source alias, inventory, hard-link, and ancestor-directory race findings. It grants no currentness, approval, execution, STOP-clearance, or capital authority.",
+  "evidence_refs": [
+    "reports/H-M0-094-local-observatory.v1.md",
+    "src/edgelab/project_status.py",
+    "src/edgelab/web.py",
+    "schemas/local-observatory-status.v1.schema.json",
+    "tests/test_web.py",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "code_ref": "1e63a9c5cfe75db96e8913d4d28da2ab665d1913",
+  "config_ref": "docs/project-state.json; portfolio/bankroll.json; portfolio/risk-policy.json",
+  "correlation_id": "H-M0-094",
+  "supersedes": null
+}
