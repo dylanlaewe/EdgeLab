@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-091",
+  "version": 1,
+  "created_at": "2026-10-16T22:55:10Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Build the smallest safe actual-authority read substrate under the scheduler lock, structurally incapable of authorizing action, without inventing missing currentness mappings or weakening any project control.",
+  "work_done": "Implemented a diagnostic API and CLI that accept only a Scheduler and task ID, read the real Git bundle, attachment, and immutable SQLite state under the scheduler lock, verify replay and task/claim/attempt/review consistency, detect repository and runtime races, and always emit a closed v3 UNKNOWN/DENY result. Added internal schema validation and adversarial coverage. Updated governance-block and repository-import transitions to fence cleared active claim/review rows transactionally. A separate read-only reviewer reproduced multiple initial defects, verified their repairs, and reported no remaining material findings.",
+  "evidence_refs": [
+    "reports/H-M0-091-locked-authority-read.v1.md",
+    "reports/audit/A-M0-073.v1.json",
+    "src/edgelab/locked_authority.py",
+    "schemas/m0-3a-locked-authority-read.v1.schema.json",
+    "tools/read_locked_authority.py",
+    "src/edgelab/transactional_scheduler.py",
+    "tests/test_transactional_scheduler.py",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": [
+    "src/edgelab/locked_authority.py",
+    "schemas/m0-3a-locked-authority-read.v1.schema.json",
+    "tools/read_locked_authority.py",
+    "src/edgelab/transactional_scheduler.py",
+    "tests/test_transactional_scheduler.py",
+    "docs/project-state.json",
+    "reports/H-M0-091-locked-authority-read.v1.md",
+    "reports/audit/A-M0-073.v1.json",
+    "docs/handoffs/H-M0-091.v1.json"
+  ],
+  "tests_run": [
+    "Focused scheduler/locked-authority suite: 33 tests passed.",
+    "Fast tier: 82 tests passed across 7 isolated modules in 25.879 seconds.",
+    "Independent final review: 16 locked-authority tests and 17 legacy scheduler tests passed, plus direct adversarial probes.",
+    "Production validator before evidence publication: 339 records and published history validated; M0 capital remained LOCKED and no scientific or operational approval was granted.",
+    "Production validator after evidence publication: 341 records and published history validated with the same locked/non-authorizing result.",
+    "Reviewed historical outcome verifier matched the preserved non-green 43-module, 484-test baseline; this is not a green test result or approval.",
+    "git diff --check passed."
+  ],
+  "open_questions": [
+    "What exact source mapping and generation contract can represent every required authoritative-currentness field without inference?",
+    "How will a sealed historical result bind task, attempt, decision, currentness capture, and runtime generation before any positive R-gate exists?",
+    "Which auxiliary scheduler tables must be fully replay-derived versus independently sealed before M0.3A acceptance?"
+  ],
+  "blockers": [
+    "The reader is diagnostic and DENY-only; caller-provided receipt semantics remain non-authoritative and no transition consumes a composed gate.",
+    "H-M0-086 remains blocked on a genuinely distinct trusted 05 Skeptic authority; H-M0-041 remains BLOCKED.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked, M1 remains unreleased, live remains LOCKED, kill remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Specify and independently review the authoritative source-mapping, generation, and sealed historical subject/decision binding contract before implementing any positive currentness or R-gated scheduler transition; continue bounded auxiliary replay hardening in parallel.",
+  "completion_criteria": [
+    "Only actual Git, attachment, and SQLite authority is read under the common scheduler lock.",
+    "Repository, attachment, runtime, permission, schema, replay, task, claim, attempt, review, and race anomalies all fail closed without runtime mutation.",
+    "Every public result is schema-valid and authorizing_use remains DENY with no positive branch.",
+    "No STOP, project release, M0.3A acceptance, executor, live, kill-switch, or capital state changes."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-090.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-090",
+      "version": 1,
+      "sha256": "acc21e9ae587886dca884e2f3c0c5d2aed47c08bf0cda837dac40c436cef91c2"
+    }
+  ]
+}

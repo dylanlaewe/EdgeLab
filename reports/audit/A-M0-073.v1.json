@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-073",
+  "version": 1,
+  "occurred_at": "2026-10-16T22:55:10Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_3A_LOCKED_AUTHORITY_DIAGNOSTIC_ADDED",
+  "subject_ref": "reports/H-M0-091-locked-authority-read.v1.md",
+  "previous_state": "CURRENTNESS_TOOLS_CONSUMED_CALLER_FIXTURES_WITHOUT_LOCKED_ACTUAL_RUNTIME_AUTHORITY",
+  "new_state": "ACTUAL_GIT_ATTACHMENT_SQLITE_AUTHORITY_CAN_BE_READ_COHERENTLY_BUT_ONLY_AS_DENY_ONLY_DIAGNOSTIC",
+  "reason": "Commit 702a48e adds an immutable, non-mutating locked authority reader with closed schema validation and no positive authorization path. It closes the bounded read-substrate gap but does not define authoritative currentness, compose historical evidence, replace caller receipt semantics, integrate an R-gate, resolve a STOP, accept M0.3A, or grant operational or capital authority.",
+  "evidence_refs": [
+    "reports/H-M0-091-locked-authority-read.v1.md",
+    "src/edgelab/locked_authority.py",
+    "schemas/m0-3a-locked-authority-read.v1.schema.json",
+    "tools/read_locked_authority.py",
+    "src/edgelab/transactional_scheduler.py",
+    "tests/test_transactional_scheduler.py",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "code_ref": "702a48eadaecacac11b82de89ba1e144fbc9a8aa",
+  "config_ref": "docs/M0.3_RUNTIME_FOUNDATION.md; docs/M0.3A_TRANSACTIONAL_CONTRACT.v15.md",
+  "correlation_id": "H-M0-091",
+  "supersedes": null
+}
