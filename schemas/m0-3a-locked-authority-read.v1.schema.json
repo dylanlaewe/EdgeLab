@@ -1,0 +1,228 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edgelab.local/schemas/m0-3a-locked-authority-read.v1.schema.json",
+  "title": "EdgeLab M0.3A locked authority read",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "observation_status",
+    "task_id",
+    "authority",
+    "authority_sha256",
+    "failure_reason",
+    "verification",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "observation_status": {"enum": ["COHERENT_DENY_ONLY", "UNAVAILABLE"]},
+    "task_id": {"type": "string"},
+    "authority": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "#/$defs/authority"}
+      ]
+    },
+    "authority_sha256": {
+      "oneOf": [
+        {"type": "null"},
+        {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      ]
+    },
+    "failure_reason": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "enum": [
+            "RUNTIME_UNAVAILABLE",
+            "LOCK_UNAVAILABLE",
+            "REPOSITORY_UNAVAILABLE",
+            "AUTHORITY_INVALID",
+            "TASK_UNKNOWN",
+            "BUNDLE_STALE",
+            "GENERATION_INCONSISTENT",
+            "CLAIM_INCONSISTENT",
+            "ATTEMPT_INCONSISTENT",
+            "REVIEW_INCONSISTENT",
+            "RACE_DETECTED",
+            "INTERNAL_FAILURE"
+          ]
+        }
+      ]
+    },
+    "verification": {"$ref": "#/$defs/verification"},
+    "limitations": {
+      "type": "array",
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"observation_status": {"const": "COHERENT_DENY_ONLY"}}},
+      "then": {
+        "properties": {
+          "authority": {"$ref": "#/$defs/authority"},
+          "authority_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "failure_reason": {"type": "null"},
+          "task_id": {"type": "string", "minLength": 1}
+        }
+      },
+      "else": {
+        "properties": {
+          "authority": {"type": "null"},
+          "authority_sha256": {"type": "null"},
+          "failure_reason": {"type": "string"}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "tuple": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["workflow", "execution", "review", "attempt_no", "scheduler_generation", "dispatch_generation", "task_fence", "active_claim_id", "reviewer_assignment_id", "continuation_count", "repository_generation", "decision_receipt_digest"],
+      "properties": {
+        "workflow": {"type": "string"},
+        "execution": {"type": "string"},
+        "review": {"type": "string"},
+        "attempt_no": {"type": "integer", "minimum": 1},
+        "scheduler_generation": {"type": "integer", "minimum": 0},
+        "dispatch_generation": {"type": "integer", "minimum": 0},
+        "task_fence": {"type": "integer", "minimum": 0},
+        "active_claim_id": {"type": ["string", "null"]},
+        "reviewer_assignment_id": {"type": ["string", "null"]},
+        "continuation_count": {"type": "integer", "minimum": 0},
+        "repository_generation": {"type": "integer", "minimum": 0},
+        "decision_receipt_digest": {"type": "string", "minLength": 1}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "runtime", "attachment", "task", "claim", "attempts", "review"],
+      "properties": {
+        "repository": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["commit", "digest", "project", "stops", "policy", "tasks"],
+          "properties": {
+            "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+            "digest": {"$ref": "#/$defs/sha256"},
+            "project": {"$ref": "#/$defs/sha256"},
+            "stops": {"$ref": "#/$defs/sha256"},
+            "policy": {"$ref": "#/$defs/sha256"},
+            "tasks": {"$ref": "#/$defs/sha256"}
+          }
+        },
+        "runtime": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["schema_version", "runtime_id", "attachment_digest", "repository_generation", "bundle_digest", "global_head_id", "global_head_digest", "available"],
+          "properties": {
+            "schema_version": {"const": 1},
+            "runtime_id": {"type": "string", "minLength": 1},
+            "attachment_digest": {"$ref": "#/$defs/sha256"},
+            "repository_generation": {"type": "integer", "minimum": 0},
+            "bundle_digest": {"$ref": "#/$defs/sha256"},
+            "global_head_id": {"type": "string", "minLength": 1},
+            "global_head_digest": {"$ref": "#/$defs/sha256"},
+            "available": {"const": true}
+          }
+        },
+        "attachment": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["attachment_schema_version", "attachment_id", "canonical_project_id", "repository_identity", "expected_remote", "repository_marker_digest", "m0_2_freeze_commit", "checkout_realpath", "git_common_dir_identity", "created_at"],
+          "properties": {
+            "attachment_schema_version": {"const": 1},
+            "attachment_id": {"type": "string", "minLength": 1},
+            "canonical_project_id": {"type": "string", "minLength": 1},
+            "repository_identity": {"type": "string", "minLength": 1},
+            "expected_remote": {"type": "string", "minLength": 1},
+            "repository_marker_digest": {"$ref": "#/$defs/sha256"},
+            "m0_2_freeze_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+            "checkout_realpath": {"type": "string", "minLength": 1},
+            "git_common_dir_identity": {"type": "string", "minLength": 1},
+            "created_at": {"type": "string", "minLength": 1}
+          }
+        },
+        "task": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["task_id", "tuple"],
+          "properties": {
+            "task_id": {"type": "string", "minLength": 1},
+            "tuple": {"$ref": "#/$defs/tuple"}
+          }
+        },
+        "claim": {
+          "oneOf": [
+            {"type": "null"},
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["claim_id", "task_id", "attempt", "fence", "status", "actor"],
+              "properties": {
+                "claim_id": {"type": "string", "minLength": 1},
+                "task_id": {"type": "string", "minLength": 1},
+                "attempt": {"type": "integer", "minimum": 1},
+                "fence": {"type": "integer", "minimum": 1},
+                "status": {"const": "ACTIVE"},
+                "actor": {"type": "string", "minLength": 1}
+              }
+            }
+          ]
+        },
+        "attempts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["task_id", "attempt", "predecessor_attempt"],
+            "properties": {
+              "task_id": {"type": "string", "minLength": 1},
+              "attempt": {"type": "integer", "minimum": 1},
+              "predecessor_attempt": {"type": ["integer", "null"], "minimum": 1}
+            }
+          }
+        },
+        "review": {
+          "oneOf": [
+            {"type": "null"},
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["assignment_id", "task_id", "actor", "role", "status"],
+              "properties": {
+                "assignment_id": {"type": "string", "minLength": 1},
+                "task_id": {"type": "string", "minLength": 1},
+                "actor": {"type": "string", "minLength": 1},
+                "role": {"type": "string", "minLength": 1},
+                "status": {"const": "ACTIVE"}
+              }
+            }
+          ]
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["historical_status", "currentness_status", "runtime_compatible", "verifier_status", "generation_match", "authorizing_use", "reason_code"],
+      "properties": {
+        "historical_status": {"const": "INVALID"},
+        "currentness_status": {"const": "UNKNOWN"},
+        "runtime_compatible": {"const": false},
+        "verifier_status": {"const": "FAIL"},
+        "generation_match": {"const": false},
+        "authorizing_use": {"const": "DENY"},
+        "reason_code": {"const": "VERIFIER_FAILURE"}
+      }
+    }
+  }
+}

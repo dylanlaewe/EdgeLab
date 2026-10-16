@@ -1,5 +1,6 @@
 """M0.3A synthetic runtime acceptance: no workers, network, executor, or capital."""
 from __future__ import annotations
+import inspect
 import json
 import sqlite3
 import tempfile
@@ -7,6 +8,9 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
+from jsonschema import Draft202012Validator
+
+from src.edgelab.locked_authority import read_locked_authority
 from src.edgelab.transactional_scheduler import Scheduler, RuntimeUnavailable, Bundle, digest
 from src.edgelab.validate import ROOT
 
@@ -141,5 +145,212 @@ class SchedulerTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeUnavailable,"lock held"):
                 with self.s.locked("second"): pass
         self.s.startup()
+
+
+class LockedAuthorityTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp=tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
+        self.s=Scheduler(ROOT,Path(self.tmp.name)/"runtime"); self.s.initialize(); self.s.create_task("T","receipt")
+        self.schema=json.loads((ROOT/"schemas/m0-3a-locked-authority-read.v1.schema.json").read_text())
+        self.v3=json.loads((ROOT/"schemas/m0-2-decision-evidence-verification-result.v3.schema.json").read_text())
+
+    def row(self):
+        c=self.s.connect(read_only=True); row=c.execute("select * from tasks where task_id='T'").fetchone(); c.close(); return row
+
+    def req(self):
+        row=self.row(); return {"expected":self.s.tuple(row),"repository_generation":row["repository_generation"],"receipt_digest":row["receipt_digest"]}
+
+    def assert_closed(self,result):
+        Draft202012Validator(self.schema).validate(result)
+        Draft202012Validator(self.v3).validate(result["verification"])
+        self.assertEqual(result["verification"]["authorizing_use"],"DENY")
+        self.assertNotEqual(result["verification"]["currentness_status"],"CURRENT")
+
+    def logical_state(self):
+        c=self.s.connect(read_only=True)
+        try:
+            dump="\n".join(c.iterdump())
+            heads={key:self.s._meta(c,key) for key in ("repository_generation","bundle_digest","global_head_id","global_head_digest")}
+            counts={table:c.execute(f"select count(*) from {table}").fetchone()[0] for table in ("tasks","claims","runtime_events","task_events","idempotency")}
+        finally:c.close()
+        files={path.name:(digest(path.read_bytes()),path.stat().st_mode & 0o777) for path in (self.s.db,self.s.attachment,self.s.lock_path)}
+        files[self.s.dir.name]=(None,self.s.dir.stat().st_mode & 0o777)
+        return dump,heads,counts,files
+
+    def test_coherent_actual_authority_is_schema_valid_and_deny_only(self):
+        before_names={path.name for path in self.s.dir.iterdir()}
+        before=self.logical_state(); result=read_locked_authority(self.s,"T"); after=self.logical_state()
+        self.assert_closed(result)
+        self.assertEqual(result["observation_status"],"COHERENT_DENY_ONLY")
+        self.assertIsNone(result["failure_reason"])
+        self.assertEqual(result["authority"]["task"]["tuple"]["decision_receipt_digest"],"receipt")
+        self.assertEqual(result["authority_sha256"],digest(result["authority"]))
+        self.assertEqual(before,after)
+        self.assertEqual(before_names,{path.name for path in self.s.dir.iterdir()})
+
+    def test_api_cannot_accept_caller_snapshots_bindings_or_receipts(self):
+        signature=inspect.signature(read_locked_authority)
+        self.assertEqual(tuple(signature.parameters),("scheduler","task_id"))
+        with self.assertRaises(TypeError):
+            read_locked_authority(self.s,"T",snapshot={})
+        empty=read_locked_authority(self.s,"")
+        self.assert_closed(empty); self.assertEqual(empty["failure_reason"],"TASK_UNKNOWN")
+
+    def test_returned_denial_cannot_mutate_future_results(self):
+        first=read_locked_authority(self.s,"T")
+        first["verification"].update({"historical_status":"VALID","currentness_status":"CURRENT","runtime_compatible":True,"verifier_status":"PASS","generation_match":True,"authorizing_use":"ALLOW","reason_code":"NONE"})
+        second=read_locked_authority(self.s,"T")
+        self.assert_closed(second)
+
+    def test_lock_contention_denies_without_logical_mutation(self):
+        before=self.logical_state()
+        with self.s.locked("holder"):
+            result=read_locked_authority(self.s,"T")
+        self.assert_closed(result)
+        self.assertEqual((result["observation_status"],result["failure_reason"]),("UNAVAILABLE","LOCK_UNAVAILABLE"))
+        self.assertEqual(before,self.logical_state())
+
+    def test_repository_change_between_reads_denies(self):
+        original=self.s.bundle(); changed=Bundle(original.commit,"f"*64,original.project,original.stops,original.policy,original.tasks)
+        with patch.object(self.s,"bundle",side_effect=[original,changed]):
+            result=read_locked_authority(self.s,"T")
+        self.assert_closed(result)
+        self.assertEqual(result["failure_reason"],"RACE_DETECTED")
+
+    def test_stale_repository_bundle_denies(self):
+        original=self.s.bundle(); changed=Bundle(original.commit,"e"*64,original.project,original.stops,original.policy,original.tasks)
+        with patch.object(self.s,"bundle",return_value=changed):
+            result=read_locked_authority(self.s,"T")
+        self.assert_closed(result)
+        self.assertEqual(result["failure_reason"],"BUNDLE_STALE")
+
+    def test_unknown_task_and_incomplete_runtime_deny(self):
+        unknown=read_locked_authority(self.s,"missing")
+        self.assert_closed(unknown); self.assertEqual(unknown["failure_reason"],"TASK_UNKNOWN")
+        missing=Scheduler(ROOT,Path(self.tmp.name)/"absent")
+        unavailable=read_locked_authority(missing,"T")
+        self.assert_closed(unavailable); self.assertEqual(unavailable["failure_reason"],"RUNTIME_UNAVAILABLE")
+        self.assertFalse(missing.dir.exists())
+
+    def test_missing_lock_or_unsafe_permissions_deny_without_repair(self):
+        self.s.lock_path.unlink()
+        missing=read_locked_authority(self.s,"T")
+        self.assert_closed(missing); self.assertEqual(missing["failure_reason"],"RUNTIME_UNAVAILABLE")
+        self.assertFalse(self.s.lock_path.exists())
+
+        self.s.lock_path.touch(mode=0o600)
+        self.s.attachment.chmod(0o644)
+        unsafe=read_locked_authority(self.s,"T")
+        self.assert_closed(unsafe); self.assertEqual(unsafe["failure_reason"],"RUNTIME_UNAVAILABLE")
+        self.assertEqual(self.s.attachment.stat().st_mode & 0o777,0o644)
+
+    def test_preexisting_sqlite_sidecar_denies_without_touching_it(self):
+        sidecar=self.s.db.with_name(self.s.db.name+"-wal"); sidecar.write_bytes(b"pending")
+        result=read_locked_authority(self.s,"T")
+        self.assert_closed(result); self.assertEqual(result["failure_reason"],"RUNTIME_UNAVAILABLE")
+        self.assertEqual(sidecar.read_bytes(),b"pending")
+
+    def test_attachment_and_replay_corruption_deny(self):
+        attachment=json.loads(self.s.attachment.read_text()); attachment["canonical_project_id"]="other"
+        self.s.attachment.write_text(json.dumps(attachment))
+        invalid=read_locked_authority(self.s,"T")
+        self.assert_closed(invalid); self.assertEqual(invalid["failure_reason"],"AUTHORITY_INVALID")
+
+        self.tmp.cleanup(); self.tmp=tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
+        self.s=Scheduler(ROOT,Path(self.tmp.name)/"runtime"); self.s.initialize(); self.s.create_task("T","receipt")
+        c=self.s.connect(); c.execute("update task_events set payload='{}' where task_id='T'"); c.commit(); c.close()
+        corrupt=read_locked_authority(self.s,"T")
+        self.assert_closed(corrupt); self.assertEqual(corrupt["failure_reason"],"AUTHORITY_INVALID")
+
+    def test_attachment_read_race_and_invalid_meta_deny(self):
+        valid=self.s.attachment.read_text()
+        attachment=json.loads(valid); attachment["canonical_project_id"]="tampered"
+        reads=iter((valid,json.dumps(attachment))); original=Path.read_text
+        def raced_read(path,*args,**kwargs):
+            return next(reads) if path == self.s.attachment else original(path,*args,**kwargs)
+        with patch.object(Path,"read_text",autospec=True,side_effect=raced_read):
+            raced=read_locked_authority(self.s,"T")
+        self.assert_closed(raced); self.assertEqual(raced["failure_reason"],"AUTHORITY_INVALID")
+
+        c=self.s.connect(); c.execute("update meta set v='false' where k='available'"); c.commit(); c.close()
+        invalid=read_locked_authority(self.s,"T")
+        self.assert_closed(invalid); self.assertEqual(invalid["failure_reason"],"AUTHORITY_INVALID")
+
+    def test_schema_invalid_authority_and_malformed_meta_deny(self):
+        self.tmp.cleanup(); self.tmp=tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
+        self.s=Scheduler(ROOT,Path(self.tmp.name)/"runtime"); self.s.initialize(project_id=""); self.s.create_task("T","receipt")
+        project=read_locked_authority(self.s,"T")
+        self.assert_closed(project); self.assertEqual(project["failure_reason"],"AUTHORITY_INVALID")
+
+        self.tmp.cleanup(); self.tmp=tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
+        self.s=Scheduler(ROOT,Path(self.tmp.name)/"runtime"); self.s.initialize(); self.s.create_task("T","receipt")
+        self.s.transition("CLAIM","T",{**self.req(),"actor":""},operation_key="claim")
+        actor=read_locked_authority(self.s,"T")
+        self.assert_closed(actor); self.assertEqual(actor["failure_reason"],"AUTHORITY_INVALID")
+
+        for value in (None,"not-json"):
+            self.tmp.cleanup(); self.tmp=tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
+            self.s=Scheduler(ROOT,Path(self.tmp.name)/"runtime"); self.s.initialize(); self.s.create_task("T","receipt")
+            c=self.s.connect()
+            if value is None: c.execute("delete from meta where k='available'")
+            else: c.execute("update meta set v=? where k='available'",(value,))
+            c.commit(); c.close()
+            meta=read_locked_authority(self.s,"T")
+            self.assert_closed(meta); self.assertEqual(meta["failure_reason"],"AUTHORITY_INVALID")
+
+    def test_claim_fence_inconsistency_denies(self):
+        self.s.transition("CLAIM","T",{**self.req(),"actor":"worker"},operation_key="claim")
+        c=self.s.connect(); c.execute("update claims set fence=fence+1 where task_id='T'"); c.commit(); c.close()
+        result=read_locked_authority(self.s,"T")
+        self.assert_closed(result); self.assertEqual(result["failure_reason"],"CLAIM_INCONSISTENT")
+
+    def test_claim_actor_attempt_and_review_inconsistency_deny(self):
+        self.s.transition("CLAIM","T",{**self.req(),"actor":"worker"},operation_key="claim")
+        c=self.s.connect(); c.execute("update claims set actor='other' where task_id='T'"); c.commit(); c.close()
+        actor=read_locked_authority(self.s,"T")
+        self.assert_closed(actor); self.assertEqual(actor["failure_reason"],"CLAIM_INCONSISTENT")
+
+        self.tmp.cleanup(); self.tmp=tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
+        self.s=Scheduler(ROOT,Path(self.tmp.name)/"runtime"); self.s.initialize(); self.s.create_task("T","receipt")
+        c=self.s.connect(); c.execute("delete from attempts where task_id='T'"); c.commit(); c.close()
+        attempt=read_locked_authority(self.s,"T")
+        self.assert_closed(attempt); self.assertEqual(attempt["failure_reason"],"ATTEMPT_INCONSISTENT")
+
+        self.tmp.cleanup(); self.tmp=tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
+        self.s=Scheduler(ROOT,Path(self.tmp.name)/"runtime"); self.s.initialize(); self.s.create_task("T","receipt")
+        claimed=self.s.transition("CLAIM","T",{**self.req(),"actor":"worker"},operation_key="claim")["tuple"]
+        self.s.transition("START","T",{**self.req(),"claim_id":claimed["active_claim_id"],"fence":claimed["task_fence"]},operation_key="start")
+        current=self.req(); self.s.transition("COMPLETE","T",{**current,"claim_id":current["expected"]["active_claim_id"],"fence":current["expected"]["task_fence"]},operation_key="complete")
+        self.s.transition("ASSIGN_REVIEW","T",{**self.req(),"actor":"reviewer","role":"skeptic"},operation_key="review")
+        c=self.s.connect(); c.execute("delete from reviews where task_id='T'"); c.commit(); c.close()
+        review=read_locked_authority(self.s,"T")
+        self.assert_closed(review); self.assertEqual(review["failure_reason"],"REVIEW_INCONSISTENT")
+
+    def test_governance_block_fences_auxiliary_rows_and_remains_readable(self):
+        self.s.transition("CLAIM","T",{**self.req(),"actor":"worker"},operation_key="claim")
+        self.s.transition("GOVERNANCE_BLOCK","T",self.req(),operation_key="block")
+        blocked=read_locked_authority(self.s,"T")
+        self.assert_closed(blocked); self.assertEqual(blocked["observation_status"],"COHERENT_DENY_ONLY")
+        c=self.s.connect(read_only=True); self.assertEqual(c.execute("select status from claims where task_id='T'").fetchone()[0],"GOVERNANCE_BLOCKED"); c.close()
+
+        self.tmp.cleanup(); self.tmp=tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
+        self.s=Scheduler(ROOT,Path(self.tmp.name)/"runtime"); self.s.initialize(); self.s.create_task("T","receipt")
+        claimed=self.s.transition("CLAIM","T",{**self.req(),"actor":"worker"},operation_key="claim")["tuple"]
+        self.s.transition("START","T",{**self.req(),"claim_id":claimed["active_claim_id"],"fence":claimed["task_fence"]},operation_key="start")
+        current=self.req(); self.s.transition("COMPLETE","T",{**current,"claim_id":current["expected"]["active_claim_id"],"fence":current["expected"]["task_fence"]},operation_key="complete")
+        self.s.transition("ASSIGN_REVIEW","T",{**self.req(),"actor":"reviewer","role":"skeptic"},operation_key="review")
+        self.s.transition("GOVERNANCE_BLOCK","T",self.req(),operation_key="block")
+        review_blocked=read_locked_authority(self.s,"T")
+        self.assert_closed(review_blocked); self.assertEqual(review_blocked["observation_status"],"COHERENT_DENY_ONLY")
+        c=self.s.connect(read_only=True); self.assertEqual(c.execute("select status from reviews where task_id='T'").fetchone()[0],"GOVERNANCE_BLOCKED"); c.close()
+
+    def test_repository_import_fences_active_claim_and_remains_readable(self):
+        self.s.transition("CLAIM","T",{**self.req(),"actor":"worker"},operation_key="claim")
+        original=self.s.bundle(); changed=Bundle(original.commit,"d"*64,original.project,original.stops,original.policy,original.tasks)
+        with patch.object(self.s,"bundle",return_value=changed):
+            self.s.import_repository(["T"])
+            result=read_locked_authority(self.s,"T")
+        self.assert_closed(result); self.assertEqual(result["observation_status"],"COHERENT_DENY_ONLY")
+        c=self.s.connect(read_only=True); self.assertEqual(c.execute("select status from claims where task_id='T'").fetchone()[0],"GOVERNANCE_BLOCKED"); c.close()
 
 if __name__ == "__main__": unittest.main()

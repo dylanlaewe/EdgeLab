@@ -6,6 +6,7 @@ import hashlib
 import json
 import os
 import sqlite3
+import stat
 import subprocess
 import tempfile
 import time
@@ -32,10 +33,13 @@ def canonical(value: Any) -> bytes:
     return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True, allow_nan=False).encode()
 def digest(value: Any) -> str: return hashlib.sha256(canonical(value) if not isinstance(value, bytes) else value).hexdigest()
 def utc() -> str: return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-def _mode(path: Path, wanted: int) -> None:
-    try: os.chmod(path, wanted)
+def _mode(path: Path, wanted: int, *, repair: bool = True) -> None:
+    try:
+        if repair:
+            os.chmod(path, wanted)
+        actual = stat.S_IMODE(os.stat(path).st_mode)
     except OSError as error: raise RuntimeError("runtime permissions unavailable") from error
-    if os.stat(path).st_mode & 0o777 != wanted: raise RuntimeError("unsafe runtime permissions")
+    if actual != wanted: raise RuntimeError("unsafe runtime permissions")
 
 @dataclass(frozen=True)
 class Bundle:
@@ -63,19 +67,23 @@ class Scheduler:
         # path content advances generation; a no-op commit must not fence work.
         return Bundle(commit, digest({"files":pairs}), groups("docs/project-state"), groups("reports/stops"), digest([x for x in pairs if x[0].startswith("portfolio/") or x[0].startswith("orchestration/capabilities")]), groups("orchestration/"))
     @contextmanager
-    def locked(self, purpose: str) -> Iterator[None]:
-        self.dir.mkdir(mode=0o700, parents=True, exist_ok=True); _mode(self.dir, 0o700)
-        f = open(self.lock_path, "a+", encoding="utf-8"); _mode(self.lock_path, 0o600)
+    def locked(self, purpose: str, *, repair_permissions: bool = True) -> Iterator[None]:
+        if repair_permissions:
+            self.dir.mkdir(mode=0o700, parents=True, exist_ok=True)
+        _mode(self.dir, 0o700, repair=repair_permissions)
+        mode = "a+" if repair_permissions else "r+"
+        f = open(self.lock_path, mode, encoding="utf-8"); _mode(self.lock_path, 0o600, repair=repair_permissions)
         try:
             try: fcntl.flock(f.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
             except BlockingIOError as e: raise RuntimeUnavailable("cooperative lock held") from e
             yield
         finally:
             fcntl.flock(f.fileno(), fcntl.LOCK_UN); f.close()
-    def connect(self) -> sqlite3.Connection:
-        c = sqlite3.connect(self.db, isolation_level=None); c.row_factory = sqlite3.Row
+    def connect(self, *, read_only: bool = False) -> sqlite3.Connection:
+        target = f"file:{self.db}?mode=ro&immutable=1" if read_only else self.db
+        c = sqlite3.connect(target, isolation_level=None, uri=read_only); c.row_factory = sqlite3.Row
         try:
-            if c.execute("PRAGMA journal_mode=WAL").fetchone()[0].lower() != "wal": raise RuntimeUnavailable("WAL unavailable")
+            if not read_only and c.execute("PRAGMA journal_mode=WAL").fetchone()[0].lower() != "wal": raise RuntimeUnavailable("WAL unavailable")
             c.execute("PRAGMA synchronous=FULL")
             c.execute("PRAGMA foreign_keys=ON"); c.execute("PRAGMA busy_timeout=5000")
             if c.execute("PRAGMA foreign_keys").fetchone()[0] != 1 or c.execute("PRAGMA synchronous").fetchone()[0] != 2 or c.execute("PRAGMA busy_timeout").fetchone()[0] != 5000: raise RuntimeUnavailable("SQLite profile unavailable")
@@ -100,9 +108,9 @@ class Scheduler:
         c.executescript("""CREATE TABLE meta(k TEXT PRIMARY KEY,v TEXT NOT NULL); CREATE TABLE seals(runtime_id TEXT PRIMARY KEY,attachment_id TEXT,attachment_digest TEXT,genesis_digest TEXT,created_at TEXT,seal_digest TEXT); CREATE TABLE tasks(task_id TEXT PRIMARY KEY,attempt INTEGER,workflow TEXT,execution TEXT,review TEXT,scheduler_generation INTEGER,dispatch_generation INTEGER,task_fence INTEGER,claim_id TEXT,reviewer_id TEXT,continuations INTEGER,repository_generation INTEGER,receipt_digest TEXT,owner TEXT,reviewer TEXT,predecessor_task TEXT,successor_task TEXT); CREATE TABLE attempts(task_id TEXT,attempt INTEGER,predecessor_attempt INTEGER,PRIMARY KEY(task_id,attempt)); CREATE TABLE claims(claim_id TEXT PRIMARY KEY,task_id TEXT,attempt INTEGER,fence INTEGER,status TEXT,actor TEXT); CREATE TABLE reviews(assignment_id TEXT PRIMARY KEY,task_id TEXT,actor TEXT,role TEXT,status TEXT); CREATE TABLE idempotency(operation_key TEXT PRIMARY KEY,request_digest TEXT NOT NULL,response TEXT NOT NULL); CREATE TABLE runtime_events(event_id TEXT PRIMARY KEY,global_seq INTEGER UNIQUE,event_type TEXT,payload TEXT,event_digest TEXT,prev_id TEXT,prev_digest TEXT); CREATE TABLE task_events(event_id TEXT PRIMARY KEY,task_id TEXT,attempt INTEGER,task_seq INTEGER,global_seq INTEGER UNIQUE,event_type TEXT,before_json TEXT,after_json TEXT,payload TEXT,event_digest TEXT,prev_task_digest TEXT,prev_global_digest TEXT); CREATE TABLE remediation_links(link_id TEXT PRIMARY KEY,source_task TEXT,child_task TEXT,source_event TEXT,child_event TEXT,decision_digest TEXT,link_digest TEXT); CREATE TABLE migration_ledger(migration_id TEXT PRIMARY KEY,from_version INTEGER,to_version INTEGER,artifact_digest TEXT,backup_ref TEXT,backup_digest TEXT,result TEXT,created_at TEXT); CREATE TABLE snapshots(snapshot_id TEXT PRIMARY KEY,digest TEXT,generation INTEGER,global_head TEXT,created_at TEXT);""")
     def _meta(self,c,k): return json.loads(c.execute("SELECT v FROM meta WHERE k=?",(k,)).fetchone()[0])
     def _set(self,c,k,v): c.execute("UPDATE meta SET v=? WHERE k=?",(json.dumps(v),k))
-    def _verify(self,c):
+    def _verify(self,c, *, repair_permissions: bool = True):
         if not self.attachment.exists(): raise RuntimeUnavailable("attachment missing")
-        _mode(self.dir,0o700); _mode(self.attachment,0o600); _mode(self.db,0o600)
+        _mode(self.dir,0o700,repair=repair_permissions); _mode(self.attachment,0o600,repair=repair_permissions); _mode(self.db,0o600,repair=repair_permissions)
         if c.execute("PRAGMA integrity_check").fetchone()[0] != "ok" or c.execute("PRAGMA foreign_key_check").fetchall(): raise RuntimeUnavailable("SQLite corruption")
         a=json.loads(self.attachment.read_text()); g=self._meta(c,"genesis"); seal=c.execute("SELECT * FROM seals").fetchone()
         if digest(a)!=self._meta(c,"attachment_digest") or digest(g)!=self._meta(c,"genesis_digest") or not seal or seal[2]!=digest(a) or seal[3]!=digest(g) or a["checkout_realpath"]!=str(self.root) or a["expected_remote"]!=EXPECTED_REMOTE: raise RuntimeUnavailable("attachment/genesis seal mismatch")
@@ -175,6 +183,8 @@ class Scheduler:
         if op=="RETRY" and (w,e,v)==("ACTIVE","FAILED","NOT_REQUIRED") and r.get("retryable"):
             c.execute("INSERT INTO attempts VALUES (?,?,?)",(row["task_id"],row["attempt"]+1,row["attempt"])); c.execute("UPDATE tasks SET attempt=?,execution='CLAIMABLE',scheduler_generation=?,dispatch_generation=?,task_fence=?,claim_id=NULL WHERE task_id=?",(row["attempt"]+1,S,D+1,F+1,row["task_id"])); return "TASK_RETRIED"
         if op=="GOVERNANCE_BLOCK" and (w,e,v) in VALID:
+            if row["claim_id"] is not None: c.execute("UPDATE claims SET status='GOVERNANCE_BLOCKED' WHERE claim_id=?",(row["claim_id"],))
+            if row["reviewer_id"] is not None: c.execute("UPDATE reviews SET status='GOVERNANCE_BLOCKED' WHERE assignment_id=?",(row["reviewer_id"],))
             rv="REVIEW_PENDING" if v in {"REVIEW_PENDING","REVIEWING"} else "NOT_REQUIRED"; setstate(workflow="GOVERNANCE_BLOCKED",execution="EXECUTION_BLOCKED",review=rv,scheduler_generation=S,dispatch_generation=D+1,task_fence=F+1,claim_id=None,reviewer_id=None); return "GOVERNANCE_BLOCKED"
         if op=="REVALIDATE" and (w,e,v) in {("GOVERNANCE_BLOCKED","EXECUTION_BLOCKED","NOT_REQUIRED"),("GOVERNANCE_BLOCKED","EXECUTION_BLOCKED","REVIEW_PENDING")}:
             setstate(workflow="ACTIVE",execution="CLAIMABLE" if v=="NOT_REQUIRED" else "EXECUTION_COMPLETED",review=v,scheduler_generation=S); return "GOVERNANCE_REVALIDATED"
@@ -293,6 +303,8 @@ class Scheduler:
                     if (row["workflow"],row["execution"],row["review"]) in {( "ACTIVE","CLAIMABLE","NOT_REQUIRED")}:
                         c.execute("UPDATE tasks SET scheduler_generation=scheduler_generation+1,repository_generation=? WHERE task_id=?",(new,tid))
                     else:
+                        if row["claim_id"] is not None: c.execute("UPDATE claims SET status='GOVERNANCE_BLOCKED' WHERE claim_id=?",(row["claim_id"],))
+                        if row["reviewer_id"] is not None: c.execute("UPDATE reviews SET status='GOVERNANCE_BLOCKED' WHERE assignment_id=?",(row["reviewer_id"],))
                         c.execute("UPDATE tasks SET workflow='GOVERNANCE_BLOCKED',execution='EXECUTION_BLOCKED',review=?,claim_id=NULL,reviewer_id=NULL,scheduler_generation=scheduler_generation+1,dispatch_generation=dispatch_generation+1,task_fence=task_fence+1,repository_generation=? WHERE task_id=?",("REVIEW_PENDING" if row["review"] in {"REVIEW_PENDING","REVIEWING"} else "NOT_REQUIRED",new,tid))
                     updated=c.execute("SELECT * FROM tasks WHERE task_id=?",(tid,)).fetchone()
                     self._task_event(
