@@ -13,13 +13,13 @@
     "Historical capture reconstruction/verifier engineering completed with native engineering review; formal Skeptic acceptance remains pending",
     "Revision-aware handoff dependency validation and production repository validation restored",
     "Read-only MOCK_ONLY developer alpha and loopback-only local viewer delivered",
-    "Deterministic isolated fast, domain, and historical test tiers implemented; historical expected-outcome fingerprint remains pending"
+    "Deterministic isolated fast, domain, and historical test tiers implemented; the complete 484-test historical audit has an exact reviewed non-green outcome fingerprint"
   ],
   "remaining_m0": [
     "Obtain a genuinely distinct trusted 05 Skeptic review and formal disposition of H-M0-080 under H-M0-086",
     "Implement authoritative locked currentness and one composed M0.2-to-M0.3A R-gate without caller-invented receipt semantics",
     "Complete M0.3A replay and integrity coverage for auxiliary scheduler state and obtain independent acceptance plus Director release",
-    "Run and review the complete isolated historical audit, then codify an exact expected-outcome fingerprint without converting preserved failures into false passes",
+    "Resolve reviewed historical fixture-coupling debt through new versioned tests without rewriting the preserved outcome baseline",
     "Provision the trusted external authority boundary and satisfy typed STOP-clearance prerequisites",
     "Resolve statistical, freshness, paper-capital, exposure, correlation, drawdown, and live-gate thresholds before M0 exit"
   ],
@@ -30,8 +30,8 @@
     "Authoritative currentness and composed receipt/R-gate integration remain unresolved",
     "M0.3A engineering completion does not constitute formal acceptance or operational authority"
   ],
-  "next_assignment": "Run one isolated complete historical audit, review its exact outcomes, and continue bounded M0.3A replay/integrity hardening; formal H-M0-080 review remains blocked on H-M0-086 authority",
-  "updated_at": "2026-10-16T21:36:28Z",
+  "next_assignment": "Continue bounded M0.3A replay/integrity hardening and authoritative currentness design; formal H-M0-080 review remains blocked on H-M0-086 authority",
+  "updated_at": "2026-10-16T22:28:39Z",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json",
     "reports/stops/STOP-M0-3A-001.v1.json"

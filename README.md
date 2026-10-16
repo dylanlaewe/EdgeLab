@@ -23,13 +23,19 @@ repository-specific cooperative lock and executes each module in an isolated
 process. The retained historical/adversarial corpus is a separate audit:
 
 ```sh
-.venv/bin/python tools/run_test_tier.py historical
+set -o pipefail
+.venv/bin/python tools/run_test_tier.py historical 2>&1 | tee /tmp/edgelab-historical.log
+.venv/bin/python tools/verify_historical_outcomes.py /tmp/edgelab-historical.log
 ```
 
-That audit currently includes documented preserved red results and must not be
-called green until its exact outcomes have been captured and independently
-reviewed. The runner observes every historical module and returns nonzero when
-any fail. `tools/run_test_tier.py all` runs all three tiers in order. Do not run
+That audit includes documented preserved red results and is intentionally not a
+green gate. The runner observes every historical module and returns nonzero
+when any fail. The verifier checks the complete ordered outcome against the
+reviewed non-green baseline, including every failure/error identity and
+diagnostic plus runner/test source hashes. A verifier success means only that
+the known audit pattern did not drift; it is not a test pass or approval.
+`--exact-capture` additionally verifies the one reviewed raw-log hash.
+`tools/run_test_tier.py all` runs all three tiers in order. Do not run
 overlapping test processes against the retained fixture corpus.
 
 The validator checks record shape and M0 capital invariants. It does **not** authenticate reviewers, enforce append-only storage, validate scientific evidence, or implement promotion/execution. Those limitations are explicit M0 blockers, not approvals.

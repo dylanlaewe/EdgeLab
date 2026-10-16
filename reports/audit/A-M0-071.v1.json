@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-071",
+  "version": 1,
+  "occurred_at": "2026-10-16T22:28:39Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "HISTORICAL_OUTCOMES_REVIEWED_AND_FINGERPRINTED",
+  "subject_ref": "reports/H-M0-089-reviewed-historical-outcomes.v1.md",
+  "previous_state": "COMPLETE_HISTORICAL_AUDIT_NOT_YET_MACHINE_CLASSIFIED",
+  "new_state": "EXACT_REVIEWED_NON_GREEN_HISTORICAL_BASELINE_AVAILABLE",
+  "reason": "The complete isolated audit at commit 168e91a observed 484 tests in 43 modules with 25 zero and 18 explicitly reviewed nonzero module outcomes. The fail-closed verifier records exact counts, full identities, diagnostic hashes, dispositions, and source hashes without converting the historical tier into a green gate or changing any approval or capital state.",
+  "evidence_refs": [
+    "reports/H-M0-089-reviewed-historical-outcomes.v1.md",
+    "tests/fixtures/historical-outcomes.v1.json",
+    "tools/verify_historical_outcomes.py",
+    "tests/test_test_tiers.py",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "code_ref": "168e91abd8c2679ec17e8c3e784fabb72d1ff46c",
+  "config_ref": "README.md; docs/OPERATIONS.md",
+  "correlation_id": "H-M0-089",
+  "supersedes": null
+}

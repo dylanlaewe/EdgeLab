@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-089",
+  "version": 1,
+  "created_at": "2026-10-16T22:28:39Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Run the complete isolated historical audit, review every outcome, and create an exact fail-closed fingerprint without treating preserved failures as a green gate.",
+  "work_done": "Ran all 43 historical modules in isolated serial processes at exact commit 168e91a; reviewed and classified all 18 nonzero modules; recorded module results and aggregate counts covering all 484 tests plus source hashes, full non-pass identities, and normalized diagnostic hashes; implemented a parser/verifier that denies incomplete or drifted observations; updated operating guidance and project state. The historical runner remains nonzero and all scientific, STOP, execution, and capital controls are unchanged.",
+  "evidence_refs": [
+    "reports/H-M0-089-reviewed-historical-outcomes.v1.md",
+    "reports/audit/A-M0-071.v1.json",
+    "tests/fixtures/historical-outcomes.v1.json",
+    "tools/verify_historical_outcomes.py",
+    "tests/test_test_tiers.py",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": [
+    "tools/verify_historical_outcomes.py",
+    "tests/fixtures/historical-outcomes.v1.json",
+    "tests/test_test_tiers.py",
+    "README.md",
+    "docs/OPERATIONS.md",
+    "docs/project-state.json",
+    "reports/H-M0-089-reviewed-historical-outcomes.v1.md",
+    "reports/audit/A-M0-071.v1.json",
+    "docs/handoffs/H-M0-089.v1.json"
+  ],
+  "tests_run": [
+    "Historical tier at 168e91a: 484 tests across 43 isolated modules; 25 modules exited zero, 18 exited nonzero, aggregate exit 1 in 773.060 seconds.",
+    "Exact-capture verifier with mandatory current-source checks matched the reviewed baseline: 43 modules, 484 tests, 18 reviewed nonzero modules.",
+    "Fast tier: 62 tests passed across 7 isolated modules in 10.637 seconds.",
+    "Targeted tools/test_test_tiers unit run: 9 tests passed, including incomplete-run, count/identity mismatch, and diagnostic-cause checks.",
+    "A log with a mutated diagnostic and unchanged test identity/count was denied.",
+    "Production validator: 337 records and published history validated; M0 capital remained LOCKED and no scientific or operational approval was granted."
+  ],
+  "open_questions": [
+    "When should each current-tree-coupled historical fixture receive a separately versioned hermetic successor?",
+    "Which authority can provide a genuinely distinct trusted 05 Skeptic disposition for H-M0-086?"
+  ],
+  "blockers": [
+    "H-M0-086 remains blocked on a genuinely distinct trusted 05 Skeptic authority.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked, M1 remains unreleased, live remains LOCKED, kill remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Continue bounded M0.3A replay/integrity hardening and authoritative currentness design while preserving this non-green baseline; do not advance formal acceptance without distinct Skeptic authority.",
+  "completion_criteria": [
+    "One complete exact-commit historical audit observes all 43 modules serially.",
+    "Every nonzero result is classified with exact counts, full identities, and diagnostic hashes; no zero-test or unexplained result is accepted.",
+    "Verifier fails closed on incomplete runs, outcome/diagnostic drift, and audited runner/test source drift.",
+    "The historical tier remains visibly nonzero and is not represented as a green gate.",
+    "No STOP, project release, executor, live, kill-switch, or capital state changes."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-088.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-088",
+      "version": 1,
+      "sha256": "d9d1b3d2870863905beaf43e117576bc0b66f47b29664153120fae8d671720b5"
+    }
+  ]
+}

@@ -36,9 +36,18 @@ repository-specific cooperative lock prevents overlapping tiered runs. Every
 test file is explicitly assigned, and an unclassified file fails manifest
 validation. `historical` is an audit corpus containing documented preserved red
 results: it runs every assigned module, summarizes all nonzero outcomes, and
-returns nonzero. It is not a green gate until an isolated complete run produces
-a reviewed expected-outcome fingerprint. Never hide its failures or run the
-fixture-heavy historical modules concurrently. `all` runs the tiers in order
-and retains the same fail-closed behavior.
+returns nonzero. Never hide its failures or run the fixture-heavy historical
+modules concurrently. `all` runs the tiers in order and retains the same
+fail-closed behavior.
+
+Capture a complete combined historical log with `tee`, then run
+`tools/verify_historical_outcomes.py <log>`. The verifier requires all 43
+modules in manifest order, exact test/result counts, exact non-pass identities
+and diagnostic hashes, and unchanged audited runner/test bytes. It returns zero
+only for a match to the reviewed **non-green** baseline; this does not change
+the historical runner's nonzero result. Use `--exact-capture` only when
+verifying the reviewed 2026-10-16 capture itself. Any source or outcome drift
+requires a new complete run and explicit review, never a wildcard baseline
+update.
 
 JSON Schema checks shape only. The current validator additionally checks the initial capital lock, record IDs, reference existence where implemented, and basic confirmatory ordering. It is not the future scientific approval engine or a tamper-proof audit log. All external access and live execution remain unimplemented.

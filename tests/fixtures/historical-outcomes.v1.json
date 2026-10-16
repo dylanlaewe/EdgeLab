@@ -1,0 +1,1391 @@
+{
+  "schema_version": 1,
+  "id": "HISTORICAL-OUTCOMES-2026-10-16",
+  "status": "REVIEWED_NON_GREEN_BASELINE",
+  "source_commit": "168e91abd8c2679ec17e8c3e784fabb72d1ff46c",
+  "capture": {
+    "log_sha256": "d8afa4789b22dd9a6ccfab8b0770271c258b2800610a6873b778e87bd767f12b",
+    "log_size_bytes": 259015,
+    "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python tools/run_test_tier.py historical 2>&1 | tee /tmp/edgelab-historical-168e91a.log",
+    "completed_in_seconds": 773.06
+  },
+  "runner": {
+    "path": "tools/run_test_tier.py",
+    "sha256": "98984f5f0c3b74ecfe1704a00f0a01584e90faf4948a9980de62e3036001474b"
+  },
+  "total_modules": 43,
+  "total_tests": 484,
+  "nonzero_modules": 18,
+  "review_scope": "Exact observed outcomes only; matching does not make the historical tier green or grant approval.",
+  "review_evidence_refs": [
+    "reports/H-M0-088-deterministic-test-tiering.v1.md",
+    "reports/audit/A-M0-070.v1.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "module_outcomes": [
+    {
+      "module": "tests.test_authentic_dependency_currentness",
+      "tests": 2,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_authentic_dependency_currentness.py",
+      "source_sha256": "3e69cddc644b79c1d69b7628878663a77b04a2f6baabd030a80b0de6736a84f2",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    },
+    {
+      "module": "tests.test_authentic_dependency_source_graph",
+      "tests": 2,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_authentic_dependency_source_graph.py",
+      "source_sha256": "b2afa0cd6142d999ad2760728b687a15d6b65e5d5665fecf11b7db90d84a1b7a",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    },
+    {
+      "module": "tests.test_authentic_stage1_replay",
+      "tests": 3,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_authentic_stage1_replay.py",
+      "source_sha256": "2ad6adb6892584ba99ea0015415342d1f8d0225e6a8a87fdfceee1395f10bdc8",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    },
+    {
+      "module": "tests.test_authoritative_currentness",
+      "tests": 5,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_authoritative_currentness.py",
+      "source_sha256": "2800c7334bb829b6d4c8765002fa9674cc86fdfcdc1504ffde7ec1f5fe628bd8",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    },
+    {
+      "module": "tests.test_composed_authentic_history",
+      "tests": 15,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_composed_authentic_history.py",
+      "source_sha256": "b0e005daa4b4c8382198772a50aa6f4331f4184ce923ad28197e5da5bb4f9369",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    },
+    {
+      "module": "tests.test_currentness_reference",
+      "tests": 4,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_currentness_reference.py",
+      "source_sha256": "0fb5ce4f9f5df006701c2d5f3cd48c0ecd07173ea0b0529f7adb0b5b1f9598c9",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    },
+    {
+      "module": "tests.test_m0_2_decision_evidence_v12_conformance",
+      "tests": 7,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_m0_2_decision_evidence_v12_conformance.py",
+      "source_sha256": "2ff74413ecb8a3656045ebbea04a3ef9571540cc3102624e6236502e490caa41",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    },
+    {
+      "module": "tests.test_non_dependency_currentness",
+      "tests": 1,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_non_dependency_currentness.py",
+      "source_sha256": "819a251566c422ce071eb0faa30c2f5960fb81254ab6f352bf4fc1bf235ff91e",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    },
+    {
+      "module": "tests.test_reconstructed_module_origins",
+      "tests": 1,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_reconstructed_module_origins.py",
+      "source_sha256": "5b612ba32c38d8ee7b60524e5d9b755280e32d5be988733ccbdb2c9c3c50954d",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    },
+    {
+      "module": "tests.test_reconstructed_package_origins",
+      "tests": 1,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_reconstructed_package_origins.py",
+      "source_sha256": "6fa7b0c0f78a16f2709926d7f337e6df6402222d8eeaba3c79e570488468fbe5",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    },
+    {
+      "module": "tests.test_research_protocol",
+      "tests": 20,
+      "exit_code": 1,
+      "failures": 0,
+      "errors": 20,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_exact_membership_not_dataset_label (test_research_protocol.ResearchProtocolTests.test_exact_membership_not_dataset_label)",
+          "diagnostic_sha256": "ff75aee8cb6d2f51d8a4dff689a77efdc55c918e8def5864c211a4f34b9ec92f"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_exposure_cannot_precede_membership_binding (test_research_protocol.ResearchProtocolTests.test_exposure_cannot_precede_membership_binding)",
+          "diagnostic_sha256": "ff75aee8cb6d2f51d8a4dff689a77efdc55c918e8def5864c211a4f34b9ec92f"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_exposure_order_and_missing_first_access (test_research_protocol.ResearchProtocolTests.test_exposure_order_and_missing_first_access)",
+          "diagnostic_sha256": "ff75aee8cb6d2f51d8a4dff689a77efdc55c918e8def5864c211a4f34b9ec92f"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_first_access_before_equal_after_freeze (test_research_protocol.ResearchProtocolTests.test_first_access_before_equal_after_freeze)",
+          "diagnostic_sha256": "ff75aee8cb6d2f51d8a4dff689a77efdc55c918e8def5864c211a4f34b9ec92f"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_first_access_cannot_hide_prior_access_ancestor (test_research_protocol.ResearchProtocolTests.test_first_access_cannot_hide_prior_access_ancestor)",
+          "diagnostic_sha256": "ff75aee8cb6d2f51d8a4dff689a77efdc55c918e8def5864c211a4f34b9ec92f"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_fresh_holdout_positive_and_repository (test_research_protocol.ResearchProtocolTests.test_fresh_holdout_positive_and_repository)",
+          "diagnostic_sha256": "ff75aee8cb6d2f51d8a4dff689a77efdc55c918e8def5864c211a4f34b9ec92f"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_frozen_fixture_positive (test_research_protocol.ResearchProtocolTests.test_frozen_fixture_positive)",
+          "diagnostic_sha256": "ff75aee8cb6d2f51d8a4dff689a77efdc55c918e8def5864c211a4f34b9ec92f"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_identical_renamed_partial_overlap_rejected (test_research_protocol.ResearchProtocolTests.test_identical_renamed_partial_overlap_rejected)",
+          "diagnostic_sha256": "ff75aee8cb6d2f51d8a4dff689a77efdc55c918e8def5864c211a4f34b9ec92f"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_missing_predecessor_and_mutated_custody_evidence (test_research_protocol.ResearchProtocolTests.test_missing_predecessor_and_mutated_custody_evidence)",
+          "diagnostic_sha256": "ff75aee8cb6d2f51d8a4dff689a77efdc55c918e8def5864c211a4f34b9ec92f"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_missing_unknown_stale_and_retrospective_holdout (test_research_protocol.ResearchProtocolTests.test_missing_unknown_stale_and_retrospective_holdout)",
+          "diagnostic_sha256": "ff75aee8cb6d2f51d8a4dff689a77efdc55c918e8def5864c211a4f34b9ec92f"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_mutated_hypothesis_threshold_plan_and_freeze_pin (test_research_protocol.ResearchProtocolTests.test_mutated_hypothesis_threshold_plan_and_freeze_pin)",
+          "diagnostic_sha256": "ff75aee8cb6d2f51d8a4dff689a77efdc55c918e8def5864c211a4f34b9ec92f"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_nested_ancestry_and_correction_cannot_hide_overlap (test_research_protocol.ResearchProtocolTests.test_nested_ancestry_and_correction_cannot_hide_overlap)",
+          "diagnostic_sha256": "ff75aee8cb6d2f51d8a4dff689a77efdc55c918e8def5864c211a4f34b9ec92f"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_rehashed_hypothesis_change_still_breaks_freeze (test_research_protocol.ResearchProtocolTests.test_rehashed_hypothesis_change_still_breaks_freeze)",
+          "diagnostic_sha256": "ff75aee8cb6d2f51d8a4dff689a77efdc55c918e8def5864c211a4f34b9ec92f"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_repository_rejects_targeted_overlap (test_research_protocol.ResearchProtocolTests.test_repository_rejects_targeted_overlap)",
+          "diagnostic_sha256": "ff75aee8cb6d2f51d8a4dff689a77efdc55c918e8def5864c211a4f34b9ec92f"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_required_fields_and_extra_properties (test_research_protocol.ResearchProtocolTests.test_required_fields_and_extra_properties)",
+          "diagnostic_sha256": "ff75aee8cb6d2f51d8a4dff689a77efdc55c918e8def5864c211a4f34b9ec92f"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_retroactive_hypothesis_and_unresolved_thresholds (test_research_protocol.ResearchProtocolTests.test_retroactive_hypothesis_and_unresolved_thresholds)",
+          "diagnostic_sha256": "ff75aee8cb6d2f51d8a4dff689a77efdc55c918e8def5864c211a4f34b9ec92f"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_unknown_exposure_recordable_but_ineligible (test_research_protocol.ResearchProtocolTests.test_unknown_exposure_recordable_but_ineligible)",
+          "diagnostic_sha256": "ff75aee8cb6d2f51d8a4dff689a77efdc55c918e8def5864c211a4f34b9ec92f"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_unknown_or_wrong_purpose_access_denied (test_research_protocol.ResearchProtocolTests.test_unknown_or_wrong_purpose_access_denied)",
+          "diagnostic_sha256": "ff75aee8cb6d2f51d8a4dff689a77efdc55c918e8def5864c211a4f34b9ec92f"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_versioned_registration_preserves_prior_without_reusing_pin (test_research_protocol.ResearchProtocolTests.test_versioned_registration_preserves_prior_without_reusing_pin)",
+          "diagnostic_sha256": "ff75aee8cb6d2f51d8a4dff689a77efdc55c918e8def5864c211a4f34b9ec92f"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_wrong_type_identity_digest_membership_and_missing_refs (test_research_protocol.ResearchProtocolTests.test_wrong_type_identity_digest_membership_and_missing_refs)",
+          "diagnostic_sha256": "ff75aee8cb6d2f51d8a4dff689a77efdc55c918e8def5864c211a4f34b9ec92f"
+        }
+      ],
+      "source_path": "tests/test_research_protocol.py",
+      "source_sha256": "093e728dca71e8636416edf9dcd7c6fcaac51e12ba657d90aa9ed6a88608ccf7",
+      "review_disposition": "REVIEWED_PRESERVED_RED",
+      "review_note": "Retained pre-remediation fixtures fail during setup at the mandatory authoritative-history boundary; test assertions are not reached."
+    },
+    {
+      "module": "tests.test_skeptic_adversarial",
+      "tests": 15,
+      "exit_code": 1,
+      "failures": 0,
+      "errors": 13,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='REGISTERED')",
+          "diagnostic_sha256": "4b1db55d5f9b98178e9fbbc8c000b212ab6c3855668027b8537fa005cf3acec1"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='BACKTESTED')",
+          "diagnostic_sha256": "4b1db55d5f9b98178e9fbbc8c000b212ab6c3855668027b8537fa005cf3acec1"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='PAPER_ELIGIBLE')",
+          "diagnostic_sha256": "4b1db55d5f9b98178e9fbbc8c000b212ab6c3855668027b8537fa005cf3acec1"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_H01_paper_promotion_without_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_paper_promotion_without_evidence_accepted) (state='PAPER_TRADING')",
+          "diagnostic_sha256": "4b1db55d5f9b98178e9fbbc8c000b212ab6c3855668027b8537fa005cf3acec1"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_H01_rejected_version_resurrected_and_conflicting_versions_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H01_rejected_version_resurrected_and_conflicting_versions_accepted)",
+          "diagnostic_sha256": "0bedfbf1367c2a2674b18b3f5c0f2614172e9fa589707b60507b949cb5c4246d"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_H03_open_stop_does_not_block_affected_paper_state (test_skeptic_adversarial.SkepticAdversarialTests.test_H03_open_stop_does_not_block_affected_paper_state)",
+          "diagnostic_sha256": "d7ec717fda6e3021b1ae811ae4379c13125a21f816e7e275736d8ee07d9107f6"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_H04_completed_confirmation_without_reproduction_inputs_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H04_completed_confirmation_without_reproduction_inputs_accepted)",
+          "diagnostic_sha256": "a8542563fe99c9748608e064243f5cacebb8bf5c1e72f601824062e6514ea3a0"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_H04_late_unknown_and_mutated_lineage_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H04_late_unknown_and_mutated_lineage_accepted)",
+          "diagnostic_sha256": "a41485ee87b8100f679e8caba82e48ed131f5f2fca8666fbaae1dd83a8f6e411"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_H05_explored_dataset_reused_as_confirmation (test_skeptic_adversarial.SkepticAdversarialTests.test_H05_explored_dataset_reused_as_confirmation)",
+          "diagnostic_sha256": "b7b4ff190317fc9313ada98f6ddfa3ed0442e217e9a66f731e2ba1450d322350"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_H06_history_mutation_deletion_and_circular_supersession_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_H06_history_mutation_deletion_and_circular_supersession_accepted)",
+          "diagnostic_sha256": "c6e06b1c12b750c3c1ea0f291c7b2b41cf538a5108b8e4f1233756928a245c3d"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_M01_identifiers_filenames_dependencies_and_project_state_unchecked (test_skeptic_adversarial.SkepticAdversarialTests.test_M01_identifiers_filenames_dependencies_and_project_state_unchecked)",
+          "diagnostic_sha256": "d7bbe7612196d472366f5d4ab74ec94ac3fd9528d348ae6fa0144ad0d7c1878e"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_M02_future_stale_times_and_unverified_permission_evidence_accepted (test_skeptic_adversarial.SkepticAdversarialTests.test_M02_future_stale_times_and_unverified_permission_evidence_accepted)",
+          "diagnostic_sha256": "17e7bb897551ad05d85357f5020b1e95b3daca22aa229555cdaec66c1d4d8494"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_all_nine_schemas_reject_missing_extra_and_incompatible_version (test_skeptic_adversarial.SkepticAdversarialTests.test_all_nine_schemas_reject_missing_extra_and_incompatible_version)",
+          "diagnostic_sha256": "faadea4f06589fde91748b6d2a5342807c518123edcc051b8146f1e940e76388"
+        }
+      ],
+      "source_path": "tests/test_skeptic_adversarial.py",
+      "source_sha256": "6e1c81b0e6f477c279b528899f34f4a41afc0c415a452980e6b31661f5006efa",
+      "review_disposition": "REVIEWED_CURRENT_TREE_COUPLING",
+      "review_note": "Legacy adversarial fixture is incompatible with current contracts; this is audit debt, not closure evidence."
+    },
+    {
+      "module": "tests.test_skeptic_authentic_stage1_plan_v13",
+      "tests": 8,
+      "exit_code": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_published_claimed_work_has_no_completion_and_promised_versions_are_absent (test_skeptic_authentic_stage1_plan_v13.AuthenticStage1PlanV13Skeptic.test_published_claimed_work_has_no_completion_and_promised_versions_are_absent)",
+          "diagnostic_sha256": "39ba6cd69aaf58434f936fc41f803f6e7ea6fe235a7e3058aa4bd3402bb8650e"
+        }
+      ],
+      "source_path": "tests/test_skeptic_authentic_stage1_plan_v13.py",
+      "source_sha256": "760772a13c83fd8e51ed6d3b8ded9153bd2a53bb62d6ffc8a96ac57088c65140",
+      "review_disposition": "REVIEWED_PRESERVED_RED",
+      "review_note": "Retained absence assertion fails because the promised H-M0-074.v2 successor now exists."
+    },
+    {
+      "module": "tests.test_skeptic_decision_envelope_plan_v10",
+      "tests": 19,
+      "exit_code": 1,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_frozen_stage1_sources_are_byte_identical (test_skeptic_decision_envelope_plan_v10.SkepticDecisionEnvelopePlanV10.test_frozen_stage1_sources_are_byte_identical)",
+          "diagnostic_sha256": "33bb319f17cb4595439cbc6e322a32c8c3e252cf56565c87e00fd174a2535c97"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_verification_result_successor_and_matrix_are_missing (test_skeptic_decision_envelope_plan_v10.SkepticDecisionEnvelopePlanV10.test_verification_result_successor_and_matrix_are_missing)",
+          "diagnostic_sha256": "4b8d65e20d59857a6b6162873bbc91569ee51eb94f47ce1f82dee29d7f40b7b2"
+        }
+      ],
+      "source_path": "tests/test_skeptic_decision_envelope_plan_v10.py",
+      "source_sha256": "99ece047176e4433e1dc8802e732ff753aa33c9d3d44e1ed604a824fbbea1b3c",
+      "review_disposition": "REVIEWED_MIXED_RED",
+      "review_note": "Contains both mutable-tree freeze coupling and a retained absence assertion invalidated by the v3 result."
+    },
+    {
+      "module": "tests.test_skeptic_decision_envelope_plan_v2",
+      "tests": 4,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_skeptic_decision_envelope_plan_v2.py",
+      "source_sha256": "b5aa7dc31ee77ed9e8153acc23f686b6e7d559d02b9819ed43f6715f10e9d8cb",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    },
+    {
+      "module": "tests.test_skeptic_decision_envelope_plan_v3",
+      "tests": 7,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_skeptic_decision_envelope_plan_v3.py",
+      "source_sha256": "c90b399b58997f54616bf0b0950d366b1c815386b5c31a9545ef1f513a1ffbda",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    },
+    {
+      "module": "tests.test_skeptic_decision_envelope_plan_v4",
+      "tests": 9,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_skeptic_decision_envelope_plan_v4.py",
+      "source_sha256": "329a8b4bb97de9e8316914fa1e5579ba9f738abaa87e931bf15de0bee58ba84d",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    },
+    {
+      "module": "tests.test_skeptic_decision_envelope_plan_v5",
+      "tests": 9,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_skeptic_decision_envelope_plan_v5.py",
+      "source_sha256": "5937eabb798deacfd00c26dee69d6f72d882b83aad7abedfdd1ba62e88e73fa9",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    },
+    {
+      "module": "tests.test_skeptic_decision_envelope_plan_v6",
+      "tests": 11,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_skeptic_decision_envelope_plan_v6.py",
+      "source_sha256": "95dc5ca53a3898cfc5318ddd482a7901e4b38cdcd807d77d89d0c51037254413",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    },
+    {
+      "module": "tests.test_skeptic_decision_envelope_plan_v7",
+      "tests": 12,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_skeptic_decision_envelope_plan_v7.py",
+      "source_sha256": "74a75806c1d8ff07196fcad9458b97a27ca28523df9d96eeb647d4856d7fc7ba",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    },
+    {
+      "module": "tests.test_skeptic_decision_envelope_plan_v8",
+      "tests": 12,
+      "exit_code": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_frozen_stage1_sources_are_byte_identical (test_skeptic_decision_envelope_plan_v8.SkepticDecisionEnvelopePlanV8.test_frozen_stage1_sources_are_byte_identical)",
+          "diagnostic_sha256": "a6c6ef54222ecfdce02ed130fc32875f7938f34e625c2adbceb1130dc0e48386"
+        }
+      ],
+      "source_path": "tests/test_skeptic_decision_envelope_plan_v8.py",
+      "source_sha256": "9b6a3c80fb792cc7ef3820a4eaff0ad5a49f5a8e2382bbcb2af0a7e8762fb9f1",
+      "review_disposition": "REVIEWED_CURRENT_TREE_COUPLING",
+      "review_note": "Frozen comparison reads production files changed after the retained fixture was authored."
+    },
+    {
+      "module": "tests.test_skeptic_decision_envelope_plan_v9",
+      "tests": 15,
+      "exit_code": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_frozen_stage1_sources_are_byte_identical (test_skeptic_decision_envelope_plan_v9.SkepticDecisionEnvelopePlanV9.test_frozen_stage1_sources_are_byte_identical)",
+          "diagnostic_sha256": "53ae5c97761dfe4b2d08fae5e75e0887874a968fbff9c032a72db58bcaf0fb9b"
+        }
+      ],
+      "source_path": "tests/test_skeptic_decision_envelope_plan_v9.py",
+      "source_sha256": "317d1119356a0d52f3e0be455af5cbd905367e12493ed50ce83d3bd58299521f",
+      "review_disposition": "REVIEWED_CURRENT_TREE_COUPLING",
+      "review_note": "Frozen comparison reads later production and project-state bytes."
+    },
+    {
+      "module": "tests.test_skeptic_decision_evidence_plan_v12",
+      "tests": 23,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_skeptic_decision_evidence_plan_v12.py",
+      "source_sha256": "f3227e3ccd235fba04dc466d2998b5919e65c1705b0f5f72e2c773697e35b174",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    },
+    {
+      "module": "tests.test_skeptic_final_evidence_plan_v15",
+      "tests": 13,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_skeptic_final_evidence_plan_v15.py",
+      "source_sha256": "4734aec79bed1df19f21a140e3d1cbebcf8f72cefa012126bc0bdaa6a2f8ac5a",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    },
+    {
+      "module": "tests.test_skeptic_history_v4",
+      "tests": 15,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_skeptic_history_v4.py",
+      "source_sha256": "ca98e7c84c6b1e578db9970812b44410503e5c16ee95430ce676d1d2fa8477cc",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    },
+    {
+      "module": "tests.test_skeptic_orchestration_v1",
+      "tests": 15,
+      "exit_code": 1,
+      "failures": 12,
+      "errors": 2,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_demonstrates_completion_accepts_unverified_assertions (test_skeptic_orchestration_v1.SkepticOrchestrationV1.test_demonstrates_completion_accepts_unverified_assertions)",
+          "diagnostic_sha256": "a6e0b59a84054c6a9879566965f391b45802aac5ae4f07c04ace0368d2e40bf0"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_director_gate_is_a_route_string_and_does_not_release_state (test_skeptic_orchestration_v1.SkepticOrchestrationV1.test_director_gate_is_a_route_string_and_does_not_release_state)",
+          "diagnostic_sha256": "2e52b948c698f1af7623e79ebfbda5a9aebaf8a5b6eeb9bd373c333d3e14e0bd"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_action_default_denials_and_valid_control (test_skeptic_orchestration_v1.SkepticOrchestrationV1.test_action_default_denials_and_valid_control)",
+          "diagnostic_sha256": "0efe9585632c64f071b9a8565be44523fed181d0285200f964381081bb505641"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_caller_controlled_dependency_completion (test_skeptic_orchestration_v1.SkepticOrchestrationV1.test_demonstrates_caller_controlled_dependency_completion)",
+          "diagnostic_sha256": "29a1eb30984c692b538f34a400beecc9b8030ddb1e82199751c8dd09c0571931"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_caller_controlled_writer_coordination (test_skeptic_orchestration_v1.SkepticOrchestrationV1.test_demonstrates_caller_controlled_writer_coordination)",
+          "diagnostic_sha256": "15fc09096a5fa1fae464abef7e78917b04bbe3807e3a46457f04168f26b84386"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_conflicting_stop_head_is_ignored (test_skeptic_orchestration_v1.SkepticOrchestrationV1.test_demonstrates_conflicting_stop_head_is_ignored)",
+          "diagnostic_sha256": "a95c7c17d4d99caff16f83bf334a5c00a73cab42458374a74543fa180f1af804"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_copied_repository_identity_and_symlink_alias_pass (test_skeptic_orchestration_v1.SkepticOrchestrationV1.test_demonstrates_copied_repository_identity_and_symlink_alias_pass)",
+          "diagnostic_sha256": "601f5d30ecfbc12e0cb30912ccd7e60e3bbe2b2ea0ad8fb953f5032d457155a4"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_hard_coded_stale_assignment_and_ignored_task_state (test_skeptic_orchestration_v1.SkepticOrchestrationV1.test_demonstrates_hard_coded_stale_assignment_and_ignored_task_state)",
+          "diagnostic_sha256": "eb71dece2d925951a2f4c5110ca60939f6d3ef72568840846178a8cb2e7c5009"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_optional_and_incomplete_capability_enforcement (test_skeptic_orchestration_v1.SkepticOrchestrationV1.test_demonstrates_optional_and_incomplete_capability_enforcement)",
+          "diagnostic_sha256": "94e12a588bd1f4a8ec73cd042b252bef41ce59c5399b20c8455af309605b1058"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_review_identity_and_review_requirement_bypasses (test_skeptic_orchestration_v1.SkepticOrchestrationV1.test_demonstrates_review_identity_and_review_requirement_bypasses)",
+          "diagnostic_sha256": "371b6b338d2cb2f8e82f7c111761a3fc7514066d0ca73697ecbd4eccd145575a"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_schema_and_semantic_label_bypass (test_skeptic_orchestration_v1.SkepticOrchestrationV1.test_demonstrates_schema_and_semantic_label_bypass)",
+          "diagnostic_sha256": "6fa9dd7cbcdbdd709f4a7e387c9d920d172e0d750bfa3448263ee29e2b5f1a16"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_mock_only_decision_has_no_task_execution_side_effect (test_skeptic_orchestration_v1.SkepticOrchestrationV1.test_mock_only_decision_has_no_task_execution_side_effect)",
+          "diagnostic_sha256": "3b6c22038806ac29645984b252feef86a0da9d1363e5a2cbb0792ee9ad01536d"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_project_state_is_reread_but_only_two_fields_are_checked (test_skeptic_orchestration_v1.SkepticOrchestrationV1.test_project_state_is_reread_but_only_two_fields_are_checked)",
+          "diagnostic_sha256": "0ccab2042fce74d4e166515a3158ebd80ce3eecacfad1728f5e72ac20d38a8e3"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_stop_missing_malformed_or_fake_clear_denies_but_incomplete_open_passes (test_skeptic_orchestration_v1.SkepticOrchestrationV1.test_stop_missing_malformed_or_fake_clear_denies_but_incomplete_open_passes)",
+          "diagnostic_sha256": "270f82a7b7bacf5d5d3add23442ea09d3a882644a5a784311e124b51bced9501"
+        }
+      ],
+      "source_path": "tests/test_skeptic_orchestration_v1.py",
+      "source_sha256": "8168a4e507240c2e86bc1b3632a3798f9f953631b0cafcca9c800b6e7b870094",
+      "review_disposition": "REVIEWED_PRESERVED_RED",
+      "review_note": "Retained characterization assertions fail after orchestration hardening."
+    },
+    {
+      "module": "tests.test_skeptic_orchestration_v2",
+      "tests": 8,
+      "exit_code": 1,
+      "failures": 1,
+      "errors": 1,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_unsafe_or_unknown_capability_reference_denies (test_skeptic_orchestration_v2.SkepticOrchestrationV2.test_unsafe_or_unknown_capability_reference_denies)",
+          "diagnostic_sha256": "047c39b652e6d10d9225cf3f879c86fb41f22739df4faa5a4b9eef5d98dd986b"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_valid_authoritative_task_is_mock_only (test_skeptic_orchestration_v2.SkepticOrchestrationV2.test_valid_authoritative_task_is_mock_only)",
+          "diagnostic_sha256": "cb5059b4a938443b76edee223fb42aa1629dccb1b11f38b6af7777222551cb41"
+        }
+      ],
+      "source_path": "tests/test_skeptic_orchestration_v2.py",
+      "source_sha256": "3b5a224c4ed87352fc6d03f93d7b200764823aaeb35b31a18cfa229f4a58edb6",
+      "review_disposition": "REVIEWED_CURRENT_TREE_COUPLING",
+      "review_note": "Legacy positive fixture reads mutable current state and no longer reconstructs its original authority inputs."
+    },
+    {
+      "module": "tests.test_skeptic_orchestration_v3",
+      "tests": 16,
+      "exit_code": 1,
+      "failures": 10,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_decision_id_is_stable_but_not_content_bound_or_authenticated (test_skeptic_orchestration_v3.SkepticOrchestrationV3.test_decision_id_is_stable_but_not_content_bound_or_authenticated)",
+          "diagnostic_sha256": "ff0612892d365b5b1966dc23069e5ae4976fd84ca1598f859931bad3cf712bb5"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_boolean_attempt_is_accepted_as_attempt_one (test_skeptic_orchestration_v3.SkepticOrchestrationV3.test_demonstrates_boolean_attempt_is_accepted_as_attempt_one)",
+          "diagnostic_sha256": "1086132c8c3972439caeec9168394588eed4a195b2cd80b7432631538f2e0b44"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_completed_yielded_claim_still_dispatches (test_skeptic_orchestration_v3.SkepticOrchestrationV3.test_demonstrates_completed_yielded_claim_still_dispatches)",
+          "diagnostic_sha256": "0470b4f00fe7f44e44e4d79d935ab4974ede16241174080bdaf29b59d2c7f217"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_empty_capability_binding_dispatches (test_skeptic_orchestration_v3.SkepticOrchestrationV3.test_demonstrates_empty_capability_binding_dispatches)",
+          "diagnostic_sha256": "6b2f7ee62dd2d5647b086a5ddbc78c6aaeb4f38ccd7fe3250b39735281290e4c"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_nonexistent_completed_dependency_dispatches (test_skeptic_orchestration_v3.SkepticOrchestrationV3.test_demonstrates_nonexistent_completed_dependency_dispatches)",
+          "diagnostic_sha256": "bf3e6ebf1a568d426ab8581bbfc1bdc8d81f3f83e619c1aa7ed9f73784b19aab"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_safe_flagged_prohibited_capability_semantics_dispatch (test_skeptic_orchestration_v3.SkepticOrchestrationV3.test_demonstrates_safe_flagged_prohibited_capability_semantics_dispatch)",
+          "diagnostic_sha256": "c1fa9e59fa1b2a79f9ab8bac84759d220036f9eac933be4ef319598f30d6bffa"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_second_open_stop_id_is_ignored (test_skeptic_orchestration_v3.SkepticOrchestrationV3.test_demonstrates_second_open_stop_id_is_ignored)",
+          "diagnostic_sha256": "957a75db2dd07d050b863e390062a6bc22a9ed6a8d7234b4f855955045e83459"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_two_node_dependency_cycle_dispatches (test_skeptic_orchestration_v3.SkepticOrchestrationV3.test_demonstrates_two_node_dependency_cycle_dispatches)",
+          "diagnostic_sha256": "6ba9d19157e2a027bcd6e79eb19890cff8a94b3eb82557480105711dd404b53e"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_positive_authoritative_task_dispatches_mock_only (test_skeptic_orchestration_v3.SkepticOrchestrationV3.test_positive_authoritative_task_dispatches_mock_only)",
+          "diagnostic_sha256": "8f6295c49c2549bbab8c68f358003dfe67c4a4c6435fa37888a5865e56b90562"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_repository_identity_contains_copy_and_allows_legitimate_symlink (test_skeptic_orchestration_v3.SkepticOrchestrationV3.test_repository_identity_contains_copy_and_allows_legitimate_symlink)",
+          "diagnostic_sha256": "9d0c905e51e58fb744da4fdcf8e01fcb2610c5edc7280e7104b3627ae365f428"
+        }
+      ],
+      "source_path": "tests/test_skeptic_orchestration_v3.py",
+      "source_sha256": "f5ab32020b1882258141e7732125cd0e013488adcd27e196f79382f6df50bf25",
+      "review_disposition": "REVIEWED_MIXED_RED",
+      "review_note": "Retained characterization red plus a stale inherited positive fixture."
+    },
+    {
+      "module": "tests.test_skeptic_orchestration_v4",
+      "tests": 21,
+      "exit_code": 1,
+      "failures": 10,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_cleared_additional_stop_and_supersession_are_accepted (test_skeptic_orchestration_v4.SkepticOrchestrationV4.test_cleared_additional_stop_and_supersession_are_accepted)",
+          "diagnostic_sha256": "0ee0f521b9ee89e1da864c45b834477064637f036ac1bbfae537c20d0f0340c0"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_complete_stop_namespace_add_change_remove_fail_closed (test_skeptic_orchestration_v4.SkepticOrchestrationV4.test_complete_stop_namespace_add_change_remove_fail_closed)",
+          "diagnostic_sha256": "c6e14851aa17bf622eee85c3efeb47a2a5cb7716b5d08eb1999661969cf240b9"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_arbitrary_string_manufactures_dependency_completion (test_skeptic_orchestration_v4.SkepticOrchestrationV4.test_demonstrates_arbitrary_string_manufactures_dependency_completion)",
+          "diagnostic_sha256": "ac6630318ab79402ef5e97af048cf2107793e35ab4def1b9d8c0b4d1b840a27a"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_denial_receipt_omits_subject_and_state_when_reason_matches (test_skeptic_orchestration_v4.SkepticOrchestrationV4.test_demonstrates_denial_receipt_omits_subject_and_state_when_reason_matches)",
+          "diagnostic_sha256": "2bc1ed24c3f3053452fa13d4ebce3699e533544b58d3bd583d07054e4fa81bff"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_dispatch_receipt_omits_task_capability_dependency_and_handoff_content (test_skeptic_orchestration_v4.SkepticOrchestrationV4.test_demonstrates_dispatch_receipt_omits_task_capability_dependency_and_handoff_content)",
+          "diagnostic_sha256": "6792bb3d045d79bfd07dbf82a0b3dbf08fa9c4899397990ce61c4948414513b9"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_fresh_unrelated_claim_handoff_can_authorize_task (test_skeptic_orchestration_v4.SkepticOrchestrationV4.test_demonstrates_fresh_unrelated_claim_handoff_can_authorize_task)",
+          "diagnostic_sha256": "2f41c379e96dcc23e19fd52e4a006bb1e1e755152e8720b7b96432efaccb0cc6"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_legacy_capability_semantics_can_contradict_safe_semantic_types (test_skeptic_orchestration_v4.SkepticOrchestrationV4.test_demonstrates_legacy_capability_semantics_can_contradict_safe_semantic_types)",
+          "diagnostic_sha256": "81805561ca6e62fc6c376b49ce4de8b169c468c1e9073cb2f200aced3d3b9508"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_superseded_dependency_version_is_accepted (test_skeptic_orchestration_v4.SkepticOrchestrationV4.test_demonstrates_superseded_dependency_version_is_accepted)",
+          "diagnostic_sha256": "bb1fc67098955fa7e60a44fc59d02d9fe416f6e6f5935976c39062f8f7befed0"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_precompletion_claim_dispatches_then_completion_denies (test_skeptic_orchestration_v4.SkepticOrchestrationV4.test_precompletion_claim_dispatches_then_completion_denies)",
+          "diagnostic_sha256": "8143e6cfbd1e9f809498576afbe4c934d6f26d9ac19b76e87c59c8e4645c70e4"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_strict_attempt_boundary_closes_boolean_and_numeric_coercion (test_skeptic_orchestration_v4.SkepticOrchestrationV4.test_strict_attempt_boundary_closes_boolean_and_numeric_coercion)",
+          "diagnostic_sha256": "e719c2788f416c32d33254a2ad55dae0090960456fd03d2500286182d26a5237"
+        }
+      ],
+      "source_path": "tests/test_skeptic_orchestration_v4.py",
+      "source_sha256": "206e838a4676dc49ea7a0a2fa3f72f3ed01bb8e815be0e2d81c71b599c0cfc6c",
+      "review_disposition": "REVIEWED_MIXED_RED",
+      "review_note": "Retained characterization red plus a stale inherited positive fixture."
+    },
+    {
+      "module": "tests.test_skeptic_orchestration_v5",
+      "tests": 16,
+      "exit_code": 1,
+      "failures": 9,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_authoritative_capability_is_coherent_and_positive (test_skeptic_orchestration_v5.SkepticOrchestrationV5.test_authoritative_capability_is_coherent_and_positive)",
+          "diagnostic_sha256": "a3ff1154fbf5b1bdacfd7101d2631f0e54856d1537852a31cf1a47eff40c1597"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_denial_receipt_omits_changed_authoritative_state (test_skeptic_orchestration_v5.SkepticOrchestrationV5.test_demonstrates_denial_receipt_omits_changed_authoritative_state)",
+          "diagnostic_sha256": "cd324420ec0f115abd965d479b4b3a6da8c79d8576f02fa5088cc42f32fa4f7d"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_noncurrent_dependency_versions_dispatch (test_skeptic_orchestration_v5.SkepticOrchestrationV5.test_demonstrates_noncurrent_dependency_versions_dispatch)",
+          "diagnostic_sha256": "8c23939e85916d4d6559aa983d836d62a1471667c66415c5234e6a68526df017"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_prose_only_wrong_attempt_dependency_completion_dispatches (test_skeptic_orchestration_v5.SkepticOrchestrationV5.test_demonstrates_prose_only_wrong_attempt_dependency_completion_dispatches)",
+          "diagnostic_sha256": "4d282205ada813b3c0216628af27f9a949453f7f0ef95f595bc83a52f57d3952"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_receipt_omits_capability_and_dependency_record_content (test_skeptic_orchestration_v5.SkepticOrchestrationV5.test_demonstrates_receipt_omits_capability_and_dependency_record_content)",
+          "diagnostic_sha256": "d3d8815feb09ce4feb066e2de0ac32c79bd05a92c2cdaa3c5a79ea109c7b43bd"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_schema_valid_altered_handoff_has_no_task_or_attempt_binding (test_skeptic_orchestration_v5.SkepticOrchestrationV5.test_demonstrates_schema_valid_altered_handoff_has_no_task_or_attempt_binding)",
+          "diagnostic_sha256": "cfc39637b9890feb7806c5bc4e49504b9a2405db6bd115e81d492d01863fe1ef"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_denied_subject_and_reason_are_bound (test_skeptic_orchestration_v5.SkepticOrchestrationV5.test_denied_subject_and_reason_are_bound)",
+          "diagnostic_sha256": "a2370f31dc4cc7723e2480a9cf97da82a595c35d9359aaada49dbfcae7194421"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_positive_sequence_dispatches_then_completed_handoff_denies (test_skeptic_orchestration_v5.SkepticOrchestrationV5.test_positive_sequence_dispatches_then_completed_handoff_denies)",
+          "diagnostic_sha256": "04c59fc1a967c266d8b326a852dcd982494724035332fb1997bf8529278c2abf"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_receipt_changes_for_attempt_owner_handoff_claim_project_stop_and_decision (test_skeptic_orchestration_v5.SkepticOrchestrationV5.test_receipt_changes_for_attempt_owner_handoff_claim_project_stop_and_decision)",
+          "diagnostic_sha256": "df69b8055f846eab5047ee6005db6dc76e15f32791c4ab94e126308e2ca8f741"
+        }
+      ],
+      "source_path": "tests/test_skeptic_orchestration_v5.py",
+      "source_sha256": "323eecbfe4d3184f79f639809ec5182e88c25e5dbb8575e4da92b502d125ed01",
+      "review_disposition": "REVIEWED_MIXED_RED",
+      "review_note": "Retained characterization red plus a stale inherited positive fixture."
+    },
+    {
+      "module": "tests.test_skeptic_orchestration_v6",
+      "tests": 17,
+      "exit_code": 1,
+      "failures": 9,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_denial_receipt_omits_changed_authoritative_state (test_skeptic_orchestration_v6.SkepticOrchestrationV6.test_demonstrates_denial_receipt_omits_changed_authoritative_state)",
+          "diagnostic_sha256": "ea7952b26d9262d503490c024efefbbc972d2891c495dff8ead86b6d8e08b587"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_handoff_can_describe_another_task (test_skeptic_orchestration_v6.SkepticOrchestrationV6.test_demonstrates_handoff_can_describe_another_task)",
+          "diagnostic_sha256": "fa64874dc644d82a3b45e4fcde76cb7587e82825430bfb3bc65189d55c7ca0bc"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_lexicographic_dependency_head_accepts_stale_v2_over_v10 (test_skeptic_orchestration_v6.SkepticOrchestrationV6.test_demonstrates_lexicographic_dependency_head_accepts_stale_v2_over_v10)",
+          "diagnostic_sha256": "1c79c45eb1e97287eed6e66c55fbfab3a15041039c7295a3a1b49edb42528c1e"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_superseding_assignment_is_ignored (test_skeptic_orchestration_v6.SkepticOrchestrationV6.test_demonstrates_superseding_assignment_is_ignored)",
+          "diagnostic_sha256": "30db4aff8f14aa62be091a96bf7004ee12ba5bea5422e1cd94b2cb3d916e384c"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_denied_subject_and_reason_are_bound (test_skeptic_orchestration_v6.SkepticOrchestrationV6.test_denied_subject_and_reason_are_bound)",
+          "diagnostic_sha256": "0c5a3b2488c2a778915fd1e09166aedf3a3fef2e6adc7749ae3940ea386d5335"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_dependency_correct_current_completed_head_dispatches (test_skeptic_orchestration_v6.SkepticOrchestrationV6.test_dependency_correct_current_completed_head_dispatches)",
+          "diagnostic_sha256": "01ff696af17020f967b70dbe27209ade80140fccca44ad993456db436ed4b567"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_dependency_stale_v1_against_v2_variants_denies_and_current_v2_succeeds (test_skeptic_orchestration_v6.SkepticOrchestrationV6.test_dependency_stale_v1_against_v2_variants_denies_and_current_v2_succeeds)",
+          "diagnostic_sha256": "ae0a17e42856a075f39d15e83732bea5ee84183dc979dd254254bd482288c7ea"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_positive_precompletion_dispatch_then_completion_denies (test_skeptic_orchestration_v6.SkepticOrchestrationV6.test_positive_precompletion_dispatch_then_completion_denies)",
+          "diagnostic_sha256": "1ba344cda9632d5801ac905fdce9edf799ad286762c6ab89ace232b320ab8afb"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_receipt_changes_for_dependency_task_and_completion_semantics (test_skeptic_orchestration_v6.SkepticOrchestrationV6.test_receipt_changes_for_dependency_task_and_completion_semantics)",
+          "diagnostic_sha256": "b0a4aadd1622e12d504cf31325d20ed89bd2d75d4e8900e4a55cfbd8e677a689"
+        }
+      ],
+      "source_path": "tests/test_skeptic_orchestration_v6.py",
+      "source_sha256": "10cd7646d2311010bf42429c95aaa7b8f80975f9e810c6745e51ba445d72419d",
+      "review_disposition": "REVIEWED_MIXED_RED",
+      "review_note": "Retained characterization red plus a stale inherited positive fixture."
+    },
+    {
+      "module": "tests.test_skeptic_orchestration_v7",
+      "tests": 24,
+      "exit_code": 1,
+      "failures": 10,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_denial_receipt_omits_dependency_completion_content (test_skeptic_orchestration_v7.SkepticOrchestrationV7.test_demonstrates_denial_receipt_omits_dependency_completion_content)",
+          "diagnostic_sha256": "d6c7f3e43a1cfdb8dfd4f9f7c68e738d1fa5b1ba862e142dbcd8308f53e573ee"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_denial_receipt_omits_handoff_content (test_skeptic_orchestration_v7.SkepticOrchestrationV7.test_demonstrates_denial_receipt_omits_handoff_content)",
+          "diagnostic_sha256": "a036fabf389e2a1ee14d6a0678834faa1ab551e7e1b1bb3de5be1fd36f8345af"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_demonstrates_handoff_can_describe_another_task (test_skeptic_orchestration_v7.SkepticOrchestrationV7.test_demonstrates_handoff_can_describe_another_task)",
+          "diagnostic_sha256": "18756a5005c17ab28697039054e13ad72693ea676e00d8cb79c6cb7be3906a82"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_denied_subject_and_reason_are_bound (test_skeptic_orchestration_v7.SkepticOrchestrationV7.test_denied_subject_and_reason_are_bound)",
+          "diagnostic_sha256": "c2670dd0ce85d2d1c5584a8d409fe77acea4b5d7c4dbf962a88f70e0301fd758"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_dependency_correct_current_completed_head_dispatches (test_skeptic_orchestration_v7.SkepticOrchestrationV7.test_dependency_correct_current_completed_head_dispatches)",
+          "diagnostic_sha256": "f357c91f55fa8d3e55baca63c72dd66d49ca8386ffe459176786948f8e6a18ab"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_dependency_stale_v1_against_v2_variants_denies_and_current_v2_succeeds (test_skeptic_orchestration_v7.SkepticOrchestrationV7.test_dependency_stale_v1_against_v2_variants_denies_and_current_v2_succeeds)",
+          "diagnostic_sha256": "fbbcaeee373cd873eb43f4a84b37d58a176e943ca6cf4dee76c5b1d019b9f638"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_numeric_assignment_head_matrix (test_skeptic_orchestration_v7.SkepticOrchestrationV7.test_numeric_assignment_head_matrix)",
+          "diagnostic_sha256": "c372cdca332fbfb0ac67f28a0188da89be69e7b9112bae1b045292a4887ca3ef"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_numeric_dependency_head_matrix (test_skeptic_orchestration_v7.SkepticOrchestrationV7.test_numeric_dependency_head_matrix)",
+          "diagnostic_sha256": "9ed1657fe0c667ffbad6c8e407f0bd6af7950505cc042a4d9c6fe065c6d9483a"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_positive_precompletion_dispatch_then_completion_denies (test_skeptic_orchestration_v7.SkepticOrchestrationV7.test_positive_precompletion_dispatch_then_completion_denies)",
+          "diagnostic_sha256": "2d130ad28537b49a78ee00684218b255dca8b693a1132adcc8e697454f0f3ee0"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_receipt_changes_for_dependency_task_and_completion_semantics (test_skeptic_orchestration_v7.SkepticOrchestrationV7.test_receipt_changes_for_dependency_task_and_completion_semantics)",
+          "diagnostic_sha256": "21c2a6e52468ca689ed90435804e568661054d5117ff1b78112205d2232725d8"
+        }
+      ],
+      "source_path": "tests/test_skeptic_orchestration_v7.py",
+      "source_sha256": "c7a374b9b35bc2eeb72e28137118bf51e2ebfe8b2e71981a2923ff0de8e8d732",
+      "review_disposition": "REVIEWED_MIXED_RED",
+      "review_note": "Retained characterization red plus a stale inherited positive fixture."
+    },
+    {
+      "module": "tests.test_skeptic_orchestration_v8",
+      "tests": 29,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_skeptic_orchestration_v8.py",
+      "source_sha256": "06ae745c4da7c4f0ea4c86a73c91fabcf7720c9ff639ceeb4f57d14041189ddf",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    },
+    {
+      "module": "tests.test_skeptic_quant_v5",
+      "tests": 7,
+      "exit_code": 1,
+      "failures": 1,
+      "errors": 4,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_Q01_prior_training_use_of_current_holdout_is_accepted (test_skeptic_quant_v5.SkepticQuantV5Tests.test_Q01_prior_training_use_of_current_holdout_is_accepted)",
+          "diagnostic_sha256": "b3d2dc936a58042e8b3120e02bf87bb37bbc4f19bc2fe446b53927957a7fce75"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_Q01_prior_validation_use_of_current_holdout_is_accepted (test_skeptic_quant_v5.SkepticQuantV5Tests.test_Q01_prior_validation_use_of_current_holdout_is_accepted)",
+          "diagnostic_sha256": "c40f376457a24dd1883c02078f6a9b287c2d2d02d63d19a1e040b178ac70452b"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_Q01_renamed_partial_prior_training_use_is_accepted (test_skeptic_quant_v5.SkepticQuantV5Tests.test_Q01_renamed_partial_prior_training_use_is_accepted)",
+          "diagnostic_sha256": "57ce6d77316e7264ce4bc5675b40e8bc33b62ca49b515033ca7305443eff1d81"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_dishonest_authority_can_return_replayed_token_and_commit_other_bytes (test_skeptic_quant_v5.SkepticQuantV5Tests.test_dishonest_authority_can_return_replayed_token_and_commit_other_bytes)",
+          "diagnostic_sha256": "da1540fd90c1d8ba7ef1161df97fcc221795af16f11dcc4c845195f266ef62fd"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_positive_assessment_digest_binds_non_authorized_risk_payload (test_skeptic_quant_v5.SkepticQuantV5Tests.test_positive_assessment_digest_binds_non_authorized_risk_payload)",
+          "diagnostic_sha256": "509cb9b5c0a374650e371a68731a9b9f37e288f24c4df5f2d20041d47fd37167"
+        }
+      ],
+      "source_path": "tests/test_skeptic_quant_v5.py",
+      "source_sha256": "2f79c91ef57e4cf5c0ca0966d25eb825d41898666b14f7e4413203863943f7cd",
+      "review_disposition": "REVIEWED_PRESERVED_RED",
+      "review_note": "Retained Q01/Q02 weakness assertions fail after Quant protocol hardening."
+    },
+    {
+      "module": "tests.test_skeptic_quant_v6",
+      "tests": 13,
+      "exit_code": 1,
+      "failures": 0,
+      "errors": 1,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_Q02_future_commitment_time_is_accepted_after_rehash (test_skeptic_quant_v6.SkepticQuantV6Tests.test_Q02_future_commitment_time_is_accepted_after_rehash)",
+          "diagnostic_sha256": "b592e38e4a54396225a481339e7040e28847dcb62194382f0f2567cb89b080cd"
+        }
+      ],
+      "source_path": "tests/test_skeptic_quant_v6.py",
+      "source_sha256": "496f1104f7e3d4c48bfaa1ee1be8d61a5d900148c2f068648da59303d533d9a7",
+      "review_disposition": "REVIEWED_PRESERVED_RED",
+      "review_note": "Retained future commitment acceptance assertion fails after temporal validation hardening."
+    },
+    {
+      "module": "tests.test_skeptic_quant_v7",
+      "tests": 6,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_skeptic_quant_v7.py",
+      "source_sha256": "bcb6666b5d1ff134716a062b47a02cb89958f7e27a56af7bd95f5e49e1a7daa1",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    },
+    {
+      "module": "tests.test_skeptic_research_v3",
+      "tests": 10,
+      "exit_code": 1,
+      "failures": 0,
+      "errors": 10,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_v3_access_order_and_retroactive_custody_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_access_order_and_retroactive_custody_rejected)",
+          "diagnostic_sha256": "b90d3b4fb1496808b7a1923fdd888dc022ed17b7c56b382b1504a3cc61132113"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_v3_candidate_pin_does_not_authenticate_freeze (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_candidate_pin_does_not_authenticate_freeze)",
+          "diagnostic_sha256": "b90d3b4fb1496808b7a1923fdd888dc022ed17b7c56b382b1504a3cc61132113"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_v3_exact_membership_binding_rejects_same_samples_other_reference (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_exact_membership_binding_rejects_same_samples_other_reference)",
+          "diagnostic_sha256": "b90d3b4fb1496808b7a1923fdd888dc022ed17b7c56b382b1504a3cc61132113"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_v3_fresh_holdout_is_consistency_only (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_fresh_holdout_is_consistency_only)",
+          "diagnostic_sha256": "b90d3b4fb1496808b7a1923fdd888dc022ed17b7c56b382b1504a3cc61132113"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_v3_frozen_threshold_hypothesis_plan_and_custody_rehash_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_frozen_threshold_hypothesis_plan_and_custody_rehash_rejected)",
+          "diagnostic_sha256": "b90d3b4fb1496808b7a1923fdd888dc022ed17b7c56b382b1504a3cc61132113"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_v3_legacy_schema_attack_with_valid_current_prerequisites (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_legacy_schema_attack_with_valid_current_prerequisites)",
+          "diagnostic_sha256": "b90d3b4fb1496808b7a1923fdd888dc022ed17b7c56b382b1504a3cc61132113"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_v3_omitted_exposure_still_accepted_until_caller_discloses (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_omitted_exposure_still_accepted_until_caller_discloses)",
+          "diagnostic_sha256": "b90d3b4fb1496808b7a1923fdd888dc022ed17b7c56b382b1504a3cc61132113"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_v3_prior_registration_ancestry_not_carried_to_new_holdout (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_prior_registration_ancestry_not_carried_to_new_holdout)",
+          "diagnostic_sha256": "b90d3b4fb1496808b7a1923fdd888dc022ed17b7c56b382b1504a3cc61132113"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_v3_same_renamed_partial_and_versioned_exposure_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_same_renamed_partial_and_versioned_exposure_rejected)",
+          "diagnostic_sha256": "b90d3b4fb1496808b7a1923fdd888dc022ed17b7c56b382b1504a3cc61132113"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_v3_unknown_and_missing_evidence_rejected (test_skeptic_research_v3.ResearchSemanticV3Tests.test_v3_unknown_and_missing_evidence_rejected)",
+          "diagnostic_sha256": "b90d3b4fb1496808b7a1923fdd888dc022ed17b7c56b382b1504a3cc61132113"
+        }
+      ],
+      "source_path": "tests/test_skeptic_research_v3.py",
+      "source_sha256": "f4dac34fd883100132401990dcb0496a1fc7d640498c38afcd17c9b014019dc4",
+      "review_disposition": "REVIEWED_PRESERVED_RED",
+      "review_note": "Retained v3 fixtures fail during setup at the mandatory authoritative-history boundary; test assertions are not reached."
+    },
+    {
+      "module": "tests.test_skeptic_risk_v1",
+      "tests": 21,
+      "exit_code": 1,
+      "failures": 4,
+      "errors": 16,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_R01_execution_token_has_no_action_subject_or_amount_binding (test_skeptic_risk_v1.SkepticRiskV1Tests.test_R01_execution_token_has_no_action_subject_or_amount_binding)",
+          "diagnostic_sha256": "b9f878d7513ad8204a52bc71e2d7908fa9d16649ffaf8f9a7d655c100517a69c"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_R02_lifecycle_accepts_unconsumed_science_and_unbound_stop_allow (test_skeptic_risk_v1.SkepticRiskV1Tests.test_R02_lifecycle_accepts_unconsumed_science_and_unbound_stop_allow)",
+          "diagnostic_sha256": "61e638d9ed3adf66bddb7dfcbbb4da80d318a5df14cbfd0fe8f3c78536234670"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_R02_lifecycle_prefix_rollback_restores_terminal_strategy (test_skeptic_risk_v1.SkepticRiskV1Tests.test_R02_lifecycle_prefix_rollback_restores_terminal_strategy)",
+          "diagnostic_sha256": "2ed14362905d991ac95584b152e627f550f025b74a96158595c410c9173988c4"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_R03_conflicted_approvers_are_counted_as_independent (test_skeptic_risk_v1.SkepticRiskV1Tests.test_R03_conflicted_approvers_are_counted_as_independent)",
+          "diagnostic_sha256": "71446429ae578670071729a6a390089fe15e93707b7c6bef39bbb20cdff80ff5"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_R04_omitted_authorship_inventory_accepts_self_issued_science (test_skeptic_risk_v1.SkepticRiskV1Tests.test_R04_omitted_authorship_inventory_accepts_self_issued_science)",
+          "diagnostic_sha256": "7995faf1147e4afff2de18a29a78aa7bd804368c5a127735c41beebbe34674ef"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_R04_revoked_scientific_authority_is_accepted (test_skeptic_risk_v1.SkepticRiskV1Tests.test_R04_revoked_scientific_authority_is_accepted)",
+          "diagnostic_sha256": "8282d7393b845fb7cdd7b2810a4bdec9ce10c50f2ab2fbc7740d24d7f3c432da"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_R05_future_fake_clearance_self_selects_only_friendly_role (test_skeptic_risk_v1.SkepticRiskV1Tests.test_R05_future_fake_clearance_self_selects_only_friendly_role)",
+          "diagnostic_sha256": "ed95f982f00a050b0b9d119862066faa42348fe2d78e786dc8cd3d71b2068250"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_R05_real_open_stop_can_be_relabeled_to_nonapplicable_action (test_skeptic_risk_v1.SkepticRiskV1Tests.test_R05_real_open_stop_can_be_relabeled_to_nonapplicable_action)",
+          "diagnostic_sha256": "8099597afd618c7808c549fb0fd7908501fbff002cf618caacfdcaa1c41bf1d2"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_R06_truncated_ledger_prefix_reconciles_as_current (test_skeptic_risk_v1.SkepticRiskV1Tests.test_R06_truncated_ledger_prefix_reconciles_as_current)",
+          "diagnostic_sha256": "2b5937698c0467fe6eb6cab8206254c1fe331d69e690dee1b1339cd73f5076a9"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_R07_cosmetic_identity_renaming_bypasses_shared_risk_limits (test_skeptic_risk_v1.SkepticRiskV1Tests.test_R07_cosmetic_identity_renaming_bypasses_shared_risk_limits)",
+          "diagnostic_sha256": "6e21e2b5e2b4a24559ad46f6236e20c50c93f2e5d1d2814bf76a538d22d4bd49"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_R07_pending_exposures_are_excluded_from_aggregation (test_skeptic_risk_v1.SkepticRiskV1Tests.test_R07_pending_exposures_are_excluded_from_aggregation)",
+          "diagnostic_sha256": "ea9414b0400d22b31fc9b86cdedd5ded580a8a558c0b85870134e2155a7e0cf6"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_R08_kill_history_prefix_reenables_stale_execution_token (test_skeptic_risk_v1.SkepticRiskV1Tests.test_R08_kill_history_prefix_reenables_stale_execution_token)",
+          "diagnostic_sha256": "b453b7c0b0f4725c3f69e94b6b32a0de86a2a5694e9ea50d92650aa22f833a09"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_exposure_missing_keys_cross_environment_and_unresolved_live_deny (test_skeptic_risk_v1.SkepticRiskV1Tests.test_exposure_missing_keys_cross_environment_and_unresolved_live_deny)",
+          "diagnostic_sha256": "24e5b01ece4117d7ebd4f6b0d88726f7e7e5a82825adf83f9c646d7a48fa7d63"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_replay_store_persists_id_and_digest_uniqueness_across_reload (test_skeptic_risk_v1.SkepticRiskV1Tests.test_replay_store_persists_id_and_digest_uniqueness_across_reload)",
+          "diagnostic_sha256": "dcbc14e09463ae79d86f3cc75d0411b25d78bf998c96eb1e1d09c7954f99be59"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_replay_store_rollback_is_possible_to_host_that_can_replace_state (test_skeptic_risk_v1.SkepticRiskV1Tests.test_replay_store_rollback_is_possible_to_host_that_can_replace_state)",
+          "diagnostic_sha256": "6e833211db4e68976bbf015aea85a482de377048a7784272f249e7cb73bde9df"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_stop_dependency_propagation_and_content_binding_hold (test_skeptic_risk_v1.SkepticRiskV1Tests.test_stop_dependency_propagation_and_content_binding_hold)",
+          "diagnostic_sha256": "60dec32dac8086b42dc0ac99d3f9048b458df547ee4e27abe44c6913560509f9"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_R01_decision_accepts_unbound_assertions_and_phase_substitution (test_skeptic_risk_v1.SkepticRiskV1Tests.test_R01_decision_accepts_unbound_assertions_and_phase_substitution)",
+          "diagnostic_sha256": "2fdbf7220f653e5c4a3876f72679b0a76b3613a90d3b61a2c06c51e6692e2c91"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_R06_reservation_and_settlement_have_no_action_binding (test_skeptic_risk_v1.SkepticRiskV1Tests.test_R06_reservation_and_settlement_have_no_action_binding)",
+          "diagnostic_sha256": "d3011cbd98e92e737852c7a61b0f657fd580a21fbde58c8ac365f1fa7508bad7"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_positive_current_locked_path_and_neutral_settlement (test_skeptic_risk_v1.SkepticRiskV1Tests.test_positive_current_locked_path_and_neutral_settlement)",
+          "diagnostic_sha256": "b7a0babc0ce3f08d76f4d59b6ca7bd1734d2957bdaf17f509bf8a90fcba313e0"
+        },
+        {
+          "outcome": "FAIL",
+          "test_identity": "test_replay_store_serializes_local_double_consumption (test_skeptic_risk_v1.SkepticRiskV1Tests.test_replay_store_serializes_local_double_consumption)",
+          "diagnostic_sha256": "fddd03b1bfaac77a32dda4caecbd3dc3b1d159eb17369f873d8934302ba4ef36"
+        }
+      ],
+      "source_path": "tests/test_skeptic_risk_v1.py",
+      "source_sha256": "c3d1c0c18d9443561fceaad297102abd26e36d00b2d49a5b39da9889a5ae4fcb",
+      "review_disposition": "REVIEWED_PRESERVED_RED",
+      "review_note": "Retained SR01-SR06 weakness assertions fail after Risk control hardening."
+    },
+    {
+      "module": "tests.test_skeptic_risk_v2",
+      "tests": 10,
+      "exit_code": 1,
+      "failures": 0,
+      "errors": 2,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_SR01_different_experiment_can_authorize_same_strategy_version (test_skeptic_risk_v2.SkepticRiskV2Tests.test_SR01_different_experiment_can_authorize_same_strategy_version)\nCharacterize SR07: experiment identity is absent from action/token.",
+          "diagnostic_sha256": "bb4c1d3c2c7742a3510421290fcea10aaea10f5833e6ffb511077c8e13d88a0d"
+        },
+        {
+          "outcome": "ERROR",
+          "test_identity": "test_SR06_same_liability_under_new_wrapper_is_reserved_twice (test_skeptic_risk_v2.SkepticRiskV2Tests.test_SR06_same_liability_under_new_wrapper_is_reserved_twice)\nCharacterize SR08: reservation idempotency is action-digest based.",
+          "diagnostic_sha256": "6ff4de2436063a3f8324d75c730847b4a869f11aee2ac77100e898cb7fa77a5b"
+        }
+      ],
+      "source_path": "tests/test_skeptic_risk_v2.py",
+      "source_sha256": "44eb546985539cc8b78d903ff6c54e56b62c78ae0b9f789d1098cdeb47fb2d05",
+      "review_disposition": "REVIEWED_PRESERVED_RED",
+      "review_note": "Only the retained SR07 and SR08 weakness assertions remain red after fixture isolation."
+    },
+    {
+      "module": "tests.test_skeptic_risk_v3",
+      "tests": 9,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_skeptic_risk_v3.py",
+      "source_sha256": "7e8a26a495f57d1e6ce427e53070da7ad028e946503def1f0d8fa34902e6706c",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    },
+    {
+      "module": "tests.test_skeptic_semantic_v2",
+      "tests": 12,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_skeptic_semantic_v2.py",
+      "source_sha256": "7993b50bd277aca6ce86a2ef2b722cd1997eb345fd4f409d0948a2f6f1db0da2",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    },
+    {
+      "module": "tests.test_skeptic_trusted_evidence_plan_v14",
+      "tests": 12,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_skeptic_trusted_evidence_plan_v14.py",
+      "source_sha256": "0cab183ce12999bfe06b053592fce067da913d809bac5f4d80a6f3ee195d3ff9",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    },
+    {
+      "module": "tests.test_trusted_authentic_capture",
+      "tests": 5,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "nonpasses": [],
+      "source_path": "tests/test_trusted_authentic_capture.py",
+      "source_sha256": "8ec095feff49ad212bcf1a00f2205214474e77141da9b1c2369247b7c93248bd",
+      "review_disposition": "PASS",
+      "review_note": "Observed green in the complete isolated historical audit."
+    }
+  ]
+}
