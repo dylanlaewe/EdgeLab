@@ -10,7 +10,8 @@
     "M0.1 Data, Research, Quant, and Risk control foundations implemented with preserved evidence; M0 exit remains unapproved",
     "M0.2 eligibility decision engine accepted only for bounded non-operational use and frozen at bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
     "M0.3A local synthetic transactional scheduler and event-store engineering implemented; repository-import task-event replay defect repaired",
-    "M0.3A task tuple replay now rejects inventory drift, discontinuous history, attempt substitution, and invalid advanced origin state; broader auxiliary replay remains pending",
+    "M0.3A task tuple replay rejects inventory drift, discontinuous history, attempt substitution, and invalid advanced origin state",
+    "M0.3A semantic replay now reconstructs exact task transitions, owner/lineage, attempts, claims, reviews, and remediation links; successor-format runtime and whole-chain closure remains pending",
     "M0.3A actual Git, attachment, and immutable SQLite authority can now be read coherently under the scheduler lock through a diagnostic path that always returns UNKNOWN/DENY",
     "Historical capture reconstruction/verifier engineering completed with native engineering review; formal Skeptic acceptance remains pending",
     "Revision-aware handoff dependency validation and production repository validation restored",
@@ -20,7 +21,7 @@
   "remaining_m0": [
     "Obtain a genuinely distinct trusted 05 Skeptic review and formal disposition of H-M0-080 under H-M0-086",
     "Define and independently review authoritative source mappings, generation invariants, and sealed historical subject/decision binding before implementing positive currentness or an M0.2-to-M0.3A R-gate",
-    "Complete M0.3A replay and integrity coverage for auxiliary scheduler state and obtain independent acceptance plus Director release",
+    "Design a versioned successor event/runtime format covering idempotency, metadata/genesis, seals, migrations, snapshots, global predecessor identity, and complete-chain rewrite resistance",
     "Resolve reviewed historical fixture-coupling debt through new versioned tests without rewriting the preserved outcome baseline",
     "Provision the trusted external authority boundary and satisfy typed STOP-clearance prerequisites",
     "Resolve statistical, freshness, paper-capital, exposure, correlation, drawdown, and live-gate thresholds before M0 exit"
@@ -32,8 +33,8 @@
     "The locked authority substrate is diagnostic and DENY-only; positive authoritative currentness and composed receipt/R-gate integration remain unresolved",
     "M0.3A engineering completion does not constitute formal acceptance or operational authority"
   ],
-  "next_assignment": "Specify the authoritative source-mapping, generation, and sealed historical binding contract while continuing bounded auxiliary scheduler replay hardening; formal H-M0-080 review remains blocked on H-M0-086 authority",
-  "updated_at": "2026-10-16T22:55:10Z",
+  "next_assignment": "Specify the DENY-only authoritative source-mapping, generation, and sealed historical binding contract, then design the versioned successor event/runtime format; formal H-M0-080 review remains blocked on H-M0-086 authority",
+  "updated_at": "2026-10-16T23:21:18Z",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json",
     "reports/stops/STOP-M0-3A-001.v1.json"

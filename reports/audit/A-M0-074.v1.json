@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-074",
+  "version": 1,
+  "occurred_at": "2026-10-16T23:21:18Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_3A_SEMANTIC_REPLAY_CLOSURE_ADDED",
+  "subject_ref": "reports/H-M0-092-semantic-replay-closure.v1.md",
+  "previous_state": "TASK_TUPLES_REPLAYED_BUT_AUXILIARY_ROWS_AND_EVENT_SEMANTICS_COULD_BE_SUBSTITUTED",
+  "new_state": "TASK_TRANSITIONS_AND_AUXILIARY_LIFECYCLES_ARE_EXACTLY_RECONSTRUCTED_WITH_SUCCESSOR_FORMAT_GAPS_EXPLICITLY_OPEN",
+  "reason": "Commit 30befe0 implements the bounded v16 semantic replay contract and closes verified writer/replay mismatches for task, attempt, claim, review, repository-generation, and remediation lineage state. It does not accept M0.3A, resolve a STOP, implement positive currentness or an R-gate, attach an executor, or grant operational or capital authority.",
+  "evidence_refs": [
+    "reports/H-M0-092-semantic-replay-closure.v1.md",
+    "docs/M0.3A_TRANSACTIONAL_CONTRACT.v16.md",
+    "src/edgelab/transactional_scheduler.py",
+    "src/edgelab/locked_authority.py",
+    "tests/test_transactional_scheduler.py",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "code_ref": "30befe07f34832c2cf5ebde3ebcd0b4060ec35c7",
+  "config_ref": "docs/M0.3_RUNTIME_FOUNDATION.md; docs/M0.3A_TRANSACTIONAL_CONTRACT.v16.md",
+  "correlation_id": "H-M0-092",
+  "supersedes": null
+}

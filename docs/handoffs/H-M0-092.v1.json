@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-092",
+  "version": 1,
+  "created_at": "2026-10-16T23:21:18Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Close the smallest coherent task-history semantic and auxiliary-lifecycle replay gap without changing the v1 storage formula or weakening any scientific, STOP, execution, or capital control.",
+  "work_done": "Implemented exact event transition validation and event-derived reconstruction of owner, lineage, attempts, claims, reviews, and remediation links. Added strict request typing, task-local repository-generation handling, stale-task fencing, exact review-to-remediation decision binding, bounded transition scopes, and adversarial tests. A separate reviewer reproduced multiple initial defects, verified every repair, and reported no remaining material findings in scope.",
+  "evidence_refs": [
+    "reports/H-M0-092-semantic-replay-closure.v1.md",
+    "reports/audit/A-M0-074.v1.json",
+    "docs/M0.3A_TRANSACTIONAL_CONTRACT.v16.md",
+    "src/edgelab/transactional_scheduler.py",
+    "src/edgelab/locked_authority.py",
+    "tests/test_transactional_scheduler.py",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": [
+    "src/edgelab/transactional_scheduler.py",
+    "src/edgelab/locked_authority.py",
+    "tests/test_transactional_scheduler.py",
+    "docs/M0.3A_TRANSACTIONAL_CONTRACT.v16.md",
+    "docs/project-state.json",
+    "reports/H-M0-092-semantic-replay-closure.v1.md",
+    "reports/audit/A-M0-074.v1.json",
+    "docs/handoffs/H-M0-092.v1.json"
+  ],
+  "tests_run": [
+    "Focused scheduler/locked-authority suite: 42 tests passed.",
+    "Fast tier: 91 tests passed across 7 isolated modules in 23.475 seconds.",
+    "Domain tier: 98 tests passed across 4 isolated modules in 660.430 seconds; this run preceded only scheduler-local repairs and those domain modules do not exercise the changed files.",
+    "Independent final review reran concrete attacks and reported no remaining material findings within the declared semantic-replay scope.",
+    "Production validator before evidence publication: 341 records and published history validated; M0 capital remained LOCKED and no scientific or operational approval was granted.",
+    "Production validator after evidence publication: 343 records and published history validated with the same locked and non-authorizing result.",
+    "Reviewed historical outcome verifier matched the preserved non-green 43-module, 484-test, 18-nonzero-module baseline; this is not a green test result or approval.",
+    "Python compilation and git diff --check passed."
+  ],
+  "open_questions": [
+    "Which versioned event formula will bind task-event global predecessor IDs, runtime and attachment IDs, operation keys, and request digests without rewriting v1 history?",
+    "How will idempotency, meta, genesis, seal, migration, and snapshot rows be reconstructed or independently sealed?",
+    "What authoritative source mapping can bind preserved historical decisions to current scheduler subjects while remaining structurally DENY-only until the full currentness contract exists?"
+  ],
+  "blockers": [
+    "Idempotency, runtime metadata/genesis, seals, migrations, snapshots, and whole-chain hostile rewrite resistance remain outside this bounded closure.",
+    "H-M0-086 remains blocked on a genuinely distinct trusted 05 Skeptic authority; H-M0-041 remains BLOCKED.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked, M1 remains unreleased, live remains LOCKED, kill remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Specify the authoritative source-mapping, generation, and sealed historical subject/decision binding contract as a DENY-only diagnostic, then design the versioned successor event/runtime format for the explicitly deferred replay surfaces.",
+  "completion_criteria": [
+    "Exact task transitions, owner/lineage, attempts, claims, reviews, and remediation links are reconstructed from event history and compared to materialization.",
+    "Writer and replay request domains match, including strict scalar types and repository task/global generations.",
+    "Remediation lineage is reciprocal, decision-bound, single-successor, adjacent, and acyclic.",
+    "All remaining format gaps are explicit and no STOP, project release, M0.3A acceptance, executor, live, kill-switch, or capital state changes."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-091.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-091",
+      "version": 1,
+      "sha256": "feaacccca863a71da0df407b5b6429460bfde09aad43ad742dde3d1d5328c6ea"
+    }
+  ]
+}
