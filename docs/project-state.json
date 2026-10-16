@@ -13,6 +13,7 @@
     "M0.3A task tuple replay rejects inventory drift, discontinuous history, attempt substitution, and invalid advanced origin state",
     "M0.3A semantic replay now reconstructs exact task transitions, owner/lineage, attempts, claims, reviews, and remediation links; successor-format runtime and whole-chain closure remains pending",
     "M0.3A actual Git, attachment, and immutable SQLite authority can now be read coherently under the scheduler lock through a diagnostic path that always returns UNKNOWN/DENY",
+    "Pinned M0.2 historical decisions can now be sealed to a twice-observed M0.3A task ID and attempt through a read-only diagnostic that remains structurally UNKNOWN/FAIL/false/DENY",
     "Historical capture reconstruction/verifier engineering completed with native engineering review; formal Skeptic acceptance remains pending",
     "Revision-aware handoff dependency validation and production repository validation restored",
     "Read-only MOCK_ONLY developer alpha and loopback-only local viewer delivered",
@@ -20,7 +21,7 @@
   ],
   "remaining_m0": [
     "Obtain a genuinely distinct trusted 05 Skeptic review and formal disposition of H-M0-080 under H-M0-086",
-    "Define and independently review authoritative source mappings, generation invariants, and sealed historical subject/decision binding before implementing positive currentness or an M0.2-to-M0.3A R-gate",
+    "Define and independently review positive currentness and generation invariants plus an authenticated M0.2-to-M0.3A receipt/R-gate; the completed historical binding diagnostic cannot authorize or be reused as a stored receipt",
     "Design a versioned successor event/runtime format covering idempotency, metadata/genesis, seals, migrations, snapshots, global predecessor identity, and complete-chain rewrite resistance",
     "Resolve reviewed historical fixture-coupling debt through new versioned tests without rewriting the preserved outcome baseline",
     "Provision the trusted external authority boundary and satisfy typed STOP-clearance prerequisites",
@@ -30,11 +31,11 @@
     "STOP-M0-001 and STOP-M0-3A-001 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
     "H-M0-086 is BLOCKED because no genuinely distinct trusted 05 Skeptic authority is provisioned",
     "H-M0-041.v23 remains BLOCKED pending formal Skeptic acceptance and separate Director release",
-    "The locked authority substrate is diagnostic and DENY-only; positive authoritative currentness and composed receipt/R-gate integration remain unresolved",
+    "The locked authority and historical binding substrates are diagnostic and DENY-only; positive authoritative currentness and authenticated receipt/R-gate integration remain unresolved",
     "M0.3A engineering completion does not constitute formal acceptance or operational authority"
   ],
-  "next_assignment": "Specify the DENY-only authoritative source-mapping, generation, and sealed historical binding contract, then design the versioned successor event/runtime format; formal H-M0-080 review remains blocked on H-M0-086 authority",
-  "updated_at": "2026-10-16T23:21:18Z",
+  "next_assignment": "Expose governed repository status through a read-only loopback laboratory observatory, then specify the versioned successor event/runtime format and separate positive-currentness/R-gate contract; formal H-M0-080 review remains blocked on H-M0-086 authority",
+  "updated_at": "2026-10-16T23:44:03Z",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json",
     "reports/stops/STOP-M0-3A-001.v1.json"

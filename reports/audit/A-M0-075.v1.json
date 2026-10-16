@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-075",
+  "version": 1,
+  "occurred_at": "2026-10-16T23:44:03Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_3A_DENY_ONLY_AUTHORITY_BINDING_ADDED",
+  "subject_ref": "reports/H-M0-093-authority-binding-candidate.v1.md",
+  "previous_state": "HISTORICAL_DECISIONS_AND_LOCKED_RUNTIME_SUBJECTS_HAD_NO_FIXED_SOURCE_BINDING",
+  "new_state": "FIXED_SOURCE_HISTORICAL_RUNTIME_BINDING_EXISTS_ONLY_AS_READ_ONLY_DENY_ONLY_DIAGNOSTIC",
+  "reason": "Commit da009e0 composes pinned retained M0.2 historical evidence with a twice-observed locked M0.3A task subject, closes source-substitution and split-read races found by independent review, and semantically verifies all locally derivable bindings. It does not implement positive currentness, an authenticated receipt or R-gate, accept M0.3A, resolve a STOP, or grant operational or capital authority.",
+  "evidence_refs": [
+    "reports/H-M0-093-authority-binding-candidate.v1.md",
+    "docs/M0.3A_AUTHORITY_SOURCE_MAPPING.v1.md",
+    "src/edgelab/authority_binding.py",
+    "schemas/m0-3a-authority-binding-candidate.v1.schema.json",
+    "schemas/m0-3a-historical-decision-seal.v1.schema.json",
+    "tests/test_transactional_scheduler.py",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "code_ref": "da009e04900e47b00831cb24d046df74425fdb4c",
+  "config_ref": "docs/M0.3A_AUTHORITY_SOURCE_MAPPING.v1.md; docs/M0.3A_TRANSACTIONAL_CONTRACT.v16.md",
+  "correlation_id": "H-M0-093",
+  "supersedes": null
+}

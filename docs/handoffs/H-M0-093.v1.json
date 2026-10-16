@@ -1,0 +1,72 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-093",
+  "version": 1,
+  "created_at": "2026-10-16T23:44:03Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Implement the smallest fixed-source, read-only binding between retained M0.2 historical decisions and actual M0.3A runtime subjects while making every result structurally DENY-only.",
+  "work_done": "Added a canonical source-mapping contract, exact source-byte pins, closed trust-root/candidate/seal schemas, a read-only composer, semantic integrity verifier, CLI, and adversarial tests. Independent review found source substitution, schema-only integrity, and a split-read capture-root race; all were repaired and the final review was clean.",
+  "evidence_refs": [
+    "reports/H-M0-093-authority-binding-candidate.v1.md",
+    "reports/audit/A-M0-075.v1.json",
+    "docs/M0.3A_AUTHORITY_SOURCE_MAPPING.v1.md",
+    "src/edgelab/authority_binding.py",
+    "tools/compose_authority_binding.py",
+    "schemas/m0-2-stage1-trust-root.v1.schema.json",
+    "schemas/m0-3a-authority-binding-candidate.v1.schema.json",
+    "schemas/m0-3a-historical-decision-seal.v1.schema.json",
+    "tests/test_transactional_scheduler.py",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/M0.3A_AUTHORITY_SOURCE_MAPPING.v1.md",
+    "schemas/m0-2-stage1-trust-root.v1.schema.json",
+    "schemas/m0-3a-authority-binding-candidate.v1.schema.json",
+    "schemas/m0-3a-historical-decision-seal.v1.schema.json",
+    "src/edgelab/authority_binding.py",
+    "tools/compose_authority_binding.py",
+    "tests/test_transactional_scheduler.py",
+    "docs/project-state.json",
+    "reports/H-M0-093-authority-binding-candidate.v1.md",
+    "reports/audit/A-M0-075.v1.json",
+    "docs/handoffs/H-M0-093.v1.json"
+  ],
+  "tests_run": [
+    "Focused scheduler, locked-authority, and binding suite: 49 tests passed.",
+    "Fast tier: 98 tests passed across 7 isolated modules in 27.985 seconds.",
+    "Domain tier: 98 tests passed across 4 isolated modules in 772.647 seconds.",
+    "Independent final review: 27 focused probes plus 7 authority-binding tests passed; no actionable findings remained.",
+    "Production validator before evidence publication: 343 records and published history validated; M0 capital remained LOCKED and no scientific or operational approval was granted.",
+    "Production validator after evidence publication: 345 records and published history validated with the same locked and non-authorizing result.",
+    "Python compilation, JSON Schema checks, fixed-source pin comparison, and git diff --check passed."
+  ],
+  "open_questions": [
+    "What separately reviewed currentness/generation contract can bind every omitted project, STOP, assignment, handoff, dependency, capability, Git, and scheduler source?",
+    "How will a future authenticated receipt and R-gate consume fresh observations without accepting stored candidates or weakening DENY defaults?",
+    "Which versioned successor event/runtime format will close idempotency, metadata/genesis, seal, migration, snapshot, global predecessor, and whole-chain rewrite gaps?"
+  ],
+  "blockers": [
+    "The binding is diagnostic and DENY-only; positive currentness, authenticated receipts, and an R-gate remain absent.",
+    "H-M0-086 remains blocked on a genuinely distinct trusted 05 Skeptic authority; H-M0-041 remains BLOCKED.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked, M1 remains unreleased, live remains LOCKED, kill remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Expose governed repository status through a read-only loopback laboratory observatory, then specify the versioned successor event/runtime format and separate positive-currentness/R-gate contract without consuming this diagnostic as authority.",
+  "completion_criteria": [
+    "Historical decision and locked runtime task/attempt are bound through fixed canonical sources and twice-observed runtime authority.",
+    "All results are schema-closed and semantically verified as UNKNOWN/FAIL/false/DENY.",
+    "Source substitution, alternate roots, split reads, races, cross-field forgeries, and positive verification mutations fail closed.",
+    "No scheduler consumer, executor, STOP clearance, M0.3A acceptance, project release, live, kill-switch, or capital state changes."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-092.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-092",
+      "version": 1,
+      "sha256": "9e31546f1810b308b46b46fe50a2610ef434b3348ff0ed2475a261bf294c53c4"
+    }
+  ]
+}
