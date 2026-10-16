@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-070",
+  "version": 1,
+  "occurred_at": "2026-10-16T21:55:47Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "DETERMINISTIC_ISOLATED_TEST_TIERS_ESTABLISHED",
+  "subject_ref": "reports/H-M0-088-deterministic-test-tiering.v1.md",
+  "previous_state": "MONOLITHIC_OR_OVERLAPPING_TEST_DISCOVERY_PRODUCED_UNRELIABLE_EVIDENCE",
+  "new_state": "ALL_TEST_MODULES_EXPLICITLY_TIERED_AND_SERIAL_ISOLATION_ENFORCED",
+  "reason": "Commit d48f350 provides fail-closed explicit module classification, isolated serial execution, a repository-keyed cooperative lock, green fast/domain gates, and an honest non-green historical audit boundary. Fast and domain passed; the historical fingerprint remains pending. No approval or capital state changed.",
+  "evidence_refs": [
+    "tools/run_test_tier.py",
+    "tests/test_test_tiers.py",
+    "reports/H-M0-088-deterministic-test-tiering.v1.md",
+    "docs/project-state.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "code_ref": "d48f35050298665e50a1879b6935b3bd0ba9268a",
+  "config_ref": "README.md; docs/OPERATIONS.md",
+  "correlation_id": "H-M0-088",
+  "supersedes": null
+}

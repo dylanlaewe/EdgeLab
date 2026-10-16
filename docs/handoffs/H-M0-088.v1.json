@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-088",
+  "version": 1,
+  "created_at": "2026-10-16T21:55:47Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Replace unreliable overlapping full-suite execution with deterministic isolated tiers, reconcile stale mutable project status, and preserve all scientific and capital controls.",
+  "work_done": "Implemented explicit fast, domain, and historical module manifests; fail-closed unclassified-module checks; per-module process isolation; deterministic environment settings; repository-keyed cooperative locking; green-gate fail-fast behavior; and complete historical failure aggregation. Repaired three tests that incorrectly coupled retained September evidence to mutable current project/STOP state. Reconciled README and project state to blocked M0.3A. Published the engineering report and audit record. No historical failure was hidden or converted to a pass, and no approval, STOP, execution, paper/live, or capital state changed.",
+  "evidence_refs": [
+    "reports/H-M0-088-deterministic-test-tiering.v1.md",
+    "reports/audit/A-M0-070.v1.json",
+    "tools/run_test_tier.py",
+    "tests/test_test_tiers.py",
+    "README.md",
+    "docs/OPERATIONS.md",
+    "docs/project-state.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": [
+    "tools/run_test_tier.py",
+    "tests/test_test_tiers.py",
+    "tests/test_orchestration_final.py",
+    "tests/test_data_integrity.py",
+    "tests/test_risk_controls.py",
+    "README.md",
+    "docs/OPERATIONS.md",
+    "docs/project-state.json",
+    "reports/H-M0-088-deterministic-test-tiering.v1.md",
+    "reports/audit/A-M0-070.v1.json",
+    "docs/handoffs/H-M0-088.v1.json"
+  ],
+  "tests_run": [
+    "Fast tier: 58 tests passed across 7 isolated modules in 10.012 seconds.",
+    "Domain tier: 98 tests passed across 4 isolated modules in 479.496 seconds.",
+    "Production validator: 333 records and published history validated; M0 capital remained LOCKED and no scientific or operational approval was granted.",
+    "git diff --check passed before the implementation commit.",
+    "Targeted historical Research-v1 observation retained 20 documented setup errors; it is not claimed as a pass or complete historical audit."
+  ],
+  "open_questions": [
+    "What is the exact reviewed outcome fingerprint for all 43 historical/adversarial modules?",
+    "Which preserved red outcomes remain intentional after the complete isolated audit, and which are genuine current regressions?"
+  ],
+  "blockers": [
+    "The complete historical audit and reviewed expected-outcome fingerprint remain pending.",
+    "H-M0-086 remains blocked on a genuinely distinct trusted 05 Skeptic authority.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked, M1 remains unreleased, live remains LOCKED, kill remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Run the 43-module historical tier exactly once in isolation, preserve every module result, and review the observed baseline before creating any expected-outcome fingerprint.",
+  "completion_criteria": [
+    "Every test module is explicitly assigned to exactly one tier and unclassified additions fail closed.",
+    "Fast and domain green gates pass as one serial invocation each.",
+    "Historical failures remain visible, aggregate to a nonzero status, and are not treated as a green gate.",
+    "Repository validation and capital-lock invariants remain green.",
+    "No STOP, project release, executor, live, kill-switch, or capital state is changed."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-087.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-087",
+      "version": 1,
+      "sha256": "d7a4a0f4a06dd9bce7b24ada343457c0f49a8e0dca32f7d3e5a70fa02f0d3b8b"
+    }
+  ]
+}
