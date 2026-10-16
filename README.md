@@ -45,3 +45,14 @@ It shows the Director, Data, Research, Quant, Skeptic, and Risk contributions,
 including provenance, uncertainty, current OPEN STOPs, and locked capital. The
 sample is a developer demonstration only and ends `NO_DEMONSTRATED_EDGE /
 BLOCKED`; see [examples/alpha/README.md](examples/alpha/README.md).
+
+The same report is available as a loopback-only local viewer:
+
+```sh
+.venv/bin/python -m src.edgelab.web
+```
+
+Open `http://127.0.0.1:8765`. The viewer supports only `GET` and `HEAD`,
+rebuilds the content-bound report for each API request, disables caching, and
+fails closed when evidence cannot be verified. It is not an authoritative
+whole-project dashboard or an operational control surface.
