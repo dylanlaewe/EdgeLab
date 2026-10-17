@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:m0-3a-runtime-v2-verification-result:1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "verifier_version", "status", "findings",
+    "runtime_id", "chain_id", "event_count", "head_event_id",
+    "head_event_sha256", "anchor_status", "currentness_status",
+    "authorizing_use"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "verifier_version": {"const": 1},
+    "status": {"enum": ["INVALID", "UNSUPPORTED"]},
+    "findings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "artifact", "coordinate"],
+        "properties": {
+          "code": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]*$"},
+          "artifact": {"type": "string", "minLength": 1},
+          "coordinate": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "runtime_id": {"type": ["string", "null"]},
+    "chain_id": {"oneOf": [{"type": "null"}, {"type": "string", "pattern": "^[0-9a-f]{64}$"}]},
+    "event_count": {
+      "oneOf": [
+        {"type": "null"},
+        {"type": "integer", "minimum": 0, "maximum": 9223372036854775807}
+      ]
+    },
+    "head_event_id": {"type": ["string", "null"]},
+    "head_event_sha256": {"oneOf": [{"type": "null"}, {"type": "string", "pattern": "^[0-9a-f]{64}$"}]},
+    "anchor_status": {"const": "UNANCHORED"},
+    "currentness_status": {"const": "UNKNOWN"},
+    "authorizing_use": {"const": "DENY"}
+  }
+}

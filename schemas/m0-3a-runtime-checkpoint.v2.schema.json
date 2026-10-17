@@ -32,7 +32,7 @@
       "required": [
         "events", "metadata", "tasks", "attempts", "claims", "reviews",
         "remediation_links", "idempotency", "seals", "migrations",
-        "snapshots", "blobs", "schema_registry", "legacy_archive"
+        "snapshots", "blobs", "schema_documents", "schema_registry", "legacy_archive"
       ],
       "properties": {
         "events": {"$ref": "#/$defs/digest"},
@@ -47,13 +47,9 @@
         "migrations": {"$ref": "#/$defs/digest"},
         "snapshots": {"$ref": "#/$defs/digest"},
         "blobs": {"$ref": "#/$defs/digest"},
-        "schema_registry": {"$ref": "#/$defs/digest"}
-        ,"legacy_archive": {
-          "oneOf": [
-            {"type": "null"},
-            {"$ref": "#/$defs/digest"}
-          ]
-        }
+        "schema_documents": {"$ref": "#/$defs/digest"},
+        "schema_registry": {"$ref": "#/$defs/digest"},
+        "legacy_archive": {"$ref": "#/$defs/digest"}
       }
     },
     "checkpoint_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},

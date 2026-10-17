@@ -139,8 +139,8 @@ class SuccessorRuntimeContractTests(unittest.TestCase):
             "roots": {name: D for name in (
                 "events", "metadata", "tasks", "attempts", "claims", "reviews",
                 "remediation_links", "idempotency", "seals", "migrations",
-                "snapshots", "blobs", "schema_registry"
-            )} | {"legacy_archive": None},
+                "snapshots", "blobs", "schema_documents", "schema_registry"
+            )} | {"legacy_archive": D},
             "checkpoint_sha256": D,
             "anchor_status": "LOCAL_UNANCHORED",
             "currentness_status": "UNKNOWN",

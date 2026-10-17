@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:m0-3a-runtime-storage-descriptor:2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "runtime_format_version", "descriptor_id",
+    "sqlite", "structural_observation_sha256", "tables", "indexes",
+    "root_projections", "semantic_predicates", "forbidden_objects",
+    "anchor_status", "currentness_status", "authorizing_use"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "runtime_format_version": {"const": 2},
+    "descriptor_id": {"const": "urn:edgelab:m0-3a-runtime-storage:2"},
+    "sqlite": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version", "source_id", "application_id", "user_version", "encoding",
+        "journal_mode", "synchronous", "foreign_keys", "strict",
+        "without_rowid", "integer_max", "compile_options_sha256"
+      ],
+      "properties": {
+        "version": {"const": "3.50.0"},
+        "source_id": {"const": "2025-05-29 14:26:00 dfc790f998f450d9c35e3ba1c8c89c17466cb559f87b0239e4aab9d34e28f742"},
+        "application_id": {"const": 1162102578},
+        "user_version": {"const": 2},
+        "encoding": {"const": "UTF-8"},
+        "journal_mode": {"const": "wal"},
+        "synchronous": {"const": 2},
+        "foreign_keys": {"const": 1},
+        "strict": {"const": true},
+        "without_rowid": {"const": true},
+        "integer_max": {"const": 9223372036854775807},
+        "compile_options_sha256": {"const": "ac8b209c7df28e9112c556c25014840c89b558d5f271f526dc96a5096c6ccd4e"}
+      }
+    },
+    "structural_observation_sha256": {"const": "5519e98fe8d9fa49112fc42ee907b8bc26f424ce5f3fa4354628d45da700a76e"},
+    "tables": {
+      "type": "array",
+      "minItems": 15,
+      "maxItems": 15,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/table"}
+    },
+    "indexes": {
+      "type": "array",
+      "minItems": 29,
+      "maxItems": 29,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/index"}
+    },
+    "root_projections": {
+      "type": "array",
+      "minItems": 15,
+      "maxItems": 15,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/root"}
+    },
+    "semantic_predicates": {"const": [
+      "all integer fields are strict signed 64-bit values within their schema bounds",
+      "all digest fields are lowercase hexadecimal SHA-256 values",
+      "all timestamps are canonical UTC seconds ending in Z",
+      "canonical_json columns equal EDGELAB_CANONICAL_JSON_V1 bytes decoded as ASCII",
+      "metadata has exactly one row with singleton runtime, formats 2/2, null authority binding, and UNANCHORED/UNKNOWN/DENY",
+      "schema_registry has exactly one row with singleton registry",
+      "seals has exactly one deterministic RUNTIME_GENESIS_IDENTITY row",
+      "legacy_archive has zero rows for NEW and exactly one singleton legacy row with V16_BOUNDED_REPLAY_ONLY for V1_MIGRATION",
+      "for V1_MIGRATION the projection blob is canonical and registered, its projection_sha256 equals the legacy projection digest recomputed without that field and source_projection_sha256, its archive_sha256 equals source_row_archive_sha256, and the archive and projection blob digests equal archive_blob_sha256 and projection_blob_sha256",
+      "snapshot_kind is exactly CHECKPOINT or EXPORT; each kind has an independently contiguous sequence starting at zero with null prior, and every later prior_document_sha256 equals the immediately prior document_sha256 of the same kind",
+      "metadata latest_checkpoint_sha256 is null exactly when no CHECKPOINT exists and otherwise equals the document_sha256 of the maximum CHECKPOINT sequence, never an EXPORT",
+      "all root row orders are ascending BINARY and form a total unique order"
+    ]},
+    "forbidden_objects": {"const": ["trigger", "view", "virtual_table", "temp_object", "generated_column"]},
+    "anchor_status": {"const": "UNANCHORED"},
+    "currentness_status": {"const": "UNKNOWN"},
+    "authorizing_use": {"const": "DENY"}
+  },
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+    "column": {
+      "type": "array",
+      "prefixItems": [
+        {"$ref": "#/$defs/identifier"},
+        {"enum": ["TEXT", "INTEGER"]},
+        {"type": "boolean"},
+        {"type": "integer", "minimum": 0}
+      ],
+      "minItems": 4,
+      "maxItems": 4,
+      "items": false
+    },
+    "foreignKey": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["columns", "references_table", "references_columns", "deferred"],
+      "properties": {
+        "columns": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/identifier"}},
+        "references_table": {"$ref": "#/$defs/identifier"},
+        "references_columns": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/identifier"}},
+        "deferred": {"type": "boolean"}
+      }
+    },
+    "table": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "sql", "columns", "foreign_keys"],
+      "properties": {
+        "name": {"$ref": "#/$defs/identifier"},
+        "sql": {"type": "string", "pattern": "^CREATE TABLE "},
+        "columns": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/column"}},
+        "foreign_keys": {"type": "array", "items": {"$ref": "#/$defs/foreignKey"}}
+      }
+    },
+    "index": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "table", "unique", "partial", "columns", "sql"],
+      "properties": {
+        "name": {"$ref": "#/$defs/identifier"},
+        "table": {"$ref": "#/$defs/identifier"},
+        "unique": {"type": "boolean"},
+        "partial": {"type": "boolean"},
+        "columns": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/identifier"}},
+        "sql": {"type": "string", "pattern": "^CREATE (?:UNIQUE )?INDEX "}
+      }
+    },
+    "root": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["root_name", "table", "columns", "row_order"],
+      "properties": {
+        "root_name": {"$ref": "#/$defs/identifier"},
+        "table": {"$ref": "#/$defs/identifier"},
+        "columns": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/identifier"}},
+        "row_order": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/identifier"}}
+      }
+    }
+  }
+}

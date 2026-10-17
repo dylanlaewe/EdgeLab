@@ -1,0 +1,224 @@
+{
+  "schema_version": 1,
+  "runtime_format_version": 2,
+  "descriptor_id": "urn:edgelab:m0-3a-runtime-storage:2",
+  "sqlite": {
+    "version": "3.50.0",
+    "source_id": "2025-05-29 14:26:00 dfc790f998f450d9c35e3ba1c8c89c17466cb559f87b0239e4aab9d34e28f742",
+    "application_id": 1162102578,
+    "user_version": 2,
+    "encoding": "UTF-8",
+    "journal_mode": "wal",
+    "synchronous": 2,
+    "foreign_keys": 1,
+    "strict": true,
+    "without_rowid": true,
+    "integer_max": 9223372036854775807,
+    "compile_options_sha256": "ac8b209c7df28e9112c556c25014840c89b558d5f271f526dc96a5096c6ccd4e"
+  },
+  "structural_observation_sha256": "5519e98fe8d9fa49112fc42ee907b8bc26f424ce5f3fa4354628d45da700a76e",
+  "tables": [
+    {
+      "name": "attempts",
+      "sql": "CREATE TABLE attempts(task_id TEXT COLLATE BINARY NOT NULL,attempt INTEGER NOT NULL,predecessor_attempt INTEGER,origin_event_id TEXT COLLATE BINARY NOT NULL,head_task_sequence INTEGER NOT NULL,head_event_id TEXT COLLATE BINARY NOT NULL,head_event_sha256 TEXT COLLATE BINARY NOT NULL,PRIMARY KEY(task_id,attempt),FOREIGN KEY(task_id) REFERENCES tasks(task_id) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(task_id,predecessor_attempt) REFERENCES attempts(task_id,attempt) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(origin_event_id) REFERENCES events(event_id) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(head_event_id,head_event_sha256) REFERENCES events(event_id,event_sha256) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED) STRICT, WITHOUT ROWID",
+      "columns": [["task_id","TEXT",true,1],["attempt","INTEGER",true,2],["predecessor_attempt","INTEGER",false,0],["origin_event_id","TEXT",true,0],["head_task_sequence","INTEGER",true,0],["head_event_id","TEXT",true,0],["head_event_sha256","TEXT",true,0]],
+      "foreign_keys": [
+        {"columns":["task_id"],"references_table":"tasks","references_columns":["task_id"],"deferred":true},
+        {"columns":["task_id","predecessor_attempt"],"references_table":"attempts","references_columns":["task_id","attempt"],"deferred":true},
+        {"columns":["origin_event_id"],"references_table":"events","references_columns":["event_id"],"deferred":true},
+        {"columns":["head_event_id","head_event_sha256"],"references_table":"events","references_columns":["event_id","event_sha256"],"deferred":true}
+      ]
+    },
+    {
+      "name": "blobs",
+      "sql": "CREATE TABLE blobs(sha256 TEXT COLLATE BINARY PRIMARY KEY,schema_id TEXT COLLATE BINARY NOT NULL,canonical_json TEXT COLLATE BINARY NOT NULL,FOREIGN KEY(schema_id) REFERENCES schema_documents(schema_id) ON UPDATE RESTRICT ON DELETE RESTRICT) STRICT, WITHOUT ROWID",
+      "columns": [["sha256","TEXT",true,1],["schema_id","TEXT",true,0],["canonical_json","TEXT",true,0]],
+      "foreign_keys": [{"columns":["schema_id"],"references_table":"schema_documents","references_columns":["schema_id"],"deferred":false}]
+    },
+    {
+      "name": "claims",
+      "sql": "CREATE TABLE claims(claim_id TEXT COLLATE BINARY PRIMARY KEY,task_id TEXT COLLATE BINARY NOT NULL,attempt INTEGER NOT NULL,fence INTEGER NOT NULL,status TEXT COLLATE BINARY NOT NULL,actor TEXT COLLATE BINARY NOT NULL,opened_event_id TEXT COLLATE BINARY NOT NULL,closed_event_id TEXT COLLATE BINARY,FOREIGN KEY(task_id,attempt) REFERENCES attempts(task_id,attempt) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(opened_event_id) REFERENCES events(event_id) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(closed_event_id) REFERENCES events(event_id) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED) STRICT, WITHOUT ROWID",
+      "columns": [["claim_id","TEXT",true,1],["task_id","TEXT",true,0],["attempt","INTEGER",true,0],["fence","INTEGER",true,0],["status","TEXT",true,0],["actor","TEXT",true,0],["opened_event_id","TEXT",true,0],["closed_event_id","TEXT",false,0]],
+      "foreign_keys": [
+        {"columns":["task_id","attempt"],"references_table":"attempts","references_columns":["task_id","attempt"],"deferred":true},
+        {"columns":["opened_event_id"],"references_table":"events","references_columns":["event_id"],"deferred":true},
+        {"columns":["closed_event_id"],"references_table":"events","references_columns":["event_id"],"deferred":true}
+      ]
+    },
+    {
+      "name": "events",
+      "sql": "CREATE TABLE events(global_sequence INTEGER PRIMARY KEY,event_id TEXT COLLATE BINARY NOT NULL,event_sha256 TEXT COLLATE BINARY NOT NULL,canonical_json TEXT COLLATE BINARY NOT NULL) STRICT, WITHOUT ROWID",
+      "columns": [["global_sequence","INTEGER",true,1],["event_id","TEXT",true,0],["event_sha256","TEXT",true,0],["canonical_json","TEXT",true,0]],
+      "foreign_keys": []
+    },
+    {
+      "name": "idempotency",
+      "sql": "CREATE TABLE idempotency(operation_key TEXT COLLATE BINARY PRIMARY KEY,transaction_id TEXT COLLATE BINARY NOT NULL,request_sha256 TEXT COLLATE BINARY NOT NULL,response_sha256 TEXT COLLATE BINARY NOT NULL,commit_event_id TEXT COLLATE BINARY NOT NULL,commit_global_sequence INTEGER NOT NULL,committed_at TEXT COLLATE BINARY NOT NULL,FOREIGN KEY(request_sha256) REFERENCES blobs(sha256) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(response_sha256) REFERENCES blobs(sha256) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(commit_global_sequence,commit_event_id) REFERENCES events(global_sequence,event_id) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED) STRICT, WITHOUT ROWID",
+      "columns": [["operation_key","TEXT",true,1],["transaction_id","TEXT",true,0],["request_sha256","TEXT",true,0],["response_sha256","TEXT",true,0],["commit_event_id","TEXT",true,0],["commit_global_sequence","INTEGER",true,0],["committed_at","TEXT",true,0]],
+      "foreign_keys": [
+        {"columns":["request_sha256"],"references_table":"blobs","references_columns":["sha256"],"deferred":true},
+        {"columns":["response_sha256"],"references_table":"blobs","references_columns":["sha256"],"deferred":true},
+        {"columns":["commit_global_sequence","commit_event_id"],"references_table":"events","references_columns":["global_sequence","event_id"],"deferred":true}
+      ]
+    },
+    {
+      "name": "legacy_archive",
+      "sql": "CREATE TABLE legacy_archive(singleton TEXT COLLATE BINARY PRIMARY KEY,source_runtime_id TEXT COLLATE BINARY NOT NULL,source_assurance TEXT COLLATE BINARY NOT NULL,source_attachment_sha256 TEXT COLLATE BINARY NOT NULL,source_storage_inventory_sha256 TEXT COLLATE BINARY NOT NULL,source_backup_sha256 TEXT COLLATE BINARY NOT NULL,source_global_head_id TEXT COLLATE BINARY NOT NULL,source_global_head_sha256 TEXT COLLATE BINARY NOT NULL,source_row_archive_sha256 TEXT COLLATE BINARY NOT NULL,source_projection_sha256 TEXT COLLATE BINARY NOT NULL,migration_plan_sha256 TEXT COLLATE BINARY NOT NULL,frozen_verifier_commit TEXT COLLATE BINARY NOT NULL,frozen_verifier_closure_sha256 TEXT COLLATE BINARY NOT NULL,source_repository_bundle_sha256 TEXT COLLATE BINARY NOT NULL,archive_blob_sha256 TEXT COLLATE BINARY NOT NULL,projection_blob_sha256 TEXT COLLATE BINARY NOT NULL,FOREIGN KEY(archive_blob_sha256) REFERENCES blobs(sha256) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(projection_blob_sha256) REFERENCES blobs(sha256) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED) STRICT, WITHOUT ROWID",
+      "columns": [["singleton","TEXT",true,1],["source_runtime_id","TEXT",true,0],["source_assurance","TEXT",true,0],["source_attachment_sha256","TEXT",true,0],["source_storage_inventory_sha256","TEXT",true,0],["source_backup_sha256","TEXT",true,0],["source_global_head_id","TEXT",true,0],["source_global_head_sha256","TEXT",true,0],["source_row_archive_sha256","TEXT",true,0],["source_projection_sha256","TEXT",true,0],["migration_plan_sha256","TEXT",true,0],["frozen_verifier_commit","TEXT",true,0],["frozen_verifier_closure_sha256","TEXT",true,0],["source_repository_bundle_sha256","TEXT",true,0],["archive_blob_sha256","TEXT",true,0],["projection_blob_sha256","TEXT",true,0]],
+      "foreign_keys": [
+        {"columns":["archive_blob_sha256"],"references_table":"blobs","references_columns":["sha256"],"deferred":true},
+        {"columns":["projection_blob_sha256"],"references_table":"blobs","references_columns":["sha256"],"deferred":true}
+      ]
+    },
+    {
+      "name": "metadata",
+      "sql": "CREATE TABLE metadata(singleton TEXT COLLATE BINARY PRIMARY KEY,runtime_id TEXT COLLATE BINARY NOT NULL,chain_id TEXT COLLATE BINARY NOT NULL,runtime_format_version INTEGER NOT NULL,event_format_version INTEGER NOT NULL,source_kind TEXT COLLATE BINARY NOT NULL,created_at TEXT COLLATE BINARY NOT NULL,manifest_sha256 TEXT COLLATE BINARY NOT NULL,attachment_sha256 TEXT COLLATE BINARY NOT NULL,storage_schema_sha256 TEXT COLLATE BINARY NOT NULL,schema_registry_sha256 TEXT COLLATE BINARY NOT NULL,genesis_event_id TEXT COLLATE BINARY NOT NULL,genesis_event_sha256 TEXT COLLATE BINARY NOT NULL,repository_generation INTEGER NOT NULL,repository_bundle_sha256 TEXT COLLATE BINARY NOT NULL,global_head_sequence INTEGER NOT NULL,global_head_event_id TEXT COLLATE BINARY NOT NULL,global_head_event_sha256 TEXT COLLATE BINARY NOT NULL,latest_checkpoint_sha256 TEXT COLLATE BINARY,active_selector_generation INTEGER NOT NULL,active_selector_sha256 TEXT COLLATE BINARY NOT NULL,selector_history_sha256 TEXT COLLATE BINARY NOT NULL,authority_binding_sha256 TEXT COLLATE BINARY,anchor_status TEXT COLLATE BINARY NOT NULL,currentness_status TEXT COLLATE BINARY NOT NULL,authorizing_use TEXT COLLATE BINARY NOT NULL,FOREIGN KEY(genesis_event_id,genesis_event_sha256) REFERENCES events(event_id,event_sha256) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(global_head_sequence,global_head_event_id,global_head_event_sha256) REFERENCES events(global_sequence,event_id,event_sha256) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(latest_checkpoint_sha256) REFERENCES snapshots(document_sha256) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED) STRICT, WITHOUT ROWID",
+      "columns": [["singleton","TEXT",true,1],["runtime_id","TEXT",true,0],["chain_id","TEXT",true,0],["runtime_format_version","INTEGER",true,0],["event_format_version","INTEGER",true,0],["source_kind","TEXT",true,0],["created_at","TEXT",true,0],["manifest_sha256","TEXT",true,0],["attachment_sha256","TEXT",true,0],["storage_schema_sha256","TEXT",true,0],["schema_registry_sha256","TEXT",true,0],["genesis_event_id","TEXT",true,0],["genesis_event_sha256","TEXT",true,0],["repository_generation","INTEGER",true,0],["repository_bundle_sha256","TEXT",true,0],["global_head_sequence","INTEGER",true,0],["global_head_event_id","TEXT",true,0],["global_head_event_sha256","TEXT",true,0],["latest_checkpoint_sha256","TEXT",false,0],["active_selector_generation","INTEGER",true,0],["active_selector_sha256","TEXT",true,0],["selector_history_sha256","TEXT",true,0],["authority_binding_sha256","TEXT",false,0],["anchor_status","TEXT",true,0],["currentness_status","TEXT",true,0],["authorizing_use","TEXT",true,0]],
+      "foreign_keys": [
+        {"columns":["genesis_event_id","genesis_event_sha256"],"references_table":"events","references_columns":["event_id","event_sha256"],"deferred":true},
+        {"columns":["global_head_sequence","global_head_event_id","global_head_event_sha256"],"references_table":"events","references_columns":["global_sequence","event_id","event_sha256"],"deferred":true},
+        {"columns":["latest_checkpoint_sha256"],"references_table":"snapshots","references_columns":["document_sha256"],"deferred":true}
+      ]
+    },
+    {
+      "name": "migrations",
+      "sql": "CREATE TABLE migrations(migration_id TEXT COLLATE BINARY PRIMARY KEY,migration_sequence INTEGER NOT NULL,event_id TEXT COLLATE BINARY NOT NULL,payload_sha256 TEXT COLLATE BINARY NOT NULL,created_at TEXT COLLATE BINARY NOT NULL,FOREIGN KEY(event_id) REFERENCES events(event_id) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(payload_sha256) REFERENCES blobs(sha256) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED) STRICT, WITHOUT ROWID",
+      "columns": [["migration_id","TEXT",true,1],["migration_sequence","INTEGER",true,0],["event_id","TEXT",true,0],["payload_sha256","TEXT",true,0],["created_at","TEXT",true,0]],
+      "foreign_keys": [
+        {"columns":["event_id"],"references_table":"events","references_columns":["event_id"],"deferred":true},
+        {"columns":["payload_sha256"],"references_table":"blobs","references_columns":["sha256"],"deferred":true}
+      ]
+    },
+    {
+      "name": "remediation_links",
+      "sql": "CREATE TABLE remediation_links(link_id TEXT COLLATE BINARY PRIMARY KEY,source_task_id TEXT COLLATE BINARY NOT NULL,source_attempt INTEGER NOT NULL,child_task_id TEXT COLLATE BINARY NOT NULL,child_attempt INTEGER NOT NULL,source_event_id TEXT COLLATE BINARY NOT NULL,child_event_id TEXT COLLATE BINARY NOT NULL,decision_sha256 TEXT COLLATE BINARY NOT NULL,link_sha256 TEXT COLLATE BINARY NOT NULL,FOREIGN KEY(source_task_id,source_attempt) REFERENCES attempts(task_id,attempt) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(child_task_id,child_attempt) REFERENCES attempts(task_id,attempt) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(source_event_id) REFERENCES events(event_id) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(child_event_id) REFERENCES events(event_id) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED) STRICT, WITHOUT ROWID",
+      "columns": [["link_id","TEXT",true,1],["source_task_id","TEXT",true,0],["source_attempt","INTEGER",true,0],["child_task_id","TEXT",true,0],["child_attempt","INTEGER",true,0],["source_event_id","TEXT",true,0],["child_event_id","TEXT",true,0],["decision_sha256","TEXT",true,0],["link_sha256","TEXT",true,0]],
+      "foreign_keys": [
+        {"columns":["source_task_id","source_attempt"],"references_table":"attempts","references_columns":["task_id","attempt"],"deferred":true},
+        {"columns":["child_task_id","child_attempt"],"references_table":"attempts","references_columns":["task_id","attempt"],"deferred":true},
+        {"columns":["source_event_id"],"references_table":"events","references_columns":["event_id"],"deferred":true},
+        {"columns":["child_event_id"],"references_table":"events","references_columns":["event_id"],"deferred":true}
+      ]
+    },
+    {
+      "name": "reviews",
+      "sql": "CREATE TABLE reviews(assignment_id TEXT COLLATE BINARY PRIMARY KEY,task_id TEXT COLLATE BINARY NOT NULL,attempt INTEGER NOT NULL,actor TEXT COLLATE BINARY NOT NULL,role TEXT COLLATE BINARY NOT NULL,status TEXT COLLATE BINARY NOT NULL,opened_event_id TEXT COLLATE BINARY NOT NULL,closed_event_id TEXT COLLATE BINARY,FOREIGN KEY(task_id,attempt) REFERENCES attempts(task_id,attempt) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(opened_event_id) REFERENCES events(event_id) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(closed_event_id) REFERENCES events(event_id) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED) STRICT, WITHOUT ROWID",
+      "columns": [["assignment_id","TEXT",true,1],["task_id","TEXT",true,0],["attempt","INTEGER",true,0],["actor","TEXT",true,0],["role","TEXT",true,0],["status","TEXT",true,0],["opened_event_id","TEXT",true,0],["closed_event_id","TEXT",false,0]],
+      "foreign_keys": [
+        {"columns":["task_id","attempt"],"references_table":"attempts","references_columns":["task_id","attempt"],"deferred":true},
+        {"columns":["opened_event_id"],"references_table":"events","references_columns":["event_id"],"deferred":true},
+        {"columns":["closed_event_id"],"references_table":"events","references_columns":["event_id"],"deferred":true}
+      ]
+    },
+    {
+      "name": "schema_documents",
+      "sql": "CREATE TABLE schema_documents(schema_id TEXT COLLATE BINARY PRIMARY KEY,document_sha256 TEXT COLLATE BINARY NOT NULL,canonical_json TEXT COLLATE BINARY NOT NULL) STRICT, WITHOUT ROWID",
+      "columns": [["schema_id","TEXT",true,1],["document_sha256","TEXT",true,0],["canonical_json","TEXT",true,0]],
+      "foreign_keys": []
+    },
+    {
+      "name": "schema_registry",
+      "sql": "CREATE TABLE schema_registry(singleton TEXT COLLATE BINARY PRIMARY KEY,schema_registry_sha256 TEXT COLLATE BINARY NOT NULL,canonical_json TEXT COLLATE BINARY NOT NULL) STRICT, WITHOUT ROWID",
+      "columns": [["singleton","TEXT",true,1],["schema_registry_sha256","TEXT",true,0],["canonical_json","TEXT",true,0]],
+      "foreign_keys": []
+    },
+    {
+      "name": "seals",
+      "sql": "CREATE TABLE seals(seal_id TEXT COLLATE BINARY PRIMARY KEY,runtime_id TEXT COLLATE BINARY NOT NULL,chain_id TEXT COLLATE BINARY NOT NULL,seal_type TEXT COLLATE BINARY NOT NULL,attachment_sha256 TEXT COLLATE BINARY NOT NULL,genesis_event_id TEXT COLLATE BINARY NOT NULL,genesis_event_sha256 TEXT COLLATE BINARY NOT NULL,manifest_sha256 TEXT COLLATE BINARY NOT NULL,source_event_id TEXT COLLATE BINARY NOT NULL,created_at TEXT COLLATE BINARY NOT NULL,FOREIGN KEY(genesis_event_id,genesis_event_sha256) REFERENCES events(event_id,event_sha256) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(source_event_id) REFERENCES events(event_id) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED) STRICT, WITHOUT ROWID",
+      "columns": [["seal_id","TEXT",true,1],["runtime_id","TEXT",true,0],["chain_id","TEXT",true,0],["seal_type","TEXT",true,0],["attachment_sha256","TEXT",true,0],["genesis_event_id","TEXT",true,0],["genesis_event_sha256","TEXT",true,0],["manifest_sha256","TEXT",true,0],["source_event_id","TEXT",true,0],["created_at","TEXT",true,0]],
+      "foreign_keys": [
+        {"columns":["genesis_event_id","genesis_event_sha256"],"references_table":"events","references_columns":["event_id","event_sha256"],"deferred":true},
+        {"columns":["source_event_id"],"references_table":"events","references_columns":["event_id"],"deferred":true}
+      ]
+    },
+    {
+      "name": "snapshots",
+      "sql": "CREATE TABLE snapshots(snapshot_id TEXT COLLATE BINARY PRIMARY KEY,snapshot_kind TEXT COLLATE BINARY NOT NULL,snapshot_sequence INTEGER NOT NULL,event_id TEXT COLLATE BINARY NOT NULL,document_sha256 TEXT COLLATE BINARY NOT NULL,document_blob_sha256 TEXT COLLATE BINARY NOT NULL,through_global_sequence INTEGER NOT NULL,head_event_id TEXT COLLATE BINARY NOT NULL,head_event_sha256 TEXT COLLATE BINARY NOT NULL,prior_document_sha256 TEXT COLLATE BINARY,created_at TEXT COLLATE BINARY NOT NULL,FOREIGN KEY(event_id) REFERENCES events(event_id) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(document_blob_sha256) REFERENCES blobs(sha256) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(through_global_sequence,head_event_id,head_event_sha256) REFERENCES events(global_sequence,event_id,event_sha256) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(prior_document_sha256) REFERENCES snapshots(document_sha256) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED) STRICT, WITHOUT ROWID",
+      "columns": [["snapshot_id","TEXT",true,1],["snapshot_kind","TEXT",true,0],["snapshot_sequence","INTEGER",true,0],["event_id","TEXT",true,0],["document_sha256","TEXT",true,0],["document_blob_sha256","TEXT",true,0],["through_global_sequence","INTEGER",true,0],["head_event_id","TEXT",true,0],["head_event_sha256","TEXT",true,0],["prior_document_sha256","TEXT",false,0],["created_at","TEXT",true,0]],
+      "foreign_keys": [
+        {"columns":["event_id"],"references_table":"events","references_columns":["event_id"],"deferred":true},
+        {"columns":["document_blob_sha256"],"references_table":"blobs","references_columns":["sha256"],"deferred":true},
+        {"columns":["through_global_sequence","head_event_id","head_event_sha256"],"references_table":"events","references_columns":["global_sequence","event_id","event_sha256"],"deferred":true},
+        {"columns":["prior_document_sha256"],"references_table":"snapshots","references_columns":["document_sha256"],"deferred":true}
+      ]
+    },
+    {
+      "name": "tasks",
+      "sql": "CREATE TABLE tasks(task_id TEXT COLLATE BINARY PRIMARY KEY,attempt INTEGER NOT NULL,workflow TEXT COLLATE BINARY NOT NULL,execution TEXT COLLATE BINARY NOT NULL,review TEXT COLLATE BINARY NOT NULL,scheduler_generation INTEGER NOT NULL,dispatch_generation INTEGER NOT NULL,task_fence INTEGER NOT NULL,active_claim_id TEXT COLLATE BINARY,reviewer_assignment_id TEXT COLLATE BINARY,continuation_count INTEGER NOT NULL,repository_generation INTEGER NOT NULL,decision_receipt_digest TEXT COLLATE BINARY NOT NULL,owner TEXT COLLATE BINARY NOT NULL,reviewer TEXT COLLATE BINARY,predecessor_task TEXT COLLATE BINARY,successor_task TEXT COLLATE BINARY,FOREIGN KEY(task_id,attempt) REFERENCES attempts(task_id,attempt) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(active_claim_id) REFERENCES claims(claim_id) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(reviewer_assignment_id) REFERENCES reviews(assignment_id) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(predecessor_task) REFERENCES tasks(task_id) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(successor_task) REFERENCES tasks(task_id) ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED) STRICT, WITHOUT ROWID",
+      "columns": [["task_id","TEXT",true,1],["attempt","INTEGER",true,0],["workflow","TEXT",true,0],["execution","TEXT",true,0],["review","TEXT",true,0],["scheduler_generation","INTEGER",true,0],["dispatch_generation","INTEGER",true,0],["task_fence","INTEGER",true,0],["active_claim_id","TEXT",false,0],["reviewer_assignment_id","TEXT",false,0],["continuation_count","INTEGER",true,0],["repository_generation","INTEGER",true,0],["decision_receipt_digest","TEXT",true,0],["owner","TEXT",true,0],["reviewer","TEXT",false,0],["predecessor_task","TEXT",false,0],["successor_task","TEXT",false,0]],
+      "foreign_keys": [
+        {"columns":["task_id","attempt"],"references_table":"attempts","references_columns":["task_id","attempt"],"deferred":true},
+        {"columns":["active_claim_id"],"references_table":"claims","references_columns":["claim_id"],"deferred":true},
+        {"columns":["reviewer_assignment_id"],"references_table":"reviews","references_columns":["assignment_id"],"deferred":true},
+        {"columns":["predecessor_task"],"references_table":"tasks","references_columns":["task_id"],"deferred":true},
+        {"columns":["successor_task"],"references_table":"tasks","references_columns":["task_id"],"deferred":true}
+      ]
+    }
+  ],
+  "indexes": [
+    {"name":"ix_blobs_schema_id","table":"blobs","unique":false,"partial":false,"columns":["schema_id"],"sql":"CREATE INDEX ix_blobs_schema_id ON blobs(schema_id)"},
+    {"name":"ix_claims_task_attempt","table":"claims","unique":false,"partial":false,"columns":["task_id","attempt"],"sql":"CREATE INDEX ix_claims_task_attempt ON claims(task_id,attempt)"},
+    {"name":"ix_reviews_task_attempt","table":"reviews","unique":false,"partial":false,"columns":["task_id","attempt"],"sql":"CREATE INDEX ix_reviews_task_attempt ON reviews(task_id,attempt)"},
+    {"name":"ix_tasks_current_attempt","table":"tasks","unique":false,"partial":false,"columns":["task_id","attempt"],"sql":"CREATE INDEX ix_tasks_current_attempt ON tasks(task_id,attempt)"},
+    {"name":"ux_attempts_head_event","table":"attempts","unique":true,"partial":false,"columns":["head_event_id"],"sql":"CREATE UNIQUE INDEX ux_attempts_head_event ON attempts(head_event_id)"},
+    {"name":"ux_attempts_origin_event","table":"attempts","unique":true,"partial":false,"columns":["origin_event_id"],"sql":"CREATE UNIQUE INDEX ux_attempts_origin_event ON attempts(origin_event_id)"},
+    {"name":"ux_claims_closed_event","table":"claims","unique":true,"partial":true,"columns":["closed_event_id"],"sql":"CREATE UNIQUE INDEX ux_claims_closed_event ON claims(closed_event_id) WHERE closed_event_id IS NOT NULL"},
+    {"name":"ux_claims_opened_event","table":"claims","unique":true,"partial":false,"columns":["opened_event_id"],"sql":"CREATE UNIQUE INDEX ux_claims_opened_event ON claims(opened_event_id)"},
+    {"name":"ux_events_event_id","table":"events","unique":true,"partial":false,"columns":["event_id"],"sql":"CREATE UNIQUE INDEX ux_events_event_id ON events(event_id)"},
+    {"name":"ux_events_event_sha256","table":"events","unique":true,"partial":false,"columns":["event_sha256"],"sql":"CREATE UNIQUE INDEX ux_events_event_sha256 ON events(event_sha256)"},
+    {"name":"ux_events_id_sha","table":"events","unique":true,"partial":false,"columns":["event_id","event_sha256"],"sql":"CREATE UNIQUE INDEX ux_events_id_sha ON events(event_id,event_sha256)"},
+    {"name":"ux_events_sequence_id","table":"events","unique":true,"partial":false,"columns":["global_sequence","event_id"],"sql":"CREATE UNIQUE INDEX ux_events_sequence_id ON events(global_sequence,event_id)"},
+    {"name":"ux_events_sequence_id_sha","table":"events","unique":true,"partial":false,"columns":["global_sequence","event_id","event_sha256"],"sql":"CREATE UNIQUE INDEX ux_events_sequence_id_sha ON events(global_sequence,event_id,event_sha256)"},
+    {"name":"ux_idempotency_commit_event","table":"idempotency","unique":true,"partial":false,"columns":["commit_event_id"],"sql":"CREATE UNIQUE INDEX ux_idempotency_commit_event ON idempotency(commit_event_id)"},
+    {"name":"ux_idempotency_commit_sequence","table":"idempotency","unique":true,"partial":false,"columns":["commit_global_sequence"],"sql":"CREATE UNIQUE INDEX ux_idempotency_commit_sequence ON idempotency(commit_global_sequence)"},
+    {"name":"ux_idempotency_transaction","table":"idempotency","unique":true,"partial":false,"columns":["transaction_id"],"sql":"CREATE UNIQUE INDEX ux_idempotency_transaction ON idempotency(transaction_id)"},
+    {"name":"ux_migrations_event","table":"migrations","unique":true,"partial":false,"columns":["event_id"],"sql":"CREATE UNIQUE INDEX ux_migrations_event ON migrations(event_id)"},
+    {"name":"ux_migrations_sequence","table":"migrations","unique":true,"partial":false,"columns":["migration_sequence"],"sql":"CREATE UNIQUE INDEX ux_migrations_sequence ON migrations(migration_sequence)"},
+    {"name":"ux_remediation_child_event","table":"remediation_links","unique":true,"partial":false,"columns":["child_event_id"],"sql":"CREATE UNIQUE INDEX ux_remediation_child_event ON remediation_links(child_event_id)"},
+    {"name":"ux_remediation_child_task","table":"remediation_links","unique":true,"partial":false,"columns":["child_task_id","child_attempt"],"sql":"CREATE UNIQUE INDEX ux_remediation_child_task ON remediation_links(child_task_id,child_attempt)"},
+    {"name":"ux_remediation_source_event","table":"remediation_links","unique":true,"partial":false,"columns":["source_event_id"],"sql":"CREATE UNIQUE INDEX ux_remediation_source_event ON remediation_links(source_event_id)"},
+    {"name":"ux_reviews_closed_event","table":"reviews","unique":true,"partial":true,"columns":["closed_event_id"],"sql":"CREATE UNIQUE INDEX ux_reviews_closed_event ON reviews(closed_event_id) WHERE closed_event_id IS NOT NULL"},
+    {"name":"ux_reviews_opened_event","table":"reviews","unique":true,"partial":false,"columns":["opened_event_id"],"sql":"CREATE UNIQUE INDEX ux_reviews_opened_event ON reviews(opened_event_id)"},
+    {"name":"ux_schema_documents_digest","table":"schema_documents","unique":true,"partial":false,"columns":["document_sha256"],"sql":"CREATE UNIQUE INDEX ux_schema_documents_digest ON schema_documents(document_sha256)"},
+    {"name":"ux_snapshots_document","table":"snapshots","unique":true,"partial":false,"columns":["document_sha256"],"sql":"CREATE UNIQUE INDEX ux_snapshots_document ON snapshots(document_sha256)"},
+    {"name":"ux_snapshots_event","table":"snapshots","unique":true,"partial":false,"columns":["event_id"],"sql":"CREATE UNIQUE INDEX ux_snapshots_event ON snapshots(event_id)"},
+    {"name":"ux_snapshots_kind_sequence","table":"snapshots","unique":true,"partial":false,"columns":["snapshot_kind","snapshot_sequence"],"sql":"CREATE UNIQUE INDEX ux_snapshots_kind_sequence ON snapshots(snapshot_kind,snapshot_sequence)"},
+    {"name":"ux_tasks_active_claim","table":"tasks","unique":true,"partial":true,"columns":["active_claim_id"],"sql":"CREATE UNIQUE INDEX ux_tasks_active_claim ON tasks(active_claim_id) WHERE active_claim_id IS NOT NULL"},
+    {"name":"ux_tasks_active_review","table":"tasks","unique":true,"partial":true,"columns":["reviewer_assignment_id"],"sql":"CREATE UNIQUE INDEX ux_tasks_active_review ON tasks(reviewer_assignment_id) WHERE reviewer_assignment_id IS NOT NULL"}
+  ],
+  "root_projections": [
+    {"root_name":"attempts","table":"attempts","columns":["task_id","attempt","predecessor_attempt","origin_event_id","head_task_sequence","head_event_id","head_event_sha256"],"row_order":["task_id","attempt"]},
+    {"root_name":"blobs","table":"blobs","columns":["sha256","schema_id","canonical_json"],"row_order":["sha256"]},
+    {"root_name":"claims","table":"claims","columns":["claim_id","task_id","attempt","fence","status","actor","opened_event_id","closed_event_id"],"row_order":["claim_id"]},
+    {"root_name":"events","table":"events","columns":["global_sequence","event_id","event_sha256","canonical_json"],"row_order":["global_sequence"]},
+    {"root_name":"idempotency","table":"idempotency","columns":["operation_key","transaction_id","request_sha256","response_sha256","commit_event_id","commit_global_sequence","committed_at"],"row_order":["operation_key"]},
+    {"root_name":"legacy_archive","table":"legacy_archive","columns":["singleton","source_runtime_id","source_assurance","source_attachment_sha256","source_storage_inventory_sha256","source_backup_sha256","source_global_head_id","source_global_head_sha256","source_row_archive_sha256","source_projection_sha256","migration_plan_sha256","frozen_verifier_commit","frozen_verifier_closure_sha256","source_repository_bundle_sha256","archive_blob_sha256","projection_blob_sha256"],"row_order":["singleton"]},
+    {"root_name":"metadata","table":"metadata","columns":["singleton","runtime_id","chain_id","runtime_format_version","event_format_version","source_kind","created_at","manifest_sha256","attachment_sha256","storage_schema_sha256","schema_registry_sha256","genesis_event_id","genesis_event_sha256","repository_generation","repository_bundle_sha256","global_head_sequence","global_head_event_id","global_head_event_sha256","latest_checkpoint_sha256","active_selector_generation","active_selector_sha256","selector_history_sha256","authority_binding_sha256","anchor_status","currentness_status","authorizing_use"],"row_order":["singleton"]},
+    {"root_name":"migrations","table":"migrations","columns":["migration_id","migration_sequence","event_id","payload_sha256","created_at"],"row_order":["migration_sequence","migration_id"]},
+    {"root_name":"remediation_links","table":"remediation_links","columns":["link_id","source_task_id","source_attempt","child_task_id","child_attempt","source_event_id","child_event_id","decision_sha256","link_sha256"],"row_order":["link_id"]},
+    {"root_name":"reviews","table":"reviews","columns":["assignment_id","task_id","attempt","actor","role","status","opened_event_id","closed_event_id"],"row_order":["assignment_id"]},
+    {"root_name":"schema_documents","table":"schema_documents","columns":["schema_id","document_sha256","canonical_json"],"row_order":["schema_id"]},
+    {"root_name":"schema_registry","table":"schema_registry","columns":["singleton","schema_registry_sha256","canonical_json"],"row_order":["singleton"]},
+    {"root_name":"seals","table":"seals","columns":["seal_id","runtime_id","chain_id","seal_type","attachment_sha256","genesis_event_id","genesis_event_sha256","manifest_sha256","source_event_id","created_at"],"row_order":["seal_id"]},
+    {"root_name":"snapshots","table":"snapshots","columns":["snapshot_id","snapshot_kind","snapshot_sequence","event_id","document_sha256","document_blob_sha256","through_global_sequence","head_event_id","head_event_sha256","prior_document_sha256","created_at"],"row_order":["snapshot_kind","snapshot_sequence","snapshot_id"]},
+    {"root_name":"tasks","table":"tasks","columns":["task_id","attempt","workflow","execution","review","scheduler_generation","dispatch_generation","task_fence","active_claim_id","reviewer_assignment_id","continuation_count","repository_generation","decision_receipt_digest","owner","reviewer","predecessor_task","successor_task"],"row_order":["task_id"]}
+  ],
+  "semantic_predicates": [
+    "all integer fields are strict signed 64-bit values within their schema bounds",
+    "all digest fields are lowercase hexadecimal SHA-256 values",
+    "all timestamps are canonical UTC seconds ending in Z",
+    "canonical_json columns equal EDGELAB_CANONICAL_JSON_V1 bytes decoded as ASCII",
+    "metadata has exactly one row with singleton runtime, formats 2/2, null authority binding, and UNANCHORED/UNKNOWN/DENY",
+    "schema_registry has exactly one row with singleton registry",
+    "seals has exactly one deterministic RUNTIME_GENESIS_IDENTITY row",
+    "legacy_archive has zero rows for NEW and exactly one singleton legacy row with V16_BOUNDED_REPLAY_ONLY for V1_MIGRATION",
+    "for V1_MIGRATION the projection blob is canonical and registered, its projection_sha256 equals the legacy projection digest recomputed without that field and source_projection_sha256, its archive_sha256 equals source_row_archive_sha256, and the archive and projection blob digests equal archive_blob_sha256 and projection_blob_sha256",
+    "snapshot_kind is exactly CHECKPOINT or EXPORT; each kind has an independently contiguous sequence starting at zero with null prior, and every later prior_document_sha256 equals the immediately prior document_sha256 of the same kind",
+    "metadata latest_checkpoint_sha256 is null exactly when no CHECKPOINT exists and otherwise equals the document_sha256 of the maximum CHECKPOINT sequence, never an EXPORT",
+    "all root row orders are ascending BINARY and form a total unique order"
+  ],
+  "forbidden_objects": ["trigger", "view", "virtual_table", "temp_object", "generated_column"],
+  "anchor_status": "UNANCHORED",
+  "currentness_status": "UNKNOWN",
+  "authorizing_use": "DENY"
+}
