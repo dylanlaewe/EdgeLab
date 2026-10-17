@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-085",
+  "version": 1,
+  "occurred_at": "2026-10-17T02:37:56Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_DEPENDENCY_CLOSURE_SHAPE_ACCEPTED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-103-runtime-v2-closure-shape.v1.md",
+  "previous_state": "FORMAT_2_LEGACY_ASSURANCE_GAP_DISPOSED_CURRENT_CARRIER_UNSUPPORTED_STOP_OPEN",
+  "new_state": "FORMAT_2_CLOSURE_SHAPE_COMPILED_EXACT_RELEASE_IDENTITY_ABSENT_STOP_OPEN",
+  "reason": "Commit 82981c156e14d5a042ce85586f3d2d432a34a643 publishes an independently accepted pure closure-shape and self-digest validator with conservative alias denial. Shape-valid candidates remain opaque UNSUPPORTED/CLOSURE_NOT_COMPILED; no exact generated identity, public-verifier connection, currentness, execution permission, or capital path was added.",
+  "evidence_refs": [
+    "reports/H-M0-103-runtime-v2-closure-shape.v1.md",
+    "docs/M0.3A_DEPENDENCY_CLOSURE_SHAPE.v1.md",
+    "src/edgelab/runtime_v2_closure.py",
+    "tests/test_runtime_v2_closure.py",
+    "reports/stops/STOP-M0-3A-002.v6.json"
+  ],
+  "code_ref": "82981c156e14d5a042ce85586f3d2d432a34a643",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-103",
+  "supersedes": null
+}

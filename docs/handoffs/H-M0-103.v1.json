@@ -1,0 +1,74 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-103",
+  "version": 1,
+  "created_at": "2026-10-17T02:37:56Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Compile and independently review the complete version-1 verifier-dependency-closure shape and self-digest boundary without generating an exact release or expanding authority.",
+  "work_done": "Implemented a pure bytes-only closure validator with deterministic bounded canonical parsing, exact closed schema profile, published schema role bindings, portable path and import-root ownership, normalized distribution identities, module-prefix collision denial, and self-digest verification. Integrated it only into the private initial reducer, which remains unconditionally UNSUPPORTED/CLOSURE_NOT_COMPILED for shape-valid candidates. Three independent read-only reviews found and caused correction of semantic and aliasing gaps before accepting the bounded result.",
+  "evidence_refs": [
+    "reports/H-M0-103-runtime-v2-closure-shape.v1.md",
+    "reports/audit/A-M0-085.v1.json",
+    "reports/stops/STOP-M0-3A-002.v6.json",
+    "docs/M0.3A_DEPENDENCY_CLOSURE_SHAPE.v1.md",
+    "src/edgelab/runtime_v2_closure.py",
+    "tests/test_runtime_v2_closure.py",
+    "tests/test_runtime_v2_initial.py",
+    "docs/M0.3A_RUNTIME_IMAGE_CONTRACT.v1.md"
+  ],
+  "files_changed": [
+    "docs/M0.3A_DEPENDENCY_CLOSURE_SHAPE.v1.md",
+    "src/edgelab/runtime_v2_closure.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "tests/runtime_v2_closure_fixture.py",
+    "tests/test_runtime_v2_closure.py",
+    "tests/test_runtime_v2_initial.py",
+    "tests/test_runtime_v2_image.py",
+    "tests/test_runtime_v2_verifier.py",
+    "tools/run_test_tier.py",
+    "reports/H-M0-103-runtime-v2-closure-shape.v1.md",
+    "reports/audit/A-M0-085.v1.json",
+    "reports/stops/STOP-M0-3A-002.v6.json",
+    "docs/handoffs/H-M0-103.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json"
+  ],
+  "tests_run": [
+    "Focused closure, initial reducer, public verifier, and image suite: 57 tests passed.",
+    "Optimized closure, initial reducer, and public verifier suite: 43 tests passed under python -O.",
+    "Final fast tier: 270 tests passed across 17 isolated modules.",
+    "Three independent read-only reviews accepted the final bounded milestone after identified contract, aliasing, and regression-lock gaps were repaired.",
+    "Production validator before evidence publication: 368 records and published history validated; M0 capital remained LOCKED and no approval was granted.",
+    "Production validator after evidence publication: 371 records and published history validated with the same locked and non-authorizing result.",
+    "Alpha/observatory regression: 18 tests passed after STOP provenance was extended.",
+    "Python compile checks and Git diff whitespace checks passed."
+  ],
+  "open_questions": [
+    "Should ordinary transaction-group reduction or checkpoint/export cut validation be implemented first to maximize reusable whole-image coverage?",
+    "What exact versioned representation should freeze import edges without introducing ambient runtime discovery?",
+    "What exact byte basis and digest equation should govern pin-carrier length and external distribution metadata?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v6 remains OPEN pending ordinary whole-image reduction, unresolved generation semantics, source freeze, exact closure/carrier generation, complete A-J matrix, and independent acceptance; V1_MIGRATION remains UNSUPPORTED under the current carrier.",
+    "The public verifier remains disconnected and can return only INVALID or UNSUPPORTED under UNANCHORED/UNKNOWN/DENY.",
+    "H-M0-086 remains blocked on a genuinely distinct trusted 05 Skeptic authority; H-M0-041 remains BLOCKED.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked, M1 remains unreleased, live remains LOCKED, kill remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Implement and adversarially review ordinary transaction-group reduction and checkpoint/export cuts; freeze exact closure generation semantics only after all semantic reducer sources are complete.",
+  "completion_criteria": [
+    "Canonical version-1 closure shape, published schema role bindings, alias-free inventories, and self-digest are compiled and independently accepted.",
+    "Shape-valid candidates remain opaque UNSUPPORTED/CLOSURE_NOT_COMPILED and cannot expose derived identity.",
+    "The public verifier and capital-safety state remain unchanged while STOP-M0-3A-002 stays OPEN."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-102.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-102",
+      "version": 1,
+      "sha256": "f56898a4200cedbc13d821881e492f1896f36d4a82f5ae98e26f30338e27ca3e"
+    }
+  ]
+}

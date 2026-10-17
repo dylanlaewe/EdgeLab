@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-002",
+  "version": 6,
+  "issued_at": "2026-10-17T02:37:56Z",
+  "issuer": "00 Director",
+  "reason": "The private dependency-closure shape and self-digest validator is implemented and independently accepted, but no exact generated closure or pin carrier is compiled and unresolved generation semantics remain. Ordinary event groups, checkpoint/export cuts, cumulative root work, and the full A-J acceptance matrix are unfinished; therefore no positive local-consistency result is supportable.",
+  "affected_components": [
+    "runtime-v2 semantic whole-image reduction beyond NEW genesis",
+    "exact generated verifier dependency closure and pin carrier",
+    "versioned legacy migration evidence carrier and projector",
+    "ordinary event grouping, checkpoints, exports, and cumulative root work",
+    "public local-consistency result vocabulary"
+  ],
+  "evidence_refs": [
+    "reports/H-M0-103-runtime-v2-closure-shape.v1.md",
+    "docs/M0.3A_DEPENDENCY_CLOSURE_SHAPE.v1.md",
+    "src/edgelab/runtime_v2_closure.py",
+    "tests/test_runtime_v2_closure.py",
+    "reports/H-M0-102-legacy-bridge-assurance-amendment.v1.md",
+    "docs/M0.3A_RUNTIME_IMAGE_CONTRACT.v1.md"
+  ],
+  "severity": "HIGH",
+  "remediation_required": [
+    "Resolve and version the import-edge representation, pin-carrier byte-length basis, external-distribution metadata digest equation, exact marker literals, and mandatory runtime-assumption inventory before any release generation.",
+    "Complete every ordinary event group, typed reachability edge, checkpoint/export cut, cumulative root-work charge, and final table comparison without connecting an incomplete path to the public verifier.",
+    "After semantic source freeze, generate the exact closure artifact and _runtime_v2_release.py carrier, prove deterministic regeneration and exact compiled byte identity, and obtain independent acceptance.",
+    "Keep V1_MIGRATION unsupported under the current schemas/carrier unless a separately versioned and accepted evidence carrier supplies every mandatory source preimage.",
+    "Pass every case in the M0.3A runtime-image A-J acceptance matrix before introducing a separately versioned LOCALLY_CONSISTENT_DENY_ONLY result."
+  ],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}
