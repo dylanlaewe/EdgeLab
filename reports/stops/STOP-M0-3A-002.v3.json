@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-002",
+  "version": 3,
+  "issued_at": "2026-10-17T02:00:06Z",
+  "issuer": "00 Director",
+  "reason": "The exact private RuntimeImage host transport, resource preflight, compiled table shape/order profile, and supported registry/storage singleton identities are now implemented and independently reviewed. The semantic whole-image reducer, exact generated dependency closure and pin carrier, complete event/blob/checkpoint/export reduction, and full A-J acceptance matrix remain unfinished, so no positive local-consistency result is supportable.",
+  "affected_components": [
+    "runtime-v2 semantic whole-image reduction",
+    "generated verifier dependency closure and pin carrier",
+    "genesis and legacy-bridge identity verification",
+    "event grouping, typed reachability, checkpoints, exports, and all-table derivation",
+    "public local-consistency result vocabulary"
+  ],
+  "evidence_refs": [
+    "reports/H-M0-100-runtime-v2-image-preflight.v1.md",
+    "src/edgelab/runtime_v2_image.py",
+    "src/edgelab/runtime_v2_bootstrap.py",
+    "tests/test_runtime_v2_image.py",
+    "tests/test_runtime_v2_bootstrap.py",
+    "docs/M0.3A_RUNTIME_IMAGE_CONTRACT.v1.md",
+    "src/edgelab/runtime_v2_verifier.py"
+  ],
+  "severity": "HIGH",
+  "remediation_required": [
+    "Implement and adversarially test pure system-genesis and legacy-bridge parsing, identity closure, selector derivation, typed blob reachability, and exact initial 15-table materialization while consuming the sanitized preflight image inline.",
+    "Complete every ordinary event group, checkpoint/export cut, cumulative root-work charge, and final table comparison without connecting an incomplete path to the public verifier.",
+    "After all semantic sources are frozen, deterministically generate the exact dependency-closure artifact and _runtime_v2_release.py carrier, prove regeneration and raw/domain pin derivation, and compile the supported closure bytes and digest into the no-I/O boundary.",
+    "Pass every case in the M0.3A runtime-image A-J acceptance matrix and obtain independent acceptance before introducing a separately versioned LOCALLY_CONSISTENT_DENY_ONLY result."
+  ],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}

@@ -1,0 +1,73 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-100",
+  "version": 1,
+  "created_at": "2026-10-17T02:00:06Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Implement and independently review the exact private RuntimeImage host transport, bounded resource/table preflight, and remaining supported bootstrap identities without adding a writer, cutover, positive verifier result, or authority path.",
+  "work_done": "Implemented frozen exact runtime-image records, hostile-input slot/type/cardinality/byte/table validation, detached sanitized snapshots, bounded accounted-input and final-root-work calculations, all five raw bootstrap pins, and supported registry/storage singleton identity validators. Initial adversarial findings for missing-slot exceptions, mutation aliases, and repeated scan amplification were repaired. Three read-only reviews accepted only the bounded milestone. STOP-M0-3A-002 remains OPEN for semantic reduction and generated closure work.",
+  "evidence_refs": [
+    "reports/H-M0-100-runtime-v2-image-preflight.v1.md",
+    "reports/audit/A-M0-082.v1.json",
+    "reports/stops/STOP-M0-3A-002.v3.json",
+    "src/edgelab/runtime_v2_image.py",
+    "src/edgelab/runtime_v2_bootstrap.py",
+    "tests/test_runtime_v2_image.py",
+    "tests/test_runtime_v2_bootstrap.py",
+    "docs/M0.3A_RUNTIME_IMAGE_CONTRACT.v1.md",
+    "src/edgelab/runtime_v2_verifier.py"
+  ],
+  "files_changed": [
+    "src/edgelab/runtime_v2_image.py",
+    "src/edgelab/runtime_v2_bootstrap.py",
+    "tests/test_runtime_v2_image.py",
+    "tests/test_runtime_v2_bootstrap.py",
+    "tools/run_test_tier.py",
+    "reports/stops/STOP-M0-3A-002.v3.json",
+    "reports/H-M0-100-runtime-v2-image-preflight.v1.md",
+    "reports/audit/A-M0-082.v1.json",
+    "docs/handoffs/H-M0-100.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "Focused bootstrap/image suite: 29 tests passed.",
+    "Final fast tier: 241 tests passed across 14 isolated modules.",
+    "Three read-only engineering reviews returned ACCEPT BOUNDED MILESTONE after remediation.",
+    "More than 2,000 adversarial malformed substitutions and every missing-slot case completed without an exception in independent review.",
+    "Production validator before evidence publication: 359 records and published history validated; M0 capital remained LOCKED and no approval was granted.",
+    "Production validator after evidence publication: 362 records and published history validated with the same locked and non-authorizing result.",
+    "Python compilation and git diff whitespace checks passed."
+  ],
+  "open_questions": [
+    "Can the initial reducer implement both system genesis kinds while validating request, response, payload, event, selector, and exact table identities entirely from compiled closed validators?",
+    "Which versioned successor-contract amendment will close the legacy source_attachment digest equation and the unavailable per-column v1 storage profile without overstating archive assurance?",
+    "After all reducer sources freeze, does deterministic closure generation reproduce one exact carrier and closure with no ambient dependency or source-cycle alias?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v3 remains OPEN pending semantic whole-image reduction, generated closure/carrier, complete A-J matrix, and independent acceptance.",
+    "The public verifier remains disconnected from the private image preflight and can return only INVALID or UNSUPPORTED under UNANCHORED/UNKNOWN/DENY.",
+    "H-M0-086 remains blocked on a genuinely distinct trusted 05 Skeptic authority; H-M0-041 remains BLOCKED.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked, M1 remains unreleased, live remains LOCKED, kill remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Implement the pure initial NEW system-genesis reducer first, with compiled retained-document validation and exact selector/table derivation; version the unresolved legacy-evidence ambiguities before claiming full bridge verification, then continue ordinary groups and closure generation while the public verifier remains disconnected.",
+  "completion_criteria": [
+    "Exact private host transport and supported registry/storage identities are implemented without I/O or authority imports.",
+    "All host/type/resource/table failures return bounded deterministic denial findings rather than exceptions.",
+    "Accepted transport is detached from mutable source aliases and remains DENY-only.",
+    "The public verifier and capital-safety state remain unchanged while STOP-M0-3A-002 stays OPEN."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-099.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-099",
+      "version": 1,
+      "sha256": "bb3729f0da2d41f4730c6f0eac1ef8d70f00b34857995ad6d4f0bc61605fc95c"
+    }
+  ]
+}

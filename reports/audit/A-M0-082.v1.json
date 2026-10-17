@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-082",
+  "version": 1,
+  "occurred_at": "2026-10-17T02:00:06Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_IMAGE_HOST_PREFLIGHT_IMPLEMENTED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-100-runtime-v2-image-preflight.v1.md",
+  "previous_state": "FORMAT_2_BOOTSTRAP_IMAGE_CONTRACT_AND_VALIDATOR_SEED_ACCEPTED_BOUNDED_STOP_OPEN",
+  "new_state": "FORMAT_2_PRIVATE_HOST_PREFLIGHT_AND_SUPPORTED_BOOTSTRAP_IDENTITIES_ACCEPTED_BOUNDED_STOP_OPEN",
+  "reason": "Commit bae50048356167de2243c956ba66617ecf683524 implements the exact private RuntimeImage transport, bounded hostile-input preflight, compiled table profile, and exact supported registry/storage identities. Three read-only engineering reviews accepted only this bounded milestone after missing-slot, mutation-alias, and scan-amplification defects were repaired. STOP-M0-3A-002 remains OPEN for semantic whole-image reduction, source freeze, generated closure/carrier, and the full acceptance matrix.",
+  "evidence_refs": [
+    "reports/H-M0-100-runtime-v2-image-preflight.v1.md",
+    "src/edgelab/runtime_v2_image.py",
+    "src/edgelab/runtime_v2_bootstrap.py",
+    "tests/test_runtime_v2_image.py",
+    "tests/test_runtime_v2_bootstrap.py",
+    "reports/stops/STOP-M0-3A-002.v3.json"
+  ],
+  "code_ref": "bae50048356167de2243c956ba66617ecf683524",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-100",
+  "supersedes": null
+}
