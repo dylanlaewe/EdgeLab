@@ -2,9 +2,10 @@
 
 This module is deliberately disconnected from the public verifier.  It
 validates the presently compiled NEW-genesis inputs and derives selectors and
-all fifteen supplied tables for comparison.  It cannot validate the complete
-dependency-closure shape or identity until the generated closure is frozen and
-compiled, so it never exposes derived identity from an unsupported candidate.
+all fifteen supplied tables for comparison.  It validates the closure's
+compiled shape and self-digest, but cannot establish exact generated closure
+identity until semantic sources are frozen and the release is compiled.  It
+therefore never exposes derived identity from an unsupported candidate.
 """
 from __future__ import annotations
 
@@ -33,7 +34,10 @@ from .runtime_v2_codec import (
     schema_document_digest,
     selector_digest,
     selector_history_digest,
-    verifier_dependency_closure_digest,
+)
+from .runtime_v2_closure import (
+    ClosureValidationError,
+    validate_verifier_dependency_closure,
 )
 from .runtime_v2_genesis import (
     GenesisValidationError,
@@ -221,34 +225,12 @@ def _schema_bundle(image: RuntimeImage, registry: Any, sink: _Sink) -> None:
             sink.add("SCHEMA_DOCUMENT_DIGEST", record.schema_id, "/")
 
 
-def _closure_digest(closure: Any, sink: _Sink) -> str | None:
-    if type(closure) is not dict:
-        sink.add("OBJECT_REQUIRED", "verifier_dependency_closure", "/")
-        return None
-    supplied = closure.get("verifier_dependency_closure_sha256")
-    if (
-        type(supplied) is not str
-        or len(supplied) != 64
-        or any(character not in "0123456789abcdef" for character in supplied)
-    ):
-        sink.add(
-            "CLOSURE_DIGEST_FIELD",
-            "verifier_dependency_closure",
-            "/verifier_dependency_closure_sha256",
-        )
-        return None
+def _closure(raw: bytes, sink: _Sink) -> dict[str, Any] | None:
     try:
-        derived = verifier_dependency_closure_digest(closure)
-    except CanonicalJsonError:
-        sink.add("CLOSURE_VALUE", "verifier_dependency_closure", "/")
+        return validate_verifier_dependency_closure(raw)
+    except ClosureValidationError as error:
+        sink.add(error.code, "verifier_dependency_closure", error.coordinate)
         return None
-    if supplied != derived:
-        sink.add(
-            "CLOSURE_SELF_DIGEST_MISMATCH",
-            "verifier_dependency_closure",
-            "/verifier_dependency_closure_sha256",
-        )
-    return derived
 
 
 def _blob_values(image: RuntimeImage, sink: _Sink) -> dict[str, tuple[Any, str]]:
@@ -354,7 +336,7 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
     image = preflight.image
 
     storage = _parse(image.storage_descriptor, "storage_descriptor", sink)
-    closure = _parse(image.verifier_dependency_closure, "verifier_dependency_closure", sink)
+    closure = _closure(image.verifier_dependency_closure, sink)
     manifest = _parse(image.manifest, "manifest", sink)
     attachment = _parse(image.attachment, "attachment", sink)
     registry = _parse(image.schema_registry, "schema_registry", sink)
@@ -368,7 +350,10 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
         _validate(attachment, "attachment", validate_attachment, sink)
     if manifest is not None:
         _validate(manifest, "manifest", validate_manifest, sink)
-    closure_sha = _closure_digest(closure, sink) if closure is not None else None
+    closure_sha = (
+        closure["verifier_dependency_closure_sha256"]
+        if closure is not None else None
+    )
 
     if sink.result():
         return _invalid(sink)

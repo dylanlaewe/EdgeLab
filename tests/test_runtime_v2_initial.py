@@ -37,6 +37,7 @@ from src.edgelab.runtime_v2_initial import (
     SCHEMA_DOCUMENT_PINS,
     reduce_initial_runtime_image,
 )
+from tests.runtime_v2_closure_fixture import closure_fixture
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -66,16 +67,10 @@ def published(name):
     return json.loads((ROOT / "schemas" / name).read_text(encoding="utf-8"))
 
 
-def self_consistent_uncompiled_closure():
-    value = {"verifier_dependency_closure_sha256": "0" * 64}
-    value["verifier_dependency_closure_sha256"] = verifier_dependency_closure_digest(value)
-    return value
-
-
 def fixture():
     storage = published("m0-3a-runtime-storage.v2.json")
     registry = published("m0-3a-schema-registry.v2.json")
-    closure = self_consistent_uncompiled_closure()
+    closure = closure_fixture()
     closure_sha = closure["verifier_dependency_closure_sha256"]
     attachment = {
         "attachment_schema_version": 2,
@@ -499,6 +494,17 @@ class RuntimeV2InitialTests(unittest.TestCase):
         ))
         self.assertEqual(report.status, "INVALID")
         self.assertIn("CLOSURE_SELF_DIGEST_MISMATCH", self.codes(report))
+
+        closure = json.loads(json.dumps(values["closure"]))
+        closure["deny_only_boundary"]["authorizing_use"] = "ALLOW"
+        closure["verifier_dependency_closure_sha256"] = (
+            verifier_dependency_closure_digest(closure)
+        )
+        report = reduce_initial_runtime_image(replace(
+            image, verifier_dependency_closure=canonical_json(closure),
+        ))
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("CONST", self.codes(report))
 
     def test_untrusted_finding_text_is_bounded(self):
         image, _ = fixture()

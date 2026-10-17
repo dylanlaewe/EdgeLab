@@ -382,6 +382,8 @@ class RuntimeV2ImageTests(unittest.TestCase):
         self.assertTrue(calls.isdisjoint({"open", "exec", "eval", "compile"}))
         public_source = (ROOT / "src" / "edgelab" / "runtime_v2_verifier.py").read_text()
         self.assertNotIn("runtime_v2_image", public_source)
+        self.assertNotIn("runtime_v2_initial", public_source)
+        self.assertNotIn("runtime_v2_closure", public_source)
 
 
 if __name__ == "__main__":

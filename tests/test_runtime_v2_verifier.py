@@ -481,6 +481,7 @@ class RuntimeV2VerifierTests(unittest.TestCase):
             "pathlib", "os", "sqlite3", "subprocess", "socket", "time",
             "datetime", "urllib", "requests", "transactional_scheduler",
             "locked_authority", "authority_binding", "risk_controls",
+            "runtime_v2_initial", "runtime_v2_closure",
         }))
         calls = {node.func.id for node in ast.walk(tree)
                  if isinstance(node, ast.Call) and isinstance(node.func, ast.Name)}
