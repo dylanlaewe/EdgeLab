@@ -29,6 +29,7 @@ FAST_MODULES = (
     "tests.test_orchestration_final",
     "tests.test_runtime_v2_codec",
     "tests.test_runtime_v2_storage_descriptor",
+    "tests.test_runtime_v2_transition",
     "tests.test_runtime_v2_verifier",
     "tests.test_successor_runtime_contract",
     "tests.test_test_tiers",

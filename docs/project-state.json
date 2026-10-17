@@ -17,6 +17,7 @@
     "Versioned runtime/event format 2 is specified with closed envelopes, selectors, manifests, checkpoints, schema registry, legacy archive/projection, one-way migration constraints, and structurally UNKNOWN/DENY authority; no format-2 runtime or cutover exists",
     "Exact format-2 SQLite storage, structural observation, canonical digest codec, and pure descriptor-only verifier boundary are frozen; the verifier can return only INVALID or UNSUPPORTED under UNANCHORED/UNKNOWN/DENY and no format-2 database or writer exists",
     "Exact format-2 retained content schemas, 25-event registry, and deterministic whole-transaction reducer/materialization contract are frozen; the resource-bounded verifier accepts only the exact schema bundle but still rejects nonempty runtime content",
+    "A private pure immutable runtime-v2 transition kernel now covers every task/import/remediation state branch with fail-closed cross-record validation and adversarial fixtures; it is not connected to the public verifier and cannot report whole-image consistency",
     "Historical capture reconstruction/verifier engineering completed with native engineering review; formal Skeptic acceptance remains pending",
     "Revision-aware handoff dependency validation and production repository validation restored",
     "Read-only local laboratory observatory exposes governed project status and the retained MOCK_ONLY walkthrough through a fail-closed loopback interface",
@@ -25,28 +26,30 @@
   "remaining_m0": [
     "Obtain a genuinely distinct trusted 05 Skeptic review and formal disposition of H-M0-080 under H-M0-086",
     "Define and independently review positive currentness and generation invariants plus an authenticated M0.2-to-M0.3A receipt/R-gate; the completed historical binding diagnostic cannot authorize or be reused as a stored receipt",
-    "Implement and independently review the pure in-memory format-2 whole-transaction reducer with adversarial fixtures, without a writer, database, migration, selector cutover, positive consistency result, or authority expansion",
+    "Resolve STOP-M0-3A-002 through a versioned bootstrap/image contract, then extend the private transition kernel into the complete pure in-memory format-2 whole-transaction reducer with adversarial fixtures, without a writer, database, migration, selector cutover, or authority expansion",
     "Resolve reviewed historical fixture-coupling debt through new versioned tests without rewriting the preserved outcome baseline",
     "Provision the trusted external authority boundary and satisfy typed STOP-clearance prerequisites",
     "Resolve statistical, freshness, paper-capital, exposure, correlation, drawdown, and live-gate thresholds before M0 exit"
   ],
   "blockers": [
-    "STOP-M0-001 and STOP-M0-3A-001 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
+    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
     "H-M0-086 is BLOCKED because no genuinely distinct trusted 05 Skeptic authority is provisioned",
     "H-M0-041.v23 remains BLOCKED pending formal Skeptic acceptance and separate Director release",
     "The locked authority and historical binding substrates are diagnostic and DENY-only; positive authoritative currentness and authenticated receipt/R-gate integration remain unresolved",
     "M0.3A engineering completion does not constitute formal acceptance or operational authority"
   ],
-  "next_assignment": "Implement only the pure in-memory format-2 whole-transaction reducer and adversarial fixtures under the frozen content/materialization contract; positive-currentness/R-gate work remains separate and formal H-M0-080 review remains blocked on H-M0-086 authority",
-  "updated_at": "2026-10-17T01:08:31Z",
+  "next_assignment": "Publish and independently review the versioned runtime-v2 bootstrap/image contract and dependency closure required by STOP-M0-3A-002, then continue the pure whole-transaction reducer; keep the public verifier UNSUPPORTED/DENY and do not build a writer or cutover",
+  "updated_at": "2026-10-17T01:17:01Z",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json",
-    "reports/stops/STOP-M0-3A-001.v1.json"
+    "reports/stops/STOP-M0-3A-001.v1.json",
+    "reports/stops/STOP-M0-3A-002.v1.json"
   ],
   "review_ref": "reports/reviews/M0.2-M0.3-final-evidence-plan-rereview.v1.md",
   "open_findings": [
     "STOP-M0-001-CLEARANCE-AUTHORITY",
     "STOP-M0-3A-001-AUTHORITATIVE-RECEIPT-CURRENTNESS-R-GATE",
+    "STOP-M0-3A-002-RUNTIME-V2-BOOTSTRAP-IMAGE-CLOSURE",
     "H-M0-079-HIGH-1-HIGH-2-HIGH-4-HIGH-5-PENDING-FORMAL-DISPOSITION",
     "H-M0-079-HIGH-3-AUTHORITATIVE-CURRENTNESS-OPEN",
     "H-M0-086-FORMAL-SKEPTIC-AUTHORITY"

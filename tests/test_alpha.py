@@ -37,12 +37,12 @@ class AlphaTests(unittest.TestCase):
             self.assertFalse(report["outcome"][field])
         self.assertEqual(
             [stop["id"] for stop in report["controls"]["open_stops"]],
-            ["STOP-M0-001", "STOP-M0-3A-001"],
+            ["STOP-M0-001", "STOP-M0-3A-001", "STOP-M0-3A-002"],
         )
         self.assertEqual(report["controls"]["capital"]["live_deployable_minor"], 0)
         self.assertEqual(report["controls"]["capital"]["live_status"], "LOCKED")
         self.assertEqual(report["controls"]["capital"]["kill_switch"], "ENGAGED")
-        self.assertEqual(len(report["provenance"]), 12)
+        self.assertEqual(len(report["provenance"]), 13)
 
     def test_changed_bound_evidence_fails_closed(self):
         manifest = copy.deepcopy(self.manifest())

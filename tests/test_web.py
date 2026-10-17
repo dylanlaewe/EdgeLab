@@ -75,8 +75,11 @@ class WebTests(unittest.TestCase):
         self.assertTrue(report["capabilities"]["read_only"])
         for field in ("repository_mutation", "scheduler_transition", "paper_execution", "live_execution", "capital_movement"):
             self.assertFalse(report["capabilities"][field])
-        self.assertEqual([item["id"] for item in report["open_stops"]], ["STOP-M0-001", "STOP-M0-3A-001"])
-        self.assertEqual(len(report["source_digests"]), 10)
+        self.assertEqual(
+            [item["id"] for item in report["open_stops"]],
+            ["STOP-M0-001", "STOP-M0-3A-001", "STOP-M0-3A-002"],
+        )
+        self.assertEqual(len(report["source_digests"]), 11)
 
     def test_status_builder_is_read_only_and_source_races_fail_closed(self):
         paths = web.project_status._stop_paths(web.project_status.ROOT)
@@ -162,13 +165,13 @@ class WebTests(unittest.TestCase):
             self.assertFalse(report["outcome"][field])
         self.assertEqual(
             [stop["id"] for stop in report["controls"]["open_stops"]],
-            ["STOP-M0-001", "STOP-M0-3A-001"],
+            ["STOP-M0-001", "STOP-M0-3A-001", "STOP-M0-3A-002"],
         )
         self.assertEqual(report["controls"]["capital"]["conceptual_minor"], 5000)
         self.assertEqual(report["controls"]["capital"]["live_deployable_minor"], 0)
         self.assertEqual(report["controls"]["capital"]["live_status"], "LOCKED")
         self.assertEqual(report["controls"]["capital"]["kill_switch"], "ENGAGED")
-        self.assertEqual(len(report["provenance"]), 12)
+        self.assertEqual(len(report["provenance"]), 13)
 
     def test_page_is_static_safe_and_non_operational(self):
         with running_server() as server:

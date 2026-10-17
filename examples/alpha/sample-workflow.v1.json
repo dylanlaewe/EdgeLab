@@ -54,6 +54,10 @@
     {
       "path": "reports/stops/STOP-M0-3A-001.v1.json",
       "sha256": "82a478a87869aea66217ae5b3462cbc4773eaf469d8439016809d0213099315f"
+    },
+    {
+      "path": "reports/stops/STOP-M0-3A-002.v1.json",
+      "sha256": "8f4bd083175aa771e6e5f53ad186c26c3a2b5330b3bf5880f4a2d230ff623417"
     }
   ],
   "expected_controls": {
@@ -61,7 +65,8 @@
     "historical_operation": "SYNTHETIC_ASSERT",
     "current_open_stop_ids": [
       "STOP-M0-001",
-      "STOP-M0-3A-001"
+      "STOP-M0-3A-001",
+      "STOP-M0-3A-002"
     ],
     "live_status": "LOCKED",
     "kill_switch": "ENGAGED",

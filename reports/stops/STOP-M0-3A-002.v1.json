@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-002",
+  "version": 1,
+  "issued_at": "2026-10-17T01:17:01Z",
+  "issuer": "00 Director",
+  "reason": "Independent pre-implementation audits found that the frozen runtime-v2 whole-image reducer contract does not bind the verifier dependency closure, does not make attachment/manifest/selector schema authority available to a no-I/O reducer, does not close selector/checkpoint/legacy transport semantics, and does not define the REVALIDATE receipt replacement equation. Guessing at any of these coordinates could produce a locally self-consistent but semantically unverified image.",
+  "affected_components": [
+    "runtime-v2 whole-image positive reduction",
+    "genesis and legacy-bridge identity verification",
+    "selector and checkpoint materialization",
+    "legacy bridge evidence and task projection",
+    "REVALIDATE after-state derivation",
+    "future positive local-consistency result vocabulary"
+  ],
+  "evidence_refs": [
+    "docs/M0.3A_REDUCER_BOOTSTRAP_GAPS.v1.md",
+    "docs/M0.3A_CONTENT_REDUCER_CONTRACT.v1.md",
+    "schemas/m0-3a-event-payload.v2.schema.json",
+    "schemas/m0-3a-command-request.v2.schema.json",
+    "schemas/m0-3a-active-runtime-selector.v2.schema.json",
+    "src/edgelab/runtime_v2_verifier.py"
+  ],
+  "severity": "HIGH",
+  "remediation_required": [
+    "Publish and independently review a versioned successor reducer contract that resolves every gap in docs/M0.3A_REDUCER_BOOTSTRAP_GAPS.v1.md.",
+    "Publish one exact verifier dependency-closure artifact and compile its supported digest plus exact attachment, manifest, and selector validators into the no-I/O boundary.",
+    "Close the RuntimeImage transport type, selector bootstrap, checkpoint-copy, bridge, table-snapshot, and work-budget rules.",
+    "Complete the pure reducer and adversarial fixtures for all operations and all 15 derived tables before introducing any positive local-consistency result."
+  ],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}
