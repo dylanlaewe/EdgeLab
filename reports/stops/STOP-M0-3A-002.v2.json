@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-002",
+  "version": 2,
+  "issued_at": "2026-10-17T01:43:33Z",
+  "issuer": "00 Director",
+  "reason": "The runtime-v2 bootstrap and whole-image coordinates are now versioned, but the exact generated verifier dependency closure, pin carrier, registry/descriptor compiled validators, closed RuntimeImage implementation, complete whole-image reducer, and acceptance matrix are not yet implemented. Publishing a provisional closure before reducer source freeze would immediately invalidate its own dependency inventory.",
+  "affected_components": [
+    "runtime-v2 whole-image positive reduction",
+    "generated verifier dependency closure and pin carrier",
+    "genesis and legacy-bridge identity verification",
+    "selector, checkpoint, export, and all-table materialization",
+    "public local-consistency result vocabulary"
+  ],
+  "evidence_refs": [
+    "docs/M0.3A_RUNTIME_IMAGE_CONTRACT.v1.md",
+    "schemas/m0-3a-verifier-dependency-closure.v1.schema.json",
+    "src/edgelab/runtime_v2_bootstrap.py",
+    "src/edgelab/runtime_v2_codec.py",
+    "src/edgelab/runtime_v2_transition.py",
+    "src/edgelab/runtime_v2_verifier.py",
+    "reports/H-M0-099-runtime-v2-bootstrap-image-boundary.v1.md"
+  ],
+  "severity": "HIGH",
+  "remediation_required": [
+    "Implement the exact closed RuntimeImage host transport and the remaining schema-registry/storage-descriptor compiled bootstrap validation under the versioned strict profile.",
+    "Complete and adversarially test the pure whole-image reducer for both genesis kinds, every transaction grammar, typed reachability, selectors, checkpoints, exports, and all 15 tables while the public verifier remains disconnected.",
+    "After semantic source freeze, deterministically generate the exact closure artifact and _runtime_v2_release.py carrier, prove regeneration and raw/domain pin derivation, and compile the supported closure bytes and digest into the no-I/O boundary.",
+    "Pass every case in the M0.3A runtime-image acceptance matrix and obtain independent acceptance before introducing a separately versioned LOCALLY_CONSISTENT_DENY_ONLY result."
+  ],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}

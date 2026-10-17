@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-081",
+  "version": 1,
+  "occurred_at": "2026-10-17T01:43:33Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_BOOTSTRAP_IMAGE_BOUNDARY_VERSIONED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-099-runtime-v2-bootstrap-image-boundary.v1.md",
+  "previous_state": "FORMAT_2_PRIVATE_TRANSITION_KERNEL_IMPLEMENTED_WHOLE_IMAGE_BLOCKED",
+  "new_state": "FORMAT_2_BOOTSTRAP_IMAGE_CONTRACT_AND_VALIDATOR_SEED_ACCEPTED_BOUNDED_STOP_OPEN",
+  "reason": "Commit 069241de5ffd19dd54a16f0a89f75f4edd330b04 closes the runtime-image specification gaps, adds a closed dependency-closure schema/digest primitive, and implements three pure strict bootstrap validators. Three engineering rereviews accepted only this bounded foundation. STOP-M0-3A-002 remains OPEN until source freeze, generated closure/carrier, remaining validators, complete whole-image reduction, and independent acceptance.",
+  "evidence_refs": [
+    "reports/H-M0-099-runtime-v2-bootstrap-image-boundary.v1.md",
+    "docs/M0.3A_RUNTIME_IMAGE_CONTRACT.v1.md",
+    "schemas/m0-3a-verifier-dependency-closure.v1.schema.json",
+    "src/edgelab/runtime_v2_bootstrap.py",
+    "src/edgelab/runtime_v2_codec.py",
+    "tests/test_runtime_v2_bootstrap.py",
+    "tests/test_runtime_v2_codec.py",
+    "reports/stops/STOP-M0-3A-002.v2.json"
+  ],
+  "code_ref": "069241de5ffd19dd54a16f0a89f75f4edd330b04",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-099",
+  "supersedes": null
+}

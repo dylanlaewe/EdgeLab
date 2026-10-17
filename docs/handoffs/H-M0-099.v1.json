@@ -1,0 +1,76 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-099",
+  "version": 1,
+  "created_at": "2026-10-17T01:43:33Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Publish and independently review the versioned runtime-v2 bootstrap/image contract and dependency-closure mechanism required before complete pure whole-image reduction, without adding a writer, cutover, or authority path.",
+  "work_done": "Published the exact RuntimeImage/bootstrap successor contract, closed dependency-closure record schema and digest domain, and pure strict attachment/manifest/selector validators. Repaired carrier cross-binding and JSON Schema equivalence overclaims found during review. Three delegated final rereviews accepted the bounded milestone. Versioned STOP-M0-3A-002 remains OPEN for the generated closure, remaining validators, complete reducer, and full acceptance matrix.",
+  "evidence_refs": [
+    "reports/H-M0-099-runtime-v2-bootstrap-image-boundary.v1.md",
+    "reports/audit/A-M0-081.v1.json",
+    "docs/M0.3A_RUNTIME_IMAGE_CONTRACT.v1.md",
+    "schemas/m0-3a-verifier-dependency-closure.v1.schema.json",
+    "src/edgelab/runtime_v2_bootstrap.py",
+    "src/edgelab/runtime_v2_codec.py",
+    "tests/test_runtime_v2_bootstrap.py",
+    "tests/test_runtime_v2_codec.py",
+    "reports/stops/STOP-M0-3A-002.v2.json",
+    "src/edgelab/runtime_v2_verifier.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_RUNTIME_IMAGE_CONTRACT.v1.md",
+    "schemas/m0-3a-verifier-dependency-closure.v1.schema.json",
+    "src/edgelab/runtime_v2_bootstrap.py",
+    "src/edgelab/runtime_v2_codec.py",
+    "tests/test_runtime_v2_bootstrap.py",
+    "tests/test_runtime_v2_codec.py",
+    "tools/run_test_tier.py",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py",
+    "reports/stops/STOP-M0-3A-002.v2.json",
+    "reports/H-M0-099-runtime-v2-bootstrap-image-boundary.v1.md",
+    "reports/audit/A-M0-081.v1.json",
+    "docs/handoffs/H-M0-099.v1.json",
+    "docs/project-state.json"
+  ],
+  "tests_run": [
+    "Focused bootstrap and dependency-closure codec suite: 32 tests passed.",
+    "Final fast tier: 224 tests passed across 13 isolated modules using .venv/bin/python.",
+    "Three independent engineering rereviews returned ACCEPT BOUNDED MILESTONE after remediation.",
+    "Closure schema Draft 2020-12 meta-validation and mutation cases passed.",
+    "Production validator before evidence publication: 356 records and published history validated; M0 capital remained LOCKED and no approval was granted.",
+    "Production validator after evidence publication: 359 records and published history validated with the same locked and non-authorizing result.",
+    "Python compilation checks reported by rereview and git diff whitespace checks passed."
+  ],
+  "open_questions": [
+    "Can the next pure reducer slice deterministically validate system genesis and legacy bridge, build typed blob reachability, and derive the initial 15-table image without connecting to the public verifier?",
+    "After the reducer source graph is complete, does deterministic closure generation reproduce one exact artifact and pin carrier with no undeclared imports, byte aliases, or raw/domain digest swaps?",
+    "Can every checkpoint/export cut and final materialization remain within the independent 1 GiB root-work budget under adversarial maximum inputs?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v2 remains OPEN pending the generated closure/carrier, remaining two compiled validators, closed RuntimeImage implementation, complete whole-image reducer, full acceptance matrix, and independent acceptance.",
+    "The public verifier still accepts no nonempty runtime image and can return only INVALID or UNSUPPORTED under UNANCHORED/UNKNOWN/DENY.",
+    "H-M0-086 remains blocked on a genuinely distinct trusted 05 Skeptic authority; H-M0-041 remains BLOCKED.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked, M1 remains unreleased, live remains LOCKED, kill remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Implement the pure system-genesis/legacy-bridge and closed RuntimeImage validation slices, then complete event/blob/table reduction; freeze semantic sources only after the whole reducer is complete, generate the exact closure/carrier, and run the full A-J acceptance matrix before any public positive result.",
+  "completion_criteria": [
+    "The successor contract closes every gap formerly listed in M0.3A_REDUCER_BOOTSTRAP_GAPS without claiming implementation completion.",
+    "The closure record shape and digest domain are closed, acyclic, and distinguish raw from domain-separated pins.",
+    "The strict three-document bootstrap validator seed is pure, fail-closed, and explicitly non-authorizing.",
+    "The public verifier and project safety state remain unchanged while STOP-M0-3A-002 stays OPEN."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-098.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-098",
+      "version": 1,
+      "sha256": "47d86a6b063a9f5cf3b87c44a78df4c3e48151da0b232620fbcddf4ecd444168"
+    }
+  ]
+}
