@@ -13,11 +13,22 @@ from src.edgelab.runtime_v2_bootstrap import (
     BootstrapValidationError,
     RUNTIME_ATTACHMENT_SCHEMA_SHA256,
     RUNTIME_MANIFEST_SCHEMA_SHA256,
+    SCHEMA_REGISTRY_SCHEMA_SHA256,
+    STORAGE_DESCRIPTOR_SCHEMA_SHA256,
+    SUPPORTED_SCHEMA_REGISTRY_SHA256,
+    SUPPORTED_STORAGE_DESCRIPTOR_SHA256,
     validate_attachment,
     validate_manifest,
     validate_selector,
+    validate_supported_schema_registry,
+    validate_supported_storage_descriptor,
 )
-from src.edgelab.runtime_v2_codec import canonical_json, parse_canonical_json
+from src.edgelab.runtime_v2_codec import (
+    canonical_json,
+    parse_canonical_json,
+    schema_registry_digest,
+    storage_schema_digest,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -121,6 +132,10 @@ def selector_fixture(generation=0):
     })
 
 
+def published_json(name):
+    return json.loads((ROOT / "schemas" / name).read_text(encoding="utf-8"))
+
+
 class RuntimeV2BootstrapTests(unittest.TestCase):
     def assert_invalid(self, validator, value):
         with self.assertRaises(BootstrapValidationError):
@@ -147,11 +162,82 @@ class RuntimeV2BootstrapTests(unittest.TestCase):
                 RUNTIME_MANIFEST_SCHEMA_SHA256,
             "m0-3a-active-runtime-selector.v2.schema.json":
                 ACTIVE_RUNTIME_SELECTOR_SCHEMA_SHA256,
+            "m0-3a-schema-registry.v2.schema.json":
+                SCHEMA_REGISTRY_SCHEMA_SHA256,
+            "m0-3a-runtime-storage-descriptor.v2.schema.json":
+                STORAGE_DESCRIPTOR_SCHEMA_SHA256,
         }
         for name, digest in expected.items():
             with self.subTest(name=name):
                 raw = (ROOT / "schemas" / name).read_bytes()
                 self.assertEqual(hashlib.sha256(raw).hexdigest(), digest)
+
+    def test_supported_singleton_identities_use_canonical_domain_digests(self):
+        registry = published_json("m0-3a-schema-registry.v2.json")
+        descriptor = published_json("m0-3a-runtime-storage.v2.json")
+        self.assertEqual(
+            schema_registry_digest(registry),
+            SUPPORTED_SCHEMA_REGISTRY_SHA256,
+        )
+        self.assertEqual(
+            storage_schema_digest(descriptor),
+            SUPPORTED_STORAGE_DESCRIPTOR_SHA256,
+        )
+        self.assertIsNone(validate_supported_schema_registry(registry))
+        self.assertIsNone(validate_supported_storage_descriptor(descriptor))
+
+        # Object member order is not a distinct canonical JSON identity.
+        self.assertIsNone(validate_supported_schema_registry(
+            dict(reversed(tuple(registry.items())))
+        ))
+        self.assertIsNone(validate_supported_storage_descriptor(
+            dict(reversed(tuple(descriptor.items())))
+        ))
+
+    def test_supported_singleton_identity_rejects_representative_mutations(self):
+        registry_mutations = (
+            lambda value: value.update(extra=True),
+            lambda value: value["documents"].reverse(),
+            lambda value: value["event_bindings"][0].update(stream="RUNTIME"),
+        )
+        descriptor_mutations = (
+            lambda value: value.update(extra=True),
+            lambda value: value["tables"][0].update(
+                sql=value["tables"][0]["sql"] + " "
+            ),
+            lambda value: value["indexes"][0].update(
+                unique=not value["indexes"][0]["unique"]
+            ),
+        )
+        for mutate in registry_mutations:
+            value = published_json("m0-3a-schema-registry.v2.json")
+            mutate(value)
+            with self.subTest(kind="registry", mutate=mutate):
+                self.assert_invalid(validate_supported_schema_registry, value)
+        for mutate in descriptor_mutations:
+            value = published_json("m0-3a-runtime-storage.v2.json")
+            mutate(value)
+            with self.subTest(kind="descriptor", mutate=mutate):
+                self.assert_invalid(validate_supported_storage_descriptor, value)
+
+    def test_supported_singleton_identity_rejects_wrong_domains_and_host_types(self):
+        registry = published_json("m0-3a-schema-registry.v2.json")
+        descriptor = published_json("m0-3a-runtime-storage.v2.json")
+        self.assertNotEqual(
+            storage_schema_digest(registry), SUPPORTED_SCHEMA_REGISTRY_SHA256
+        )
+        self.assertNotEqual(
+            schema_registry_digest(descriptor), SUPPORTED_STORAGE_DESCRIPTOR_SHA256
+        )
+        self.assert_invalid(validate_supported_schema_registry, descriptor)
+        self.assert_invalid(validate_supported_storage_descriptor, registry)
+        for validator in (
+            validate_supported_schema_registry,
+            validate_supported_storage_descriptor,
+        ):
+            for value in (None, [], b"{}", {"unsupported": 1.5}):
+                with self.subTest(validator=validator.__name__, value=value):
+                    self.assert_invalid(validator, value)
 
     def test_strict_profile_is_explicit_and_composes_after_canonical_parse(self):
         self.assertEqual(
@@ -341,7 +427,10 @@ class RuntimeV2BootstrapTests(unittest.TestCase):
                 imported.update(alias.name for alias in node.names)
             elif isinstance(node, ast.ImportFrom) and node.module is not None:
                 imported.add(node.module)
-        self.assertEqual(imported, {"__future__", "re", "typing"})
+        self.assertEqual(
+            imported,
+            {"__future__", "re", "typing", "runtime_v2_codec"},
+        )
         calls = {
             node.func.id for node in ast.walk(tree)
             if isinstance(node, ast.Call) and isinstance(node.func, ast.Name)

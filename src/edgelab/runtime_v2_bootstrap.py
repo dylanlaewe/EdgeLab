@@ -1,6 +1,6 @@
 """Pure, non-authorizing validators for runtime-v2 bootstrap documents.
 
-The constants below pin the raw bytes of the three published JSON Schema
+The constants below pin the raw bytes of the five published JSON Schema
 files.  The schema bytes themselves are not compiled into this module.  These
 validators apply the versioned conservative bootstrap profile to
 already-parsed canonical JSON without reading ambient files or consulting
@@ -17,6 +17,12 @@ from __future__ import annotations
 import re
 from typing import Any
 
+from .runtime_v2_codec import (
+    CanonicalJsonError,
+    schema_registry_digest,
+    storage_schema_digest,
+)
+
 
 RUNTIME_ATTACHMENT_SCHEMA_SHA256 = (
     "0623e1706d3a18a2b06043c72f444bd8bad9d798248ff62c83a901a36c1dbb9c"
@@ -26,6 +32,18 @@ RUNTIME_MANIFEST_SCHEMA_SHA256 = (
 )
 ACTIVE_RUNTIME_SELECTOR_SCHEMA_SHA256 = (
     "5398ccf55ce90159d9da34f9a29863a856f1e6e38fdb9ab498b8bd71bb5badf9"
+)
+SCHEMA_REGISTRY_SCHEMA_SHA256 = (
+    "b31a025add8419bfc1db2bee579d2511a3e93c59dcea47cd832655affc03d630"
+)
+STORAGE_DESCRIPTOR_SCHEMA_SHA256 = (
+    "cb54877057a81440fa8510111a984ba2cbd528b48842066fb49a3a92cd7a6193"
+)
+SUPPORTED_SCHEMA_REGISTRY_SHA256 = (
+    "6b68797766e10c5ff8260d9d7b6cb31759466765287e7a23c377bd781a97bfd6"
+)
+SUPPORTED_STORAGE_DESCRIPTOR_SHA256 = (
+    "8a588ce0bd23a10ea984fa656b2f172dcc4b0ede501c501d414a662d17c60a63"
 )
 BOOTSTRAP_VALIDATION_PROFILE = "EDGELAB_RUNTIME_V2_BOOTSTRAP_STRICT_V1"
 
@@ -315,13 +333,57 @@ def validate_selector(value: Any) -> None:
         _const(selector[name], expected_value, f"/{name}")
 
 
+def validate_supported_schema_registry(value: Any) -> None:
+    """Validate the one supported runtime-v2 schema-registry identity.
+
+    This is deliberately a singleton identity language, not a general-purpose
+    validator for arbitrary schema-registry-shaped objects.  The caller must
+    first establish canonical transport bytes.  This pure check then derives
+    the canonical domain-separated registry digest and accepts only the exact
+    compiled supported identity.  It grants no authenticity or authority.
+    """
+    if type(value) is not dict:
+        _fail("OBJECT_REQUIRED", "/")
+    try:
+        observed = schema_registry_digest(value)
+    except CanonicalJsonError:
+        _fail("CANONICAL_VALUE", "/")
+    if observed != SUPPORTED_SCHEMA_REGISTRY_SHA256:
+        _fail("UNSUPPORTED_IDENTITY", "/")
+
+
+def validate_supported_storage_descriptor(value: Any) -> None:
+    """Validate the one supported runtime-v2 storage-descriptor identity.
+
+    This is deliberately a singleton identity language, not a general-purpose
+    validator for arbitrary storage-descriptor-shaped objects.  The caller
+    must first establish canonical transport bytes.  This pure check derives
+    the canonical domain-separated storage-schema digest and accepts only the
+    exact compiled supported identity.  It grants no consistency or authority.
+    """
+    if type(value) is not dict:
+        _fail("OBJECT_REQUIRED", "/")
+    try:
+        observed = storage_schema_digest(value)
+    except CanonicalJsonError:
+        _fail("CANONICAL_VALUE", "/")
+    if observed != SUPPORTED_STORAGE_DESCRIPTOR_SHA256:
+        _fail("UNSUPPORTED_IDENTITY", "/")
+
+
 __all__ = (
     "ACTIVE_RUNTIME_SELECTOR_SCHEMA_SHA256",
     "BOOTSTRAP_VALIDATION_PROFILE",
     "BootstrapValidationError",
     "RUNTIME_ATTACHMENT_SCHEMA_SHA256",
     "RUNTIME_MANIFEST_SCHEMA_SHA256",
+    "SCHEMA_REGISTRY_SCHEMA_SHA256",
+    "STORAGE_DESCRIPTOR_SCHEMA_SHA256",
+    "SUPPORTED_SCHEMA_REGISTRY_SHA256",
+    "SUPPORTED_STORAGE_DESCRIPTOR_SHA256",
     "validate_attachment",
     "validate_manifest",
     "validate_selector",
+    "validate_supported_schema_registry",
+    "validate_supported_storage_descriptor",
 )
