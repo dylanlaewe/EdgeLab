@@ -1,0 +1,88 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-097",
+  "version": 1,
+  "created_at": "2026-10-17T01:08:31Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Publish the exact retained runtime-format-2 content schemas and registry plus deterministic pure reducer/materialization equations, without implementing a reducer, writer, database, migration, selector cutover, or authority expansion.",
+  "work_done": "Published nine pinned retained schema documents, a reproducible 25-event registry, new digest domains, a resource-bounded local-only bundle verifier, and an exact whole-transaction reducer/materialization contract. Three delegated read-only reviewers found and confirmed repair of content, reducer, and hostile-schema gaps; all final reviews returned no findings.",
+  "evidence_refs": [
+    "reports/H-M0-097-retained-content-and-reducer-contract.v1.md",
+    "reports/audit/A-M0-079.v1.json",
+    "docs/M0.3A_CONTENT_REDUCER_CONTRACT.v1.md",
+    "docs/M0.3A_SUCCESSOR_RUNTIME_FORMAT.v1.md",
+    "schemas/m0-3a-schema-registry.v2.json",
+    "schemas/m0-3a-command-request.v2.schema.json",
+    "schemas/m0-3a-event-payload.v2.schema.json",
+    "schemas/m0-3a-response-projection.v2.schema.json",
+    "schemas/m0-3a-task-state.v2.schema.json",
+    "schemas/m0-3a-runtime-storage.v2.json",
+    "src/edgelab/runtime_v2_codec.py",
+    "src/edgelab/runtime_v2_verifier.py",
+    "tests/test_successor_runtime_contract.py",
+    "tests/test_runtime_v2_codec.py",
+    "tests/test_runtime_v2_storage_descriptor.py",
+    "tests/test_runtime_v2_verifier.py",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/M0.3A_CONTENT_REDUCER_CONTRACT.v1.md",
+    "docs/M0.3A_SUCCESSOR_RUNTIME_FORMAT.v1.md",
+    "schemas/m0-3a-schema-registry.v2.json",
+    "schemas/m0-3a-command-request.v2.schema.json",
+    "schemas/m0-3a-event-payload.v2.schema.json",
+    "schemas/m0-3a-response-projection.v2.schema.json",
+    "schemas/m0-3a-task-state.v2.schema.json",
+    "schemas/m0-3a-runtime-attachment.v2.schema.json",
+    "schemas/m0-3a-runtime-export.v2.schema.json",
+    "schemas/m0-3a-runtime-storage.v2.json",
+    "schemas/m0-3a-runtime-storage-descriptor.v2.schema.json",
+    "src/edgelab/runtime_v2_codec.py",
+    "src/edgelab/runtime_v2_verifier.py",
+    "tests/test_successor_runtime_contract.py",
+    "tests/test_runtime_v2_codec.py",
+    "tests/test_runtime_v2_verifier.py",
+    "tools/build_runtime_v2_schema_registry.py",
+    "docs/project-state.json",
+    "reports/H-M0-097-retained-content-and-reducer-contract.v1.md",
+    "reports/audit/A-M0-079.v1.json",
+    "docs/handoffs/H-M0-097.v1.json"
+  ],
+  "tests_run": [
+    "Focused successor content, codec, verifier, and storage suite: 73 tests passed.",
+    "Final fast tier: 174 tests passed across 11 isolated modules.",
+    "Three independent read-only engineering rereviews returned no findings after remediation.",
+    "Production validator before evidence publication: 351 records and published history validated; M0 capital remained LOCKED and no scientific or operational approval was granted.",
+    "Production validator after evidence publication: 353 records and published history validated with the same locked and non-authorizing result.",
+    "Python compilation, registry regeneration, exact digest-pin reproduction, descriptor structural reproduction, and whitespace checks passed."
+  ],
+  "open_questions": [
+    "Can a pure in-memory reducer independently reproduce every materialized table and reject all malformed transaction/state cases under the frozen contract?",
+    "What future external anchor and separately reviewed positive-currentness contract can establish authority outside local mutable state?",
+    "When the pure reducer is complete, what separately versioned result vocabulary can represent local consistency without implying authenticity or authorization?"
+  ],
+  "blockers": [
+    "The pure reducer is unimplemented and the verifier deliberately rejects nonempty events/blobs; no format-2 runtime, writer, database, migration, or selector cutover exists.",
+    "H-M0-086 remains blocked on a genuinely distinct trusted 05 Skeptic authority; H-M0-041 remains BLOCKED.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked, M1 remains unreleased, live remains LOCKED, kill remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Implement only the pure in-memory whole-transaction reducer and adversarial fixtures under the frozen contract; do not build a writer, database, migration, selector cutover, or positive authority path.",
+  "completion_criteria": [
+    "The retained schema registry is exact, reproducible, locally resolved, and resource bounded.",
+    "Every operation, event, task transition, table row, blob edge, snapshot, selector, and import/remediation invariant has a deterministic equation.",
+    "The current verifier cannot represent consistency or authority and accepts no nonempty runtime image.",
+    "Independent content, reducer, and schema-threat reviews have no remaining finding in the bounded freeze scope."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-096.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-096",
+      "version": 1,
+      "sha256": "ab45dd7ede606aa4db9f4a7a5e4c46c1c6cc1e54084de7776fd049cd9b09ab00"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-079",
+  "version": 1,
+  "occurred_at": "2026-10-17T01:08:31Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_SUCCESSOR_RETAINED_CONTENT_AND_REDUCER_CONTRACT_FROZEN",
+  "subject_ref": "reports/H-M0-097-retained-content-and-reducer-contract.v1.md",
+  "previous_state": "FORMAT_2_STORAGE_AND_PURE_DENY_ONLY_VERIFIER_FROZEN_NOT_ACTIVE",
+  "new_state": "FORMAT_2_RETAINED_CONTENT_AND_REDUCER_CONTRACT_FROZEN_NOT_ACTIVE",
+  "reason": "Commit 4da5aa6 publishes the exact retained schema bundle and deterministic pure reducer/materialization contract while keeping nonempty runtime content unsupported. It creates no reducer, writer, database, migration, cutover, currentness, STOP clearance, execution, or capital authority.",
+  "evidence_refs": [
+    "reports/H-M0-097-retained-content-and-reducer-contract.v1.md",
+    "docs/M0.3A_CONTENT_REDUCER_CONTRACT.v1.md",
+    "schemas/m0-3a-schema-registry.v2.json",
+    "schemas/m0-3a-command-request.v2.schema.json",
+    "schemas/m0-3a-event-payload.v2.schema.json",
+    "schemas/m0-3a-response-projection.v2.schema.json",
+    "schemas/m0-3a-task-state.v2.schema.json",
+    "src/edgelab/runtime_v2_codec.py",
+    "src/edgelab/runtime_v2_verifier.py",
+    "tests/test_successor_runtime_contract.py",
+    "tests/test_runtime_v2_verifier.py"
+  ],
+  "code_ref": "4da5aa6d830a51b7efedf791fab1476e40b3ce0d",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-097",
+  "supersedes": null
+}
