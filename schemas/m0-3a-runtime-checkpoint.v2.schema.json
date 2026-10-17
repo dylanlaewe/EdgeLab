@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:m0-3a-runtime-checkpoint:2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "runtime_format_version", "runtime_id", "chain_id",
+    "checkpoint_sequence", "through_global_sequence", "head_event_id",
+    "head_event_sha256", "manifest_sha256", "prior_checkpoint_sha256",
+    "roots", "checkpoint_sha256", "anchor_status", "currentness_status",
+    "authorizing_use", "created_at"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "runtime_format_version": {"const": 2},
+    "runtime_id": {"type": "string", "minLength": 1},
+    "chain_id": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "checkpoint_sequence": {"type": "integer", "minimum": 0},
+    "through_global_sequence": {"type": "integer", "minimum": 0},
+    "head_event_id": {"type": "string", "minLength": 1},
+    "head_event_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "prior_checkpoint_sha256": {
+      "oneOf": [
+        {"type": "null"},
+        {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      ]
+    },
+    "roots": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "events", "metadata", "tasks", "attempts", "claims", "reviews",
+        "remediation_links", "idempotency", "seals", "migrations",
+        "snapshots", "blobs", "schema_registry", "legacy_archive"
+      ],
+      "properties": {
+        "events": {"$ref": "#/$defs/digest"},
+        "metadata": {"$ref": "#/$defs/digest"},
+        "tasks": {"$ref": "#/$defs/digest"},
+        "attempts": {"$ref": "#/$defs/digest"},
+        "claims": {"$ref": "#/$defs/digest"},
+        "reviews": {"$ref": "#/$defs/digest"},
+        "remediation_links": {"$ref": "#/$defs/digest"},
+        "idempotency": {"$ref": "#/$defs/digest"},
+        "seals": {"$ref": "#/$defs/digest"},
+        "migrations": {"$ref": "#/$defs/digest"},
+        "snapshots": {"$ref": "#/$defs/digest"},
+        "blobs": {"$ref": "#/$defs/digest"},
+        "schema_registry": {"$ref": "#/$defs/digest"}
+        ,"legacy_archive": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "#/$defs/digest"}
+          ]
+        }
+      }
+    },
+    "checkpoint_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "anchor_status": {"const": "LOCAL_UNANCHORED"},
+    "currentness_status": {"const": "UNKNOWN"},
+    "authorizing_use": {"const": "DENY"},
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    }
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"checkpoint_sequence": {"const": 0}}, "required": ["checkpoint_sequence"]},
+      "then": {"properties": {"prior_checkpoint_sha256": {"type": "null"}}}
+    },
+    {
+      "if": {"properties": {"checkpoint_sequence": {"minimum": 1}}, "required": ["checkpoint_sequence"]},
+      "then": {"properties": {"prior_checkpoint_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}}
+    }
+  ]
+}

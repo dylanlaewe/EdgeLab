@@ -27,6 +27,7 @@ FAST_MODULES = (
     "tests.test_foundation",
     "tests.test_orchestration",
     "tests.test_orchestration_final",
+    "tests.test_successor_runtime_contract",
     "tests.test_test_tiers",
     "tests.test_transactional_scheduler",
     "tests.test_web",

@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:m0-3a-active-runtime-selector:2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "selector_format_version", "selector_generation",
+    "active_runtime_format_version", "active_runtime_id",
+    "active_database_path", "active_attachment_path", "active_manifest_path",
+    "active_manifest_sha256", "latest_v2_checkpoint_sha256",
+    "selector_history_path", "prior_selector_path", "prior_selector_sha256",
+    "cutover_state", "currentness_status",
+    "authorizing_use", "written_at", "selector_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "selector_format_version": {"const": 1},
+    "selector_generation": {"type": "integer", "minimum": 0},
+    "active_runtime_format_version": {"enum": [1, 2]},
+    "active_runtime_id": {"type": "string", "minLength": 1},
+    "active_database_path": {"enum": ["runtime.sqlite", "runtime.v2.sqlite"]},
+    "active_attachment_path": {"enum": ["attachment.json", "attachment.v2.json"]},
+    "active_manifest_path": {
+      "oneOf": [{"type": "null"}, {"const": "runtime.v2.manifest.json"}]
+    },
+    "active_manifest_sha256": {
+      "oneOf": [{"type": "null"}, {"type": "string", "pattern": "^[0-9a-f]{64}$"}]
+    },
+    "latest_v2_checkpoint_sha256": {
+      "oneOf": [{"type": "null"}, {"type": "string", "pattern": "^[0-9a-f]{64}$"}]
+    },
+    "selector_history_path": {"type": "string", "pattern": "^selectors/[0-9]{20}\\.json$"},
+    "prior_selector_path": {
+      "oneOf": [
+        {"type": "null"},
+        {"type": "string", "pattern": "^selectors/[0-9]{20}\\.json$"}
+      ]
+    },
+    "prior_selector_sha256": {
+      "oneOf": [{"type": "null"}, {"type": "string", "pattern": "^[0-9a-f]{64}$"}]
+    },
+    "cutover_state": {"enum": ["V1_ACTIVE", "V2_ACTIVE"]},
+    "currentness_status": {"const": "UNKNOWN"},
+    "authorizing_use": {"const": "DENY"},
+    "written_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "selector_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"selector_generation": {"const": 0}}, "required": ["selector_generation"]},
+      "then": {
+        "properties": {
+          "selector_history_path": {"const": "selectors/00000000000000000000.json"},
+          "prior_selector_path": {"type": "null"},
+          "prior_selector_sha256": {"type": "null"},
+          "active_runtime_format_version": {"const": 1}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"selector_generation": {"minimum": 1}}, "required": ["selector_generation"]},
+      "then": {
+        "properties": {
+          "prior_selector_path": {"type": "string", "pattern": "^selectors/[0-9]{20}\\.json$"},
+          "prior_selector_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "active_runtime_format_version": {"const": 2}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"active_runtime_format_version": {"const": 1}}, "required": ["active_runtime_format_version"]},
+      "then": {
+        "properties": {
+          "active_database_path": {"const": "runtime.sqlite"},
+          "active_attachment_path": {"const": "attachment.json"},
+          "active_manifest_path": {"type": "null"},
+          "active_manifest_sha256": {"type": "null"},
+          "latest_v2_checkpoint_sha256": {"type": "null"},
+          "cutover_state": {"const": "V1_ACTIVE"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"active_runtime_format_version": {"const": 2}}, "required": ["active_runtime_format_version"]},
+      "then": {
+        "properties": {
+          "active_database_path": {"const": "runtime.v2.sqlite"},
+          "active_attachment_path": {"const": "attachment.v2.json"},
+          "active_manifest_path": {"const": "runtime.v2.manifest.json"},
+          "active_manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "cutover_state": {"const": "V2_ACTIVE"}
+        }
+      }
+    }
+  ]
+}

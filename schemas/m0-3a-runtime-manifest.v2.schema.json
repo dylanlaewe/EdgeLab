@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:m0-3a-runtime-manifest:2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "runtime_format_version", "event_format_version",
+    "runtime_id", "chain_id", "canonicalization", "digest_algorithm",
+    "sqlite_application_id", "sqlite_user_version", "storage_schema_sha256",
+    "schema_registry_sha256", "genesis_event_id", "genesis_event_sha256",
+    "attachment_sha256", "source_kind", "legacy_bridge",
+    "authority_binding", "anchor_status", "currentness_status",
+    "authorizing_use", "created_at"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "runtime_format_version": {"const": 2},
+    "event_format_version": {"const": 2},
+    "runtime_id": {"type": "string", "minLength": 1},
+    "chain_id": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "canonicalization": {"const": "EDGELAB_CANONICAL_JSON_V1"},
+    "digest_algorithm": {"const": "SHA-256"},
+    "sqlite_application_id": {"const": 1162102578},
+    "sqlite_user_version": {"const": 2},
+    "storage_schema_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "schema_registry_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "genesis_event_id": {"type": "string", "minLength": 1},
+    "genesis_event_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "attachment_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_kind": {"enum": ["NEW", "V1_MIGRATION"]},
+    "legacy_bridge": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_runtime_format_version", "source_assurance",
+            "source_runtime_id", "source_attachment_sha256",
+            "source_storage_inventory_sha256", "source_backup_sha256",
+            "source_global_head_id", "source_global_head_sha256",
+            "source_row_archive_sha256", "source_projection_sha256",
+            "migration_plan_sha256", "frozen_verifier_commit",
+            "frozen_verifier_closure_sha256", "source_repository_bundle_sha256"
+          ],
+          "properties": {
+            "source_runtime_format_version": {"const": 1},
+            "source_assurance": {"const": "V16_BOUNDED_REPLAY_ONLY"},
+            "source_runtime_id": {"type": "string", "minLength": 1},
+            "source_attachment_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+            "source_storage_inventory_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+            "source_backup_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+            "source_global_head_id": {"type": "string", "minLength": 1},
+            "source_global_head_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+            "source_row_archive_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+            "source_projection_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+            "migration_plan_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+            "frozen_verifier_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+            "frozen_verifier_closure_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+            "source_repository_bundle_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+          }
+        }
+      ]
+    },
+    "authority_binding": {"type": "null"},
+    "anchor_status": {"const": "UNANCHORED"},
+    "currentness_status": {"const": "UNKNOWN"},
+    "authorizing_use": {"const": "DENY"},
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"source_kind": {"const": "NEW"}}, "required": ["source_kind"]},
+      "then": {"properties": {"legacy_bridge": {"type": "null"}}}
+    },
+    {
+      "if": {"properties": {"source_kind": {"const": "V1_MIGRATION"}}, "required": ["source_kind"]},
+      "then": {"properties": {"legacy_bridge": {"type": "object"}}}
+    }
+  ]
+}

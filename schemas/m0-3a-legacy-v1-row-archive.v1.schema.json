@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:m0-3a-legacy-v1-row-archive:1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "archive_format_version", "attachment_bytes_base64",
+    "storage_inventory", "tables"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "archive_format_version": {"const": 1},
+    "attachment_bytes_base64": {"$ref": "#/$defs/base64"},
+    "storage_inventory": {"$ref": "#/$defs/storageInventory"},
+    "tables": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "meta", "seals", "tasks", "attempts", "claims", "reviews",
+        "idempotency", "runtime_events", "task_events", "remediation_links",
+        "migration_ledger", "snapshots"
+      ],
+      "properties": {
+        "meta": {"type": "array", "items": {"$ref": "#/$defs/metaRow"}},
+        "seals": {"type": "array", "items": {"$ref": "#/$defs/sealsRow"}},
+        "tasks": {"type": "array", "items": {"$ref": "#/$defs/tasksRow"}},
+        "attempts": {"type": "array", "items": {"$ref": "#/$defs/attemptsRow"}},
+        "claims": {"type": "array", "items": {"$ref": "#/$defs/claimsRow"}},
+        "reviews": {"type": "array", "items": {"$ref": "#/$defs/reviewsRow"}},
+        "idempotency": {"type": "array", "items": {"$ref": "#/$defs/idempotencyRow"}},
+        "runtime_events": {"type": "array", "items": {"$ref": "#/$defs/runtimeEventsRow"}},
+        "task_events": {"type": "array", "items": {"$ref": "#/$defs/taskEventsRow"}},
+        "remediation_links": {"type": "array", "items": {"$ref": "#/$defs/remediationLinksRow"}},
+        "migration_ledger": {"type": "array", "items": {"$ref": "#/$defs/migrationLedgerRow"}},
+        "snapshots": {"type": "array", "items": {"$ref": "#/$defs/snapshotsRow"}}
+      }
+    }
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "base64": {
+      "type": "string",
+      "pattern": "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/][AQgw]==|[A-Za-z0-9+/]{2}[AEIMQUYcgkosw048]=)?$"
+    },
+    "nullCell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["storage_class", "value"],
+      "properties": {"storage_class": {"const": "NULL"}, "value": {"type": "null"}}
+    },
+    "integerCell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["storage_class", "value"],
+      "properties": {"storage_class": {"const": "INTEGER"}, "value": {"type": "integer"}}
+    },
+    "textCell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["storage_class", "value"],
+      "properties": {"storage_class": {"const": "TEXT"}, "value": {"type": "string"}}
+    },
+    "blobCell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["storage_class", "value"],
+      "properties": {"storage_class": {"const": "BLOB"}, "value": {"$ref": "#/$defs/base64"}}
+    },
+    "cell": {
+      "oneOf": [
+        {"$ref": "#/$defs/nullCell"}, {"$ref": "#/$defs/integerCell"},
+        {"$ref": "#/$defs/textCell"}, {"$ref": "#/$defs/blobCell"}
+      ]
+    },
+    "storageEntryBase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "type", "mode", "size", "sha256"],
+      "properties": {
+        "name": {"const": "runtime.sqlite"},
+        "type": {"const": "REGULAR_FILE"},
+        "mode": {"const": "0600"},
+        "size": {"type": "integer", "minimum": 0},
+        "sha256": {"$ref": "#/$defs/digest"}
+      }
+    },
+    "databaseEntry": {
+      "allOf": [{"$ref": "#/$defs/storageEntryBase"}, {"properties": {"name": {"const": "runtime.sqlite"}}}]
+    },
+    "storageInventory": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "prefixItems": [{"$ref": "#/$defs/databaseEntry"}],
+      "items": false
+    },
+    "metaRow": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"$ref": "#/$defs/cell"}},
+    "sealsRow": {"type": "array", "minItems": 6, "maxItems": 6, "items": {"$ref": "#/$defs/cell"}},
+    "tasksRow": {"type": "array", "minItems": 17, "maxItems": 17, "items": {"$ref": "#/$defs/cell"}},
+    "attemptsRow": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"$ref": "#/$defs/cell"}},
+    "claimsRow": {"type": "array", "minItems": 6, "maxItems": 6, "items": {"$ref": "#/$defs/cell"}},
+    "reviewsRow": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"$ref": "#/$defs/cell"}},
+    "idempotencyRow": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"$ref": "#/$defs/cell"}},
+    "runtimeEventsRow": {"type": "array", "minItems": 7, "maxItems": 7, "items": {"$ref": "#/$defs/cell"}},
+    "taskEventsRow": {"type": "array", "minItems": 12, "maxItems": 12, "items": {"$ref": "#/$defs/cell"}},
+    "remediationLinksRow": {"type": "array", "minItems": 7, "maxItems": 7, "items": {"$ref": "#/$defs/cell"}},
+    "migrationLedgerRow": {"type": "array", "minItems": 8, "maxItems": 8, "items": {"$ref": "#/$defs/cell"}},
+    "snapshotsRow": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"$ref": "#/$defs/cell"}}
+  }
+}

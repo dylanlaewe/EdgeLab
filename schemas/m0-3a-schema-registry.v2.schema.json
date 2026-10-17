@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:m0-3a-schema-registry:2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "runtime_format_version", "documents", "event_bindings"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "runtime_format_version": {"const": 2},
+    "documents": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema_id", "document_sha256", "content_role"],
+        "properties": {
+          "schema_id": {"type": "string", "minLength": 1},
+          "document_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "content_role": {
+            "enum": ["PAYLOAD", "TASK_STATE", "REQUEST", "RESPONSE_PROJECTION"]
+          }
+        }
+      }
+    },
+    "event_bindings": {
+      "type": "array",
+      "minItems": 26,
+      "maxItems": 26,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "event_type", "stream", "payload_schema_id",
+          "state_before_schema_id", "state_after_schema_id",
+          "request_schema_id", "response_projection_schema_id"
+        ],
+        "properties": {
+          "event_type": {
+            "enum": [
+              "RUNTIME_GENESIS", "LEGACY_V1_BRIDGE", "COMMAND_COMMITTED",
+              "TASK_INITIALIZED", "CLAIM_ISSUED", "TASK_STARTED",
+              "TASK_CONTINUED", "TASK_YIELDED", "TASK_FAILED", "TASK_COMPLETED",
+              "CLAIM_RECOVERED", "TASK_RETRIED", "GOVERNANCE_BLOCKED",
+              "GOVERNANCE_REVALIDATED", "REVIEW_ASSIGNED", "REVIEW_APPROVED",
+              "REVIEW_REJECTED", "REVIEW_REMEDIATED", "DIRECTOR_ROUTED",
+              "REMEDIATION_CREATED", "TASK_CREATED_FROM_REMEDIATION",
+              "REPOSITORY_GENERATION_APPLIED", "REPOSITORY_GENERATION_ADVANCED",
+              "RUNTIME_CHECKPOINTED", "RUNTIME_SNAPSHOT_EXPORTED",
+              "MIGRATION_RECORDED"
+            ]
+          },
+          "stream": {"enum": ["RUNTIME", "TASK"]},
+          "payload_schema_id": {"type": "string", "minLength": 1},
+          "state_before_schema_id": {
+            "oneOf": [{"type": "null"}, {"type": "string", "minLength": 1}]
+          },
+          "state_after_schema_id": {
+            "oneOf": [{"type": "null"}, {"type": "string", "minLength": 1}]
+          },
+          "request_schema_id": {"type": "string", "minLength": 1},
+          "response_projection_schema_id": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  },
+  "allOf": [
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "RUNTIME_GENESIS"}, "stream": {"const": "RUNTIME"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "LEGACY_V1_BRIDGE"}, "stream": {"const": "RUNTIME"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "COMMAND_COMMITTED"}, "stream": {"const": "RUNTIME"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "TASK_INITIALIZED"}, "stream": {"const": "TASK"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "CLAIM_ISSUED"}, "stream": {"const": "TASK"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "TASK_STARTED"}, "stream": {"const": "TASK"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "TASK_CONTINUED"}, "stream": {"const": "TASK"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "TASK_YIELDED"}, "stream": {"const": "TASK"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "TASK_FAILED"}, "stream": {"const": "TASK"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "TASK_COMPLETED"}, "stream": {"const": "TASK"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "CLAIM_RECOVERED"}, "stream": {"const": "TASK"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "TASK_RETRIED"}, "stream": {"const": "TASK"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "GOVERNANCE_BLOCKED"}, "stream": {"const": "TASK"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "GOVERNANCE_REVALIDATED"}, "stream": {"const": "TASK"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "REVIEW_ASSIGNED"}, "stream": {"const": "TASK"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "REVIEW_APPROVED"}, "stream": {"const": "TASK"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "REVIEW_REJECTED"}, "stream": {"const": "TASK"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "REVIEW_REMEDIATED"}, "stream": {"const": "TASK"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "DIRECTOR_ROUTED"}, "stream": {"const": "TASK"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "REMEDIATION_CREATED"}, "stream": {"const": "TASK"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "TASK_CREATED_FROM_REMEDIATION"}, "stream": {"const": "TASK"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "REPOSITORY_GENERATION_APPLIED"}, "stream": {"const": "TASK"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "REPOSITORY_GENERATION_ADVANCED"}, "stream": {"const": "RUNTIME"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "RUNTIME_CHECKPOINTED"}, "stream": {"const": "RUNTIME"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "RUNTIME_SNAPSHOT_EXPORTED"}, "stream": {"const": "RUNTIME"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "MIGRATION_RECORDED"}, "stream": {"const": "RUNTIME"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}}
+  ]
+}
