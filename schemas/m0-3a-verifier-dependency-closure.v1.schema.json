@@ -1,0 +1,495 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:m0-3a-verifier-dependency-closure:1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "closure_id", "closure_version",
+    "runtime_format_version", "canonicalization", "digest_algorithm",
+    "digest_domain", "entrypoint", "root_boundary",
+    "pin_elision_profile", "local_artifacts", "bootstrap_schemas",
+    "retained_schema_documents", "content_assets", "digest_domains",
+    "resource_limits", "standard_library_modules", "external_distributions",
+    "tested_runtime_assumptions", "generator_identity",
+    "deny_only_boundary", "verifier_dependency_closure_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "closure_id": {"const": "urn:edgelab:m0-3a-verifier-dependency-closure:1"},
+    "closure_version": {"const": 1},
+    "runtime_format_version": {"const": 2},
+    "canonicalization": {"const": "EDGELAB_CANONICAL_JSON_V1"},
+    "digest_algorithm": {"const": "SHA-256"},
+    "digest_domain": {"const": "EDGELAB\u0000VERIFIER_DEPENDENCY_CLOSURE\u0000V2\u0000"},
+    "entrypoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_path", "module", "callable"],
+      "properties": {
+        "artifact_path": {"const": "src/edgelab/runtime_v2_verifier.py"},
+        "module": {"const": "edgelab.runtime_v2_verifier"},
+        "callable": {"const": "verify_runtime_image"}
+      }
+    },
+    "root_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository_relative", "local_import_roots", "filesystem_reads",
+        "network_access", "environment_access", "dynamic_imports"
+      ],
+      "properties": {
+        "repository_relative": {"const": true},
+        "local_import_roots": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": {"$ref": "#/$defs/path"}
+        },
+        "filesystem_reads": {"const": "DENY"},
+        "network_access": {"const": "DENY"},
+        "environment_access": {"const": "DENY"},
+        "dynamic_imports": {"const": "DENY"}
+      }
+    },
+    "pin_elision_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id", "artifact_path", "begin_marker", "end_marker",
+        "replacement_literal", "required_match_count"
+      ],
+      "properties": {
+        "profile_id": {"const": "PIN_BLOCK_ELIDED_V1"},
+        "artifact_path": {"const": "src/edgelab/_runtime_v2_release.py"},
+        "begin_marker": {"type": "string", "minLength": 1, "maxLength": 256},
+        "end_marker": {"type": "string", "minLength": 1, "maxLength": 256},
+        "replacement_literal": {"const": "PIN_BLOCK_ELIDED_V1"},
+        "required_match_count": {"const": 1}
+      }
+    },
+    "local_artifacts": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"$ref": "#/$defs/localArtifact"}
+    },
+    "bootstrap_schemas": {
+      "type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true,
+      "items": {"$ref": "#/$defs/bootstrapSchema"}
+    },
+    "retained_schema_documents": {
+      "type": "array", "minItems": 9, "maxItems": 9, "uniqueItems": true,
+      "items": {"$ref": "#/$defs/retainedSchema"}
+    },
+    "content_assets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["storage_descriptor", "schema_registry"],
+      "properties": {
+        "storage_descriptor": {"$ref": "#/$defs/contentAsset"},
+        "schema_registry": {"$ref": "#/$defs/contentAsset"}
+      }
+    },
+    "digest_domains": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"$ref": "#/$defs/digestDomain"}
+    },
+    "resource_limits": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"$ref": "#/$defs/resourceLimit"}
+    },
+    "standard_library_modules": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"$ref": "#/$defs/standardLibraryModule"}
+    },
+    "external_distributions": {
+      "type": "array", "uniqueItems": true,
+      "items": {"$ref": "#/$defs/externalDistribution"}
+    },
+    "tested_runtime_assumptions": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"$ref": "#/$defs/runtimeAssumption"}
+    },
+    "generator_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_path", "artifact_sha256", "generator_version", "invocation"],
+      "properties": {
+        "artifact_path": {"$ref": "#/$defs/path"},
+        "artifact_sha256": {"$ref": "#/$defs/sha256"},
+        "generator_version": {"type": "integer", "minimum": 1},
+        "invocation": {"type": "string", "minLength": 1, "maxLength": 512}
+      }
+    },
+    "deny_only_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "positive_status", "anchor_status", "currentness_status",
+        "authorizing_use", "live_execution"
+      ],
+      "properties": {
+        "positive_status": {"const": "LOCALLY_CONSISTENT_DENY_ONLY"},
+        "anchor_status": {"const": "UNANCHORED"},
+        "currentness_status": {"const": "UNKNOWN"},
+        "authorizing_use": {"const": "DENY"},
+        "live_execution": {"const": "PROHIBITED"}
+      }
+    },
+    "verifier_dependency_closure_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "allOf": [
+    {
+      "properties": {
+        "local_artifacts": {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "path": {"const": "src/edgelab/runtime_v2_verifier.py"},
+              "role": {"const": "ENTRYPOINT"},
+              "pin_elision_applied": {"const": false}
+            },
+            "required": ["path", "role", "pin_elision_applied"]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
+      }
+    },
+    {
+      "properties": {
+        "local_artifacts": {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "path": {"const": "src/edgelab/_runtime_v2_release.py"},
+              "role": {"const": "PIN_CARRIER"},
+              "pin_elision_applied": {"const": true}
+            },
+            "required": ["path", "role", "pin_elision_applied"]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
+      }
+    },
+    {
+      "properties": {
+        "local_artifacts": {
+          "contains": {
+            "type": "object",
+            "properties": {"pin_elision_applied": {"const": true}},
+            "required": ["pin_elision_applied"]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
+      }
+    },
+    {
+      "properties": {
+        "bootstrap_schemas": {
+          "contains": {
+            "type": "object",
+            "properties": {"role": {"const": "ATTACHMENT"}},
+            "required": ["role"]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
+      }
+    },
+    {
+      "properties": {
+        "bootstrap_schemas": {
+          "contains": {
+            "type": "object",
+            "properties": {"role": {"const": "SCHEMA_REGISTRY_SCHEMA"}},
+            "required": ["role"]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
+      }
+    },
+    {
+      "properties": {
+        "bootstrap_schemas": {
+          "contains": {
+            "type": "object",
+            "properties": {"role": {"const": "STORAGE_DESCRIPTOR_SCHEMA"}},
+            "required": ["role"]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
+      }
+    },
+    {
+      "properties": {
+        "bootstrap_schemas": {
+          "contains": {
+            "type": "object",
+            "properties": {"role": {"const": "RUNTIME_MANIFEST"}},
+            "required": ["role"]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
+      }
+    },
+    {
+      "properties": {
+        "bootstrap_schemas": {
+          "contains": {
+            "type": "object",
+            "properties": {"role": {"const": "ACTIVE_RUNTIME_SELECTOR"}},
+            "required": ["role"]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
+      }
+    },
+    {
+      "properties": {
+        "retained_schema_documents": {
+          "contains": {
+            "type": "object",
+            "properties": {"content_role": {"const": "EVENT_ENVELOPE"}},
+            "required": ["content_role"]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
+      }
+    },
+    {
+      "properties": {
+        "retained_schema_documents": {
+          "contains": {
+            "type": "object",
+            "properties": {"content_role": {"const": "PAYLOAD"}},
+            "required": ["content_role"]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
+      }
+    },
+    {
+      "properties": {
+        "retained_schema_documents": {
+          "contains": {
+            "type": "object",
+            "properties": {"content_role": {"const": "TASK_STATE"}},
+            "required": ["content_role"]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
+      }
+    },
+    {
+      "properties": {
+        "retained_schema_documents": {
+          "contains": {
+            "type": "object",
+            "properties": {"content_role": {"const": "REQUEST"}},
+            "required": ["content_role"]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
+      }
+    },
+    {
+      "properties": {
+        "retained_schema_documents": {
+          "contains": {
+            "type": "object",
+            "properties": {"content_role": {"const": "RESPONSE_PROJECTION"}},
+            "required": ["content_role"]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
+      }
+    },
+    {
+      "properties": {
+        "retained_schema_documents": {
+          "contains": {
+            "type": "object",
+            "properties": {"content_role": {"const": "CHECKPOINT_DOCUMENT"}},
+            "required": ["content_role"]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
+      }
+    },
+    {
+      "properties": {
+        "retained_schema_documents": {
+          "contains": {
+            "type": "object",
+            "properties": {"content_role": {"const": "EXPORT_DOCUMENT"}},
+            "required": ["content_role"]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
+      }
+    },
+    {
+      "properties": {
+        "retained_schema_documents": {
+          "contains": {
+            "type": "object",
+            "properties": {"content_role": {"const": "LEGACY_ROW_ARCHIVE"}},
+            "required": ["content_role"]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
+      }
+    },
+    {
+      "properties": {
+        "retained_schema_documents": {
+          "contains": {
+            "type": "object",
+            "properties": {"content_role": {"const": "LEGACY_PROJECTION"}},
+            "required": ["content_role"]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "identifier": {"type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"},
+    "module": {"type": "string", "pattern": "^[a-z_][a-z0-9_]*(?:\\.[a-z_][a-z0-9_]*)*$"},
+    "path": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)\\.{1,2}(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+    },
+    "localArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "role", "sha256", "byte_length", "pin_elision_applied"],
+      "properties": {
+        "path": {"$ref": "#/$defs/path"},
+        "role": {"enum": ["ENTRYPOINT", "PIN_CARRIER", "LOCAL_MODULE"]},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "byte_length": {"type": "integer", "minimum": 1},
+        "pin_elision_applied": {"type": "boolean"}
+      }
+    },
+    "bootstrapSchema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role", "schema_id", "path", "raw_sha256",
+        "schema_document_sha256", "byte_length"
+      ],
+      "properties": {
+        "role": {
+          "enum": [
+            "ATTACHMENT", "RUNTIME_MANIFEST", "ACTIVE_RUNTIME_SELECTOR",
+            "SCHEMA_REGISTRY_SCHEMA", "STORAGE_DESCRIPTOR_SCHEMA"
+          ]
+        },
+        "schema_id": {"type": "string", "pattern": "^urn:edgelab:[a-z0-9-]+:[0-9]+$"},
+        "path": {"$ref": "#/$defs/path"},
+        "raw_sha256": {"$ref": "#/$defs/sha256"},
+        "schema_document_sha256": {"$ref": "#/$defs/sha256"},
+        "byte_length": {"type": "integer", "minimum": 1}
+      }
+    },
+    "retainedSchema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "content_role", "schema_id", "path", "raw_sha256",
+        "document_sha256", "byte_length"
+      ],
+      "properties": {
+        "content_role": {
+          "enum": [
+            "EVENT_ENVELOPE", "PAYLOAD", "TASK_STATE", "REQUEST",
+            "RESPONSE_PROJECTION", "CHECKPOINT_DOCUMENT", "EXPORT_DOCUMENT",
+            "LEGACY_ROW_ARCHIVE", "LEGACY_PROJECTION"
+          ]
+        },
+        "schema_id": {"type": "string", "pattern": "^urn:edgelab:[a-z0-9-]+:[0-9]+$"},
+        "path": {"$ref": "#/$defs/path"},
+        "raw_sha256": {"$ref": "#/$defs/sha256"},
+        "document_sha256": {"$ref": "#/$defs/sha256"},
+        "byte_length": {"type": "integer", "minimum": 1}
+      }
+    },
+    "contentAsset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "raw_sha256", "domain_sha256", "byte_length"],
+      "properties": {
+        "path": {"$ref": "#/$defs/path"},
+        "raw_sha256": {"$ref": "#/$defs/sha256"},
+        "domain_sha256": {"$ref": "#/$defs/sha256"},
+        "byte_length": {"type": "integer", "minimum": 1}
+      }
+    },
+    "digestDomain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "domain"],
+      "properties": {
+        "name": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "domain": {"type": "string", "pattern": "^EDGELAB\\u0000[A-Z0-9_]+\\u0000V[0-9]+\\u0000(?:[A-Z0-9_]+\\u0000)?$"}
+      }
+    },
+    "resourceLimit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "maximum", "unit"],
+      "properties": {
+        "name": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]*$"},
+        "maximum": {"type": "integer", "minimum": 0, "maximum": 9223372036854775807},
+        "unit": {"enum": ["BYTES", "ITEMS", "CHARACTERS", "NODES", "DEPTH"]}
+      }
+    },
+    "standardLibraryModule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["module", "purpose"],
+      "properties": {
+        "module": {"$ref": "#/$defs/module"},
+        "purpose": {"type": "string", "minLength": 1, "maxLength": 256}
+      }
+    },
+    "externalDistribution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["distribution", "version", "import_modules", "metadata_sha256"],
+      "properties": {
+        "distribution": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"},
+        "version": {"type": "string", "minLength": 1, "maxLength": 128},
+        "import_modules": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": {"$ref": "#/$defs/module"}
+        },
+        "metadata_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "runtimeAssumption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "expected"],
+      "properties": {
+        "name": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]*$"},
+        "expected": {"type": "string", "minLength": 1, "maxLength": 256}
+      }
+    }
+  }
+}

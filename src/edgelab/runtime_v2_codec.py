@@ -177,6 +177,21 @@ def storage_schema_digest(descriptor: dict[str, Any]) -> str:
     return _canonical_digest(b"EDGELAB\0STORAGE_SCHEMA\0V2\0", descriptor)
 
 
+def verifier_dependency_closure_digest(record: dict[str, Any]) -> str:
+    if (
+        type(record) is not dict
+        or "verifier_dependency_closure_sha256" not in record
+    ):
+        raise CanonicalJsonError(
+            "VERIFIER_DEPENDENCY_CLOSURE_DIGEST_FIELD_REQUIRED"
+        )
+    body = dict(record)
+    del body["verifier_dependency_closure_sha256"]
+    return _canonical_digest(
+        b"EDGELAB\0VERIFIER_DEPENDENCY_CLOSURE\0V2\0", body
+    )
+
+
 def selector_history_digest(selectors: list[dict[str, Any]]) -> str:
     return _canonical_digest(b"EDGELAB\0SELECTOR_HISTORY\0V1\0", selectors)
 

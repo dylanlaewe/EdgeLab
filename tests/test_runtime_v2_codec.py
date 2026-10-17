@@ -2,7 +2,10 @@
 import copy
 import hashlib
 import json
+from pathlib import Path
 import unittest
+
+from jsonschema import Draft202012Validator
 
 from src.edgelab.runtime_v2_codec import (
     attachment_digest,
@@ -25,7 +28,11 @@ from src.edgelab.runtime_v2_codec import (
     storage_schema_digest,
     table_root,
     task_predecessor,
+    verifier_dependency_closure_digest,
 )
+
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def independent(prefix, value):
@@ -195,6 +202,198 @@ class RuntimeV2CodecTests(unittest.TestCase):
                 b'{"runtime_format_version":2}'
             ).hexdigest(),
         )
+
+    def test_verifier_dependency_closure_known_answer(self):
+        record = {
+            "closure_id": "urn:edgelab:m0-3a-verifier-dependency-closure:1",
+            "closure_version": 1,
+            "runtime_format_version": 2,
+            "verifier_dependency_closure_sha256": "ignored",
+        }
+        self.assertEqual(
+            verifier_dependency_closure_digest(record),
+            "af1cea71af08443dbaba131fc709d94414d4e6eca5f0da481de0bf3baf1db300",
+        )
+
+    def test_verifier_dependency_closure_digest_mutation_and_self_field(self):
+        record = {
+            "closure_id": "urn:edgelab:m0-3a-verifier-dependency-closure:1",
+            "closure_version": 1,
+            "verifier_dependency_closure_sha256": "a" * 64,
+        }
+        expected = verifier_dependency_closure_digest(record)
+        self.assertEqual(
+            verifier_dependency_closure_digest({
+                **record,
+                "verifier_dependency_closure_sha256": "b" * 64,
+            }),
+            expected,
+        )
+        self.assertNotEqual(
+            verifier_dependency_closure_digest({**record, "closure_version": 2}),
+            expected,
+        )
+
+    def test_verifier_dependency_closure_digest_field_is_required(self):
+        for record in ({"closure_id": "closure"}, [], None):
+            with self.subTest(record=record), self.assertRaisesRegex(
+                CanonicalJsonError,
+                "VERIFIER_DEPENDENCY_CLOSURE_DIGEST_FIELD_REQUIRED",
+            ):
+                verifier_dependency_closure_digest(record)
+
+    def test_dependency_closure_schema_is_closed_and_enforces_root_roles(self):
+        schema = json.loads((
+            ROOT / "schemas" /
+            "m0-3a-verifier-dependency-closure.v1.schema.json"
+        ).read_text(encoding="utf-8"))
+        Draft202012Validator.check_schema(schema)
+        validator = Draft202012Validator(schema)
+        sha = "a" * 64
+        bootstrap_roles = (
+            "ATTACHMENT", "RUNTIME_MANIFEST", "ACTIVE_RUNTIME_SELECTOR",
+            "SCHEMA_REGISTRY_SCHEMA", "STORAGE_DESCRIPTOR_SCHEMA",
+        )
+        retained_roles = (
+            "EVENT_ENVELOPE", "PAYLOAD", "TASK_STATE", "REQUEST",
+            "RESPONSE_PROJECTION", "CHECKPOINT_DOCUMENT", "EXPORT_DOCUMENT",
+            "LEGACY_ROW_ARCHIVE", "LEGACY_PROJECTION",
+        )
+        record = {
+            "schema_version": 1,
+            "closure_id": "urn:edgelab:m0-3a-verifier-dependency-closure:1",
+            "closure_version": 1,
+            "runtime_format_version": 2,
+            "canonicalization": "EDGELAB_CANONICAL_JSON_V1",
+            "digest_algorithm": "SHA-256",
+            "digest_domain": "EDGELAB\0VERIFIER_DEPENDENCY_CLOSURE\0V2\0",
+            "entrypoint": {
+                "artifact_path": "src/edgelab/runtime_v2_verifier.py",
+                "module": "edgelab.runtime_v2_verifier",
+                "callable": "verify_runtime_image",
+            },
+            "root_boundary": {
+                "repository_relative": True,
+                "local_import_roots": ["src/edgelab"],
+                "filesystem_reads": "DENY",
+                "network_access": "DENY",
+                "environment_access": "DENY",
+                "dynamic_imports": "DENY",
+            },
+            "pin_elision_profile": {
+                "profile_id": "PIN_BLOCK_ELIDED_V1",
+                "artifact_path": "src/edgelab/_runtime_v2_release.py",
+                "begin_marker": "# BEGIN GENERATED PIN BLOCK",
+                "end_marker": "# END GENERATED PIN BLOCK",
+                "replacement_literal": "PIN_BLOCK_ELIDED_V1",
+                "required_match_count": 1,
+            },
+            "local_artifacts": [
+                {
+                    "path": "src/edgelab/runtime_v2_verifier.py",
+                    "role": "ENTRYPOINT",
+                    "sha256": sha,
+                    "byte_length": 1,
+                    "pin_elision_applied": False,
+                },
+                {
+                    "path": "src/edgelab/_runtime_v2_release.py",
+                    "role": "PIN_CARRIER",
+                    "sha256": sha,
+                    "byte_length": 1,
+                    "pin_elision_applied": True,
+                },
+            ],
+            "bootstrap_schemas": [
+                {
+                    "role": role,
+                    "schema_id": f"urn:edgelab:bootstrap-{index}:1",
+                    "path": f"schemas/bootstrap-{index}.json",
+                    "raw_sha256": sha,
+                    "schema_document_sha256": sha,
+                    "byte_length": index + 1,
+                }
+                for index, role in enumerate(bootstrap_roles)
+            ],
+            "retained_schema_documents": [
+                {
+                    "content_role": role,
+                    "schema_id": f"urn:edgelab:retained-{index}:2",
+                    "path": f"schemas/retained-{index}.json",
+                    "raw_sha256": sha,
+                    "document_sha256": sha,
+                    "byte_length": index + 1,
+                }
+                for index, role in enumerate(retained_roles)
+            ],
+            "content_assets": {
+                name: {
+                    "path": f"schemas/{name}.json",
+                    "raw_sha256": sha,
+                    "domain_sha256": sha,
+                    "byte_length": 1,
+                }
+                for name in ("storage_descriptor", "schema_registry")
+            },
+            "digest_domains": [{
+                "name": "blob",
+                "domain": "EDGELAB\0BLOB\0V2\0",
+            }],
+            "resource_limits": [{
+                "name": "TOTAL_INPUT_BYTES", "maximum": 1, "unit": "BYTES",
+            }],
+            "standard_library_modules": [{
+                "module": "hashlib", "purpose": "SHA-256",
+            }],
+            "external_distributions": [],
+            "tested_runtime_assumptions": [{
+                "name": "PYTHON_VERSION", "expected": "3.13.4",
+            }],
+            "generator_identity": {
+                "artifact_path": "tools/build_runtime_v2_release.py",
+                "artifact_sha256": sha,
+                "generator_version": 1,
+                "invocation": "build_runtime_v2_release.py --check",
+            },
+            "deny_only_boundary": {
+                "positive_status": "LOCALLY_CONSISTENT_DENY_ONLY",
+                "anchor_status": "UNANCHORED",
+                "currentness_status": "UNKNOWN",
+                "authorizing_use": "DENY",
+                "live_execution": "PROHIBITED",
+            },
+            "verifier_dependency_closure_sha256": sha,
+        }
+        self.assertEqual(list(validator.iter_errors(record)), [])
+
+        mutations = []
+        extra = copy.deepcopy(record)
+        extra["unexpected"] = True
+        mutations.append(extra)
+        missing_role = copy.deepcopy(record)
+        missing_role["bootstrap_schemas"][0]["role"] = "RUNTIME_MANIFEST"
+        mutations.append(missing_role)
+        dot_alias = copy.deepcopy(record)
+        dot_alias["local_artifacts"].append({
+            "path": "src/./alias.py",
+            "role": "LOCAL_MODULE",
+            "sha256": sha,
+            "byte_length": 1,
+            "pin_elision_applied": False,
+        })
+        mutations.append(dot_alias)
+        wrong_carrier = copy.deepcopy(record)
+        wrong_carrier["local_artifacts"][1]["path"] = "src/edgelab/other.py"
+        mutations.append(wrong_carrier)
+        wrong_elision = copy.deepcopy(record)
+        wrong_elision["pin_elision_profile"]["replacement_literal"] = "wildcard"
+        mutations.append(wrong_elision)
+        second_elision = copy.deepcopy(record)
+        second_elision["local_artifacts"][0]["pin_elision_applied"] = True
+        mutations.append(second_elision)
+        for mutation in mutations:
+            with self.subTest(mutation=mutation):
+                self.assertTrue(list(validator.iter_errors(mutation)))
 
     def test_table_root_binds_name_and_order(self):
         rows = [[1, "a"], [2, "b"]]
