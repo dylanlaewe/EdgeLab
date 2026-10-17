@@ -1,0 +1,72 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-098",
+  "version": 1,
+  "created_at": "2026-10-17T01:25:00Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Implement the unambiguous private immutable runtime-v2 task/import/remediation transition core with adversarial fixtures, and fail closed on any blocker to positive whole-image reduction.",
+  "work_done": "Implemented a pure immutable transition kernel covering the complete task-state table, repository import, remediation lineage, cross-record closure, resource bounds, overflow, CAS, reviewer independence, and atomic rollback. Issued STOP-M0-3A-002 for four unresolved whole-image bootstrap coordinates. Three delegated read-only engineering reviewers returned no final blocker for this bounded private slice.",
+  "evidence_refs": [
+    "reports/H-M0-098-private-runtime-v2-transition-kernel.v1.md",
+    "reports/audit/A-M0-080.v1.json",
+    "docs/M0.3A_REDUCER_BOOTSTRAP_GAPS.v1.md",
+    "reports/stops/STOP-M0-3A-002.v1.json",
+    "src/edgelab/runtime_v2_transition.py",
+    "tests/test_runtime_v2_transition.py",
+    "src/edgelab/runtime_v2_verifier.py",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/M0.3A_REDUCER_BOOTSTRAP_GAPS.v1.md",
+    "reports/stops/STOP-M0-3A-002.v1.json",
+    "src/edgelab/runtime_v2_transition.py",
+    "tests/test_runtime_v2_transition.py",
+    "tools/run_test_tier.py",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py",
+    "docs/project-state.json",
+    "reports/H-M0-098-private-runtime-v2-transition-kernel.v1.md",
+    "reports/audit/A-M0-080.v1.json",
+    "docs/handoffs/H-M0-098.v1.json"
+  ],
+  "tests_run": [
+    "Focused runtime-v2 transition suite: 33 tests passed.",
+    "Final fast tier: 207 tests passed across 12 isolated modules using .venv/bin/python.",
+    "Independent operation-by-13-state transition matrix returned no mismatch.",
+    "Three independent read-only engineering rereviews returned no blocker after remediation.",
+    "Production validator before evidence publication: 354 records and published history validated; M0 capital remained LOCKED and no approval was granted.",
+    "Production validator after evidence publication: 356 records and published history validated with the same locked and non-authorizing result.",
+    "Python compilation, JSON parsing, static import audit, and whitespace checks passed."
+  ],
+  "open_questions": [
+    "What exact immutable verifier dependency closure and embedded bootstrap validator set will a no-I/O whole-image reducer support?",
+    "What closed RuntimeImage transport, selector bootstrap, checkpoint-copy, legacy-evidence, and work-budget rules supersede the current gaps?",
+    "After contract repair, can the whole-image reducer independently derive every event response, blob edge, and all 15 tables for both genesis kinds?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002 blocks positive whole-image reduction until the dependency closure, bootstrap validators, image transport, and REVALIDATE receipt equation are versioned and independently reviewed.",
+    "The public verifier remains disconnected from the private kernel and accepts no nonempty runtime image.",
+    "H-M0-086 remains blocked on a genuinely distinct trusted 05 Skeptic authority; H-M0-041 remains BLOCKED.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked, M1 remains unreleased, live remains LOCKED, kill remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Publish and independently review a versioned runtime-v2 bootstrap/image contract and exact verifier dependency closure that resolve STOP-M0-3A-002, then extend the private kernel into the complete pure whole-image reducer without adding a writer, database, cutover, or positive authority path.",
+  "completion_criteria": [
+    "Every task/import/remediation transition branch is deterministic, immutable, resource-bounded, and adversarially tested.",
+    "Malformed cross-record state, hostile host values, stale CAS, overflow, duplicate identities, and late transaction failure all deny without partial mutation.",
+    "The public verifier remains INVALID/UNSUPPORTED and UNANCHORED/UNKNOWN/DENY for nonempty runtime content.",
+    "Whole-image contract gaps are explicitly recorded under an OPEN STOP rather than guessed into code."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-097.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-097",
+      "version": 1,
+      "sha256": "09a833bff696f4655d7accf0f2e22e7eceab914698679a6530a412d1d46a1543"
+    }
+  ]
+}

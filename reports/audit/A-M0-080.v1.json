@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-080",
+  "version": 1,
+  "occurred_at": "2026-10-17T01:25:00Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_PRIVATE_TRANSITION_KERNEL_IMPLEMENTED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-098-private-runtime-v2-transition-kernel.v1.md",
+  "previous_state": "FORMAT_2_RETAINED_CONTENT_AND_REDUCER_CONTRACT_FROZEN_NOT_ACTIVE",
+  "new_state": "FORMAT_2_PRIVATE_TRANSITION_KERNEL_IMPLEMENTED_WHOLE_IMAGE_BLOCKED",
+  "reason": "Commit a1debc3 implements and adversarially tests the pure immutable task/import/remediation transition core while STOP-M0-3A-002 explicitly blocks whole-image acceptance at unresolved bootstrap coordinates. It creates no writer, database, migration, selector cutover, currentness, execution, or capital authority.",
+  "evidence_refs": [
+    "reports/H-M0-098-private-runtime-v2-transition-kernel.v1.md",
+    "docs/M0.3A_REDUCER_BOOTSTRAP_GAPS.v1.md",
+    "reports/stops/STOP-M0-3A-002.v1.json",
+    "src/edgelab/runtime_v2_transition.py",
+    "tests/test_runtime_v2_transition.py",
+    "src/edgelab/runtime_v2_verifier.py"
+  ],
+  "code_ref": "a1debc3571b9cb796420ca89c2cd6f33f2db3492",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-098",
+  "supersedes": null
+}
