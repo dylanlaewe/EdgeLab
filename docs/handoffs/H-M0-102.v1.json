@@ -1,0 +1,70 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-102",
+  "version": 1,
+  "created_at": "2026-10-17T02:22:08Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Publish and independently review a versioned legacy-bridge assurance amendment that closes capture types, digest domains, missing-preimage treatment, and migration disposition without changing retained schemas or expanding authority.",
+  "work_done": "Published an additive amendment with the exact 12-table successor-capture profile, strict attachment equation, separate legacy/blob digest equations, complete unavailable-evidence inventory, and unconditional V1_MIGRATION UNSUPPORTED disposition under the current schemas/carrier. Three independent read-only reviews identified and caused correction of assurance and test gaps before accepting the bounded result. No runtime writer, selector, positive verifier result, currentness, authority, or capital path was added.",
+  "evidence_refs": [
+    "reports/H-M0-102-legacy-bridge-assurance-amendment.v1.md",
+    "reports/audit/A-M0-084.v1.json",
+    "reports/stops/STOP-M0-3A-002.v5.json",
+    "docs/M0.3A_LEGACY_BRIDGE_AMENDMENT.v1.md",
+    "tests/test_runtime_v2_legacy_amendment.py",
+    "docs/M0.3A_RUNTIME_IMAGE_CONTRACT.v1.md",
+    "docs/M0.3A_SUCCESSOR_RUNTIME_FORMAT.v1.md"
+  ],
+  "files_changed": [
+    "docs/M0.3A_LEGACY_BRIDGE_AMENDMENT.v1.md",
+    "tests/test_runtime_v2_legacy_amendment.py",
+    "tools/run_test_tier.py",
+    "tests/test_alpha.py",
+    "tests/test_web.py",
+    "reports/H-M0-102-legacy-bridge-assurance-amendment.v1.md",
+    "reports/audit/A-M0-084.v1.json",
+    "reports/stops/STOP-M0-3A-002.v5.json",
+    "docs/handoffs/H-M0-102.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json"
+  ],
+  "tests_run": [
+    "Focused amendment and test-tier suites: 15 tests passed.",
+    "Successor-contract plus amendment review suite: 33 tests passed in independent review.",
+    "Final fast tier: 258 tests passed across 16 isolated modules.",
+    "Three independent read-only reviews accepted the final bounded amendment after identified assurance and test gaps were repaired.",
+    "Production validator before evidence publication: 365 records and published history validated; M0 capital remained LOCKED and no approval was granted.",
+    "Production validator after evidence publication: 368 records and published history validated with the same locked and non-authorizing result.",
+    "Alpha/observatory regression: 18 tests passed after STOP provenance was extended.",
+    "Git diff whitespace checks passed."
+  ],
+  "open_questions": [
+    "Which exact compiled strict closure-shape profile and generator will close the final unsupported NEW-genesis coordinate without source cycles or ambient dependencies?",
+    "Which ordinary command group should be implemented first to maximize reusable reachability and materialization coverage before checkpoint/export work?",
+    "If legacy migration is ever prioritized, what new versioned carrier will transport every required source preimage without weakening frozen verification or lock-held capture?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v5 remains OPEN pending exact closure generation/validation, ordinary whole-image reduction, complete A-J matrix, and independent acceptance; V1_MIGRATION is UNSUPPORTED under the current carrier.",
+    "The public verifier remains disconnected and can return only INVALID or UNSUPPORTED under UNANCHORED/UNKNOWN/DENY.",
+    "H-M0-086 remains blocked on a genuinely distinct trusted 05 Skeptic authority; H-M0-041 remains BLOCKED.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked, M1 remains unreleased, live remains LOCKED, kill remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Compile and adversarially test the complete dependency-closure shape validator, then implement ordinary transaction-group and checkpoint/export reduction; generate the exact closure/carrier only after semantic source freeze.",
+  "completion_criteria": [
+    "The legacy attachment, table-capture, digest-domain, and missing-evidence rules are explicit and independently accepted.",
+    "V1_MIGRATION is unconditionally UNSUPPORTED under the present schemas/carrier rather than relying on unverifiable producer claims.",
+    "All retained schema/registry/storage/bootstrap identities are literal-test locked and unchanged.",
+    "The public verifier and capital-safety state remain unchanged while STOP-M0-3A-002 stays OPEN."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-101.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-101",
+      "version": 1,
+      "sha256": "41bc9f81232a2756e90459958d25246226eca552f70430c6946ebb3037992081"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-084",
+  "version": 1,
+  "occurred_at": "2026-10-17T02:22:08Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_LEGACY_BRIDGE_ASSURANCE_AMENDMENT_ACCEPTED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-102-legacy-bridge-assurance-amendment.v1.md",
+  "previous_state": "FORMAT_2_PRIVATE_NEW_GENESIS_DERIVATION_ACCEPTED_BOUNDED_CLOSURE_OPAQUE_STOP_OPEN",
+  "new_state": "FORMAT_2_LEGACY_ASSURANCE_GAP_DISPOSED_CURRENT_CARRIER_UNSUPPORTED_STOP_OPEN",
+  "reason": "Commit 5b302ed5af81103d79aef91223ad3826d20d0f4f publishes an independently accepted additive amendment that fixes the successor capture profile, separates legacy and blob digest domains, classifies unavailable preimages, and makes V1_MIGRATION unconditionally UNSUPPORTED under the current schemas/carrier. No writer, selector, positive verifier result, currentness, authority, or capital path was added.",
+  "evidence_refs": [
+    "reports/H-M0-102-legacy-bridge-assurance-amendment.v1.md",
+    "docs/M0.3A_LEGACY_BRIDGE_AMENDMENT.v1.md",
+    "tests/test_runtime_v2_legacy_amendment.py",
+    "reports/stops/STOP-M0-3A-002.v5.json"
+  ],
+  "code_ref": "5b302ed5af81103d79aef91223ad3826d20d0f4f",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-102",
+  "supersedes": null
+}
