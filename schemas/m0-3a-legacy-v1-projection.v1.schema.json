@@ -22,7 +22,7 @@
     "backup_sha256": {"$ref": "#/$defs/digest"},
     "global_head_id": {"type": "string", "minLength": 1},
     "global_head_sha256": {"$ref": "#/$defs/digest"},
-    "repository_generation": {"type": "integer", "minimum": 0},
+    "repository_generation": {"type": "integer", "minimum": 0, "maximum": 9223372036854775807},
     "repository_bundle_sha256": {"$ref": "#/$defs/digest"},
     "meta_keys": {
       "const": [
@@ -80,7 +80,7 @@
       "properties": {
         "columns_sha256": {"$ref": "#/$defs/digest"},
         "row_schema_id": {"type": "string", "minLength": 1},
-        "row_count": {"type": "integer", "minimum": 0},
+        "row_count": {"type": "integer", "minimum": 0, "maximum": 9223372036854775807},
         "ordered_rows_sha256": {"$ref": "#/$defs/digest"}
       }
     },

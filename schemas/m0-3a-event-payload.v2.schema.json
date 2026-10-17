@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:m0-3a-event-payload:2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "payload_format_version", "event_type", "data"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "payload_format_version": {"const": 2},
+    "event_type": {
+      "enum": [
+        "RUNTIME_GENESIS", "LEGACY_V1_BRIDGE", "COMMAND_COMMITTED",
+        "TASK_INITIALIZED", "CLAIM_ISSUED", "TASK_STARTED", "TASK_CONTINUED",
+        "TASK_YIELDED", "TASK_FAILED", "TASK_COMPLETED", "CLAIM_RECOVERED",
+        "TASK_RETRIED", "GOVERNANCE_BLOCKED", "GOVERNANCE_REVALIDATED",
+        "REVIEW_ASSIGNED", "REVIEW_APPROVED", "REVIEW_REJECTED",
+        "REVIEW_REMEDIATED", "DIRECTOR_ROUTED", "REMEDIATION_CREATED",
+        "TASK_CREATED_FROM_REMEDIATION", "REPOSITORY_GENERATION_APPLIED",
+        "REPOSITORY_GENERATION_ADVANCED", "RUNTIME_CHECKPOINTED",
+        "RUNTIME_SNAPSHOT_EXPORTED"
+      ]
+    },
+    "data": {"type": "object"}
+  },
+  "oneOf": [
+    {"properties": {"event_type": {"enum": ["TASK_INITIALIZED", "TASK_STARTED", "TASK_CONTINUED", "TASK_YIELDED", "TASK_FAILED", "TASK_COMPLETED", "CLAIM_RECOVERED", "TASK_RETRIED", "GOVERNANCE_BLOCKED", "GOVERNANCE_REVALIDATED", "REVIEW_APPROVED", "REVIEW_REJECTED", "REVIEW_REMEDIATED", "DIRECTOR_ROUTED", "REPOSITORY_GENERATION_APPLIED"]}, "data": {"$ref": "#/$defs/empty"}}},
+    {"properties": {"event_type": {"const": "RUNTIME_GENESIS"}, "data": {"$ref": "#/$defs/genesis"}}},
+    {"properties": {"event_type": {"const": "LEGACY_V1_BRIDGE"}, "data": {"$ref": "#/$defs/bridge"}}},
+    {"properties": {"event_type": {"const": "COMMAND_COMMITTED"}, "data": {"$ref": "#/$defs/commit"}}},
+    {"properties": {"event_type": {"const": "CLAIM_ISSUED"}, "data": {"$ref": "#/$defs/claim"}}},
+    {"properties": {"event_type": {"const": "REVIEW_ASSIGNED"}, "data": {"$ref": "#/$defs/review"}}},
+    {"properties": {"event_type": {"enum": ["REMEDIATION_CREATED", "TASK_CREATED_FROM_REMEDIATION"]}, "data": {"$ref": "#/$defs/relationship"}}},
+    {"properties": {"event_type": {"const": "REPOSITORY_GENERATION_ADVANCED"}, "data": {"$ref": "#/$defs/repository"}}},
+    {"properties": {"event_type": {"const": "RUNTIME_CHECKPOINTED"}, "data": {"$ref": "#/$defs/checkpoint"}}},
+    {"properties": {"event_type": {"const": "RUNTIME_SNAPSHOT_EXPORTED"}, "data": {"$ref": "#/$defs/export"}}}
+  ],
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "generatedId": {"type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"},
+    "taskId": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "nonnegativeInteger": {"type": "integer", "minimum": 0, "maximum": 9223372036854775807},
+    "positiveInteger": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+    "requestRef": {"type": "object", "additionalProperties": false, "required": ["schema_id", "sha256"], "properties": {"schema_id": {"const": "urn:edgelab:m0-3a-command-request:2"}, "sha256": {"$ref": "#/$defs/digest"}}},
+    "responseRef": {"type": "object", "additionalProperties": false, "required": ["schema_id", "sha256"], "properties": {"schema_id": {"const": "urn:edgelab:m0-3a-response-projection:2"}, "sha256": {"$ref": "#/$defs/digest"}}},
+    "legacyArchiveRef": {"type": "object", "additionalProperties": false, "required": ["schema_id", "sha256"], "properties": {"schema_id": {"const": "urn:edgelab:m0-3a-legacy-v1-row-archive:1"}, "sha256": {"$ref": "#/$defs/digest"}}},
+    "legacyProjectionRef": {"type": "object", "additionalProperties": false, "required": ["schema_id", "sha256"], "properties": {"schema_id": {"const": "urn:edgelab:m0-3a-legacy-v1-projection:1"}, "sha256": {"$ref": "#/$defs/digest"}}},
+    "head": {"type": "object", "additionalProperties": false, "required": ["global_sequence", "event_id", "event_sha256"], "properties": {"global_sequence": {"$ref": "#/$defs/nonnegativeInteger"}, "event_id": {"$ref": "#/$defs/generatedId"}, "event_sha256": {"$ref": "#/$defs/digest"}}},
+    "empty": {"type": "object", "additionalProperties": false, "maxProperties": 0},
+    "genesis": {"type": "object", "additionalProperties": false, "required": ["runtime_id", "chain_id", "runtime_format_version", "event_format_version", "attachment_sha256", "storage_schema_sha256", "schema_registry_sha256", "verifier_dependency_closure_sha256", "repository_generation", "repository_bundle_sha256"], "properties": {"runtime_id": {"$ref": "#/$defs/generatedId"}, "chain_id": {"$ref": "#/$defs/digest"}, "runtime_format_version": {"const": 2}, "event_format_version": {"const": 2}, "attachment_sha256": {"$ref": "#/$defs/digest"}, "storage_schema_sha256": {"$ref": "#/$defs/digest"}, "schema_registry_sha256": {"$ref": "#/$defs/digest"}, "verifier_dependency_closure_sha256": {"$ref": "#/$defs/digest"}, "repository_generation": {"const": 0}, "repository_bundle_sha256": {"$ref": "#/$defs/digest"}}},
+    "bridge": {"type": "object", "additionalProperties": false, "required": ["runtime_id", "chain_id", "runtime_format_version", "event_format_version", "attachment_sha256", "storage_schema_sha256", "schema_registry_sha256", "verifier_dependency_closure_sha256", "repository_generation", "repository_bundle_sha256", "legacy_archive_ref", "legacy_projection_ref", "source_runtime_format_version", "source_assurance", "source_runtime_id", "source_attachment_sha256", "source_storage_inventory_sha256", "source_backup_sha256", "source_global_head_id", "source_global_head_sha256", "source_row_archive_sha256", "source_projection_sha256", "migration_plan_sha256", "frozen_verifier_commit", "frozen_verifier_closure_sha256", "source_repository_bundle_sha256"], "properties": {"runtime_id": {"$ref": "#/$defs/generatedId"}, "chain_id": {"$ref": "#/$defs/digest"}, "runtime_format_version": {"const": 2}, "event_format_version": {"const": 2}, "attachment_sha256": {"$ref": "#/$defs/digest"}, "storage_schema_sha256": {"$ref": "#/$defs/digest"}, "schema_registry_sha256": {"$ref": "#/$defs/digest"}, "verifier_dependency_closure_sha256": {"$ref": "#/$defs/digest"}, "repository_generation": {"const": 0}, "repository_bundle_sha256": {"$ref": "#/$defs/digest"}, "legacy_archive_ref": {"$ref": "#/$defs/legacyArchiveRef"}, "legacy_projection_ref": {"$ref": "#/$defs/legacyProjectionRef"}, "source_runtime_format_version": {"const": 1}, "source_assurance": {"const": "V16_BOUNDED_REPLAY_ONLY"}, "source_runtime_id": {"type": "string", "minLength": 1, "maxLength": 128}, "source_attachment_sha256": {"$ref": "#/$defs/digest"}, "source_storage_inventory_sha256": {"$ref": "#/$defs/digest"}, "source_backup_sha256": {"$ref": "#/$defs/digest"}, "source_global_head_id": {"type": "string", "minLength": 1, "maxLength": 128}, "source_global_head_sha256": {"$ref": "#/$defs/digest"}, "source_row_archive_sha256": {"$ref": "#/$defs/digest"}, "source_projection_sha256": {"$ref": "#/$defs/digest"}, "migration_plan_sha256": {"$ref": "#/$defs/digest"}, "frozen_verifier_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}, "frozen_verifier_closure_sha256": {"$ref": "#/$defs/digest"}, "source_repository_bundle_sha256": {"$ref": "#/$defs/digest"}}},
+    "commit": {"type": "object", "additionalProperties": false, "required": ["semantic_event_ids", "pre_command_head", "post_semantic_head", "operation", "operation_key", "request_ref", "response_ref", "result"], "properties": {"semantic_event_ids": {"type": "array", "minItems": 1, "maxItems": 10001, "uniqueItems": true, "items": {"$ref": "#/$defs/generatedId"}}, "pre_command_head": {"$ref": "#/$defs/head"}, "post_semantic_head": {"$ref": "#/$defs/head"}, "operation": {"enum": ["INITIALIZE", "CLAIM", "START", "CONTINUE", "YIELD", "FAIL", "COMPLETE", "RECOVER", "RETRY", "GOVERNANCE_BLOCK", "REVALIDATE", "ASSIGN_REVIEW", "APPROVE", "REJECT", "REMEDIATE", "ROUTE", "CREATE_REMEDIATION_TASK", "IMPORT_REPOSITORY", "CHECKPOINT", "EXPORT_SNAPSHOT"]}, "operation_key": {"type": "string", "minLength": 1, "maxLength": 256, "pattern": "^v2:[0-9a-f]{64}:[\\x21-\\x7e]{1,180}$"}, "request_ref": {"$ref": "#/$defs/requestRef"}, "response_ref": {"$ref": "#/$defs/responseRef"}, "result": {"const": "COMMITTED"}}},
+    "claim": {"type": "object", "additionalProperties": false, "required": ["claim_id"], "properties": {"claim_id": {"$ref": "#/$defs/generatedId"}}},
+    "review": {"type": "object", "additionalProperties": false, "required": ["assignment_id"], "properties": {"assignment_id": {"$ref": "#/$defs/generatedId"}}},
+    "relationship": {"type": "object", "additionalProperties": false, "required": ["relationship_id"], "properties": {"relationship_id": {"$ref": "#/$defs/generatedId"}}},
+    "repository": {"type": "object", "additionalProperties": false, "required": ["old_generation", "new_generation", "source_commit", "repository_bundle_sha256", "project_state_sha256", "stop_set_sha256", "policy_capability_sha256", "task_inventory_sha256", "reason_code", "affected_task_ids"], "properties": {"old_generation": {"$ref": "#/$defs/nonnegativeInteger"}, "new_generation": {"$ref": "#/$defs/positiveInteger"}, "source_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}, "repository_bundle_sha256": {"$ref": "#/$defs/digest"}, "project_state_sha256": {"$ref": "#/$defs/digest"}, "stop_set_sha256": {"$ref": "#/$defs/digest"}, "policy_capability_sha256": {"$ref": "#/$defs/digest"}, "task_inventory_sha256": {"$ref": "#/$defs/digest"}, "reason_code": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,63}$"}, "affected_task_ids": {"type": "array", "maxItems": 10000, "uniqueItems": true, "items": {"$ref": "#/$defs/taskId"}}}},
+    "checkpoint": {"type": "object", "additionalProperties": false, "required": ["snapshot_id", "checkpoint_sequence", "checkpoint_sha256", "checkpoint_blob_sha256", "prior_checkpoint_sha256", "cut_head", "next_selector_generation", "next_selector_sha256", "next_selector_history_sha256"], "properties": {"snapshot_id": {"$ref": "#/$defs/generatedId"}, "checkpoint_sequence": {"$ref": "#/$defs/nonnegativeInteger"}, "checkpoint_sha256": {"$ref": "#/$defs/digest"}, "checkpoint_blob_sha256": {"$ref": "#/$defs/digest"}, "prior_checkpoint_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/digest"}]}, "cut_head": {"$ref": "#/$defs/head"}, "next_selector_generation": {"$ref": "#/$defs/positiveInteger"}, "next_selector_sha256": {"$ref": "#/$defs/digest"}, "next_selector_history_sha256": {"$ref": "#/$defs/digest"}}},
+    "export": {"type": "object", "additionalProperties": false, "required": ["snapshot_id", "export_sequence", "export_sha256", "export_blob_sha256", "prior_export_sha256", "cut_head"], "properties": {"snapshot_id": {"$ref": "#/$defs/generatedId"}, "export_sequence": {"$ref": "#/$defs/nonnegativeInteger"}, "export_sha256": {"$ref": "#/$defs/digest"}, "export_blob_sha256": {"$ref": "#/$defs/digest"}, "prior_export_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/digest"}]}, "cut_head": {"$ref": "#/$defs/head"}}}
+  }
+}

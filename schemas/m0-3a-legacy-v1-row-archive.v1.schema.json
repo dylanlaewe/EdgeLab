@@ -52,7 +52,7 @@
       "type": "object",
       "additionalProperties": false,
       "required": ["storage_class", "value"],
-      "properties": {"storage_class": {"const": "INTEGER"}, "value": {"type": "integer"}}
+      "properties": {"storage_class": {"const": "INTEGER"}, "value": {"type": "integer", "minimum": -9223372036854775808, "maximum": 9223372036854775807}}
     },
     "textCell": {
       "type": "object",
@@ -80,7 +80,7 @@
         "name": {"const": "runtime.sqlite"},
         "type": {"const": "REGULAR_FILE"},
         "mode": {"const": "0600"},
-        "size": {"type": "integer", "minimum": 0},
+        "size": {"type": "integer", "minimum": 0, "maximum": 9223372036854775807},
         "sha256": {"$ref": "#/$defs/digest"}
       }
     },

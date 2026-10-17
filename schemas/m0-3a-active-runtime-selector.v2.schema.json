@@ -15,7 +15,7 @@
   "properties": {
     "schema_version": {"const": 1},
     "selector_format_version": {"const": 1},
-    "selector_generation": {"type": "integer", "minimum": 0},
+    "selector_generation": {"type": "integer", "minimum": 0, "maximum": 9223372036854775807},
     "active_runtime_format_version": {"enum": [1, 2]},
     "active_runtime_id": {"type": "string", "minLength": 1},
     "active_database_path": {"enum": ["runtime.sqlite", "runtime.v2.sqlite"]},
@@ -65,11 +65,20 @@
       "if": {"properties": {"selector_generation": {"minimum": 1}}, "required": ["selector_generation"]},
       "then": {
         "properties": {
+          "active_runtime_id": {"type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"},
           "prior_selector_path": {"type": "string", "pattern": "^selectors/[0-9]{20}\\.json$"},
           "prior_selector_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
           "active_runtime_format_version": {"const": 2}
         }
       }
+    },
+    {
+      "if": {"properties": {"selector_generation": {"const": 1}}, "required": ["selector_generation"]},
+      "then": {"properties": {"latest_v2_checkpoint_sha256": {"type": "null"}}}
+    },
+    {
+      "if": {"properties": {"selector_generation": {"minimum": 2}}, "required": ["selector_generation"]},
+      "then": {"properties": {"latest_v2_checkpoint_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}}
     },
     {
       "if": {"properties": {"active_runtime_format_version": {"const": 1}}, "required": ["active_runtime_format_version"]},

@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:m0-3a-response-projection:2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "response_format_version", "runtime_id", "chain_id",
+    "operation", "operation_key", "status", "affected_states", "generated_refs"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "response_format_version": {"const": 2},
+    "runtime_id": {"type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"},
+    "chain_id": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "operation": {
+      "enum": [
+        "SYSTEM_GENESIS", "SYSTEM_LEGACY_BRIDGE", "INITIALIZE", "CLAIM",
+        "START", "CONTINUE", "YIELD", "FAIL", "COMPLETE", "RECOVER",
+        "RETRY", "GOVERNANCE_BLOCK", "REVALIDATE", "ASSIGN_REVIEW",
+        "APPROVE", "REJECT", "REMEDIATE", "ROUTE",
+        "CREATE_REMEDIATION_TASK", "IMPORT_REPOSITORY", "CHECKPOINT",
+        "EXPORT_SNAPSHOT"
+      ]
+    },
+    "operation_key": {"type": "string", "minLength": 1, "maxLength": 256, "pattern": "^(?:system:v2:(?:genesis|legacy-bridge)|v2:[0-9a-f]{64}:[\\x21-\\x7e]{1,180})$"},
+    "status": {"const": "COMMITTED"},
+    "affected_states": {
+      "type": "array",
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["task_id", "attempt", "state_ref"],
+        "properties": {
+          "task_id": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+          "attempt": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+          "state_ref": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["schema_id", "sha256"],
+            "properties": {
+              "schema_id": {"const": "urn:edgelab:m0-3a-task-state:2"},
+              "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+            }
+          }
+        }
+      }
+    },
+    "generated_refs": {
+      "type": "array",
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "identifier", "sha256"],
+        "properties": {
+          "kind": {"enum": ["CLAIM", "REVIEW_ASSIGNMENT", "REMEDIATION_LINK", "CHECKPOINT", "EXPORT"]},
+          "identifier": {"type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"},
+          "sha256": {"oneOf": [{"type": "null"}, {"type": "string", "pattern": "^[0-9a-f]{64}$"}]}
+        },
+        "allOf": [
+          {"if": {"properties": {"kind": {"enum": ["CLAIM", "REVIEW_ASSIGNMENT"]}}, "required": ["kind"]}, "then": {"properties": {"sha256": {"type": "null"}}}},
+          {"if": {"properties": {"kind": {"enum": ["REMEDIATION_LINK", "CHECKPOINT", "EXPORT"]}}, "required": ["kind"]}, "then": {"properties": {"sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}}}
+        ]
+      }
+    }
+  },
+  "allOf": [
+    {"if": {"properties": {"operation": {"const": "SYSTEM_GENESIS"}}, "required": ["operation"]}, "then": {"properties": {"operation_key": {"const": "system:v2:genesis"}}}},
+    {"if": {"properties": {"operation": {"const": "SYSTEM_LEGACY_BRIDGE"}}, "required": ["operation"]}, "then": {"properties": {"operation_key": {"const": "system:v2:legacy-bridge"}}}},
+    {"if": {"properties": {"operation": {"enum": ["INITIALIZE", "CLAIM", "START", "CONTINUE", "YIELD", "FAIL", "COMPLETE", "RECOVER", "RETRY", "GOVERNANCE_BLOCK", "REVALIDATE", "ASSIGN_REVIEW", "APPROVE", "REJECT", "REMEDIATE", "ROUTE", "CREATE_REMEDIATION_TASK", "IMPORT_REPOSITORY", "CHECKPOINT", "EXPORT_SNAPSHOT"]}}, "required": ["operation"]}, "then": {"properties": {"operation_key": {"pattern": "^v2:[0-9a-f]{64}:[\\x21-\\x7e]{1,180}$"}}}},
+    {"if": {"properties": {"operation": {"enum": ["SYSTEM_GENESIS", "SYSTEM_LEGACY_BRIDGE", "CHECKPOINT", "EXPORT_SNAPSHOT"]}}, "required": ["operation"]}, "then": {"properties": {"affected_states": {"maxItems": 0}}}},
+    {"if": {"properties": {"operation": {"enum": ["INITIALIZE", "CLAIM", "START", "CONTINUE", "YIELD", "FAIL", "COMPLETE", "RECOVER", "RETRY", "GOVERNANCE_BLOCK", "REVALIDATE", "ASSIGN_REVIEW", "APPROVE", "REJECT", "REMEDIATE", "ROUTE"]}}, "required": ["operation"]}, "then": {"properties": {"affected_states": {"minItems": 1, "maxItems": 1}}}},
+    {"if": {"properties": {"operation": {"const": "CREATE_REMEDIATION_TASK"}}, "required": ["operation"]}, "then": {"properties": {"affected_states": {"minItems": 2, "maxItems": 2}}}},
+    {"if": {"properties": {"operation": {"const": "IMPORT_REPOSITORY"}}, "required": ["operation"]}, "then": {"properties": {"affected_states": {"maxItems": 10000}}}},
+    {"if": {"properties": {"operation": {"enum": ["CLAIM", "ASSIGN_REVIEW", "CREATE_REMEDIATION_TASK", "CHECKPOINT", "EXPORT_SNAPSHOT"]}}, "required": ["operation"]}, "then": {"properties": {"generated_refs": {"minItems": 1, "maxItems": 1}}}, "else": {"properties": {"generated_refs": {"maxItems": 0}}}},
+    {"if": {"properties": {"operation": {"const": "CLAIM"}}, "required": ["operation"]}, "then": {"properties": {"generated_refs": {"contains": {"properties": {"kind": {"const": "CLAIM"}}, "required": ["kind"]}, "minContains": 1, "maxContains": 1}}}},
+    {"if": {"properties": {"operation": {"const": "ASSIGN_REVIEW"}}, "required": ["operation"]}, "then": {"properties": {"generated_refs": {"contains": {"properties": {"kind": {"const": "REVIEW_ASSIGNMENT"}}, "required": ["kind"]}, "minContains": 1, "maxContains": 1}}}},
+    {"if": {"properties": {"operation": {"const": "CREATE_REMEDIATION_TASK"}}, "required": ["operation"]}, "then": {"properties": {"generated_refs": {"contains": {"properties": {"kind": {"const": "REMEDIATION_LINK"}}, "required": ["kind"]}, "minContains": 1, "maxContains": 1}}}},
+    {"if": {"properties": {"operation": {"const": "CHECKPOINT"}}, "required": ["operation"]}, "then": {"properties": {"generated_refs": {"contains": {"properties": {"kind": {"const": "CHECKPOINT"}}, "required": ["kind"]}, "minContains": 1, "maxContains": 1}}}},
+    {"if": {"properties": {"operation": {"const": "EXPORT_SNAPSHOT"}}, "required": ["operation"]}, "then": {"properties": {"generated_refs": {"contains": {"properties": {"kind": {"const": "EXPORT"}}, "required": ["kind"]}, "minContains": 1, "maxContains": 1}}}}
+  ]
+}

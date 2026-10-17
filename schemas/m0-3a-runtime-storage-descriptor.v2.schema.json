@@ -36,7 +36,7 @@
         "compile_options_sha256": {"const": "ac8b209c7df28e9112c556c25014840c89b558d5f271f526dc96a5096c6ccd4e"}
       }
     },
-    "structural_observation_sha256": {"const": "5519e98fe8d9fa49112fc42ee907b8bc26f424ce5f3fa4354628d45da700a76e"},
+    "structural_observation_sha256": {"const": "b7516794d712c422b03544968c9d9019be50bf72470c11fc985772fac659d08b"},
     "tables": {
       "type": "array",
       "minItems": 15,
@@ -67,7 +67,11 @@
       "schema_registry has exactly one row with singleton registry",
       "seals has exactly one deterministic RUNTIME_GENESIS_IDENTITY row",
       "legacy_archive has zero rows for NEW and exactly one singleton legacy row with V16_BOUNDED_REPLAY_ONLY for V1_MIGRATION",
-      "for V1_MIGRATION the projection blob is canonical and registered, its projection_sha256 equals the legacy projection digest recomputed without that field and source_projection_sha256, its archive_sha256 equals source_row_archive_sha256, and the archive and projection blob digests equal archive_blob_sha256 and projection_blob_sha256",
+      "for V1_MIGRATION the projection blob is canonical and registered, its projection_sha256 equals the legacy projection digest recomputed without that field and source_projection_sha256, its row_archive_sha256 equals source_row_archive_sha256, and the archive and projection blob digests equal archive_blob_sha256 and projection_blob_sha256",
+      "migrations has exactly zero rows in runtime format 2; any storage or schema migration requires a successor runtime format",
+      "every tasks reviewer value is null; active review identity is derived only from reviewer_assignment_id and reviews",
+      "blobs contains exactly the typed reachable digest and schema_id pairs: every validated transaction group contributes its exact REQUEST and RESPONSE_PROJECTION blobs from the shared transaction digests, events contribute payload and state refs, bridge payloads contribute legacy refs, and checkpoint/export payloads and snapshots contribute document refs; no other digest is traversed, no unreferenced row exists, and no digest maps to multiple schema IDs",
+      "schema_documents and schema_registry equal the verifier-pinned retained schema bundle exactly",
       "snapshot_kind is exactly CHECKPOINT or EXPORT; each kind has an independently contiguous sequence starting at zero with null prior, and every later prior_document_sha256 equals the immediately prior document_sha256 of the same kind",
       "metadata latest_checkpoint_sha256 is null exactly when no CHECKPOINT exists and otherwise equals the document_sha256 of the maximum CHECKPOINT sequence, never an EXPORT",
       "all root row orders are ascending BINARY and form a total unique order"

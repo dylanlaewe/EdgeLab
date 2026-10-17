@@ -7,6 +7,9 @@ import unittest
 
 from jsonschema import Draft202012Validator, FormatChecker, ValidationError
 
+from src.edgelab.runtime_v2_codec import schema_document_digest
+from tools.build_runtime_v2_schema_registry import parse_schema
+
 
 ROOT = Path(__file__).resolve().parents[1]
 D = "a" * 64
@@ -21,12 +24,12 @@ EVENT_TYPES = (
     "REVIEW_REMEDIATED", "DIRECTOR_ROUTED", "REMEDIATION_CREATED",
     "TASK_CREATED_FROM_REMEDIATION", "REPOSITORY_GENERATION_APPLIED",
     "REPOSITORY_GENERATION_ADVANCED", "RUNTIME_CHECKPOINTED",
-    "RUNTIME_SNAPSHOT_EXPORTED", "MIGRATION_RECORDED",
+    "RUNTIME_SNAPSHOT_EXPORTED",
 )
 RUNTIME_TYPES = {
     "RUNTIME_GENESIS", "LEGACY_V1_BRIDGE", "COMMAND_COMMITTED",
     "REPOSITORY_GENERATION_ADVANCED", "RUNTIME_CHECKPOINTED",
-    "RUNTIME_SNAPSHOT_EXPORTED", "MIGRATION_RECORDED",
+    "RUNTIME_SNAPSHOT_EXPORTED",
 }
 
 
@@ -39,6 +42,9 @@ def validate(name, value):
 
 
 class SuccessorRuntimeContractTests(unittest.TestCase):
+    UUID = "123e4567-e89b-42d3-a456-426614174000"
+    UUID2 = "123e4567-e89b-42d3-a456-426614174001"
+    UUID3 = "123e4567-e89b-42d3-a456-426614174002"
     def manifest(self, *, migrated=False):
         bridge = None
         if migrated:
@@ -62,7 +68,7 @@ class SuccessorRuntimeContractTests(unittest.TestCase):
             "schema_version": 1,
             "runtime_format_version": 2,
             "event_format_version": 2,
-            "runtime_id": "runtime-2",
+            "runtime_id": self.UUID,
             "chain_id": D,
             "canonicalization": "EDGELAB_CANONICAL_JSON_V1",
             "digest_algorithm": "SHA-256",
@@ -70,7 +76,7 @@ class SuccessorRuntimeContractTests(unittest.TestCase):
             "sqlite_user_version": 2,
             "storage_schema_sha256": D,
             "schema_registry_sha256": D,
-            "genesis_event_id": "event-0",
+            "genesis_event_id": self.UUID2,
             "genesis_event_sha256": D,
             "attachment_sha256": D,
             "source_kind": "V1_MIGRATION" if migrated else "NEW",
@@ -97,20 +103,20 @@ class SuccessorRuntimeContractTests(unittest.TestCase):
         return {
             "schema_version": 1,
             "event_format_version": 2,
-            "runtime_id": "runtime-2",
+            "runtime_id": self.UUID,
             "chain_id": D,
-            "event_id": "event-1",
+            "event_id": self.UUID3,
             "event_type": "TASK_INITIALIZED" if stream == "TASK" else "COMMAND_COMMITTED",
             "occurred_at": "2026-10-16T00:00:00Z",
             "global_sequence": 1,
-            "global_predecessor": {"event_id": "event-0", "event_sha256": D},
+            "global_predecessor": {"event_id": self.UUID2, "event_sha256": D},
             "stream": stream,
             "task_context": task_context,
             "transaction": {
-                "transaction_id": "transaction-1",
+                "transaction_id": self.UUID2,
                 "position": 0,
                 "event_count": 2,
-                "operation_key": "initialize-T",
+                "operation_key": f"v2:{D}:initialize-T",
                 "request_sha256": D,
                 "response_sha256": D,
             },
@@ -128,11 +134,11 @@ class SuccessorRuntimeContractTests(unittest.TestCase):
         return {
             "schema_version": 1,
             "runtime_format_version": 2,
-            "runtime_id": "runtime-2",
+            "runtime_id": self.UUID,
             "chain_id": D,
             "checkpoint_sequence": 0,
             "through_global_sequence": 2,
-            "head_event_id": "event-2",
+            "head_event_id": self.UUID3,
             "head_event_sha256": D,
             "manifest_sha256": D,
             "prior_checkpoint_sha256": None,
@@ -155,12 +161,12 @@ class SuccessorRuntimeContractTests(unittest.TestCase):
             "selector_format_version": 1,
             "selector_generation": generation,
             "active_runtime_format_version": 2 if v2 else 1,
-            "active_runtime_id": "runtime-2" if v2 else "runtime-1",
+            "active_runtime_id": self.UUID if v2 else "runtime-1",
             "active_database_path": "runtime.v2.sqlite" if v2 else "runtime.sqlite",
             "active_attachment_path": "attachment.v2.json" if v2 else "attachment.json",
             "active_manifest_path": "runtime.v2.manifest.json" if v2 else None,
             "active_manifest_sha256": D if v2 else None,
-            "latest_v2_checkpoint_sha256": D if v2 else None,
+            "latest_v2_checkpoint_sha256": D if generation > 1 else None,
             "selector_history_path": f"selectors/{generation:020d}.json",
             "prior_selector_path": f"selectors/{generation-1:020d}.json" if v2 else None,
             "prior_selector_sha256": D if v2 else None,
@@ -245,10 +251,15 @@ class SuccessorRuntimeContractTests(unittest.TestCase):
 
     def registry(self):
         documents = [
+            {"schema_id": "envelope", "document_sha256": D, "content_role": "EVENT_ENVELOPE"},
             {"schema_id": "payload", "document_sha256": D, "content_role": "PAYLOAD"},
             {"schema_id": "state", "document_sha256": D, "content_role": "TASK_STATE"},
             {"schema_id": "request", "document_sha256": D, "content_role": "REQUEST"},
             {"schema_id": "response", "document_sha256": D, "content_role": "RESPONSE_PROJECTION"},
+            {"schema_id": "checkpoint", "document_sha256": D, "content_role": "CHECKPOINT_DOCUMENT"},
+            {"schema_id": "export", "document_sha256": D, "content_role": "EXPORT_DOCUMENT"},
+            {"schema_id": "legacy-archive", "document_sha256": D, "content_role": "LEGACY_ROW_ARCHIVE"},
+            {"schema_id": "legacy-projection", "document_sha256": D, "content_role": "LEGACY_PROJECTION"},
         ]
         return {
             "schema_version": 1,
@@ -268,6 +279,33 @@ class SuccessorRuntimeContractTests(unittest.TestCase):
             ],
         }
 
+    def task_state(self):
+        return {
+            "task_id": "T", "attempt": 1, "workflow": "ACTIVE",
+            "execution": "CLAIMABLE", "review": "NOT_REQUIRED",
+            "scheduler_generation": 0, "dispatch_generation": 0,
+            "task_fence": 0, "active_claim_id": None,
+            "reviewer_assignment_id": None, "continuation_count": 0,
+            "repository_generation": 0, "decision_receipt_digest": D,
+            "owner": "director-fixture", "owner_role": "00 Director",
+            "reviewer": None,
+            "predecessor_task": None, "successor_task": None,
+        }
+
+    def initialize_request(self):
+        return {
+            "schema_version": 1, "request_format_version": 2,
+            "runtime_id": self.UUID, "chain_id": D,
+            "operation": "INITIALIZE", "operation_key": f"v2:{D}:key",
+            "repository_generation": 0, "repository_bundle_sha256": D,
+            "subject": {"task_id": "T", "attempt": 1},
+            "expected_state_ref": None,
+            "arguments": {
+                "decision_receipt_digest": D, "owner": "director-fixture",
+                "owner_role": "00 Director",
+            },
+        }
+
     def test_schemas_and_bounded_examples_are_valid(self):
         for name in (
             "m0-3a-runtime-manifest.v2.schema.json",
@@ -277,6 +315,12 @@ class SuccessorRuntimeContractTests(unittest.TestCase):
             "m0-3a-legacy-v1-projection.v1.schema.json",
             "m0-3a-legacy-v1-row-archive.v1.schema.json",
             "m0-3a-schema-registry.v2.schema.json",
+            "m0-3a-task-state.v2.schema.json",
+            "m0-3a-command-request.v2.schema.json",
+            "m0-3a-response-projection.v2.schema.json",
+            "m0-3a-event-payload.v2.schema.json",
+            "m0-3a-runtime-attachment.v2.schema.json",
+            "m0-3a-runtime-export.v2.schema.json",
         ):
             Draft202012Validator.check_schema(schema(name))
         validate("m0-3a-runtime-manifest.v2.schema.json", self.manifest())
@@ -286,9 +330,304 @@ class SuccessorRuntimeContractTests(unittest.TestCase):
         validate("m0-3a-runtime-checkpoint.v2.schema.json", self.checkpoint())
         validate("m0-3a-active-runtime-selector.v2.schema.json", self.selector())
         validate("m0-3a-active-runtime-selector.v2.schema.json", self.selector(generation=1))
+        validate("m0-3a-active-runtime-selector.v2.schema.json", self.selector(generation=2))
         validate("m0-3a-legacy-v1-projection.v1.schema.json", self.legacy_projection())
         validate("m0-3a-legacy-v1-row-archive.v1.schema.json", self.legacy_archive())
         validate("m0-3a-schema-registry.v2.schema.json", self.registry())
+        validate("m0-3a-task-state.v2.schema.json", self.task_state())
+        validate("m0-3a-command-request.v2.schema.json", self.initialize_request())
+        validate("m0-3a-event-payload.v2.schema.json", {
+            "schema_version": 1, "payload_format_version": 2,
+            "event_type": "TASK_INITIALIZED", "data": {},
+        })
+        validate("m0-3a-response-projection.v2.schema.json", {
+            "schema_version": 1, "response_format_version": 2,
+            "runtime_id": self.UUID, "chain_id": D,
+            "operation": "INITIALIZE", "operation_key": f"v2:{D}:key",
+            "status": "COMMITTED", "affected_states": [{
+                "task_id": "T", "attempt": 1,
+                "state_ref": {
+                    "schema_id": "urn:edgelab:m0-3a-task-state:2",
+                    "sha256": D,
+                },
+            }],
+            "generated_refs": [],
+        })
+        validate("m0-3a-runtime-attachment.v2.schema.json", {
+            "attachment_schema_version": 2, "runtime_format_version": 2,
+            "runtime_id": self.UUID, "chain_id": D,
+            "canonical_project_id": "EdgeLab",
+            "repository_root_realpath": "/repo",
+            "expected_remote": "https://github.com/dylanlaewe/EdgeLab.git",
+            "git_common_dir_identity": "/repo/.git",
+            "repository_marker_sha256": D, "checkout_nonce": D,
+            "created_at": "2026-10-16T00:00:00Z",
+            "anchor_status": "UNANCHORED", "currentness_status": "UNKNOWN",
+            "authorizing_use": "DENY",
+        })
+        validate("m0-3a-runtime-export.v2.schema.json", {
+            "schema_version": 1, "runtime_format_version": 2,
+            "runtime_id": self.UUID, "chain_id": D, "export_sequence": 0,
+            "through_global_sequence": 0, "head_event_id": self.UUID2,
+            "head_event_sha256": D, "manifest_sha256": D,
+            "source_checkpoint_sha256": None, "prior_export_sha256": None,
+            "roots": {name: D for name in (
+                "attempts", "blobs", "claims", "events", "idempotency",
+                "legacy_archive", "metadata", "migrations", "remediation_links",
+                "reviews", "schema_documents", "schema_registry", "seals",
+                "snapshots", "tasks",
+            )},
+            "export_sha256": D, "created_at": "2026-10-16T00:00:00Z",
+            "anchor_status": "LOCAL_UNANCHORED", "currentness_status": "UNKNOWN",
+            "authorizing_use": "DENY",
+        })
+
+    def test_published_registry_is_exact_sorted_and_document_bound(self):
+        registry = json.loads((
+            ROOT / "schemas" / "m0-3a-schema-registry.v2.json"
+        ).read_text())
+        validate("m0-3a-schema-registry.v2.schema.json", registry)
+        self.assertEqual(
+            [entry["schema_id"] for entry in registry["documents"]],
+            sorted(entry["schema_id"] for entry in registry["documents"]),
+        )
+        self.assertEqual(
+            len({entry["schema_id"] for entry in registry["documents"]}), 9
+        )
+        self.assertEqual(
+            len({entry["document_sha256"] for entry in registry["documents"]}), 9
+        )
+        self.assertEqual(
+            len({entry["content_role"] for entry in registry["documents"]}), 9
+        )
+        self.assertEqual(
+            [entry["event_type"] for entry in registry["event_bindings"]],
+            sorted(EVENT_TYPES),
+        )
+        by_id = {}
+        for path in (ROOT / "schemas").glob("m0-3a-*.schema.json"):
+            document = json.loads(path.read_text())
+            if "$id" in document:
+                by_id[document["$id"]] = document
+        for entry in registry["documents"]:
+            self.assertEqual(
+                entry["document_sha256"],
+                schema_document_digest(by_id[entry["schema_id"]]),
+            )
+
+    def test_registry_builder_rejects_duplicate_schema_keys(self):
+        with self.assertRaisesRegex(ValueError, "duplicate JSON key"):
+            parse_schema('{"$id":"one","$id":"two"}')
+
+    def test_task_state_claim_and_review_identity_are_tuple_closed(self):
+        invalid_claim = self.task_state()
+        invalid_claim["active_claim_id"] = self.UUID
+        reviewing_without_assignment = self.task_state()
+        reviewing_without_assignment.update(
+            execution="EXECUTION_COMPLETED", review="REVIEWING"
+        )
+        duplicated_reviewer = self.task_state()
+        duplicated_reviewer["reviewer"] = "05 Skeptic"
+        for altered in (invalid_claim, reviewing_without_assignment, duplicated_reviewer):
+            with self.assertRaises(ValidationError):
+                validate("m0-3a-task-state.v2.schema.json", altered)
+
+    def test_every_operation_and_event_has_one_closed_content_branch(self):
+        request_schema = schema("m0-3a-command-request.v2.schema.json")
+        operations = set(request_schema["properties"]["operation"]["enum"])
+        argument_operations = set()
+        for clause in request_schema["allOf"]:
+            if "arguments" not in clause.get("then", {}).get("properties", {}):
+                continue
+            condition = clause["if"]["properties"]["operation"]
+            argument_operations.update(
+                [condition["const"]] if "const" in condition else condition["enum"]
+            )
+        self.assertEqual(argument_operations, operations)
+
+        payload_schema = schema("m0-3a-event-payload.v2.schema.json")
+        event_types = set(payload_schema["properties"]["event_type"]["enum"])
+        branch_counts = {event_type: 0 for event_type in event_types}
+        for branch in payload_schema["oneOf"]:
+            condition = branch["properties"]["event_type"]
+            for event_type in (
+                [condition["const"]] if "const" in condition else condition["enum"]
+            ):
+                branch_counts[event_type] += 1
+        self.assertEqual(set(branch_counts), set(EVENT_TYPES))
+        self.assertTrue(all(count == 1 for count in branch_counts.values()))
+
+    def test_system_genesis_request_cannot_bind_manifest_digest(self):
+        request = {
+            "schema_version": 1, "request_format_version": 2,
+            "runtime_id": self.UUID, "chain_id": D,
+            "operation": "SYSTEM_GENESIS",
+            "operation_key": "system:v2:genesis",
+            "repository_generation": 0, "repository_bundle_sha256": D,
+            "subject": None, "expected_state_ref": None,
+            "arguments": {
+                "attachment_sha256": D, "schema_registry_sha256": D,
+                "storage_schema_sha256": D,
+            },
+        }
+        validate("m0-3a-command-request.v2.schema.json", request)
+        request["arguments"]["manifest_sha256"] = D
+        with self.assertRaises(ValidationError):
+            validate("m0-3a-command-request.v2.schema.json", request)
+
+    def test_system_payloads_require_complete_pre_manifest_provenance(self):
+        genesis = {
+            "schema_version": 1, "payload_format_version": 2,
+            "event_type": "RUNTIME_GENESIS",
+            "data": {
+                "runtime_id": self.UUID, "chain_id": D,
+                "runtime_format_version": 2, "event_format_version": 2,
+                "attachment_sha256": D, "storage_schema_sha256": D,
+                "schema_registry_sha256": D,
+                "verifier_dependency_closure_sha256": D,
+                "repository_generation": 0,
+                "repository_bundle_sha256": D,
+            },
+        }
+        validate("m0-3a-event-payload.v2.schema.json", genesis)
+        incomplete = copy.deepcopy(genesis)
+        del incomplete["data"]["verifier_dependency_closure_sha256"]
+        with self.assertRaises(ValidationError):
+            validate("m0-3a-event-payload.v2.schema.json", incomplete)
+
+        bridge = copy.deepcopy(genesis)
+        bridge["event_type"] = "LEGACY_V1_BRIDGE"
+        bridge["data"].update({
+            "legacy_archive_ref": {
+                "schema_id": "urn:edgelab:m0-3a-legacy-v1-row-archive:1",
+                "sha256": D,
+            },
+            "legacy_projection_ref": {
+                "schema_id": "urn:edgelab:m0-3a-legacy-v1-projection:1",
+                "sha256": D,
+            },
+            **self.manifest(migrated=True)["legacy_bridge"],
+        })
+        validate("m0-3a-event-payload.v2.schema.json", bridge)
+        bridge["data"]["legacy_archive_ref"]["schema_id"] = "wrong-role"
+        with self.assertRaises(ValidationError):
+            validate("m0-3a-event-payload.v2.schema.json", bridge)
+
+    def test_response_projection_cardinality_and_generated_kind_are_closed(self):
+        response = {
+            "schema_version": 1, "response_format_version": 2,
+            "runtime_id": self.UUID, "chain_id": D,
+            "operation": "INITIALIZE", "operation_key": f"v2:{D}:key",
+            "status": "COMMITTED", "affected_states": [],
+            "generated_refs": [],
+        }
+        with self.assertRaises(ValidationError):
+            validate("m0-3a-response-projection.v2.schema.json", response)
+        response.update(
+            operation="CLAIM",
+            affected_states=[{
+                "task_id": "T", "attempt": 1,
+                "state_ref": {"schema_id": "urn:edgelab:m0-3a-task-state:2", "sha256": D},
+            }],
+            generated_refs=[{"kind": "CLAIM", "identifier": "not-uuid", "sha256": D}],
+        )
+        with self.assertRaises(ValidationError):
+            validate("m0-3a-response-projection.v2.schema.json", response)
+
+    def test_system_operation_keys_are_reserved_to_system_operations(self):
+        request = self.initialize_request()
+        request["operation_key"] = "system:v2:genesis"
+        with self.assertRaises(ValidationError):
+            validate("m0-3a-command-request.v2.schema.json", request)
+
+        response = {
+            "schema_version": 1, "response_format_version": 2,
+            "runtime_id": self.UUID, "chain_id": D,
+            "operation": "INITIALIZE", "operation_key": "system:v2:genesis",
+            "status": "COMMITTED", "affected_states": [{
+                "task_id": "T", "attempt": 1,
+                "state_ref": {
+                    "schema_id": "urn:edgelab:m0-3a-task-state:2",
+                    "sha256": D,
+                },
+            }],
+            "generated_refs": [],
+        }
+        with self.assertRaises(ValidationError):
+            validate("m0-3a-response-projection.v2.schema.json", response)
+
+        response.update(
+            operation="SYSTEM_GENESIS", affected_states=[],
+            operation_key="system:v2:genesis",
+        )
+        validate("m0-3a-response-projection.v2.schema.json", response)
+
+    def test_export_and_legacy_integer_bounds_are_closed(self):
+        export = {
+            "schema_version": 1, "runtime_format_version": 2,
+            "runtime_id": self.UUID, "chain_id": D, "export_sequence": 0,
+            "through_global_sequence": 0, "head_event_id": "not-an-event-uuid",
+            "head_event_sha256": D, "manifest_sha256": D,
+            "source_checkpoint_sha256": None, "prior_export_sha256": None,
+            "roots": {name: D for name in (
+                "attempts", "blobs", "claims", "events", "idempotency",
+                "legacy_archive", "metadata", "migrations", "remediation_links",
+                "reviews", "schema_documents", "schema_registry", "seals",
+                "snapshots", "tasks",
+            )},
+            "export_sha256": D, "created_at": "2026-10-16T00:00:00Z",
+            "anchor_status": "LOCAL_UNANCHORED", "currentness_status": "UNKNOWN",
+            "authorizing_use": "DENY",
+        }
+        with self.assertRaises(ValidationError):
+            validate("m0-3a-runtime-export.v2.schema.json", export)
+
+        archive = self.legacy_archive()
+        archive["tables"]["meta"] = [[
+            {"storage_class": "TEXT", "value": "counter"},
+            {"storage_class": "INTEGER", "value": 2 ** 63},
+        ]]
+        projection = self.legacy_projection()
+        projection["tables"]["meta"]["row_count"] = 2 ** 63
+        for name, value in (
+            ("m0-3a-legacy-v1-row-archive.v1.schema.json", archive),
+            ("m0-3a-legacy-v1-projection.v1.schema.json", projection),
+        ):
+            with self.subTest(name=name), self.assertRaises(ValidationError):
+                validate(name, value)
+    def test_v2_identifiers_bounds_and_operation_keys_fail_closed(self):
+        cases = []
+        invalid_event = self.event()
+        invalid_event["event_id"] = "event"
+        cases.append(("m0-3a-event-envelope.v2.schema.json", invalid_event))
+        invalid_key = self.initialize_request()
+        invalid_key["operation_key"] = "v2:key"
+        cases.append(("m0-3a-command-request.v2.schema.json", invalid_key))
+        huge_checkpoint = self.checkpoint()
+        huge_checkpoint["through_global_sequence"] = 2 ** 80
+        cases.append(("m0-3a-runtime-checkpoint.v2.schema.json", huge_checkpoint))
+        huge_selector = self.selector()
+        huge_selector["selector_generation"] = 2 ** 80
+        cases.append(("m0-3a-active-runtime-selector.v2.schema.json", huge_selector))
+        for name, value in cases:
+            with self.subTest(name=name), self.assertRaises(ValidationError):
+                validate(name, value)
+
+    def test_empty_repository_import_is_representable(self):
+        request = {
+            "schema_version": 1, "request_format_version": 2,
+            "runtime_id": self.UUID, "chain_id": D,
+            "operation": "IMPORT_REPOSITORY", "operation_key": f"v2:{D}:import",
+            "repository_generation": 1, "repository_bundle_sha256": D,
+            "subject": None, "expected_state_ref": None,
+            "arguments": {
+                "affected_task_ids": [], "reason_code": "IMPORT",
+                "source_commit": "a" * 40, "project_state_sha256": D,
+                "stop_set_sha256": D, "policy_capability_sha256": D,
+                "task_inventory_sha256": D,
+            },
+        }
+        validate("m0-3a-command-request.v2.schema.json", request)
 
     def test_unknown_versions_and_fields_deny(self):
         for field, value in (("runtime_format_version", 3), ("event_format_version", True)):

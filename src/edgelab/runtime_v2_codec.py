@@ -133,6 +133,26 @@ def checkpoint_digest(checkpoint: dict[str, Any]) -> str:
     return _canonical_digest(b"EDGELAB\0CHECKPOINT\0V2\0", body)
 
 
+def export_digest(export: dict[str, Any]) -> str:
+    if type(export) is not dict or "export_sha256" not in export:
+        raise CanonicalJsonError("EXPORT_DIGEST_FIELD_REQUIRED")
+    body = dict(export)
+    del body["export_sha256"]
+    return _canonical_digest(b"EDGELAB\0EXPORT\0V2\0", body)
+
+
+def attachment_digest(attachment: dict[str, Any]) -> str:
+    return _canonical_digest(b"EDGELAB\0ATTACHMENT\0V2\0", attachment)
+
+
+def remediation_link_digest(link: dict[str, Any]) -> str:
+    if type(link) is not dict or "link_sha256" not in link:
+        raise CanonicalJsonError("LINK_DIGEST_FIELD_REQUIRED")
+    body = dict(link)
+    del body["link_sha256"]
+    return _canonical_digest(b"EDGELAB\0REMEDIATION_LINK\0V2\0", body)
+
+
 def manifest_digest(manifest: dict[str, Any]) -> str:
     return _canonical_digest(b"EDGELAB\0MANIFEST\0V2\0", manifest)
 

@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:m0-3a-runtime-export:2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "runtime_format_version", "runtime_id", "chain_id",
+    "export_sequence", "through_global_sequence", "head_event_id",
+    "head_event_sha256", "manifest_sha256", "source_checkpoint_sha256",
+    "prior_export_sha256", "roots", "export_sha256", "created_at", "anchor_status",
+    "currentness_status", "authorizing_use"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "runtime_format_version": {"const": 2},
+    "runtime_id": {"type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"},
+    "chain_id": {"$ref": "#/$defs/digest"},
+    "export_sequence": {"$ref": "#/$defs/nonnegativeInteger"},
+    "through_global_sequence": {"$ref": "#/$defs/nonnegativeInteger"},
+    "head_event_id": {"$ref": "#/$defs/generatedId"},
+    "head_event_sha256": {"$ref": "#/$defs/digest"},
+    "manifest_sha256": {"$ref": "#/$defs/digest"},
+    "source_checkpoint_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/digest"}]},
+    "prior_export_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/digest"}]},
+    "roots": {"$ref": "#/$defs/roots"},
+    "export_sha256": {"$ref": "#/$defs/digest"},
+    "created_at": {"type": "string", "format": "date-time", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
+    "anchor_status": {"const": "LOCAL_UNANCHORED"},
+    "currentness_status": {"const": "UNKNOWN"},
+    "authorizing_use": {"const": "DENY"}
+  },
+  "allOf": [
+    {"if": {"properties": {"export_sequence": {"const": 0}}, "required": ["export_sequence"]}, "then": {"properties": {"prior_export_sha256": {"type": "null"}}}},
+    {"if": {"properties": {"export_sequence": {"minimum": 1}}, "required": ["export_sequence"]}, "then": {"properties": {"prior_export_sha256": {"$ref": "#/$defs/digest"}}}}
+  ],
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "generatedId": {"type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"},
+    "nonnegativeInteger": {"type": "integer", "minimum": 0, "maximum": 9223372036854775807},
+    "roots": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["attempts", "blobs", "claims", "events", "idempotency", "legacy_archive", "metadata", "migrations", "remediation_links", "reviews", "schema_documents", "schema_registry", "seals", "snapshots", "tasks"],
+      "properties": {
+        "attempts": {"$ref": "#/$defs/digest"}, "blobs": {"$ref": "#/$defs/digest"},
+        "claims": {"$ref": "#/$defs/digest"}, "events": {"$ref": "#/$defs/digest"},
+        "idempotency": {"$ref": "#/$defs/digest"}, "legacy_archive": {"$ref": "#/$defs/digest"},
+        "metadata": {"$ref": "#/$defs/digest"}, "migrations": {"$ref": "#/$defs/digest"},
+        "remediation_links": {"$ref": "#/$defs/digest"}, "reviews": {"$ref": "#/$defs/digest"},
+        "schema_documents": {"$ref": "#/$defs/digest"}, "schema_registry": {"$ref": "#/$defs/digest"},
+        "seals": {"$ref": "#/$defs/digest"}, "snapshots": {"$ref": "#/$defs/digest"},
+        "tasks": {"$ref": "#/$defs/digest"}
+      }
+    }
+  }
+}

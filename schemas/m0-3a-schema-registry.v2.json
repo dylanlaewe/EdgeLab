@@ -1,0 +1,278 @@
+{
+  "schema_version": 1,
+  "runtime_format_version": 2,
+  "documents": [
+    {
+      "schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "document_sha256": "8c7b7cf050700f696e44d89899365bdc80620dd1071dad7aa08707c91f88388e",
+      "content_role": "REQUEST"
+    },
+    {
+      "schema_id": "urn:edgelab:m0-3a-event-envelope:2",
+      "document_sha256": "ae3655e0b94610e54ad00b514de1eeb78e9abd54f5828fd93387583b76f2b553",
+      "content_role": "EVENT_ENVELOPE"
+    },
+    {
+      "schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "document_sha256": "1b26427cde4998e23ec503df3a46b527893a2f40c27e7d0efdadf5474e8e30e4",
+      "content_role": "PAYLOAD"
+    },
+    {
+      "schema_id": "urn:edgelab:m0-3a-legacy-v1-projection:1",
+      "document_sha256": "15689e50b3abe3895c546ddc606fe9b754ab993804b13aedd85e8e789374ba53",
+      "content_role": "LEGACY_PROJECTION"
+    },
+    {
+      "schema_id": "urn:edgelab:m0-3a-legacy-v1-row-archive:1",
+      "document_sha256": "fcd734fdda399047738bb139ed3971e5906eaaa7063435f4902a259d2a9d3a9c",
+      "content_role": "LEGACY_ROW_ARCHIVE"
+    },
+    {
+      "schema_id": "urn:edgelab:m0-3a-response-projection:2",
+      "document_sha256": "9a01e5c47f628c4a80082f6ac1276ecae345c47c42923789d0743d4fd41f0a61",
+      "content_role": "RESPONSE_PROJECTION"
+    },
+    {
+      "schema_id": "urn:edgelab:m0-3a-runtime-checkpoint:2",
+      "document_sha256": "2c9fc0fed41a49342ec91a8b5d17dd3f3e23e7612a07257af5f1d6acd6d4c05a",
+      "content_role": "CHECKPOINT_DOCUMENT"
+    },
+    {
+      "schema_id": "urn:edgelab:m0-3a-runtime-export:2",
+      "document_sha256": "c9b345e83d99173f41c52fd818471b428ff0a7503ce9340e76531d7cb58b079a",
+      "content_role": "EXPORT_DOCUMENT"
+    },
+    {
+      "schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "document_sha256": "c8b9a47df5b91ae467f3008c8c7c27bdf2df089a3fbc25d684f53e56bc37ede8",
+      "content_role": "TASK_STATE"
+    }
+  ],
+  "event_bindings": [
+    {
+      "event_type": "CLAIM_ISSUED",
+      "stream": "TASK",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "state_after_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    },
+    {
+      "event_type": "CLAIM_RECOVERED",
+      "stream": "TASK",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "state_after_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    },
+    {
+      "event_type": "COMMAND_COMMITTED",
+      "stream": "RUNTIME",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": null,
+      "state_after_schema_id": null,
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    },
+    {
+      "event_type": "DIRECTOR_ROUTED",
+      "stream": "TASK",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "state_after_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    },
+    {
+      "event_type": "GOVERNANCE_BLOCKED",
+      "stream": "TASK",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "state_after_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    },
+    {
+      "event_type": "GOVERNANCE_REVALIDATED",
+      "stream": "TASK",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "state_after_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    },
+    {
+      "event_type": "LEGACY_V1_BRIDGE",
+      "stream": "RUNTIME",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": null,
+      "state_after_schema_id": null,
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    },
+    {
+      "event_type": "REMEDIATION_CREATED",
+      "stream": "TASK",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "state_after_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    },
+    {
+      "event_type": "REPOSITORY_GENERATION_ADVANCED",
+      "stream": "RUNTIME",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": null,
+      "state_after_schema_id": null,
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    },
+    {
+      "event_type": "REPOSITORY_GENERATION_APPLIED",
+      "stream": "TASK",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "state_after_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    },
+    {
+      "event_type": "REVIEW_APPROVED",
+      "stream": "TASK",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "state_after_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    },
+    {
+      "event_type": "REVIEW_ASSIGNED",
+      "stream": "TASK",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "state_after_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    },
+    {
+      "event_type": "REVIEW_REJECTED",
+      "stream": "TASK",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "state_after_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    },
+    {
+      "event_type": "REVIEW_REMEDIATED",
+      "stream": "TASK",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "state_after_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    },
+    {
+      "event_type": "RUNTIME_CHECKPOINTED",
+      "stream": "RUNTIME",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": null,
+      "state_after_schema_id": null,
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    },
+    {
+      "event_type": "RUNTIME_GENESIS",
+      "stream": "RUNTIME",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": null,
+      "state_after_schema_id": null,
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    },
+    {
+      "event_type": "RUNTIME_SNAPSHOT_EXPORTED",
+      "stream": "RUNTIME",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": null,
+      "state_after_schema_id": null,
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    },
+    {
+      "event_type": "TASK_COMPLETED",
+      "stream": "TASK",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "state_after_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    },
+    {
+      "event_type": "TASK_CONTINUED",
+      "stream": "TASK",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "state_after_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    },
+    {
+      "event_type": "TASK_CREATED_FROM_REMEDIATION",
+      "stream": "TASK",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": null,
+      "state_after_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    },
+    {
+      "event_type": "TASK_FAILED",
+      "stream": "TASK",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "state_after_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    },
+    {
+      "event_type": "TASK_INITIALIZED",
+      "stream": "TASK",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": null,
+      "state_after_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    },
+    {
+      "event_type": "TASK_RETRIED",
+      "stream": "TASK",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "state_after_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    },
+    {
+      "event_type": "TASK_STARTED",
+      "stream": "TASK",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "state_after_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    },
+    {
+      "event_type": "TASK_YIELDED",
+      "stream": "TASK",
+      "payload_schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "state_before_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "state_after_schema_id": "urn:edgelab:m0-3a-task-state:2",
+      "request_schema_id": "urn:edgelab:m0-3a-command-request:2",
+      "response_projection_schema_id": "urn:edgelab:m0-3a-response-projection:2"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:m0-3a-task-state:2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "task_id", "attempt", "workflow", "execution", "review",
+    "scheduler_generation", "dispatch_generation", "task_fence",
+    "active_claim_id", "reviewer_assignment_id", "continuation_count",
+    "repository_generation", "decision_receipt_digest", "owner", "owner_role", "reviewer",
+    "predecessor_task", "successor_task"
+  ],
+  "properties": {
+    "task_id": {"$ref": "#/$defs/taskId"},
+    "attempt": {"$ref": "#/$defs/positiveInteger"},
+    "workflow": {"enum": ["ACTIVE", "DIRECTOR_GATE_READY", "GOVERNANCE_BLOCKED", "CLOSED"]},
+    "execution": {"enum": ["CLAIMABLE", "CLAIMED", "IN_PROGRESS", "FAILED", "EXECUTION_COMPLETED", "EXECUTION_BLOCKED"]},
+    "review": {"enum": ["NOT_REQUIRED", "REVIEW_PENDING", "REVIEWING", "REJECTED", "REMEDIATION_REQUIRED", "APPROVED"]},
+    "scheduler_generation": {"$ref": "#/$defs/nonnegativeInteger"},
+    "dispatch_generation": {"$ref": "#/$defs/nonnegativeInteger"},
+    "task_fence": {"$ref": "#/$defs/nonnegativeInteger"},
+    "active_claim_id": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/generatedId"}]},
+    "reviewer_assignment_id": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/generatedId"}]},
+    "continuation_count": {"$ref": "#/$defs/nonnegativeInteger"},
+    "repository_generation": {"$ref": "#/$defs/nonnegativeInteger"},
+    "decision_receipt_digest": {"$ref": "#/$defs/digest"},
+    "owner": {"$ref": "#/$defs/identity"},
+    "owner_role": {"$ref": "#/$defs/identity"},
+    "reviewer": {"type": "null"},
+    "predecessor_task": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/taskId"}]},
+    "successor_task": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/taskId"}]}
+  },
+  "oneOf": [
+    {"properties": {"workflow": {"const": "ACTIVE"}, "execution": {"const": "CLAIMABLE"}, "review": {"const": "NOT_REQUIRED"}, "active_claim_id": {"type": "null"}, "reviewer_assignment_id": {"type": "null"}}},
+    {"properties": {"workflow": {"const": "ACTIVE"}, "execution": {"const": "CLAIMED"}, "review": {"const": "NOT_REQUIRED"}, "active_claim_id": {"$ref": "#/$defs/generatedId"}, "reviewer_assignment_id": {"type": "null"}}},
+    {"properties": {"workflow": {"const": "ACTIVE"}, "execution": {"const": "IN_PROGRESS"}, "review": {"const": "NOT_REQUIRED"}, "active_claim_id": {"$ref": "#/$defs/generatedId"}, "reviewer_assignment_id": {"type": "null"}}},
+    {"properties": {"workflow": {"const": "ACTIVE"}, "execution": {"const": "FAILED"}, "review": {"const": "NOT_REQUIRED"}, "active_claim_id": {"type": "null"}, "reviewer_assignment_id": {"type": "null"}}},
+    {"properties": {"workflow": {"const": "ACTIVE"}, "execution": {"const": "EXECUTION_COMPLETED"}, "review": {"const": "REVIEW_PENDING"}, "active_claim_id": {"type": "null"}, "reviewer_assignment_id": {"type": "null"}}},
+    {"properties": {"workflow": {"const": "ACTIVE"}, "execution": {"const": "EXECUTION_COMPLETED"}, "review": {"const": "REVIEWING"}, "active_claim_id": {"type": "null"}, "reviewer_assignment_id": {"$ref": "#/$defs/generatedId"}}},
+    {"properties": {"workflow": {"const": "ACTIVE"}, "execution": {"const": "EXECUTION_COMPLETED"}, "review": {"const": "REJECTED"}, "active_claim_id": {"type": "null"}, "reviewer_assignment_id": {"type": "null"}}},
+    {"properties": {"workflow": {"const": "ACTIVE"}, "execution": {"const": "EXECUTION_COMPLETED"}, "review": {"const": "REMEDIATION_REQUIRED"}, "active_claim_id": {"type": "null"}, "reviewer_assignment_id": {"type": "null"}}},
+    {"properties": {"workflow": {"const": "ACTIVE"}, "execution": {"const": "EXECUTION_COMPLETED"}, "review": {"const": "APPROVED"}, "active_claim_id": {"type": "null"}, "reviewer_assignment_id": {"type": "null"}}},
+    {"properties": {"workflow": {"const": "DIRECTOR_GATE_READY"}, "execution": {"const": "EXECUTION_COMPLETED"}, "review": {"const": "APPROVED"}, "active_claim_id": {"type": "null"}, "reviewer_assignment_id": {"type": "null"}}},
+    {"properties": {"workflow": {"const": "GOVERNANCE_BLOCKED"}, "execution": {"const": "EXECUTION_BLOCKED"}, "review": {"const": "NOT_REQUIRED"}, "active_claim_id": {"type": "null"}, "reviewer_assignment_id": {"type": "null"}}},
+    {"properties": {"workflow": {"const": "GOVERNANCE_BLOCKED"}, "execution": {"const": "EXECUTION_BLOCKED"}, "review": {"const": "REVIEW_PENDING"}, "active_claim_id": {"type": "null"}, "reviewer_assignment_id": {"type": "null"}}},
+    {"properties": {"workflow": {"const": "CLOSED"}, "execution": {"const": "EXECUTION_COMPLETED"}, "review": {"const": "NOT_REQUIRED"}, "active_claim_id": {"type": "null"}, "reviewer_assignment_id": {"type": "null"}}}
+  ],
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "generatedId": {"type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"},
+    "identity": {"type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[\\x20-\\x7e]+$"},
+    "taskId": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "nonnegativeInteger": {"type": "integer", "minimum": 0, "maximum": 9223372036854775807},
+    "positiveInteger": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807}
+  }
+}

@@ -9,7 +9,8 @@
     "runtime_format_version": {"const": 2},
     "documents": {
       "type": "array",
-      "minItems": 1,
+      "minItems": 9,
+      "maxItems": 9,
       "uniqueItems": true,
       "items": {
         "type": "object",
@@ -19,15 +20,19 @@
           "schema_id": {"type": "string", "minLength": 1},
           "document_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
           "content_role": {
-            "enum": ["PAYLOAD", "TASK_STATE", "REQUEST", "RESPONSE_PROJECTION"]
+            "enum": [
+              "EVENT_ENVELOPE", "PAYLOAD", "TASK_STATE", "REQUEST",
+              "RESPONSE_PROJECTION", "CHECKPOINT_DOCUMENT", "EXPORT_DOCUMENT",
+              "LEGACY_ROW_ARCHIVE", "LEGACY_PROJECTION"
+            ]
           }
         }
       }
     },
     "event_bindings": {
       "type": "array",
-      "minItems": 26,
-      "maxItems": 26,
+      "minItems": 25,
+      "maxItems": 25,
       "uniqueItems": true,
       "items": {
         "type": "object",
@@ -48,8 +53,7 @@
               "REVIEW_REJECTED", "REVIEW_REMEDIATED", "DIRECTOR_ROUTED",
               "REMEDIATION_CREATED", "TASK_CREATED_FROM_REMEDIATION",
               "REPOSITORY_GENERATION_APPLIED", "REPOSITORY_GENERATION_ADVANCED",
-              "RUNTIME_CHECKPOINTED", "RUNTIME_SNAPSHOT_EXPORTED",
-              "MIGRATION_RECORDED"
+              "RUNTIME_CHECKPOINTED", "RUNTIME_SNAPSHOT_EXPORTED"
             ]
           },
           "stream": {"enum": ["RUNTIME", "TASK"]},
@@ -67,6 +71,15 @@
     }
   },
   "allOf": [
+    {"properties": {"documents": {"contains": {"properties": {"content_role": {"const": "EVENT_ENVELOPE"}}, "required": ["content_role"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"documents": {"contains": {"properties": {"content_role": {"const": "PAYLOAD"}}, "required": ["content_role"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"documents": {"contains": {"properties": {"content_role": {"const": "TASK_STATE"}}, "required": ["content_role"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"documents": {"contains": {"properties": {"content_role": {"const": "REQUEST"}}, "required": ["content_role"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"documents": {"contains": {"properties": {"content_role": {"const": "RESPONSE_PROJECTION"}}, "required": ["content_role"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"documents": {"contains": {"properties": {"content_role": {"const": "CHECKPOINT_DOCUMENT"}}, "required": ["content_role"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"documents": {"contains": {"properties": {"content_role": {"const": "EXPORT_DOCUMENT"}}, "required": ["content_role"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"documents": {"contains": {"properties": {"content_role": {"const": "LEGACY_ROW_ARCHIVE"}}, "required": ["content_role"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"documents": {"contains": {"properties": {"content_role": {"const": "LEGACY_PROJECTION"}}, "required": ["content_role"]}, "minContains": 1, "maxContains": 1}}},
     {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "RUNTIME_GENESIS"}, "stream": {"const": "RUNTIME"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
     {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "LEGACY_V1_BRIDGE"}, "stream": {"const": "RUNTIME"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
     {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "COMMAND_COMMITTED"}, "stream": {"const": "RUNTIME"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
@@ -91,7 +104,6 @@
     {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "REPOSITORY_GENERATION_APPLIED"}, "stream": {"const": "TASK"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
     {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "REPOSITORY_GENERATION_ADVANCED"}, "stream": {"const": "RUNTIME"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
     {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "RUNTIME_CHECKPOINTED"}, "stream": {"const": "RUNTIME"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
-    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "RUNTIME_SNAPSHOT_EXPORTED"}, "stream": {"const": "RUNTIME"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}},
-    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "MIGRATION_RECORDED"}, "stream": {"const": "RUNTIME"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}}
+    {"properties": {"event_bindings": {"contains": {"properties": {"event_type": {"const": "RUNTIME_SNAPSHOT_EXPORTED"}, "stream": {"const": "RUNTIME"}}, "required": ["event_type", "stream"]}, "minContains": 1, "maxContains": 1}}}
   ]
 }

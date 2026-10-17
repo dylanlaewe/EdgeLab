@@ -5,14 +5,17 @@ import json
 import unittest
 
 from src.edgelab.runtime_v2_codec import (
+    attachment_digest,
     CanonicalJsonError,
     blob_digest,
     canonical_json,
     checkpoint_digest,
     event_digest,
+    export_digest,
     legacy_digest,
     manifest_digest,
     parse_canonical_json,
+    remediation_link_digest,
     schema_document_digest,
     schema_registry_digest,
     selector_digest,
@@ -142,6 +145,8 @@ class RuntimeV2CodecTests(unittest.TestCase):
     def test_self_digest_fields_are_excluded_exactly(self):
         event = {"event_id": "e", "event_sha256": "x"}
         checkpoint = {"checkpoint_sequence": 0, "checkpoint_sha256": "x"}
+        export = {"export_sequence": 0, "export_sha256": "x"}
+        link = {"link_id": "l", "link_sha256": "x"}
         selector = {"selector_generation": 0, "selector_sha256": "x"}
         self.assertEqual(
             event_digest(event),
@@ -154,16 +159,32 @@ class RuntimeV2CodecTests(unittest.TestCase):
             ),
         )
         self.assertEqual(
+            export_digest(export),
+            independent(b"EDGELAB\0EXPORT\0V2\0", {"export_sequence": 0}),
+        )
+        self.assertEqual(
+            remediation_link_digest(link),
+            independent(b"EDGELAB\0REMEDIATION_LINK\0V2\0", {"link_id": "l"}),
+        )
+        self.assertEqual(
             selector_digest(selector),
             independent(
                 b"EDGELAB\0SELECTOR\0V1\0", {"selector_generation": 0}
             ),
         )
         for function, value in (
-            (event_digest, {}), (checkpoint_digest, {}), (selector_digest, {})
+            (event_digest, {}), (checkpoint_digest, {}), (export_digest, {}),
+            (remediation_link_digest, {}), (selector_digest, {})
         ):
             with self.assertRaises(CanonicalJsonError):
                 function(value)
+
+    def test_attachment_digest_has_its_own_domain(self):
+        attachment = {"runtime_id": "r"}
+        self.assertEqual(
+            attachment_digest(attachment),
+            independent(b"EDGELAB\0ATTACHMENT\0V2\0", attachment),
+        )
 
     def test_storage_schema_hashes_canonical_descriptor(self):
         descriptor = {"runtime_format_version": 2}
