@@ -30,6 +30,7 @@ FAST_MODULES = (
     "tests.test_runtime_v2_bootstrap",
     "tests.test_runtime_v2_codec",
     "tests.test_runtime_v2_image",
+    "tests.test_runtime_v2_initial",
     "tests.test_runtime_v2_storage_descriptor",
     "tests.test_runtime_v2_transition",
     "tests.test_runtime_v2_verifier",
