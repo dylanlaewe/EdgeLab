@@ -1,0 +1,80 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-096",
+  "version": 1,
+  "created_at": "2026-10-17T00:36:38Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Freeze the exact format-2 storage descriptor and implement only a pure canonical codec and read-only verifier boundary, without a writer, migration, selector cutover, or authority expansion.",
+  "work_done": "Published exact STRICT/WITHOUT ROWID DDL and structural/semantic descriptor closure, domain-separated canonical codecs, and a pure verifier that authenticates only the exact descriptor and can return only INVALID or UNSUPPORTED under UNANCHORED/UNKNOWN/DENY. Three delegated read-only reviewers found and confirmed repair of structural, migration, and hostile-input gaps; all final reviews were clean.",
+  "evidence_refs": [
+    "reports/H-M0-096-successor-storage-and-verifier.v1.md",
+    "reports/audit/A-M0-078.v1.json",
+    "docs/M0.3A_SUCCESSOR_RUNTIME_FORMAT.v1.md",
+    "schemas/m0-3a-runtime-storage.v2.json",
+    "schemas/m0-3a-runtime-storage-descriptor.v2.schema.json",
+    "schemas/m0-3a-runtime-v2-verification-result.v1.schema.json",
+    "schemas/m0-3a-runtime-checkpoint.v2.schema.json",
+    "src/edgelab/runtime_v2_codec.py",
+    "src/edgelab/runtime_v2_verifier.py",
+    "tests/test_runtime_v2_codec.py",
+    "tests/test_runtime_v2_storage_descriptor.py",
+    "tests/test_runtime_v2_verifier.py",
+    "tests/test_successor_runtime_contract.py",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/M0.3A_SUCCESSOR_RUNTIME_FORMAT.v1.md",
+    "schemas/m0-3a-runtime-checkpoint.v2.schema.json",
+    "schemas/m0-3a-runtime-storage.v2.json",
+    "schemas/m0-3a-runtime-storage-descriptor.v2.schema.json",
+    "schemas/m0-3a-runtime-v2-verification-result.v1.schema.json",
+    "src/edgelab/runtime_v2_codec.py",
+    "src/edgelab/runtime_v2_verifier.py",
+    "tests/test_runtime_v2_codec.py",
+    "tests/test_runtime_v2_storage_descriptor.py",
+    "tests/test_runtime_v2_verifier.py",
+    "tests/test_successor_runtime_contract.py",
+    "tools/run_test_tier.py",
+    "docs/project-state.json",
+    "reports/H-M0-096-successor-storage-and-verifier.v1.md",
+    "reports/audit/A-M0-078.v1.json",
+    "docs/handoffs/H-M0-096.v1.json"
+  ],
+  "tests_run": [
+    "Focused successor storage, codec, verifier, and contract suite: 49 tests passed.",
+    "Final fast tier: 151 tests passed across 11 isolated modules in 24.040 seconds.",
+    "Three independent read-only engineering rereviews returned CLEAN after remediation.",
+    "Production validator before evidence publication: 349 records and published history validated; M0 capital remained LOCKED and no scientific or operational approval was granted.",
+    "Production validator after evidence publication: 351 records and published history validated with the same locked and non-authorizing result.",
+    "Python compilation, JSON parsing, digest-pin reproduction, and whitespace checks passed."
+  ],
+  "open_questions": [
+    "What exact retained payload/state/request/response schema documents and registry close every event content role?",
+    "What complete pure reducer and materialization equations are required before a runtime image can be verified as consistent?",
+    "What future external anchor and separately reviewed positive-currentness contract can establish authority outside local mutable state?"
+  ],
+  "blockers": [
+    "The published verifier deliberately cannot return consistency and rejects all runtime content beyond the exact descriptor; no format-2 runtime, writer, migration, or selector cutover exists.",
+    "H-M0-086 remains blocked on a genuinely distinct trusted 05 Skeptic authority; H-M0-041 remains BLOCKED.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked, M1 remains unreleased, live remains LOCKED, kill remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Publish the retained content-schema/registry contract and pure reducer/materialization equations, then extend the pure verifier with positive and negative in-memory fixtures; do not build a writer, database, migration, or selector cutover.",
+  "completion_criteria": [
+    "The exact storage descriptor and supported SQLite compatibility tuple are content-pinned and executable.",
+    "Canonical codec domains and hostile-input failures are deterministic and I/O-free.",
+    "The verifier cannot represent consistency or authority and accepts no unpublished runtime content.",
+    "Independent storage, migration, and threat reviews have no remaining blocker in the bounded freeze scope."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-095.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-095",
+      "version": 1,
+      "sha256": "28e66d511183f1f93a095b5bb2d50040914a5e86a764b9efa80b3d701b547fcf"
+    }
+  ]
+}
