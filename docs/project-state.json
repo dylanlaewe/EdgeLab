@@ -14,6 +14,7 @@
     "M0.3A semantic replay now reconstructs exact task transitions, owner/lineage, attempts, claims, reviews, and remediation links; successor-format runtime and whole-chain closure remains pending",
     "M0.3A actual Git, attachment, and immutable SQLite authority can now be read coherently under the scheduler lock through a diagnostic path that always returns UNKNOWN/DENY",
     "Pinned M0.2 historical decisions can now be sealed to a twice-observed M0.3A task ID and attempt through a read-only diagnostic that remains structurally UNKNOWN/FAIL/false/DENY",
+    "Versioned runtime/event format 2 is specified with closed envelopes, selectors, manifests, checkpoints, schema registry, legacy archive/projection, one-way migration constraints, and structurally UNKNOWN/DENY authority; no format-2 runtime or cutover exists",
     "Historical capture reconstruction/verifier engineering completed with native engineering review; formal Skeptic acceptance remains pending",
     "Revision-aware handoff dependency validation and production repository validation restored",
     "Read-only local laboratory observatory exposes governed project status and the retained MOCK_ONLY walkthrough through a fail-closed loopback interface",
@@ -22,7 +23,7 @@
   "remaining_m0": [
     "Obtain a genuinely distinct trusted 05 Skeptic review and formal disposition of H-M0-080 under H-M0-086",
     "Define and independently review positive currentness and generation invariants plus an authenticated M0.2-to-M0.3A receipt/R-gate; the completed historical binding diagnostic cannot authorize or be reused as a stored receipt",
-    "Design a versioned successor event/runtime format covering idempotency, metadata/genesis, seals, migrations, snapshots, global predecessor identity, and complete-chain rewrite resistance",
+    "Publish and independently review the exact format-2 storage-schema descriptor, then implement the canonical encoder and pure verifier without a writer, migration, selector cutover, or authority expansion",
     "Resolve reviewed historical fixture-coupling debt through new versioned tests without rewriting the preserved outcome baseline",
     "Provision the trusted external authority boundary and satisfy typed STOP-clearance prerequisites",
     "Resolve statistical, freshness, paper-capital, exposure, correlation, drawdown, and live-gate thresholds before M0 exit"
@@ -34,8 +35,8 @@
     "The locked authority and historical binding substrates are diagnostic and DENY-only; positive authoritative currentness and authenticated receipt/R-gate integration remain unresolved",
     "M0.3A engineering completion does not constitute formal acceptance or operational authority"
   ],
-  "next_assignment": "Specify the versioned successor event/runtime format, then the separate positive-currentness/R-gate contract; formal H-M0-080 review remains blocked on H-M0-086 authority",
-  "updated_at": "2026-10-16T23:55:50Z",
+  "next_assignment": "Publish the exact format-2 storage-schema descriptor prerequisite and implement the canonical encoder plus pure read-only verifier; positive-currentness/R-gate work remains separate and formal H-M0-080 review remains blocked on H-M0-086 authority",
+  "updated_at": "2026-10-17T00:14:43Z",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json",
     "reports/stops/STOP-M0-3A-001.v1.json"

@@ -1,0 +1,77 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-095",
+  "version": 1,
+  "created_at": "2026-10-17T00:14:43Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Specify a versioned successor runtime and event format that closes acknowledged format-1 representation gaps without granting authority or activating migration.",
+  "work_done": "Specified runtime/event format 2, canonical digest domains, complete event coordinates, replay-derived closure, one-way active-runtime selection, local checkpoints, schema registry, immutable legacy archive/projection, and conservative migration/cutover rules. Two delegated read-only reviewers identified and confirmed repair of digest cycles, predecessor, schema, WAL, archive, recovery, cutover, base64, and storage-descriptor issues; both final reviews were clean.",
+  "evidence_refs": [
+    "reports/H-M0-095-successor-runtime-format.v1.md",
+    "reports/audit/A-M0-077.v1.json",
+    "docs/M0.3A_SUCCESSOR_RUNTIME_FORMAT.v1.md",
+    "schemas/m0-3a-event-envelope.v2.schema.json",
+    "schemas/m0-3a-runtime-manifest.v2.schema.json",
+    "schemas/m0-3a-runtime-checkpoint.v2.schema.json",
+    "schemas/m0-3a-active-runtime-selector.v2.schema.json",
+    "schemas/m0-3a-schema-registry.v2.schema.json",
+    "schemas/m0-3a-legacy-v1-projection.v1.schema.json",
+    "schemas/m0-3a-legacy-v1-row-archive.v1.schema.json",
+    "tests/test_successor_runtime_contract.py",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json"
+  ],
+  "files_changed": [
+    "docs/M0.3A_SUCCESSOR_RUNTIME_FORMAT.v1.md",
+    "schemas/m0-3a-event-envelope.v2.schema.json",
+    "schemas/m0-3a-runtime-manifest.v2.schema.json",
+    "schemas/m0-3a-runtime-checkpoint.v2.schema.json",
+    "schemas/m0-3a-active-runtime-selector.v2.schema.json",
+    "schemas/m0-3a-schema-registry.v2.schema.json",
+    "schemas/m0-3a-legacy-v1-projection.v1.schema.json",
+    "schemas/m0-3a-legacy-v1-row-archive.v1.schema.json",
+    "tests/test_successor_runtime_contract.py",
+    "tools/run_test_tier.py",
+    "docs/project-state.json",
+    "reports/H-M0-095-successor-runtime-format.v1.md",
+    "reports/audit/A-M0-077.v1.json",
+    "docs/handoffs/H-M0-095.v1.json"
+  ],
+  "tests_run": [
+    "Focused successor contract suite: 16 tests passed.",
+    "Final fast tier: 118 tests passed across 8 isolated modules in 24.439 seconds.",
+    "All new JSON schemas parsed; Draft 2020-12 schema checks and bounded positive/negative examples passed.",
+    "Independent migration/cutover and integrity-threat final reviews: clean with no remaining freeze blocker.",
+    "Production validator before evidence publication: 347 records and published history validated; M0 capital remained LOCKED and no scientific or operational approval was granted.",
+    "Production validator after evidence publication: 349 records and published history validated with the same locked and non-authorizing result.",
+    "Python compilation and whitespace checks passed."
+  ],
+  "open_questions": [
+    "What exact ordered format-2 storage descriptor and database fixtures should be frozen before a pure verifier can exist?",
+    "What future external anchor can detect coordinated rollback or rewrite outside the local trust boundary?",
+    "What separately reviewed positive-currentness and generation contract can safely support an authenticated receipt/R-gate?"
+  ],
+  "blockers": [
+    "This is a format specification only; no format-2 storage descriptor, runtime, verifier, writer, migration, or selector cutover exists.",
+    "H-M0-086 remains blocked on a genuinely distinct trusted 05 Skeptic authority; H-M0-041 remains BLOCKED.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked, M1 remains unreleased, live remains LOCKED, kill remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Publish and independently review the exact format-2 storage-schema descriptor, then implement a pure canonical encoder/verifier without a writer, migration, selector cutover, or authority expansion.",
+  "completion_criteria": [
+    "Runtime/event version negotiation, canonical digests, global/task predecessors, transactions, and schema-tagged content are closed.",
+    "Replay and checkpoint roots cover every materialized runtime domain while authority remains structurally UNKNOWN/DENY.",
+    "Legacy evidence and one-way migration/cutover boundaries are explicit, immutable, and fail closed.",
+    "Known local rewrite/rollback limits and the missing storage descriptor/external anchor are explicit prerequisites rather than hidden claims."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-094.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-094",
+      "version": 1,
+      "sha256": "e678067186072d3f07c990360de866361581ff5d29f7f88975be31fafd33ac51"
+    }
+  ]
+}

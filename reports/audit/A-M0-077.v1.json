@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-077",
+  "version": 1,
+  "occurred_at": "2026-10-17T00:14:43Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_SUCCESSOR_RUNTIME_FORMAT_SPECIFIED",
+  "subject_ref": "reports/H-M0-095-successor-runtime-format.v1.md",
+  "previous_state": "SUCCESSOR_RUNTIME_AND_EVENT_FORMAT_UNSPECIFIED",
+  "new_state": "FORMAT_2_SPECIFIED_BUT_NOT_IMPLEMENTED_ACTIVE_OR_AUTHORIZING",
+  "reason": "Commit fa70c12 specifies a closed DENY-only successor runtime/event representation after independent migration and integrity-threat review. It creates no runtime, migration, cutover, currentness, STOP clearance, execution, or capital authority.",
+  "evidence_refs": [
+    "reports/H-M0-095-successor-runtime-format.v1.md",
+    "docs/M0.3A_SUCCESSOR_RUNTIME_FORMAT.v1.md",
+    "schemas/m0-3a-event-envelope.v2.schema.json",
+    "schemas/m0-3a-runtime-manifest.v2.schema.json",
+    "schemas/m0-3a-runtime-checkpoint.v2.schema.json",
+    "schemas/m0-3a-active-runtime-selector.v2.schema.json",
+    "schemas/m0-3a-schema-registry.v2.schema.json",
+    "schemas/m0-3a-legacy-v1-projection.v1.schema.json",
+    "schemas/m0-3a-legacy-v1-row-archive.v1.schema.json",
+    "tests/test_successor_runtime_contract.py"
+  ],
+  "code_ref": "fa70c124a54bbb942921bfaa4583b4f70086f132",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-095",
+  "supersedes": null
+}
