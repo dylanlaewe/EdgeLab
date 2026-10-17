@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-101",
+  "version": 1,
+  "created_at": "2026-10-17T02:13:54Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Implement and independently review the private pure runtime-v2 NEW system-genesis reducer without publishing a provisional dependency closure, positive verifier result, writer, cutover, or authority path.",
+  "work_done": "Implemented strict compiled validators for the exact NEW request/response/payload/envelope branches; consumed sanitized host preflight inline; validated exact registry/storage/schema identities; cross-bound runtime, repository, content, manifest, and time coordinates; derived the exact two-selector chain and all 15 initial tables for comparison. Independent review found and caused removal of derived identity/root output while the closure is uncompiled. V1 migration remains unsupported and STOP-M0-3A-002 remains OPEN.",
+  "evidence_refs": [
+    "reports/H-M0-101-runtime-v2-new-genesis-reducer.v1.md",
+    "reports/audit/A-M0-083.v1.json",
+    "reports/stops/STOP-M0-3A-002.v4.json",
+    "src/edgelab/runtime_v2_genesis.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "tests/test_runtime_v2_initial.py",
+    "docs/M0.3A_RUNTIME_IMAGE_CONTRACT.v1.md",
+    "src/edgelab/runtime_v2_verifier.py"
+  ],
+  "files_changed": [
+    "src/edgelab/runtime_v2_genesis.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "tests/test_runtime_v2_initial.py",
+    "tools/run_test_tier.py",
+    "reports/H-M0-101-runtime-v2-new-genesis-reducer.v1.md",
+    "reports/audit/A-M0-083.v1.json",
+    "reports/stops/STOP-M0-3A-002.v4.json",
+    "docs/handoffs/H-M0-101.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json"
+  ],
+  "tests_run": [
+    "Focused initial-reducer suite: 11 tests passed.",
+    "Final fast tier: 252 tests passed across 15 isolated modules.",
+    "Three read-only engineering reviews completed; the material closure-output finding was repaired and the security rereview accepted the bounded result.",
+    "Independent review exercised 402 hostile strict-validator mutations with no uncaught exception.",
+    "Production validator before evidence publication: 362 records and published history validated; M0 capital remained LOCKED and no approval was granted.",
+    "Production validator after evidence publication: 365 records and published history validated with the same locked and non-authorizing result.",
+    "Python compilation and git diff whitespace checks passed."
+  ],
+  "open_questions": [
+    "Which exact compiled strict closure-shape profile and generator will close the final unsupported NEW-genesis coordinate without source cycles or ambient dependencies?",
+    "Should unavailable legacy backup, migration-plan, and frozen-closure preimages remain explicitly unverified archival references, or should V1 migration require a new versioned transport that carries those bytes?",
+    "Which ordinary command group should be implemented first to maximize reusable reachability and materialization coverage before checkpoint/export work?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v4 remains OPEN pending exact closure generation/validation, ordinary whole-image reduction, legacy disposition, complete A-J matrix, and independent acceptance.",
+    "The public verifier remains disconnected and can return only INVALID or UNSUPPORTED under UNANCHORED/UNKNOWN/DENY.",
+    "H-M0-086 remains blocked on a genuinely distinct trusted 05 Skeptic authority; H-M0-041 remains BLOCKED.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked, M1 remains unreleased, live remains LOCKED, kill remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Publish the versioned legacy-bridge assurance amendment, compile the full dependency-closure shape validator, then implement ordinary transaction-group reduction and checkpoint/export cuts; generate the exact closure/carrier only after those semantic sources freeze.",
+  "completion_criteria": [
+    "Exact NEW-genesis content branches and cross-bindings are validated without I/O or external schema execution.",
+    "The exact two-selector genesis chain and all 15 initial tables are derived and compared without using supplied rows as transition input.",
+    "Uncompiled closure candidates expose no derived identity, roots, consistency, or authority.",
+    "The public verifier and capital-safety state remain unchanged while STOP-M0-3A-002 stays OPEN."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-100.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-100",
+      "version": 1,
+      "sha256": "394bc4278b4952e1d20ca8bb4b4c8b221bd4204af93e671b457f5282d1b8d3aa"
+    }
+  ]
+}

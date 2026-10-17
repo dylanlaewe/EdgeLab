@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-002",
+  "version": 4,
+  "issued_at": "2026-10-17T02:13:54Z",
+  "issuer": "00 Director",
+  "reason": "The private NEW system-genesis slice now validates exact compiled content branches, cross-bindings, selector genesis, typed reachable blobs, and initial 15-table materialization. The exact generated dependency closure and pin carrier, closure-shape validator, ordinary event groups, checkpoint/export cuts, V1 migration disposition, and full A-J acceptance matrix remain unfinished; therefore no positive local-consistency result is supportable.",
+  "affected_components": [
+    "runtime-v2 semantic whole-image reduction beyond NEW genesis",
+    "generated verifier dependency closure and pin carrier",
+    "legacy-bridge identity and archival-preimage verification",
+    "ordinary event grouping, checkpoints, exports, and cumulative root work",
+    "public local-consistency result vocabulary"
+  ],
+  "evidence_refs": [
+    "reports/H-M0-101-runtime-v2-new-genesis-reducer.v1.md",
+    "src/edgelab/runtime_v2_genesis.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "tests/test_runtime_v2_initial.py",
+    "docs/M0.3A_RUNTIME_IMAGE_CONTRACT.v1.md",
+    "src/edgelab/runtime_v2_verifier.py"
+  ],
+  "severity": "HIGH",
+  "remediation_required": [
+    "Compile and adversarially test the complete verifier-dependency-closure shape, then generate the exact closure artifact and _runtime_v2_release.py carrier only after all semantic reducer sources freeze; prove deterministic regeneration and exact compiled byte identity.",
+    "Complete every ordinary event group, typed reachability edge, checkpoint/export cut, cumulative root-work charge, and final table comparison without connecting an incomplete path to the public verifier.",
+    "Publish a versioned legacy-bridge amendment that distinguishes byte-verifiable attachment/archive coordinates from unavailable backup, plan, and frozen-closure preimages; keep V1 migration unsupported unless its selected assurance policy is fully implementable.",
+    "Pass every case in the M0.3A runtime-image A-J acceptance matrix and obtain independent acceptance before introducing a separately versioned LOCALLY_CONSISTENT_DENY_ONLY result."
+  ],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}

@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-083",
+  "version": 1,
+  "occurred_at": "2026-10-17T02:13:54Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_NEW_GENESIS_REDUCER_IMPLEMENTED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-101-runtime-v2-new-genesis-reducer.v1.md",
+  "previous_state": "FORMAT_2_PRIVATE_HOST_PREFLIGHT_AND_SUPPORTED_BOOTSTRAP_IDENTITIES_ACCEPTED_BOUNDED_STOP_OPEN",
+  "new_state": "FORMAT_2_PRIVATE_NEW_GENESIS_DERIVATION_ACCEPTED_BOUNDED_CLOSURE_OPAQUE_STOP_OPEN",
+  "reason": "Commit bd89da129ac62595759846d755a19779c4186b5f implements strict compiled NEW-genesis content validators and private selector/table derivation. Independent review caused the unsupported result surface to be narrowed so an uncompiled closure can expose no candidate identity, head, roots, consistency, or authority. STOP-M0-3A-002 remains OPEN for exact closure generation/validation, ordinary groups, checkpoints/exports, V1 bridge disposition, and the full acceptance matrix.",
+  "evidence_refs": [
+    "reports/H-M0-101-runtime-v2-new-genesis-reducer.v1.md",
+    "src/edgelab/runtime_v2_genesis.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "tests/test_runtime_v2_initial.py",
+    "reports/stops/STOP-M0-3A-002.v4.json"
+  ],
+  "code_ref": "bd89da129ac62595759846d755a19779c4186b5f",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-101",
+  "supersedes": null
+}
