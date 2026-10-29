@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-108",
+  "version": 1,
+  "occurred_at": "2026-10-29T20:48:40Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_THIRD_SEMANTIC_RESOURCE_MAXIMUM_CLASSIFIED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-126-runtime-v2-schema-document-resource-classification.v1.md",
+  "previous_state": "FORMAT_2_TWO_RESOURCE_MAXIMA_CLASSIFIED_686_SITES_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "FORMAT_2_THREE_RESOURCE_MAXIMA_CLASSIFIED_682_SITES_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit e32c740ae245d32ad8c3998d8ede554039c55e70 cumulatively classifies only MAX_SCHEMA_DOCUMENT_BYTES and its four exact source sites under predecessor/ancestor, source-module/function AST, schema, census, source, evidence, and self-digest bindings. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": ["reports/H-M0-126-runtime-v2-schema-document-resource-classification.v1.md", "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v3.json", "schemas/m0-3a-runtime-v2-resource-classification.v3.schema.json", "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v1.md", "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md", "tools/check_runtime_v2_release_readiness.py", "tests/test_runtime_v2_release_readiness.py", "tests/test_runtime_v2_schema_document_bound.py", "reports/stops/STOP-M0-3A-002.v29.json"],
+  "code_ref": "e32c740ae245d32ad8c3998d8ede554039c55e70",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-126",
+  "supersedes": null
+}
