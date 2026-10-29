@@ -839,6 +839,24 @@ def _worker_fixture(image, values, fixture_operation):
             "transaction_id": "123e4567-e89b-42d3-a456-426614174042",
             "event_type": "TASK_COMPLETED",
         },
+        "RECOVER": {
+            "operation": "RECOVER",
+            "prefix": "recover",
+            "before_state": "claim_after_state",
+            "semantic_id": "123e4567-e89b-42d3-a456-426614174043",
+            "commit_id": "123e4567-e89b-42d3-a456-426614174044",
+            "transaction_id": "123e4567-e89b-42d3-a456-426614174045",
+            "event_type": "CLAIM_RECOVERED",
+        },
+        "RECOVER_STARTED": {
+            "operation": "RECOVER",
+            "prefix": "recover_started",
+            "before_state": "start_after_state",
+            "semantic_id": "123e4567-e89b-42d3-a456-426614174046",
+            "commit_id": "123e4567-e89b-42d3-a456-426614174047",
+            "transaction_id": "123e4567-e89b-42d3-a456-426614174048",
+            "event_type": "CLAIM_RECOVERED",
+        },
     }[fixture_operation]
     operation = profile["operation"]
     prefix = profile["prefix"]
@@ -881,7 +899,7 @@ def _worker_fixture(image, values, fixture_operation):
             "failure_code": "WORKER_ERROR",
             "failure_evidence_sha256": "5" * 64,
         }
-    else:
+    elif operation == "COMPLETE":
         close = profile["close"]
         after_state.update({
             "workflow": "CLOSED" if close else "ACTIVE",
@@ -896,6 +914,17 @@ def _worker_fixture(image, values, fixture_operation):
             "fence": before_state["task_fence"],
             "close": close,
             "completion_evidence_sha256": "4" * 64,
+        }
+    else:
+        after_state.update({
+            "execution": "CLAIMABLE",
+            "dispatch_generation": before_state["dispatch_generation"] + 1,
+            "task_fence": before_state["task_fence"] + 1,
+            "active_claim_id": None,
+        })
+        arguments = {
+            "claim_id": claim_id,
+            "liveness_evidence_sha256": "3" * 64,
         }
     task_id = before_state["task_id"]
     before_sha = blob_digest(before_state)
@@ -1097,6 +1126,7 @@ def _worker_fixture(image, values, fixture_operation):
         "YIELD": "YIELDED",
         "FAIL": "FAILED",
         "COMPLETE": "COMPLETED",
+        "RECOVER": "RECOVERED",
     }.get(operation)
     if claim_status is not None:
         claim = list(rows["claims"][0])
@@ -1186,6 +1216,16 @@ def claim_complete_review_fixture():
 def continue_complete_close_fixture():
     image, values = continue_fixture()
     return _worker_fixture(image, values, "CONTINUE_COMPLETE_CLOSE")
+
+
+def recover_fixture():
+    image, values = claim_fixture()
+    return _worker_fixture(image, values, "RECOVER")
+
+
+def recover_started_fixture():
+    image, values = start_fixture()
+    return _worker_fixture(image, values, "RECOVER_STARTED")
 
 
 def _replace_worker_request(image, values, prefix, request):
@@ -1511,6 +1551,7 @@ class RuntimeV2InitialTests(unittest.TestCase):
             ("continue_fail", continue_fail_fixture),
             ("continue_complete_review", continue_complete_review_fixture),
             ("continue_complete_close", continue_complete_close_fixture),
+            ("recover", recover_fixture),
         ):
             with self.subTest(group=name):
                 image, _ = build()
@@ -1621,6 +1662,40 @@ class RuntimeV2InitialTests(unittest.TestCase):
         self.assertEqual(report.status, "INVALID")
         self.assertIn("GROUP_CONST", self.codes(report))
 
+    def test_recover_enforces_claim_cas_and_liveness_evidence(self):
+        image, values = recover_fixture()
+        for field, replacement_value, expected_code in (
+            (
+                "claim_id",
+                "123e4567-e89b-42d3-a456-426614174099",
+                "TRANSITION_CLAIM_CAS",
+            ),
+            ("liveness_evidence_sha256", "x" * 64, "TRANSITION_TEXT"),
+        ):
+            request = json.loads(json.dumps(values["recover_request"]))
+            request["arguments"][field] = replacement_value
+            with self.subTest(field=field):
+                report = reduce_initial_runtime_image(_replace_worker_request(
+                    image, values, "recover", request,
+                ))
+                self.assertEqual(report.status, "INVALID")
+                self.assertIn(expected_code, self.codes(report))
+
+        request = json.loads(json.dumps(values["recover_request"]))
+        request["arguments"]["fence"] = values["recover_before_state"][
+            "task_fence"
+        ]
+        report = reduce_initial_runtime_image(_replace_worker_request(
+            image, values, "recover", request,
+        ))
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("GROUP_OBJECT", self.codes(report))
+
+        image, _ = recover_started_fixture()
+        report = reduce_initial_runtime_image(image)
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("TRANSITION_SOURCE_STATE", self.codes(report))
+
     def test_worker_state_and_claim_closure_are_derived_not_trusted(self):
         image, values = yield_fixture()
         state = json.loads(json.dumps(values["yield_after_state"]))
@@ -1707,6 +1782,7 @@ class RuntimeV2InitialTests(unittest.TestCase):
             ("continue_fail", continue_fail_fixture),
             ("continue_complete_review", continue_complete_review_fixture),
             ("continue_complete_close", continue_complete_close_fixture),
+            ("recover", recover_fixture),
         ):
             image, _ = build()
             snapshots = list(image.table_snapshots)
@@ -1755,6 +1831,10 @@ class RuntimeV2InitialTests(unittest.TestCase):
                 "continue_complete_close", continue_complete_close_fixture,
                 ("CLOSED", "EXECUTION_COMPLETED", "NOT_REQUIRED"),
                 "COMPLETED", 1,
+            ),
+            (
+                "recover", recover_fixture,
+                ("ACTIVE", "CLAIMABLE", "NOT_REQUIRED"), "RECOVERED", 0,
             ),
         ):
             image, values = build()
@@ -1840,6 +1920,7 @@ class RuntimeV2InitialTests(unittest.TestCase):
                 "continue_complete_review", continue_complete_review_fixture,
                 "continuation_count", 0,
             ),
+            ("recover", recover_fixture, "task_fence", 99),
         ):
             image, values = build()
             state = json.loads(json.dumps(values[f"{name}_after_state"]))

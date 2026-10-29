@@ -1,11 +1,11 @@
 """Private atomic transaction-group planning for runtime format 2.
 
 The compiled slices support ``INITIALIZE`` after a validated NEW genesis,
-followed by ``CLAIM`` and the worker operations ``START``, ``CONTINUE``,
-``YIELD``, ``FAIL``, and ``COMPLETE``. They are deliberately narrow: supplied
-blobs and events are treated as untrusted comparison inputs, task state is
-recomputed with the immutable transition kernel, and no result can authorize
-use.
+followed by ``CLAIM``, worker operations ``START``, ``CONTINUE``, ``YIELD``,
+``FAIL``, and ``COMPLETE``, plus synthetic ``RECOVER``. They are deliberately
+narrow: supplied blobs and events are treated as untrusted comparison inputs,
+task state is recomputed with the immutable transition kernel, and no result
+can authorize use.
 """
 from __future__ import annotations
 
@@ -686,6 +686,10 @@ def reduce_worker_group(
                 "claim_id", "fence", "close",
                 "completion_evidence_sha256",
             }),
+        ),
+        "CLAIM_RECOVERED": (
+            "RECOVER",
+            frozenset({"claim_id", "liveness_evidence_sha256"}),
         ),
         "TASK_YIELDED": (
             "YIELD",
