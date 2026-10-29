@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "manifest_id": "urn:edgelab:m0-3a-runtime-v2-resource-classification:1",
+  "profile_id": "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V1",
+  "discovery_profile_id": "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V1",
+  "coverage_status": "INCOMPLETE",
+  "generation_disposition": "DENY",
+  "classification_schema_raw_sha256": "e032738e99a1f99f1fe3458867fc80517c7a3c7dd4758837306dd71ef8156992",
+  "source_input_count": 10,
+  "source_inputs_sha256": "b22a453f6b2f5f44281054752bf9bce5e259d6a60ae22fe7b190383292e4ba2a",
+  "source_bound_site_count": 394,
+  "source_bound_sites_sha256": "f4bc353d75ec07b18adc5038ee505985adb692c6890d95b1c6feed843bd00d8f",
+  "schema_bound_site_count": 296,
+  "schema_bound_sites_sha256": "00b27a32303836f9d9910663e6bd2f76a7ca6d8c7cd614e5f22346b53cd104de",
+  "schema_inputs_sha256": "14ccff50a49f337336f01b5a40b845e5011218063d2cdfa68f0b73b1a3c94239",
+  "classified_site_count": 2,
+  "unclassified_site_count": 688,
+  "constraints": [
+    {
+      "constraint_id": "MAX_DEPENDENCY_CLOSURE_BYTES",
+      "classification": "RESOURCE_MAXIMUM",
+      "semantic_subject": "RAW_DEPENDENCY_CLOSURE_BYTES",
+      "unit": "BYTES",
+      "maximum": 1048576,
+      "accepted_equation": "len(raw_dependency_closure_bytes) <= maximum",
+      "semantic_function_ast_sha256": "9c9e9b785430028f44d93df883e0b7edd52b777546b8811b732fdf2b99bc0e30",
+      "semantic_module_ast_sha256": "30502d160af1538889e36f2411835749381362cec5935936fcf4e4db90bf48c7",
+      "semantic_proof": {
+        "function_coordinate": "src/edgelab/runtime_v2_closure.py:validate_verifier_dependency_closure",
+        "input_binding": "UNMODIFIED_EXACT_BYTES_FUNCTION_ARGUMENT",
+        "enforcement_order": "TYPE_GUARD_BEFORE_SIZE_GUARD_BEFORE_PARSE",
+        "rejection_action": "RAISE_BYTE_LIMIT"
+      },
+      "definition_site_ids": ["f0929588df702f47d6a2f6fe255d87b6bf4a0e083cbfdbb0cc0f699973edc2ab"],
+      "enforcement_site_ids": ["344950b527bcecb073b777c4bbf743de50dd920bd4aa76dbbf58045ff9f00ab5"],
+      "evidence_inputs": [
+        {
+          "path": "docs/M0.3A_DEPENDENCY_CLOSURE_SHAPE.v1.md",
+          "byte_length": 4153,
+          "raw_sha256": "cb36c54b5e23d517868817e06a5420c954412942eb4451996f8c5f2281e0522b"
+        },
+        {
+          "path": "tests/test_runtime_v2_closure.py",
+          "byte_length": 18786,
+          "raw_sha256": "56a8bbcf7afbdcb81a6d398fcbbee4f705a054f5cd2736e7a36fc6f20e922b57"
+        }
+      ]
+    }
+  ],
+  "classification_manifest_sha256": "8ab916ec611ce6cb8b72aaaa5afb25fcec372fd28071364803b75ba9e1a4ded0"
+}

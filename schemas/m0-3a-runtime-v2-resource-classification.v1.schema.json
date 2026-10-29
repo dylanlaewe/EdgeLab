@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:m0-3a-runtime-v2-resource-classification:1",
+  "title": "EdgeLab runtime-v2 partial resource classification v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "manifest_id",
+    "profile_id",
+    "discovery_profile_id",
+    "coverage_status",
+    "generation_disposition",
+    "classification_schema_raw_sha256",
+    "source_input_count",
+    "source_inputs_sha256",
+    "source_bound_site_count",
+    "source_bound_sites_sha256",
+    "schema_bound_site_count",
+    "schema_bound_sites_sha256",
+    "schema_inputs_sha256",
+    "classified_site_count",
+    "unclassified_site_count",
+    "constraints",
+    "classification_manifest_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "manifest_id": {"const": "urn:edgelab:m0-3a-runtime-v2-resource-classification:1"},
+    "profile_id": {"const": "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V1"},
+    "discovery_profile_id": {"const": "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V1"},
+    "coverage_status": {"const": "INCOMPLETE"},
+    "generation_disposition": {"const": "DENY"},
+    "classification_schema_raw_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_input_count": {"const": 10},
+    "source_inputs_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_bound_site_count": {"const": 394},
+    "source_bound_sites_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "schema_bound_site_count": {"const": 296},
+    "schema_bound_sites_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "schema_inputs_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "classified_site_count": {"const": 2},
+    "unclassified_site_count": {"const": 688},
+    "constraints": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "constraint_id",
+          "classification",
+          "semantic_subject",
+          "unit",
+          "maximum",
+          "accepted_equation",
+          "semantic_function_ast_sha256",
+          "semantic_module_ast_sha256",
+          "semantic_proof",
+          "definition_site_ids",
+          "enforcement_site_ids",
+          "evidence_inputs"
+        ],
+        "properties": {
+          "constraint_id": {"const": "MAX_DEPENDENCY_CLOSURE_BYTES"},
+          "classification": {"const": "RESOURCE_MAXIMUM"},
+          "semantic_subject": {"const": "RAW_DEPENDENCY_CLOSURE_BYTES"},
+          "unit": {"const": "BYTES"},
+          "maximum": {"const": 1048576},
+          "accepted_equation": {"const": "len(raw_dependency_closure_bytes) <= maximum"},
+          "semantic_function_ast_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "semantic_module_ast_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "semantic_proof": {
+            "const": {
+              "function_coordinate": "src/edgelab/runtime_v2_closure.py:validate_verifier_dependency_closure",
+              "input_binding": "UNMODIFIED_EXACT_BYTES_FUNCTION_ARGUMENT",
+              "enforcement_order": "TYPE_GUARD_BEFORE_SIZE_GUARD_BEFORE_PARSE",
+              "rejection_action": "RAISE_BYTE_LIMIT"
+            }
+          },
+          "definition_site_ids": {
+            "const": ["f0929588df702f47d6a2f6fe255d87b6bf4a0e083cbfdbb0cc0f699973edc2ab"]
+          },
+          "enforcement_site_ids": {
+            "const": ["344950b527bcecb073b777c4bbf743de50dd920bd4aa76dbbf58045ff9f00ab5"]
+          },
+          "evidence_inputs": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["path", "byte_length", "raw_sha256"],
+              "properties": {
+                "path": {"type": "string", "minLength": 1},
+                "byte_length": {"type": "integer", "minimum": 1},
+                "raw_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "classification_manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

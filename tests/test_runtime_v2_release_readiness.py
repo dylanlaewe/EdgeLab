@@ -17,8 +17,15 @@ from tools.check_runtime_v2_release_readiness import (
     PIN_BEGIN_MARKER,
     PIN_END_MARKER,
     PIN_REPLACEMENT,
+    RESOURCE_CLASSIFICATION_DOMAIN,
+    RESOURCE_CLASSIFICATION_MANIFEST,
+    RESOURCE_CLASSIFICATION_SCHEMA,
+    RESOURCE_SOURCE_INPUT_DOMAIN,
     RETAINED_SCHEMAS,
     ReadinessError,
+    _domain_digest,
+    _source_bound_inventory,
+    _source_inventory,
     build_report,
     elide_pin_block,
 )
@@ -35,13 +42,33 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         (temporary / "schemas").mkdir()
         paths = {
             path for _, _, path in BOOTSTRAP_SCHEMAS + RETAINED_SCHEMAS
-        } | {path for _, _, path in CONTENT_ASSETS} | {CLOSURE_SCHEMA[1]}
+        } | {path for _, _, path in CONTENT_ASSETS} | {
+            CLOSURE_SCHEMA[1], RESOURCE_CLASSIFICATION_SCHEMA[1],
+            RESOURCE_CLASSIFICATION_MANIFEST[1],
+            "docs/M0.3A_DEPENDENCY_CLOSURE_SHAPE.v1.md",
+            "tests/test_runtime_v2_closure.py",
+        }
         for relative in paths:
             source = ROOT / relative
             target = temporary / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, target)
         return temporary
+
+    def rewrite_manifest(self, root: Path, mutate) -> None:
+        path = root / RESOURCE_CLASSIFICATION_MANIFEST[1]
+        manifest = json.loads(path.read_text(encoding="ascii"))
+        mutate(manifest)
+        digest_value = dict(manifest)
+        digest_value.pop("classification_manifest_sha256")
+        manifest["classification_manifest_sha256"] = hashlib.sha256(
+            RESOURCE_CLASSIFICATION_DOMAIN.encode("ascii")
+            + json.dumps(
+                digest_value, sort_keys=True, separators=(",", ":"),
+                ensure_ascii=True,
+            ).encode("ascii")
+        ).hexdigest()
+        path.write_text(json.dumps(manifest), encoding="ascii")
 
     def test_current_inventory_is_deterministic_blocked_and_deny_only(self):
         first = build_report(ROOT)
@@ -100,6 +127,13 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(len(discovery["source_bound_sites"]), 394)
         self.assertEqual(len(discovery["schema_bound_sites"]), 296)
         self.assertEqual(len(discovery["schema_inputs"]), 15)
+        self.assertEqual(len(discovery["source_inputs"]), 10)
+        classification = inventory["resource_inventory_classification"]
+        self.assertEqual(classification["classified_constraint_count"], 1)
+        self.assertEqual(classification["classified_site_count"], 2)
+        self.assertEqual(classification["unclassified_site_count"], 688)
+        self.assertEqual(classification["coverage_status"], "INCOMPLETE")
+        self.assertEqual(classification["generation_disposition"], "DENY")
         expected_schema_paths = {
             path for _, _, path in BOOTSTRAP_SCHEMAS + RETAINED_SCHEMAS
         } | {CLOSURE_SCHEMA[1]}
@@ -239,11 +273,10 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         raw = path.read_bytes().replace(b"50_001", b"50_002")
         raw += b"\nif False:\n    _readiness_decoy = 50_001\n"
         path.write_bytes(raw)
-        limits = {
-            item["name"]: item["value"]
-            for item in build_report(root)["inventory"]["resource_limits"]
-        }
-        self.assertEqual(limits["INITIAL_SELECTOR_MAXIMUM"], 50_002)
+        with self.assertRaises(ReadinessError) as caught:
+            build_report(root)
+        self.assertEqual(caught.exception.code, "RESOURCE_CLASSIFICATION_BINDING")
+        self.assertEqual(caught.exception.coordinate, "source_inputs_sha256")
 
     def test_symlink_hardlink_and_duplicate_json_inputs_deny(self):
         root = self.copy_inputs()
@@ -254,6 +287,15 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         with self.assertRaises(ReadinessError) as caught:
             build_report(root)
         self.assertEqual(caught.exception.code, "SYMLINK_INPUT")
+
+        root = self.copy_inputs()
+        first = root / "docs/M0.3A_DEPENDENCY_CLOSURE_SHAPE.v1.md"
+        second = root / "tests/test_runtime_v2_closure.py"
+        second.unlink()
+        second.hardlink_to(first)
+        with self.assertRaises(ReadinessError) as caught:
+            build_report(root)
+        self.assertEqual(caught.exception.code, "HARDLINK_INPUT_ALIAS")
 
         root = self.copy_inputs()
         source = root / BOOTSTRAP_SCHEMAS[0][2]
@@ -306,13 +348,11 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         baseline = build_report(root)
         path = root / "src" / "edgelab" / "runtime_v2_codec.py"
         path.write_bytes(path.read_bytes() + b"\n# post-freeze mutation\n")
-        changed = build_report(root)
-        self.assertNotEqual(
-            baseline["inventory"]["source_closure"],
-            changed["inventory"]["source_closure"],
-        )
-        self.assertEqual(changed["authorizing_use"], "DENY")
-        self.assertEqual(changed["status"], "BLOCKED")
+        self.assertEqual(baseline["authorizing_use"], "DENY")
+        with self.assertRaises(ReadinessError) as caught:
+            build_report(root)
+        self.assertEqual(caught.exception.code, "RESOURCE_CLASSIFICATION_BINDING")
+        self.assertEqual(caught.exception.coordinate, "source_inputs_sha256")
 
     def test_resource_discovery_detects_source_schema_and_regex_bound_drift(self):
         root = self.copy_inputs()
@@ -322,15 +362,10 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         source.write_bytes(
             source.read_bytes() + b"\nif len(()) > 777:\n    pass\n"
         )
-        changed = build_report(root)["inventory"]["resource_inventory_discovery"]
-        self.assertEqual(
-            len(changed["source_bound_sites"]),
-            len(baseline["source_bound_sites"]) + 1,
-        )
-        self.assertNotEqual(
-            changed["source_bound_sites_sha256"],
-            baseline["source_bound_sites_sha256"],
-        )
+        with self.assertRaises(ReadinessError) as caught:
+            build_report(root)
+        self.assertEqual(caught.exception.code, "RESOURCE_CLASSIFICATION_BINDING")
+        self.assertEqual(caught.exception.coordinate, "source_inputs_sha256")
 
         root = self.copy_inputs()
         closure_schema = root / CLOSURE_SCHEMA[1]
@@ -341,26 +376,21 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                 1,
             )
         )
-        changed = build_report(root)["inventory"]["resource_inventory_discovery"]
-        self.assertEqual(
-            len(changed["schema_bound_sites"]),
-            len(baseline["schema_bound_sites"]),
-        )
-        self.assertNotEqual(
-            changed["schema_bound_sites_sha256"],
-            baseline["schema_bound_sites_sha256"],
-        )
+        with self.assertRaises(ReadinessError) as caught:
+            build_report(root)
+        self.assertEqual(caught.exception.code, "RESOURCE_CLASSIFICATION_BINDING")
+        self.assertIn(caught.exception.coordinate, {
+            "schema_bound_sites_sha256", "schema_inputs_sha256",
+        })
 
         root = self.copy_inputs()
         regex_source = root / "src" / "edgelab" / "runtime_v2_group.py"
         regex_source.write_bytes(
             regex_source.read_bytes().replace(b"{0,127}", b"{0,126}", 1)
         )
-        changed = build_report(root)["inventory"]["resource_inventory_discovery"]
-        self.assertNotEqual(
-            changed["source_bound_sites_sha256"],
-            baseline["source_bound_sites_sha256"],
-        )
+        with self.assertRaises(ReadinessError) as caught:
+            build_report(root)
+        self.assertEqual(caught.exception.code, "RESOURCE_CLASSIFICATION_BINDING")
 
     def test_resource_discovery_ignores_comments_but_source_hash_does_not(self):
         root = self.copy_inputs()
@@ -369,17 +399,262 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         source.write_bytes(
             b"# nonsemantic 999 bound note\n" + source.read_bytes()
         )
-        changed = build_report(root)
         before_discovery = baseline["inventory"]["resource_inventory_discovery"]
-        after_discovery = changed["inventory"]["resource_inventory_discovery"]
+        self.assertEqual(len(before_discovery["source_bound_sites"]), 394)
+        with self.assertRaises(ReadinessError) as caught:
+            build_report(root)
+        self.assertEqual(caught.exception.code, "RESOURCE_CLASSIFICATION_BINDING")
+        self.assertEqual(caught.exception.coordinate, "source_inputs_sha256")
+
+    def test_partial_classification_schema_manifest_and_self_digest_are_exact(self):
+        from jsonschema import Draft202012Validator
+
+        schema = json.loads((ROOT / RESOURCE_CLASSIFICATION_SCHEMA[1]).read_text())
+        manifest = json.loads((ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_text())
+        Draft202012Validator.check_schema(schema)
+        self.assertEqual(list(Draft202012Validator(schema).iter_errors(manifest)), [])
+        digest_value = dict(manifest)
+        claimed = digest_value.pop("classification_manifest_sha256")
+        expected = hashlib.sha256(
+            RESOURCE_CLASSIFICATION_DOMAIN.encode("ascii")
+            + json.dumps(
+                digest_value, sort_keys=True, separators=(",", ":"),
+                ensure_ascii=True,
+            ).encode("ascii")
+        ).hexdigest()
+        self.assertEqual(claimed, expected)
+        self.assertEqual(manifest["coverage_status"], "INCOMPLETE")
+        self.assertEqual(manifest["generation_disposition"], "DENY")
+        self.assertEqual(manifest["classified_site_count"], 2)
+        self.assertEqual(manifest["unclassified_site_count"], 688)
+
+    def test_partial_classification_rejects_hostile_manifest_mutations(self):
+        mutations = (
+            ("coverage_status", "COMPLETE"),
+            ("generation_disposition", "ALLOW"),
+            ("classified_site_count", 690),
+            ("unclassified_site_count", 0),
+            ("source_inputs_sha256", "0" * 64),
+        )
+        for key, value in mutations:
+            with self.subTest(key=key):
+                root = self.copy_inputs()
+                path = root / RESOURCE_CLASSIFICATION_MANIFEST[1]
+                self.rewrite_manifest(
+                    root, lambda manifest: manifest.__setitem__(key, value)
+                )
+                with self.assertRaises(ReadinessError) as caught:
+                    build_report(root)
+                self.assertEqual(
+                    caught.exception.code, "RESOURCE_CLASSIFICATION_BINDING"
+                )
+
+        root = self.copy_inputs()
+        path = root / RESOURCE_CLASSIFICATION_MANIFEST[1]
+        raw = path.read_bytes().replace(
+            b'"schema_version": 1', b'"schema_version": 1, "schema_version": 1'
+        )
+        path.write_bytes(raw)
+        with self.assertRaises(ReadinessError) as caught:
+            build_report(root)
+        self.assertEqual(caught.exception.code, "DUPLICATE_JSON_KEY")
+
+        root = self.copy_inputs()
+        path = root / RESOURCE_CLASSIFICATION_MANIFEST[1]
+        manifest = json.loads(path.read_text(encoding="ascii"))
+        manifest["classification_manifest_sha256"] = "0" * 64
+        path.write_text(json.dumps(manifest), encoding="ascii")
+        with self.assertRaises(ReadinessError) as caught:
+            build_report(root)
+        self.assertEqual(caught.exception.code, "RESOURCE_CLASSIFICATION_SELF_DIGEST")
+
+        root = self.copy_inputs()
+        self.rewrite_manifest(
+            root,
+            lambda manifest: manifest["constraints"][0].__setitem__(
+                "maximum", 1_048_575
+            ),
+        )
+        with self.assertRaises(ReadinessError) as caught:
+            build_report(root)
+        self.assertEqual(caught.exception.code, "RESOURCE_CLASSIFICATION_CONSTRAINT")
+
+    def test_partial_classification_binds_schema_and_evidence_bytes(self):
+        root = self.copy_inputs()
+        schema = root / RESOURCE_CLASSIFICATION_SCHEMA[1]
+        schema.write_bytes(schema.read_bytes().replace(
+            b'"coverage_status": {"const": "INCOMPLETE"}',
+            b'"coverage_status": {"const": "COMPLETE"}',
+        ))
+        with self.assertRaises(ReadinessError) as caught:
+            build_report(root)
         self.assertEqual(
-            before_discovery["source_bound_sites_sha256"],
-            after_discovery["source_bound_sites_sha256"],
+            caught.exception.code, "RESOURCE_CLASSIFICATION_SCHEMA_IDENTITY"
         )
-        self.assertNotEqual(
-            baseline["inventory"]["source_closure"],
-            changed["inventory"]["source_closure"],
+
+        for evidence_path in (
+            "docs/M0.3A_DEPENDENCY_CLOSURE_SHAPE.v1.md",
+            "tests/test_runtime_v2_closure.py",
+        ):
+            with self.subTest(evidence=evidence_path):
+                root = self.copy_inputs()
+                evidence = root / evidence_path
+                evidence.write_bytes(evidence.read_bytes() + b"\nmutation")
+                with self.assertRaises(ReadinessError) as caught:
+                    build_report(root)
+                self.assertEqual(
+                    caught.exception.code,
+                    "RESOURCE_CLASSIFICATION_EVIDENCE_IDENTITY",
+                )
+
+        root = self.copy_inputs()
+        evidence = root / "docs/M0.3A_DEPENDENCY_CLOSURE_SHAPE.v1.md"
+        evidence.unlink()
+        with self.assertRaises(ReadinessError) as caught:
+            build_report(root)
+        self.assertEqual(caught.exception.code, "PATH_CASE_ALIAS")
+
+        root = self.copy_inputs()
+        evidence = root / "tests/test_runtime_v2_closure.py"
+        real = evidence.with_name("test_runtime_v2_closure_real.py")
+        evidence.rename(real)
+        evidence.symlink_to(real.name)
+        with self.assertRaises(ReadinessError) as caught:
+            build_report(root)
+        self.assertEqual(caught.exception.code, "SYMLINK_INPUT")
+
+    def test_partial_classification_binds_full_enforcement_function_context(self):
+        for old, new in (
+            (
+                b"    if type(raw) is not bytes:\n        _fail(\"BYTES_REQUIRED\", \"/\")\n",
+                b"",
+            ),
+            (
+                b"    if len(raw) > MAX_DEPENDENCY_CLOSURE_BYTES:\n"
+                b"        _fail(\"BYTE_LIMIT\", \"/\")\n",
+                b"    if False:\n"
+                b"        if len(raw) > MAX_DEPENDENCY_CLOSURE_BYTES:\n"
+                b"            _fail(\"BYTE_LIMIT\", \"/\")\n",
+            ),
+        ):
+            with self.subTest(mutation=old[:30]):
+                root = self.copy_inputs()
+                baseline = build_report(root)
+                source = root / "src/edgelab/runtime_v2_closure.py"
+                mutated = source.read_bytes().replace(old, new, 1)
+                self.assertNotEqual(mutated, source.read_bytes())
+                source.write_bytes(mutated)
+                source_inputs = [
+                    dict(item) for item in baseline["inventory"][
+                        "resource_inventory_discovery"
+                    ]["source_inputs"]
+                ]
+                for item in source_inputs:
+                    if item["path"] == "src/edgelab/runtime_v2_closure.py":
+                        item["byte_length"] = len(mutated)
+                        item["raw_sha256"] = hashlib.sha256(mutated).hexdigest()
+                refreshed = hashlib.sha256(
+                    RESOURCE_SOURCE_INPUT_DOMAIN.encode("ascii")
+                    + json.dumps(
+                        source_inputs, sort_keys=True, separators=(",", ":"),
+                        ensure_ascii=True,
+                    ).encode("ascii")
+                ).hexdigest()
+                self.rewrite_manifest(
+                    root,
+                    lambda manifest: manifest.__setitem__(
+                        "source_inputs_sha256", refreshed
+                    ),
+                )
+                with self.assertRaises(ReadinessError) as caught:
+                    build_report(root)
+                self.assertEqual(
+                    caught.exception.code,
+                    "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+                )
+
+        for old, new in (
+            (
+                b"def _fail(code: str, coordinate: str) -> None:\n"
+                b"    raise ClosureValidationError(code, coordinate)\n",
+                b"def _fail(code: str, coordinate: str) -> None:\n"
+                b"    return None\n",
+            ),
+            (b"\n__all__ = (", b"\nlen = lambda value: False\n\n__all__ = ("),
+        ):
+            with self.subTest(transitive_mutation=old[:30]):
+                root = self.copy_inputs()
+                baseline = build_report(root)
+                source = root / "src/edgelab/runtime_v2_closure.py"
+                mutated = source.read_bytes().replace(old, new, 1)
+                self.assertNotEqual(mutated, source.read_bytes())
+                source.write_bytes(mutated)
+                source_inputs = [
+                    dict(item) for item in baseline["inventory"][
+                        "resource_inventory_discovery"
+                    ]["source_inputs"]
+                ]
+                for item in source_inputs:
+                    if item["path"] == "src/edgelab/runtime_v2_closure.py":
+                        item["byte_length"] = len(mutated)
+                        item["raw_sha256"] = hashlib.sha256(mutated).hexdigest()
+                refreshed = _domain_digest(
+                    RESOURCE_SOURCE_INPUT_DOMAIN, source_inputs
+                )
+                self.rewrite_manifest(
+                    root,
+                    lambda manifest: manifest.__setitem__(
+                        "source_inputs_sha256", refreshed
+                    ),
+                )
+                with self.assertRaises(ReadinessError) as caught:
+                    build_report(root)
+                self.assertEqual(
+                    caught.exception.code,
+                    "RESOURCE_CLASSIFICATION_MODULE_SHAPE",
+                )
+
+    def test_partial_classification_rejects_refreshed_census_cardinality(self):
+        root = self.copy_inputs()
+        source_path = root / "src/edgelab/runtime_v2_codec.py"
+        source_path.write_bytes(
+            source_path.read_bytes() + b"\nif len(()) > 777:\n    pass\n"
         )
+        source, _, source_bytes = _source_inventory(root)
+        source_sites = _source_bound_inventory(source_bytes)
+        source_identity = [
+            {key: value for key, value in item.items() if key != "line"}
+            for item in source_sites
+        ]
+        source_inputs = [
+            {
+                "byte_length": item["byte_length"],
+                "module": item["module"],
+                "path": item["path"],
+                "raw_sha256": item["raw_sha256"],
+            }
+            for item in source["local_artifacts"]
+        ]
+
+        def refresh(manifest):
+            manifest["source_input_count"] = len(source_inputs)
+            manifest["source_inputs_sha256"] = _domain_digest(
+                RESOURCE_SOURCE_INPUT_DOMAIN, source_inputs
+            )
+            manifest["source_bound_site_count"] = len(source_sites)
+            manifest["source_bound_sites_sha256"] = _domain_digest(
+                "EDGELAB\0RUNTIME_V2_SOURCE_BOUND_SITES\0V1\0",
+                source_identity,
+            )
+            manifest["unclassified_site_count"] = (
+                len(source_sites) + manifest["schema_bound_site_count"] - 2
+            )
+
+        self.rewrite_manifest(root, refresh)
+        with self.assertRaises(ReadinessError) as caught:
+            build_report(root)
+        self.assertEqual(caught.exception.code, "RESOURCE_CLASSIFICATION_BINDING")
+        self.assertEqual(caught.exception.coordinate, "source_bound_site_count")
 
     def test_checker_source_has_no_write_network_git_or_package_metadata_path(self):
         path = ROOT / "tools" / "check_runtime_v2_release_readiness.py"

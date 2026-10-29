@@ -67,6 +67,8 @@ class RuntimeV2ClosureTests(unittest.TestCase):
             with self.subTest(raw_type=type(raw)):
                 self.assert_denied(raw, "BYTES_REQUIRED")
         self.assert_denied(b"0" * (MAX_DEPENDENCY_CLOSURE_BYTES + 1), "BYTE_LIMIT")
+        self.assert_denied(b"0" * (MAX_DEPENDENCY_CLOSURE_BYTES - 1), "CANONICAL_JSON")
+        self.assert_denied(b"0" * MAX_DEPENDENCY_CLOSURE_BYTES, "CANONICAL_JSON")
         self.assert_denied(valid + b"\n", "CANONICAL_JSON")
         mismatched = closure_fixture()
         mismatched["verifier_dependency_closure_sha256"] = "f" * 64
