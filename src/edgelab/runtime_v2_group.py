@@ -100,6 +100,7 @@ class BlobValue:
 
 @dataclass(frozen=True, slots=True)
 class _TaskReplayHead:
+    predecessor_attempt: int | None
     origin_event_id: str
     sequence: int
     head_event_id: str
@@ -175,8 +176,64 @@ class _ReplayCursor:
     def task_head(self, task_id: str, attempt: int) -> _TaskReplayHead | None:
         return self._task_heads.get((task_id, attempt))
 
+    def attempt_rows(self) -> tuple[tuple[Any, ...], ...]:
+        """Project every accepted attempt from the cursor-owned task heads."""
+        return tuple(
+            (
+                task_id,
+                attempt,
+                head.predecessor_attempt,
+                head.origin_event_id,
+                head.sequence,
+                head.head_event_id,
+                head.head_event_sha256,
+            )
+            for (task_id, attempt), head in sorted(self._task_heads.items())
+        )
+
+    def check_attempt_advance(
+        self,
+        semantic: dict[str, Any],
+        *,
+        opens_attempt: bool,
+        predecessor_attempt: int | None,
+    ) -> None:
+        """Validate the exact attempt-head mutation before any state commits."""
+        context = semantic["task_context"]
+        if semantic["stream"] != "TASK" or type(context) is not dict:
+            _deny("GROUP_ATTEMPT_EVENT", "/events")
+        key = (context["task_id"], context["attempt"])
+        prior = self._task_heads.get(key)
+        if opens_attempt:
+            if prior is not None or context["task_sequence"] != 1:
+                _deny("GROUP_ATTEMPT_OPEN", "/events")
+            attempt = context["attempt"]
+            if attempt == 1:
+                if predecessor_attempt is not None:
+                    _deny("GROUP_ATTEMPT_PREDECESSOR", "/events")
+            elif (
+                predecessor_attempt != attempt - 1
+                or (context["task_id"], predecessor_attempt) not in self._task_heads
+            ):
+                _deny("GROUP_ATTEMPT_PREDECESSOR", "/events")
+            return
+        if predecessor_attempt is not None or prior is None:
+            _deny("GROUP_ATTEMPT_HISTORY", "/events")
+        if context["task_sequence"] != prior.sequence + 1:
+            _deny("GROUP_ATTEMPT_SEQUENCE", "/events")
+        if context["task_predecessor"] != {
+            "event_id": prior.head_event_id,
+            "event_sha256": prior.head_event_sha256,
+        }:
+            _deny("GROUP_ATTEMPT_PREDECESSOR", "/events")
+
     def advance_pair(
-        self, semantic: dict[str, Any], commit: dict[str, Any]
+        self,
+        semantic: dict[str, Any],
+        commit: dict[str, Any],
+        *,
+        opens_attempt: bool,
+        predecessor_attempt: int | None,
     ) -> None:
         """Commit indexes after a complete group has validated atomically."""
         self._event_ids.update((semantic["event_id"], commit["event_id"]))
@@ -191,6 +248,10 @@ class _ReplayCursor:
             key = (context["task_id"], context["attempt"])
             prior = self._task_heads.get(key)
             self._task_heads[key] = _TaskReplayHead(
+                predecessor_attempt=(
+                    predecessor_attempt if prior is None
+                    else prior.predecessor_attempt
+                ),
                 origin_event_id=(
                     semantic["event_id"]
                     if prior is None else prior.origin_event_id
@@ -209,7 +270,8 @@ class InitializeGroupPatch:
     transition: _StagedTransition
     event_pair: tuple[str, str, str, str]
     reachable_blob_digests: tuple[str, ...]
-    attempt_row: tuple[Any, ...]
+    opens_attempt: bool
+    predecessor_attempt: int | None
     idempotency_row: tuple[Any, ...]
 
 
@@ -218,7 +280,8 @@ class ClaimGroupPatch:
     transition: _StagedTransition
     event_pair: tuple[str, str, str, str]
     reachable_blob_digests: tuple[str, ...]
-    attempt_row: tuple[Any, ...]
+    opens_attempt: bool
+    predecessor_attempt: int | None
     idempotency_row: tuple[Any, ...]
 
 
@@ -227,7 +290,8 @@ class WorkerGroupPatch:
     transition: _StagedTransition
     event_pair: tuple[str, str, str, str]
     reachable_blob_digests: tuple[str, ...]
-    attempt_row: tuple[Any, ...]
+    opens_attempt: bool
+    predecessor_attempt: int | None
     idempotency_row: tuple[Any, ...]
 
 
@@ -548,7 +612,8 @@ def reduce_initialize_group(
             commit["event_id"], commit["event_sha256"],
         ),
         reachable_blob_digests=reachable,
-        attempt_row=(task_id, 1, None, semantic["event_id"], 1, semantic["event_id"], semantic["event_sha256"]),
+        opens_attempt=True,
+        predecessor_attempt=None,
         idempotency_row=(
             operation_key, transaction["transaction_id"], request_sha, response_sha,
             commit["event_id"], 2, semantic["occurred_at"],
@@ -776,10 +841,8 @@ def reduce_claim_group(
             commit["event_id"], commit["event_sha256"],
         ),
         reachable_blob_digests=reachable,
-        attempt_row=(
-            task.task_id, task.attempt, None, prior_task.origin_event_id, 2,
-            semantic["event_id"], semantic["event_sha256"],
-        ),
+        opens_attempt=False,
+        predecessor_attempt=None,
         idempotency_row=(
             operation_key, transaction["transaction_id"], request_sha, response_sha,
             commit["event_id"], commit_index, semantic["occurred_at"],
@@ -1092,10 +1155,8 @@ def reduce_worker_group(
             commit["event_id"], commit["event_sha256"],
         ),
         reachable_blob_digests=reachable,
-        attempt_row=(
-            task.task_id, task.attempt, None, prior_task.origin_event_id,
-            task_sequence, semantic["event_id"], semantic["event_sha256"],
-        ),
+        opens_attempt=False,
+        predecessor_attempt=None,
         idempotency_row=(
             operation_key, transaction["transaction_id"], request_sha,
             response_sha, commit["event_id"], commit_index,

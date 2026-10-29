@@ -309,7 +309,7 @@ def _expected_tables(
     catalog: dict[str, BlobValue],
     events: tuple[dict[str, Any], ...],
     final_state: ReducerState | None,
-    final_attempt_row: tuple[Any, ...] | None,
+    attempt_rows: tuple[tuple[Any, ...], ...],
     idempotency_rows: tuple[tuple[Any, ...], ...],
     manifest_sha: str,
     attachment_sha: str,
@@ -368,9 +368,9 @@ def _expected_tables(
         manifest_sha, event_id, created_at,
     ),)
     if final_state is not None:
-        if final_attempt_row is None:
-            raise ValueError("final attempt row is required with final state")
-        rows["attempts"] = (final_attempt_row,)
+        if not attempt_rows:
+            raise ValueError("attempt rows are required with final state")
+        rows["attempts"] = attempt_rows
         rows["claims"] = tuple(
             (
                 claim.claim_id, claim.task_id, claim.attempt, claim.fence,
@@ -411,8 +411,18 @@ def _commit_group_patch(
     if patch.event_pair != observed_pair:
         raise GroupValidationError("GROUP_PATCH_PAIR", "/events")
     cursor.check_pair(semantic_event, commit_event)
+    cursor.check_attempt_advance(
+        semantic_event,
+        opens_attempt=patch.opens_attempt,
+        predecessor_attempt=patch.predecessor_attempt,
+    )
     workspace.commit(patch.transition)
-    cursor.advance_pair(semantic_event, commit_event)
+    cursor.advance_pair(
+        semantic_event,
+        commit_event,
+        opens_attempt=patch.opens_attempt,
+        predecessor_attempt=patch.predecessor_attempt,
+    )
 
 
 def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
@@ -717,7 +727,7 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
         catalog=blobs,
         events=tuple(parsed_events),
         final_state=final_state,
-        final_attempt_row=(final_patch.attempt_row if final_patch is not None else None),
+        attempt_rows=cursor.attempt_rows(),
         idempotency_rows=tuple(idempotency_rows),
         manifest_sha=manifest_sha,
         attachment_sha=attachment_sha,

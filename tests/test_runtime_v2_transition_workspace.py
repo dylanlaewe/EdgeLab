@@ -55,6 +55,39 @@ def initialize_intent(
     )
 
 
+def cursor_pair(
+    sequence: int,
+    *,
+    attempt: int,
+    task_sequence: int,
+    predecessor: tuple[str, str],
+) -> tuple[dict[str, object], dict[str, object]]:
+    semantic = {
+        "event_id": uuid4(1000 + sequence),
+        "event_sha256": f"{sequence % 16:x}" * 64,
+        "stream": "TASK",
+        "task_context": {
+            "task_id": "T1",
+            "attempt": attempt,
+            "task_sequence": task_sequence,
+            "task_predecessor": {
+                "event_id": predecessor[0],
+                "event_sha256": predecessor[1],
+            },
+        },
+        "transaction": {
+            "transaction_id": uuid4(2000 + sequence),
+            "operation_key": f"v2:{DIGEST}:cursor-{sequence}",
+        },
+    }
+    commit = {
+        "event_id": uuid4(3000 + sequence),
+        "event_sha256": f"{(sequence + 8) % 16:x}" * 64,
+        "global_sequence": sequence + 1,
+    }
+    return semantic, commit
+
+
 class RuntimeV2TransitionWorkspaceTests(unittest.TestCase):
     def setUp(self) -> None:
         self.empty = transition.ReducerState(0, DIGEST)
@@ -256,7 +289,8 @@ class RuntimeV2TransitionWorkspaceTests(unittest.TestCase):
             transition=staged,
             event_pair=(uuid4(2), "c" * 64, uuid4(3), "d" * 64),
             reachable_blob_digests=(),
-            attempt_row=(),
+            opens_attempt=True,
+            predecessor_attempt=None,
             idempotency_row=(),
         )
         with self.assertRaises(group.GroupValidationError) as caught:
@@ -271,6 +305,138 @@ class RuntimeV2TransitionWorkspaceTests(unittest.TestCase):
         self.assertEqual(cursor.global_sequence, 0)
         self.assertEqual(workspace.revision, 0)
         self.assertEqual(workspace.freeze(), self.empty)
+
+    def test_cursor_projects_cumulative_attempt_history_without_rewriting_old_heads(self) -> None:
+        genesis = {
+            "runtime_id": uuid4(900),
+            "chain_id": DIGEST,
+            "repository_generation": 0,
+            "repository_bundle_sha256": DIGEST,
+            "global_sequence": 0,
+            "event_id": uuid4(901),
+            "event_sha256": "b" * 64,
+            "transaction": {
+                "transaction_id": uuid4(902),
+                "operation_key": "system:v2:genesis",
+            },
+        }
+        cursor = group._ReplayCursor(genesis)
+        first, first_commit = cursor_pair(
+            1, attempt=1, task_sequence=1, predecessor=(uuid4(910), "a" * 64)
+        )
+        cursor.check_attempt_advance(
+            first, opens_attempt=True, predecessor_attempt=None
+        )
+        cursor.advance_pair(
+            first, first_commit, opens_attempt=True, predecessor_attempt=None
+        )
+        failed, failed_commit = cursor_pair(
+            3,
+            attempt=1,
+            task_sequence=2,
+            predecessor=(first["event_id"], first["event_sha256"]),
+        )
+        cursor.check_attempt_advance(
+            failed, opens_attempt=False, predecessor_attempt=None
+        )
+        cursor.advance_pair(
+            failed, failed_commit, opens_attempt=False, predecessor_attempt=None
+        )
+        old_row = cursor.attempt_rows()[0]
+
+        retried, retried_commit = cursor_pair(
+            5, attempt=2, task_sequence=1, predecessor=(uuid4(920), "c" * 64)
+        )
+        cursor.check_attempt_advance(
+            retried, opens_attempt=True, predecessor_attempt=1
+        )
+        cursor.advance_pair(
+            retried, retried_commit, opens_attempt=True, predecessor_attempt=1
+        )
+        claimed, claimed_commit = cursor_pair(
+            7,
+            attempt=2,
+            task_sequence=2,
+            predecessor=(retried["event_id"], retried["event_sha256"]),
+        )
+        cursor.check_attempt_advance(
+            claimed, opens_attempt=False, predecessor_attempt=None
+        )
+        cursor.advance_pair(
+            claimed, claimed_commit, opens_attempt=False, predecessor_attempt=None
+        )
+
+        rows = cursor.attempt_rows()
+        self.assertEqual(rows[0], old_row)
+        self.assertEqual(rows[0][4:], (2, failed["event_id"], failed["event_sha256"]))
+        self.assertEqual(rows[1], (
+            "T1", 2, 1, retried["event_id"], 2,
+            claimed["event_id"], claimed["event_sha256"],
+        ))
+
+    def test_invalid_attempt_projection_metadata_rejects_before_any_commit(self) -> None:
+        genesis = {
+            "runtime_id": uuid4(900),
+            "chain_id": DIGEST,
+            "repository_generation": 0,
+            "repository_bundle_sha256": DIGEST,
+            "global_sequence": 0,
+            "event_id": uuid4(901),
+            "event_sha256": "b" * 64,
+            "transaction": {
+                "transaction_id": uuid4(902),
+                "operation_key": "system:v2:genesis",
+            },
+        }
+        cursor = group._ReplayCursor(genesis)
+        workspace = transition._TransitionWorkspace(self.empty)
+        staged = workspace.stage(initialize_intent(event=2))
+        semantic, commit = cursor_pair(
+            1, attempt=1, task_sequence=2, predecessor=(uuid4(910), "a" * 64)
+        )
+        patch = group.InitializeGroupPatch(
+            transition=staged,
+            event_pair=(
+                semantic["event_id"], semantic["event_sha256"],
+                commit["event_id"], commit["event_sha256"],
+            ),
+            reachable_blob_digests=(),
+            opens_attempt=True,
+            predecessor_attempt=None,
+            idempotency_row=(),
+        )
+        with self.assertRaises(group.GroupValidationError) as caught:
+            initial._commit_group_patch(
+                cursor=cursor,
+                workspace=workspace,
+                patch=patch,
+                semantic_event=semantic,
+                commit_event=commit,
+            )
+        self.assertEqual(caught.exception.code, "GROUP_ATTEMPT_OPEN")
+        self.assertEqual(workspace.revision, 0)
+        self.assertEqual(cursor.global_sequence, 0)
+        self.assertEqual(cursor.attempt_rows(), ())
+
+        valid, valid_commit = cursor_pair(
+            1, attempt=1, task_sequence=1, predecessor=(uuid4(910), "a" * 64)
+        )
+        cursor.check_attempt_advance(
+            valid, opens_attempt=True, predecessor_attempt=None
+        )
+        cursor.advance_pair(
+            valid, valid_commit, opens_attempt=True, predecessor_attempt=None
+        )
+        baseline = cursor.attempt_rows()
+        skipped, _ = cursor_pair(
+            3, attempt=3, task_sequence=1, predecessor=(uuid4(930), "d" * 64)
+        )
+        with self.assertRaises(group.GroupValidationError) as caught:
+            cursor.check_attempt_advance(
+                skipped, opens_attempt=True, predecessor_attempt=2
+            )
+        self.assertEqual(caught.exception.code, "GROUP_ATTEMPT_PREDECESSOR")
+        self.assertEqual(cursor.attempt_rows(), baseline)
 
     def test_workspace_scope_is_closed_and_private(self) -> None:
         workspace = transition._TransitionWorkspace(self.empty)
