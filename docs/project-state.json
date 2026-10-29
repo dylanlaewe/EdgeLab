@@ -27,6 +27,7 @@
     "The second private runtime-v2 ordinary transaction slice now reduces the first CLAIM after validated NEW genesis and INITIALIZE through exact global/task chains, prefix-derived before-state, immutable task and claim derivation, generated-reference binding, typed reachability, and all-table comparison; later operations remain unsupported and the public verifier remains disconnected",
     "The shared private runtime-v2 worker transaction slice now reduces START and YIELD after validated NEW genesis, INITIALIZE, and CLAIM through claim/fence CAS, immutable task and claim-history derivation, typed reachability, and all-table comparison; later lifecycle operations remain unsupported and the public verifier remains disconnected",
     "The private runtime-v2 continuation slice now reduces one CONTINUE after START through exact claim/fence CAS, immutable continuation-count derivation, typed reachability, and all-table comparison; repeated continuation and later lifecycle operations remain unsupported and the public verifier remains disconnected",
+    "The private runtime-v2 terminal worker slice now reduces bounded FAIL and both COMPLETE outcomes from their valid CLAIMED/IN_PROGRESS prefixes through exact source-state and claim/fence checks, immutable terminal-state and claim-history derivation, typed reachability, and all-table comparison; later lifecycle cycles remain unsupported and the public verifier remains disconnected",
     "Historical capture reconstruction/verifier engineering completed with native engineering review; formal Skeptic acceptance remains pending",
     "Revision-aware handoff dependency validation and production repository validation restored",
     "Read-only local laboratory observatory exposes governed project status and the retained MOCK_ONLY walkthrough through a fail-closed loopback interface",
@@ -35,24 +36,24 @@
   "remaining_m0": [
     "Obtain a genuinely distinct trusted 05 Skeptic review and formal disposition of H-M0-080 under H-M0-086",
     "Define and independently review positive currentness and generation invariants plus an authenticated M0.2-to-M0.3A receipt/R-gate; the completed historical binding diagnostic cannot authorize or be reused as a stored receipt",
-    "Resolve STOP-M0-3A-002 by extending the compiled INITIALIZE, CLAIM, START, CONTINUE, and YIELD slices across every later ordinary group, remediation/import, checkpoint/export cuts, cumulative root work, and the remaining A-J matrix, then source-freezing and generating the exact closure/carrier without a writer, database, migration, selector cutover, or authority expansion; legacy migration remains unsupported unless a new evidence carrier is separately versioned and accepted",
+    "Resolve STOP-M0-3A-002 by extending the bounded INITIALIZE, CLAIM, START, CONTINUE, YIELD, FAIL, and COMPLETE slices across recovery/retry, repeated cycles, every later ordinary group, remediation/import, checkpoint/export cuts, cumulative root work, and the remaining A-J matrix, then source-freezing and generating the exact closure/carrier without a writer, database, migration, selector cutover, or authority expansion; legacy migration remains unsupported unless a new evidence carrier is separately versioned and accepted",
     "Resolve reviewed historical fixture-coupling debt through new versioned tests without rewriting the preserved outcome baseline",
     "Provision the trusted external authority boundary and satisfy typed STOP-clearance prerequisites",
     "Resolve statistical, freshness, paper-capital, exposure, correlation, drawdown, and live-gate thresholds before M0 exit"
   ],
   "blockers": [
-    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002.v10 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
+    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002.v11 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
     "H-M0-086 is BLOCKED because no genuinely distinct trusted 05 Skeptic authority is provisioned",
     "H-M0-041.v23 remains BLOCKED pending formal Skeptic acceptance and separate Director release",
     "The locked authority and historical binding substrates are diagnostic and DENY-only; positive authoritative currentness and authenticated receipt/R-gate integration remain unresolved",
     "M0.3A engineering completion does not constitute formal acceptance or operational authority"
   ],
-  "next_assignment": "Extend shared worker replay through FAIL and COMPLETE, then RECOVER, retry, repeated continuation, and repeated claim cycles",
-  "updated_at": "2026-10-29T15:46:27Z",
+  "next_assignment": "Compile RECOVER and RETRY, then generalize repeated continuation, claim, and attempt cycles with exact historical projections",
+  "updated_at": "2026-10-29T16:02:39Z",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json",
     "reports/stops/STOP-M0-3A-001.v1.json",
-    "reports/stops/STOP-M0-3A-002.v10.json"
+    "reports/stops/STOP-M0-3A-002.v11.json"
   ],
   "review_ref": "reports/reviews/M0.2-M0.3-final-evidence-plan-rereview.v1.md",
   "open_findings": [
