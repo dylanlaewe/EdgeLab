@@ -34,6 +34,7 @@ from .runtime_v2_codec import (
     schema_document_digest,
     selector_digest,
     selector_history_digest,
+    table_root,
 )
 from .runtime_v2_closure import (
     ClosureValidationError,
@@ -51,6 +52,7 @@ from .runtime_v2_genesis import (
 )
 from .runtime_v2_image import (
     MAX_EVENTS,
+    MAX_TOTAL_ROOT_WORK_BYTES,
     RuntimeImage,
     TableSnapshot,
     inspect_runtime_image_host,
@@ -62,6 +64,7 @@ from .runtime_v2_group import (
     ImportGroupPatch,
     InitializeGroupPatch,
     RemediationGroupPatch,
+    SnapshotGroupPatch,
     _FOLLOWUP_PROFILES,
     _ReplayCursor,
     WorkerGroupPatch,
@@ -69,6 +72,7 @@ from .runtime_v2_group import (
     reduce_initialize_group,
     reduce_import_group,
     reduce_remediation_group,
+    reduce_snapshot_group,
     reduce_worker_group,
 )
 from .runtime_v2_transition import (
@@ -320,6 +324,11 @@ def _expected_tables(
     attachment_sha: str,
     selector1_sha: str,
     history_sha: str,
+    reachable_digests: set[str] | None = None,
+    snapshot_rows: tuple[tuple[Any, ...], ...] = (),
+    latest_checkpoint_sha: str | None = None,
+    active_selector_generation: int = 1,
+    active_selector_sha: str | None = None,
 ) -> dict[str, tuple[tuple[Any, ...], ...]]:
     genesis = events[0]
     head = events[-1]
@@ -335,9 +344,10 @@ def _expected_tables(
         final_state.repository_bundle_sha256
         if final_state is not None else genesis["repository_bundle_sha256"]
     )
+    retained_digests = set(catalog) if reachable_digests is None else reachable_digests
     blobs = tuple(
         (digest, catalog[digest].schema_id, catalog[digest].canonical_text)
-        for digest in sorted(catalog)
+        for digest in sorted(retained_digests)
     )
     schema_rows = tuple(
         (
@@ -366,7 +376,9 @@ def _expected_tables(
         SUPPORTED_SCHEMA_REGISTRY_SHA256, event_id, event_sha,
         repository_generation,
         repository_bundle, head["global_sequence"], head["event_id"],
-        head["event_sha256"], None, 1, selector1_sha,
+        head["event_sha256"], latest_checkpoint_sha,
+        active_selector_generation,
+        selector1_sha if active_selector_sha is None else active_selector_sha,
         history_sha, None, "UNANCHORED", "UNKNOWN", "DENY",
     ),)
     rows["schema_documents"] = schema_rows
@@ -379,9 +391,10 @@ def _expected_tables(
         "RUNTIME_GENESIS_IDENTITY", attachment_sha, event_id, event_sha,
         manifest_sha, event_id, created_at,
     ),)
+    rows["snapshots"] = tuple(sorted(
+        snapshot_rows, key=lambda row: (row[1], row[2], row[0])
+    ))
     if final_state is not None:
-        if not attempt_rows:
-            raise ValueError("attempt rows are required with final state")
         rows["attempts"] = attempt_rows
         rows["claims"] = tuple(
             (
@@ -413,7 +426,6 @@ def _expected_tables(
             )
             for link in final_state.remediation_links
         )
-        rows["idempotency"] = tuple(sorted(idempotency_rows))
         rows["tasks"] = tuple(
             (
                 task.task_id, task.attempt, task.workflow, task.execution,
@@ -426,6 +438,7 @@ def _expected_tables(
             )
             for task in final_state.tasks
         )
+    rows["idempotency"] = tuple(sorted(idempotency_rows))
     return rows
 
 
@@ -546,15 +559,13 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
             "UNSUPPORTED",
             (InitialViolation("V1_MIGRATION_NOT_SUPPORTED", "manifest", "/source_kind"),),
         )
-    if image.checkpoint_copies:
-        sink.add("GENESIS_CHECKPOINT_COPY", "checkpoint_copies", "/")
     compiled_event_count = (
         len(image.events) == 1 or 3 <= len(image.events) <= MAX_EVENTS
     )
     if not compiled_event_count:
         sink.add("COMPILED_EVENT_CARDINALITY", "events", "/")
-    if len(image.selector_history) != 2:
-        sink.add("GENESIS_SELECTOR_CARDINALITY", "selector_history", "/")
+    if not 2 <= len(image.selector_history) <= 50_001:
+        sink.add("SELECTOR_CARDINALITY", "selector_history", "/")
 
     blobs = _blob_catalog(image, sink)
     parsed_events = tuple(
@@ -565,14 +576,16 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
     selectors = tuple(
         _parse(raw, f"selector_history[{index}]", sink)
         for index, raw in enumerate(image.selector_history)
-    ) if len(image.selector_history) == 2 else ()
+    ) if 2 <= len(image.selector_history) <= 50_001 else ()
     if sink.result():
         return _invalid(sink)
 
-    selector0, selector1 = selectors
+    selector0, selector1 = selectors[:2]
     _validate(event, "event", validate_runtime_genesis_envelope, sink)
     _validate(selector0, "selector_history[0]", validate_selector, sink)
     _validate(selector1, "selector_history[1]", validate_selector, sink)
+    for index, selector in enumerate(selectors[2:], start=2):
+        _validate(selector, f"selector_history[{index}]", validate_selector, sink)
     if sink.result():
         return _invalid(sink)
 
@@ -705,14 +718,31 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
         return _invalid(sink)
     final_patch: (
         InitializeGroupPatch | ClaimGroupPatch | WorkerGroupPatch
-        | RemediationGroupPatch | ImportGroupPatch | None
+        | RemediationGroupPatch | ImportGroupPatch | SnapshotGroupPatch | None
     ) = None
     idempotency_rows: list[tuple[Any, ...]] = []
+    snapshot_rows: list[tuple[Any, ...]] = []
+    active_selectors = [selector0, selector1]
+    latest_checkpoint_sha: str | None = None
+    prior_export_sha: str | None = None
+    checkpoint_sequence = 0
+    export_sequence = 0
+    snapshot_ids: set[str] = set()
+    snapshot_document_digests: set[str] = set()
+    import_seen = False
+    expected_reachable = {request_sha, response_sha, payload_sha}
+    root_work = preflight.final_supplied_root_work_bytes or 0
     cursor = _ReplayCursor(event)
     workspace = _TransitionWorkspace(
         ReducerState(event["repository_generation"], event["repository_bundle_sha256"])
     )
-    if len(parsed_events) >= 3:
+    semantic_index = 1
+    first_type = (
+        parsed_events[1].get("event_type")
+        if len(parsed_events) >= 3 and type(parsed_events[1]) is dict
+        else None
+    )
+    if len(parsed_events) >= 3 and first_type == "TASK_INITIALIZED":
         try:
             initialize_patch = reduce_initialize_group(
                 genesis_event=event,
@@ -738,11 +768,9 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
             return _invalid(sink)
         final_patch = initialize_patch
         idempotency_rows.append(initialize_patch.idempotency_row)
-        expected_reachable = {
-            request_sha, response_sha, payload_sha,
-            *initialize_patch.reachable_blob_digests,
-        }
+        expected_reachable.update(initialize_patch.reachable_blob_digests)
         semantic_index = 3
+    if len(parsed_events) >= 3:
         while semantic_index < len(parsed_events):
             semantic_candidate = parsed_events[semantic_index]
             event_type = (
@@ -750,6 +778,138 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
                 if type(semantic_candidate) is dict
                 else None
             )
+            if type(event_type) is str and event_type in {
+                "RUNTIME_CHECKPOINTED", "RUNTIME_SNAPSHOT_EXPORTED",
+            }:
+                if semantic_index + 1 >= len(parsed_events):
+                    sink.add(
+                        "GROUP_EVENT_COUNT", "snapshot_transaction_group",
+                        f"/events/{semantic_index}",
+                    )
+                    return _invalid(sink)
+                try:
+                    cut_state = workspace.freeze()
+                    cut_history_sha = selector_history_digest(active_selectors)
+                    cut_rows = _expected_tables(
+                        image=image,
+                        catalog=blobs,
+                        events=tuple(
+                            parsed_events[index]
+                            for index in range(semantic_index)
+                        ),
+                        final_state=cut_state,
+                        attempt_rows=cursor.attempt_rows(),
+                        idempotency_rows=tuple(idempotency_rows),
+                        manifest_sha=manifest_sha,
+                        attachment_sha=attachment_sha,
+                        selector1_sha=selector1_sha,
+                        history_sha=cut_history_sha,
+                        reachable_digests=expected_reachable,
+                        snapshot_rows=tuple(snapshot_rows),
+                        latest_checkpoint_sha=latest_checkpoint_sha,
+                        active_selector_generation=len(active_selectors) - 1,
+                        active_selector_sha=active_selectors[-1]["selector_sha256"],
+                    )
+                    cut_roots = {
+                        name: table_root(
+                            name, [list(row) for row in cut_rows[name]]
+                        )
+                        for name in cut_rows
+                    }
+                    root_work += sum(
+                        len(b"EDGELAB\0TABLE\0V2\0")
+                        + len(name.encode("utf-8")) + 1
+                        + len(canonical_json([list(row) for row in cut_rows[name]]))
+                        for name in cut_rows
+                    )
+                    if root_work > MAX_TOTAL_ROOT_WORK_BYTES:
+                        sink.add(
+                            "TOTAL_ROOT_WORK_LIMIT", "snapshot_cuts", "/",
+                        )
+                        return _invalid(sink)
+                    kind = (
+                        "CHECKPOINT"
+                        if event_type == "RUNTIME_CHECKPOINTED" else "EXPORT"
+                    )
+                    patch = reduce_snapshot_group(
+                        cursor=cursor,
+                        semantic_event=semantic_candidate,
+                        commit_event=parsed_events[semantic_index + 1],
+                        catalog=blobs,
+                        cut_roots=cut_roots,
+                        manifest_sha256=manifest_sha,
+                        selectors=tuple(active_selectors),
+                        snapshot_kind=kind,
+                        snapshot_sequence=(
+                            checkpoint_sequence
+                            if kind == "CHECKPOINT" else export_sequence
+                        ),
+                        prior_document_sha256=(
+                            latest_checkpoint_sha
+                            if kind == "CHECKPOINT" else prior_export_sha
+                        ),
+                        source_checkpoint_sha256=latest_checkpoint_sha,
+                    )
+                    observed = (
+                        semantic_candidate["event_id"],
+                        semantic_candidate["event_sha256"],
+                        parsed_events[semantic_index + 1]["event_id"],
+                        parsed_events[semantic_index + 1]["event_sha256"],
+                    )
+                    if patch.event_pair != observed:
+                        raise GroupValidationError("GROUP_PATCH_PAIR", "/events")
+                    if patch.snapshot_row[0] in snapshot_ids:
+                        raise GroupValidationError(
+                            "GROUP_SNAPSHOT_ID_DUPLICATE", "/snapshots",
+                        )
+                    if patch.snapshot_row[4] in snapshot_document_digests:
+                        raise GroupValidationError(
+                            "GROUP_SNAPSHOT_DIGEST_DUPLICATE", "/snapshots",
+                        )
+                    cursor.advance_pair(
+                        semantic_candidate,
+                        parsed_events[semantic_index + 1],
+                        opens_attempt=False,
+                        predecessor_attempt=None,
+                    )
+                except (GroupValidationError, TransitionViolation) as error:
+                    sink.add(
+                        error.code, "snapshot_transaction_group",
+                        error.coordinate,
+                    )
+                    return _invalid(sink)
+                final_patch = patch
+                idempotency_rows.append(patch.idempotency_row)
+                snapshot_rows.append(patch.snapshot_row)
+                snapshot_ids.add(patch.snapshot_row[0])
+                snapshot_document_digests.add(patch.snapshot_row[4])
+                expected_reachable.update(patch.reachable_blob_digests)
+                if kind == "CHECKPOINT":
+                    latest_checkpoint_sha = patch.snapshot_row[4]
+                    checkpoint_sequence += 1
+                    assert patch.next_selector is not None
+                    selector_index = len(active_selectors)
+                    if (
+                        selector_index >= len(selectors)
+                        or selectors[selector_index] != patch.next_selector
+                    ):
+                        sink.add(
+                            "SELECTOR_DERIVATION",
+                            f"selector_history[{selector_index}]", "/",
+                        )
+                        return _invalid(sink)
+                    active_selectors.append(patch.next_selector)
+                else:
+                    prior_export_sha = patch.snapshot_row[4]
+                    export_sequence += 1
+                semantic_index += 2
+                continue
+            if import_seen:
+                sink.add(
+                    "GROUP_IMPORT_TERMINAL", "import_transaction_group",
+                    f"/events/{semantic_index}",
+                )
+                return _invalid(sink)
             if event_type == "REMEDIATION_CREATED":
                 if semantic_index + 2 >= len(parsed_events):
                     sink.add(
@@ -846,8 +1006,14 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
                 final_patch = patch
                 idempotency_rows.append(patch.idempotency_row)
                 expected_reachable.update(patch.reachable_blob_digests)
+                import_seen = True
                 semantic_index += event_count
-                if semantic_index != len(parsed_events):
+                if semantic_index != len(parsed_events) and (
+                    type(parsed_events[semantic_index]) is not dict
+                    or parsed_events[semantic_index].get("event_type") not in {
+                        "RUNTIME_CHECKPOINTED", "RUNTIME_SNAPSHOT_EXPORTED",
+                    }
+                ):
                     sink.add(
                         "GROUP_IMPORT_TERMINAL", "import_transaction_group",
                         f"/events/{semantic_index}",
@@ -902,8 +1068,39 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
         if set(blobs) != expected_reachable:
             sink.add("BLOB_REACHABILITY", "blobs", "/")
             return _invalid(sink)
-    elif set(blobs) != {request_sha, response_sha, payload_sha}:
+    elif set(blobs) != expected_reachable:
         sink.add("BLOB_REACHABILITY", "blobs", "/")
+        return _invalid(sink)
+
+    if len(active_selectors) != len(selectors):
+        sink.add("SELECTOR_CARDINALITY", "selector_history", "/")
+        return _invalid(sink)
+    if len(image.checkpoint_copies) > checkpoint_sequence:
+        sink.add("CHECKPOINT_COPY_CARDINALITY", "checkpoint_copies", "/")
+        return _invalid(sink)
+    registered_copies = {
+        blobs[row[5]].canonical_text.encode("ascii"): row
+        for row in snapshot_rows
+        if row[1] == "CHECKPOINT"
+    }
+    prior_copy_sequence = -1
+    seen_copy_bytes: set[bytes] = set()
+    for index, raw_copy in enumerate(image.checkpoint_copies):
+        row = registered_copies.get(raw_copy)
+        if row is None:
+            sink.add(
+                "CHECKPOINT_COPY_UNREGISTERED", "checkpoint_copies",
+                f"/{index}",
+            )
+            continue
+        if raw_copy in seen_copy_bytes or row[2] <= prior_copy_sequence:
+            sink.add(
+                "CHECKPOINT_COPY_ORDER", "checkpoint_copies", f"/{index}",
+            )
+            continue
+        seen_copy_bytes.add(raw_copy)
+        prior_copy_sequence = row[2]
+    if sink.result():
         return _invalid(sink)
 
     try:
@@ -921,7 +1118,12 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
         manifest_sha=manifest_sha,
         attachment_sha=attachment_sha,
         selector1_sha=selector1_sha,
-        history_sha=history_sha,
+        history_sha=selector_history_digest(active_selectors),
+        reachable_digests=expected_reachable,
+        snapshot_rows=tuple(snapshot_rows),
+        latest_checkpoint_sha=latest_checkpoint_sha,
+        active_selector_generation=len(active_selectors) - 1,
+        active_selector_sha=active_selectors[-1]["selector_sha256"],
     )
     for snapshot in image.table_snapshots:
         assert type(snapshot) is TableSnapshot

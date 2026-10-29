@@ -4,7 +4,8 @@ The compiled slices support ``INITIALIZE`` after a validated NEW genesis,
 followed by repeatable ``CLAIM``, worker operations ``START``, ``CONTINUE``,
 ``YIELD``, ``FAIL``, and ``COMPLETE``, synthetic ``RECOVER``, and exact
 attempt-boundary ``RETRY``, plus governance, review-decision, and routing
-follow-ups, terminal remediation, and terminal repository import. They are
+follow-ups, terminal remediation, repository import, and exact checkpoint and
+export registration cuts. They are
 deliberately narrow: supplied blobs and events are treated as untrusted
 comparison inputs, task state is recomputed with the immutable transition
 kernel, and no result can authorize use.
@@ -15,7 +16,15 @@ from dataclasses import asdict, dataclass
 import re
 from typing import Any, Mapping
 
-from .runtime_v2_codec import event_digest, task_predecessor
+from .runtime_v2_codec import (
+    blob_digest,
+    checkpoint_digest,
+    event_digest,
+    export_digest,
+    selector_digest,
+    selector_history_digest,
+    task_predecessor,
+)
 from .runtime_v2_genesis import PAYLOAD_SCHEMA_ID, REQUEST_SCHEMA_ID, RESPONSE_SCHEMA_ID
 from .runtime_v2_transition import (
     TransitionIntent,
@@ -502,6 +511,17 @@ class ImportGroupPatch:
     event_sequence: tuple[tuple[str, str], ...]
     reachable_blob_digests: tuple[str, ...]
     idempotency_row: tuple[Any, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class SnapshotGroupPatch:
+    """Validated non-task checkpoint/export registration plan."""
+
+    event_pair: tuple[str, str, str, str]
+    reachable_blob_digests: tuple[str, ...]
+    idempotency_row: tuple[Any, ...]
+    snapshot_row: tuple[Any, ...]
+    next_selector: dict[str, Any] | None
 
 
 def _deny(code: str, coordinate: str = "/") -> None:
@@ -1990,10 +2010,293 @@ def reduce_import_group(
     )
 
 
+_ROOT_KEYS = frozenset({
+    "attempts", "blobs", "claims", "events", "idempotency",
+    "legacy_archive", "metadata", "migrations", "remediation_links",
+    "reviews", "schema_documents", "schema_registry", "seals",
+    "snapshots", "tasks",
+})
+_CHECKPOINT_SCHEMA_ID = "urn:edgelab:m0-3a-runtime-checkpoint:2"
+_EXPORT_SCHEMA_ID = "urn:edgelab:m0-3a-runtime-export:2"
+
+
+def reduce_snapshot_group(
+    *,
+    cursor: _ReplayCursor,
+    semantic_event: Any,
+    commit_event: Any,
+    catalog: Mapping[str, BlobValue],
+    cut_roots: Mapping[str, str],
+    manifest_sha256: str,
+    selectors: tuple[dict[str, Any], ...],
+    snapshot_kind: str,
+    snapshot_sequence: int,
+    prior_document_sha256: str | None,
+    source_checkpoint_sha256: str | None,
+) -> SnapshotGroupPatch:
+    """Validate one exact checkpoint or export registration without I/O."""
+    if type(cursor) is not _ReplayCursor:
+        _deny("GROUP_CURSOR", "/events")
+    if type(snapshot_kind) is not str or snapshot_kind not in {
+        "CHECKPOINT", "EXPORT",
+    }:
+        _deny("GROUP_SNAPSHOT_KIND", "/snapshot_kind")
+    if type(cut_roots) is not dict or cut_roots.keys() != _ROOT_KEYS:
+        _deny("GROUP_SNAPSHOT_ROOTS", "/roots")
+    for name, digest in cut_roots.items():
+        _pattern(digest, _DIGEST, f"/roots/{name}")
+    if type(selectors) is not tuple or len(selectors) < 2:
+        _deny("GROUP_SELECTOR_HISTORY", "/selector_history")
+    if type(snapshot_sequence) is not int or snapshot_sequence < 0:
+        _deny("GROUP_SNAPSHOT_SEQUENCE", "/snapshot_sequence")
+    if snapshot_sequence == 0:
+        _const(prior_document_sha256, None, "/prior_document_sha256")
+    else:
+        _pattern(prior_document_sha256, _DIGEST, "/prior_document_sha256")
+
+    semantic_index = cursor.global_sequence + 1
+    commit_index = semantic_index + 1
+    semantic = _validate_event_shape(semantic_event, f"/events/{semantic_index}")
+    commit = _validate_event_shape(commit_event, f"/events/{commit_index}")
+    cursor.check_pair(semantic, commit)
+    transaction = semantic["transaction"]
+    operation = "CHECKPOINT" if snapshot_kind == "CHECKPOINT" else "EXPORT_SNAPSHOT"
+    semantic_type = (
+        "RUNTIME_CHECKPOINTED"
+        if snapshot_kind == "CHECKPOINT"
+        else "RUNTIME_SNAPSHOT_EXPORTED"
+    )
+    operation_key = transaction["operation_key"]
+    match = _OPERATION_KEY.fullmatch(operation_key)
+    assert match is not None
+    _const(match.group(1), cursor.chain_id, f"/events/{semantic_index}/transaction/operation_key")
+    for event, index, position in (
+        (semantic, semantic_index, 0), (commit, commit_index, 1),
+    ):
+        _const(event["runtime_id"], cursor.runtime_id, f"/events/{index}/runtime_id")
+        _const(event["chain_id"], cursor.chain_id, f"/events/{index}/chain_id")
+        _const(event["repository_generation"], cursor.repository_generation, f"/events/{index}/repository_generation")
+        _const(event["repository_bundle_sha256"], cursor.repository_bundle_sha256, f"/events/{index}/repository_bundle_sha256")
+        _const(event["global_sequence"], index, f"/events/{index}/global_sequence")
+        _const(event["stream"], "RUNTIME", f"/events/{index}/stream")
+        _const(event["task_context"], None, f"/events/{index}/task_context")
+        _const(event["state_before_ref"], None, f"/events/{index}/state_before_ref")
+        _const(event["state_after_ref"], None, f"/events/{index}/state_after_ref")
+        _const(event["transaction"]["position"], position, f"/events/{index}/transaction/position")
+        _const(event["transaction"]["event_count"], 2, f"/events/{index}/transaction/event_count")
+    _const(semantic["event_type"], semantic_type, f"/events/{semantic_index}/event_type")
+    _const(commit["event_type"], "COMMAND_COMMITTED", f"/events/{commit_index}/event_type")
+    _const(semantic["global_predecessor"], {
+        "event_id": cursor.head_event_id,
+        "event_sha256": cursor.head_event_sha256,
+    }, f"/events/{semantic_index}/global_predecessor")
+    _const(commit["global_predecessor"], {
+        "event_id": semantic["event_id"],
+        "event_sha256": semantic["event_sha256"],
+    }, f"/events/{commit_index}/global_predecessor")
+    for name in (
+        "runtime_id", "chain_id", "occurred_at", "repository_generation",
+        "repository_bundle_sha256",
+    ):
+        _const(commit[name], semantic[name], f"/events/{commit_index}/{name}")
+    for name in (
+        "transaction_id", "event_count", "operation_key", "request_sha256",
+        "response_sha256",
+    ):
+        _const(commit["transaction"][name], transaction[name], f"/events/{commit_index}/transaction/{name}")
+
+    request_sha = transaction["request_sha256"]
+    response_sha = transaction["response_sha256"]
+    request = _object(
+        _resolve(catalog, request_sha, REQUEST_SCHEMA_ID, "/snapshot_request").value,
+        _REQUEST_KEYS, "/snapshot_request",
+    )
+    response = _object(
+        _resolve(catalog, response_sha, RESPONSE_SCHEMA_ID, "/snapshot_response").value,
+        _RESPONSE_KEYS, "/snapshot_response",
+    )
+    for artifact, value, version_key in (
+        ("snapshot_request", request, "request_format_version"),
+        ("snapshot_response", response, "response_format_version"),
+    ):
+        _const(value["schema_version"], 1, f"/{artifact}/schema_version")
+        _const(value[version_key], 2, f"/{artifact}/{version_key}")
+        _const(value["runtime_id"], cursor.runtime_id, f"/{artifact}/runtime_id")
+        _const(value["chain_id"], cursor.chain_id, f"/{artifact}/chain_id")
+        _const(value["operation"], operation, f"/{artifact}/operation")
+        _const(value["operation_key"], operation_key, f"/{artifact}/operation_key")
+    _const(request["repository_generation"], cursor.repository_generation, "/snapshot_request/repository_generation")
+    _const(request["repository_bundle_sha256"], cursor.repository_bundle_sha256, "/snapshot_request/repository_bundle_sha256")
+    _const(request["subject"], None, "/snapshot_request/subject")
+    _const(request["expected_state_ref"], None, "/snapshot_request/expected_state_ref")
+    _const(response["status"], "COMMITTED", "/snapshot_response/status")
+    _const(response["affected_states"], [], "/snapshot_response/affected_states")
+
+    checkpoint = snapshot_kind == "CHECKPOINT"
+    argument_keys = frozenset({
+        "snapshot_id",
+        "checkpoint_sequence" if checkpoint else "export_sequence",
+        "checkpoint_sha256" if checkpoint else "export_sha256",
+        "checkpoint_blob_sha256" if checkpoint else "export_blob_sha256",
+        "prior_checkpoint_sha256" if checkpoint else "prior_export_sha256",
+        *( {
+            "next_selector_generation", "next_selector_sha256",
+            "next_selector_history_sha256",
+        } if checkpoint else set()),
+    })
+    arguments = _object(request["arguments"], argument_keys, "/snapshot_request/arguments")
+    snapshot_id = _pattern(arguments["snapshot_id"], _UUID4, "/snapshot_request/arguments/snapshot_id")
+    sequence_name = "checkpoint_sequence" if checkpoint else "export_sequence"
+    digest_name = "checkpoint_sha256" if checkpoint else "export_sha256"
+    blob_name = "checkpoint_blob_sha256" if checkpoint else "export_blob_sha256"
+    prior_name = "prior_checkpoint_sha256" if checkpoint else "prior_export_sha256"
+    _const(arguments[sequence_name], snapshot_sequence, f"/snapshot_request/arguments/{sequence_name}")
+    document_sha = _pattern(arguments[digest_name], _DIGEST, f"/snapshot_request/arguments/{digest_name}")
+    document_blob_sha = _pattern(arguments[blob_name], _DIGEST, f"/snapshot_request/arguments/{blob_name}")
+    _const(arguments[prior_name], prior_document_sha256, f"/snapshot_request/arguments/{prior_name}")
+    document_schema = _CHECKPOINT_SCHEMA_ID if checkpoint else _EXPORT_SCHEMA_ID
+    document = _resolve(catalog, document_blob_sha, document_schema, f"/snapshot_request/arguments/{blob_name}").value
+    document_keys = frozenset({
+        "schema_version", "runtime_format_version", "runtime_id", "chain_id",
+        sequence_name, "through_global_sequence", "head_event_id",
+        "head_event_sha256", "manifest_sha256",
+        *( {"prior_checkpoint_sha256"} if checkpoint else {
+            "source_checkpoint_sha256", "prior_export_sha256",
+        }),
+        "roots", digest_name, "anchor_status", "currentness_status",
+        "authorizing_use", "created_at",
+    })
+    document = _object(document, document_keys, "/snapshot_document")
+    _const(document["schema_version"], 1, "/snapshot_document/schema_version")
+    _const(document["runtime_format_version"], 2, "/snapshot_document/runtime_format_version")
+    _const(document["runtime_id"], cursor.runtime_id, "/snapshot_document/runtime_id")
+    _const(document["chain_id"], cursor.chain_id, "/snapshot_document/chain_id")
+    _const(document[sequence_name], snapshot_sequence, f"/snapshot_document/{sequence_name}")
+    _const(document["through_global_sequence"], cursor.global_sequence, "/snapshot_document/through_global_sequence")
+    _const(document["head_event_id"], cursor.head_event_id, "/snapshot_document/head_event_id")
+    _const(document["head_event_sha256"], cursor.head_event_sha256, "/snapshot_document/head_event_sha256")
+    _const(document["manifest_sha256"], manifest_sha256, "/snapshot_document/manifest_sha256")
+    _const(document["roots"], dict(cut_roots), "/snapshot_document/roots")
+    _const(document[prior_name], prior_document_sha256, f"/snapshot_document/{prior_name}")
+    if not checkpoint:
+        _const(document["source_checkpoint_sha256"], source_checkpoint_sha256, "/snapshot_document/source_checkpoint_sha256")
+    _const(document["anchor_status"], "LOCAL_UNANCHORED", "/snapshot_document/anchor_status")
+    _const(document["currentness_status"], "UNKNOWN", "/snapshot_document/currentness_status")
+    _const(document["authorizing_use"], "DENY", "/snapshot_document/authorizing_use")
+    _const(document["created_at"], semantic["occurred_at"], "/snapshot_document/created_at")
+    derived_document_sha = checkpoint_digest(document) if checkpoint else export_digest(document)
+    _const(document[digest_name], derived_document_sha, f"/snapshot_document/{digest_name}")
+    _const(document_sha, derived_document_sha, f"/snapshot_request/arguments/{digest_name}")
+    _const(document_blob_sha, blob_digest(document), f"/snapshot_request/arguments/{blob_name}")
+
+    semantic_payload_sha = semantic["payload_ref"]["sha256"]
+    semantic_payload = _object(
+        _resolve(catalog, semantic_payload_sha, PAYLOAD_SCHEMA_ID, f"/events/{semantic_index}/payload_ref").value,
+        _PAYLOAD_KEYS, "/snapshot_payload",
+    )
+    cut_head = {
+        "global_sequence": cursor.global_sequence,
+        "event_id": cursor.head_event_id,
+        "event_sha256": cursor.head_event_sha256,
+    }
+    expected_data = dict(arguments)
+    expected_data["cut_head"] = cut_head
+    _const(semantic_payload, {
+        "schema_version": 1,
+        "payload_format_version": 2,
+        "event_type": semantic_type,
+        "data": expected_data,
+    }, "/snapshot_payload")
+
+    next_selector: dict[str, Any] | None = None
+    if checkpoint:
+        current = selectors[-1]
+        generation = len(selectors)
+        next_selector = {
+            "schema_version": 1,
+            "selector_format_version": 1,
+            "selector_generation": generation,
+            "active_runtime_format_version": 2,
+            "active_runtime_id": cursor.runtime_id,
+            "active_database_path": "runtime.v2.sqlite",
+            "active_attachment_path": "attachment.v2.json",
+            "active_manifest_path": "runtime.v2.manifest.json",
+            "active_manifest_sha256": manifest_sha256,
+            "latest_v2_checkpoint_sha256": document_sha,
+            "selector_history_path": f"selectors/{generation:020d}.json",
+            "prior_selector_path": f"selectors/{generation - 1:020d}.json",
+            "prior_selector_sha256": current["selector_sha256"],
+            "cutover_state": "V2_ACTIVE",
+            "currentness_status": "UNKNOWN",
+            "authorizing_use": "DENY",
+            "written_at": semantic["occurred_at"],
+            "selector_sha256": "0" * 64,
+        }
+        next_selector["selector_sha256"] = selector_digest(next_selector)
+        next_history_sha = selector_history_digest([*selectors, next_selector])
+        _const(arguments["next_selector_generation"], generation, "/snapshot_request/arguments/next_selector_generation")
+        _const(arguments["next_selector_sha256"], next_selector["selector_sha256"], "/snapshot_request/arguments/next_selector_sha256")
+        _const(arguments["next_selector_history_sha256"], next_history_sha, "/snapshot_request/arguments/next_selector_history_sha256")
+
+    _const(response["generated_refs"], [{
+        "kind": snapshot_kind,
+        "identifier": snapshot_id,
+        "sha256": document_sha,
+    }], "/snapshot_response/generated_refs")
+    commit_payload_sha = commit["payload_ref"]["sha256"]
+    commit_payload = _object(
+        _resolve(catalog, commit_payload_sha, PAYLOAD_SCHEMA_ID, f"/events/{commit_index}/payload_ref").value,
+        _PAYLOAD_KEYS, "/snapshot_commit_payload",
+    )
+    _const(commit_payload, {
+        "schema_version": 1,
+        "payload_format_version": 2,
+        "event_type": "COMMAND_COMMITTED",
+        "data": {
+            "semantic_event_ids": [semantic["event_id"]],
+            "pre_command_head": cut_head,
+            "post_semantic_head": {
+                "global_sequence": semantic_index,
+                "event_id": semantic["event_id"],
+                "event_sha256": semantic["event_sha256"],
+            },
+            "operation": operation,
+            "operation_key": operation_key,
+            "request_ref": {"schema_id": REQUEST_SCHEMA_ID, "sha256": request_sha},
+            "response_ref": {"schema_id": RESPONSE_SCHEMA_ID, "sha256": response_sha},
+            "result": "COMMITTED",
+        },
+    }, "/snapshot_commit_payload")
+    return SnapshotGroupPatch(
+        event_pair=(
+            semantic["event_id"], semantic["event_sha256"],
+            commit["event_id"], commit["event_sha256"],
+        ),
+        reachable_blob_digests=tuple(sorted({
+            request_sha, response_sha, semantic_payload_sha,
+            commit_payload_sha, document_blob_sha,
+        })),
+        idempotency_row=(
+            operation_key, transaction["transaction_id"], request_sha,
+            response_sha, commit["event_id"], commit_index,
+            semantic["occurred_at"],
+        ),
+        snapshot_row=(
+            snapshot_id, snapshot_kind, snapshot_sequence,
+            semantic["event_id"], document_sha, document_blob_sha,
+            cursor.global_sequence, cursor.head_event_id,
+            cursor.head_event_sha256, prior_document_sha256,
+            semantic["occurred_at"],
+        ),
+        next_selector=next_selector,
+    )
+
+
 __all__ = (
     "BlobValue", "ClaimGroupPatch", "GroupValidationError",
     "ImportGroupPatch", "InitializeGroupPatch", "TASK_STATE_SCHEMA_ID",
-    "RemediationGroupPatch", "WorkerGroupPatch",
+    "RemediationGroupPatch", "SnapshotGroupPatch", "WorkerGroupPatch",
     "reduce_claim_group", "reduce_initialize_group",
-    "reduce_import_group", "reduce_remediation_group", "reduce_worker_group",
+    "reduce_import_group", "reduce_remediation_group", "reduce_snapshot_group",
+    "reduce_worker_group",
 )
