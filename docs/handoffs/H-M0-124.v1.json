@@ -1,0 +1,19 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-124",
+  "version": 1,
+  "created_at": "2026-10-29T20:11:06Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Define a closed versioned resource-classification manifest and classify the smallest safe fixed source subset while retaining incomplete coverage and generation denial.",
+  "work_done": "Added a closed self-digesting manifest and pinned schema that classify only MAX_DEPENDENCY_CLOSURE_BYTES and its exact definition/enforcement sites. Bound all source/schema census identities, the complete closure-module and validator-function ASTs, contract/test evidence, and exact census cardinalities. Repaired all Skeptic and independent diff-review findings. Coverage remains INCOMPLETE with 688 sites unclassified and generation denied.",
+  "evidence_refs": ["reports/H-M0-124-runtime-v2-resource-classification.v1.md", "reports/audit/A-M0-106.v1.json", "reports/stops/STOP-M0-3A-002.v27.json", "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v1.json", "schemas/m0-3a-runtime-v2-resource-classification.v1.schema.json", "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v1.md", "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md", "tools/check_runtime_v2_release_readiness.py", "tests/test_runtime_v2_release_readiness.py", "tests/test_runtime_v2_closure.py"],
+  "files_changed": ["docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v1.json", "schemas/m0-3a-runtime-v2-resource-classification.v1.schema.json", "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v1.md", "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md", "tools/check_runtime_v2_release_readiness.py", "tests/test_runtime_v2_release_readiness.py", "tests/test_runtime_v2_closure.py", "tests/test_alpha.py", "tests/test_web.py", "reports/H-M0-124-runtime-v2-resource-classification.v1.md", "reports/audit/A-M0-106.v1.json", "reports/stops/STOP-M0-3A-002.v27.json", "docs/handoffs/H-M0-124.v1.json", "docs/project-state.json", "examples/alpha/sample-workflow.v1.json"],
+  "tests_run": ["30 focused readiness and closure tests passed normally and under optimized Python.", "370 fast-tier tests passed across 22 isolated modules.", "Independent Skeptic and diff rereviews initially blocked semantic/evidence gaps and passed after every finding was repaired.", "431 governed records and published history validated before evidence publication; 434 expected after publication.", "18 alpha and observatory tests must pass after evidence publication."],
+  "open_questions": ["Which next exact non-relational maximum has a complete, independently reviewable semantic dependency closure?", "How should content-asset descriptor bounds and relational/accounting equations bind into later classification versions without broadening their meaning?"],
+  "blockers": ["STOP-M0-3A-002.v27 remains OPEN.", "Only two of 690 census sites are semantically classified; 688 remain unclassified with INCOMPLETE coverage.", "Public verification remains deny-only.", "Live remains LOCKED and deployable capital remains USD 0."],
+  "next_action": "Classify the next smallest unambiguous non-relational resource maximum under the same exact schema, semantic-dependency, evidence, and adversarial-review discipline; retain incomplete coverage and generation denial.",
+  "completion_criteria": ["Exactly one bounded resource maximum and every definition/enforcement dependency needed for its meaning are fixed and adversarially tested.", "All other sites remain unclassified and RESOURCE_INVENTORY_INCOMPLETE remains unconditional.", "No closure/carrier, positive verifier result, STOP clearance, or operational/capital authority is created."],
+  "depends_on": [{"path": "docs/handoffs/H-M0-123.v1.json", "kind": "handoff", "id": "H-M0-123", "version": 1, "sha256": "8e35ba012655e589dbb245dff6586aeb9fd6950bdfd2ad39030f708a86186eda"}]
+}

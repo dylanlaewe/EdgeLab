@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-106",
+  "version": 1,
+  "occurred_at": "2026-10-29T20:11:06Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_FIRST_SEMANTIC_RESOURCE_MAXIMUM_CLASSIFIED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-124-runtime-v2-resource-classification.v1.md",
+  "previous_state": "FORMAT_2_RESOURCE_CANDIDATE_CENSUS_REPRODUCIBLE_CLASSIFICATION_INCOMPLETE_STOP_OPEN",
+  "new_state": "FORMAT_2_ONE_RESOURCE_MAXIMUM_CLASSIFIED_688_SITES_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit b4d2bd299c304b93a864b0e4b1334664070e35dd classifies only MAX_DEPENDENCY_CLOSURE_BYTES and two exact source sites under pinned module/function AST, schema, census, source, evidence, and self-digest bindings. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": ["reports/H-M0-124-runtime-v2-resource-classification.v1.md", "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v1.json", "schemas/m0-3a-runtime-v2-resource-classification.v1.schema.json", "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v1.md", "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md", "tools/check_runtime_v2_release_readiness.py", "tests/test_runtime_v2_release_readiness.py", "tests/test_runtime_v2_closure.py", "reports/stops/STOP-M0-3A-002.v27.json"],
+  "code_ref": "b4d2bd299c304b93a864b0e4b1334664070e35dd",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-124",
+  "supersedes": null
+}
