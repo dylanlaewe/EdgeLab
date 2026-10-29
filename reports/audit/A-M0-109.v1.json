@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-109",
+  "version": 1,
+  "occurred_at": "2026-10-29T21:48:04Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_FOURTH_SEMANTIC_RESOURCE_MAXIMUM_CLASSIFIED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-127-runtime-v2-schema-reference-node-resource-classification.v1.md",
+  "previous_state": "FORMAT_2_THREE_RESOURCE_MAXIMA_CLASSIFIED_682_SITES_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "FORMAT_2_FOUR_RESOURCE_MAXIMA_CLASSIFIED_680_SITES_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 1c62e0bd3b1a35261c1b4fa436d134e8dc488976 cumulatively classifies only MAX_SCHEMA_REF_NODES and its two exact source sites under predecessor/ancestor, source-module/function AST, schema, census, source, evidence, and self-digest bindings. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": ["reports/H-M0-127-runtime-v2-schema-reference-node-resource-classification.v1.md", "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v4.json", "schemas/m0-3a-runtime-v2-resource-classification.v4.schema.json", "docs/M0.3A_SCHEMA_REFERENCE_GRAPH_LIMIT.v1.md", "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v1.md", "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md", "tools/check_runtime_v2_release_readiness.py", "tests/test_runtime_v2_release_readiness.py", "tests/test_runtime_v2_schema_ref_node_bound.py", "reports/stops/STOP-M0-3A-002.v30.json"],
+  "code_ref": "1c62e0bd3b1a35261c1b4fa436d134e8dc488976",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-127",
+  "supersedes": null
+}
