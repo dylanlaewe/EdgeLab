@@ -52,8 +52,10 @@ from .runtime_v2_genesis import (
 from .runtime_v2_image import RuntimeImage, TableSnapshot, inspect_runtime_image_host
 from .runtime_v2_group import (
     BlobValue,
+    ClaimGroupPatch,
     GroupValidationError,
     InitializeGroupPatch,
+    reduce_claim_group,
     reduce_initialize_group,
 )
 
@@ -294,6 +296,7 @@ def _expected_tables(
     catalog: dict[str, BlobValue],
     events: tuple[dict[str, Any], ...],
     group_patch: InitializeGroupPatch | None,
+    claim_patch: ClaimGroupPatch | None,
     manifest_sha: str,
     attachment_sha: str,
     selector1_sha: str,
@@ -350,9 +353,14 @@ def _expected_tables(
         "RUNTIME_GENESIS_IDENTITY", attachment_sha, event_id, event_sha,
         manifest_sha, event_id, created_at,
     ),)
-    if group_patch is not None:
-        rows["attempts"] = (group_patch.attempt_row,)
-        rows["idempotency"] = (group_patch.idempotency_row,)
+    final_patch = claim_patch if claim_patch is not None else group_patch
+    if final_patch is not None:
+        rows["attempts"] = (final_patch.attempt_row,)
+        idempotency_rows = [group_patch.idempotency_row] if group_patch is not None else []
+        if claim_patch is not None:
+            idempotency_rows.append(claim_patch.idempotency_row)
+            rows["claims"] = (claim_patch.claim_row,)
+        rows["idempotency"] = tuple(sorted(idempotency_rows))
         rows["tasks"] = tuple(
             (
                 task.task_id, task.attempt, task.workflow, task.execution,
@@ -363,7 +371,7 @@ def _expected_tables(
                 task.owner, task.owner_role, task.reviewer,
                 task.predecessor_task, task.successor_task,
             )
-            for task in group_patch.state.tasks
+            for task in final_patch.state.tasks
         )
     return rows
 
@@ -408,7 +416,7 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
         )
     if image.checkpoint_copies:
         sink.add("GENESIS_CHECKPOINT_COPY", "checkpoint_copies", "/")
-    if len(image.events) not in {1, 3}:
+    if len(image.events) not in {1, 3, 5}:
         sink.add("COMPILED_EVENT_CARDINALITY", "events", "/")
     if len(image.selector_history) != 2:
         sink.add("GENESIS_SELECTOR_CARDINALITY", "selector_history", "/")
@@ -417,7 +425,7 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
     parsed_events = tuple(
         _parse(raw, f"events[{index}]", sink)
         for index, raw in enumerate(image.events)
-    ) if len(image.events) in {1, 3} else ()
+    ) if len(image.events) in {1, 3, 5} else ()
     event = parsed_events[0] if parsed_events else None
     selectors = tuple(
         _parse(raw, f"selector_history[{index}]", sink)
@@ -561,7 +569,8 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
     if sink.result():
         return _invalid(sink)
     group_patch: InitializeGroupPatch | None = None
-    if len(parsed_events) == 3:
+    claim_patch: ClaimGroupPatch | None = None
+    if len(parsed_events) >= 3:
         try:
             group_patch = reduce_initialize_group(
                 genesis_event=event,
@@ -576,6 +585,19 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
             request_sha, response_sha, payload_sha,
             *group_patch.reachable_blob_digests,
         }
+        if len(parsed_events) == 5:
+            try:
+                claim_patch = reduce_claim_group(
+                    prior_events=tuple(parsed_events[:3]),
+                    prior_state=group_patch.state,
+                    semantic_event=parsed_events[3],
+                    commit_event=parsed_events[4],
+                    catalog=blobs,
+                )
+            except GroupValidationError as error:
+                sink.add(error.code, "claim_transaction_group", error.coordinate)
+                return _invalid(sink)
+            expected_reachable.update(claim_patch.reachable_blob_digests)
         if set(blobs) != expected_reachable:
             sink.add("BLOB_REACHABILITY", "blobs", "/")
             return _invalid(sink)
@@ -588,6 +610,7 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
         catalog=blobs,
         events=tuple(parsed_events),
         group_patch=group_patch,
+        claim_patch=claim_patch,
         manifest_sha=manifest_sha,
         attachment_sha=attachment_sha,
         selector1_sha=selector1_sha,

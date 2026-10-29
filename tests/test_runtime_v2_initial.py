@@ -510,6 +510,219 @@ def initialize_fixture():
     return result, values
 
 
+def claim_fixture():
+    image, values = initialize_fixture()
+    task_id = values["initialize_state"]["task_id"]
+    semantic_id = "123e4567-e89b-42d3-a456-426614174006"
+    commit_id = "123e4567-e89b-42d3-a456-426614174007"
+    transaction_id = "123e4567-e89b-42d3-a456-426614174008"
+    claim_id = "123e4567-e89b-42d3-a456-426614174009"
+    operation_key = f"v2:{CHAIN_ID}:claim-task-alpha"
+    before_state = values["initialize_state"]
+    before_sha = blob_digest(before_state)
+    after_state = json.loads(json.dumps(before_state))
+    after_state.update({
+        "execution": "CLAIMED",
+        "scheduler_generation": 1,
+        "dispatch_generation": 1,
+        "task_fence": 1,
+        "active_claim_id": claim_id,
+    })
+    after_sha = blob_digest(after_state)
+    request = {
+        "schema_version": 1,
+        "request_format_version": 2,
+        "runtime_id": RUNTIME_ID,
+        "chain_id": CHAIN_ID,
+        "operation": "CLAIM",
+        "operation_key": operation_key,
+        "repository_generation": 0,
+        "repository_bundle_sha256": BUNDLE,
+        "subject": {"task_id": task_id, "attempt": 1},
+        "expected_state_ref": {"schema_id": TASK_STATE_SCHEMA_ID, "sha256": before_sha},
+        "arguments": {"actor": "worker-a"},
+    }
+    response = {
+        "schema_version": 1,
+        "response_format_version": 2,
+        "runtime_id": RUNTIME_ID,
+        "chain_id": CHAIN_ID,
+        "operation": "CLAIM",
+        "operation_key": operation_key,
+        "status": "COMMITTED",
+        "affected_states": [{
+            "task_id": task_id,
+            "attempt": 1,
+            "state_ref": {"schema_id": TASK_STATE_SCHEMA_ID, "sha256": after_sha},
+        }],
+        "generated_refs": [{
+            "kind": "CLAIM", "identifier": claim_id, "sha256": None,
+        }],
+    }
+    semantic_payload = {
+        "schema_version": 1,
+        "payload_format_version": 2,
+        "event_type": "CLAIM_ISSUED",
+        "data": {"claim_id": claim_id},
+    }
+    request_sha = blob_digest(request)
+    response_sha = blob_digest(response)
+    payload_sha = blob_digest(semantic_payload)
+    init_semantic = values["semantic"]
+    init_commit = values["commit"]
+    semantic = {
+        "schema_version": 1,
+        "event_format_version": 2,
+        "runtime_id": RUNTIME_ID,
+        "chain_id": CHAIN_ID,
+        "event_id": semantic_id,
+        "event_type": "CLAIM_ISSUED",
+        "occurred_at": CREATED_AT,
+        "global_sequence": 3,
+        "global_predecessor": {
+            "event_id": init_commit["event_id"],
+            "event_sha256": init_commit["event_sha256"],
+        },
+        "stream": "TASK",
+        "task_context": {
+            "task_id": task_id,
+            "attempt": 1,
+            "task_sequence": 2,
+            "task_predecessor": {
+                "event_id": init_semantic["event_id"],
+                "event_sha256": init_semantic["event_sha256"],
+            },
+        },
+        "transaction": {
+            "transaction_id": transaction_id,
+            "position": 0,
+            "event_count": 2,
+            "operation_key": operation_key,
+            "request_sha256": request_sha,
+            "response_sha256": response_sha,
+        },
+        "payload_ref": {"schema_id": PAYLOAD_SCHEMA_ID, "sha256": payload_sha},
+        "state_before_ref": {"schema_id": TASK_STATE_SCHEMA_ID, "sha256": before_sha},
+        "state_after_ref": {"schema_id": TASK_STATE_SCHEMA_ID, "sha256": after_sha},
+        "repository_generation": 0,
+        "repository_bundle_sha256": BUNDLE,
+        "authority_binding_sha256": None,
+        "authorizing_use": "DENY",
+        "event_sha256": "0" * 64,
+    }
+    semantic["event_sha256"] = event_digest(semantic)
+    commit_payload = {
+        "schema_version": 1,
+        "payload_format_version": 2,
+        "event_type": "COMMAND_COMMITTED",
+        "data": {
+            "semantic_event_ids": [semantic_id],
+            "pre_command_head": {
+                "global_sequence": 2,
+                "event_id": init_commit["event_id"],
+                "event_sha256": init_commit["event_sha256"],
+            },
+            "post_semantic_head": {
+                "global_sequence": 3,
+                "event_id": semantic_id,
+                "event_sha256": semantic["event_sha256"],
+            },
+            "operation": "CLAIM",
+            "operation_key": operation_key,
+            "request_ref": {"schema_id": REQUEST_SCHEMA_ID, "sha256": request_sha},
+            "response_ref": {"schema_id": RESPONSE_SCHEMA_ID, "sha256": response_sha},
+            "result": "COMMITTED",
+        },
+    }
+    commit_payload_sha = blob_digest(commit_payload)
+    commit = {
+        "schema_version": 1,
+        "event_format_version": 2,
+        "runtime_id": RUNTIME_ID,
+        "chain_id": CHAIN_ID,
+        "event_id": commit_id,
+        "event_type": "COMMAND_COMMITTED",
+        "occurred_at": CREATED_AT,
+        "global_sequence": 4,
+        "global_predecessor": {
+            "event_id": semantic_id,
+            "event_sha256": semantic["event_sha256"],
+        },
+        "stream": "RUNTIME",
+        "task_context": None,
+        "transaction": {
+            "transaction_id": transaction_id,
+            "position": 1,
+            "event_count": 2,
+            "operation_key": operation_key,
+            "request_sha256": request_sha,
+            "response_sha256": response_sha,
+        },
+        "payload_ref": {"schema_id": PAYLOAD_SCHEMA_ID, "sha256": commit_payload_sha},
+        "state_before_ref": None,
+        "state_after_ref": None,
+        "repository_generation": 0,
+        "repository_bundle_sha256": BUNDLE,
+        "authority_binding_sha256": None,
+        "authorizing_use": "DENY",
+        "event_sha256": "0" * 64,
+    }
+    commit["event_sha256"] = event_digest(commit)
+    additions = (
+        BlobRecord(request_sha, REQUEST_SCHEMA_ID, canonical_json(request)),
+        BlobRecord(response_sha, RESPONSE_SCHEMA_ID, canonical_json(response)),
+        BlobRecord(payload_sha, PAYLOAD_SCHEMA_ID, canonical_json(semantic_payload)),
+        BlobRecord(commit_payload_sha, PAYLOAD_SCHEMA_ID, canonical_json(commit_payload)),
+        BlobRecord(after_sha, TASK_STATE_SCHEMA_ID, canonical_json(after_state)),
+    )
+    blobs = tuple(sorted(image.blobs + additions, key=lambda record: record.sha256))
+    rows = {snapshot.table: snapshot.rows for snapshot in image.table_snapshots}
+    rows["blobs"] = tuple(
+        (record.sha256, record.schema_id, record.canonical_json.decode("ascii"))
+        for record in blobs
+    )
+    rows["events"] = rows["events"] + (
+        (3, semantic_id, semantic["event_sha256"], canonical_json(semantic).decode("ascii")),
+        (4, commit_id, commit["event_sha256"], canonical_json(commit).decode("ascii")),
+    )
+    rows["attempts"] = ((
+        task_id, 1, None, init_semantic["event_id"], 2,
+        semantic_id, semantic["event_sha256"],
+    ),)
+    rows["claims"] = ((
+        claim_id, task_id, 1, 1, "OPEN", "worker-a", semantic_id, None,
+    ),)
+    claim_idempotency = (
+        operation_key, transaction_id, request_sha, response_sha, commit_id, 4, CREATED_AT,
+    )
+    rows["idempotency"] = tuple(sorted(rows["idempotency"] + (claim_idempotency,)))
+    metadata = list(rows["metadata"][0])
+    metadata[15:18] = [4, commit_id, commit["event_sha256"]]
+    rows["metadata"] = (tuple(metadata),)
+    rows["tasks"] = ((
+        task_id, 1, "ACTIVE", "CLAIMED", "NOT_REQUIRED", 1, 1, 1,
+        claim_id, None, 0, 0, "5" * 64, "03 Research", "research", None,
+        None, None,
+    ),)
+    result = replace(
+        image,
+        blobs=blobs,
+        events=image.events + (canonical_json(semantic), canonical_json(commit)),
+        table_snapshots=tuple(TableSnapshot(name, rows[name]) for name in TABLE_NAMES),
+    )
+    values.update({
+        "claim_request": request,
+        "claim_response": response,
+        "claim_before_state": before_state,
+        "claim_after_state": after_state,
+        "claim_semantic_payload": semantic_payload,
+        "claim_commit_payload": commit_payload,
+        "claim_semantic": semantic,
+        "claim_commit": commit,
+    })
+    return result, values
+
+
 class RuntimeV2InitialTests(unittest.TestCase):
     def codes(self, report):
         return {violation.code for violation in report.violations}
@@ -533,6 +746,209 @@ class RuntimeV2InitialTests(unittest.TestCase):
         self.assertEqual(report.status, "UNSUPPORTED")
         self.assertEqual(self.codes(report), {"CLOSURE_NOT_COMPILED"})
         self.assertEqual(report.authorizing_use, "DENY")
+
+    def test_claim_group_reduces_end_to_end_but_remains_opaque(self):
+        image, _ = claim_fixture()
+        report = reduce_initial_runtime_image(image)
+        self.assertEqual(report.status, "UNSUPPORTED")
+        self.assertEqual(self.codes(report), {"CLOSURE_NOT_COMPILED"})
+        self.assertEqual(report.authorizing_use, "DENY")
+
+    def test_claim_group_binds_global_and_task_predecessors(self):
+        image, values = claim_fixture()
+        semantic = json.loads(json.dumps(values["claim_semantic"]))
+        semantic["task_context"]["task_predecessor"]["event_id"] = (
+            "123e4567-e89b-42d3-a456-426614174099"
+        )
+        semantic["event_sha256"] = event_digest(semantic)
+        commit_payload = json.loads(json.dumps(values["claim_commit_payload"]))
+        commit_payload["data"]["post_semantic_head"]["event_sha256"] = (
+            semantic["event_sha256"]
+        )
+        commit_payload_sha = blob_digest(commit_payload)
+        commit = json.loads(json.dumps(values["claim_commit"]))
+        commit["global_predecessor"]["event_sha256"] = semantic["event_sha256"]
+        commit["payload_ref"]["sha256"] = commit_payload_sha
+        commit["event_sha256"] = event_digest(commit)
+        old_payload_sha = blob_digest(values["claim_commit_payload"])
+        blobs = tuple(
+            record for record in image.blobs if record.sha256 != old_payload_sha
+        ) + (
+            BlobRecord(
+                commit_payload_sha,
+                PAYLOAD_SCHEMA_ID,
+                canonical_json(commit_payload),
+            ),
+        )
+        report = reduce_initial_runtime_image(replace(
+            image,
+            blobs=tuple(sorted(blobs, key=lambda record: record.sha256)),
+            events=image.events[:3] + (
+                canonical_json(semantic), canonical_json(commit),
+            ),
+        ))
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("GROUP_CONST", self.codes(report))
+
+        semantic = json.loads(json.dumps(values["claim_semantic"]))
+        semantic["global_predecessor"]["event_sha256"] = "f" * 64
+        semantic["event_sha256"] = event_digest(semantic)
+        report = reduce_initial_runtime_image(replace(
+            image,
+            events=image.events[:3] + (
+                canonical_json(semantic), image.events[4],
+            ),
+        ))
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("GROUP_CONST", self.codes(report))
+
+    def test_claim_group_rejects_duplicate_transaction_and_operation_key(self):
+        image, values = claim_fixture()
+        initialize = values["semantic"]
+        for field, replacement_value, expected_code in (
+            (
+                "transaction_id",
+                initialize["transaction"]["transaction_id"],
+                "GROUP_TRANSACTION_DUPLICATE",
+            ),
+            (
+                "operation_key",
+                initialize["transaction"]["operation_key"],
+                "GROUP_OPERATION_KEY_DUPLICATE",
+            ),
+        ):
+            semantic = json.loads(json.dumps(values["claim_semantic"]))
+            commit = json.loads(json.dumps(values["claim_commit"]))
+            semantic["transaction"][field] = replacement_value
+            commit["transaction"][field] = replacement_value
+            semantic["event_sha256"] = event_digest(semantic)
+            commit["global_predecessor"]["event_sha256"] = semantic["event_sha256"]
+            commit["event_sha256"] = event_digest(commit)
+            with self.subTest(field=field):
+                report = reduce_initial_runtime_image(replace(
+                    image,
+                    events=image.events[:3] + (
+                        canonical_json(semantic), canonical_json(commit),
+                    ),
+                ))
+                self.assertEqual(report.status, "INVALID")
+                self.assertIn(expected_code, self.codes(report))
+
+    def test_claim_generated_identity_is_not_trusted_from_response(self):
+        image, values = claim_fixture()
+        response = json.loads(json.dumps(values["claim_response"]))
+        response["generated_refs"][0]["identifier"] = (
+            "123e4567-e89b-42d3-a456-426614174099"
+        )
+        response_sha = blob_digest(response)
+        semantic = json.loads(json.dumps(values["claim_semantic"]))
+        semantic["transaction"]["response_sha256"] = response_sha
+        semantic["event_sha256"] = event_digest(semantic)
+        commit_payload = json.loads(json.dumps(values["claim_commit_payload"]))
+        commit_payload["data"]["response_ref"]["sha256"] = response_sha
+        commit_payload["data"]["post_semantic_head"]["event_sha256"] = (
+            semantic["event_sha256"]
+        )
+        commit_payload_sha = blob_digest(commit_payload)
+        commit = json.loads(json.dumps(values["claim_commit"]))
+        commit["transaction"]["response_sha256"] = response_sha
+        commit["global_predecessor"]["event_sha256"] = semantic["event_sha256"]
+        commit["payload_ref"]["sha256"] = commit_payload_sha
+        commit["event_sha256"] = event_digest(commit)
+        old_response_sha = blob_digest(values["claim_response"])
+        old_commit_payload_sha = blob_digest(values["claim_commit_payload"])
+        blobs = tuple(
+            record for record in image.blobs
+            if record.sha256 not in {old_response_sha, old_commit_payload_sha}
+        ) + (
+            BlobRecord(response_sha, RESPONSE_SCHEMA_ID, canonical_json(response)),
+            BlobRecord(
+                commit_payload_sha,
+                PAYLOAD_SCHEMA_ID,
+                canonical_json(commit_payload),
+            ),
+        )
+        report = reduce_initial_runtime_image(replace(
+            image,
+            blobs=tuple(sorted(blobs, key=lambda record: record.sha256)),
+            events=image.events[:3] + (
+                canonical_json(semantic), canonical_json(commit),
+            ),
+        ))
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("GROUP_CONST", self.codes(report))
+
+    def test_claim_state_is_recomputed_not_trusted(self):
+        image, values = claim_fixture()
+        state = json.loads(json.dumps(values["claim_after_state"]))
+        state["task_fence"] = 9
+        state_sha = blob_digest(state)
+        response = json.loads(json.dumps(values["claim_response"]))
+        response["affected_states"][0]["state_ref"]["sha256"] = state_sha
+        response_sha = blob_digest(response)
+        semantic = json.loads(json.dumps(values["claim_semantic"]))
+        semantic["state_after_ref"]["sha256"] = state_sha
+        semantic["transaction"]["response_sha256"] = response_sha
+        semantic["event_sha256"] = event_digest(semantic)
+        commit_payload = json.loads(json.dumps(values["claim_commit_payload"]))
+        commit_payload["data"]["response_ref"]["sha256"] = response_sha
+        commit_payload["data"]["post_semantic_head"]["event_sha256"] = (
+            semantic["event_sha256"]
+        )
+        commit_payload_sha = blob_digest(commit_payload)
+        commit = json.loads(json.dumps(values["claim_commit"]))
+        commit["transaction"]["response_sha256"] = response_sha
+        commit["global_predecessor"]["event_sha256"] = semantic["event_sha256"]
+        commit["payload_ref"]["sha256"] = commit_payload_sha
+        commit["event_sha256"] = event_digest(commit)
+        removed = {
+            blob_digest(values["claim_response"]),
+            blob_digest(values["claim_commit_payload"]),
+            blob_digest(values["claim_after_state"]),
+        }
+        blobs = tuple(
+            record for record in image.blobs if record.sha256 not in removed
+        ) + (
+            BlobRecord(response_sha, RESPONSE_SCHEMA_ID, canonical_json(response)),
+            BlobRecord(
+                commit_payload_sha,
+                PAYLOAD_SCHEMA_ID,
+                canonical_json(commit_payload),
+            ),
+            BlobRecord(state_sha, TASK_STATE_SCHEMA_ID, canonical_json(state)),
+        )
+        report = reduce_initial_runtime_image(replace(
+            image,
+            blobs=tuple(sorted(blobs, key=lambda record: record.sha256)),
+            events=image.events[:3] + (
+                canonical_json(semantic), canonical_json(commit),
+            ),
+        ))
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("GROUP_STATE_DERIVATION", self.codes(report))
+
+    def test_claim_rows_are_derived_not_trusted(self):
+        image, _ = claim_fixture()
+        for table, column, replacement_value in (
+            ("attempts", 4, 99),
+            ("claims", 3, 99),
+            ("idempotency", 5, 99),
+            ("tasks", 7, 99),
+        ):
+            snapshots = list(image.table_snapshots)
+            index = TABLE_NAMES.index(table)
+            rows = list(snapshots[index].rows)
+            row_index = len(rows) - 1
+            row = list(rows[row_index])
+            row[column] = replacement_value
+            rows[row_index] = tuple(row)
+            snapshots[index] = TableSnapshot(table, tuple(rows))
+            with self.subTest(table=table):
+                report = reduce_initial_runtime_image(replace(
+                    image, table_snapshots=tuple(snapshots),
+                ))
+                self.assertEqual(report.status, "INVALID")
+                self.assertIn("TABLE_DERIVATION", self.codes(report))
 
     def test_initialize_group_rejects_shared_grammar_and_commit_mutations(self):
         image, values = initialize_fixture()

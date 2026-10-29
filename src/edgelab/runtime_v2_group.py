@@ -1,9 +1,9 @@
 """Private atomic transaction-group planning for runtime format 2.
 
-This first compiled slice supports only ``INITIALIZE`` after a validated NEW
-genesis.  It is deliberately narrow: supplied blobs and events are treated as
-untrusted comparison inputs, the task state is recomputed with the immutable
-transition kernel, and no result can authorize use.
+The compiled slices support ``INITIALIZE`` after a validated NEW genesis and
+one following ``CLAIM``. They are deliberately narrow: supplied blobs and
+events are treated as untrusted comparison inputs, task state is recomputed
+with the immutable transition kernel, and no result can authorize use.
 """
 from __future__ import annotations
 
@@ -76,6 +76,15 @@ class InitializeGroupPatch:
     idempotency_row: tuple[Any, ...]
 
 
+@dataclass(frozen=True, slots=True)
+class ClaimGroupPatch:
+    state: ReducerState
+    reachable_blob_digests: tuple[str, ...]
+    attempt_row: tuple[Any, ...]
+    idempotency_row: tuple[Any, ...]
+    claim_row: tuple[Any, ...]
+
+
 def _deny(code: str, coordinate: str = "/") -> None:
     raise GroupValidationError(code, coordinate)
 
@@ -100,6 +109,14 @@ def _pattern(value: Any, pattern: re.Pattern[str], coordinate: str) -> str:
 def _integer(value: Any, minimum: int, maximum: int, coordinate: str) -> int:
     if type(value) is not int or not minimum <= value <= maximum:
         _deny("GROUP_INTEGER", coordinate)
+    return value
+
+
+def _identity(value: Any, coordinate: str) -> str:
+    if type(value) is not str or not 1 <= len(value) <= 256 or any(
+        ord(character) < 0x20 or ord(character) > 0x7E for character in value
+    ):
+        _deny("GROUP_IDENTITY", coordinate)
     return value
 
 
@@ -264,10 +281,7 @@ def reduce_initialize_group(
     )
     _pattern(arguments["decision_receipt_digest"], _DIGEST, "/request/arguments/decision_receipt_digest")
     for name in ("owner", "owner_role"):
-        if type(arguments[name]) is not str or not 1 <= len(arguments[name]) <= 256 or any(
-            ord(character) < 0x20 or ord(character) > 0x7E for character in arguments[name]
-        ):
-            _deny("GROUP_IDENTITY", f"/request/arguments/{name}")
+        _identity(arguments[name], f"/request/arguments/{name}")
     _const(response["status"], "COMMITTED", "/response/status")
     _const(response["generated_refs"], [], "/response/generated_refs")
 
@@ -360,7 +374,252 @@ def reduce_initialize_group(
     )
 
 
+def reduce_claim_group(
+    *,
+    prior_events: tuple[dict[str, Any], ...],
+    prior_state: ReducerState,
+    semantic_event: Any,
+    commit_event: Any,
+    catalog: Mapping[str, BlobValue],
+) -> ClaimGroupPatch:
+    """Validate and plan one complete CLAIM group after INITIALIZE."""
+    if len(prior_events) != 3 or any(type(event) is not dict for event in prior_events):
+        _deny("GROUP_PRIOR_EVENTS", "/events")
+    previous = prior_events[-1]
+    semantic_index = len(prior_events)
+    commit_index = semantic_index + 1
+    semantic = _validate_event_shape(semantic_event, f"/events/{semantic_index}")
+    commit = _validate_event_shape(commit_event, f"/events/{commit_index}")
+    if type(prior_state) is not ReducerState or len(prior_state.tasks) != 1:
+        _deny("GROUP_PRIOR_STATE", "/state")
+    task = prior_state.tasks[0]
+    runtime_id = prior_events[0]["runtime_id"]
+    chain_id = prior_events[0]["chain_id"]
+    repository_generation = prior_state.repository_generation
+    repository_bundle = prior_state.repository_bundle_sha256
+    transaction = semantic["transaction"]
+    operation_key = transaction["operation_key"]
+    match = _OPERATION_KEY.fullmatch(operation_key)
+    assert match is not None
+    _const(match.group(1), chain_id, f"/events/{semantic_index}/transaction/operation_key")
+
+    event_ids = {event["event_id"] for event in prior_events}
+    event_digests = {event["event_sha256"] for event in prior_events}
+    transaction_ids = {event["transaction"]["transaction_id"] for event in prior_events}
+    operation_keys = {event["transaction"]["operation_key"] for event in prior_events}
+    if semantic["event_id"] in event_ids or commit["event_id"] in event_ids or semantic["event_id"] == commit["event_id"]:
+        _deny("GROUP_EVENT_ID_DUPLICATE", f"/events/{semantic_index}")
+    if (
+        semantic["event_sha256"] in event_digests
+        or commit["event_sha256"] in event_digests
+        or semantic["event_sha256"] == commit["event_sha256"]
+    ):
+        _deny("GROUP_EVENT_DIGEST_DUPLICATE", f"/events/{semantic_index}")
+    if transaction["transaction_id"] in transaction_ids:
+        _deny("GROUP_TRANSACTION_DUPLICATE", f"/events/{semantic_index}/transaction/transaction_id")
+    if operation_key in operation_keys:
+        _deny("GROUP_OPERATION_KEY_DUPLICATE", f"/events/{semantic_index}/transaction/operation_key")
+
+    for name in (
+        "runtime_id", "chain_id", "occurred_at", "repository_generation",
+        "repository_bundle_sha256",
+    ):
+        _const(commit[name], semantic[name], f"/events/{commit_index}/{name}")
+    for name in (
+        "transaction_id", "event_count", "operation_key", "request_sha256",
+        "response_sha256",
+    ):
+        _const(
+            commit["transaction"][name], transaction[name],
+            f"/events/{commit_index}/transaction/{name}",
+        )
+    for event, index, position in (
+        (semantic, semantic_index, 0), (commit, commit_index, 1),
+    ):
+        _const(event["runtime_id"], runtime_id, f"/events/{index}/runtime_id")
+        _const(event["chain_id"], chain_id, f"/events/{index}/chain_id")
+        _const(event["repository_generation"], repository_generation, f"/events/{index}/repository_generation")
+        _const(event["repository_bundle_sha256"], repository_bundle, f"/events/{index}/repository_bundle_sha256")
+        _const(event["global_sequence"], index, f"/events/{index}/global_sequence")
+        _const(event["transaction"]["position"], position, f"/events/{index}/transaction/position")
+        _const(event["transaction"]["event_count"], 2, f"/events/{index}/transaction/event_count")
+    _const(semantic["global_predecessor"], {
+        "event_id": previous["event_id"], "event_sha256": previous["event_sha256"],
+    }, f"/events/{semantic_index}/global_predecessor")
+    _const(commit["global_predecessor"], {
+        "event_id": semantic["event_id"], "event_sha256": semantic["event_sha256"],
+    }, f"/events/{commit_index}/global_predecessor")
+    _const(semantic["event_type"], "CLAIM_ISSUED", f"/events/{semantic_index}/event_type")
+    _const(semantic["stream"], "TASK", f"/events/{semantic_index}/stream")
+    _const(commit["event_type"], "COMMAND_COMMITTED", f"/events/{commit_index}/event_type")
+    _const(commit["stream"], "RUNTIME", f"/events/{commit_index}/stream")
+    _const(commit["task_context"], None, f"/events/{commit_index}/task_context")
+    _const(commit["state_before_ref"], None, f"/events/{commit_index}/state_before_ref")
+    _const(commit["state_after_ref"], None, f"/events/{commit_index}/state_after_ref")
+
+    request_sha = transaction["request_sha256"]
+    response_sha = transaction["response_sha256"]
+    request = _object(
+        _resolve(catalog, request_sha, REQUEST_SCHEMA_ID, "/claim_request").value,
+        _REQUEST_KEYS, "/claim_request",
+    )
+    response = _object(
+        _resolve(catalog, response_sha, RESPONSE_SCHEMA_ID, "/claim_response").value,
+        _RESPONSE_KEYS, "/claim_response",
+    )
+    for artifact, value, version_key in (
+        ("claim_request", request, "request_format_version"),
+        ("claim_response", response, "response_format_version"),
+    ):
+        _const(value["schema_version"], 1, f"/{artifact}/schema_version")
+        _const(value[version_key], 2, f"/{artifact}/{version_key}")
+        _const(value["runtime_id"], runtime_id, f"/{artifact}/runtime_id")
+        _const(value["chain_id"], chain_id, f"/{artifact}/chain_id")
+        _const(value["operation"], "CLAIM", f"/{artifact}/operation")
+        _const(value["operation_key"], operation_key, f"/{artifact}/operation_key")
+    _const(request["repository_generation"], repository_generation, "/claim_request/repository_generation")
+    _const(request["repository_bundle_sha256"], repository_bundle, "/claim_request/repository_bundle_sha256")
+    subject = _object(request["subject"], frozenset({"task_id", "attempt"}), "/claim_request/subject")
+    _const(subject["task_id"], task.task_id, "/claim_request/subject/task_id")
+    _const(subject["attempt"], task.attempt, "/claim_request/subject/attempt")
+    before_sha = _ref(request["expected_state_ref"], TASK_STATE_SCHEMA_ID, "/claim_request/expected_state_ref")
+    arguments = _object(request["arguments"], frozenset({"actor"}), "/claim_request/arguments")
+    actor = _identity(arguments["actor"], "/claim_request/arguments/actor")
+    _const(response["status"], "COMMITTED", "/claim_response/status")
+
+    context = _object(
+        semantic["task_context"],
+        frozenset({"task_id", "attempt", "task_sequence", "task_predecessor"}),
+        f"/events/{semantic_index}/task_context",
+    )
+    _const(context["task_id"], task.task_id, f"/events/{semantic_index}/task_context/task_id")
+    _const(context["attempt"], task.attempt, f"/events/{semantic_index}/task_context/attempt")
+    prior_task_events = tuple(
+        event for event in prior_events
+        if event["stream"] == "TASK"
+        and event["task_context"]["task_id"] == task.task_id
+        and event["task_context"]["attempt"] == task.attempt
+    )
+    if len(prior_task_events) != 1:
+        _deny("GROUP_TASK_HISTORY", f"/events/{semantic_index}/task_context")
+    prior_task_event = prior_task_events[0]
+    _const(context["task_sequence"], 2, f"/events/{semantic_index}/task_context/task_sequence")
+    _const(context["task_predecessor"], {
+        "event_id": prior_task_event["event_id"],
+        "event_sha256": prior_task_event["event_sha256"],
+    }, f"/events/{semantic_index}/task_context/task_predecessor")
+    semantic_before_sha = _ref(
+        semantic["state_before_ref"], TASK_STATE_SCHEMA_ID,
+        f"/events/{semantic_index}/state_before_ref",
+    )
+    _const(semantic_before_sha, before_sha, f"/events/{semantic_index}/state_before_ref/sha256")
+    supplied_before = _resolve(
+        catalog, before_sha, TASK_STATE_SCHEMA_ID,
+        f"/events/{semantic_index}/state_before_ref",
+    ).value
+    if supplied_before != _task_state_document(task):
+        _deny("GROUP_STATE_BEFORE", f"/events/{semantic_index}/state_before_ref")
+    after_sha = _ref(
+        semantic["state_after_ref"], TASK_STATE_SCHEMA_ID,
+        f"/events/{semantic_index}/state_after_ref",
+    )
+
+    semantic_payload_sha = semantic["payload_ref"]["sha256"]
+    semantic_payload = _object(
+        _resolve(
+            catalog, semantic_payload_sha, PAYLOAD_SCHEMA_ID,
+            f"/events/{semantic_index}/payload_ref",
+        ).value,
+        _PAYLOAD_KEYS, "/claim_semantic_payload",
+    )
+    _const(semantic_payload["schema_version"], 1, "/claim_semantic_payload/schema_version")
+    _const(semantic_payload["payload_format_version"], 2, "/claim_semantic_payload/payload_format_version")
+    _const(semantic_payload["event_type"], "CLAIM_ISSUED", "/claim_semantic_payload/event_type")
+    payload_data = _object(semantic_payload["data"], frozenset({"claim_id"}), "/claim_semantic_payload/data")
+    claim_id = _pattern(payload_data["claim_id"], _UUID4, "/claim_semantic_payload/data/claim_id")
+
+    try:
+        next_state = reduce_transition(
+            prior_state,
+            TransitionIntent(
+                operation="CLAIM", task_id=task.task_id, attempt=task.attempt,
+                arguments=(("actor", actor),), generated_id=claim_id,
+                semantic_event_ids=(semantic["event_id"],),
+            ),
+        )
+    except TransitionViolation as error:
+        raise GroupValidationError(error.code, error.coordinate) from error
+    derived_state = _task_state_document(next_state.tasks[0])
+    supplied_after = _resolve(
+        catalog, after_sha, TASK_STATE_SCHEMA_ID,
+        f"/events/{semantic_index}/state_after_ref",
+    ).value
+    if supplied_after != derived_state:
+        _deny("GROUP_STATE_DERIVATION", f"/events/{semantic_index}/state_after_ref")
+    _const(response["affected_states"], [{
+        "task_id": task.task_id,
+        "attempt": task.attempt,
+        "state_ref": {"schema_id": TASK_STATE_SCHEMA_ID, "sha256": after_sha},
+    }], "/claim_response/affected_states")
+    _const(response["generated_refs"], [{
+        "kind": "CLAIM", "identifier": claim_id, "sha256": None,
+    }], "/claim_response/generated_refs")
+
+    commit_payload_sha = commit["payload_ref"]["sha256"]
+    commit_payload = _object(
+        _resolve(
+            catalog, commit_payload_sha, PAYLOAD_SCHEMA_ID,
+            f"/events/{commit_index}/payload_ref",
+        ).value,
+        _PAYLOAD_KEYS, "/claim_commit_payload",
+    )
+    _const(commit_payload, {
+        "schema_version": 1,
+        "payload_format_version": 2,
+        "event_type": "COMMAND_COMMITTED",
+        "data": {
+            "semantic_event_ids": [semantic["event_id"]],
+            "pre_command_head": {
+                "global_sequence": previous["global_sequence"],
+                "event_id": previous["event_id"],
+                "event_sha256": previous["event_sha256"],
+            },
+            "post_semantic_head": {
+                "global_sequence": semantic_index,
+                "event_id": semantic["event_id"],
+                "event_sha256": semantic["event_sha256"],
+            },
+            "operation": "CLAIM",
+            "operation_key": operation_key,
+            "request_ref": {"schema_id": REQUEST_SCHEMA_ID, "sha256": request_sha},
+            "response_ref": {"schema_id": RESPONSE_SCHEMA_ID, "sha256": response_sha},
+            "result": "COMMITTED",
+        },
+    }, "/claim_commit_payload")
+    reachable = tuple(sorted({
+        request_sha, response_sha, semantic_payload_sha, commit_payload_sha, after_sha,
+    }))
+    claim = next_state.claims[0]
+    return ClaimGroupPatch(
+        state=next_state,
+        reachable_blob_digests=reachable,
+        attempt_row=(
+            task.task_id, task.attempt, None, prior_task_event["event_id"], 2,
+            semantic["event_id"], semantic["event_sha256"],
+        ),
+        idempotency_row=(
+            operation_key, transaction["transaction_id"], request_sha, response_sha,
+            commit["event_id"], commit_index, semantic["occurred_at"],
+        ),
+        claim_row=(
+            claim.claim_id, claim.task_id, claim.attempt, claim.fence,
+            claim.status, claim.actor, claim.opened_event_id, claim.closed_event_id,
+        ),
+    )
+
+
 __all__ = (
-    "BlobValue", "GroupValidationError", "InitializeGroupPatch",
-    "TASK_STATE_SCHEMA_ID", "reduce_initialize_group",
+    "BlobValue", "ClaimGroupPatch", "GroupValidationError",
+    "InitializeGroupPatch", "TASK_STATE_SCHEMA_ID", "reduce_claim_group",
+    "reduce_initialize_group",
 )
