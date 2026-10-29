@@ -60,7 +60,7 @@ from .runtime_v2_group import (
     ClaimGroupPatch,
     GroupValidationError,
     InitializeGroupPatch,
-    _WORKER_PROFILES,
+    _FOLLOWUP_PROFILES,
     _ReplayCursor,
     WorkerGroupPatch,
     reduce_claim_group,
@@ -380,6 +380,19 @@ def _expected_tables(
             )
             for claim in final_state.claims
         )
+        rows["reviews"] = tuple(
+            (
+                review.assignment_id,
+                review.task_id,
+                review.attempt,
+                review.actor,
+                review.role,
+                review.status,
+                review.opened_event_id,
+                review.closed_event_id,
+            )
+            for review in final_state.reviews
+        )
         rows["idempotency"] = tuple(sorted(idempotency_rows))
         rows["tasks"] = tuple(
             (
@@ -669,7 +682,7 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
             if event_type == "CLAIM_ISSUED":
                 reducer = reduce_claim_group
                 artifact = "claim_transaction_group"
-            elif type(event_type) is str and event_type in _WORKER_PROFILES:
+            elif type(event_type) is str and event_type in _FOLLOWUP_PROFILES:
                 reducer = reduce_worker_group
                 artifact = "worker_transaction_group"
             else:

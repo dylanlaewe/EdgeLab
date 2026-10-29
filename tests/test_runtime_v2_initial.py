@@ -751,8 +751,9 @@ def _append_special_group(
     generated_refs,
     opens_attempt=False,
     new_claim_row=None,
+    closed_claim_status=None,
 ):
-    """Append a CLAIM or RETRY fixture without trusting materialized rows."""
+    """Append one single-task follow-up fixture and derived table projection."""
     before_state = values[before_state_key]
     task_id = before_state["task_id"]
     before_sha = blob_digest(before_state)
@@ -983,6 +984,17 @@ def _append_special_group(
     rows["attempts"] = tuple(sorted(attempt_rows, key=lambda row: row[:2]))
     if new_claim_row is not None:
         rows["claims"] = tuple(sorted(rows["claims"] + (new_claim_row,)))
+    if closed_claim_status is not None:
+        claim_rows = list(rows["claims"])
+        claim_index = next(
+            index for index, row in enumerate(claim_rows)
+            if row[0] == before_state["active_claim_id"]
+        )
+        claim = list(claim_rows[claim_index])
+        claim[4] = closed_claim_status
+        claim[7] = semantic_id
+        claim_rows[claim_index] = tuple(claim)
+        rows["claims"] = tuple(claim_rows)
     idempotency = (
         operation_key, transaction_id, request_sha, response_sha,
         commit_id, semantic_index + 1, CREATED_AT,
@@ -1082,6 +1094,70 @@ def _append_retry_fixture(
         payload_data={},
         generated_refs=[],
         opens_attempt=True,
+    )
+
+
+def _append_governance_fixture(
+    image, values, *, before_state_key, prefix, semantic_id, commit_id,
+    transaction_id, operation,
+):
+    before_state = values[before_state_key]
+    after_state = json.loads(json.dumps(before_state))
+    if operation == "GOVERNANCE_BLOCK":
+        review_pending = before_state["review"] in {
+            "REVIEW_PENDING", "REVIEWING",
+        }
+        after_state.update({
+            "workflow": "GOVERNANCE_BLOCKED",
+            "execution": "EXECUTION_BLOCKED",
+            "review": "REVIEW_PENDING" if review_pending else "NOT_REQUIRED",
+            "scheduler_generation": before_state["scheduler_generation"] + 1,
+            "dispatch_generation": before_state["dispatch_generation"] + 1,
+            "task_fence": before_state["task_fence"] + 1,
+            "active_claim_id": None,
+            "reviewer_assignment_id": None,
+            "repository_generation": 0,
+        })
+        event_type = "GOVERNANCE_BLOCKED"
+        arguments = {"evidence_sha256": "a" * 64, "reason_code": "STOP"}
+        closed_claim_status = (
+            "GOVERNANCE_INVALIDATED"
+            if before_state["active_claim_id"] is not None
+            else None
+        )
+    elif operation == "REVALIDATE":
+        review_pending = before_state["review"] == "REVIEW_PENDING"
+        after_state.update({
+            "workflow": "ACTIVE",
+            "execution": (
+                "EXECUTION_COMPLETED" if review_pending else "CLAIMABLE"
+            ),
+            "scheduler_generation": before_state["scheduler_generation"] + 1,
+            "repository_generation": 0,
+            "decision_receipt_digest": "b" * 64,
+            "active_claim_id": None,
+            "reviewer_assignment_id": None,
+        })
+        event_type = "GOVERNANCE_REVALIDATED"
+        arguments = {"evidence_sha256": "b" * 64}
+        closed_claim_status = None
+    else:
+        raise ValueError(operation)
+    return _append_special_group(
+        image,
+        values,
+        prefix=prefix,
+        before_state_key=before_state_key,
+        operation=operation,
+        event_type=event_type,
+        semantic_id=semantic_id,
+        commit_id=commit_id,
+        transaction_id=transaction_id,
+        arguments=arguments,
+        after_state=after_state,
+        payload_data={},
+        generated_refs=[],
+        closed_claim_status=closed_claim_status,
     )
 
 
@@ -2337,6 +2413,279 @@ class RuntimeV2InitialTests(unittest.TestCase):
         self.assertEqual(report.status, "INVALID")
         self.assertIn("TRANSITION_SOURCE_STATE", self.codes(report))
 
+    def test_governance_block_and_revalidate_reduce_reachable_paths(self):
+        image, values = initialize_fixture()
+        image, values = _append_governance_fixture(
+            image,
+            values,
+            before_state_key="initialize_state",
+            prefix="block-n0",
+            semantic_id="123e4567-e89b-42d3-a456-426614174110",
+            commit_id="123e4567-e89b-42d3-a456-426614174111",
+            transaction_id="123e4567-e89b-42d3-a456-426614174112",
+            operation="GOVERNANCE_BLOCK",
+        )
+        image, values = _append_governance_fixture(
+            image,
+            values,
+            before_state_key="block-n0_after_state",
+            prefix="revalidate-b0",
+            semantic_id="123e4567-e89b-42d3-a456-426614174113",
+            commit_id="123e4567-e89b-42d3-a456-426614174114",
+            transaction_id="123e4567-e89b-42d3-a456-426614174115",
+            operation="REVALIDATE",
+        )
+        report = reduce_initial_runtime_image(image)
+        self.assertEqual(report.status, "UNSUPPORTED")
+        self.assertEqual(self.codes(report), {"CLOSURE_NOT_COMPILED"})
+        blocked = values["block-n0_after_state"]
+        revalidated = values["revalidate-b0_after_state"]
+        self.assertEqual(
+            (blocked["workflow"], blocked["execution"], blocked["review"]),
+            ("GOVERNANCE_BLOCKED", "EXECUTION_BLOCKED", "NOT_REQUIRED"),
+        )
+        self.assertEqual(blocked["decision_receipt_digest"], "5" * 64)
+        self.assertEqual(revalidated["decision_receipt_digest"], "b" * 64)
+        self.assertEqual(revalidated["scheduler_generation"], 2)
+        self.assertEqual(revalidated["dispatch_generation"], 1)
+        self.assertEqual(revalidated["task_fence"], 1)
+
+        image, values = claim_fixture()
+        image, values = _append_governance_fixture(
+            image,
+            values,
+            before_state_key="claim_after_state",
+            prefix="block-n1",
+            semantic_id="123e4567-e89b-42d3-a456-426614174116",
+            commit_id="123e4567-e89b-42d3-a456-426614174117",
+            transaction_id="123e4567-e89b-42d3-a456-426614174118",
+            operation="GOVERNANCE_BLOCK",
+        )
+        image, values = _append_governance_fixture(
+            image,
+            values,
+            before_state_key="block-n1_after_state",
+            prefix="revalidate-claim-b0",
+            semantic_id="123e4567-e89b-42d3-a456-426614174119",
+            commit_id="123e4567-e89b-42d3-a456-426614174120",
+            transaction_id="123e4567-e89b-42d3-a456-426614174121",
+            operation="REVALIDATE",
+        )
+        image, values = _append_claim_fixture(
+            image,
+            values,
+            before_state_key="revalidate-claim-b0_after_state",
+            prefix="claim-after-revalidation",
+            semantic_id="123e4567-e89b-42d3-a456-426614174122",
+            commit_id="123e4567-e89b-42d3-a456-426614174123",
+            transaction_id="123e4567-e89b-42d3-a456-426614174124",
+            claim_id="123e4567-e89b-42d3-a456-426614174125",
+        )
+        report = reduce_initial_runtime_image(image)
+        self.assertEqual(report.status, "UNSUPPORTED")
+        rows = {item.table: item.rows for item in image.table_snapshots}
+        self.assertEqual(len(rows["claims"]), 2)
+        self.assertEqual(rows["claims"][0][4], "GOVERNANCE_INVALIDATED")
+        self.assertEqual(rows["claims"][1][4], "OPEN")
+        self.assertEqual(rows["attempts"][0][4], 5)
+
+        image, values = start_fixture()
+        image, values = _append_governance_fixture(
+            image,
+            values,
+            before_state_key="start_after_state",
+            prefix="block-n2",
+            semantic_id="123e4567-e89b-42d3-a456-426614174144",
+            commit_id="123e4567-e89b-42d3-a456-426614174145",
+            transaction_id="123e4567-e89b-42d3-a456-426614174146",
+            operation="GOVERNANCE_BLOCK",
+        )
+        report = reduce_initial_runtime_image(image)
+        self.assertEqual(report.status, "UNSUPPORTED")
+        blocked = values["block-n2_after_state"]
+        self.assertEqual(blocked["scheduler_generation"], 3)
+        self.assertEqual(blocked["dispatch_generation"], 2)
+        self.assertEqual(blocked["task_fence"], 2)
+        claim_rows = {
+            item.table: item.rows for item in image.table_snapshots
+        }["claims"]
+        self.assertEqual(claim_rows[0][4], "GOVERNANCE_INVALIDATED")
+
+        image, values = complete_review_fixture()
+        image, values = _append_governance_fixture(
+            image,
+            values,
+            before_state_key="complete_review_after_state",
+            prefix="block-n3",
+            semantic_id="123e4567-e89b-42d3-a456-426614174126",
+            commit_id="123e4567-e89b-42d3-a456-426614174127",
+            transaction_id="123e4567-e89b-42d3-a456-426614174128",
+            operation="GOVERNANCE_BLOCK",
+        )
+        image, values = _append_governance_fixture(
+            image,
+            values,
+            before_state_key="block-n3_after_state",
+            prefix="revalidate-b1",
+            semantic_id="123e4567-e89b-42d3-a456-426614174129",
+            commit_id="123e4567-e89b-42d3-a456-426614174130",
+            transaction_id="123e4567-e89b-42d3-a456-426614174131",
+            operation="REVALIDATE",
+        )
+        report = reduce_initial_runtime_image(image)
+        self.assertEqual(report.status, "UNSUPPORTED")
+        self.assertEqual(
+            (
+                values["revalidate-b1_after_state"]["workflow"],
+                values["revalidate-b1_after_state"]["execution"],
+                values["revalidate-b1_after_state"]["review"],
+            ),
+            ("ACTIVE", "EXECUTION_COMPLETED", "REVIEW_PENDING"),
+        )
+
+    def test_governance_receipt_source_and_history_attacks_fail_closed(self):
+        image, values = initialize_fixture()
+        image, values = _append_governance_fixture(
+            image,
+            values,
+            before_state_key="initialize_state",
+            prefix="block-attack",
+            semantic_id="123e4567-e89b-42d3-a456-426614174132",
+            commit_id="123e4567-e89b-42d3-a456-426614174133",
+            transaction_id="123e4567-e89b-42d3-a456-426614174134",
+            operation="GOVERNANCE_BLOCK",
+        )
+        image, values = _append_governance_fixture(
+            image,
+            values,
+            before_state_key="block-attack_after_state",
+            prefix="revalidate-attack",
+            semantic_id="123e4567-e89b-42d3-a456-426614174135",
+            commit_id="123e4567-e89b-42d3-a456-426614174136",
+            transaction_id="123e4567-e89b-42d3-a456-426614174137",
+            operation="REVALIDATE",
+        )
+        attacked = _rehash_group_request(
+            image,
+            values,
+            "revalidate-attack",
+            lambda request: request["arguments"].update(evidence_sha256="c" * 64),
+        )
+        report = reduce_initial_runtime_image(attacked)
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("GROUP_STATE_DERIVATION", self.codes(report))
+
+        attacked = _rehash_group_request(
+            image,
+            values,
+            "revalidate-attack",
+            lambda request: request["arguments"].update(evidence_sha256=None),
+        )
+        report = reduce_initial_runtime_image(attacked)
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("TRANSITION_TEXT", self.codes(report))
+
+        block_only, block_values = initialize_fixture()
+        block_only, block_values = _append_governance_fixture(
+            block_only,
+            block_values,
+            before_state_key="initialize_state",
+            prefix="block-reason-attack",
+            semantic_id="123e4567-e89b-42d3-a456-426614174156",
+            commit_id="123e4567-e89b-42d3-a456-426614174157",
+            transaction_id="123e4567-e89b-42d3-a456-426614174158",
+            operation="GOVERNANCE_BLOCK",
+        )
+        attacked = _rehash_group_request(
+            block_only,
+            block_values,
+            "block-reason-attack",
+            lambda request: request["arguments"].update(reason_code="lowercase"),
+        )
+        report = reduce_initial_runtime_image(attacked)
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("TRANSITION_TEXT", self.codes(report))
+
+        initial, initial_values = initialize_fixture()
+        initial, _ = _append_governance_fixture(
+            initial,
+            initial_values,
+            before_state_key="initialize_state",
+            prefix="revalidate-from-n0",
+            semantic_id="123e4567-e89b-42d3-a456-426614174147",
+            commit_id="123e4567-e89b-42d3-a456-426614174148",
+            transaction_id="123e4567-e89b-42d3-a456-426614174149",
+            operation="REVALIDATE",
+        )
+        report = reduce_initial_runtime_image(initial)
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("TRANSITION_SOURCE_STATE", self.codes(report))
+
+        blocked, blocked_values = initialize_fixture()
+        blocked, blocked_values = _append_governance_fixture(
+            blocked,
+            blocked_values,
+            before_state_key="initialize_state",
+            prefix="block-once",
+            semantic_id="123e4567-e89b-42d3-a456-426614174150",
+            commit_id="123e4567-e89b-42d3-a456-426614174151",
+            transaction_id="123e4567-e89b-42d3-a456-426614174152",
+            operation="GOVERNANCE_BLOCK",
+        )
+        blocked, _ = _append_governance_fixture(
+            blocked,
+            blocked_values,
+            before_state_key="block-once_after_state",
+            prefix="block-twice",
+            semantic_id="123e4567-e89b-42d3-a456-426614174153",
+            commit_id="123e4567-e89b-42d3-a456-426614174154",
+            transaction_id="123e4567-e89b-42d3-a456-426614174155",
+            operation="GOVERNANCE_BLOCK",
+        )
+        report = reduce_initial_runtime_image(blocked)
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("TRANSITION_SOURCE_STATE", self.codes(report))
+
+        failed, failed_values = fail_fixture()
+        failed, _ = _append_governance_fixture(
+            failed,
+            failed_values,
+            before_state_key="fail_after_state",
+            prefix="block-from-f0",
+            semantic_id="123e4567-e89b-42d3-a456-426614174138",
+            commit_id="123e4567-e89b-42d3-a456-426614174139",
+            transaction_id="123e4567-e89b-42d3-a456-426614174140",
+            operation="GOVERNANCE_BLOCK",
+        )
+        report = reduce_initial_runtime_image(failed)
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("TRANSITION_SOURCE_STATE", self.codes(report))
+
+        claim_image, claim_values = claim_fixture()
+        claim_image, _ = _append_governance_fixture(
+            claim_image,
+            claim_values,
+            before_state_key="claim_after_state",
+            prefix="block-claim-history",
+            semantic_id="123e4567-e89b-42d3-a456-426614174141",
+            commit_id="123e4567-e89b-42d3-a456-426614174142",
+            transaction_id="123e4567-e89b-42d3-a456-426614174143",
+            operation="GOVERNANCE_BLOCK",
+        )
+        snapshots = list(claim_image.table_snapshots)
+        index = TABLE_NAMES.index("claims")
+        claim_rows = list(snapshots[index].rows)
+        changed = list(claim_rows[0])
+        changed[4] = "OPEN"
+        changed[7] = None
+        claim_rows[0] = tuple(changed)
+        snapshots[index] = TableSnapshot("claims", tuple(claim_rows))
+        report = reduce_initial_runtime_image(replace(
+            claim_image, table_snapshots=tuple(snapshots),
+        ))
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("TABLE_DERIVATION", self.codes(report))
+
         image, values = start_fixture()
         image, _ = _append_claim_fixture(
             image,
@@ -2503,7 +2852,12 @@ class RuntimeV2InitialTests(unittest.TestCase):
                 self.assertEqual(report.status, "INVALID")
                 self.assertIn(code, self.codes(report))
 
-        for event_type in ("CLAIM_ISSUED", "TASK_RETRIED"):
+        for event_type in (
+            "CLAIM_ISSUED",
+            "TASK_RETRIED",
+            "GOVERNANCE_BLOCKED",
+            "GOVERNANCE_REVALIDATED",
+        ):
             semantic = json.loads(json.dumps(values["continue_third_semantic"]))
             semantic["event_type"] = event_type
             semantic["event_sha256"] = event_digest(semantic)

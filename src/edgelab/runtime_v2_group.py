@@ -3,7 +3,8 @@
 The compiled slices support ``INITIALIZE`` after a validated NEW genesis,
 followed by repeatable ``CLAIM``, worker operations ``START``, ``CONTINUE``,
 ``YIELD``, ``FAIL``, and ``COMPLETE``, synthetic ``RECOVER``, and exact
-attempt-boundary ``RETRY``. They are deliberately
+attempt-boundary ``RETRY``, plus ``GOVERNANCE_BLOCK`` and ``REVALIDATE``.
+They are deliberately
 narrow: supplied blobs and events are treated as untrusted comparison inputs,
 task state is recomputed with the immutable transition kernel, and no result
 can authorize use.
@@ -53,7 +54,7 @@ _RESPONSE_KEYS = frozenset({
     "operation", "operation_key", "status", "affected_states", "generated_refs",
 })
 _PAYLOAD_KEYS = frozenset({"schema_version", "payload_format_version", "event_type", "data"})
-_WORKER_PROFILES = {
+_FOLLOWUP_PROFILES = {
     "TASK_STARTED": ("START", frozenset({"claim_id", "fence"})),
     "TASK_CONTINUED": (
         "CONTINUE",
@@ -83,6 +84,14 @@ _WORKER_PROFILES = {
     "TASK_RETRIED": (
         "RETRY",
         frozenset({"retry_evidence_sha256", "retryable"}),
+    ),
+    "GOVERNANCE_BLOCKED": (
+        "GOVERNANCE_BLOCK",
+        frozenset({"evidence_sha256", "reason_code"}),
+    ),
+    "GOVERNANCE_REVALIDATED": (
+        "REVALIDATE",
+        frozenset({"evidence_sha256"}),
     ),
 }
 
@@ -879,7 +888,7 @@ def reduce_worker_group(
     commit_event: Any,
     catalog: Mapping[str, BlobValue],
 ) -> WorkerGroupPatch:
-    """Validate and plan one compiled worker or RETRY transaction group."""
+    """Validate one compiled single-task follow-up transaction group."""
     if (
         type(cursor) is not _ReplayCursor
         or cursor.global_sequence < 2
@@ -908,7 +917,7 @@ def reduce_worker_group(
     )
     commit = _validate_event_shape(commit_event, f"/events/{commit_index}")
     cursor.check_pair(semantic, commit)
-    profile = _WORKER_PROFILES.get(semantic["event_type"])
+    profile = _FOLLOWUP_PROFILES.get(semantic["event_type"])
     if profile is None:
         _deny("GROUP_WORKER_OPERATION", f"/events/{semantic_index}/event_type")
     operation, argument_keys = profile

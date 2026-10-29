@@ -268,6 +268,130 @@ class RuntimeV2TransitionWorkspaceTests(unittest.TestCase):
         self.assertEqual(after_close.tasks[0].code, "N0")
         self.assertEqual(after_close.claims[0].status, "RECOVERED")
 
+    def test_governance_and_revalidation_share_atomic_workspace_semantics(self) -> None:
+        claim_id = uuid4(100)
+        trace = (
+            initialize_intent(1),
+            intent(
+                "CLAIM",
+                args=arguments(actor="worker-fixture"),
+                generated_id=claim_id,
+                event=2,
+            ),
+            intent(
+                "GOVERNANCE_BLOCK",
+                args=arguments(evidence_sha256=DIGEST, reason_code="STOP"),
+                event=3,
+            ),
+            intent(
+                "REVALIDATE",
+                args=arguments(evidence_sha256="b" * 64),
+                event=4,
+            ),
+        )
+        immutable = self.empty
+        workspace = transition._TransitionWorkspace(self.empty)
+        for item in trace:
+            immutable = transition.reduce_transition(immutable, item)
+            staged = workspace.stage(item)
+            if item.operation == "GOVERNANCE_BLOCK":
+                self.assertEqual(staged.after_task.code, "B0")
+                self.assertEqual(
+                    staged.delta.claim_writes[0].after.status,
+                    "GOVERNANCE_INVALIDATED",
+                )
+            workspace.commit(staged)
+        self.assertEqual(workspace.freeze(), immutable)
+        final = workspace.freeze()
+        self.assertEqual(final.tasks[0].code, "N0")
+        self.assertEqual(final.tasks[0].decision_receipt_digest, "b" * 64)
+        self.assertEqual(final.tasks[0].dispatch_generation, 2)
+        self.assertEqual(final.tasks[0].task_fence, 2)
+        self.assertEqual(final.claims[0].status, "GOVERNANCE_INVALIDATED")
+
+        completed = transition.reduce_transition(self.empty, initialize_intent(11))
+        completed = transition.reduce_transition(
+            completed,
+            intent(
+                "CLAIM",
+                args=arguments(actor="worker-fixture"),
+                generated_id=uuid4(110),
+                event=12,
+            ),
+        )
+        completed = transition.reduce_transition(
+            completed,
+            intent("START", args=arguments(claim_id=uuid4(110), fence=1), event=13),
+        )
+        completed = transition.reduce_transition(
+            completed,
+            intent(
+                "COMPLETE",
+                args=arguments(
+                    claim_id=uuid4(110),
+                    close=False,
+                    completion_evidence_sha256=DIGEST,
+                    fence=1,
+                ),
+                event=14,
+            ),
+        )
+        completed = transition.reduce_transition(
+            completed,
+            intent(
+                "ASSIGN_REVIEW",
+                args=arguments(actor="skeptic-fixture", role="05 Skeptic"),
+                generated_id=uuid4(120),
+                event=15,
+            ),
+        )
+        review_workspace = transition._TransitionWorkspace(completed)
+        block_review = intent(
+            "GOVERNANCE_BLOCK",
+            args=arguments(evidence_sha256=DIGEST, reason_code="STOP"),
+            event=16,
+        )
+        staged = review_workspace.stage(block_review)
+        self.assertEqual(staged.after_task.code, "B1")
+        self.assertEqual(
+            staged.delta.review_writes[0].after.status,
+            "GOVERNANCE_REVOKED",
+        )
+        review_workspace.commit(staged)
+        completed = transition.reduce_transition(completed, block_review)
+        self.assertEqual(review_workspace.freeze(), completed)
+
+    def test_only_governance_block_may_consume_a_stale_workspace_task(self) -> None:
+        current = transition.reduce_transition(self.empty, initialize_intent())
+        stale = replace(
+            current,
+            repository_generation=1,
+            repository_bundle_sha256="b" * 64,
+        )
+        workspace = transition._TransitionWorkspace(stale)
+        before = workspace.freeze()
+        with self.assertRaises(transition.TransitionViolation) as caught:
+            workspace.stage(
+                intent(
+                    "REVALIDATE",
+                    args=arguments(evidence_sha256=DIGEST),
+                    event=2,
+                )
+            )
+        self.assertEqual(caught.exception.code, "TRANSITION_STALE_TASK")
+        self.assertEqual(workspace.freeze(), before)
+
+        staged = workspace.stage(
+            intent(
+                "GOVERNANCE_BLOCK",
+                args=arguments(evidence_sha256=DIGEST, reason_code="STALE"),
+                event=3,
+            )
+        )
+        self.assertEqual(staged.after_task.repository_generation, 1)
+        workspace.commit(staged)
+        self.assertEqual(workspace.freeze().tasks[0].code, "B0")
+
     def test_group_patch_pair_mismatch_rejects_before_workspace_or_cursor_mutation(self) -> None:
         genesis = {
             "runtime_id": uuid4(900),
@@ -524,8 +648,9 @@ class RuntimeV2TransitionWorkspaceTests(unittest.TestCase):
         with self.assertRaises(transition.TransitionViolation) as caught:
             workspace.stage(
                 intent(
-                    "GOVERNANCE_BLOCK",
-                    args=arguments(evidence_sha256=DIGEST, reason_code="STOP"),
+                    "ASSIGN_REVIEW",
+                    args=arguments(actor="skeptic-fixture", role="05 Skeptic"),
+                    generated_id=uuid4(100),
                 )
             )
         self.assertEqual(caught.exception.code, "TRANSITION_OPERATION_OUTSIDE_WORKSPACE")
