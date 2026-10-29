@@ -570,10 +570,7 @@ class RuntimeV2SnapshotTests(unittest.TestCase):
         )
         report = reduce_initial_runtime_image(attacked)
         self.assertEqual(report.status, "INVALID")
-        self.assertTrue(
-            {"GROUP_IMPORT_TERMINAL", "GROUP_FOLLOWUP_OPERATION"}
-            & self.codes(report)
-        )
+        self.assertIn("GROUP_EVENT_ID_DUPLICATE", self.codes(report))
 
     def test_derived_duplicate_snapshot_id_is_rejected_before_cursor_advance(self):
         image, _ = fixture()

@@ -3936,7 +3936,7 @@ class RuntimeV2InitialTests(unittest.TestCase):
             zero, events=zero.events + initialized.events[-2:],
         ))
         self.assertEqual(report.status, "INVALID")
-        self.assertIn("GROUP_FOLLOWUP_OPERATION", self.codes(report))
+        self.assertIn("GROUP_EVENT_ID_DUPLICATE", self.codes(report))
 
         image, values = complete_review_fixture()
         image, values = _append_review_assignment_fixture(image, values)

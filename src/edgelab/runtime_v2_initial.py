@@ -736,39 +736,6 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
         ReducerState(event["repository_generation"], event["repository_bundle_sha256"])
     )
     semantic_index = 1
-    first_type = (
-        parsed_events[1].get("event_type")
-        if len(parsed_events) >= 3 and type(parsed_events[1]) is dict
-        else None
-    )
-    if len(parsed_events) >= 3 and first_type == "TASK_INITIALIZED":
-        try:
-            initialize_patch = reduce_initialize_group(
-                genesis_event=event,
-                cursor=cursor,
-                workspace=workspace,
-                semantic_event=parsed_events[1],
-                commit_event=parsed_events[2],
-                catalog=blobs,
-            )
-        except GroupValidationError as error:
-            sink.add(error.code, "transaction_group", error.coordinate)
-            return _invalid(sink)
-        try:
-            _commit_group_patch(
-                cursor=cursor,
-                workspace=workspace,
-                patch=initialize_patch,
-                semantic_event=parsed_events[1],
-                commit_event=parsed_events[2],
-            )
-        except (GroupValidationError, TransitionViolation) as error:
-            sink.add(error.code, "transaction_group", error.coordinate)
-            return _invalid(sink)
-        final_patch = initialize_patch
-        idempotency_rows.append(initialize_patch.idempotency_row)
-        expected_reachable.update(initialize_patch.reachable_blob_digests)
-        semantic_index = 3
     if len(parsed_events) >= 3:
         while semantic_index < len(parsed_events):
             semantic_candidate = parsed_events[semantic_index]
@@ -1007,7 +974,10 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
                     f"/events/{semantic_index}",
                 )
                 return _invalid(sink)
-            if event_type == "CLAIM_ISSUED":
+            if event_type == "TASK_INITIALIZED":
+                reducer = reduce_initialize_group
+                artifact = "initialize_transaction_group"
+            elif event_type == "CLAIM_ISSUED":
                 reducer = reduce_claim_group
                 artifact = "claim_transaction_group"
             elif type(event_type) is str and event_type in _FOLLOWUP_PROFILES:

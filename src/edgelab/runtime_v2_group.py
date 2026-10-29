@@ -659,7 +659,6 @@ def _task_state_document(state: Any) -> dict[str, Any]:
 
 def reduce_initialize_group(
     *,
-    genesis_event: dict[str, Any],
     cursor: _ReplayCursor,
     workspace: _TransitionWorkspace,
     semantic_event: Any,
@@ -667,91 +666,101 @@ def reduce_initialize_group(
     catalog: Mapping[str, BlobValue],
 ) -> InitializeGroupPatch:
     """Validate and plan one complete INITIALIZE group atomically."""
-    if type(cursor) is not _ReplayCursor or cursor.global_sequence != 0:
+    if type(cursor) is not _ReplayCursor:
         _deny("GROUP_CURSOR", "/events")
-    if type(workspace) is not _TransitionWorkspace or workspace.only_task() is not None:
+    if type(workspace) is not _TransitionWorkspace:
         _deny("GROUP_PRIOR_STATE", "/state")
-    semantic = _validate_event_shape(semantic_event, "/events/1")
-    commit = _validate_event_shape(commit_event, "/events/2")
-    semantic_index, commit_index = cursor.check_pair(semantic, commit)
-    _const(semantic_index, 1, "/events/1/global_sequence")
-    _const(commit_index, 2, "/events/2/global_sequence")
-    runtime_id = genesis_event["runtime_id"]
-    chain_id = genesis_event["chain_id"]
-    repository_generation = genesis_event["repository_generation"]
-    repository_bundle = genesis_event["repository_bundle_sha256"]
-    _const(workspace.repository_generation, repository_generation, "/state/repository_generation")
+    _const(
+        workspace.repository_generation, cursor.repository_generation,
+        "/state/repository_generation",
+    )
     _const(
         workspace.repository_bundle_sha256,
-        repository_bundle,
+        cursor.repository_bundle_sha256,
         "/state/repository_bundle_sha256",
     )
-    for actual, expected, coordinate in (
-        (cursor.runtime_id, runtime_id, "/events/0/runtime_id"),
-        (cursor.chain_id, chain_id, "/events/0/chain_id"),
-        (
-            cursor.repository_generation, repository_generation,
-            "/events/0/repository_generation",
-        ),
-        (
-            cursor.repository_bundle_sha256, repository_bundle,
-            "/events/0/repository_bundle_sha256",
-        ),
-        (cursor.head_event_id, genesis_event["event_id"], "/events/0/event_id"),
-        (
-            cursor.head_event_sha256, genesis_event["event_sha256"],
-            "/events/0/event_sha256",
-        ),
-    ):
-        _const(actual, expected, coordinate)
+    semantic_index = cursor.global_sequence + 1
+    commit_index = semantic_index + 1
+    semantic = _validate_event_shape(
+        semantic_event, f"/events/{semantic_index}"
+    )
+    commit = _validate_event_shape(commit_event, f"/events/{commit_index}")
+    semantic_index, commit_index = cursor.check_pair(semantic, commit)
+    runtime_id = cursor.runtime_id
+    chain_id = cursor.chain_id
+    repository_generation = cursor.repository_generation
+    repository_bundle = cursor.repository_bundle_sha256
     transaction = semantic["transaction"]
     operation_key = transaction["operation_key"]
     match = _OPERATION_KEY.fullmatch(operation_key)
     assert match is not None
-    _const(match.group(1), chain_id, "/events/1/transaction/operation_key")
-    if len({
-        genesis_event["event_id"], semantic["event_id"], commit["event_id"],
-    }) != 3:
-        _deny("GROUP_EVENT_ID_DUPLICATE", "/events")
-    if len({
-        genesis_event["event_sha256"], semantic["event_sha256"], commit["event_sha256"],
-    }) != 3:
-        _deny("GROUP_EVENT_DIGEST_DUPLICATE", "/events")
-    if transaction["transaction_id"] == genesis_event["transaction"]["transaction_id"]:
-        _deny("GROUP_TRANSACTION_DUPLICATE", "/events/1/transaction/transaction_id")
+    _const(
+        match.group(1), chain_id,
+        f"/events/{semantic_index}/transaction/operation_key",
+    )
 
     shared = (
         "runtime_id", "chain_id", "occurred_at", "repository_generation",
         "repository_bundle_sha256",
     )
     for name in shared:
-        _const(commit[name], semantic[name], f"/events/2/{name}")
+        _const(commit[name], semantic[name], f"/events/{commit_index}/{name}")
     for name in (
         "transaction_id", "event_count", "operation_key", "request_sha256",
         "response_sha256",
     ):
-        _const(commit["transaction"][name], transaction[name], f"/events/2/transaction/{name}")
-    for event, position in ((semantic, 0), (commit, 1)):
-        _const(event["runtime_id"], runtime_id, f"/events/{position + 1}/runtime_id")
-        _const(event["chain_id"], chain_id, f"/events/{position + 1}/chain_id")
-        _const(event["repository_generation"], repository_generation, f"/events/{position + 1}/repository_generation")
-        _const(event["repository_bundle_sha256"], repository_bundle, f"/events/{position + 1}/repository_bundle_sha256")
-        _const(event["global_sequence"], position + 1, f"/events/{position + 1}/global_sequence")
-        _const(event["transaction"]["position"], position, f"/events/{position + 1}/transaction/position")
-        _const(event["transaction"]["event_count"], 2, f"/events/{position + 1}/transaction/event_count")
+        _const(
+            commit["transaction"][name], transaction[name],
+            f"/events/{commit_index}/transaction/{name}",
+        )
+    for candidate, index, position in (
+        (semantic, semantic_index, 0), (commit, commit_index, 1),
+    ):
+        _const(candidate["runtime_id"], runtime_id, f"/events/{index}/runtime_id")
+        _const(candidate["chain_id"], chain_id, f"/events/{index}/chain_id")
+        _const(
+            candidate["repository_generation"], repository_generation,
+            f"/events/{index}/repository_generation",
+        )
+        _const(
+            candidate["repository_bundle_sha256"], repository_bundle,
+            f"/events/{index}/repository_bundle_sha256",
+        )
+        _const(candidate["global_sequence"], index, f"/events/{index}/global_sequence")
+        _const(
+            candidate["transaction"]["position"], position,
+            f"/events/{index}/transaction/position",
+        )
+        _const(
+            candidate["transaction"]["event_count"], 2,
+            f"/events/{index}/transaction/event_count",
+        )
     _const(semantic["global_predecessor"], {
-        "event_id": genesis_event["event_id"], "event_sha256": genesis_event["event_sha256"],
-    }, "/events/1/global_predecessor")
+        "event_id": cursor.head_event_id,
+        "event_sha256": cursor.head_event_sha256,
+    }, f"/events/{semantic_index}/global_predecessor")
     _const(commit["global_predecessor"], {
         "event_id": semantic["event_id"], "event_sha256": semantic["event_sha256"],
-    }, "/events/2/global_predecessor")
-    _const(semantic["event_type"], "TASK_INITIALIZED", "/events/1/event_type")
-    _const(semantic["stream"], "TASK", "/events/1/stream")
-    _const(commit["event_type"], "COMMAND_COMMITTED", "/events/2/event_type")
-    _const(commit["stream"], "RUNTIME", "/events/2/stream")
-    _const(commit["task_context"], None, "/events/2/task_context")
-    _const(commit["state_before_ref"], None, "/events/2/state_before_ref")
-    _const(commit["state_after_ref"], None, "/events/2/state_after_ref")
+    }, f"/events/{commit_index}/global_predecessor")
+    _const(
+        semantic["event_type"], "TASK_INITIALIZED",
+        f"/events/{semantic_index}/event_type",
+    )
+    _const(semantic["stream"], "TASK", f"/events/{semantic_index}/stream")
+    _const(
+        commit["event_type"], "COMMAND_COMMITTED",
+        f"/events/{commit_index}/event_type",
+    )
+    _const(commit["stream"], "RUNTIME", f"/events/{commit_index}/stream")
+    _const(commit["task_context"], None, f"/events/{commit_index}/task_context")
+    _const(
+        commit["state_before_ref"], None,
+        f"/events/{commit_index}/state_before_ref",
+    )
+    _const(
+        commit["state_after_ref"], None,
+        f"/events/{commit_index}/state_after_ref",
+    )
 
     request_sha = transaction["request_sha256"]
     response_sha = transaction["response_sha256"]
@@ -772,6 +781,8 @@ def reduce_initialize_group(
     subject = _object(request["subject"], frozenset({"task_id", "attempt"}), "/request/subject")
     task_id = _pattern(subject["task_id"], _TASK, "/request/subject/task_id")
     _const(subject["attempt"], 1, "/request/subject/attempt")
+    if workspace.task(task_id) is not None:
+        _deny("GROUP_TASK_SELECTION", "/request/subject/task_id")
     _const(request["expected_state_ref"], None, "/request/expected_state_ref")
     arguments = _object(
         request["arguments"],
@@ -787,21 +798,39 @@ def reduce_initialize_group(
     context = _object(
         semantic["task_context"],
         frozenset({"task_id", "attempt", "task_sequence", "task_predecessor"}),
-        "/events/1/task_context",
+        f"/events/{semantic_index}/task_context",
     )
-    _const(context["task_id"], task_id, "/events/1/task_context/task_id")
-    _const(context["attempt"], 1, "/events/1/task_context/attempt")
-    _const(context["task_sequence"], 1, "/events/1/task_context/task_sequence")
+    _const(
+        context["task_id"], task_id,
+        f"/events/{semantic_index}/task_context/task_id",
+    )
+    _const(
+        context["attempt"], 1,
+        f"/events/{semantic_index}/task_context/attempt",
+    )
+    _const(
+        context["task_sequence"], 1,
+        f"/events/{semantic_index}/task_context/task_sequence",
+    )
     predecessor_id, predecessor_sha = task_predecessor(chain_id, task_id, 1)
     _const(context["task_predecessor"], {
         "event_id": predecessor_id, "event_sha256": predecessor_sha,
-    }, "/events/1/task_context/task_predecessor")
-    _const(semantic["state_before_ref"], None, "/events/1/state_before_ref")
-    after_sha = _ref(semantic["state_after_ref"], TASK_STATE_SCHEMA_ID, "/events/1/state_after_ref")
+    }, f"/events/{semantic_index}/task_context/task_predecessor")
+    _const(
+        semantic["state_before_ref"], None,
+        f"/events/{semantic_index}/state_before_ref",
+    )
+    after_sha = _ref(
+        semantic["state_after_ref"], TASK_STATE_SCHEMA_ID,
+        f"/events/{semantic_index}/state_after_ref",
+    )
 
     semantic_payload_sha = semantic["payload_ref"]["sha256"]
     semantic_payload = _object(
-        _resolve(catalog, semantic_payload_sha, PAYLOAD_SCHEMA_ID, "/events/1/payload_ref").value,
+        _resolve(
+            catalog, semantic_payload_sha, PAYLOAD_SCHEMA_ID,
+            f"/events/{semantic_index}/payload_ref",
+        ).value,
         _PAYLOAD_KEYS, "/semantic_payload",
     )
     _const(semantic_payload, {
@@ -820,9 +849,15 @@ def reduce_initialize_group(
     except TransitionViolation as error:
         raise GroupValidationError(error.code, error.coordinate) from error
     derived_state = _task_state_document(staged.after_task)
-    supplied_state = _resolve(catalog, after_sha, TASK_STATE_SCHEMA_ID, "/events/1/state_after_ref").value
+    supplied_state = _resolve(
+        catalog, after_sha, TASK_STATE_SCHEMA_ID,
+        f"/events/{semantic_index}/state_after_ref",
+    ).value
     if supplied_state != derived_state:
-        _deny("GROUP_STATE_DERIVATION", "/events/1/state_after_ref")
+        _deny(
+            "GROUP_STATE_DERIVATION",
+            f"/events/{semantic_index}/state_after_ref",
+        )
     expected_affected = [{
         "task_id": task_id, "attempt": 1,
         "state_ref": {"schema_id": TASK_STATE_SCHEMA_ID, "sha256": after_sha},
@@ -831,7 +866,10 @@ def reduce_initialize_group(
 
     commit_payload_sha = commit["payload_ref"]["sha256"]
     commit_payload = _object(
-        _resolve(catalog, commit_payload_sha, PAYLOAD_SCHEMA_ID, "/events/2/payload_ref").value,
+        _resolve(
+            catalog, commit_payload_sha, PAYLOAD_SCHEMA_ID,
+            f"/events/{commit_index}/payload_ref",
+        ).value,
         _PAYLOAD_KEYS, "/commit_payload",
     )
     expected_commit_payload = {
@@ -841,12 +879,12 @@ def reduce_initialize_group(
         "data": {
             "semantic_event_ids": [semantic["event_id"]],
             "pre_command_head": {
-                "global_sequence": 0,
-                "event_id": genesis_event["event_id"],
-                "event_sha256": genesis_event["event_sha256"],
+                "global_sequence": cursor.global_sequence,
+                "event_id": cursor.head_event_id,
+                "event_sha256": cursor.head_event_sha256,
             },
             "post_semantic_head": {
-                "global_sequence": 1,
+                "global_sequence": semantic_index,
                 "event_id": semantic["event_id"],
                 "event_sha256": semantic["event_sha256"],
             },
@@ -872,7 +910,7 @@ def reduce_initialize_group(
         predecessor_attempt=None,
         idempotency_row=(
             operation_key, transaction["transaction_id"], request_sha, response_sha,
-            commit["event_id"], 2, semantic["occurred_at"],
+            commit["event_id"], commit_index, semantic["occurred_at"],
         ),
     )
 
@@ -1772,7 +1810,7 @@ def reduce_import_group(
     catalog: Mapping[str, BlobValue],
 ) -> ImportGroupPatch:
     """Validate one atomic IMPORT_REPOSITORY group and every affected task."""
-    if type(cursor) is not _ReplayCursor or cursor.global_sequence < 2:
+    if type(cursor) is not _ReplayCursor:
         _deny("GROUP_CURSOR", "/events")
     if type(workspace) is not _TransitionWorkspace:
         _deny("GROUP_PRIOR_STATE", "/state")
