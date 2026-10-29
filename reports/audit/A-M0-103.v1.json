@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-103",
+  "version": 1,
+  "occurred_at": "2026-10-29T19:17:57Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_CURSOR_RELATIVE_INITIALIZE_REPLAY_IMPLEMENTED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-121-cursor-relative-initialize-replay.v1.md",
+  "previous_state": "FORMAT_2_PRIVATE_REPLAY_COMPILES_EXPLICIT_MULTI_TASK_POST_IMPORT_SELECTION_STOP_OPEN",
+  "new_state": "FORMAT_2_PRIVATE_REPLAY_COMPILES_CURSOR_RELATIVE_MULTI_TASK_INITIALIZE_STOP_OPEN",
+  "reason": "Commit 57bb9860033a2efca7f5f85a80506a849e4ba072 compiles INITIALIZE for distinct absent tasks at every complete replay boundary, including genesis-import/snapshot prefixes, while deriving current repository, global-head, task-root, state, reachability, attempt, and idempotency coordinates. The slice remains private and deny-only; no STOP, execution, public-verifier, authority, or capital boundary changed.",
+  "evidence_refs": ["reports/H-M0-121-cursor-relative-initialize-replay.v1.md", "docs/M0.3A_INITIALIZE_REPLAY_DESIGN.v1.md", "src/edgelab/runtime_v2_group.py", "src/edgelab/runtime_v2_initial.py", "tests/test_runtime_v2_initialize_replay.py", "reports/stops/STOP-M0-3A-002.v24.json"],
+  "code_ref": "57bb9860033a2efca7f5f85a80506a849e4ba072",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-121",
+  "supersedes": null
+}

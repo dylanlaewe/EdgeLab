@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-002",
+  "version": 24,
+  "issued_at": "2026-10-29T19:17:57Z",
+  "issuer": "00 Director",
+  "reason": "Private replay now compiles cursor-relative initialization for distinct absent tasks after every complete NEW-runtime prefix, but exact generated closure identity/carrier, the unsupported legacy bridge, and the complete A-J matrix remain unfinished. No positive local-consistency result is supportable.",
+  "affected_components": ["exact generated verifier closure", "legacy bridge carrier", "complete whole-image acceptance matrix", "public result vocabulary"],
+  "evidence_refs": ["reports/H-M0-121-cursor-relative-initialize-replay.v1.md", "docs/M0.3A_INITIALIZE_REPLAY_DESIGN.v1.md", "src/edgelab/runtime_v2_group.py", "src/edgelab/runtime_v2_initial.py", "tests/test_runtime_v2_initialize_replay.py"],
+  "severity": "HIGH",
+  "remediation_required": ["Freeze the completed runtime-v2 verifier source set and generate the exact dependency-closure carrier.", "Conservatively disposition the unsupported legacy bridge under versioned evidence without inventing unavailable preimages.", "Complete independent acceptance and the A-J matrix before any positive result."],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}

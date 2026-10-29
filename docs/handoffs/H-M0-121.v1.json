@@ -1,0 +1,19 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-121",
+  "version": 1,
+  "created_at": "2026-10-29T19:17:57Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Compile later-position INITIALIZE and the remaining reducer-order acceptance cases.",
+  "work_done": "Compiled cursor-relative INITIALIZE for distinct absent tasks after ordinary, import, checkpoint, and export prefixes; removed the obsolete genesis-import cursor floor; preserved unrelated multi-task and auxiliary history; and added optimized-mode adversarial coverage for exact heads, roots, repository coordinates, reachability, materialization, identities, and atomic failure.",
+  "evidence_refs": ["reports/H-M0-121-cursor-relative-initialize-replay.v1.md", "reports/audit/A-M0-103.v1.json", "reports/stops/STOP-M0-3A-002.v24.json", "docs/M0.3A_INITIALIZE_REPLAY_DESIGN.v1.md", "src/edgelab/runtime_v2_group.py", "src/edgelab/runtime_v2_initial.py", "tests/test_runtime_v2_initialize_replay.py"],
+  "files_changed": ["docs/M0.3A_INITIALIZE_GROUP_SLICE.v1.md", "docs/M0.3A_POST_IMPORT_TASK_SELECTION_SLICE.v1.md", "docs/M0.3A_INITIALIZE_REPLAY_DESIGN.v1.md", "src/edgelab/runtime_v2_group.py", "src/edgelab/runtime_v2_initial.py", "tests/test_runtime_v2_initial.py", "tests/test_runtime_v2_snapshot.py", "tests/test_runtime_v2_initialize_replay.py", "tools/run_test_tier.py", "reports/H-M0-121-cursor-relative-initialize-replay.v1.md", "reports/audit/A-M0-103.v1.json", "reports/stops/STOP-M0-3A-002.v24.json", "docs/handoffs/H-M0-121.v1.json", "docs/project-state.json", "examples/alpha/sample-workflow.v1.json"],
+  "tests_run": ["75 focused initial/snapshot/post-import/initialize tests passed normally and under optimized Python.", "223 runtime-v2 tests passed.", "352 fast-tier tests passed across 21 isolated modules.", "Writer, Skeptic, contract, and independent diff reviews found no blocker after one empty-import-prefix defect was repaired.", "425 governed records and published history validated after publication.", "18 alpha and observatory tests passed."],
+  "open_questions": ["What is the exact frozen runtime-v2 verifier source inventory and single permitted dependency-closure carrier transformation?"],
+  "blockers": ["STOP-M0-3A-002.v24 remains OPEN.", "Public verification remains deny-only.", "Live remains LOCKED and deployable capital remains USD 0."],
+  "next_action": "Freeze the runtime-v2 verifier source inventory, generate the exact dependency-closure carrier, and complete the remaining A-J acceptance matrix.",
+  "completion_criteria": ["INITIALIZE is accepted only for distinct absent tasks at complete replay boundaries and binds current repository/head coordinates.", "Genesis-import/snapshot prefixes and existing multi-task histories replay exactly while hostile, duplicate, partial, stale, or forged groups fail closed.", "Valid images remain opaque deny-only and public verification remains disconnected."],
+  "depends_on": [{"path": "docs/handoffs/H-M0-120.v1.json", "kind": "handoff", "id": "H-M0-120", "version": 1, "sha256": "ac7ea5c41491fc9d8578fcf16dbc33622056b742debc7f3a29f55069a5655e60"}]
+}
