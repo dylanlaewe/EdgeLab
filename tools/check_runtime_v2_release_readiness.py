@@ -171,36 +171,72 @@ CLOSURE_SCHEMA = (
     "schemas/m0-3a-verifier-dependency-closure.v1.schema.json",
 )
 RESOURCE_CLASSIFICATION_SCHEMA = (
-    "urn:edgelab:m0-3a-runtime-v2-resource-classification:4",
-    "schemas/m0-3a-runtime-v2-resource-classification.v4.schema.json",
+    "urn:edgelab:m0-3a-runtime-v2-resource-classification:5",
+    "schemas/m0-3a-runtime-v2-resource-classification.v5.schema.json",
 )
 RESOURCE_CLASSIFICATION_MANIFEST = (
-    "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V4",
-    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v4.json",
+    "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V5",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v5.json",
 )
 RESOURCE_CLASSIFICATION_DOMAIN = (
-    "EDGELAB\0RUNTIME_V2_RESOURCE_CLASSIFICATION\0V4\0"
+    "EDGELAB\0RUNTIME_V2_RESOURCE_CLASSIFICATION\0V5\0"
 )
 RESOURCE_SOURCE_INPUT_DOMAIN = (
     "EDGELAB\0RUNTIME_V2_RESOURCE_SOURCE_INPUTS\0V1\0"
 )
+RESOURCE_DISCOVERY_V1_ID = "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V1"
+RESOURCE_DISCOVERY_V2_ID = "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V2"
+RESOURCE_DISCOVERY_SCHEMA = (
+    "urn:edgelab:m0-3a-runtime-v2-resource-discovery:2",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v2.schema.json",
+)
+RESOURCE_DISCOVERY_MANIFEST = (
+    RESOURCE_DISCOVERY_V2_ID,
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v2.json",
+)
+RESOURCE_DISCOVERY_DOMAIN = "EDGELAB\0RUNTIME_V2_RESOURCE_DISCOVERY\0V2\0"
+RESOURCE_DISCOVERY_SCHEMA_RAW_SHA256 = (
+    "05cc1d76c95833e8b2d9bd3eaa2dbc4abc4cbed87088cca7ba1323a04a849243"
+)
+RESOURCE_BINDING_SITE_DOMAIN = (
+    "EDGELAB\0RUNTIME_V2_RESOURCE_BINDING_SITE\0V2\0"
+)
+RESOURCE_SOURCE_BOUND_SITES_V2_DOMAIN = (
+    "EDGELAB\0RUNTIME_V2_SOURCE_BOUND_SITES\0V2\0"
+)
+RESOURCE_SOURCE_BOUND_SITES_V2_SHA256 = (
+    "4a8707fd2ea6b1a398de1207a397f57c7dda9f368259dc58a10dc171352e0864"
+)
 RESOURCE_CLASSIFICATION_SCHEMA_RAW_SHA256 = (
-    "bad508a26ec01ab88521fd5d54b9a771da6165b6be84b070145bc715be676f25"
+    "2dc2864616981fd9064194998342ad9b8b3ba91523f50663ba8f0686ed10b7ca"
 )
 RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST = {
-    "byte_length": 7399,
+    "byte_length": 9521,
     "classification_manifest_sha256": (
-        "9e7e799aaa51153b18ef636ca5c6e089538a05d97bedf16c026a396a1e109fc3"
+        "fece5b8fb2f53a92a3f92a32b27606be1354fa978fa5e891329bd13d13cddb4b"
     ),
-    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v3.json",
-    "raw_sha256": "a27fba61041961a321b4938431219d461b65427896885ce7bf52a43639488330",
+    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v4.json",
+    "raw_sha256": "0a7f06fd528ca5bc66f31740cd226de42d36e36ce7d49590b5ac1f5105c8a6d0",
 }
 RESOURCE_CLASSIFICATION_PREDECESSOR_SCHEMA = {
-    "byte_length": 8751,
-    "path": "schemas/m0-3a-runtime-v2-resource-classification.v3.schema.json",
-    "raw_sha256": "b80559e7e9eeac6b935f06d835b97bceb829da55d06daa390b8ec725088a03bd",
+    "byte_length": 11409,
+    "path": "schemas/m0-3a-runtime-v2-resource-classification.v4.schema.json",
+    "raw_sha256": "bad508a26ec01ab88521fd5d54b9a771da6165b6be84b070145bc715be676f25",
 }
 RESOURCE_CLASSIFICATION_ANCESTORS = (
+    {
+        "byte_length": 7399,
+        "classification_manifest_sha256": (
+            "9e7e799aaa51153b18ef636ca5c6e089538a05d97bedf16c026a396a1e109fc3"
+        ),
+        "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v3.json",
+        "raw_sha256": "a27fba61041961a321b4938431219d461b65427896885ce7bf52a43639488330",
+    },
+    {
+        "byte_length": 8751,
+        "path": "schemas/m0-3a-runtime-v2-resource-classification.v3.schema.json",
+        "raw_sha256": "b80559e7e9eeac6b935f06d835b97bceb829da55d06daa390b8ec725088a03bd",
+    },
     {
         "byte_length": 4684,
         "classification_manifest_sha256": (
@@ -861,6 +897,295 @@ def _source_bound_inventory(
     return sorted(records, key=lambda item: (item["path"], item["site_id"]))
 
 
+def _ast_sha256(node: ast.AST) -> str:
+    normalized = ast.dump(node, annotate_fields=True, include_attributes=False)
+    return _sha256(normalized.encode("utf-8"))
+
+
+def _is_captured_branch(node: ast.AST, branch_key: str) -> bool:
+    return (
+        isinstance(node, ast.Subscript)
+        and isinstance(node.value, ast.Name)
+        and node.value.id == "captured"
+        and isinstance(node.slice, ast.Constant)
+        and type(node.slice.value) is str
+        and node.slice.value == branch_key
+    )
+
+
+def _is_table_bound_comparison(node: ast.AST, value_name: str) -> bool:
+    return (
+        isinstance(node, ast.Compare)
+        and len(node.ops) == 1
+        and isinstance(node.ops[0], ast.Gt)
+        and len(node.comparators) == 1
+        and isinstance(node.comparators[0], ast.Name)
+        and node.comparators[0].id == "maximum"
+        and isinstance(node.left, ast.Call)
+        and isinstance(node.left.func, ast.Name)
+        and node.left.func.id == "len"
+        and len(node.left.args) == 1
+        and not node.left.keywords
+        and isinstance(node.left.args[0], ast.Name)
+        and node.left.args[0].id == value_name
+    )
+
+
+def _source_bound_binding_inventory(
+    source_bytes: dict[str, bytes],
+    predecessor_sites: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Derive the closed V2 table-binding extension to the V1 census."""
+    path = "src/edgelab/runtime_v2_image.py"
+    coordinate = f"{path}:inspect_runtime_image_host"
+    try:
+        tree = ast.parse(source_bytes[path], filename=path)
+    except KeyError as error:
+        raise ReadinessError("RESOURCE_BINDING_SOURCE", path) from error
+    except (SyntaxError, ValueError) as error:
+        raise ReadinessError("PYTHON_SOURCE", path) from error
+
+    functions = [
+        node for node in tree.body
+        if isinstance(node, ast.FunctionDef)
+        and node.name == "inspect_runtime_image_host"
+    ]
+    if len(functions) != 1:
+        raise ReadinessError("RESOURCE_BINDING_FUNCTION", coordinate)
+    function = functions[0]
+
+    constant_values = {
+        "MAX_BOOTSTRAP_DOCUMENT_BYTES": 1_048_576,
+        "MAX_EVENT_BYTES": 1_048_576,
+        "MAX_SCHEMA_REGISTRY_BYTES": 262_144,
+    }
+    for name, expected_value in constant_values.items():
+        definitions = [
+            node for node in tree.body
+            if isinstance(node, ast.Assign)
+            and len(node.targets) == 1
+            and isinstance(node.targets[0], ast.Name)
+            and node.targets[0].id == name
+        ]
+        if (
+            len(definitions) != 1
+            or _integer_constant(definitions[0].value) != expected_value
+        ):
+            raise ReadinessError("RESOURCE_BINDING_MAXIMUM", f"{path}:{name}")
+
+    profiles = (
+        {
+            "assignment_ast_sha256": (
+                "dcc4e9f632d4f0014570e55c64f97b42eea6719a5ed2c35966833b065189aa08"
+            ),
+            "comparator_site_id": (
+                "0d8566afcf1d2933abead1ae497a40b4dc65fef9a3a52ae302dc604bbf8c5507"
+            ),
+            "loop_ast_sha256": (
+                "6e9143ae8f7229364ce3b636e4723a8ea2c44bc01016c341d4d9c2644b201941"
+            ),
+            "loop_target": ("name", "value", "maximum"),
+            "table_name": "byte_fields",
+            "value_name": "value",
+            "rows": (
+                (
+                    "storage_descriptor", None,
+                    "37af07f3babf32a68dc7cb2d8485660c5060dd8987af53c24cc9f6dc97e75e0d",
+                    None,
+                ),
+                (
+                    "verifier_dependency_closure",
+                    "MAX_BOOTSTRAP_DOCUMENT_BYTES",
+                    "5d665629c14569b1b89a8061ed4c973af383ecfb2a058da39e9bfad3a2acdcd0",
+                    "55746a75fc2eb842245ba7bcdad51086efbc304200a958f592b064757c9b9f1c",
+                ),
+                (
+                    "manifest", "MAX_BOOTSTRAP_DOCUMENT_BYTES",
+                    "41021ef757a60ef8081a9ca1443e3ea70a01f06cefad4a965b458f8e6101fea5",
+                    "82ac9bd0ba24bed59304ea8a2aad0cbaa7bdf92db3e332e58b661285512990b6",
+                ),
+                (
+                    "attachment", "MAX_BOOTSTRAP_DOCUMENT_BYTES",
+                    "c4e33d4a6fbca0dc45c5d2bc9dab4ca8bd2c2afecbf55ac89a2787a59b3f53fe",
+                    "7ea348002f2b6caf5e341cc7739453f80b8e576f18a354da8cccd1432ad3a6cc",
+                ),
+                (
+                    "schema_registry", "MAX_SCHEMA_REGISTRY_BYTES",
+                    "9f48b1731194adc88917d3878f5f78f7b7c12ac2b2967231524adfd18cb2f0b3",
+                    "a5edf2e2129f2918e47e765f74655da1e97a725f42015d1e38dbb7e6a92b50e4",
+                ),
+            ),
+        },
+        {
+            "assignment_ast_sha256": (
+                "4ca5b4b0036969d77d3d8235fd0a8c438e9e1a5cd526f970ffc6ec8bb57d8bbe"
+            ),
+            "comparator_site_id": (
+                "349ec1bed6c7edd66926c28b7f33deede98d6f01af5a5c461476b820dfa91e7d"
+            ),
+            "loop_ast_sha256": (
+                "9562db8f41443d06b883ea52b0d1be726a772b412740d6e1732e9031486e5be6"
+            ),
+            "loop_target": ("name", "values", "maximum"),
+            "table_name": "byte_collections",
+            "value_name": "value",
+            "rows": (
+                (
+                    "events", "MAX_EVENT_BYTES",
+                    "2e3b9d0115bcd53ae1e76bdd4f4885007c1af420dcfd2f8efcaa0012863de637",
+                    "8a65115a6e18d3b2a23dc717ac5500638641dc0fe90a227554e9b4b500464534",
+                ),
+                (
+                    "checkpoint_copies", "MAX_BOOTSTRAP_DOCUMENT_BYTES",
+                    "f6687768c44df59ed8d8a90f0678c8cb81347f40a925fd56aae1653e9421853c",
+                    "9a911b0807e818c67215b24ca2aef14d904826e042c65cfb5d74f51f989ef275",
+                ),
+                (
+                    "selector_history", "MAX_BOOTSTRAP_DOCUMENT_BYTES",
+                    "4d5afd2bc3a80702c612fb94b96d3561a1bd398c7347978016a58fb7aa75d498",
+                    "4da76883b64b45ef3e46ca843d83de74162b42fc5649008a595c806277a47a99",
+                ),
+            ),
+        },
+    )
+    predecessor_by_id = {item["site_id"]: item for item in predecessor_sites}
+    if len(predecessor_by_id) != len(predecessor_sites):
+        raise ReadinessError("RESOURCE_BINDING_PREDECESSOR_DUPLICATE", path)
+
+    result: list[dict[str, Any]] = []
+    for profile in profiles:
+        table_name = profile["table_name"]
+        name_nodes = [
+            node for node in ast.walk(function)
+            if isinstance(node, ast.Name) and node.id == table_name
+        ]
+        stores = [node for node in name_nodes if isinstance(node.ctx, ast.Store)]
+        loads = [node for node in name_nodes if isinstance(node.ctx, ast.Load)]
+        if len(stores) != 1 or len(loads) != 1:
+            raise ReadinessError("RESOURCE_BINDING_TABLE_NAME", f"{coordinate}:{table_name}")
+        if any(
+            isinstance(node, ast.Constant) and node.value == table_name
+            for node in ast.walk(function)
+        ):
+            raise ReadinessError("RESOURCE_BINDING_DYNAMIC_TABLE", f"{coordinate}:{table_name}")
+
+        assignments = [
+            node for node in ast.walk(function)
+            if isinstance(node, ast.Assign)
+            and len(node.targets) == 1
+            and node.targets[0] is stores[0]
+        ]
+        if len(assignments) != 1:
+            raise ReadinessError("RESOURCE_BINDING_ASSIGNMENT", f"{coordinate}:{table_name}")
+        assignment = assignments[0]
+        assignment_hash = _ast_sha256(assignment)
+        if assignment_hash != profile["assignment_ast_sha256"]:
+            raise ReadinessError("RESOURCE_BINDING_ASSIGNMENT_AST", f"{coordinate}:{table_name}")
+        if not isinstance(assignment.value, ast.Tuple) or len(
+            assignment.value.elts
+        ) != len(profile["rows"]):
+            raise ReadinessError("RESOURCE_BINDING_ROWS", f"{coordinate}:{table_name}")
+
+        loops = [
+            node for node in ast.walk(function)
+            if isinstance(node, ast.For) and node.iter is loads[0]
+        ]
+        if len(loops) != 1:
+            raise ReadinessError("RESOURCE_BINDING_LOOP", f"{coordinate}:{table_name}")
+        loop = loops[0]
+        loop_hash = _ast_sha256(loop)
+        if loop_hash != profile["loop_ast_sha256"]:
+            raise ReadinessError("RESOURCE_BINDING_LOOP_AST", f"{coordinate}:{table_name}")
+        if (
+            not isinstance(loop.target, ast.Tuple)
+            or tuple(
+                item.id if isinstance(item, ast.Name) else None
+                for item in loop.target.elts
+            ) != profile["loop_target"]
+        ):
+            raise ReadinessError("RESOURCE_BINDING_LOOP_TARGET", f"{coordinate}:{table_name}")
+        comparisons = [
+            node for node in ast.walk(loop)
+            if _is_table_bound_comparison(node, profile["value_name"])
+        ]
+        if len(comparisons) != 1:
+            raise ReadinessError("RESOURCE_BINDING_COMPARATOR", f"{coordinate}:{table_name}")
+        comparator_site_id = profile["comparator_site_id"]
+        predecessor = predecessor_by_id.get(comparator_site_id)
+        if predecessor != {
+            "ast_sha256": _ast_sha256(comparisons[0]),
+            "classification": "UNCLASSIFIED",
+            "expression": ast.unparse(comparisons[0]),
+            "kind": "BOUND_COMPARISON",
+            "line": comparisons[0].lineno,
+            "occurrence": predecessor.get("occurrence") if predecessor else None,
+            "path": path,
+            "qualname": "<module>.inspect_runtime_image_host",
+            "site_id": comparator_site_id,
+        }:
+            raise ReadinessError("RESOURCE_BINDING_COMPARATOR_SITE", f"{coordinate}:{table_name}")
+
+        for row_index, (row, expected) in enumerate(zip(
+            assignment.value.elts, profile["rows"], strict=True,
+        )):
+            branch_key, maximum_expression, expected_ast, expected_site = expected
+            if (
+                not isinstance(row, ast.Tuple)
+                or len(row.elts) != 3
+                or not isinstance(row.elts[0], ast.Constant)
+                or type(row.elts[0].value) is not str
+                or row.elts[0].value != branch_key
+                or not _is_captured_branch(row.elts[1], branch_key)
+            ):
+                raise ReadinessError("RESOURCE_BINDING_ROW", f"{coordinate}:{table_name}:{row_index}")
+            maximum = row.elts[2]
+            if maximum_expression is None:
+                valid_maximum = (
+                    isinstance(maximum, ast.Constant) and maximum.value is None
+                )
+            else:
+                valid_maximum = (
+                    isinstance(maximum, ast.Name)
+                    and maximum.id == maximum_expression
+                )
+            if not valid_maximum or _ast_sha256(row) != expected_ast:
+                raise ReadinessError("RESOURCE_BINDING_ROW_AST", f"{coordinate}:{table_name}:{row_index}")
+            if expected_site is None:
+                continue
+            record = {
+                "ast_sha256": expected_ast,
+                "binding": f"{table_name}:{branch_key}",
+                "branch_key": branch_key,
+                "classification": "UNCLASSIFIED",
+                "comparator_site_id": comparator_site_id,
+                "expression": ast.unparse(row),
+                "kind": "BOUND_TABLE_COMPARISON_BINDING",
+                "line": row.lineno,
+                "loop_ast_sha256": loop_hash,
+                "maximum_expression": maximum_expression,
+                "path": path,
+                "qualname": "<module>.inspect_runtime_image_host",
+                "row_index": row_index,
+                "subject_expression": ast.unparse(row.elts[1]),
+                "table_assignment_ast_sha256": assignment_hash,
+                "table_name": table_name,
+            }
+            identity = {
+                key: value for key, value in record.items()
+                if key not in {"classification", "expression", "line"}
+            }
+            record["site_id"] = _domain_digest(
+                RESOURCE_BINDING_SITE_DOMAIN, identity
+            )
+            if record["site_id"] != expected_site:
+                raise ReadinessError("RESOURCE_BINDING_SITE_ID", f"{coordinate}:{table_name}:{row_index}")
+            result.append(record)
+
+    if len(result) != 7 or len({item["site_id"] for item in result}) != 7:
+        raise ReadinessError("RESOURCE_BINDING_CARDINALITY", path)
+    return sorted(result, key=lambda item: (item["path"], item["site_id"]))
+
+
 def _resource_unit(name: str) -> str:
     if "BYTE" in name:
         return "BYTES"
@@ -1110,6 +1435,108 @@ def _content_inventory(
     return sorted(result, key=lambda item: item["path"])
 
 
+def _resource_discovery_evidence_inventory(
+    root: Path,
+    identities: set[tuple[int, int]],
+    resource_discovery: dict[str, Any],
+) -> dict[str, Any]:
+    """Validate the closed, deny-only Discovery V2 evidence manifest."""
+    schema_id, schema_path = RESOURCE_DISCOVERY_SCHEMA
+    schema_raw, schema_identity = _audit_path(root, schema_path)
+    if schema_identity in identities:
+        raise ReadinessError("HARDLINK_INPUT_ALIAS", schema_path)
+    identities.add(schema_identity)
+    schema = _parse_json(schema_raw, schema_path)
+    if type(schema) is not dict or schema.get("$id") != schema_id:
+        raise ReadinessError("SCHEMA_ID", schema_path)
+    if _sha256(schema_raw) != RESOURCE_DISCOVERY_SCHEMA_RAW_SHA256:
+        raise ReadinessError("RESOURCE_DISCOVERY_SCHEMA_IDENTITY", schema_path)
+
+    profile_id, manifest_path = RESOURCE_DISCOVERY_MANIFEST
+    manifest_raw, manifest_identity = _audit_path(root, manifest_path)
+    if manifest_identity in identities:
+        raise ReadinessError("HARDLINK_INPUT_ALIAS", manifest_path)
+    identities.add(manifest_identity)
+    manifest = _parse_json(manifest_raw, manifest_path)
+    expected_keys = {
+        "classification_status", "coverage_status", "derived_binding_site_count",
+        "derived_binding_site_ids", "derived_binding_sites",
+        "discovered_site_count", "discovery_manifest_sha256",
+        "discovery_schema_raw_sha256", "generation_disposition",
+        "legacy_source_bound_site_count", "manifest_id", "predecessor_discovery",
+        "profile_id", "schema_bound_site_count", "schema_bound_sites_sha256",
+        "schema_input_count", "schema_inputs_sha256", "schema_version",
+        "source_bound_site_count", "source_bound_sites_sha256",
+        "source_input_count", "source_inputs_sha256",
+    }
+    if type(manifest) is not dict or set(manifest) != expected_keys:
+        raise ReadinessError("RESOURCE_DISCOVERY_MANIFEST_KEYS", manifest_path)
+
+    binding_sites = [
+        item for item in resource_discovery["source_bound_sites"]
+        if item.get("kind") == "BOUND_TABLE_COMPARISON_BINDING"
+    ]
+    scalar_expected = {
+        "schema_version": 2,
+        "manifest_id": schema_id,
+        "profile_id": profile_id,
+        "coverage_status": "INCOMPLETE",
+        "classification_status": "UNCLASSIFIED",
+        "generation_disposition": "DENY",
+        "discovery_schema_raw_sha256": RESOURCE_DISCOVERY_SCHEMA_RAW_SHA256,
+        "predecessor_discovery": resource_discovery["predecessor_discovery"],
+        "source_input_count": len(resource_discovery["source_inputs"]),
+        "source_inputs_sha256": resource_discovery["source_inputs_sha256"],
+        "legacy_source_bound_site_count": resource_discovery[
+            "legacy_source_bound_site_count"
+        ],
+        "derived_binding_site_count": len(binding_sites),
+        "source_bound_site_count": len(resource_discovery["source_bound_sites"]),
+        "source_bound_sites_sha256": resource_discovery[
+            "source_bound_sites_sha256"
+        ],
+        "schema_input_count": len(resource_discovery["schema_inputs"]),
+        "schema_inputs_sha256": resource_discovery["schema_inputs_sha256"],
+        "schema_bound_site_count": len(resource_discovery["schema_bound_sites"]),
+        "schema_bound_sites_sha256": resource_discovery[
+            "schema_bound_sites_sha256"
+        ],
+        "discovered_site_count": (
+            len(resource_discovery["source_bound_sites"])
+            + len(resource_discovery["schema_bound_sites"])
+        ),
+        "derived_binding_site_ids": sorted(
+            item["site_id"] for item in binding_sites
+        ),
+        "derived_binding_sites": binding_sites,
+    }
+    for key, expected in scalar_expected.items():
+        if type(manifest.get(key)) is not type(expected) or manifest.get(key) != expected:
+            raise ReadinessError("RESOURCE_DISCOVERY_MANIFEST_BINDING", key)
+
+    digest_value = dict(manifest)
+    claimed_digest = digest_value.pop("discovery_manifest_sha256")
+    if type(claimed_digest) is not str or claimed_digest != _domain_digest(
+        RESOURCE_DISCOVERY_DOMAIN, digest_value
+    ):
+        raise ReadinessError("RESOURCE_DISCOVERY_MANIFEST_SELF_DIGEST", manifest_path)
+    return {
+        "manifest": {
+            "byte_length": len(manifest_raw),
+            "path": manifest_path,
+            "raw_sha256": _sha256(manifest_raw),
+        },
+        "profile_id": profile_id,
+        "schema": {
+            "byte_length": len(schema_raw),
+            "path": schema_path,
+            "raw_sha256": _sha256(schema_raw),
+            "schema_id": schema_id,
+        },
+        "self_digest": claimed_digest,
+    }
+
+
 def _resource_classification_inventory(
     root: Path,
     identities: set[tuple[int, int]],
@@ -1125,9 +1552,10 @@ def _resource_classification_inventory(
         (RESOURCE_CLASSIFICATION_ANCESTORS[1], False),
         (RESOURCE_CLASSIFICATION_ANCESTORS[2], True),
         (RESOURCE_CLASSIFICATION_ANCESTORS[3], False),
+        (RESOURCE_CLASSIFICATION_ANCESTORS[4], True),
+        (RESOURCE_CLASSIFICATION_ANCESTORS[5], False),
     )
-    predecessor_manifest_value: dict[str, Any] | None = None
-    ancestor_manifest_value: dict[str, Any] | None = None
+    manifest_values: dict[str, dict[str, Any]] = {}
     for expected, has_self_digest in predecessor_records:
         raw, identity = _audit_path(root, expected["path"])
         if identity in identities:
@@ -1147,29 +1575,35 @@ def _resource_classification_inventory(
                 raise ReadinessError(
                     "RESOURCE_CLASSIFICATION_PREDECESSOR_DIGEST", expected["path"]
                 )
-            if expected is RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST:
-                predecessor_manifest_value = value
-            elif expected is RESOURCE_CLASSIFICATION_ANCESTORS[0]:
-                ancestor_manifest_value = value
+            manifest_values[expected["path"]] = value
 
-    if predecessor_manifest_value is None or predecessor_manifest_value.get(
-        "predecessor_manifest"
-    ) != RESOURCE_CLASSIFICATION_ANCESTORS[0] or predecessor_manifest_value.get(
-        "predecessor_schema"
-    ) != RESOURCE_CLASSIFICATION_ANCESTORS[1]:
-        raise ReadinessError(
-            "RESOURCE_CLASSIFICATION_ANCESTOR_BINDING",
-            RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST["path"],
-        )
-    if ancestor_manifest_value is None or ancestor_manifest_value.get(
-        "predecessor_manifest"
-    ) != RESOURCE_CLASSIFICATION_ANCESTORS[2] or ancestor_manifest_value.get(
-        "predecessor_schema"
-    ) != RESOURCE_CLASSIFICATION_ANCESTORS[3]:
-        raise ReadinessError(
-            "RESOURCE_CLASSIFICATION_ANCESTOR_BINDING",
-            RESOURCE_CLASSIFICATION_ANCESTORS[0]["path"],
-        )
+    chain = (
+        (
+            RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
+            RESOURCE_CLASSIFICATION_ANCESTORS[0],
+            RESOURCE_CLASSIFICATION_ANCESTORS[1],
+        ),
+        (
+            RESOURCE_CLASSIFICATION_ANCESTORS[0],
+            RESOURCE_CLASSIFICATION_ANCESTORS[2],
+            RESOURCE_CLASSIFICATION_ANCESTORS[3],
+        ),
+        (
+            RESOURCE_CLASSIFICATION_ANCESTORS[2],
+            RESOURCE_CLASSIFICATION_ANCESTORS[4],
+            RESOURCE_CLASSIFICATION_ANCESTORS[5],
+        ),
+    )
+    for owner, predecessor_manifest, predecessor_schema in chain:
+        value = manifest_values.get(owner["path"])
+        if value is None or value.get(
+            "predecessor_manifest"
+        ) != predecessor_manifest or value.get(
+            "predecessor_schema"
+        ) != predecessor_schema:
+            raise ReadinessError(
+                "RESOURCE_CLASSIFICATION_ANCESTOR_BINDING", owner["path"]
+            )
 
     schema_id, schema_path = RESOURCE_CLASSIFICATION_SCHEMA
     schema_raw, schema_identity = _audit_path(root, schema_path)
@@ -1204,7 +1638,7 @@ def _resource_classification_inventory(
     if set(manifest) != expected_keys:
         raise ReadinessError("RESOURCE_CLASSIFICATION_KEYS", manifest_path)
     scalar_expected = {
-        "schema_version": 4,
+        "schema_version": 5,
         "manifest_id": schema_id,
         "profile_id": profile_id,
         "discovery_profile_id": resource_discovery["profile_id"],
@@ -1223,7 +1657,7 @@ def _resource_classification_inventory(
         "source_inputs_sha256": _domain_digest(
             RESOURCE_SOURCE_INPUT_DOMAIN, source_inputs
         ),
-        "source_bound_site_count": 394,
+        "source_bound_site_count": 401,
         "source_bound_sites_sha256": resource_discovery[
             "source_bound_sites_sha256"
         ],
@@ -1233,7 +1667,7 @@ def _resource_classification_inventory(
         ],
         "schema_inputs_sha256": resource_discovery["schema_inputs_sha256"],
         "classified_site_count": 10,
-        "unclassified_site_count": 680,
+        "unclassified_site_count": 687,
     }
     for key, expected in scalar_expected.items():
         if type(manifest.get(key)) is not type(expected) or manifest.get(key) != expected:
@@ -1714,10 +2148,25 @@ def build_report(root: Path = ROOT) -> dict[str, Any]:
     content = _content_inventory(root, identities)
     digest_domains = _digest_domains(source, source_bytes)
     resource_limits = _resource_limits(source, source_bytes)
-    source_bound_sites = _source_bound_inventory(source_bytes)
+    predecessor_source_bound_sites = _source_bound_inventory(source_bytes)
+    if len(predecessor_source_bound_sites) != 394:
+        raise ReadinessError("RESOURCE_DISCOVERY_V1_CARDINALITY", "source_bound_sites")
+    source_bound_binding_sites = _source_bound_binding_inventory(
+        source_bytes, predecessor_source_bound_sites
+    )
+    source_bound_sites = sorted(
+        predecessor_source_bound_sites + source_bound_binding_sites,
+        key=lambda item: (item["path"], item["site_id"]),
+    )
+    if len(source_bound_sites) != 401:
+        raise ReadinessError("RESOURCE_DISCOVERY_V2_CARDINALITY", "source_bound_sites")
     source_bound_identity = [
         {key: value for key, value in item.items() if key != "line"}
         for item in source_bound_sites
+    ]
+    predecessor_source_bound_identity = [
+        {key: value for key, value in item.items() if key != "line"}
+        for item in predecessor_source_bound_sites
     ]
     schema_inputs = [
         {
@@ -1736,10 +2185,10 @@ def build_report(root: Path = ROOT) -> dict[str, Any]:
         }
         for item in source["local_artifacts"]
     ]
-    resource_discovery = {
+    resource_discovery_v1 = {
         "classification_status": "UNCLASSIFIED",
         "coverage_status": "INCOMPLETE",
-        "profile_id": "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V1",
+        "profile_id": RESOURCE_DISCOVERY_V1_ID,
         "schema_bound_sites": schema_bound_sites,
         "schema_bound_sites_sha256": _domain_digest(
             "EDGELAB\0RUNTIME_V2_SCHEMA_BOUND_SITES\0V1\0",
@@ -1750,18 +2199,52 @@ def build_report(root: Path = ROOT) -> dict[str, Any]:
             "EDGELAB\0RUNTIME_V2_RESOURCE_SCHEMA_INPUTS\0V1\0",
             schema_inputs,
         ),
-        "source_bound_sites": source_bound_sites,
+        "source_bound_sites": predecessor_source_bound_sites,
         "source_bound_sites_sha256": _domain_digest(
             "EDGELAB\0RUNTIME_V2_SOURCE_BOUND_SITES\0V1\0",
-            source_bound_identity,
+            predecessor_source_bound_identity,
         ),
         "source_inputs": source_inputs,
         "source_inputs_sha256": _domain_digest(
             RESOURCE_SOURCE_INPUT_DOMAIN, source_inputs,
         ),
     }
+    predecessor_discovery = {
+        "profile_id": resource_discovery_v1["profile_id"],
+        "schema_bound_site_count": len(schema_bound_sites),
+        "schema_bound_sites_sha256": resource_discovery_v1[
+            "schema_bound_sites_sha256"
+        ],
+        "schema_input_count": len(schema_inputs),
+        "schema_inputs_sha256": resource_discovery_v1["schema_inputs_sha256"],
+        "source_bound_site_count": len(predecessor_source_bound_sites),
+        "source_bound_sites_sha256": resource_discovery_v1[
+            "source_bound_sites_sha256"
+        ],
+        "source_input_count": len(source_inputs),
+        "source_inputs_sha256": resource_discovery_v1["source_inputs_sha256"],
+    }
+    source_bound_sites_sha256 = _domain_digest(
+        RESOURCE_SOURCE_BOUND_SITES_V2_DOMAIN, source_bound_identity
+    )
+    if source_bound_sites_sha256 != RESOURCE_SOURCE_BOUND_SITES_V2_SHA256:
+        raise ReadinessError(
+            "RESOURCE_DISCOVERY_V2_IDENTITY", "source_bound_sites_sha256"
+        )
+    resource_discovery = {
+        **resource_discovery_v1,
+        "derived_binding_site_count": len(source_bound_binding_sites),
+        "legacy_source_bound_site_count": len(predecessor_source_bound_sites),
+        "predecessor_discovery": predecessor_discovery,
+        "profile_id": RESOURCE_DISCOVERY_V2_ID,
+        "source_bound_sites": source_bound_sites,
+        "source_bound_sites_sha256": source_bound_sites_sha256,
+    }
     resource_classification = _resource_classification_inventory(
         root, identities, source_bytes, source_inputs, resource_discovery
+    )
+    resource_discovery_evidence = _resource_discovery_evidence_inventory(
+        root, identities, resource_discovery
     )
 
     blockers: list[dict[str, Any]] = [{
@@ -1775,8 +2258,7 @@ def build_report(root: Path = ROOT) -> dict[str, Any]:
         "evidence": (
             "The discovery census contains "
             f"{len(source_bound_sites) + len(schema_bound_sites) - 10} "
-            "unclassified sites after four classified resource maxima bound "
-            "ten source sites; "
+            "unclassified sites after 10 classified resource sites; "
             f"{len(source_bound_sites)} source-bound sites and "
             f"{len(schema_bound_sites)} unclassified schema-bound sites; no "
             "reviewed bidirectional manifest yet classifies every constraint."
@@ -1828,6 +2310,7 @@ def build_report(root: Path = ROOT) -> dict[str, Any]:
             "resource_limits": resource_limits,
             "resource_inventory_classification": resource_classification,
             "resource_inventory_discovery": resource_discovery,
+            "resource_inventory_discovery_evidence": resource_discovery_evidence,
             "retained_schema_documents": retained,
             "source_closure": source,
             "tested_runtime_assumptions": [
