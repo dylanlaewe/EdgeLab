@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, replace
 import re
-from typing import Any
+from typing import Any, Mapping
 
 from .runtime_v2_codec import remediation_link_digest
 
@@ -620,6 +620,370 @@ def _check_worker(task: TaskState, args: dict[str, Any]) -> None:
         _deny("TRANSITION_FENCE_CAS", "/arguments/fence")
 
 
+_WORKSPACE_OPERATIONS = frozenset({
+    "INITIALIZE", "CLAIM", "START", "CONTINUE", "YIELD", "FAIL",
+    "COMPLETE", "RECOVER",
+})
+
+
+@dataclass(frozen=True, slots=True)
+class _TaskWrite:
+    key: str
+    before: TaskState | None
+    after: TaskState
+
+
+@dataclass(frozen=True, slots=True)
+class _ClaimWrite:
+    key: str
+    before: ClaimRecord | None
+    after: ClaimRecord
+
+
+@dataclass(frozen=True, slots=True)
+class _TransitionDelta:
+    task_writes: tuple[_TaskWrite, ...]
+    claim_writes: tuple[_ClaimWrite, ...]
+    after_task: TaskState
+
+
+@dataclass(frozen=True, slots=True)
+class _StagedTransition:
+    _workspace_token: object
+    base_revision: int
+    delta: _TransitionDelta
+
+    @property
+    def after_task(self) -> TaskState:
+        return self.delta.after_task
+
+
+def _closed_claim(
+    claims: Mapping[str, ClaimRecord], task: TaskState, status: str, event_id: str
+) -> _ClaimWrite:
+    claim_id = task.active_claim_id
+    if claim_id is None or claim_id not in claims:
+        _deny("TRANSITION_ACTIVE_CLAIM_MISSING", "/active_claim_id")
+    claim = claims[claim_id]
+    if claim.status != "OPEN" or (claim.task_id, claim.attempt) != (task.task_id, task.attempt):
+        _deny("TRANSITION_ACTIVE_CLAIM_MISMATCH", "/active_claim_id")
+    return _ClaimWrite(
+        claim_id,
+        claim,
+        replace(claim, status=status, closed_event_id=event_id),
+    )
+
+
+def _plan_workspace_transition(
+    repository_generation: int,
+    tasks: Mapping[str, TaskState],
+    claims: Mapping[str, ClaimRecord],
+    intent: TransitionIntent,
+) -> _TransitionDelta:
+    """Plan one currently compiled task/claim transition without mutation."""
+    operation = intent.operation
+    if operation not in _WORKSPACE_OPERATIONS:
+        _deny("TRANSITION_OPERATION_OUTSIDE_WORKSPACE", "/operation")
+    if operation == "INITIALIZE":
+        _expect_events(intent, 1)
+        task_id = _task_id(intent.task_id, "/task_id")
+        if _strict_int(intent.attempt, 1, "/attempt") != 1:
+            _deny("TRANSITION_INITIAL_ATTEMPT", "/attempt")
+        if task_id in tasks:
+            _deny("TRANSITION_TASK_EXISTS", "/task_id")
+        args = intent.args(("decision_receipt_digest", "owner", "owner_role"))
+        task = TaskState(
+            task_id=task_id,
+            attempt=1,
+            workflow=_TRIPLES["N0"][0],
+            execution=_TRIPLES["N0"][1],
+            review=_TRIPLES["N0"][2],
+            scheduler_generation=0,
+            dispatch_generation=0,
+            task_fence=0,
+            active_claim_id=None,
+            reviewer_assignment_id=None,
+            continuation_count=0,
+            repository_generation=repository_generation,
+            decision_receipt_digest=_digest(
+                args["decision_receipt_digest"], "/arguments/decision_receipt_digest"
+            ),
+            owner=_identity(args["owner"], "/arguments/owner"),
+            owner_role=_identity(args["owner_role"], "/arguments/owner_role"),
+        )
+        return _TransitionDelta((_TaskWrite(task_id, None, task),), (), task)
+
+    event_id = _expect_events(intent, 1)[0]
+    task = _subject(intent, tasks)
+    if task.repository_generation != repository_generation:
+        _deny("TRANSITION_STALE_TASK", "/repository_generation")
+    claim_writes: tuple[_ClaimWrite, ...] = ()
+
+    if operation == "CLAIM":
+        if task.code != "N0":
+            _deny("TRANSITION_SOURCE_STATE", "/task_id")
+        args = intent.args(("actor",))
+        claim_id = _uuid(intent.generated_id, "/generated_id")
+        if claim_id in claims:
+            _deny("TRANSITION_CLAIM_EXISTS", "/generated_id")
+        fence = _increment(task.task_fence, "/task_fence")
+        after = _with_code(
+            task,
+            "N1",
+            scheduler_generation=_increment(task.scheduler_generation, "/scheduler_generation"),
+            dispatch_generation=_increment(task.dispatch_generation, "/dispatch_generation"),
+            task_fence=fence,
+            active_claim_id=claim_id,
+        )
+        claim = ClaimRecord(
+            claim_id,
+            task.task_id,
+            task.attempt,
+            fence,
+            "OPEN",
+            _identity(args["actor"], "/arguments/actor"),
+            event_id,
+        )
+        claim_writes = (_ClaimWrite(claim_id, None, claim),)
+    elif operation == "START":
+        if task.code != "N1":
+            _deny("TRANSITION_SOURCE_STATE", "/task_id")
+        args = _worker_args(intent)
+        _check_worker(task, args)
+        after = _with_code(
+            task,
+            "N2",
+            scheduler_generation=_increment(task.scheduler_generation, "/scheduler_generation"),
+        )
+    elif operation == "CONTINUE":
+        if task.code != "N2":
+            _deny("TRANSITION_SOURCE_STATE", "/task_id")
+        args = _worker_args(intent, "progress_evidence_sha256")
+        _check_worker(task, args)
+        after = _with_code(
+            task,
+            "N2",
+            scheduler_generation=_increment(task.scheduler_generation, "/scheduler_generation"),
+            continuation_count=_increment(task.continuation_count, "/continuation_count"),
+        )
+    elif operation in {"YIELD", "FAIL", "COMPLETE"}:
+        allowed = {"YIELD": {"N1", "N2"}, "FAIL": {"N1", "N2"}, "COMPLETE": {"N2"}}
+        if task.code not in allowed[operation]:
+            _deny("TRANSITION_SOURCE_STATE", "/task_id")
+        if operation == "YIELD":
+            args = _worker_args(intent, "yield_evidence_sha256")
+            target, claim_status = "N0", "YIELDED"
+        elif operation == "FAIL":
+            args = intent.args(("claim_id", "failure_code", "failure_evidence_sha256", "fence"))
+            _uuid(args["claim_id"], "/arguments/claim_id")
+            _strict_int(args["fence"], 0, "/arguments/fence")
+            _text(args["failure_code"], _REASON, "/arguments/failure_code")
+            _digest(args["failure_evidence_sha256"], "/arguments/failure_evidence_sha256")
+            target, claim_status = "F0", "FAILED"
+        else:
+            args = intent.args(("claim_id", "close", "completion_evidence_sha256", "fence"))
+            _uuid(args["claim_id"], "/arguments/claim_id")
+            _strict_int(args["fence"], 0, "/arguments/fence")
+            if type(args["close"]) is not bool:
+                _deny("TRANSITION_CLOSE_TYPE", "/arguments/close")
+            _digest(args["completion_evidence_sha256"], "/arguments/completion_evidence_sha256")
+            target, claim_status = ("C0" if args["close"] else "N3"), "COMPLETED"
+        _check_worker(task, args)
+        claim_writes = (_closed_claim(claims, task, claim_status, event_id),)
+        after = _with_code(
+            task,
+            target,
+            scheduler_generation=_increment(task.scheduler_generation, "/scheduler_generation"),
+            dispatch_generation=_increment(task.dispatch_generation, "/dispatch_generation"),
+            task_fence=_increment(task.task_fence, "/task_fence"),
+            active_claim_id=None,
+        )
+    else:
+        if task.code != "N1":
+            _deny("TRANSITION_SOURCE_STATE", "/task_id")
+        args = intent.args(("claim_id", "liveness_evidence_sha256"))
+        _uuid(args["claim_id"], "/arguments/claim_id")
+        _digest(args["liveness_evidence_sha256"], "/arguments/liveness_evidence_sha256")
+        if args["claim_id"] != task.active_claim_id:
+            _deny("TRANSITION_CLAIM_CAS", "/arguments/claim_id")
+        claim_writes = (_closed_claim(claims, task, "RECOVERED", event_id),)
+        after = _with_code(
+            task,
+            "N0",
+            scheduler_generation=_increment(task.scheduler_generation, "/scheduler_generation"),
+            dispatch_generation=_increment(task.dispatch_generation, "/dispatch_generation"),
+            task_fence=_increment(task.task_fence, "/task_fence"),
+            active_claim_id=None,
+        )
+    return _TransitionDelta((_TaskWrite(task.task_id, task, after),), claim_writes, after)
+
+
+def _retained_claim_event_ids(claim: ClaimRecord) -> tuple[str, ...]:
+    if claim.closed_event_id is None:
+        return (claim.opened_event_id,)
+    return (claim.opened_event_id, claim.closed_event_id)
+
+
+def _new_claim_event_ids(
+    before: ClaimRecord | None, after: ClaimRecord
+) -> tuple[str, ...]:
+    if before is None:
+        return _retained_claim_event_ids(after)
+    if before.opened_event_id != after.opened_event_id:
+        _deny("TRANSITION_WORKSPACE_PLAN", "/claims/opened_event_id")
+    if before.closed_event_id is None and after.closed_event_id is not None:
+        return (after.closed_event_id,)
+    if before.closed_event_id != after.closed_event_id:
+        _deny("TRANSITION_WORKSPACE_PLAN", "/claims/closed_event_id")
+    return ()
+
+
+class _TransitionWorkspace:
+    """Private two-phase task/claim workspace; full validation occurs at freeze."""
+
+    __slots__ = (
+        "_claims", "_decisions", "_links", "_repository_bundle_sha256",
+        "_repository_generation", "_retained_event_ids", "_reviews", "_revision",
+        "_tasks", "_token", "_issued",
+    )
+
+    def __init__(self, state: ReducerState) -> None:
+        if type(state) is not ReducerState:
+            _deny("TRANSITION_HOST_TYPE", "/")
+        self._repository_generation = state.repository_generation
+        self._repository_bundle_sha256 = state.repository_bundle_sha256
+        self._tasks = {task.task_id: task for task in state.tasks}
+        self._claims = {claim.claim_id: claim for claim in state.claims}
+        self._reviews = {review.assignment_id: review for review in state.reviews}
+        self._decisions = {(item.task_id, item.attempt): item for item in state.decisions}
+        self._links = {link.link_id: link for link in state.remediation_links}
+        retained: set[str] = set()
+        for claim in state.claims:
+            retained.update(_retained_claim_event_ids(claim))
+        for review in state.reviews:
+            retained.add(review.opened_event_id)
+            if review.closed_event_id is not None:
+                retained.add(review.closed_event_id)
+        for link in state.remediation_links:
+            retained.update((link.source_event_id, link.child_event_id))
+        self._retained_event_ids = retained
+        self._revision = 0
+        self._token = object()
+        self._issued: dict[int, _StagedTransition] = {}
+
+    def __copy__(self) -> None:
+        _deny("TRANSITION_WORKSPACE_COPY", "/")
+
+    def __deepcopy__(self, memo: Any) -> None:
+        _deny("TRANSITION_WORKSPACE_COPY", "/")
+
+    @property
+    def revision(self) -> int:
+        return self._revision
+
+    @property
+    def repository_generation(self) -> int:
+        return self._repository_generation
+
+    @property
+    def repository_bundle_sha256(self) -> str:
+        return self._repository_bundle_sha256
+
+    def only_task(self) -> TaskState | None:
+        if len(self._tasks) != 1:
+            return None
+        return next(iter(self._tasks.values()))
+
+    def task(self, task_id: str) -> TaskState | None:
+        return self._tasks.get(task_id)
+
+    def stage(self, intent: TransitionIntent) -> _StagedTransition:
+        if type(intent) is not TransitionIntent:
+            _deny("TRANSITION_HOST_TYPE", "/")
+        _validate_intent_shape(intent)
+        delta = _plan_workspace_transition(
+            self._repository_generation, self._tasks, self._claims, intent
+        )
+        self._precheck(delta)
+        staged = _StagedTransition(self._token, self._revision, delta)
+        self._issued[id(staged)] = staged
+        return staged
+
+    def _precheck(self, delta: _TransitionDelta) -> None:
+        if type(delta) is not _TransitionDelta:
+            _deny("TRANSITION_WORKSPACE_PLAN", "/")
+        task_keys = tuple(write.key for write in delta.task_writes)
+        claim_keys = tuple(write.key for write in delta.claim_writes)
+        if (
+            not task_keys
+            or task_keys != tuple(sorted(task_keys))
+            or len(task_keys) != len(set(task_keys))
+            or claim_keys != tuple(sorted(claim_keys))
+            or len(claim_keys) != len(set(claim_keys))
+        ):
+            _deny("TRANSITION_WORKSPACE_PLAN", "/")
+        added_tasks = 0
+        for write in delta.task_writes:
+            if type(write) is not _TaskWrite or write.key != write.after.task_id:
+                _deny("TRANSITION_WORKSPACE_PLAN", "/tasks")
+            current = self._tasks.get(write.key)
+            if current != write.before:
+                _deny("TRANSITION_WORKSPACE_CAS", f"/tasks/{write.key}")
+            added_tasks += int(current is None)
+        added_claims = 0
+        added_events: list[str] = []
+        for write in delta.claim_writes:
+            if type(write) is not _ClaimWrite or write.key != write.after.claim_id:
+                _deny("TRANSITION_WORKSPACE_PLAN", "/claims")
+            current = self._claims.get(write.key)
+            if current != write.before:
+                _deny("TRANSITION_WORKSPACE_CAS", f"/claims/{write.key}")
+            added_claims += int(current is None)
+            added_events.extend(_new_claim_event_ids(current, write.after))
+        if len(self._tasks) + added_tasks > MAX_TASKS:
+            _deny("TRANSITION_RESOURCE_TASKS", "/tasks")
+        if len(self._claims) + added_claims > MAX_EVENTS:
+            _deny("TRANSITION_RESOURCE_RECORDS", "/claims")
+        if len(added_events) != len(set(added_events)) or any(
+            event_id in self._retained_event_ids for event_id in added_events
+        ):
+            _deny("TRANSITION_STATE_EVENT_REUSED", "/")
+        if delta.after_task not in tuple(write.after for write in delta.task_writes):
+            _deny("TRANSITION_WORKSPACE_PLAN", "/after_task")
+
+    def commit(self, staged: _StagedTransition) -> None:
+        if type(staged) is not _StagedTransition:
+            _deny("TRANSITION_WORKSPACE_PLAN", "/")
+        if staged._workspace_token is not self._token:
+            _deny("TRANSITION_WORKSPACE_FOREIGN", "/")
+        if staged.base_revision != self._revision:
+            _deny("TRANSITION_WORKSPACE_STALE", "/")
+        if self._issued.get(id(staged)) is not staged:
+            _deny("TRANSITION_WORKSPACE_FORGED", "/")
+        self._precheck(staged.delta)
+        added_events: list[str] = []
+        for write in staged.delta.claim_writes:
+            added_events.extend(_new_claim_event_ids(write.before, write.after))
+        for write in staged.delta.task_writes:
+            self._tasks[write.key] = write.after
+        for write in staged.delta.claim_writes:
+            self._claims[write.key] = write.after
+        self._retained_event_ids.update(added_events)
+        self._revision += 1
+        self._issued.clear()
+
+    def freeze(self) -> ReducerState:
+        return ReducerState(
+            repository_generation=self._repository_generation,
+            repository_bundle_sha256=self._repository_bundle_sha256,
+            tasks=_replace_sorted(self._tasks),
+            claims=_replace_sorted(self._claims),
+            reviews=_replace_sorted(self._reviews),
+            decisions=tuple(self._decisions[key] for key in sorted(self._decisions)),
+            remediation_links=_replace_sorted(self._links),
+        )
+
+
 def _validate_intent_shape(intent: TransitionIntent) -> None:
     ordinary = {
         "INITIALIZE", "CLAIM", "START", "CONTINUE", "YIELD", "FAIL",
@@ -685,34 +1049,14 @@ def reduce_transition(state: ReducerState, intent: TransitionIntent) -> ReducerS
     links = {link.link_id: link for link in state.remediation_links}
     operation = intent.operation
 
-    if operation == "INITIALIZE":
-        _expect_events(intent, 1)
-        task_id = _task_id(intent.task_id, "/task_id")
-        if _strict_int(intent.attempt, 1, "/attempt") != 1:
-            _deny("TRANSITION_INITIAL_ATTEMPT", "/attempt")
-        if task_id in tasks:
-            _deny("TRANSITION_TASK_EXISTS", "/task_id")
-        args = intent.args(("decision_receipt_digest", "owner", "owner_role"))
-        task = TaskState(
-            task_id=task_id,
-            attempt=1,
-            workflow=_TRIPLES["N0"][0],
-            execution=_TRIPLES["N0"][1],
-            review=_TRIPLES["N0"][2],
-            scheduler_generation=0,
-            dispatch_generation=0,
-            task_fence=0,
-            active_claim_id=None,
-            reviewer_assignment_id=None,
-            continuation_count=0,
-            repository_generation=state.repository_generation,
-            decision_receipt_digest=_digest(
-                args["decision_receipt_digest"], "/arguments/decision_receipt_digest"
-            ),
-            owner=_identity(args["owner"], "/arguments/owner"),
-            owner_role=_identity(args["owner_role"], "/arguments/owner_role"),
+    if operation in _WORKSPACE_OPERATIONS:
+        delta = _plan_workspace_transition(
+            state.repository_generation, tasks, claims, intent
         )
-        tasks[task_id] = task
+        for write in delta.task_writes:
+            tasks[write.key] = write.after
+        for write in delta.claim_writes:
+            claims[write.key] = write.after
     elif operation == "CREATE_REMEDIATION_TASK":
         event_ids = _expect_events(intent, 2)
         source = _subject(intent, tasks)

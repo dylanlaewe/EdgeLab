@@ -16,10 +16,10 @@ from typing import Any, Mapping
 from .runtime_v2_codec import event_digest, task_predecessor
 from .runtime_v2_genesis import PAYLOAD_SCHEMA_ID, REQUEST_SCHEMA_ID, RESPONSE_SCHEMA_ID
 from .runtime_v2_transition import (
-    ReducerState,
     TransitionIntent,
     TransitionViolation,
-    reduce_transition,
+    _StagedTransition,
+    _TransitionWorkspace,
 )
 
 
@@ -206,7 +206,8 @@ class _ReplayCursor:
 
 @dataclass(frozen=True, slots=True)
 class InitializeGroupPatch:
-    state: ReducerState
+    transition: _StagedTransition
+    event_pair: tuple[str, str, str, str]
     reachable_blob_digests: tuple[str, ...]
     attempt_row: tuple[Any, ...]
     idempotency_row: tuple[Any, ...]
@@ -214,7 +215,8 @@ class InitializeGroupPatch:
 
 @dataclass(frozen=True, slots=True)
 class ClaimGroupPatch:
-    state: ReducerState
+    transition: _StagedTransition
+    event_pair: tuple[str, str, str, str]
     reachable_blob_digests: tuple[str, ...]
     attempt_row: tuple[Any, ...]
     idempotency_row: tuple[Any, ...]
@@ -222,7 +224,8 @@ class ClaimGroupPatch:
 
 @dataclass(frozen=True, slots=True)
 class WorkerGroupPatch:
-    state: ReducerState
+    transition: _StagedTransition
+    event_pair: tuple[str, str, str, str]
     reachable_blob_digests: tuple[str, ...]
     attempt_row: tuple[Any, ...]
     idempotency_row: tuple[Any, ...]
@@ -338,6 +341,7 @@ def reduce_initialize_group(
     *,
     genesis_event: dict[str, Any],
     cursor: _ReplayCursor,
+    workspace: _TransitionWorkspace,
     semantic_event: Any,
     commit_event: Any,
     catalog: Mapping[str, BlobValue],
@@ -345,6 +349,8 @@ def reduce_initialize_group(
     """Validate and plan one complete INITIALIZE group atomically."""
     if type(cursor) is not _ReplayCursor or cursor.global_sequence != 0:
         _deny("GROUP_CURSOR", "/events")
+    if type(workspace) is not _TransitionWorkspace or workspace.only_task() is not None:
+        _deny("GROUP_PRIOR_STATE", "/state")
     semantic = _validate_event_shape(semantic_event, "/events/1")
     commit = _validate_event_shape(commit_event, "/events/2")
     semantic_index, commit_index = cursor.check_pair(semantic, commit)
@@ -354,6 +360,12 @@ def reduce_initialize_group(
     chain_id = genesis_event["chain_id"]
     repository_generation = genesis_event["repository_generation"]
     repository_bundle = genesis_event["repository_bundle_sha256"]
+    _const(workspace.repository_generation, repository_generation, "/state/repository_generation")
+    _const(
+        workspace.repository_bundle_sha256,
+        repository_bundle,
+        "/state/repository_bundle_sha256",
+    )
     for actual, expected, coordinate in (
         (cursor.runtime_id, runtime_id, "/events/0/runtime_id"),
         (cursor.chain_id, chain_id, "/events/0/chain_id"),
@@ -478,8 +490,7 @@ def reduce_initialize_group(
     }, "/semantic_payload")
 
     try:
-        next_state = reduce_transition(
-            ReducerState(repository_generation, repository_bundle),
+        staged = workspace.stage(
             TransitionIntent(
                 operation="INITIALIZE", task_id=task_id, attempt=1,
                 arguments=tuple(sorted(arguments.items())),
@@ -488,7 +499,7 @@ def reduce_initialize_group(
         )
     except TransitionViolation as error:
         raise GroupValidationError(error.code, error.coordinate) from error
-    derived_state = _task_state_document(next_state.tasks[0])
+    derived_state = _task_state_document(staged.after_task)
     supplied_state = _resolve(catalog, after_sha, TASK_STATE_SCHEMA_ID, "/events/1/state_after_ref").value
     if supplied_state != derived_state:
         _deny("GROUP_STATE_DERIVATION", "/events/1/state_after_ref")
@@ -531,7 +542,11 @@ def reduce_initialize_group(
         request_sha, response_sha, semantic_payload_sha, commit_payload_sha, after_sha,
     }))
     return InitializeGroupPatch(
-        state=next_state,
+        transition=staged,
+        event_pair=(
+            semantic["event_id"], semantic["event_sha256"],
+            commit["event_id"], commit["event_sha256"],
+        ),
         reachable_blob_digests=reachable,
         attempt_row=(task_id, 1, None, semantic["event_id"], 1, semantic["event_id"], semantic["event_sha256"]),
         idempotency_row=(
@@ -544,7 +559,7 @@ def reduce_initialize_group(
 def reduce_claim_group(
     *,
     cursor: _ReplayCursor,
-    prior_state: ReducerState,
+    workspace: _TransitionWorkspace,
     semantic_event: Any,
     commit_event: Any,
     catalog: Mapping[str, BlobValue],
@@ -557,22 +572,24 @@ def reduce_claim_group(
     semantic = _validate_event_shape(semantic_event, f"/events/{semantic_index}")
     commit = _validate_event_shape(commit_event, f"/events/{commit_index}")
     cursor.check_pair(semantic, commit)
-    if type(prior_state) is not ReducerState or len(prior_state.tasks) != 1:
+    if type(workspace) is not _TransitionWorkspace:
+        _deny("GROUP_PRIOR_STATE", "/state")
+    task = workspace.only_task()
+    if task is None:
         _deny("GROUP_PRIOR_STATE", "/state")
     _const(
-        prior_state.repository_generation, cursor.repository_generation,
+        workspace.repository_generation, cursor.repository_generation,
         "/state/repository_generation",
     )
     _const(
-        prior_state.repository_bundle_sha256,
+        workspace.repository_bundle_sha256,
         cursor.repository_bundle_sha256,
         "/state/repository_bundle_sha256",
     )
-    task = prior_state.tasks[0]
     runtime_id = cursor.runtime_id
     chain_id = cursor.chain_id
-    repository_generation = prior_state.repository_generation
-    repository_bundle = prior_state.repository_bundle_sha256
+    repository_generation = workspace.repository_generation
+    repository_bundle = workspace.repository_bundle_sha256
     transaction = semantic["transaction"]
     operation_key = transaction["operation_key"]
     match = _OPERATION_KEY.fullmatch(operation_key)
@@ -693,8 +710,7 @@ def reduce_claim_group(
     claim_id = _pattern(payload_data["claim_id"], _UUID4, "/claim_semantic_payload/data/claim_id")
 
     try:
-        next_state = reduce_transition(
-            prior_state,
+        staged = workspace.stage(
             TransitionIntent(
                 operation="CLAIM", task_id=task.task_id, attempt=task.attempt,
                 arguments=(("actor", actor),), generated_id=claim_id,
@@ -703,7 +719,7 @@ def reduce_claim_group(
         )
     except TransitionViolation as error:
         raise GroupValidationError(error.code, error.coordinate) from error
-    derived_state = _task_state_document(next_state.tasks[0])
+    derived_state = _task_state_document(staged.after_task)
     supplied_after = _resolve(
         catalog, after_sha, TASK_STATE_SCHEMA_ID,
         f"/events/{semantic_index}/state_after_ref",
@@ -754,7 +770,11 @@ def reduce_claim_group(
         request_sha, response_sha, semantic_payload_sha, commit_payload_sha, after_sha,
     }))
     return ClaimGroupPatch(
-        state=next_state,
+        transition=staged,
+        event_pair=(
+            semantic["event_id"], semantic["event_sha256"],
+            commit["event_id"], commit["event_sha256"],
+        ),
         reachable_blob_digests=reachable,
         attempt_row=(
             task.task_id, task.attempt, None, prior_task.origin_event_id, 2,
@@ -770,7 +790,7 @@ def reduce_claim_group(
 def reduce_worker_group(
     *,
     cursor: _ReplayCursor,
-    prior_state: ReducerState,
+    workspace: _TransitionWorkspace,
     semantic_event: Any,
     commit_event: Any,
     catalog: Mapping[str, BlobValue],
@@ -782,14 +802,17 @@ def reduce_worker_group(
         or cursor.global_sequence % 2 != 0
     ):
         _deny("GROUP_CURSOR", "/events")
-    if type(prior_state) is not ReducerState or len(prior_state.tasks) != 1:
+    if type(workspace) is not _TransitionWorkspace:
+        _deny("GROUP_PRIOR_STATE", "/state")
+    task = workspace.only_task()
+    if task is None:
         _deny("GROUP_PRIOR_STATE", "/state")
     _const(
-        prior_state.repository_generation, cursor.repository_generation,
+        workspace.repository_generation, cursor.repository_generation,
         "/state/repository_generation",
     )
     _const(
-        prior_state.repository_bundle_sha256,
+        workspace.repository_bundle_sha256,
         cursor.repository_bundle_sha256,
         "/state/repository_bundle_sha256",
     )
@@ -805,11 +828,10 @@ def reduce_worker_group(
     if profile is None:
         _deny("GROUP_WORKER_OPERATION", f"/events/{semantic_index}/event_type")
     operation, argument_keys = profile
-    task = prior_state.tasks[0]
     runtime_id = cursor.runtime_id
     chain_id = cursor.chain_id
-    repository_generation = prior_state.repository_generation
-    repository_bundle = prior_state.repository_bundle_sha256
+    repository_generation = workspace.repository_generation
+    repository_bundle = workspace.repository_bundle_sha256
     transaction = semantic["transaction"]
     operation_key = transaction["operation_key"]
     match = _OPERATION_KEY.fullmatch(operation_key)
@@ -995,8 +1017,7 @@ def reduce_worker_group(
     }, "/worker_semantic_payload")
 
     try:
-        next_state = reduce_transition(
-            prior_state,
+        staged = workspace.stage(
             TransitionIntent(
                 operation=operation,
                 task_id=task.task_id,
@@ -1011,7 +1032,7 @@ def reduce_worker_group(
         catalog, after_sha, TASK_STATE_SCHEMA_ID,
         f"/events/{semantic_index}/state_after_ref",
     ).value
-    if supplied_after != _task_state_document(next_state.tasks[0]):
+    if supplied_after != _task_state_document(staged.after_task):
         _deny("GROUP_STATE_DERIVATION", f"/events/{semantic_index}/state_after_ref")
     _const(response["affected_states"], [{
         "task_id": task.task_id,
@@ -1065,7 +1086,11 @@ def reduce_worker_group(
         after_sha,
     }))
     return WorkerGroupPatch(
-        state=next_state,
+        transition=staged,
+        event_pair=(
+            semantic["event_id"], semantic["event_sha256"],
+            commit["event_id"], commit["event_sha256"],
+        ),
         reachable_blob_digests=reachable,
         attempt_row=(
             task.task_id, task.attempt, None, prior_task.origin_event_id,

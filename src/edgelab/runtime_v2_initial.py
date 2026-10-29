@@ -66,6 +66,11 @@ from .runtime_v2_group import (
     reduce_initialize_group,
     reduce_worker_group,
 )
+from .runtime_v2_transition import (
+    ReducerState,
+    TransitionViolation,
+    _TransitionWorkspace,
+)
 
 
 MAX_FINDINGS = 128
@@ -303,7 +308,8 @@ def _expected_tables(
     image: RuntimeImage,
     catalog: dict[str, BlobValue],
     events: tuple[dict[str, Any], ...],
-    final_patch: InitializeGroupPatch | ClaimGroupPatch | WorkerGroupPatch | None,
+    final_state: ReducerState | None,
+    final_attempt_row: tuple[Any, ...] | None,
     idempotency_rows: tuple[tuple[Any, ...], ...],
     manifest_sha: str,
     attachment_sha: str,
@@ -361,15 +367,17 @@ def _expected_tables(
         "RUNTIME_GENESIS_IDENTITY", attachment_sha, event_id, event_sha,
         manifest_sha, event_id, created_at,
     ),)
-    if final_patch is not None:
-        rows["attempts"] = (final_patch.attempt_row,)
+    if final_state is not None:
+        if final_attempt_row is None:
+            raise ValueError("final attempt row is required with final state")
+        rows["attempts"] = (final_attempt_row,)
         rows["claims"] = tuple(
             (
                 claim.claim_id, claim.task_id, claim.attempt, claim.fence,
                 claim.status, claim.actor, claim.opened_event_id,
                 claim.closed_event_id,
             )
-            for claim in final_patch.state.claims
+            for claim in final_state.claims
         )
         rows["idempotency"] = tuple(sorted(idempotency_rows))
         rows["tasks"] = tuple(
@@ -382,9 +390,29 @@ def _expected_tables(
                 task.owner, task.owner_role, task.reviewer,
                 task.predecessor_task, task.successor_task,
             )
-            for task in final_patch.state.tasks
+            for task in final_state.tasks
         )
     return rows
+
+
+def _commit_group_patch(
+    *,
+    cursor: _ReplayCursor,
+    workspace: _TransitionWorkspace,
+    patch: InitializeGroupPatch | ClaimGroupPatch | WorkerGroupPatch,
+    semantic_event: dict[str, Any],
+    commit_event: dict[str, Any],
+) -> None:
+    """Atomically advance private replay indexes after full group validation."""
+    observed_pair = (
+        semantic_event["event_id"], semantic_event["event_sha256"],
+        commit_event["event_id"], commit_event["event_sha256"],
+    )
+    if patch.event_pair != observed_pair:
+        raise GroupValidationError("GROUP_PATCH_PAIR", "/events")
+    cursor.check_pair(semantic_event, commit_event)
+    workspace.commit(patch.transition)
+    cursor.advance_pair(semantic_event, commit_event)
 
 
 def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
@@ -587,11 +615,15 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
     ) = None
     idempotency_rows: list[tuple[Any, ...]] = []
     cursor = _ReplayCursor(event)
+    workspace = _TransitionWorkspace(
+        ReducerState(event["repository_generation"], event["repository_bundle_sha256"])
+    )
     if len(parsed_events) >= 3:
         try:
             initialize_patch = reduce_initialize_group(
                 genesis_event=event,
                 cursor=cursor,
+                workspace=workspace,
                 semantic_event=parsed_events[1],
                 commit_event=parsed_events[2],
                 catalog=blobs,
@@ -599,7 +631,17 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
         except GroupValidationError as error:
             sink.add(error.code, "transaction_group", error.coordinate)
             return _invalid(sink)
-        cursor.advance_pair(parsed_events[1], parsed_events[2])
+        try:
+            _commit_group_patch(
+                cursor=cursor,
+                workspace=workspace,
+                patch=initialize_patch,
+                semantic_event=parsed_events[1],
+                commit_event=parsed_events[2],
+            )
+        except (GroupValidationError, TransitionViolation) as error:
+            sink.add(error.code, "transaction_group", error.coordinate)
+            return _invalid(sink)
         final_patch = initialize_patch
         idempotency_rows.append(initialize_patch.idempotency_row)
         expected_reachable = {
@@ -610,7 +652,7 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
             try:
                 claim_patch = reduce_claim_group(
                     cursor=cursor,
-                    prior_state=initialize_patch.state,
+                    workspace=workspace,
                     semantic_event=parsed_events[3],
                     commit_event=parsed_events[4],
                     catalog=blobs,
@@ -618,16 +660,25 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
             except GroupValidationError as error:
                 sink.add(error.code, "claim_transaction_group", error.coordinate)
                 return _invalid(sink)
-            cursor.advance_pair(parsed_events[3], parsed_events[4])
+            try:
+                _commit_group_patch(
+                    cursor=cursor,
+                    workspace=workspace,
+                    patch=claim_patch,
+                    semantic_event=parsed_events[3],
+                    commit_event=parsed_events[4],
+                )
+            except (GroupValidationError, TransitionViolation) as error:
+                sink.add(error.code, "claim_transaction_group", error.coordinate)
+                return _invalid(sink)
             final_patch = claim_patch
             idempotency_rows.append(claim_patch.idempotency_row)
             expected_reachable.update(claim_patch.reachable_blob_digests)
-            prior_state = claim_patch.state
             for semantic_index in range(5, len(parsed_events), 2):
                 try:
                     worker_patch = reduce_worker_group(
                         cursor=cursor,
-                        prior_state=prior_state,
+                        workspace=workspace,
                         semantic_event=parsed_events[semantic_index],
                         commit_event=parsed_events[semantic_index + 1],
                         catalog=blobs,
@@ -635,13 +686,19 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
                 except GroupValidationError as error:
                     sink.add(error.code, "worker_transaction_group", error.coordinate)
                     return _invalid(sink)
-                cursor.advance_pair(
-                    parsed_events[semantic_index],
-                    parsed_events[semantic_index + 1],
-                )
+                try:
+                    _commit_group_patch(
+                        cursor=cursor,
+                        workspace=workspace,
+                        patch=worker_patch,
+                        semantic_event=parsed_events[semantic_index],
+                        commit_event=parsed_events[semantic_index + 1],
+                    )
+                except (GroupValidationError, TransitionViolation) as error:
+                    sink.add(error.code, "worker_transaction_group", error.coordinate)
+                    return _invalid(sink)
                 final_patch = worker_patch
                 idempotency_rows.append(worker_patch.idempotency_row)
-                prior_state = worker_patch.state
                 expected_reachable.update(worker_patch.reachable_blob_digests)
         if set(blobs) != expected_reachable:
             sink.add("BLOB_REACHABILITY", "blobs", "/")
@@ -650,11 +707,17 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
         sink.add("BLOB_REACHABILITY", "blobs", "/")
         return _invalid(sink)
 
+    try:
+        final_state = workspace.freeze() if final_patch is not None else None
+    except TransitionViolation as error:
+        sink.add(error.code, "transition_workspace", error.coordinate)
+        return _invalid(sink)
     expected_rows = _expected_tables(
         image=image,
         catalog=blobs,
         events=tuple(parsed_events),
-        final_patch=final_patch,
+        final_state=final_state,
+        final_attempt_row=(final_patch.attempt_row if final_patch is not None else None),
         idempotency_rows=tuple(idempotency_rows),
         manifest_sha=manifest_sha,
         attachment_sha=attachment_sha,

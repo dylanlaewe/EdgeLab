@@ -5,6 +5,8 @@ import unittest
 from dataclasses import replace
 from pathlib import Path
 
+import src.edgelab.runtime_v2_initial as initial_module
+
 from src.edgelab.runtime_v2_codec import (
     attachment_digest,
     blob_digest,
@@ -1663,6 +1665,24 @@ class RuntimeV2InitialTests(unittest.TestCase):
             long_values["continue_many_15_after_state"]["continuation_count"],
             16,
         )
+
+    def test_image_replay_freezes_transition_workspace_once(self):
+        image, _ = continue_many_fixture(16)
+        original_freeze = initial_module._TransitionWorkspace.freeze
+        freeze_calls = 0
+
+        def counted_freeze(workspace):
+            nonlocal freeze_calls
+            freeze_calls += 1
+            return original_freeze(workspace)
+
+        initial_module._TransitionWorkspace.freeze = counted_freeze
+        try:
+            report = reduce_initial_runtime_image(image)
+        finally:
+            initial_module._TransitionWorkspace.freeze = original_freeze
+        self.assertEqual(report.status, "UNSUPPORTED")
+        self.assertEqual(freeze_calls, 1)
 
     def test_cursor_retains_early_identity_indexes_at_late_depth(self):
         image, values = continue_thrice_fixture()
