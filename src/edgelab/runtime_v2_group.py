@@ -4,9 +4,10 @@ The compiled slices support ``INITIALIZE`` after a validated NEW genesis,
 followed by repeatable ``CLAIM``, worker operations ``START``, ``CONTINUE``,
 ``YIELD``, ``FAIL``, and ``COMPLETE``, synthetic ``RECOVER``, and exact
 attempt-boundary ``RETRY``, plus governance, review-decision, and routing
-follow-ups. They are deliberately narrow: supplied blobs and events are
-treated as untrusted comparison inputs, task state is recomputed with the
-immutable transition kernel, and no result can authorize use.
+follow-ups, terminal remediation, and terminal repository import. They are
+deliberately narrow: supplied blobs and events are treated as untrusted
+comparison inputs, task state is recomputed with the immutable transition
+kernel, and no result can authorize use.
 """
 from __future__ import annotations
 
@@ -239,6 +240,35 @@ class _ReplayCursor:
             )
         return source_index, child_index, commit_index
 
+    def check_import(
+        self,
+        semantic_events: tuple[dict[str, Any], ...],
+        commit: dict[str, Any],
+    ) -> tuple[int, ...]:
+        """Reject duplicate identities across one variable-width import."""
+        start = self.global_sequence + 1
+        events = semantic_events + (commit,)
+        ids = tuple(item["event_id"] for item in events)
+        digests = tuple(item["event_sha256"] for item in events)
+        if len(set(ids)) != len(ids) or any(item in self._event_ids for item in ids):
+            _deny("GROUP_EVENT_ID_DUPLICATE", f"/events/{start}")
+        if len(set(digests)) != len(digests) or any(
+            item in self._event_digests for item in digests
+        ):
+            _deny("GROUP_EVENT_DIGEST_DUPLICATE", f"/events/{start}")
+        transaction = commit["transaction"]
+        if transaction["transaction_id"] in self._transaction_ids:
+            _deny(
+                "GROUP_TRANSACTION_DUPLICATE",
+                f"/events/{start}/transaction/transaction_id",
+            )
+        if transaction["operation_key"] in self._operation_keys:
+            _deny(
+                "GROUP_OPERATION_KEY_DUPLICATE",
+                f"/events/{start}/transaction/operation_key",
+            )
+        return tuple(range(start, start + len(events)))
+
     def task_head(self, task_id: str, attempt: int) -> _TaskReplayHead | None:
         return self._task_heads.get((task_id, attempt))
 
@@ -378,6 +408,55 @@ class _ReplayCursor:
         self.head_event_id = commit["event_id"]
         self.head_event_sha256 = commit["event_sha256"]
 
+    def advance_import(
+        self,
+        semantic_events: tuple[dict[str, Any], ...],
+        commit: dict[str, Any],
+        *,
+        repository_generation: int,
+        repository_bundle_sha256: str,
+    ) -> None:
+        """Advance all affected task heads and repository coordinates atomically."""
+        if not semantic_events:
+            _deny("GROUP_IMPORT_EVENTS", "/events")
+        runtime_event = semantic_events[-1]
+        task_events = semantic_events[:-1]
+        if (
+            runtime_event["event_type"] != "REPOSITORY_GENERATION_ADVANCED"
+            or runtime_event["stream"] != "RUNTIME"
+            or runtime_event["task_context"] is not None
+        ):
+            _deny("GROUP_IMPORT_EVENTS", "/events")
+        prepared: list[tuple[tuple[str, int], _TaskReplayHead]] = []
+        for event in task_events:
+            context = event["task_context"]
+            if event["stream"] != "TASK" or type(context) is not dict:
+                _deny("GROUP_IMPORT_EVENTS", "/events")
+            key = (context["task_id"], context["attempt"])
+            prior = self._task_heads.get(key)
+            if prior is None:
+                _deny("GROUP_TASK_HISTORY", "/events")
+            prepared.append((key, _TaskReplayHead(
+                predecessor_attempt=prior.predecessor_attempt,
+                origin_event_id=prior.origin_event_id,
+                sequence=context["task_sequence"],
+                head_event_id=event["event_id"],
+                head_event_sha256=event["event_sha256"],
+            )))
+        events = semantic_events + (commit,)
+        self._event_ids.update(item["event_id"] for item in events)
+        self._event_digests.update(item["event_sha256"] for item in events)
+        transaction = commit["transaction"]
+        self._transaction_ids.add(transaction["transaction_id"])
+        self._operation_keys.add(transaction["operation_key"])
+        for key, head in prepared:
+            self._task_heads[key] = head
+        self.repository_generation = repository_generation
+        self.repository_bundle_sha256 = repository_bundle_sha256
+        self.global_sequence = commit["global_sequence"]
+        self.head_event_id = commit["event_id"]
+        self.head_event_sha256 = commit["event_sha256"]
+
 
 @dataclass(frozen=True, slots=True)
 class InitializeGroupPatch:
@@ -413,6 +492,14 @@ class WorkerGroupPatch:
 class RemediationGroupPatch:
     transition: _StagedStateReplacement
     event_triplet: tuple[str, str, str, str, str, str]
+    reachable_blob_digests: tuple[str, ...]
+    idempotency_row: tuple[Any, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class ImportGroupPatch:
+    transition: _StagedStateReplacement
+    event_sequence: tuple[tuple[str, str], ...]
     reachable_blob_digests: tuple[str, ...]
     idempotency_row: tuple[Any, ...]
 
@@ -1654,10 +1741,259 @@ def reduce_remediation_group(
     )
 
 
+def reduce_import_group(
+    *,
+    cursor: _ReplayCursor,
+    workspace: _TransitionWorkspace,
+    semantic_events: Any,
+    commit_event: Any,
+    catalog: Mapping[str, BlobValue],
+) -> ImportGroupPatch:
+    """Validate one atomic IMPORT_REPOSITORY group and every affected task."""
+    if type(cursor) is not _ReplayCursor or cursor.global_sequence < 2:
+        _deny("GROUP_CURSOR", "/events")
+    if type(workspace) is not _TransitionWorkspace:
+        _deny("GROUP_PRIOR_STATE", "/state")
+    _const(cursor.repository_generation, workspace.repository_generation, "/state/repository_generation")
+    _const(
+        cursor.repository_bundle_sha256,
+        workspace.repository_bundle_sha256,
+        "/state/repository_bundle_sha256",
+    )
+    if type(semantic_events) is not tuple or not 1 <= len(semantic_events) <= 10_001:
+        _deny("GROUP_HOST_TYPE", "/events")
+    start = cursor.global_sequence + 1
+    parsed = tuple(
+        _validate_event_shape(event, f"/events/{start + offset}")
+        for offset, event in enumerate(semantic_events)
+    )
+    commit_index = start + len(parsed)
+    commit = _validate_event_shape(commit_event, f"/events/{commit_index}")
+    cursor.check_import(parsed, commit)
+    event_count = len(parsed) + 1
+    if event_count > 10_002:
+        _deny("GROUP_EVENT_COUNT", "/events")
+    transaction = commit["transaction"]
+    operation_key = transaction["operation_key"]
+    match = _OPERATION_KEY.fullmatch(operation_key)
+    assert match is not None
+    _const(match.group(1), cursor.chain_id, f"/events/{start}/transaction/operation_key")
+    for position, event in enumerate(parsed + (commit,)):
+        index = start + position
+        _const(event["runtime_id"], cursor.runtime_id, f"/events/{index}/runtime_id")
+        _const(event["chain_id"], cursor.chain_id, f"/events/{index}/chain_id")
+        _const(event["global_sequence"], index, f"/events/{index}/global_sequence")
+        _const(event["occurred_at"], parsed[0]["occurred_at"], f"/events/{index}/occurred_at")
+        _const(event["transaction"]["position"], position, f"/events/{index}/transaction/position")
+        _const(event["transaction"]["event_count"], event_count, f"/events/{index}/transaction/event_count")
+        for name in (
+            "transaction_id", "event_count", "operation_key",
+            "request_sha256", "response_sha256",
+        ):
+            _const(
+                event["transaction"][name], transaction[name],
+                f"/events/{index}/transaction/{name}",
+            )
+        predecessor = (
+            {"event_id": cursor.head_event_id, "event_sha256": cursor.head_event_sha256}
+            if position == 0 else {
+                "event_id": parsed[position - 1]["event_id"],
+                "event_sha256": parsed[position - 1]["event_sha256"],
+            }
+        )
+        _const(event["global_predecessor"], predecessor, f"/events/{index}/global_predecessor")
+
+    request_sha = transaction["request_sha256"]
+    response_sha = transaction["response_sha256"]
+    request = _object(
+        _resolve(catalog, request_sha, REQUEST_SCHEMA_ID, "/import_request").value,
+        _REQUEST_KEYS, "/import_request",
+    )
+    response = _object(
+        _resolve(catalog, response_sha, RESPONSE_SCHEMA_ID, "/import_response").value,
+        _RESPONSE_KEYS, "/import_response",
+    )
+    for artifact, value, version_key in (
+        ("import_request", request, "request_format_version"),
+        ("import_response", response, "response_format_version"),
+    ):
+        _const(value["schema_version"], 1, f"/{artifact}/schema_version")
+        _const(value[version_key], 2, f"/{artifact}/{version_key}")
+        _const(value["runtime_id"], cursor.runtime_id, f"/{artifact}/runtime_id")
+        _const(value["chain_id"], cursor.chain_id, f"/{artifact}/chain_id")
+        _const(value["operation"], "IMPORT_REPOSITORY", f"/{artifact}/operation")
+        _const(value["operation_key"], operation_key, f"/{artifact}/operation_key")
+    _const(request["subject"], None, "/import_request/subject")
+    _const(request["expected_state_ref"], None, "/import_request/expected_state_ref")
+    arguments = _object(
+        request["arguments"],
+        frozenset({
+            "affected_task_ids", "reason_code", "source_commit",
+            "project_state_sha256", "stop_set_sha256",
+            "policy_capability_sha256", "task_inventory_sha256",
+        }),
+        "/import_request/arguments",
+    )
+    affected_value = arguments["affected_task_ids"]
+    if type(affected_value) is not list:
+        _deny("GROUP_HOST_TYPE", "/import_request/arguments/affected_task_ids")
+    affected = tuple(affected_value)
+    _const(len(parsed), len(affected) + 1, "/events")
+    next_generation = workspace.repository_generation + 1
+    if next_generation > 9_223_372_036_854_775_807:
+        _deny("TRANSITION_COUNTER_OVERFLOW", "/repository_generation")
+    _const(request["repository_generation"], next_generation, "/import_request/repository_generation")
+    next_bundle = _pattern(
+        request["repository_bundle_sha256"], _DIGEST,
+        "/import_request/repository_bundle_sha256",
+    )
+    for position, event in enumerate(parsed + (commit,)):
+        index = start + position
+        _const(event["repository_generation"], next_generation, f"/events/{index}/repository_generation")
+        _const(event["repository_bundle_sha256"], next_bundle, f"/events/{index}/repository_bundle_sha256")
+
+    semantic_ids = tuple(event["event_id"] for event in parsed)
+    try:
+        staged = workspace.stage_import(TransitionIntent(
+            operation="IMPORT_REPOSITORY",
+            candidate_repository_generation=next_generation,
+            candidate_repository_bundle_sha256=next_bundle,
+            arguments=tuple(sorted(
+                (key, tuple(value) if key == "affected_task_ids" else value)
+                for key, value in arguments.items()
+            )),
+            semantic_event_ids=semantic_ids,
+        ))
+    except TransitionViolation as error:
+        raise GroupValidationError(error.code, error.coordinate) from error
+    after_tasks = {task.task_id: task for task in staged.after.tasks}
+    affected_states: list[dict[str, Any]] = []
+    reachable = {request_sha, response_sha}
+    for offset, task_id in enumerate(affected):
+        index = start + offset
+        event = parsed[offset]
+        _const(event["event_type"], "REPOSITORY_GENERATION_APPLIED", f"/events/{index}/event_type")
+        _const(event["stream"], "TASK", f"/events/{index}/stream")
+        before = workspace.task(task_id)
+        if before is None:
+            _deny("GROUP_PRIOR_STATE", f"/events/{index}/task_context/task_id")
+        context = _object(
+            event["task_context"],
+            frozenset({"task_id", "attempt", "task_sequence", "task_predecessor"}),
+            f"/events/{index}/task_context",
+        )
+        _const(context["task_id"], task_id, f"/events/{index}/task_context/task_id")
+        _const(context["attempt"], before.attempt, f"/events/{index}/task_context/attempt")
+        cursor.check_attempt_advance(event, opens_attempt=False, predecessor_attempt=None)
+        before_sha = _ref(event["state_before_ref"], TASK_STATE_SCHEMA_ID, f"/events/{index}/state_before_ref")
+        if _resolve(catalog, before_sha, TASK_STATE_SCHEMA_ID, f"/events/{index}/state_before_ref").value != _task_state_document(before):
+            _deny("GROUP_STATE_BEFORE", f"/events/{index}/state_before_ref")
+        after_sha = _ref(event["state_after_ref"], TASK_STATE_SCHEMA_ID, f"/events/{index}/state_after_ref")
+        after = after_tasks[task_id]
+        if _resolve(catalog, after_sha, TASK_STATE_SCHEMA_ID, f"/events/{index}/state_after_ref").value != _task_state_document(after):
+            _deny("GROUP_STATE_DERIVATION", f"/events/{index}/state_after_ref")
+        payload_sha = event["payload_ref"]["sha256"]
+        payload = _object(
+            _resolve(catalog, payload_sha, PAYLOAD_SCHEMA_ID, f"/events/{index}/payload_ref").value,
+            _PAYLOAD_KEYS, f"/events/{index}/payload_ref",
+        )
+        _const(payload, {
+            "schema_version": 1, "payload_format_version": 2,
+            "event_type": "REPOSITORY_GENERATION_APPLIED", "data": {},
+        }, f"/events/{index}/payload_ref")
+        reachable.update((before_sha, after_sha, payload_sha))
+        affected_states.append({
+            "task_id": task_id,
+            "attempt": after.attempt,
+            "state_ref": {"schema_id": TASK_STATE_SCHEMA_ID, "sha256": after_sha},
+        })
+
+    runtime_event = parsed[-1]
+    runtime_index = start + len(parsed) - 1
+    _const(runtime_event["event_type"], "REPOSITORY_GENERATION_ADVANCED", f"/events/{runtime_index}/event_type")
+    _const(runtime_event["stream"], "RUNTIME", f"/events/{runtime_index}/stream")
+    _const(runtime_event["task_context"], None, f"/events/{runtime_index}/task_context")
+    _const(runtime_event["state_before_ref"], None, f"/events/{runtime_index}/state_before_ref")
+    _const(runtime_event["state_after_ref"], None, f"/events/{runtime_index}/state_after_ref")
+    runtime_payload_sha = runtime_event["payload_ref"]["sha256"]
+    runtime_payload = _object(
+        _resolve(catalog, runtime_payload_sha, PAYLOAD_SCHEMA_ID, f"/events/{runtime_index}/payload_ref").value,
+        _PAYLOAD_KEYS, "/import_runtime_payload",
+    )
+    _const(runtime_payload, {
+        "schema_version": 1,
+        "payload_format_version": 2,
+        "event_type": "REPOSITORY_GENERATION_ADVANCED",
+        "data": {
+            "old_generation": workspace.repository_generation,
+            "new_generation": next_generation,
+            "source_commit": arguments["source_commit"],
+            "repository_bundle_sha256": next_bundle,
+            "project_state_sha256": arguments["project_state_sha256"],
+            "stop_set_sha256": arguments["stop_set_sha256"],
+            "policy_capability_sha256": arguments["policy_capability_sha256"],
+            "task_inventory_sha256": arguments["task_inventory_sha256"],
+            "reason_code": arguments["reason_code"],
+            "affected_task_ids": list(affected),
+        },
+    }, "/import_runtime_payload")
+    reachable.add(runtime_payload_sha)
+    _const(commit["event_type"], "COMMAND_COMMITTED", f"/events/{commit_index}/event_type")
+    _const(commit["stream"], "RUNTIME", f"/events/{commit_index}/stream")
+    _const(commit["task_context"], None, f"/events/{commit_index}/task_context")
+    _const(commit["state_before_ref"], None, f"/events/{commit_index}/state_before_ref")
+    _const(commit["state_after_ref"], None, f"/events/{commit_index}/state_after_ref")
+    _const(response["status"], "COMMITTED", "/import_response/status")
+    _const(response["affected_states"], affected_states, "/import_response/affected_states")
+    _const(response["generated_refs"], [], "/import_response/generated_refs")
+    commit_payload_sha = commit["payload_ref"]["sha256"]
+    commit_payload = _object(
+        _resolve(catalog, commit_payload_sha, PAYLOAD_SCHEMA_ID, f"/events/{commit_index}/payload_ref").value,
+        _PAYLOAD_KEYS, "/import_commit_payload",
+    )
+    _const(commit_payload, {
+        "schema_version": 1,
+        "payload_format_version": 2,
+        "event_type": "COMMAND_COMMITTED",
+        "data": {
+            "semantic_event_ids": list(semantic_ids),
+            "pre_command_head": {
+                "global_sequence": cursor.global_sequence,
+                "event_id": cursor.head_event_id,
+                "event_sha256": cursor.head_event_sha256,
+            },
+            "post_semantic_head": {
+                "global_sequence": runtime_index,
+                "event_id": runtime_event["event_id"],
+                "event_sha256": runtime_event["event_sha256"],
+            },
+            "operation": "IMPORT_REPOSITORY",
+            "operation_key": operation_key,
+            "request_ref": {"schema_id": REQUEST_SCHEMA_ID, "sha256": request_sha},
+            "response_ref": {"schema_id": RESPONSE_SCHEMA_ID, "sha256": response_sha},
+            "result": "COMMITTED",
+        },
+    }, "/import_commit_payload")
+    reachable.add(commit_payload_sha)
+    return ImportGroupPatch(
+        transition=staged,
+        event_sequence=tuple(
+            (event["event_id"], event["event_sha256"])
+            for event in parsed + (commit,)
+        ),
+        reachable_blob_digests=tuple(sorted(reachable)),
+        idempotency_row=(
+            operation_key, transaction["transaction_id"], request_sha,
+            response_sha, commit["event_id"], commit_index,
+            parsed[0]["occurred_at"],
+        ),
+    )
+
+
 __all__ = (
     "BlobValue", "ClaimGroupPatch", "GroupValidationError",
-    "InitializeGroupPatch", "TASK_STATE_SCHEMA_ID",
+    "ImportGroupPatch", "InitializeGroupPatch", "TASK_STATE_SCHEMA_ID",
     "RemediationGroupPatch", "WorkerGroupPatch",
     "reduce_claim_group", "reduce_initialize_group",
-    "reduce_remediation_group", "reduce_worker_group",
+    "reduce_import_group", "reduce_remediation_group", "reduce_worker_group",
 )

@@ -1169,6 +1169,21 @@ class _TransitionWorkspace:
         self._issued[id(staged)] = staged
         return staged
 
+    def stage_import(self, intent: TransitionIntent) -> _StagedStateReplacement:
+        """Plan one repository import without exposing a partial task update."""
+        if type(intent) is not TransitionIntent:
+            _deny("TRANSITION_HOST_TYPE", "/")
+        _validate_intent_shape(intent)
+        if intent.operation != "IMPORT_REPOSITORY":
+            _deny("TRANSITION_OPERATION_OUTSIDE_WORKSPACE", "/operation")
+        before = self.freeze()
+        after = reduce_transition(before, intent)
+        staged = _StagedStateReplacement(
+            self._token, self._revision, before, after
+        )
+        self._issued[id(staged)] = staged
+        return staged
+
     def _precheck(self, delta: _TransitionDelta) -> None:
         if type(delta) is not _TransitionDelta:
             _deny("TRANSITION_WORKSPACE_PLAN", "/")
@@ -1254,6 +1269,8 @@ class _TransitionWorkspace:
             if self.freeze() != staged.before:
                 _deny("TRANSITION_WORKSPACE_CAS", "/")
             after = staged.after
+            self._repository_generation = after.repository_generation
+            self._repository_bundle_sha256 = after.repository_bundle_sha256
             self._tasks = {item.task_id: item for item in after.tasks}
             self._claims = {item.claim_id: item for item in after.claims}
             self._reviews = {

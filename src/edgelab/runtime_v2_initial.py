@@ -59,6 +59,7 @@ from .runtime_v2_group import (
     BlobValue,
     ClaimGroupPatch,
     GroupValidationError,
+    ImportGroupPatch,
     InitializeGroupPatch,
     RemediationGroupPatch,
     _FOLLOWUP_PROFILES,
@@ -66,6 +67,7 @@ from .runtime_v2_group import (
     WorkerGroupPatch,
     reduce_claim_group,
     reduce_initialize_group,
+    reduce_import_group,
     reduce_remediation_group,
     reduce_worker_group,
 )
@@ -326,7 +328,13 @@ def _expected_tables(
     created_at = genesis["occurred_at"]
     event_id = genesis["event_id"]
     event_sha = genesis["event_sha256"]
-    repository_bundle = genesis["repository_bundle_sha256"]
+    repository_generation = (
+        final_state.repository_generation if final_state is not None else 0
+    )
+    repository_bundle = (
+        final_state.repository_bundle_sha256
+        if final_state is not None else genesis["repository_bundle_sha256"]
+    )
     blobs = tuple(
         (digest, catalog[digest].schema_id, catalog[digest].canonical_text)
         for digest in sorted(catalog)
@@ -355,7 +363,8 @@ def _expected_tables(
     rows["metadata"] = ((
         "runtime", runtime_id, chain_id, 2, 2, "NEW", created_at,
         manifest_sha, attachment_sha, SUPPORTED_STORAGE_DESCRIPTOR_SHA256,
-        SUPPORTED_SCHEMA_REGISTRY_SHA256, event_id, event_sha, 0,
+        SUPPORTED_SCHEMA_REGISTRY_SHA256, event_id, event_sha,
+        repository_generation,
         repository_bundle, head["global_sequence"], head["event_id"],
         head["event_sha256"], None, 1, selector1_sha,
         history_sha, None, "UNANCHORED", "UNKNOWN", "DENY",
@@ -470,6 +479,33 @@ def _commit_remediation_patch(
     cursor.check_remediation(source_event, child_event, commit_event)
     workspace.commit(patch.transition)
     cursor.advance_remediation(source_event, child_event, commit_event)
+
+
+def _commit_import_patch(
+    *,
+    cursor: _ReplayCursor,
+    workspace: _TransitionWorkspace,
+    patch: ImportGroupPatch,
+    semantic_events: tuple[dict[str, Any], ...],
+    commit_event: dict[str, Any],
+) -> None:
+    """Atomically advance a validated variable-width repository import."""
+    observed = tuple(
+        (event["event_id"], event["event_sha256"])
+        for event in semantic_events + (commit_event,)
+    )
+    if patch.event_sequence != observed:
+        raise GroupValidationError("GROUP_PATCH_SEQUENCE", "/events")
+    cursor.check_import(semantic_events, commit_event)
+    workspace.commit(patch.transition)
+    cursor.advance_import(
+        semantic_events,
+        commit_event,
+        repository_generation=patch.transition.after.repository_generation,
+        repository_bundle_sha256=(
+            patch.transition.after.repository_bundle_sha256
+        ),
+    )
 
 
 def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
@@ -669,7 +705,7 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
         return _invalid(sink)
     final_patch: (
         InitializeGroupPatch | ClaimGroupPatch | WorkerGroupPatch
-        | RemediationGroupPatch | None
+        | RemediationGroupPatch | ImportGroupPatch | None
     ) = None
     idempotency_rows: list[tuple[Any, ...]] = []
     cursor = _ReplayCursor(event)
@@ -755,10 +791,65 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
                 idempotency_rows.append(patch.idempotency_row)
                 expected_reachable.update(patch.reachable_blob_digests)
                 semantic_index += 3
+                continue
+            if type(event_type) is str and event_type in {
+                "REPOSITORY_GENERATION_APPLIED",
+                "REPOSITORY_GENERATION_ADVANCED",
+            }:
+                transaction = semantic_candidate.get("transaction")
+                event_count = (
+                    transaction.get("event_count")
+                    if type(transaction) is dict else None
+                )
+                if (
+                    type(event_count) is not int
+                    or event_count < 2
+                    or semantic_index + event_count > len(parsed_events)
+                ):
+                    sink.add(
+                        "GROUP_EVENT_COUNT", "import_transaction_group",
+                        f"/events/{semantic_index}",
+                    )
+                    return _invalid(sink)
+                semantic_events = tuple(
+                    parsed_events[semantic_index:semantic_index + event_count - 1]
+                )
+                commit_event = parsed_events[semantic_index + event_count - 1]
+                try:
+                    patch = reduce_import_group(
+                        cursor=cursor,
+                        workspace=workspace,
+                        semantic_events=semantic_events,
+                        commit_event=commit_event,
+                        catalog=blobs,
+                    )
+                except GroupValidationError as error:
+                    sink.add(
+                        error.code, "import_transaction_group",
+                        error.coordinate,
+                    )
+                    return _invalid(sink)
+                try:
+                    _commit_import_patch(
+                        cursor=cursor,
+                        workspace=workspace,
+                        patch=patch,
+                        semantic_events=semantic_events,
+                        commit_event=commit_event,
+                    )
+                except (GroupValidationError, TransitionViolation) as error:
+                    sink.add(
+                        error.code, "import_transaction_group",
+                        error.coordinate,
+                    )
+                    return _invalid(sink)
+                final_patch = patch
+                idempotency_rows.append(patch.idempotency_row)
+                expected_reachable.update(patch.reachable_blob_digests)
+                semantic_index += event_count
                 if semantic_index != len(parsed_events):
                     sink.add(
-                        "GROUP_REMEDIATION_TERMINAL",
-                        "remediation_transaction_group",
+                        "GROUP_IMPORT_TERMINAL", "import_transaction_group",
                         f"/events/{semantic_index}",
                     )
                     return _invalid(sink)

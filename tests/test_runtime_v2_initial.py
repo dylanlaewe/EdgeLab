@@ -1611,6 +1611,301 @@ def _task_table_row(state):
     ))
 
 
+def _task_state_from_row(row):
+    return dict(zip((
+        "task_id", "attempt", "workflow", "execution", "review",
+        "scheduler_generation", "dispatch_generation", "task_fence",
+        "active_claim_id", "reviewer_assignment_id", "continuation_count",
+        "repository_generation", "decision_receipt_digest", "owner",
+        "owner_role", "reviewer", "predecessor_task", "successor_task",
+    ), row))
+
+
+def _append_import_fixture(
+    image,
+    values,
+    *,
+    affected_task_ids=None,
+    next_bundle="9" * 64,
+    reason_code="IMPORT",
+):
+    """Append one exact variable-width repository-import transaction."""
+    rows = {snapshot.table: snapshot.rows for snapshot in image.table_snapshots}
+    states = {
+        row[0]: _task_state_from_row(row) for row in rows["tasks"]
+    }
+    if affected_task_ids is None:
+        affected_task_ids = tuple(sorted(states))
+    affected_task_ids = tuple(affected_task_ids)
+    prior_events = tuple(json.loads(raw) for raw in image.events)
+    prior = prior_events[-1]
+    start = len(prior_events)
+    operation_key = f"v2:{CHAIN_ID}:import-repository-1"
+    transaction_id = "123e4567-e89b-42d3-a456-426614174190"
+    event_ids = tuple(
+        f"123e4567-e89b-42d3-a456-426614174{191 + index:03d}"
+        for index in range(len(affected_task_ids) + 2)
+    )
+    arguments = {
+        "affected_task_ids": list(affected_task_ids),
+        "reason_code": reason_code,
+        "source_commit": "1" * 40,
+        "project_state_sha256": "2" * 64,
+        "stop_set_sha256": "3" * 64,
+        "policy_capability_sha256": "4" * 64,
+        "task_inventory_sha256": "5" * 64,
+    }
+    request = {
+        "schema_version": 1, "request_format_version": 2,
+        "runtime_id": RUNTIME_ID, "chain_id": CHAIN_ID,
+        "operation": "IMPORT_REPOSITORY", "operation_key": operation_key,
+        "repository_generation": 1,
+        "repository_bundle_sha256": next_bundle,
+        "subject": None, "expected_state_ref": None,
+        "arguments": arguments,
+    }
+    after_states = {}
+    for task_id in affected_task_ids:
+        state = json.loads(json.dumps(states[task_id]))
+        state.update({
+            "scheduler_generation": state["scheduler_generation"] + 1,
+            "repository_generation": 1,
+        })
+        after_states[task_id] = state
+    response_states = [
+        {
+            "task_id": task_id,
+            "attempt": after_states[task_id]["attempt"],
+            "state_ref": {
+                "schema_id": TASK_STATE_SCHEMA_ID,
+                "sha256": blob_digest(after_states[task_id]),
+            },
+        }
+        for task_id in affected_task_ids
+    ]
+    response = {
+        "schema_version": 1, "response_format_version": 2,
+        "runtime_id": RUNTIME_ID, "chain_id": CHAIN_ID,
+        "operation": "IMPORT_REPOSITORY", "operation_key": operation_key,
+        "status": "COMMITTED", "affected_states": response_states,
+        "generated_refs": [],
+    }
+    request_sha = blob_digest(request)
+    response_sha = blob_digest(response)
+    applied_payload = {
+        "schema_version": 1, "payload_format_version": 2,
+        "event_type": "REPOSITORY_GENERATION_APPLIED", "data": {},
+    }
+    applied_payload_sha = blob_digest(applied_payload)
+    event_count = len(affected_task_ids) + 2
+    semantic_events = []
+    predecessor = {
+        "event_id": prior["event_id"],
+        "event_sha256": prior["event_sha256"],
+    }
+    for position, task_id in enumerate(affected_task_ids):
+        state = states[task_id]
+        prior_task = next(
+            event for event in reversed(prior_events)
+            if event["stream"] == "TASK"
+            and event["task_context"]["task_id"] == task_id
+            and event["task_context"]["attempt"] == state["attempt"]
+        )
+        event = {
+            "schema_version": 1, "event_format_version": 2,
+            "runtime_id": RUNTIME_ID, "chain_id": CHAIN_ID,
+            "event_id": event_ids[position],
+            "event_type": "REPOSITORY_GENERATION_APPLIED",
+            "occurred_at": CREATED_AT, "global_sequence": start + position,
+            "global_predecessor": predecessor, "stream": "TASK",
+            "task_context": {
+                "task_id": task_id, "attempt": state["attempt"],
+                "task_sequence": prior_task["task_context"]["task_sequence"] + 1,
+                "task_predecessor": {
+                    "event_id": prior_task["event_id"],
+                    "event_sha256": prior_task["event_sha256"],
+                },
+            },
+            "transaction": {
+                "transaction_id": transaction_id, "position": position,
+                "event_count": event_count, "operation_key": operation_key,
+                "request_sha256": request_sha,
+                "response_sha256": response_sha,
+            },
+            "payload_ref": {
+                "schema_id": PAYLOAD_SCHEMA_ID,
+                "sha256": applied_payload_sha,
+            },
+            "state_before_ref": {
+                "schema_id": TASK_STATE_SCHEMA_ID,
+                "sha256": blob_digest(state),
+            },
+            "state_after_ref": response_states[position]["state_ref"],
+            "repository_generation": 1,
+            "repository_bundle_sha256": next_bundle,
+            "authority_binding_sha256": None, "authorizing_use": "DENY",
+            "event_sha256": "0" * 64,
+        }
+        event["event_sha256"] = event_digest(event)
+        semantic_events.append(event)
+        predecessor = {
+            "event_id": event["event_id"],
+            "event_sha256": event["event_sha256"],
+        }
+    runtime_payload = {
+        "schema_version": 1, "payload_format_version": 2,
+        "event_type": "REPOSITORY_GENERATION_ADVANCED",
+        "data": {
+            "old_generation": 0, "new_generation": 1,
+            "source_commit": arguments["source_commit"],
+            "repository_bundle_sha256": next_bundle,
+            "project_state_sha256": arguments["project_state_sha256"],
+            "stop_set_sha256": arguments["stop_set_sha256"],
+            "policy_capability_sha256": arguments["policy_capability_sha256"],
+            "task_inventory_sha256": arguments["task_inventory_sha256"],
+            "reason_code": reason_code,
+            "affected_task_ids": list(affected_task_ids),
+        },
+    }
+    runtime_payload_sha = blob_digest(runtime_payload)
+    runtime_event = {
+        "schema_version": 1, "event_format_version": 2,
+        "runtime_id": RUNTIME_ID, "chain_id": CHAIN_ID,
+        "event_id": event_ids[-2],
+        "event_type": "REPOSITORY_GENERATION_ADVANCED",
+        "occurred_at": CREATED_AT,
+        "global_sequence": start + len(affected_task_ids),
+        "global_predecessor": predecessor, "stream": "RUNTIME",
+        "task_context": None,
+        "transaction": {
+            "transaction_id": transaction_id,
+            "position": len(affected_task_ids), "event_count": event_count,
+            "operation_key": operation_key, "request_sha256": request_sha,
+            "response_sha256": response_sha,
+        },
+        "payload_ref": {
+            "schema_id": PAYLOAD_SCHEMA_ID, "sha256": runtime_payload_sha,
+        },
+        "state_before_ref": None, "state_after_ref": None,
+        "repository_generation": 1,
+        "repository_bundle_sha256": next_bundle,
+        "authority_binding_sha256": None, "authorizing_use": "DENY",
+        "event_sha256": "0" * 64,
+    }
+    runtime_event["event_sha256"] = event_digest(runtime_event)
+    semantic_events.append(runtime_event)
+    commit_payload = {
+        "schema_version": 1, "payload_format_version": 2,
+        "event_type": "COMMAND_COMMITTED",
+        "data": {
+            "semantic_event_ids": [event["event_id"] for event in semantic_events],
+            "pre_command_head": {
+                "global_sequence": prior["global_sequence"],
+                "event_id": prior["event_id"],
+                "event_sha256": prior["event_sha256"],
+            },
+            "post_semantic_head": {
+                "global_sequence": runtime_event["global_sequence"],
+                "event_id": runtime_event["event_id"],
+                "event_sha256": runtime_event["event_sha256"],
+            },
+            "operation": "IMPORT_REPOSITORY", "operation_key": operation_key,
+            "request_ref": {"schema_id": REQUEST_SCHEMA_ID, "sha256": request_sha},
+            "response_ref": {"schema_id": RESPONSE_SCHEMA_ID, "sha256": response_sha},
+            "result": "COMMITTED",
+        },
+    }
+    commit_payload_sha = blob_digest(commit_payload)
+    commit = {
+        "schema_version": 1, "event_format_version": 2,
+        "runtime_id": RUNTIME_ID, "chain_id": CHAIN_ID,
+        "event_id": event_ids[-1], "event_type": "COMMAND_COMMITTED",
+        "occurred_at": CREATED_AT,
+        "global_sequence": start + len(semantic_events),
+        "global_predecessor": {
+            "event_id": runtime_event["event_id"],
+            "event_sha256": runtime_event["event_sha256"],
+        },
+        "stream": "RUNTIME", "task_context": None,
+        "transaction": {
+            "transaction_id": transaction_id,
+            "position": event_count - 1, "event_count": event_count,
+            "operation_key": operation_key, "request_sha256": request_sha,
+            "response_sha256": response_sha,
+        },
+        "payload_ref": {
+            "schema_id": PAYLOAD_SCHEMA_ID, "sha256": commit_payload_sha,
+        },
+        "state_before_ref": None, "state_after_ref": None,
+        "repository_generation": 1,
+        "repository_bundle_sha256": next_bundle,
+        "authority_binding_sha256": None, "authorizing_use": "DENY",
+        "event_sha256": "0" * 64,
+    }
+    commit["event_sha256"] = event_digest(commit)
+    all_events = tuple(semantic_events) + (commit,)
+    additions = [
+        BlobRecord(request_sha, REQUEST_SCHEMA_ID, canonical_json(request)),
+        BlobRecord(response_sha, RESPONSE_SCHEMA_ID, canonical_json(response)),
+        BlobRecord(runtime_payload_sha, PAYLOAD_SCHEMA_ID, canonical_json(runtime_payload)),
+        BlobRecord(commit_payload_sha, PAYLOAD_SCHEMA_ID, canonical_json(commit_payload)),
+    ]
+    if affected_task_ids:
+        additions.append(BlobRecord(
+            applied_payload_sha, PAYLOAD_SCHEMA_ID, canonical_json(applied_payload)
+        ))
+    for task_id in affected_task_ids:
+        for state in (states[task_id], after_states[task_id]):
+            digest = blob_digest(state)
+            additions.append(BlobRecord(
+                digest, TASK_STATE_SCHEMA_ID, canonical_json(state)
+            ))
+    blob_by_digest = {record.sha256: record for record in image.blobs}
+    for addition in additions:
+        blob_by_digest.setdefault(addition.sha256, addition)
+    blobs = tuple(sorted(blob_by_digest.values(), key=lambda record: record.sha256))
+    rows["blobs"] = tuple(
+        (record.sha256, record.schema_id, record.canonical_json.decode("ascii"))
+        for record in blobs
+    )
+    rows["events"] += tuple(
+        (event["global_sequence"], event["event_id"], event["event_sha256"], canonical_json(event).decode("ascii"))
+        for event in all_events
+    )
+    attempts = list(rows["attempts"])
+    for event in semantic_events[:-1]:
+        key = (event["task_context"]["task_id"], event["task_context"]["attempt"])
+        index = next(i for i, row in enumerate(attempts) if row[:2] == key)
+        row = list(attempts[index])
+        row[4:] = [event["task_context"]["task_sequence"], event["event_id"], event["event_sha256"]]
+        attempts[index] = tuple(row)
+    rows["attempts"] = tuple(sorted(attempts, key=lambda row: row[:2]))
+    for task_id in affected_task_ids:
+        states[task_id] = after_states[task_id]
+    rows["tasks"] = tuple(_task_table_row(states[key]) for key in sorted(states))
+    rows["idempotency"] = tuple(sorted(rows["idempotency"] + ((
+        operation_key, transaction_id, request_sha, response_sha,
+        commit["event_id"], commit["global_sequence"], CREATED_AT,
+    ),)))
+    metadata = list(rows["metadata"][0])
+    metadata[13:18] = [
+        1, next_bundle, commit["global_sequence"], commit["event_id"],
+        commit["event_sha256"],
+    ]
+    rows["metadata"] = (tuple(metadata),)
+    result = replace(
+        image, blobs=blobs,
+        events=image.events + tuple(canonical_json(event) for event in all_events),
+        table_snapshots=tuple(TableSnapshot(name, rows[name]) for name in TABLE_NAMES),
+    )
+    values.update({
+        "import_request": request, "import_response": response,
+        "import_semantic_events": tuple(semantic_events),
+        "import_commit": commit, "import_after_states": after_states,
+    })
+    return result, values
+
+
 def _worker_fixture(image, values, fixture_operation):
     profiles = {
         "START": {
@@ -3596,7 +3891,112 @@ class RuntimeV2InitialTests(unittest.TestCase):
             valid, events=valid.events + valid.events[-2:],
         ))
         self.assertEqual(report.status, "INVALID")
-        self.assertIn("GROUP_REMEDIATION_TERMINAL", self.codes(report))
+        self.assertIn("GROUP_FOLLOWUP_OPERATION", self.codes(report))
+
+    def test_repository_import_replays_zero_and_post_remediation_many(self):
+        initialized, initialized_values = initialize_fixture()
+        zero, zero_values = _append_import_fixture(
+            initialized, initialized_values, affected_task_ids=()
+        )
+        report = reduce_initial_runtime_image(zero)
+        self.assertEqual(report.status, "UNSUPPORTED")
+        self.assertEqual(self.codes(report), {"CLOSURE_NOT_COMPILED"})
+        zero_rows = {item.table: item.rows for item in zero.table_snapshots}
+        self.assertEqual(zero_rows["metadata"][0][13:15], (1, "9" * 64))
+        self.assertEqual(zero_rows["tasks"][0][11], 0)
+        self.assertEqual(
+            [event["event_type"] for event in zero_values["import_semantic_events"]],
+            ["REPOSITORY_GENERATION_ADVANCED"],
+        )
+        report = reduce_initial_runtime_image(replace(
+            zero, events=zero.events + initialized.events[-2:],
+        ))
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("GROUP_IMPORT_TERMINAL", self.codes(report))
+
+        image, values = complete_review_fixture()
+        image, values = _append_review_assignment_fixture(image, values)
+        image, values = _append_review_decision_fixture(
+            image, values, operation="REJECT", prefix="reject",
+            semantic_id="123e4567-e89b-42d3-a456-426614174167",
+            commit_id="123e4567-e89b-42d3-a456-426614174168",
+            transaction_id="123e4567-e89b-42d3-a456-426614174169",
+        )
+        image, values = _append_remediation_fixture(image, values)
+        imported, imported_values = _append_import_fixture(image, values)
+        report = reduce_initial_runtime_image(imported)
+        self.assertEqual(report.status, "UNSUPPORTED")
+        self.assertEqual(self.codes(report), {"CLOSURE_NOT_COMPILED"})
+        rows = {item.table: item.rows for item in imported.table_snapshots}
+        self.assertEqual([row[0] for row in rows["tasks"]], [
+            "task-alpha", "task-alpha-remediation",
+        ])
+        self.assertTrue(all(row[11] == 1 for row in rows["tasks"]))
+        self.assertEqual(rows["metadata"][0][13:15], (1, "9" * 64))
+        self.assertEqual(
+            [event["task_context"]["task_id"] for event in imported_values["import_semantic_events"][:-1]],
+            ["task-alpha", "task-alpha-remediation"],
+        )
+        self.assertEqual(rows["metadata"][0][25], "DENY")
+
+    def test_repository_import_attacks_and_partial_materialization_fail_closed(self):
+        image, values = complete_review_fixture()
+        image, values = _append_review_assignment_fixture(image, values)
+        image, values = _append_review_decision_fixture(
+            image, values, operation="REJECT", prefix="reject",
+            semantic_id="123e4567-e89b-42d3-a456-426614174167",
+            commit_id="123e4567-e89b-42d3-a456-426614174168",
+            transaction_id="123e4567-e89b-42d3-a456-426614174169",
+        )
+        image, values = _append_remediation_fixture(image, values)
+        valid, _ = _append_import_fixture(image, values)
+
+        parsed = [json.loads(raw) for raw in valid.events]
+        first_import = len(image.events)
+        parsed[first_import]["repository_bundle_sha256"] = "8" * 64
+        parsed[first_import]["event_sha256"] = event_digest(parsed[first_import])
+        attacked = replace(
+            valid,
+            events=tuple(canonical_json(event) for event in parsed),
+        )
+        report = reduce_initial_runtime_image(attacked)
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("GROUP_CONST", self.codes(report))
+
+        parsed = [json.loads(raw) for raw in valid.events]
+        parsed[first_import], parsed[first_import + 1] = (
+            parsed[first_import + 1], parsed[first_import]
+        )
+        report = reduce_initial_runtime_image(replace(
+            valid, events=tuple(canonical_json(event) for event in parsed),
+        ))
+        self.assertEqual(report.status, "INVALID")
+        self.assertTrue({"GROUP_CONST", "GROUP_EVENT_DIGEST"} & self.codes(report))
+
+        snapshots = list(valid.table_snapshots)
+        task_index = TABLE_NAMES.index("tasks")
+        rows = list(snapshots[task_index].rows)
+        stale = list(rows[0])
+        stale[11] = 0
+        rows[0] = tuple(stale)
+        snapshots[task_index] = TableSnapshot("tasks", tuple(rows))
+        report = reduce_initial_runtime_image(replace(
+            valid, table_snapshots=tuple(snapshots),
+        ))
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("TABLE_DERIVATION", self.codes(report))
+
+        report = reduce_initial_runtime_image(replace(
+            valid, events=valid.events[:-1],
+        ))
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("GROUP_EVENT_COUNT", self.codes(report))
+
+        report = reduce_initial_runtime_image(replace(
+            valid, events=valid.events + image.events[-2:],
+        ))
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("GROUP_IMPORT_TERMINAL", self.codes(report))
 
     def test_cumulative_attempt_and_claim_tables_are_derived_not_trusted(self):
         image, _ = two_retry_cycles_fixture()
