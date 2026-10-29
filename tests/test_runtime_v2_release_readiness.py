@@ -38,6 +38,7 @@ from tools.check_runtime_v2_release_readiness import (
     RESOURCE_SOURCE_INPUT_DOMAIN,
     RETAINED_SCHEMAS,
     SCHEMA_REF_NODE_RESOURCE_EVIDENCE,
+    SCHEMA_REGISTRY_RESOURCE_EVIDENCE,
     ReadinessError,
     _domain_digest,
     _source_bound_inventory,
@@ -124,7 +125,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                 source_identity,
             )
             manifest["unclassified_site_count"] = (
-                len(source_sites) + manifest["schema_bound_site_count"] - 12
+                len(source_sites) + manifest["schema_bound_site_count"] - 16
             )
 
         self.rewrite_manifest(root, refresh)
@@ -164,7 +165,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             manifest["source_bound_site_count"] = len(source_sites)
             manifest["source_bound_sites_sha256"] = source_digest
             manifest["unclassified_site_count"] = (
-                len(source_sites) + manifest["schema_bound_site_count"] - 12
+                len(source_sites) + manifest["schema_bound_site_count"] - 16
             )
 
         self.rewrite_manifest(root, refresh)
@@ -268,9 +269,9 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(len(discovery["schema_inputs"]), 15)
         self.assertEqual(len(discovery["source_inputs"]), 10)
         classification = inventory["resource_inventory_classification"]
-        self.assertEqual(classification["classified_constraint_count"], 5)
-        self.assertEqual(classification["classified_site_count"], 12)
-        self.assertEqual(classification["unclassified_site_count"], 685)
+        self.assertEqual(classification["classified_constraint_count"], 6)
+        self.assertEqual(classification["classified_site_count"], 16)
+        self.assertEqual(classification["unclassified_site_count"], 681)
         self.assertEqual(classification["coverage_status"], "INCOMPLETE")
         self.assertEqual(classification["generation_disposition"], "DENY")
         expected_schema_paths = {
@@ -745,25 +746,25 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(claimed, expected)
         self.assertEqual(
             claimed,
-            "1864d1df8a39ccaf20eba1cec2249576e04101ec2f6694b4dfda43aa82ddb443",
+            "9f08a5f8f56907a661c9cc0ba31874bf63bf1e730dc2aa728408c07f76d98c0d",
         )
         self.assertEqual(
             hashlib.sha256((ROOT / RESOURCE_CLASSIFICATION_SCHEMA[1]).read_bytes()).hexdigest(),
-            "82b3be852d277568e9fd17b61ba17e7248f90316d40f9b096bb1ebb1aed35064",
+            "84447dba722c97f50e60e928e3356e485aa093f06a267019e88e01948dd82cb8",
         )
         self.assertEqual(
             hashlib.sha256((ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_bytes()).hexdigest(),
-            "e5a16822a452129ef450fe8b0d582666b51d9d6ad718a01e956c172b6533921a",
+            "773579688c9ab1363d3a9576582c1ea9ec21cf00616e05d4878f370f7fe444c5",
         )
         self.assertEqual(manifest["coverage_status"], "INCOMPLETE")
         self.assertEqual(manifest["generation_disposition"], "DENY")
-        self.assertEqual(manifest["schema_version"], 6)
+        self.assertEqual(manifest["schema_version"], 7)
         self.assertEqual(
             manifest["profile_id"],
-            "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V6",
+            "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V7",
         )
-        self.assertEqual(manifest["classified_site_count"], 12)
-        self.assertEqual(manifest["unclassified_site_count"], 685)
+        self.assertEqual(manifest["classified_site_count"], 16)
+        self.assertEqual(manifest["unclassified_site_count"], 681)
         self.assertEqual(
             [item["constraint_id"] for item in manifest["constraints"]],
             [
@@ -772,6 +773,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                 "MAX_EVENT_BYTES",
                 "MAX_SCHEMA_DOCUMENT_BYTES",
                 "MAX_SCHEMA_REF_NODES",
+                "MAX_SCHEMA_REGISTRY_BYTES",
             ],
         )
         event_constraint = manifest["constraints"][2]
@@ -840,17 +842,65 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(
             schema["properties"]["constraints"]["const"][4], ref_constraint
         )
+        registry_constraint = manifest["constraints"][5]
+        self.assertEqual(registry_constraint["unit"], "BYTES")
+        self.assertEqual(registry_constraint["maximum"], 262_144)
+        self.assertEqual(
+            registry_constraint["semantic_subject"],
+            "EXACT_BUILTIN_BYTES_SCHEMA_REGISTRY_FIELDS_SUPPLIED_TO_HOST_"
+            "PREFLIGHT_OR_VERIFIER_BUNDLE_INSPECTION",
+        )
+        self.assertEqual(
+            registry_constraint["definition_site_ids"],
+            [
+                "4c9346726487e13663e822fd8b63e995c6066a487dfbe2b6350e051ce2440384",
+                "cc9e6904b1fdb98deea9fd35ddc4ae864aa572cbf5d963addbf8cc42beae4522",
+            ],
+        )
+        self.assertEqual(
+            registry_constraint["enforcement_site_ids"],
+            [
+                "a5edf2e2129f2918e47e765f74655da1e97a725f42015d1e38dbb7e6a92b50e4",
+                "d02eb8dbac3f0359f160e1fb6259b5a438ec699a64cca7cd05d94c5ab86b1683",
+            ],
+        )
+        self.assertEqual(
+            [item["semantic_function_ast_sha256"]
+             for item in registry_constraint["semantic_bindings"]],
+            [
+                "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f",
+                "054e65a5e37bf65c79c2390dcdc6b0ed4b20683496159ad5d2cae04502f2c14e",
+            ],
+        )
+        self.assertEqual(
+            [item["semantic_module_ast_sha256"]
+             for item in registry_constraint["semantic_bindings"]],
+            [
+                "89d50071bdb9b49f32c631fb6f9ffece243d8a7b97280c3065ca85eea4df9857",
+                "4cf60eb1416f7cfe080bd68653d748431084e04a17790a4244317834158acdfc",
+            ],
+        )
+        self.assertEqual(
+            registry_constraint["evidence_inputs"],
+            [dict(item) for item in SCHEMA_REGISTRY_RESOURCE_EVIDENCE],
+        )
+        self.assertEqual(
+            schema["properties"]["constraints"]["const"][5],
+            registry_constraint,
+        )
         self.assertEqual(
             manifest["predecessor_manifest"]["path"],
-            "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v5.json",
+            "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v6.json",
         )
         self.assertEqual(
             manifest["predecessor_schema"]["path"],
-            "schemas/m0-3a-runtime-v2-resource-classification.v5.schema.json",
+            "schemas/m0-3a-runtime-v2-resource-classification.v6.schema.json",
         )
         self.assertEqual(
             [item["path"] for item in RESOURCE_CLASSIFICATION_ANCESTORS],
             [
+                "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v5.json",
+                "schemas/m0-3a-runtime-v2-resource-classification.v5.schema.json",
                 "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v4.json",
                 "schemas/m0-3a-runtime-v2-resource-classification.v4.schema.json",
                 "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v3.json",
@@ -886,7 +936,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         root = self.copy_inputs()
         path = root / RESOURCE_CLASSIFICATION_MANIFEST[1]
         raw = path.read_bytes().replace(
-            b'"schema_version": 6', b'"schema_version": 6, "schema_version": 6'
+            b'"schema_version": 7', b'"schema_version": 7, "schema_version": 7'
         )
         path.write_bytes(raw)
         with self.assertRaises(ReadinessError) as caught:
@@ -1246,7 +1296,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             build_report(root)
         self.assertEqual(caught.exception.code, "RESOURCE_BINDING_ASSIGNMENT_AST")
 
-        # Even if an attacker refreshes the ordinary V2 census and the V6
+        # Even if an attacker refreshes the ordinary V2 census and the V7
         # manifest after semantic source drift, the classification's exact
         # definition and enforcement-site identities remain independently
         # pinned.
@@ -1377,6 +1427,267 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
 
                 def alter(manifest):
                     manifest["constraints"][2][field] = hostile_value
+
+                self.rewrite_manifest(root, alter)
+                with self.assertRaises(ReadinessError) as caught:
+                    build_report(root)
+                self.assertEqual(
+                    caught.exception.code, "RESOURCE_CLASSIFICATION_CONSTRAINT"
+                )
+
+    def test_schema_registry_classification_binds_both_implementations(self):
+        _, _, baseline_source_bytes = _source_inventory(ROOT)
+        baseline_predecessor_sites = _source_bound_inventory(
+            baseline_source_bytes
+        )
+        baseline_binding_sites = _source_bound_binding_inventory(
+            baseline_source_bytes, baseline_predecessor_sites
+        )
+
+        # Equal-valued rewrites must not acquire semantic authority merely by
+        # refreshing the ordinary discovery census and classification digest.
+        for relative in (
+            "src/edgelab/runtime_v2_image.py",
+            "src/edgelab/runtime_v2_verifier.py",
+        ):
+            with self.subTest(same_value_definition=relative):
+                root = self.copy_inputs()
+                source = root / relative
+                original = source.read_bytes()
+                mutated = original.replace(
+                    b"MAX_SCHEMA_REGISTRY_BYTES = 262_144",
+                    b"MAX_SCHEMA_REGISTRY_BYTES = 131_072 + 131_072",
+                    1,
+                )
+                self.assertNotEqual(mutated, original)
+                source.write_bytes(mutated)
+                with self.assertRaises(ReadinessError) as caught:
+                    self.build_with_refreshed_ordinary_source_bindings(
+                        root, baseline_binding_sites
+                    )
+                self.assertEqual(
+                    caught.exception.code,
+                    "RESOURCE_CLASSIFICATION_SITE_MISSING",
+                )
+
+        root = self.copy_inputs()
+        source = root / "src/edgelab/runtime_v2_image.py"
+        original = source.read_bytes()
+        mutated = original.replace(
+            b'("schema_registry", captured["schema_registry"], '
+            b'MAX_SCHEMA_REGISTRY_BYTES)',
+            b'("schema_registry", captured["schema_registry"], '
+            b'MAX_SCHEMA_DOCUMENT_BYTES)',
+            1,
+        )
+        self.assertNotEqual(mutated, original)
+        source.write_bytes(mutated)
+        hostile_binding_sites = [dict(item) for item in baseline_binding_sites]
+        for index, item in enumerate(hostile_binding_sites):
+            if item.get("table_name") != "byte_fields":
+                continue
+            item["site_id"] = hashlib.sha256(
+                f"hostile-registry-row-{index}".encode("ascii")
+            ).hexdigest()
+            item["table_assignment_ast_sha256"] = "c" * 64
+        hostile_registry_site = next(
+            item for item in hostile_binding_sites
+            if item.get("branch_key") == "schema_registry"
+        )
+        hostile_registry_site.update({
+            "ast_sha256": "a" * 64,
+            "expression": (
+                "('schema_registry', captured['schema_registry'], "
+                "MAX_SCHEMA_DOCUMENT_BYTES)"
+            ),
+            "maximum_expression": "MAX_SCHEMA_DOCUMENT_BYTES",
+            "site_id": "b" * 64,
+        })
+        with self.assertRaises(ReadinessError) as caught:
+            self.build_with_refreshed_ordinary_source_bindings(
+                root, hostile_binding_sites
+            )
+        self.assertEqual(
+            caught.exception.code, "RESOURCE_CLASSIFICATION_SITE_MISSING"
+        )
+
+        root = self.copy_inputs()
+        source = root / "src/edgelab/runtime_v2_image.py"
+        original = source.read_bytes()
+        mutated = original.replace(
+            b"if maximum is not None and len(value) > maximum:",
+            b"if maximum is not None and len(value) >= maximum:",
+            1,
+        )
+        self.assertNotEqual(mutated, original)
+        source.write_bytes(mutated)
+        refreshed_comparator_sites = [
+            dict(item) for item in baseline_binding_sites
+        ]
+        for index, item in enumerate(refreshed_comparator_sites):
+            if item.get("table_name") != "byte_fields":
+                continue
+            item.update({
+                "comparator_site_id": f"{index + 1:x}" * 64,
+                "loop_ast_sha256": f"{index + 2:x}" * 64,
+                "site_id": f"{index + 3:x}" * 64,
+            })
+        with self.assertRaises(ReadinessError) as caught:
+            self.build_with_refreshed_ordinary_source_bindings(
+                root, refreshed_comparator_sites
+            )
+        self.assertEqual(
+            caught.exception.code, "RESOURCE_CLASSIFICATION_SITE_MISSING"
+        )
+
+        verifier_site_attacks = (
+            (
+                b"len(image.schema_registry) > MAX_SCHEMA_REGISTRY_BYTES",
+                b"len(image.schema_registry) > MAX_SCHEMA_DOCUMENT_BYTES",
+            ),
+            (
+                b"len(image.schema_registry) > MAX_SCHEMA_REGISTRY_BYTES",
+                b"len(image.schema_registry) >= MAX_SCHEMA_REGISTRY_BYTES",
+            ),
+        )
+        for old, new in verifier_site_attacks:
+            with self.subTest(verifier_enforcement=new):
+                root = self.copy_inputs()
+                source = root / "src/edgelab/runtime_v2_verifier.py"
+                original = source.read_bytes()
+                mutated = original.replace(old, new, 1)
+                self.assertNotEqual(mutated, original)
+                source.write_bytes(mutated)
+                with self.assertRaises(ReadinessError) as caught:
+                    self.build_with_refreshed_ordinary_source_bindings(
+                        root, baseline_binding_sites
+                    )
+                self.assertEqual(
+                    caught.exception.code,
+                    "RESOURCE_CLASSIFICATION_SITE_MISSING",
+                )
+
+        for relative, suffix in (
+            (
+                "src/edgelab/runtime_v2_image.py",
+                b"\n\ndef _registry_limit_extra_read():\n"
+                b"    return MAX_SCHEMA_REGISTRY_BYTES\n",
+            ),
+            (
+                "src/edgelab/runtime_v2_image.py",
+                b"\n\ndef _registry_limit_extra_store():\n"
+                b"    MAX_SCHEMA_REGISTRY_BYTES = 1\n"
+                b"    return None\n",
+            ),
+            (
+                "src/edgelab/runtime_v2_verifier.py",
+                b"\n\ndef _registry_limit_extra_read():\n"
+                b"    return MAX_SCHEMA_REGISTRY_BYTES\n",
+            ),
+            (
+                "src/edgelab/runtime_v2_verifier.py",
+                b"\n\ndef _registry_limit_extra_store():\n"
+                b"    MAX_SCHEMA_REGISTRY_BYTES = 1\n"
+                b"    return None\n",
+            ),
+        ):
+            with self.subTest(name_cardinality=(relative, suffix.splitlines()[2])):
+                root = self.copy_inputs()
+                source = root / relative
+                source.write_bytes(source.read_bytes() + suffix)
+                self.refresh_source_bindings(root)
+                with self.assertRaises(ReadinessError) as caught:
+                    build_report(root)
+                self.assertEqual(
+                    caught.exception.code,
+                    "RESOURCE_CLASSIFICATION_NAME_CARDINALITY",
+                )
+
+        semantic_attacks = (
+            (
+                "src/edgelab/runtime_v2_image.py",
+                b"if maximum is not None and len(value) > maximum:",
+                b"if maximum is not None and len(value) >= maximum:",
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+                True,
+            ),
+            (
+                "src/edgelab/runtime_v2_image.py",
+                b"        if maximum is not None and len(value) > maximum:\n"
+                b'            findings.add("IMAGE_ITEM_BYTE_LIMIT", name, "/")\n',
+                b"        if maximum is not None and len(value) > maximum:\n"
+                b'            findings.add("WRONG_REGISTRY_LIMIT", name, "/")\n',
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+                True,
+            ),
+            (
+                "src/edgelab/runtime_v2_image.py",
+                b"    if not violations:\n",
+                b"    if True:\n",
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+                False,
+            ),
+            (
+                "src/edgelab/runtime_v2_image.py",
+                b'    authorizing_use: str = field(default="DENY", init=False)\n',
+                b'    authorizing_use: str = field(default="ALLOW", init=False)\n',
+                "RESOURCE_CLASSIFICATION_MODULE_SHAPE",
+                False,
+            ),
+            (
+                "src/edgelab/runtime_v2_verifier.py",
+                b'_finding("SCHEMA_REGISTRY_TOO_LARGE", "schema_registry", "/")',
+                b'_finding("WRONG_REGISTRY_LIMIT", "schema_registry", "/")',
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+                False,
+            ),
+            (
+                "src/edgelab/runtime_v2_verifier.py",
+                b'        findings.append(_finding("SCHEMA_REGISTRY_TOO_LARGE", '
+                b'"schema_registry", "/"))\n'
+                b"        return findings, False\n",
+                b'        findings.append(_finding("SCHEMA_REGISTRY_TOO_LARGE", '
+                b'"schema_registry", "/"))\n',
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+                False,
+            ),
+            (
+                "src/edgelab/runtime_v2_verifier.py",
+                b'    authorizing_use: str = field(default="DENY", init=False)\n',
+                b'    authorizing_use: str = field(default="ALLOW", init=False)\n',
+                "RESOURCE_CLASSIFICATION_MODULE_SHAPE",
+                False,
+            ),
+        )
+        for relative, old, new, expected_code, binding_extractor_drift in (
+            semantic_attacks
+        ):
+            with self.subTest(registry_semantics=(relative, old[:32])):
+                root = self.copy_inputs()
+                source = root / relative
+                original = source.read_bytes()
+                mutated = original.replace(old, new, 1)
+                self.assertNotEqual(mutated, original)
+                source.write_bytes(mutated)
+                with self.assertRaises(ReadinessError) as caught:
+                    if binding_extractor_drift:
+                        self.build_with_refreshed_ordinary_source_bindings(
+                            root, baseline_binding_sites
+                        )
+                    else:
+                        self.refresh_source_bindings(root)
+                        build_report(root)
+                self.assertEqual(caught.exception.code, expected_code)
+
+        for field, hostile_value in (
+            ("semantic_bindings", []),
+            ("evidence_inputs", []),
+        ):
+            with self.subTest(manifest_field=field):
+                root = self.copy_inputs()
+
+                def alter(manifest):
+                    manifest["constraints"][5][field] = hostile_value
 
                 self.rewrite_manifest(root, alter)
                 with self.assertRaises(ReadinessError) as caught:
@@ -1607,7 +1918,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             caught.exception.code, "RESOURCE_CLASSIFICATION_NAME_CARDINALITY"
         )
 
-    def test_v6_classification_binds_predecessor_link_records(self):
+    def test_v7_classification_binds_predecessor_link_records(self):
         attacks = (
             ("predecessor_manifest", "raw_sha256", "0" * 64),
             ("predecessor_manifest", "classification_manifest_sha256", "1" * 64),
@@ -1631,26 +1942,26 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                     caught.exception.code, "RESOURCE_CLASSIFICATION_BINDING"
                 )
 
-    def test_v6_classification_binds_v5_and_v4_ancestor_links(self):
+    def test_v7_classification_binds_v6_and_v5_ancestor_links(self):
         for record, field in (
             ("predecessor_manifest", "raw_sha256"),
             ("predecessor_schema", "raw_sha256"),
         ):
-            with self.subTest(manifest="v5", record=record, field=field):
+            with self.subTest(manifest="v6", record=record, field=field):
                 root = self.copy_inputs()
 
-                def mutate_v5(manifest):
+                def mutate_v6(manifest):
                     manifest[record][field] = "0" * 64
 
-                v5_expected = self.rewrite_versioned_classification_manifest(
+                v6_expected = self.rewrite_versioned_classification_manifest(
                     root,
                     RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
-                    5,
-                    mutate_v5,
+                    6,
+                    mutate_v6,
                 )
                 with mock.patch.dict(
                     RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
-                    v5_expected,
+                    v6_expected,
                     clear=True,
                 ):
                     with self.assertRaises(ReadinessError) as caught:
@@ -1664,35 +1975,35 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             ("predecessor_manifest", "raw_sha256"),
             ("predecessor_schema", "raw_sha256"),
         ):
-            with self.subTest(manifest="v4", record=record, field=field):
+            with self.subTest(manifest="v5", record=record, field=field):
                 root = self.copy_inputs()
 
-                def mutate_v4(manifest):
+                def mutate_v5(manifest):
                     manifest[record][field] = "0" * 64
-
-                v4_expected = self.rewrite_versioned_classification_manifest(
-                    root,
-                    RESOURCE_CLASSIFICATION_ANCESTORS[0],
-                    4,
-                    mutate_v4,
-                )
-
-                def link_v5_to_mutated_v4(manifest):
-                    manifest["predecessor_manifest"] = dict(v4_expected)
 
                 v5_expected = self.rewrite_versioned_classification_manifest(
                     root,
-                    RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
+                    RESOURCE_CLASSIFICATION_ANCESTORS[0],
                     5,
-                    link_v5_to_mutated_v4,
+                    mutate_v5,
+                )
+
+                def link_v6_to_mutated_v5(manifest):
+                    manifest["predecessor_manifest"] = dict(v5_expected)
+
+                v6_expected = self.rewrite_versioned_classification_manifest(
+                    root,
+                    RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
+                    6,
+                    link_v6_to_mutated_v5,
                 )
                 with mock.patch.dict(
                     RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
-                    v5_expected,
+                    v6_expected,
                     clear=True,
                 ), mock.patch.dict(
                     RESOURCE_CLASSIFICATION_ANCESTORS[0],
-                    v4_expected,
+                    v5_expected,
                     clear=True,
                 ):
                     with self.assertRaises(ReadinessError) as caught:
