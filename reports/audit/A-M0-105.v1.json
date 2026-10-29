@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-105",
+  "version": 1,
+  "occurred_at": "2026-10-29T19:51:46Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_RESOURCE_BOUND_DISCOVERY_CENSUS_IMPLEMENTED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-123-runtime-v2-resource-census.v1.md",
+  "previous_state": "FORMAT_2_RELEASE_INPUT_READINESS_INVENTORIED_GENERATION_BLOCKED_STOP_OPEN",
+  "new_state": "FORMAT_2_RESOURCE_CANDIDATE_CENSUS_REPRODUCIBLE_CLASSIFICATION_INCOMPLETE_STOP_OPEN",
+  "reason": "Commit 32fdbfb2a08125a9e50578b8baf873ac3274ee6a adds a fixed-input census of 394 source-bound and 296 schema-bound candidate sites while explicitly retaining UNCLASSIFIED/INCOMPLETE coverage. It emits no release artifact, positive result, STOP clearance, authority, or capital path.",
+  "evidence_refs": ["reports/H-M0-123-runtime-v2-resource-census.v1.md", "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v1.md", "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md", "tools/check_runtime_v2_release_readiness.py", "tests/test_runtime_v2_release_readiness.py", "reports/stops/STOP-M0-3A-002.v26.json"],
+  "code_ref": "32fdbfb2a08125a9e50578b8baf873ac3274ee6a",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-123",
+  "supersedes": null
+}

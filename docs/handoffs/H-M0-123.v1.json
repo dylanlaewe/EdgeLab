@@ -1,0 +1,19 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-123",
+  "version": 1,
+  "created_at": "2026-10-29T19:51:46Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Compile and independently review the exact runtime-v2 semantic resource-limit manifest and its adversarial completeness tests; keep closure/carrier generation denied.",
+  "work_done": "Determined that exact semantic completeness cannot yet be claimed. Implemented the safe precursor: a deterministic fixed-input discovery census of 394 source-bound and 296 schema-bound candidate sites with domain-separated identities and drift tests. All sites remain UNCLASSIFIED, coverage remains INCOMPLETE, and the resource blocker remains unconditional.",
+  "evidence_refs": ["reports/H-M0-123-runtime-v2-resource-census.v1.md", "reports/audit/A-M0-105.v1.json", "reports/stops/STOP-M0-3A-002.v26.json", "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v1.md", "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md", "tools/check_runtime_v2_release_readiness.py", "tests/test_runtime_v2_release_readiness.py"],
+  "files_changed": ["docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v1.md", "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md", "tools/check_runtime_v2_release_readiness.py", "tests/test_runtime_v2_release_readiness.py", "reports/H-M0-123-runtime-v2-resource-census.v1.md", "reports/audit/A-M0-105.v1.json", "reports/stops/STOP-M0-3A-002.v26.json", "docs/handoffs/H-M0-123.v1.json", "docs/project-state.json", "examples/alpha/sample-workflow.v1.json"],
+  "tests_run": ["13 focused readiness/resource-census tests passed normally and under optimized Python.", "365 fast-tier tests passed across 22 isolated modules.", "Independent Skeptic and diff reviews found no blocker after identity, digest, scope, and claim-accuracy defects were repaired.", "428 governed records and published history validated before evidence publication; 431 validated after publication.", "18 alpha and observatory tests passed after evidence publication."],
+  "open_questions": ["Which exact classification schema and coverage proof can partition the candidate census without treating source hashing as semantic completeness?", "How should content-asset descriptor bounds and relational/accounting equations bind into the successor manifest?"],
+  "blockers": ["STOP-M0-3A-002.v26 remains OPEN.", "The resource census is entirely UNCLASSIFIED with INCOMPLETE coverage.", "Public verification remains deny-only.", "Live remains LOCKED and deployable capital remains USD 0."],
+  "next_action": "Define the closed versioned resource-classification manifest schema and classify the fixed source candidate subset while retaining INCOMPLETE coverage and generation denial until every out-of-scope mechanism is reconciled.",
+  "completion_criteria": ["The fixed census deterministically binds all sites in its documented syntactic/schema scope and detects representative drift.", "Every site remains explicitly unclassified and the report states incomplete coverage; no completeness or release claim is inferred.", "No closure/carrier, positive verifier result, STOP clearance, or operational/capital authority is created."],
+  "depends_on": [{"path": "docs/handoffs/H-M0-122.v1.json", "kind": "handoff", "id": "H-M0-122", "version": 1, "sha256": "1be781bb78da508f62fb6b1a14dccfdef732bbf02fa79d67c90f5bf214545f4d"}]
+}
