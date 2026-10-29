@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-002",
+  "version": 21,
+  "issued_at": "2026-10-29T18:35:01Z",
+  "issuer": "00 Director",
+  "reason": "Private replay now derives terminal repository import across zero-to-many affected tasks, but explicit post-import task selection, checkpoint/export cuts, cumulative root work, exact closure identity, and the complete A-J matrix remain unfinished. No positive local-consistency result is supportable.",
+  "affected_components": ["runtime-v2 replay beyond terminal repository import", "exact generated verifier closure", "checkpoint/export and cumulative root work", "public result vocabulary"],
+  "evidence_refs": ["reports/H-M0-118-repository-import-replay.v1.md", "docs/M0.3A_REPOSITORY_IMPORT_SLICE.v1.md", "src/edgelab/runtime_v2_transition.py", "src/edgelab/runtime_v2_group.py", "src/edgelab/runtime_v2_initial.py", "tests/test_runtime_v2_initial.py"],
+  "severity": "HIGH",
+  "remediation_required": ["Compile checkpoint and export cuts with exact cumulative roots and selector history.", "Compile explicit post-import task selection before permitting ordinary trailing task groups.", "Complete root-work, exact closure generation, independent acceptance, and the A-J matrix before any positive result."],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-118",
+  "version": 1,
+  "created_at": "2026-10-29T18:35:01Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Compile repository import through exact affected-task replay.",
+  "work_done": "Compiled terminal variable-width IMPORT_REPOSITORY replay with exact task/runtime event order, atomic repository and task-state advancement, fencing, heads, metadata, idempotency, and reachability.",
+  "evidence_refs": ["reports/H-M0-118-repository-import-replay.v1.md", "reports/audit/A-M0-100.v1.json", "reports/stops/STOP-M0-3A-002.v21.json", "docs/M0.3A_REPOSITORY_IMPORT_SLICE.v1.md", "src/edgelab/runtime_v2_transition.py", "src/edgelab/runtime_v2_group.py", "src/edgelab/runtime_v2_initial.py", "tests/test_runtime_v2_initial.py"],
+  "files_changed": ["docs/M0.3A_REPOSITORY_IMPORT_SLICE.v1.md", "src/edgelab/runtime_v2_transition.py", "src/edgelab/runtime_v2_group.py", "src/edgelab/runtime_v2_initial.py", "tests/test_runtime_v2_initial.py", "reports/H-M0-118-repository-import-replay.v1.md", "reports/audit/A-M0-100.v1.json", "reports/stops/STOP-M0-3A-002.v21.json", "docs/handoffs/H-M0-118.v1.json", "docs/project-state.json", "examples/alpha/sample-workflow.v1.json"],
+  "tests_run": ["83 focused tests passed normally and under optimized Python.", "198 runtime-v2 tests passed.", "327 fast-tier tests passed across 18 isolated modules.", "Independent Skeptic and engineering reviews found no blocker after targeted repairs.", "416 governed records and published history validated after publication.", "18 alpha and observatory tests passed."],
+  "open_questions": ["What exact cumulative-root and selector equations must CHECKPOINT bind before EXPORT_SNAPSHOT is compiled?"],
+  "blockers": ["STOP-M0-3A-002.v21 remains OPEN.", "Public verification remains deny-only.", "Live remains LOCKED and deployable capital remains USD 0."],
+  "next_action": "Compile checkpoint and export cuts with exact cumulative roots.",
+  "completion_criteria": ["Import task semantics exactly match the sorted affected set.", "Repository runtime semantics, metadata, workspace, cursor, and all affected records advance atomically.", "Import is terminal and valid images remain opaque deny-only."],
+  "depends_on": [{"path": "docs/handoffs/H-M0-117.v1.json", "kind": "handoff", "id": "H-M0-117", "version": 1, "sha256": "eec483035fb4820a128db3fa58185a7f435d8cf167db7a1c99c53228e7811be8"}]
+}

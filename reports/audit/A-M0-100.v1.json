@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-100",
+  "version": 1,
+  "occurred_at": "2026-10-29T18:35:01Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_REPOSITORY_IMPORT_REPLAY_IMPLEMENTED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-118-repository-import-replay.v1.md",
+  "previous_state": "FORMAT_2_PRIVATE_REPLAY_COMPILES_TERMINAL_TWO_SEMANTIC_REMEDIATION_GROUP_STOP_OPEN",
+  "new_state": "FORMAT_2_PRIVATE_REPLAY_COMPILES_TERMINAL_VARIABLE_WIDTH_REPOSITORY_IMPORT_STOP_OPEN",
+  "reason": "Commit 9c8241174e94bd015af9e5abdd5fe96f4ab1bb30 atomically reconstructs zero-to-many affected task semantics, repository generation advancement, task/claim/review fencing, metadata, task heads, idempotency, and reachability for IMPORT_REPOSITORY. Import remains terminal and private; no STOP, execution, public-verifier, or capital boundary changed.",
+  "evidence_refs": ["reports/H-M0-118-repository-import-replay.v1.md", "docs/M0.3A_REPOSITORY_IMPORT_SLICE.v1.md", "src/edgelab/runtime_v2_transition.py", "src/edgelab/runtime_v2_group.py", "src/edgelab/runtime_v2_initial.py", "tests/test_runtime_v2_initial.py", "reports/stops/STOP-M0-3A-002.v21.json"],
+  "code_ref": "9c8241174e94bd015af9e5abdd5fe96f4ab1bb30",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-118",
+  "supersedes": null
+}
