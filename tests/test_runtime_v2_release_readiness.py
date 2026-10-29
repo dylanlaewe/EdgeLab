@@ -12,6 +12,7 @@ import unittest
 
 from tools.check_runtime_v2_release_readiness import (
     BOOTSTRAP_SCHEMAS,
+    CLOSURE_SCHEMA,
     CONTENT_ASSETS,
     PIN_BEGIN_MARKER,
     PIN_END_MARKER,
@@ -34,7 +35,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         (temporary / "schemas").mkdir()
         paths = {
             path for _, _, path in BOOTSTRAP_SCHEMAS + RETAINED_SCHEMAS
-        } | {path for _, _, path in CONTENT_ASSETS}
+        } | {path for _, _, path in CONTENT_ASSETS} | {CLOSURE_SCHEMA[1]}
         for relative in paths:
             source = ROOT / relative
             target = temporary / relative
@@ -93,6 +94,49 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(len(inventory["bootstrap_schemas"]), 5)
         self.assertEqual(len(inventory["retained_schema_documents"]), 9)
         self.assertEqual(len(inventory["content_assets"]), 2)
+        discovery = inventory["resource_inventory_discovery"]
+        self.assertEqual(discovery["classification_status"], "UNCLASSIFIED")
+        self.assertEqual(discovery["coverage_status"], "INCOMPLETE")
+        self.assertEqual(len(discovery["source_bound_sites"]), 394)
+        self.assertEqual(len(discovery["schema_bound_sites"]), 296)
+        self.assertEqual(len(discovery["schema_inputs"]), 15)
+        expected_schema_paths = {
+            path for _, _, path in BOOTSTRAP_SCHEMAS + RETAINED_SCHEMAS
+        } | {CLOSURE_SCHEMA[1]}
+        self.assertEqual(
+            {item["path"] for item in discovery["schema_inputs"]},
+            expected_schema_paths,
+        )
+        expected_schema_input_digest = hashlib.sha256(
+            b"EDGELAB\0RUNTIME_V2_RESOURCE_SCHEMA_INPUTS\0V1\0"
+            + json.dumps(
+                discovery["schema_inputs"],
+                sort_keys=True,
+                separators=(",", ":"),
+                ensure_ascii=True,
+            ).encode("ascii")
+        ).hexdigest()
+        self.assertEqual(
+            discovery["schema_inputs_sha256"], expected_schema_input_digest
+        )
+        self.assertTrue(
+            expected_schema_paths.isdisjoint({path for _, _, path in CONTENT_ASSETS})
+        )
+        defaults = [
+            item for item in discovery["source_bound_sites"]
+            if item["kind"] == "FUNCTION_DEFAULT"
+        ]
+        self.assertTrue(defaults)
+        self.assertTrue(all(item["qualname"] != "<module>" for item in defaults))
+        self.assertTrue(all(item["binding"].startswith("parameter:") for item in defaults))
+        self.assertEqual(
+            {item["classification"] for item in discovery["source_bound_sites"]},
+            {"UNCLASSIFIED"},
+        )
+        self.assertEqual(
+            {item["classification"] for item in discovery["schema_bound_sites"]},
+            {"UNCLASSIFIED"},
+        )
         self.assertEqual(
             inventory["tested_runtime_assumptions"],
             [
@@ -269,6 +313,73 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         )
         self.assertEqual(changed["authorizing_use"], "DENY")
         self.assertEqual(changed["status"], "BLOCKED")
+
+    def test_resource_discovery_detects_source_schema_and_regex_bound_drift(self):
+        root = self.copy_inputs()
+        baseline = build_report(root)["inventory"]["resource_inventory_discovery"]
+
+        source = root / "src" / "edgelab" / "runtime_v2_codec.py"
+        source.write_bytes(
+            source.read_bytes() + b"\nif len(()) > 777:\n    pass\n"
+        )
+        changed = build_report(root)["inventory"]["resource_inventory_discovery"]
+        self.assertEqual(
+            len(changed["source_bound_sites"]),
+            len(baseline["source_bound_sites"]) + 1,
+        )
+        self.assertNotEqual(
+            changed["source_bound_sites_sha256"],
+            baseline["source_bound_sites_sha256"],
+        )
+
+        root = self.copy_inputs()
+        closure_schema = root / CLOSURE_SCHEMA[1]
+        closure_schema.write_bytes(
+            closure_schema.read_bytes().replace(
+                b'"maximum": 9223372036854775807',
+                b'"maximum": 9223372036854775806',
+                1,
+            )
+        )
+        changed = build_report(root)["inventory"]["resource_inventory_discovery"]
+        self.assertEqual(
+            len(changed["schema_bound_sites"]),
+            len(baseline["schema_bound_sites"]),
+        )
+        self.assertNotEqual(
+            changed["schema_bound_sites_sha256"],
+            baseline["schema_bound_sites_sha256"],
+        )
+
+        root = self.copy_inputs()
+        regex_source = root / "src" / "edgelab" / "runtime_v2_group.py"
+        regex_source.write_bytes(
+            regex_source.read_bytes().replace(b"{0,127}", b"{0,126}", 1)
+        )
+        changed = build_report(root)["inventory"]["resource_inventory_discovery"]
+        self.assertNotEqual(
+            changed["source_bound_sites_sha256"],
+            baseline["source_bound_sites_sha256"],
+        )
+
+    def test_resource_discovery_ignores_comments_but_source_hash_does_not(self):
+        root = self.copy_inputs()
+        baseline = build_report(root)
+        source = root / "src" / "edgelab" / "runtime_v2_codec.py"
+        source.write_bytes(
+            b"# nonsemantic 999 bound note\n" + source.read_bytes()
+        )
+        changed = build_report(root)
+        before_discovery = baseline["inventory"]["resource_inventory_discovery"]
+        after_discovery = changed["inventory"]["resource_inventory_discovery"]
+        self.assertEqual(
+            before_discovery["source_bound_sites_sha256"],
+            after_discovery["source_bound_sites_sha256"],
+        )
+        self.assertNotEqual(
+            baseline["inventory"]["source_closure"],
+            changed["inventory"]["source_closure"],
+        )
 
     def test_checker_source_has_no_write_network_git_or_package_metadata_path(self):
         path = ROOT / "tools" / "check_runtime_v2_release_readiness.py"

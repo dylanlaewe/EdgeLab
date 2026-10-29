@@ -166,6 +166,20 @@ CONTENT_ASSETS = (
     ),
 )
 
+CLOSURE_SCHEMA = (
+    "urn:edgelab:m0-3a-verifier-dependency-closure:1",
+    "schemas/m0-3a-verifier-dependency-closure.v1.schema.json",
+)
+SCHEMA_BOUND_KEYWORDS = frozenset({
+    "exclusiveMaximum", "exclusiveMinimum", "maximum", "maxContains",
+    "maxItems", "maxLength", "maxProperties", "minimum", "minContains",
+    "minItems", "minLength", "minProperties",
+})
+SOURCE_BOUND_CALLS = frozenset({
+    "_array", "_integer", "_string", "_strict_int", "_TableSpec",
+    "bounded", "range",
+})
+
 
 class ReadinessError(ValueError):
     """The inspected tree cannot be represented by this readiness profile."""
@@ -465,6 +479,7 @@ def _schema_inventory(
     role_name: str,
     digest_name: str,
     identities: set[tuple[int, int]],
+    schema_bytes: dict[str, bytes],
 ) -> list[dict[str, Any]]:
     result: list[dict[str, Any]] = []
     for role, schema_id, path in records:
@@ -472,6 +487,7 @@ def _schema_inventory(
         if identity in identities:
             raise ReadinessError("HARDLINK_INPUT_ALIAS", path)
         identities.add(identity)
+        schema_bytes[path] = raw
         value = _parse_json(raw, path)
         if type(value) is not dict or value.get("$id") != schema_id:
             raise ReadinessError("SCHEMA_ID", path)
@@ -488,6 +504,63 @@ def _schema_inventory(
     return sorted(result, key=lambda item: item["path"])
 
 
+def _json_pointer_token(value: str) -> str:
+    return "".join(
+        "~0" if character == "~" else "~1" if character == "/" else character
+        for character in value
+    )
+
+
+def _schema_bound_inventory(
+    root: Path,
+    identities: set[tuple[int, int]],
+    schema_bytes: dict[str, bytes],
+) -> list[dict[str, Any]]:
+    closure_id, closure_path = CLOSURE_SCHEMA
+    closure_raw, identity = _audit_path(root, closure_path)
+    if identity in identities:
+        raise ReadinessError("HARDLINK_INPUT_ALIAS", closure_path)
+    identities.add(identity)
+    schema_bytes[closure_path] = closure_raw
+    closure_value = _parse_json(closure_raw, closure_path)
+    if type(closure_value) is not dict or closure_value.get("$id") != closure_id:
+        raise ReadinessError("SCHEMA_ID", closure_path)
+
+    schema_ids = {
+        path: schema_id
+        for _, schema_id, path in BOOTSTRAP_SCHEMAS + RETAINED_SCHEMAS
+    }
+    schema_ids[closure_path] = closure_id
+    records: list[dict[str, Any]] = []
+
+    def walk(path: str, value: Any, pointer: str) -> None:
+        if type(value) is dict:
+            for key in sorted(value):
+                child_pointer = f"{pointer}/{_json_pointer_token(key)}"
+                child = value[key]
+                if key in SCHEMA_BOUND_KEYWORDS and type(child) is int:
+                    records.append({
+                        "classification": "UNCLASSIFIED",
+                        "json_pointer": child_pointer,
+                        "keyword": key,
+                        "path": path,
+                        "schema_id": schema_ids[path],
+                        "value": child,
+                    })
+                walk(path, child, child_pointer)
+        elif type(value) is list:
+            for index, child in enumerate(value):
+                walk(path, child, f"{pointer}/{index}")
+
+    for path in sorted(schema_bytes):
+        value = _parse_json(schema_bytes[path], path)
+        walk(path, value, "")
+    return sorted(
+        records,
+        key=lambda item: (item["path"], item["json_pointer"]),
+    )
+
+
 def _integer_constant(node: ast.AST) -> int | None:
     if isinstance(node, ast.Constant) and type(node.value) is int:
         return node.value
@@ -499,6 +572,167 @@ def _integer_constant(node: ast.AST) -> int | None:
     ):
         return -node.operand.value
     return None
+
+
+def _contains_integer(node: ast.AST) -> bool:
+    return any(
+        isinstance(item, ast.Constant) and type(item.value) is int
+        for item in ast.walk(node)
+    )
+
+
+def _contains_bound_signal(node: ast.AST) -> bool:
+    return _contains_integer(node) or any(
+        isinstance(item, ast.Name)
+        and (item.id.isupper() or item.id.startswith("_MAX_"))
+        for item in ast.walk(node)
+    ) or any(
+        isinstance(item, ast.Call)
+        and isinstance(item.func, ast.Name)
+        and item.func.id == "len"
+        for item in ast.walk(node)
+    )
+
+
+class _SourceBoundVisitor(ast.NodeVisitor):
+    def __init__(self, path: str) -> None:
+        self.path = path
+        self.qualnames = ["<module>"]
+        self.records: list[dict[str, Any]] = []
+        self.occurrences: dict[tuple[str, str, str], int] = {}
+
+    def _record(
+        self, node: ast.AST, kind: str, binding: str | None = None
+    ) -> None:
+        normalized = ast.dump(node, annotate_fields=True, include_attributes=False)
+        ast_sha256 = _sha256(normalized.encode("utf-8"))
+        qualname = ".".join(self.qualnames)
+        binding_key = binding or ""
+        key = (qualname, f"{kind}:{binding_key}", ast_sha256)
+        occurrence = self.occurrences.get(key, 0) + 1
+        self.occurrences[key] = occurrence
+        site_seed = "\0".join((
+            self.path, qualname, kind, binding_key, ast_sha256, str(occurrence),
+        )).encode("utf-8")
+        self.records.append({
+            "ast_sha256": ast_sha256,
+            "classification": "UNCLASSIFIED",
+            "expression": ast.unparse(node),
+            "kind": kind,
+            "line": getattr(node, "lineno", 0),
+            "occurrence": occurrence,
+            "path": self.path,
+            "qualname": qualname,
+            "site_id": _sha256(
+                b"EDGELAB\0RUNTIME_V2_RESOURCE_SITE\0V1\0" + site_seed
+            ),
+        })
+        if binding is not None:
+            self.records[-1]["binding"] = binding
+
+    def _scoped(self, node: ast.AST, name: str) -> None:
+        self.qualnames.append(name)
+        self.generic_visit(node)
+        self.qualnames.pop()
+
+    def visit_FunctionDef(self, node: ast.FunctionDef) -> None:
+        self.qualnames.append(node.name)
+        positional = (*node.args.posonlyargs, *node.args.args)
+        positional_defaults = positional[-len(node.args.defaults):] if node.args.defaults else ()
+        default_bindings = [
+            (default, f"parameter:{argument.arg}")
+            for argument, default in zip(positional_defaults, node.args.defaults)
+        ] + [
+            (default, f"parameter:{argument.arg}")
+            for argument, default in zip(node.args.kwonlyargs, node.args.kw_defaults)
+            if default is not None
+        ]
+        for default, binding in default_bindings:
+            if default is not None and _contains_bound_signal(default):
+                self._record(default, "FUNCTION_DEFAULT", binding)
+        self.generic_visit(node)
+        self.qualnames.pop()
+
+    def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:
+        self.qualnames.append(node.name)
+        positional = (*node.args.posonlyargs, *node.args.args)
+        positional_defaults = positional[-len(node.args.defaults):] if node.args.defaults else ()
+        default_bindings = [
+            (default, f"parameter:{argument.arg}")
+            for argument, default in zip(positional_defaults, node.args.defaults)
+        ] + [
+            (default, f"parameter:{argument.arg}")
+            for argument, default in zip(node.args.kwonlyargs, node.args.kw_defaults)
+            if default is not None
+        ]
+        for default, binding in default_bindings:
+            if default is not None and _contains_bound_signal(default):
+                self._record(default, "FUNCTION_DEFAULT", binding)
+        self.generic_visit(node)
+        self.qualnames.pop()
+
+    def visit_ClassDef(self, node: ast.ClassDef) -> None:
+        self._scoped(node, node.name)
+
+    def visit_Assign(self, node: ast.Assign) -> None:
+        if self.qualnames == ["<module>"] and _contains_bound_signal(node.value):
+            self._record(node, "MODULE_NUMERIC_ASSIGNMENT")
+        self.generic_visit(node)
+
+    def visit_AnnAssign(self, node: ast.AnnAssign) -> None:
+        if (
+            self.qualnames == ["<module>"]
+            and node.value is not None
+            and _contains_bound_signal(node.value)
+        ):
+            self._record(node, "MODULE_NUMERIC_ASSIGNMENT")
+        self.generic_visit(node)
+
+    def visit_Compare(self, node: ast.Compare) -> None:
+        if _contains_bound_signal(node):
+            self._record(node, "BOUND_COMPARISON")
+        self.generic_visit(node)
+
+    def visit_Call(self, node: ast.Call) -> None:
+        name = node.func.id if isinstance(node.func, ast.Name) else None
+        if name in SOURCE_BOUND_CALLS and _contains_bound_signal(node):
+            self._record(node, "BOUND_HELPER_CALL")
+        is_regex_compile = (
+            isinstance(node.func, ast.Attribute)
+            and isinstance(node.func.value, ast.Name)
+            and node.func.value.id == "re"
+            and node.func.attr == "compile"
+        )
+        if is_regex_compile and node.args:
+            pattern = node.args[0]
+            if (
+                isinstance(pattern, ast.Constant)
+                and type(pattern.value) is str
+                and any(character.isdigit() for character in pattern.value)
+                and "{" in pattern.value
+            ):
+                self._record(node, "REGEX_NUMERIC_QUANTIFIER")
+        self.generic_visit(node)
+
+    def visit_Subscript(self, node: ast.Subscript) -> None:
+        if isinstance(node.slice, ast.Slice) and _contains_bound_signal(node.slice):
+            self._record(node, "NUMERIC_SLICE")
+        self.generic_visit(node)
+
+
+def _source_bound_inventory(
+    source_bytes: dict[str, bytes],
+) -> list[dict[str, Any]]:
+    records: list[dict[str, Any]] = []
+    for path in sorted(source_bytes):
+        try:
+            tree = ast.parse(source_bytes[path], filename=path)
+        except (SyntaxError, ValueError) as error:
+            raise ReadinessError("PYTHON_SOURCE", path) from error
+        visitor = _SourceBoundVisitor(path)
+        visitor.visit(tree)
+        records.extend(visitor.records)
+    return sorted(records, key=lambda item: (item["path"], item["site_id"]))
 
 
 def _resource_unit(name: str) -> str:
@@ -766,15 +1000,52 @@ def _public_import_closure(source_inventory: dict[str, Any]) -> set[str]:
 def build_report(root: Path = ROOT) -> dict[str, Any]:
     """Return the deterministic, non-authorizing readiness report."""
     source, identities, source_bytes = _source_inventory(root)
+    schema_bytes: dict[str, bytes] = {}
     bootstrap = _schema_inventory(
-        root, BOOTSTRAP_SCHEMAS, "role", "schema_document_sha256", identities
+        root, BOOTSTRAP_SCHEMAS, "role", "schema_document_sha256", identities,
+        schema_bytes,
     )
     retained = _schema_inventory(
-        root, RETAINED_SCHEMAS, "content_role", "document_sha256", identities
+        root, RETAINED_SCHEMAS, "content_role", "document_sha256", identities,
+        schema_bytes,
     )
+    schema_bound_sites = _schema_bound_inventory(root, identities, schema_bytes)
     content = _content_inventory(root, identities)
     digest_domains = _digest_domains(source, source_bytes)
     resource_limits = _resource_limits(source, source_bytes)
+    source_bound_sites = _source_bound_inventory(source_bytes)
+    source_bound_identity = [
+        {key: value for key, value in item.items() if key != "line"}
+        for item in source_bound_sites
+    ]
+    schema_inputs = [
+        {
+            "byte_length": len(schema_bytes[path]),
+            "path": path,
+            "raw_sha256": _sha256(schema_bytes[path]),
+        }
+        for path in sorted(schema_bytes)
+    ]
+    resource_discovery = {
+        "classification_status": "UNCLASSIFIED",
+        "coverage_status": "INCOMPLETE",
+        "profile_id": "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V1",
+        "schema_bound_sites": schema_bound_sites,
+        "schema_bound_sites_sha256": _domain_digest(
+            "EDGELAB\0RUNTIME_V2_SCHEMA_BOUND_SITES\0V1\0",
+            schema_bound_sites,
+        ),
+        "schema_inputs": schema_inputs,
+        "schema_inputs_sha256": _domain_digest(
+            "EDGELAB\0RUNTIME_V2_RESOURCE_SCHEMA_INPUTS\0V1\0",
+            schema_inputs,
+        ),
+        "source_bound_sites": source_bound_sites,
+        "source_bound_sites_sha256": _domain_digest(
+            "EDGELAB\0RUNTIME_V2_SOURCE_BOUND_SITES\0V1\0",
+            source_bound_identity,
+        ),
+    }
 
     blockers: list[dict[str, Any]] = [{
         "code": "ACCEPTANCE_MATRIX_INCOMPLETE",
@@ -785,9 +1056,10 @@ def build_report(root: Path = ROOT) -> dict[str, Any]:
     }, {
         "code": "RESOURCE_INVENTORY_INCOMPLETE",
         "evidence": (
-            "The readiness inventory binds named limits, table ceilings, and "
-            "four explicitly profiled hard-coded comparisons, but no reviewed "
-            "manifest yet proves that every semantic resource limit is listed."
+            "The discovery census contains "
+            f"{len(source_bound_sites)} unclassified source-bound sites and "
+            f"{len(schema_bound_sites)} unclassified schema-bound sites; no "
+            "reviewed bidirectional manifest yet classifies every constraint."
         ),
     }]
     public_closure = _public_import_closure(source)
@@ -834,6 +1106,7 @@ def build_report(root: Path = ROOT) -> dict[str, Any]:
             "content_assets": content,
             "digest_domains": digest_domains,
             "resource_limits": resource_limits,
+            "resource_inventory_discovery": resource_discovery,
             "retained_schema_documents": retained,
             "source_closure": source,
             "tested_runtime_assumptions": [
