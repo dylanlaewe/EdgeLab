@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-095",
+  "version": 1,
+  "occurred_at": "2026-10-29T17:04:06Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_REPEATED_CLAIM_EXACT_RETRY_REPLAY_IMPLEMENTED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-113-reclaim-retry-replay.v1.md",
+  "previous_state": "FORMAT_2_PRIVATE_CURSOR_PROJECTS_CUMULATIVE_IMMUTABLE_ATTEMPT_HISTORY_RECLAIM_AND_RETRY_DISPATCH_ABSENT_STOP_OPEN",
+  "new_state": "FORMAT_2_PRIVATE_REPLAY_COMPILES_REPEATED_CLAIM_AND_EXACT_RETRY_ATTEMPT_BOUNDARY_STOP_OPEN",
+  "reason": "Commit cfdef6a26849e48dd53dd5645d940149bce4523b compiles closed repeated CLAIM and exact RETRY dispatch through one accepted cursor and transition workspace. Retry consumes failed attempt n, derives contiguous attempt n+1 at the exact task root, and preserves every prior attempt and claim row. Hostile event-type dispatch fails closed. Valid candidates remain opaque UNSUPPORTED/CLOSURE_NOT_COMPILED/DENY; no public-verifier, currentness, execution, STOP-clearance, or capital path was added.",
+  "evidence_refs": [
+    "reports/H-M0-113-reclaim-retry-replay.v1.md",
+    "docs/M0.3A_RECLAIM_RETRY_REPLAY_SLICE.v1.md",
+    "src/edgelab/runtime_v2_transition.py",
+    "src/edgelab/runtime_v2_group.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "tests/test_runtime_v2_transition_workspace.py",
+    "tests/test_runtime_v2_initial.py",
+    "reports/stops/STOP-M0-3A-002.v16.json"
+  ],
+  "code_ref": "cfdef6a26849e48dd53dd5645d940149bce4523b",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-113",
+  "supersedes": null
+}

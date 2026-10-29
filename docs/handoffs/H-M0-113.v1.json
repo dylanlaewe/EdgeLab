@@ -1,0 +1,75 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-113",
+  "version": 1,
+  "created_at": "2026-10-29T17:04:06Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Compile closed repeated CLAIM and exact RETRY dispatch atop cumulative cursor history and the private transition workspace.",
+  "work_done": "Implemented closed post-initialize dispatch for repeated CLAIM and exact RETRY groups. Retry binds request/before to failed attempt n, derives after/context at contiguous attempt n+1 and its exact root, preserves all historical attempt and claim rows, and commits only after complete group validation. Hostile dispatcher values fail closed. Valid candidates remain opaque UNSUPPORTED/CLOSURE_NOT_COMPILED/DENY.",
+  "evidence_refs": [
+    "reports/H-M0-113-reclaim-retry-replay.v1.md",
+    "reports/audit/A-M0-095.v1.json",
+    "reports/stops/STOP-M0-3A-002.v16.json",
+    "docs/M0.3A_RECLAIM_RETRY_REPLAY_SLICE.v1.md",
+    "src/edgelab/runtime_v2_transition.py",
+    "src/edgelab/runtime_v2_group.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "tests/test_runtime_v2_transition_workspace.py",
+    "tests/test_runtime_v2_initial.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_RECLAIM_RETRY_REPLAY_SLICE.v1.md",
+    "src/edgelab/runtime_v2_transition.py",
+    "src/edgelab/runtime_v2_group.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "tests/test_runtime_v2_transition_workspace.py",
+    "tests/test_runtime_v2_initial.py",
+    "reports/H-M0-113-reclaim-retry-replay.v1.md",
+    "reports/audit/A-M0-095.v1.json",
+    "reports/stops/STOP-M0-3A-002.v16.json",
+    "docs/handoffs/H-M0-113.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "Focused transition/workspace/image suite: 87 tests passed.",
+    "The same 87 tests passed under optimized Python (-O).",
+    "Fast tier: 313 tests passed across 18 isolated modules.",
+    "Delegated read-only reviewer: 87 focused tests passed normally and 87 under optimized Python; no remaining blocker found.",
+    "Production validator before evidence publication: 398 records and published history validated; M0 capital remained LOCKED and no approval was granted.",
+    "Production validator after evidence publication: 401 records and published history validated with the same locked and non-authorizing result.",
+    "Alpha/observatory regression: 18 tests passed after extending current STOP provenance.",
+    "Python compile checks and Git diff whitespace checks passed."
+  ],
+  "open_questions": [
+    "What smallest governance group slice preserves stale-task blocking and exact decision-receipt replacement without broadening dispatch?",
+    "Should governance block and revalidation compile together so every reachable blocked state has an exact deny-only recovery path?",
+    "Which cumulative review-history attacks are required before review assignment and decision groups can be admitted?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v16 remains OPEN pending governance/review/route, remediation/import, snapshot cuts, exact closure generation, A-J testing, and independent acceptance.",
+    "The public verifier remains disconnected and can return only INVALID or UNSUPPORTED under UNANCHORED/UNKNOWN/DENY.",
+    "Delegated subagent engineering review does not satisfy the genuinely distinct trusted 05 Skeptic requirement; H-M0-086 and H-M0-041 remain BLOCKED.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked, live remains LOCKED, kill remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Compile exact governance block and revalidation groups atop the cumulative cursor and transition workspace.",
+  "completion_criteria": [
+    "Repeated CLAIM is accepted only from current N0 and advances the exact retained current-attempt task head.",
+    "RETRY consumes failed attempt n and opens only contiguous attempt n+1 at task sequence 1 with its exact derived root.",
+    "Historical attempt and claim rows remain cumulatively derived and immutable across repeated recovery, yield, failure, retry, and reclaim cycles.",
+    "Unknown or hostile post-initialize event types fail closed while valid private images remain opaque and non-authorizing."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-112.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-112",
+      "version": 1,
+      "sha256": "507993866fb7a2945b0b57ff0fbb7b2892cba7301cabbfb498d1640cbc3ea979"
+    }
+  ]
+}
