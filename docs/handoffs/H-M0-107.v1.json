@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-107",
+  "version": 1,
+  "created_at": "2026-10-29T15:46:27Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Extend private runtime-v2 replay through the next safe worker lifecycle boundary without expanding public-verifier or capital authority.",
+  "work_done": "Implemented exact atomic CONTINUE replay after a validated NEW-genesis, INITIALIZE, CLAIM, and START prefix. The slice enforces global/task chains, identity uniqueness, closed retained content, prefix-derived before-state, claim/fence CAS, immutable continuation-count derivation, typed reachability, and exact all-table projections. Valid candidates remain opaque UNSUPPORTED/CLOSURE_NOT_COMPILED/DENY.",
+  "evidence_refs": [
+    "reports/H-M0-107-runtime-v2-continue-group.v1.md",
+    "reports/audit/A-M0-089.v1.json",
+    "reports/stops/STOP-M0-3A-002.v10.json",
+    "docs/M0.3A_CONTINUE_GROUP_SLICE.v1.md",
+    "src/edgelab/runtime_v2_group.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "tests/test_runtime_v2_initial.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_CONTINUE_GROUP_SLICE.v1.md",
+    "src/edgelab/runtime_v2_group.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "tests/test_runtime_v2_initial.py",
+    "reports/H-M0-107-runtime-v2-continue-group.v1.md",
+    "reports/audit/A-M0-089.v1.json",
+    "reports/stops/STOP-M0-3A-002.v10.json",
+    "docs/handoffs/H-M0-107.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "Focused reducer, transition, image, and public-verifier suite: 94 tests passed.",
+    "The same 94 tests passed under optimized Python (-O).",
+    "Fast tier: 286 tests passed across 17 isolated modules.",
+    "Production validator before evidence publication: 380 records and published history validated; M0 capital remained LOCKED and no approval was granted.",
+    "Production validator after evidence publication: 383 records and published history validated with the same locked and non-authorizing result.",
+    "Alpha/observatory regression: 18 tests passed after STOP provenance was extended.",
+    "Python compile checks and Git diff whitespace checks passed."
+  ],
+  "open_questions": [
+    "How should the bounded dispatcher admit repeated CONTINUE groups without conflating valid lifecycle alternatives?",
+    "How should projection accumulation preserve multiple closed claims across failure, recovery, retry, and re-claim?",
+    "What descriptor-driven projection API should snapshot cuts consume?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v10 remains OPEN pending later lifecycle groups, governance/review, snapshot cuts, exact closure generation, A-J testing, and independent acceptance.",
+    "The public verifier remains disconnected and can return only INVALID or UNSUPPORTED under UNANCHORED/UNKNOWN/DENY.",
+    "H-M0-086 remains blocked on a genuinely distinct trusted 05 Skeptic authority; H-M0-041 remains BLOCKED.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked, live remains LOCKED, kill remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Extend shared worker replay through FAIL and COMPLETE, then RECOVER, retry, repeated continuation, and repeated claim cycles with exact historical projections.",
+  "completion_criteria": [
+    "CONTINUE reduces from retained content without supplied state, claim history, or tables driving semantics.",
+    "Continuation claim/fence CAS, chain continuity, empty payloads, continuation count, typed reachability, and all projections reject hostile mutations.",
+    "The public verifier and capital-safety state remain unchanged while STOP-M0-3A-002 stays OPEN."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-106.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-106",
+      "version": 1,
+      "sha256": "f13b4610c02e5cd88c1dc73dfe805d4bbb455666d9d17286cb80cb59b2c7892f"
+    }
+  ]
+}
