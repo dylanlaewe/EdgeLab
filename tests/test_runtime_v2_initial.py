@@ -757,6 +757,9 @@ def _append_special_group(
     closed_review_status=None,
 ):
     """Append one single-task follow-up fixture and derived table projection."""
+    rows = {snapshot.table: snapshot.rows for snapshot in image.table_snapshots}
+    current_generation = rows["metadata"][0][13]
+    current_bundle = rows["metadata"][0][14]
     before_state = values[before_state_key]
     task_id = before_state["task_id"]
     before_sha = blob_digest(before_state)
@@ -769,8 +772,8 @@ def _append_special_group(
         "chain_id": CHAIN_ID,
         "operation": operation,
         "operation_key": operation_key,
-        "repository_generation": 0,
-        "repository_bundle_sha256": BUNDLE,
+        "repository_generation": current_generation,
+        "repository_bundle_sha256": current_bundle,
         "subject": {
             "task_id": task_id,
             "attempt": before_state["attempt"],
@@ -869,8 +872,8 @@ def _append_special_group(
             "schema_id": TASK_STATE_SCHEMA_ID,
             "sha256": after_sha,
         },
-        "repository_generation": 0,
-        "repository_bundle_sha256": BUNDLE,
+        "repository_generation": current_generation,
+        "repository_bundle_sha256": current_bundle,
         "authority_binding_sha256": None,
         "authorizing_use": "DENY",
         "event_sha256": "0" * 64,
@@ -935,8 +938,8 @@ def _append_special_group(
         },
         "state_before_ref": None,
         "state_after_ref": None,
-        "repository_generation": 0,
-        "repository_bundle_sha256": BUNDLE,
+        "repository_generation": current_generation,
+        "repository_bundle_sha256": current_bundle,
         "authority_binding_sha256": None,
         "authorizing_use": "DENY",
         "event_sha256": "0" * 64,
@@ -955,7 +958,6 @@ def _append_special_group(
     for addition in additions:
         blob_by_digest.setdefault(addition.sha256, addition)
     blobs = tuple(sorted(blob_by_digest.values(), key=lambda record: record.sha256))
-    rows = {snapshot.table: snapshot.rows for snapshot in image.table_snapshots}
     rows["blobs"] = tuple(
         (record.sha256, record.schema_id, record.canonical_json.decode("ascii"))
         for record in blobs
@@ -1019,7 +1021,11 @@ def _append_special_group(
     metadata = list(rows["metadata"][0])
     metadata[15:18] = [semantic_index + 1, commit_id, commit["event_sha256"]]
     rows["metadata"] = (tuple(metadata),)
-    rows["tasks"] = (_task_table_row(after_state),)
+    task_rows = {
+        row[0]: row for row in rows["tasks"]
+    }
+    task_rows[task_id] = _task_table_row(after_state)
+    rows["tasks"] = tuple(task_rows[key] for key in sorted(task_rows))
     result = replace(
         image,
         blobs=blobs,
@@ -1118,6 +1124,10 @@ def _append_governance_fixture(
     transaction_id, operation,
 ):
     before_state = values[before_state_key]
+    current_generation = next(
+        snapshot.rows[0][13] for snapshot in image.table_snapshots
+        if snapshot.table == "metadata"
+    )
     after_state = json.loads(json.dumps(before_state))
     if operation == "GOVERNANCE_BLOCK":
         review_pending = before_state["review"] in {
@@ -1132,7 +1142,7 @@ def _append_governance_fixture(
             "task_fence": before_state["task_fence"] + 1,
             "active_claim_id": None,
             "reviewer_assignment_id": None,
-            "repository_generation": 0,
+            "repository_generation": current_generation,
         })
         event_type = "GOVERNANCE_BLOCKED"
         arguments = {"evidence_sha256": "a" * 64, "reason_code": "STOP"}
@@ -1154,7 +1164,7 @@ def _append_governance_fixture(
                 "EXECUTION_COMPLETED" if review_pending else "CLAIMABLE"
             ),
             "scheduler_generation": before_state["scheduler_generation"] + 1,
-            "repository_generation": 0,
+            "repository_generation": current_generation,
             "decision_receipt_digest": "b" * 64,
             "active_claim_id": None,
             "reviewer_assignment_id": None,
@@ -1295,7 +1305,10 @@ def _append_remediation_fixture(
     child_in_arguments=False,
     subject_source_override=None,
 ):
-    """Append the terminal three-event remediation group and its projection."""
+    """Append one three-event remediation group and its projection."""
+    rows = {snapshot.table: snapshot.rows for snapshot in image.table_snapshots}
+    current_generation = rows["metadata"][0][13]
+    current_bundle = rows["metadata"][0][14]
     source_before = values[before_state_key]
     source_id = source_before["task_id"]
     child_id = "task-alpha-remediation"
@@ -1322,7 +1335,7 @@ def _append_remediation_fixture(
         "active_claim_id": None,
         "reviewer_assignment_id": None,
         "continuation_count": 0,
-        "repository_generation": 0,
+        "repository_generation": current_generation,
         "decision_receipt_digest": "e" * 64,
         "owner": "03 Research remediation",
         "owner_role": "research-remediation",
@@ -1352,8 +1365,8 @@ def _append_remediation_fixture(
         "chain_id": CHAIN_ID,
         "operation": "CREATE_REMEDIATION_TASK",
         "operation_key": operation_key,
-        "repository_generation": 0,
-        "repository_bundle_sha256": BUNDLE,
+        "repository_generation": current_generation,
+        "repository_bundle_sha256": current_bundle,
         "subject": (
             {"task_id": source_id, "attempt": source_before["attempt"]}
             if legacy_subject else {
@@ -1453,8 +1466,8 @@ def _append_remediation_fixture(
             },
             "payload_ref": {"schema_id": PAYLOAD_SCHEMA_ID, "sha256": payload_sha},
             "state_before_ref": before_ref, "state_after_ref": after_ref,
-            "repository_generation": 0,
-            "repository_bundle_sha256": BUNDLE,
+            "repository_generation": current_generation,
+            "repository_bundle_sha256": current_bundle,
             "authority_binding_sha256": None, "authorizing_use": "DENY",
             "event_sha256": "0" * 64,
         }
@@ -1529,7 +1542,8 @@ def _append_remediation_fixture(
         },
         "payload_ref": {"schema_id": PAYLOAD_SCHEMA_ID, "sha256": commit_payload_sha},
         "state_before_ref": None, "state_after_ref": None,
-        "repository_generation": 0, "repository_bundle_sha256": BUNDLE,
+        "repository_generation": current_generation,
+        "repository_bundle_sha256": current_bundle,
         "authority_binding_sha256": None, "authorizing_use": "DENY",
         "event_sha256": "0" * 64,
     }
@@ -1547,7 +1561,6 @@ def _append_remediation_fixture(
     for addition in additions:
         blob_by_digest.setdefault(addition.sha256, addition)
     blobs = tuple(sorted(blob_by_digest.values(), key=lambda record: record.sha256))
-    rows = {snapshot.table: snapshot.rows for snapshot in image.table_snapshots}
     rows["blobs"] = tuple(
         (record.sha256, record.schema_id, record.canonical_json.decode("ascii"))
         for record in blobs
@@ -1628,22 +1641,28 @@ def _append_import_fixture(
     affected_task_ids=None,
     next_bundle="9" * 64,
     reason_code="IMPORT",
+    ordinal=1,
 ):
     """Append one exact variable-width repository-import transaction."""
     rows = {snapshot.table: snapshot.rows for snapshot in image.table_snapshots}
     states = {
         row[0]: _task_state_from_row(row) for row in rows["tasks"]
     }
+    old_generation = rows["metadata"][0][13]
+    next_generation = old_generation + 1
     if affected_task_ids is None:
         affected_task_ids = tuple(sorted(states))
     affected_task_ids = tuple(affected_task_ids)
     prior_events = tuple(json.loads(raw) for raw in image.events)
     prior = prior_events[-1]
     start = len(prior_events)
-    operation_key = f"v2:{CHAIN_ID}:import-repository-1"
-    transaction_id = "123e4567-e89b-42d3-a456-426614174190"
+    operation_key = f"v2:{CHAIN_ID}:import-repository-{ordinal}"
+    identity_base = 190 if ordinal == 1 else 300 + (ordinal - 2) * 20
+    transaction_id = (
+        f"123e4567-e89b-42d3-a456-426614174{identity_base:03d}"
+    )
     event_ids = tuple(
-        f"123e4567-e89b-42d3-a456-426614174{191 + index:03d}"
+        f"123e4567-e89b-42d3-a456-426614174{identity_base + 1 + index:03d}"
         for index in range(len(affected_task_ids) + 2)
     )
     arguments = {
@@ -1659,7 +1678,7 @@ def _append_import_fixture(
         "schema_version": 1, "request_format_version": 2,
         "runtime_id": RUNTIME_ID, "chain_id": CHAIN_ID,
         "operation": "IMPORT_REPOSITORY", "operation_key": operation_key,
-        "repository_generation": 1,
+        "repository_generation": next_generation,
         "repository_bundle_sha256": next_bundle,
         "subject": None, "expected_state_ref": None,
         "arguments": arguments,
@@ -1669,7 +1688,7 @@ def _append_import_fixture(
         state = json.loads(json.dumps(states[task_id]))
         state.update({
             "scheduler_generation": state["scheduler_generation"] + 1,
-            "repository_generation": 1,
+            "repository_generation": next_generation,
         })
         after_states[task_id] = state
     response_states = [
@@ -1741,7 +1760,7 @@ def _append_import_fixture(
                 "sha256": blob_digest(state),
             },
             "state_after_ref": response_states[position]["state_ref"],
-            "repository_generation": 1,
+            "repository_generation": next_generation,
             "repository_bundle_sha256": next_bundle,
             "authority_binding_sha256": None, "authorizing_use": "DENY",
             "event_sha256": "0" * 64,
@@ -1756,7 +1775,8 @@ def _append_import_fixture(
         "schema_version": 1, "payload_format_version": 2,
         "event_type": "REPOSITORY_GENERATION_ADVANCED",
         "data": {
-            "old_generation": 0, "new_generation": 1,
+            "old_generation": old_generation,
+            "new_generation": next_generation,
             "source_commit": arguments["source_commit"],
             "repository_bundle_sha256": next_bundle,
             "project_state_sha256": arguments["project_state_sha256"],
@@ -1787,7 +1807,7 @@ def _append_import_fixture(
             "schema_id": PAYLOAD_SCHEMA_ID, "sha256": runtime_payload_sha,
         },
         "state_before_ref": None, "state_after_ref": None,
-        "repository_generation": 1,
+        "repository_generation": next_generation,
         "repository_bundle_sha256": next_bundle,
         "authority_binding_sha256": None, "authorizing_use": "DENY",
         "event_sha256": "0" * 64,
@@ -1837,7 +1857,7 @@ def _append_import_fixture(
             "schema_id": PAYLOAD_SCHEMA_ID, "sha256": commit_payload_sha,
         },
         "state_before_ref": None, "state_after_ref": None,
-        "repository_generation": 1,
+        "repository_generation": next_generation,
         "repository_bundle_sha256": next_bundle,
         "authority_binding_sha256": None, "authorizing_use": "DENY",
         "event_sha256": "0" * 64,
@@ -1889,7 +1909,7 @@ def _append_import_fixture(
     ),)))
     metadata = list(rows["metadata"][0])
     metadata[13:18] = [
-        1, next_bundle, commit["global_sequence"], commit["event_id"],
+        next_generation, next_bundle, commit["global_sequence"], commit["event_id"],
         commit["event_sha256"],
     ]
     rows["metadata"] = (tuple(metadata),)
@@ -2054,6 +2074,9 @@ def _worker_fixture(image, values, fixture_operation):
         if type(fixture_operation) is dict
         else profiles[fixture_operation]
     )
+    rows = {snapshot.table: snapshot.rows for snapshot in image.table_snapshots}
+    current_generation = rows["metadata"][0][13]
+    current_bundle = rows["metadata"][0][14]
     operation = profile["operation"]
     prefix = profile["prefix"]
     before_state = values[profile["before_state"]]
@@ -2133,8 +2156,8 @@ def _worker_fixture(image, values, fixture_operation):
         "chain_id": CHAIN_ID,
         "operation": operation,
         "operation_key": operation_key,
-        "repository_generation": 0,
-        "repository_bundle_sha256": BUNDLE,
+        "repository_generation": current_generation,
+        "repository_bundle_sha256": current_bundle,
         "subject": {
             "task_id": task_id,
             "attempt": before_state["attempt"],
@@ -2223,8 +2246,8 @@ def _worker_fixture(image, values, fixture_operation):
             "schema_id": TASK_STATE_SCHEMA_ID,
             "sha256": after_sha,
         },
-        "repository_generation": 0,
-        "repository_bundle_sha256": BUNDLE,
+        "repository_generation": current_generation,
+        "repository_bundle_sha256": current_bundle,
         "authority_binding_sha256": None,
         "authorizing_use": "DENY",
         "event_sha256": "0" * 64,
@@ -2289,8 +2312,8 @@ def _worker_fixture(image, values, fixture_operation):
         },
         "state_before_ref": None,
         "state_after_ref": None,
-        "repository_generation": 0,
-        "repository_bundle_sha256": BUNDLE,
+        "repository_generation": current_generation,
+        "repository_bundle_sha256": current_bundle,
         "authority_binding_sha256": None,
         "authorizing_use": "DENY",
         "event_sha256": "0" * 64,
@@ -2309,7 +2332,6 @@ def _worker_fixture(image, values, fixture_operation):
     for addition in additions:
         blob_by_digest.setdefault(addition.sha256, addition)
     blobs = tuple(sorted(blob_by_digest.values(), key=lambda record: record.sha256))
-    rows = {snapshot.table: snapshot.rows for snapshot in image.table_snapshots}
     rows["blobs"] = tuple(
         (record.sha256, record.schema_id, record.canonical_json.decode("ascii"))
         for record in blobs
@@ -2360,7 +2382,9 @@ def _worker_fixture(image, values, fixture_operation):
         semantic_index + 1, commit["event_id"], commit["event_sha256"],
     ]
     rows["metadata"] = (tuple(metadata),)
-    rows["tasks"] = (_task_table_row(after_state),)
+    task_rows = {row[0]: row for row in rows["tasks"]}
+    task_rows[task_id] = _task_table_row(after_state)
+    rows["tasks"] = tuple(task_rows[key] for key in sorted(task_rows))
     result = replace(
         image,
         blobs=blobs,
@@ -3912,7 +3936,7 @@ class RuntimeV2InitialTests(unittest.TestCase):
             zero, events=zero.events + initialized.events[-2:],
         ))
         self.assertEqual(report.status, "INVALID")
-        self.assertIn("GROUP_IMPORT_TERMINAL", self.codes(report))
+        self.assertIn("GROUP_FOLLOWUP_OPERATION", self.codes(report))
 
         image, values = complete_review_fixture()
         image, values = _append_review_assignment_fixture(image, values)
@@ -3996,7 +4020,7 @@ class RuntimeV2InitialTests(unittest.TestCase):
             valid, events=valid.events + image.events[-2:],
         ))
         self.assertEqual(report.status, "INVALID")
-        self.assertIn("GROUP_IMPORT_TERMINAL", self.codes(report))
+        self.assertIn("GROUP_FOLLOWUP_OPERATION", self.codes(report))
 
     def test_cumulative_attempt_and_claim_tables_are_derived_not_trusted(self):
         image, _ = two_retry_cycles_fixture()

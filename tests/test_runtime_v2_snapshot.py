@@ -555,7 +555,7 @@ class RuntimeV2SnapshotTests(unittest.TestCase):
         self.assertEqual(report.status, "INVALID")
         self.assertIn("TOTAL_ROOT_WORK_LIMIT", self.codes(report))
 
-    def test_import_may_be_followed_by_snapshots_but_not_ordinary_groups(self):
+    def test_import_may_be_followed_by_snapshots_and_malformed_tail_denies(self):
         initialized, values = initialize_fixture()
         imported, _ = _append_import_fixture(
             initialized, values, affected_task_ids=(),

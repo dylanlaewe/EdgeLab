@@ -729,7 +729,6 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
     export_sequence = 0
     snapshot_ids: set[str] = set()
     snapshot_document_digests: set[str] = set()
-    import_seen = False
     expected_reachable = {request_sha, response_sha, payload_sha}
     root_work = preflight.final_supplied_root_work_bytes or 0
     cursor = _ReplayCursor(event)
@@ -904,12 +903,6 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
                     export_sequence += 1
                 semantic_index += 2
                 continue
-            if import_seen:
-                sink.add(
-                    "GROUP_IMPORT_TERMINAL", "import_transaction_group",
-                    f"/events/{semantic_index}",
-                )
-                return _invalid(sink)
             if event_type == "REMEDIATION_CREATED":
                 if semantic_index + 2 >= len(parsed_events):
                     sink.add(
@@ -1006,19 +999,7 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
                 final_patch = patch
                 idempotency_rows.append(patch.idempotency_row)
                 expected_reachable.update(patch.reachable_blob_digests)
-                import_seen = True
                 semantic_index += event_count
-                if semantic_index != len(parsed_events) and (
-                    type(parsed_events[semantic_index]) is not dict
-                    or parsed_events[semantic_index].get("event_type") not in {
-                        "RUNTIME_CHECKPOINTED", "RUNTIME_SNAPSHOT_EXPORTED",
-                    }
-                ):
-                    sink.add(
-                        "GROUP_IMPORT_TERMINAL", "import_transaction_group",
-                        f"/events/{semantic_index}",
-                    )
-                    return _invalid(sink)
                 continue
             if semantic_index + 1 >= len(parsed_events):
                 sink.add(

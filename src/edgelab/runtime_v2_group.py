@@ -4,7 +4,7 @@ The compiled slices support ``INITIALIZE`` after a validated NEW genesis,
 followed by repeatable ``CLAIM``, worker operations ``START``, ``CONTINUE``,
 ``YIELD``, ``FAIL``, and ``COMPLETE``, synthetic ``RECOVER``, and exact
 attempt-boundary ``RETRY``, plus governance, review-decision, and routing
-follow-ups, terminal remediation, repository import, and exact checkpoint and
+follow-ups, remediation, repository import, and exact checkpoint and
 export registration cuts. They are
 deliberately narrow: supplied blobs and events are treated as untrusted
 comparison inputs, task state is recomputed with the immutable transition
@@ -589,6 +589,33 @@ def _resolve(
     return item
 
 
+def _selected_task(
+    workspace: _TransitionWorkspace,
+    request: Mapping[str, Any],
+    coordinate: str,
+) -> Any:
+    """Select one retained task only from the request's exact subject.
+
+    Event context is checked independently after selection.  This distinction
+    matters for RETRY: the request names attempt n while the semantic event
+    opens attempt n+1.
+    """
+    subject = _object(
+        request.get("subject"), frozenset({"task_id", "attempt"}),
+        coordinate,
+    )
+    task_id = _pattern(subject["task_id"], _TASK, f"{coordinate}/task_id")
+    attempt = _integer(
+        subject["attempt"], 1, 9_223_372_036_854_775_807,
+        f"{coordinate}/attempt",
+    )
+    task = workspace.task(task_id)
+    if task is None:
+        _deny("GROUP_TASK_SELECTION", f"{coordinate}/task_id")
+    _const(attempt, task.attempt, f"{coordinate}/attempt")
+    return task
+
+
 def _validate_event_shape(event: Any, coordinate: str) -> dict[str, Any]:
     value = _object(event, _EVENT_KEYS, coordinate)
     _const(value["schema_version"], 1, f"{coordinate}/schema_version")
@@ -859,11 +886,7 @@ def reduce_claim_group(
     catalog: Mapping[str, BlobValue],
 ) -> ClaimGroupPatch:
     """Validate and plan one complete CLAIM group from a current N0 state."""
-    if (
-        type(cursor) is not _ReplayCursor
-        or cursor.global_sequence < 2
-        or cursor.global_sequence % 2 != 0
-    ):
+    if type(cursor) is not _ReplayCursor or cursor.global_sequence < 2:
         _deny("GROUP_CURSOR", "/events")
     semantic_index = cursor.global_sequence + 1
     commit_index = semantic_index + 1
@@ -871,9 +894,6 @@ def reduce_claim_group(
     commit = _validate_event_shape(commit_event, f"/events/{commit_index}")
     cursor.check_pair(semantic, commit)
     if type(workspace) is not _TransitionWorkspace:
-        _deny("GROUP_PRIOR_STATE", "/state")
-    task = workspace.only_task()
-    if task is None:
         _deny("GROUP_PRIOR_STATE", "/state")
     _const(
         workspace.repository_generation, cursor.repository_generation,
@@ -954,9 +974,7 @@ def reduce_claim_group(
         _const(value["operation_key"], operation_key, f"/{artifact}/operation_key")
     _const(request["repository_generation"], repository_generation, "/claim_request/repository_generation")
     _const(request["repository_bundle_sha256"], repository_bundle, "/claim_request/repository_bundle_sha256")
-    subject = _object(request["subject"], frozenset({"task_id", "attempt"}), "/claim_request/subject")
-    _const(subject["task_id"], task.task_id, "/claim_request/subject/task_id")
-    _const(subject["attempt"], task.attempt, "/claim_request/subject/attempt")
+    task = _selected_task(workspace, request, "/claim_request/subject")
     before_sha = _ref(request["expected_state_ref"], TASK_STATE_SCHEMA_ID, "/claim_request/expected_state_ref")
     arguments = _object(request["arguments"], frozenset({"actor"}), "/claim_request/arguments")
     actor = _identity(arguments["actor"], "/claim_request/arguments/actor")
@@ -1096,16 +1114,9 @@ def reduce_worker_group(
     catalog: Mapping[str, BlobValue],
 ) -> WorkerGroupPatch:
     """Validate one compiled single-task follow-up transaction group."""
-    if (
-        type(cursor) is not _ReplayCursor
-        or cursor.global_sequence < 2
-        or cursor.global_sequence % 2 != 0
-    ):
+    if type(cursor) is not _ReplayCursor or cursor.global_sequence < 2:
         _deny("GROUP_CURSOR", "/events")
     if type(workspace) is not _TransitionWorkspace:
-        _deny("GROUP_PRIOR_STATE", "/state")
-    task = workspace.only_task()
-    if task is None:
         _deny("GROUP_PRIOR_STATE", "/state")
     _const(
         workspace.repository_generation, cursor.repository_generation,
@@ -1243,12 +1254,7 @@ def reduce_worker_group(
         request["repository_bundle_sha256"], repository_bundle,
         "/worker_request/repository_bundle_sha256",
     )
-    subject = _object(
-        request["subject"], frozenset({"task_id", "attempt"}),
-        "/worker_request/subject",
-    )
-    _const(subject["task_id"], task.task_id, "/worker_request/subject/task_id")
-    _const(subject["attempt"], task.attempt, "/worker_request/subject/attempt")
+    task = _selected_task(workspace, request, "/worker_request/subject")
     before_sha = _ref(
         request["expected_state_ref"], TASK_STATE_SCHEMA_ID,
         "/worker_request/expected_state_ref",
@@ -1457,11 +1463,7 @@ def reduce_remediation_group(
     catalog: Mapping[str, BlobValue],
 ) -> RemediationGroupPatch:
     """Validate the atomic two-task CREATE_REMEDIATION_TASK group."""
-    if (
-        type(cursor) is not _ReplayCursor
-        or cursor.global_sequence < 2
-        or cursor.global_sequence % 2 != 0
-    ):
+    if type(cursor) is not _ReplayCursor or cursor.global_sequence < 2:
         _deny("GROUP_CURSOR", "/events")
     if type(workspace) is not _TransitionWorkspace:
         _deny("GROUP_PRIOR_STATE", "/state")
