@@ -1,0 +1,19 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-119",
+  "version": 1,
+  "created_at": "2026-10-29T18:51:24Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Compile checkpoint and export cuts with exact cumulative roots.",
+  "work_done": "Compiled private CHECKPOINT and EXPORT_SNAPSHOT replay with exact all-table pre-registration cuts, independent sequences and prior chains, selector evolution, snapshot ordering and uniqueness, optional copy validation, cumulative root-work accounting, and snapshot tails after repository import.",
+  "evidence_refs": ["reports/H-M0-119-checkpoint-export-replay.v1.md", "reports/audit/A-M0-101.v1.json", "reports/stops/STOP-M0-3A-002.v22.json", "docs/M0.3A_CHECKPOINT_EXPORT_REPLAY_SLICE.v1.md", "src/edgelab/runtime_v2_group.py", "src/edgelab/runtime_v2_initial.py", "tests/test_runtime_v2_snapshot.py"],
+  "files_changed": ["docs/M0.3A_CHECKPOINT_EXPORT_REPLAY_SLICE.v1.md", "src/edgelab/runtime_v2_group.py", "src/edgelab/runtime_v2_initial.py", "tests/test_runtime_v2_snapshot.py", "tools/run_test_tier.py", "reports/H-M0-119-checkpoint-export-replay.v1.md", "reports/audit/A-M0-101.v1.json", "reports/stops/STOP-M0-3A-002.v22.json", "docs/handoffs/H-M0-119.v1.json", "docs/project-state.json", "examples/alpha/sample-workflow.v1.json"],
+  "tests_run": ["57 focused initial/snapshot tests passed normally and under optimized Python.", "205 runtime-v2 tests passed.", "334 fast-tier tests passed across 19 isolated modules.", "Independent Skeptic, contract, and engineering reviews found no blocker after targeted repairs.", "419 governed records and published history validated after publication.", "18 alpha and observatory tests passed."],
+  "open_questions": ["What explicit selection evidence permits an ordinary task group to follow repository import without weakening stale-task fencing?"],
+  "blockers": ["STOP-M0-3A-002.v22 remains OPEN.", "Public verification remains deny-only.", "Live remains LOCKED and deployable capital remains USD 0."],
+  "next_action": "Compile explicit post-import task selection and the remaining A-J acceptance cases.",
+  "completion_criteria": ["Every checkpoint/export cut binds the exact pre-command all-table materialization.", "Checkpoint/export chains, selector history, snapshot rows, root work, and derived identities advance atomically.", "Valid images remain opaque deny-only and public verification remains disconnected."],
+  "depends_on": [{"path": "docs/handoffs/H-M0-118.v1.json", "kind": "handoff", "id": "H-M0-118", "version": 1, "sha256": "a9305e0d0639e6506741140c79e4a47f45324803e59234ce684684cef3c6a19c"}]
+}

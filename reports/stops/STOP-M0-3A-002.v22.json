@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-002",
+  "version": 22,
+  "issued_at": "2026-10-29T18:51:24Z",
+  "issuer": "00 Director",
+  "reason": "Private replay now derives exact checkpoint and export cuts, selector evolution, snapshot materialization, and cumulative root work, but explicit post-import ordinary-task selection, exact generated closure identity, and the complete A-J matrix remain unfinished. No positive local-consistency result is supportable.",
+  "affected_components": ["runtime-v2 replay after repository import", "exact generated verifier closure", "complete whole-image acceptance matrix", "public result vocabulary"],
+  "evidence_refs": ["reports/H-M0-119-checkpoint-export-replay.v1.md", "docs/M0.3A_CHECKPOINT_EXPORT_REPLAY_SLICE.v1.md", "src/edgelab/runtime_v2_group.py", "src/edgelab/runtime_v2_initial.py", "tests/test_runtime_v2_snapshot.py"],
+  "severity": "HIGH",
+  "remediation_required": ["Compile explicit post-import task selection before permitting ordinary trailing task groups.", "Generate and freeze the exact dependency closure and carrier without a writer or cutover.", "Complete independent acceptance and the A-J matrix before any positive result."],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}
