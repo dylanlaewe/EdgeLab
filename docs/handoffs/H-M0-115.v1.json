@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-115",
+  "version": 1,
+  "created_at": "2026-10-29T17:26:16Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Compile closed review assignment replay atop cumulative cursor and workspace history.",
+  "work_done": "Compiled ASSIGN_REVIEW from N3 through atomic task/review derivation, exact generated UUID cross-binding, and exact-label actor/role separation. Valid candidates remain opaque and non-authorizing.",
+  "evidence_refs": [
+    "reports/H-M0-115-review-assignment-replay.v1.md",
+    "reports/audit/A-M0-097.v1.json",
+    "reports/stops/STOP-M0-3A-002.v18.json",
+    "docs/M0.3A_REVIEW_ASSIGNMENT_REPLAY_SLICE.v1.md",
+    "src/edgelab/runtime_v2_transition.py",
+    "src/edgelab/runtime_v2_group.py",
+    "tests/test_runtime_v2_initial.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_REVIEW_ASSIGNMENT_REPLAY_SLICE.v1.md",
+    "src/edgelab/runtime_v2_transition.py",
+    "src/edgelab/runtime_v2_group.py",
+    "tests/test_runtime_v2_initial.py",
+    "tests/test_runtime_v2_transition_workspace.py",
+    "reports/H-M0-115-review-assignment-replay.v1.md",
+    "reports/audit/A-M0-097.v1.json",
+    "reports/stops/STOP-M0-3A-002.v18.json",
+    "docs/handoffs/H-M0-115.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "Focused transition/workspace/image suite: 92 tests passed normally and under optimized Python (-O).",
+    "Fast tier: 318 tests passed across 18 isolated modules.",
+    "Delegated read-only review found no blocking defect.",
+    "Production validator before publication: 404 records validated; M0 capital remained LOCKED.",
+    "Production validator after publication: 407 records validated; M0 capital remained LOCKED.",
+    "Alpha/observatory regression: 18 tests passed after extending current STOP provenance.",
+    "Python compile and Git whitespace checks passed."
+  ],
+  "open_questions": [
+    "How should atomic decision writes share the existing review-close event without double-counting retained identity?",
+    "Which route wording most clearly prevents DIRECTOR_GATE_READY from being mistaken for authority?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v18 remains OPEN pending decisions/route, remediation/import, snapshot cuts, closure generation, A-J testing, and independent acceptance.",
+    "Reviewer labels are not authenticated and delegated engineering review is not formal independent Skeptic acceptance.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; live remains LOCKED, kill remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Compile APPROVE, REJECT, REMEDIATE, and ROUTE with atomic decision history.",
+  "completion_criteria": [
+    "ASSIGN_REVIEW binds one generated UUID across payload, response, task, and review history.",
+    "Owner actor and owner-role labels cannot self-assign, without claiming authentication.",
+    "Valid private images remain opaque and non-authorizing."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-114.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-114",
+      "version": 1,
+      "sha256": "1c3941f48cf59ee9360c2bb581595c55740859b5bbb6c1891e616d19c917d8f0"
+    }
+  ]
+}

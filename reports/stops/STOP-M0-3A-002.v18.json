@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-002",
+  "version": 18,
+  "issued_at": "2026-10-29T17:26:16Z",
+  "issuer": "00 Director",
+  "reason": "Private NEW-genesis replay now derives exact review assignment with atomic review history and label separation, but review decisions/routing, remediation, repository import, checkpoint/export cuts, cumulative root work, exact generated closure identity, and the complete A-J matrix remain unfinished. No positive local-consistency result is supportable.",
+  "affected_components": [
+    "runtime-v2 semantic whole-image reduction beyond review assignment",
+    "exact generated verifier dependency closure and pin carrier",
+    "review decisions/routing, remediation, repository import, checkpoints, exports, and cumulative root work",
+    "public local-consistency result vocabulary"
+  ],
+  "evidence_refs": [
+    "reports/H-M0-115-review-assignment-replay.v1.md",
+    "docs/M0.3A_REVIEW_ASSIGNMENT_REPLAY_SLICE.v1.md",
+    "src/edgelab/runtime_v2_transition.py",
+    "src/edgelab/runtime_v2_group.py",
+    "tests/test_runtime_v2_initial.py",
+    "reports/H-M0-114-governance-revalidation-replay.v1.md"
+  ],
+  "severity": "HIGH",
+  "remediation_required": [
+    "Compile APPROVE, REJECT, REMEDIATE, and ROUTE with atomic review closure and replay-derived decision history; review approval and director routing must remain non-authorizing lifecycle states.",
+    "Implement two-event remediation and variable-cardinality repository import without accepting supplied state as transition input.",
+    "Implement checkpoint/export cuts, cumulative root-work charging, exact generated closure identity, and the complete A-J acceptance matrix before any separately versioned positive local-consistency result."
+  ],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}

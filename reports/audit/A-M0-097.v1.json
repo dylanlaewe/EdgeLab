@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-097",
+  "version": 1,
+  "occurred_at": "2026-10-29T17:26:16Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_REVIEW_ASSIGNMENT_REPLAY_IMPLEMENTED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-115-review-assignment-replay.v1.md",
+  "previous_state": "FORMAT_2_PRIVATE_REPLAY_COMPILES_GOVERNANCE_BLOCK_AND_EXACT_REVALIDATION_STOP_OPEN",
+  "new_state": "FORMAT_2_PRIVATE_REPLAY_COMPILES_REVIEW_ASSIGNMENT_WITH_LABEL_SEPARATION_STOP_OPEN",
+  "reason": "Commit 0a8bb02d093ecd3d6ccdffad0d2560d5d23a8c72 compiles ASSIGN_REVIEW through the shared planner and atomic task/review workspace, binding one generated assignment identity across payload, response, state, and derived review history. Actor and role checks are exact-label separation only. Valid candidates remain opaque UNSUPPORTED/CLOSURE_NOT_COMPILED/DENY; no authenticated identity, independent acceptance, STOP-clearance, execution, or capital authority was added.",
+  "evidence_refs": [
+    "reports/H-M0-115-review-assignment-replay.v1.md",
+    "docs/M0.3A_REVIEW_ASSIGNMENT_REPLAY_SLICE.v1.md",
+    "src/edgelab/runtime_v2_transition.py",
+    "src/edgelab/runtime_v2_group.py",
+    "tests/test_runtime_v2_initial.py",
+    "reports/stops/STOP-M0-3A-002.v18.json"
+  ],
+  "code_ref": "0a8bb02d093ecd3d6ccdffad0d2560d5d23a8c72",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-115",
+  "supersedes": null
+}
