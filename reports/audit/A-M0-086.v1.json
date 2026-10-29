@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-086",
+  "version": 1,
+  "occurred_at": "2026-10-29T15:02:43Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_INITIALIZE_GROUP_IMPLEMENTED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-104-runtime-v2-initialize-group.v1.md",
+  "previous_state": "FORMAT_2_CLOSURE_SHAPE_COMPILED_EXACT_RELEASE_IDENTITY_ABSENT_STOP_OPEN",
+  "new_state": "FORMAT_2_INITIALIZE_GROUP_COMPILED_REMAINING_GROUPS_AND_SNAPSHOTS_ABSENT_STOP_OPEN",
+  "reason": "Commit 96aedef9abed9d367232e168a472bd1005033a0d implements the first complete private ordinary transaction-group slice from NEW genesis through INITIALIZE, immutable task derivation, typed reachability, idempotency, and all-table comparison. Valid candidates remain opaque UNSUPPORTED/CLOSURE_NOT_COMPILED/DENY; no public-verifier, currentness, execution, or capital path was added.",
+  "evidence_refs": [
+    "reports/H-M0-104-runtime-v2-initialize-group.v1.md",
+    "docs/M0.3A_INITIALIZE_GROUP_SLICE.v1.md",
+    "src/edgelab/runtime_v2_group.py",
+    "tests/test_runtime_v2_initial.py",
+    "reports/stops/STOP-M0-3A-002.v7.json"
+  ],
+  "code_ref": "96aedef9abed9d367232e168a472bd1005033a0d",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-104",
+  "supersedes": null
+}

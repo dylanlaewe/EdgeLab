@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-104",
+  "version": 1,
+  "created_at": "2026-10-29T15:02:43Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Implement the first complete private ordinary runtime-v2 transaction slice without expanding public-verifier or capital authority.",
+  "work_done": "Implemented canonical digest-indexed blob resolution plus an atomic INITIALIZE group planner covering exact global/task chains, transaction grammar, compiled content shapes, cross-bindings, immutable transition derivation, typed reachability, idempotency, attempts, tasks, metadata, and all 15 supplied table comparisons. Added deterministic happy-path and hostile rehash fixtures and strengthened public-verifier import locks. Valid candidates remain opaque UNSUPPORTED/CLOSURE_NOT_COMPILED/DENY.",
+  "evidence_refs": [
+    "reports/H-M0-104-runtime-v2-initialize-group.v1.md",
+    "reports/audit/A-M0-086.v1.json",
+    "reports/stops/STOP-M0-3A-002.v7.json",
+    "docs/M0.3A_INITIALIZE_GROUP_SLICE.v1.md",
+    "src/edgelab/runtime_v2_group.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "tests/test_runtime_v2_initial.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_INITIALIZE_GROUP_SLICE.v1.md",
+    "src/edgelab/runtime_v2_group.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "tests/test_runtime_v2_initial.py",
+    "tests/test_runtime_v2_image.py",
+    "tests/test_runtime_v2_verifier.py",
+    "reports/H-M0-104-runtime-v2-initialize-group.v1.md",
+    "reports/audit/A-M0-086.v1.json",
+    "reports/stops/STOP-M0-3A-002.v7.json",
+    "docs/handoffs/H-M0-104.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json"
+  ],
+  "tests_run": [
+    "Focused initial reducer, transition, image, and public-verifier suite: 83 tests passed.",
+    "The same 83 tests passed under optimized Python (-O).",
+    "Final fast tier: 275 tests passed across 17 isolated modules.",
+    "Production validator before evidence publication: 371 records and published history validated; M0 capital remained LOCKED and no approval was granted.",
+    "Production validator after evidence publication: 374 records and published history validated with the same locked and non-authorizing result.",
+    "Alpha/observatory regression: 18 tests passed after STOP provenance was extended.",
+    "Python compile checks and Git diff whitespace checks passed."
+  ],
+  "open_questions": [
+    "Which reusable compiled content helpers should be extracted before extending all single-semantic operations?",
+    "How should the replay accumulator avoid quadratic immutable-state reconstruction while preserving atomic group patches?",
+    "What exact descriptor-driven projection API should checkpoint and export cuts consume?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v7 remains OPEN pending every later group, snapshot cuts, cumulative root work, exact closure generation, complete A-J testing, and independent acceptance.",
+    "The public verifier remains disconnected and can return only INVALID or UNSUPPORTED under UNANCHORED/UNKNOWN/DENY.",
+    "H-M0-086 remains blocked on a genuinely distinct trusted 05 Skeptic authority; H-M0-041 remains BLOCKED.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked, live remains LOCKED, kill remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Generalize the atomic group planner and projection accumulator across later single-semantic task operations, then remediation/import, before implementing export and checkpoint cuts.",
+  "completion_criteria": [
+    "NEW genesis plus one INITIALIZE transaction is reduced from retained content without supplied state or tables driving semantics.",
+    "All cross-bindings, typed reachability, task-attempt roots, idempotency, and exact table projections reject hostile mutations.",
+    "The public verifier and capital-safety state remain unchanged while STOP-M0-3A-002 stays OPEN."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-103.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-103",
+      "version": 1,
+      "sha256": "b99a5b353b638d84837dbfc9b567e5aaa51e7d71e14bcd00342cdc1dfa6b54eb"
+    }
+  ]
+}

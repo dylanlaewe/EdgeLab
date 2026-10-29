@@ -23,6 +23,7 @@
     "The private runtime-v2 NEW system-genesis slice now validates strict compiled request/response/payload/envelope branches, exact cross-bindings, typed reachable blobs, selector genesis, and all 15 initial tables; an uncompiled closure exposes only opaque UNSUPPORTED/DENY and the public verifier remains disconnected",
     "The versioned runtime-v2 legacy-bridge assurance amendment now closes the 12-table successor-capture profile, digest domains, unavailable-preimage classification, and dependency order; V1_MIGRATION is unconditionally UNSUPPORTED under the current schemas/carrier and no authority path was added",
     "The private runtime-v2 dependency-closure shape and self-digest validator now compiles closed published schema bindings and alias-free inventory semantics; exact release identity remains absent, shape-valid candidates remain opaque UNSUPPORTED/DENY, and the public verifier remains disconnected",
+    "The first private runtime-v2 ordinary transaction slice now reduces NEW genesis plus INITIALIZE through exact event-group grammar, immutable task derivation, typed reachability, idempotency, and all-table comparison; later operations and snapshot cuts remain unsupported and the public verifier remains disconnected",
     "Historical capture reconstruction/verifier engineering completed with native engineering review; formal Skeptic acceptance remains pending",
     "Revision-aware handoff dependency validation and production repository validation restored",
     "Read-only local laboratory observatory exposes governed project status and the retained MOCK_ONLY walkthrough through a fail-closed loopback interface",
@@ -31,24 +32,24 @@
   "remaining_m0": [
     "Obtain a genuinely distinct trusted 05 Skeptic review and formal disposition of H-M0-080 under H-M0-086",
     "Define and independently review positive currentness and generation invariants plus an authenticated M0.2-to-M0.3A receipt/R-gate; the completed historical binding diagnostic cannot authorize or be reused as a stored receipt",
-    "Resolve STOP-M0-3A-002 by implementing ordinary groups/checkpoint/export cuts and the remaining A-J matrix, resolving closure-generation semantics, then source-freezing and generating the exact closure/carrier without a writer, database, migration, selector cutover, or authority expansion; legacy migration remains unsupported unless a new evidence carrier is separately versioned and accepted",
+    "Resolve STOP-M0-3A-002 by extending the compiled INITIALIZE slice across every later ordinary group, remediation/import, checkpoint/export cuts, cumulative root work, and the remaining A-J matrix, then source-freezing and generating the exact closure/carrier without a writer, database, migration, selector cutover, or authority expansion; legacy migration remains unsupported unless a new evidence carrier is separately versioned and accepted",
     "Resolve reviewed historical fixture-coupling debt through new versioned tests without rewriting the preserved outcome baseline",
     "Provision the trusted external authority boundary and satisfy typed STOP-clearance prerequisites",
     "Resolve statistical, freshness, paper-capital, exposure, correlation, drawdown, and live-gate thresholds before M0 exit"
   ],
   "blockers": [
-    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002.v6 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
+    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002.v7 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
     "H-M0-086 is BLOCKED because no genuinely distinct trusted 05 Skeptic authority is provisioned",
     "H-M0-041.v23 remains BLOCKED pending formal Skeptic acceptance and separate Director release",
     "The locked authority and historical binding substrates are diagnostic and DENY-only; positive authoritative currentness and authenticated receipt/R-gate integration remain unresolved",
     "M0.3A engineering completion does not constitute formal acceptance or operational authority"
   ],
-  "next_assignment": "Implement and adversarially review ordinary transaction-group reduction and checkpoint/export cuts; freeze exact closure generation semantics only after all semantic reducer sources are complete",
-  "updated_at": "2026-10-17T02:37:56Z",
+  "next_assignment": "Generalize the atomic group planner and projection accumulator across later single-semantic task operations, then remediation/import, before implementing export and checkpoint cuts",
+  "updated_at": "2026-10-29T15:02:43Z",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json",
     "reports/stops/STOP-M0-3A-001.v1.json",
-    "reports/stops/STOP-M0-3A-002.v6.json"
+    "reports/stops/STOP-M0-3A-002.v7.json"
   ],
   "review_ref": "reports/reviews/M0.2-M0.3-final-evidence-plan-rereview.v1.md",
   "open_findings": [
