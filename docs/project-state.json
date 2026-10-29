@@ -35,6 +35,7 @@
     "The private runtime-v2 replay now compiles closed repeated CLAIM and exact RETRY groups through one cumulative cursor and transition workspace, preserves every historical attempt and claim row across repeated cycles, and rejects hostile dispatcher values without exposing a positive or authorizing result; governance and later groups remain uncompiled and the public verifier remains disconnected",
     "The private runtime-v2 replay now compiles exact GOVERNANCE_BLOCK and REVALIDATE groups through a shared immutable planner and atomic task/claim/review workspace, with the sole stale-task exception, exact fencing, auxiliary-history closure, and receipt replacement; N4 and stale paths remain prerequisite-bounded end-to-end, later groups remain uncompiled, and the public verifier remains disconnected",
     "The private runtime-v2 replay now compiles ASSIGN_REVIEW from N3 through exact generated-assignment cross-binding and atomic task/review history with exact-label owner separation; labels are not authenticated, decisions and routing remain uncompiled, and the public verifier remains disconnected",
+    "The private runtime-v2 replay now compiles APPROVE, REJECT, REMEDIATE, and N7-only ROUTE with atomic task/review closure and exact per-attempt decision ancestry; DIRECTOR_GATE_READY is explicitly non-authorizing, remediation and later groups remain uncompiled, and the public verifier remains disconnected",
     "Historical capture reconstruction/verifier engineering completed with native engineering review; formal Skeptic acceptance remains pending",
     "Revision-aware handoff dependency validation and production repository validation restored",
     "Read-only local laboratory observatory exposes governed project status and the retained MOCK_ONLY walkthrough through a fail-closed loopback interface",
@@ -43,24 +44,24 @@
   "remaining_m0": [
     "Obtain a genuinely distinct trusted 05 Skeptic review and formal disposition of H-M0-080 under H-M0-086",
     "Define and independently review positive currentness and generation invariants plus an authenticated M0.2-to-M0.3A receipt/R-gate; the completed historical binding diagnostic cannot authorize or be reused as a stored receipt",
-    "Resolve STOP-M0-3A-002 by adding review decisions/routing, remediation/import, checkpoint/export cuts, cumulative root work, and the remaining A-J matrix atop cumulative cursor history and the private transition workspace, then source-freezing and generating the exact closure/carrier without a writer, database, migration, selector cutover, or authority expansion; legacy migration remains unsupported unless a new evidence carrier is separately versioned and accepted",
+    "Resolve STOP-M0-3A-002 by adding remediation/import, checkpoint/export cuts, cumulative root work, and the remaining A-J matrix atop cumulative cursor history and the private transition workspace, then source-freezing and generating the exact closure/carrier without a writer, database, migration, selector cutover, or authority expansion; legacy migration remains unsupported unless a new evidence carrier is separately versioned and accepted",
     "Resolve reviewed historical fixture-coupling debt through new versioned tests without rewriting the preserved outcome baseline",
     "Provision the trusted external authority boundary and satisfy typed STOP-clearance prerequisites",
     "Resolve statistical, freshness, paper-capital, exposure, correlation, drawdown, and live-gate thresholds before M0 exit"
   ],
   "blockers": [
-    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002.v18 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
+    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002.v19 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
     "H-M0-086 is BLOCKED because no genuinely distinct trusted 05 Skeptic authority is provisioned",
     "H-M0-041.v23 remains BLOCKED pending formal Skeptic acceptance and separate Director release",
     "The locked authority and historical binding substrates are diagnostic and DENY-only; positive authoritative currentness and authenticated receipt/R-gate integration remain unresolved",
     "M0.3A engineering completion does not constitute formal acceptance or operational authority"
   ],
-  "next_assignment": "Compile APPROVE, REJECT, REMEDIATE, and ROUTE with atomic decision history",
-  "updated_at": "2026-10-29T17:26:16Z",
+  "next_assignment": "Compile two-event remediation with exact decision ancestry",
+  "updated_at": "2026-10-29T17:56:03Z",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json",
     "reports/stops/STOP-M0-3A-001.v1.json",
-    "reports/stops/STOP-M0-3A-002.v18.json"
+    "reports/stops/STOP-M0-3A-002.v19.json"
   ],
   "review_ref": "reports/reviews/M0.2-M0.3-final-evidence-plan-rereview.v1.md",
   "open_findings": [

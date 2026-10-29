@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-098",
+  "version": 1,
+  "occurred_at": "2026-10-29T17:56:03Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_REVIEW_DECISION_ROUTE_REPLAY_IMPLEMENTED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-116-review-decision-route-replay.v1.md",
+  "previous_state": "FORMAT_2_PRIVATE_REPLAY_COMPILES_REVIEW_ASSIGNMENT_WITH_LABEL_SEPARATION_STOP_OPEN",
+  "new_state": "FORMAT_2_PRIVATE_REPLAY_COMPILES_REVIEW_DECISIONS_AND_DIRECTOR_ROUTING_STOP_OPEN",
+  "reason": "Commit e42a6b00fca85449a0352c03c2789c2204f94e90 atomically derives review closure, per-attempt decision history, and task transitions for APPROVE, REJECT, and REMEDIATE, plus N7-only ROUTE. DIRECTOR_GATE_READY is a deny-only lifecycle state, not authority. No STOP, execution, public-verifier, or capital boundary changed.",
+  "evidence_refs": ["reports/H-M0-116-review-decision-route-replay.v1.md", "docs/M0.3A_REVIEW_DECISION_ROUTE_REPLAY_SLICE.v1.md", "src/edgelab/runtime_v2_transition.py", "src/edgelab/runtime_v2_group.py", "tests/test_runtime_v2_initial.py", "reports/stops/STOP-M0-3A-002.v19.json"],
+  "code_ref": "e42a6b00fca85449a0352c03c2789c2204f94e90",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-116",
+  "supersedes": null
+}

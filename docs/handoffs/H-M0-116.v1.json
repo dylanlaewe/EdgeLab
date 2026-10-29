@@ -1,0 +1,19 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-116",
+  "version": 1,
+  "created_at": "2026-10-29T17:56:03Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Compile atomic review decisions and director routing.",
+  "work_done": "Compiled APPROVE, REJECT, REMEDIATE, and ROUTE with atomic task/review/decision derivation; routing remains deny-only DIRECTOR_GATE_READY.",
+  "evidence_refs": ["reports/H-M0-116-review-decision-route-replay.v1.md", "reports/audit/A-M0-098.v1.json", "reports/stops/STOP-M0-3A-002.v19.json", "docs/M0.3A_REVIEW_DECISION_ROUTE_REPLAY_SLICE.v1.md", "src/edgelab/runtime_v2_transition.py", "src/edgelab/runtime_v2_group.py", "tests/test_runtime_v2_initial.py"],
+  "files_changed": ["docs/M0.3A_REVIEW_DECISION_ROUTE_REPLAY_SLICE.v1.md", "src/edgelab/runtime_v2_transition.py", "src/edgelab/runtime_v2_group.py", "tests/test_runtime_v2_initial.py", "tests/test_runtime_v2_transition_workspace.py", "reports/H-M0-116-review-decision-route-replay.v1.md", "reports/audit/A-M0-098.v1.json", "reports/stops/STOP-M0-3A-002.v19.json", "docs/handoffs/H-M0-116.v1.json", "docs/project-state.json", "examples/alpha/sample-workflow.v1.json"],
+  "tests_run": ["96 focused tests passed normally and under optimized Python.", "322 fast-tier tests passed.", "Read-only review found no blocker.", "410 governed records and published history validated after publication.", "18 alpha and observatory tests passed."],
+  "open_questions": ["How should two-event remediation prove exact decision ancestry?"],
+  "blockers": ["STOP-M0-3A-002.v19 remains OPEN.", "Public verification remains deny-only.", "Live remains LOCKED and deployable capital remains USD 0."],
+  "next_action": "Compile two-event remediation with exact decision ancestry.",
+  "completion_criteria": ["Decisions atomically close reviews and retain exact ancestry.", "ROUTE is N7-only and non-authorizing.", "Valid images remain opaque deny-only."],
+  "depends_on": [{"path": "docs/handoffs/H-M0-115.v1.json", "kind": "handoff", "id": "H-M0-115", "version": 1, "sha256": "5b107bc3919627706a28ee17d14d28d6066a3fb4468f0e6b40997c6d56101039"}]
+}

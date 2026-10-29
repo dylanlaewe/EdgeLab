@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-002",
+  "version": 19,
+  "issued_at": "2026-10-29T17:56:03Z",
+  "issuer": "00 Director",
+  "reason": "Private replay now derives review decisions and director routing, but remediation, repository import, checkpoint/export cuts, cumulative root work, exact closure identity, and the complete A-J matrix remain unfinished. No positive local-consistency result is supportable.",
+  "affected_components": ["runtime-v2 replay beyond review routing", "exact generated verifier closure", "remediation/import/checkpoint/export/root work", "public result vocabulary"],
+  "evidence_refs": ["reports/H-M0-116-review-decision-route-replay.v1.md", "docs/M0.3A_REVIEW_DECISION_ROUTE_REPLAY_SLICE.v1.md", "src/edgelab/runtime_v2_transition.py", "src/edgelab/runtime_v2_group.py", "tests/test_runtime_v2_initial.py"],
+  "severity": "HIGH",
+  "remediation_required": ["Compile two-event remediation with exact decision ancestry.", "Compile repository import and snapshot cuts without trusting supplied state.", "Complete root-work, exact closure generation, independent acceptance, and the A-J matrix before any positive result."],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}
