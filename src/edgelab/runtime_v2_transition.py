@@ -623,6 +623,7 @@ def _check_worker(task: TaskState, args: dict[str, Any]) -> None:
 _WORKSPACE_OPERATIONS = frozenset({
     "INITIALIZE", "CLAIM", "START", "CONTINUE", "YIELD", "FAIL",
     "COMPLETE", "RECOVER", "RETRY", "GOVERNANCE_BLOCK", "REVALIDATE",
+    "ASSIGN_REVIEW",
 })
 
 
@@ -902,7 +903,7 @@ def _plan_workspace_transition(
             reviewer_assignment_id=None,
             repository_generation=repository_generation,
         )
-    else:
+    elif operation == "REVALIDATE":
         if task.code not in {"B0", "B1"}:
             _deny("TRANSITION_SOURCE_STATE", "/task_id")
         args = intent.args(("evidence_sha256",))
@@ -920,6 +921,35 @@ def _plan_workspace_transition(
             active_claim_id=None,
             reviewer_assignment_id=None,
         )
+    else:
+        if task.code != "N3":
+            _deny("TRANSITION_SOURCE_STATE", "/task_id")
+        args = intent.args(("actor", "role"))
+        actor = _identity(args["actor"], "/arguments/actor")
+        role = _identity(args["role"], "/arguments/role")
+        if actor == task.owner:
+            _deny("TRANSITION_REVIEW_ACTOR_NOT_INDEPENDENT", "/arguments/actor")
+        if role == task.owner_role:
+            _deny("TRANSITION_REVIEW_ROLE_NOT_INDEPENDENT", "/arguments/role")
+        assignment_id = _uuid(intent.generated_id, "/generated_id")
+        if assignment_id in reviews:
+            _deny("TRANSITION_REVIEW_EXISTS", "/generated_id")
+        after = _with_code(
+            task,
+            "N4",
+            scheduler_generation=_increment(
+                task.scheduler_generation, "/scheduler_generation"
+            ),
+            reviewer_assignment_id=assignment_id,
+        )
+        review_writes = (_ReviewWrite(
+            assignment_id,
+            None,
+            ReviewRecord(
+                assignment_id, task.task_id, task.attempt, actor, role,
+                "OPEN", event_id,
+            ),
+        ),)
     return _TransitionDelta(
         (_TaskWrite(task.task_id, task, after),),
         claim_writes,

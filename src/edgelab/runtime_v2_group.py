@@ -93,6 +93,10 @@ _FOLLOWUP_PROFILES = {
         "REVALIDATE",
         frozenset({"evidence_sha256"}),
     ),
+    "REVIEW_ASSIGNED": (
+        "ASSIGN_REVIEW",
+        frozenset({"actor", "role"}),
+    ),
 }
 
 
@@ -922,6 +926,7 @@ def reduce_worker_group(
         _deny("GROUP_WORKER_OPERATION", f"/events/{semantic_index}/event_type")
     operation, argument_keys = profile
     opens_attempt = operation == "RETRY"
+    creates_review = operation == "ASSIGN_REVIEW"
     runtime_id = cursor.runtime_id
     chain_id = cursor.chain_id
     repository_generation = workspace.repository_generation
@@ -1049,7 +1054,6 @@ def reduce_worker_group(
         request["arguments"], argument_keys, "/worker_request/arguments"
     )
     _const(response["status"], "COMMITTED", "/worker_response/status")
-    _const(response["generated_refs"], [], "/worker_response/generated_refs")
 
     context = _object(
         semantic["task_context"],
@@ -1105,11 +1109,31 @@ def reduce_worker_group(
         ).value,
         _PAYLOAD_KEYS, "/worker_semantic_payload",
     )
+    expected_payload_data = semantic_payload["data"] if creates_review else {}
+    if creates_review:
+        expected_payload_data = _object(
+            expected_payload_data,
+            frozenset({"assignment_id"}),
+            "/worker_semantic_payload/data",
+        )
+        assignment_id = _pattern(
+            expected_payload_data["assignment_id"],
+            _UUID4,
+            "/worker_semantic_payload/data/assignment_id",
+        )
+        _const(response["generated_refs"], [{
+            "kind": "REVIEW_ASSIGNMENT",
+            "identifier": assignment_id,
+            "sha256": None,
+        }], "/worker_response/generated_refs")
+    else:
+        assignment_id = None
+        _const(response["generated_refs"], [], "/worker_response/generated_refs")
     _const(semantic_payload, {
         "schema_version": 1,
         "payload_format_version": 2,
         "event_type": semantic["event_type"],
-        "data": {},
+        "data": expected_payload_data,
     }, "/worker_semantic_payload")
 
     try:
@@ -1119,6 +1143,7 @@ def reduce_worker_group(
                 task_id=task.task_id,
                 attempt=task.attempt,
                 arguments=tuple(sorted(arguments.items())),
+                generated_id=assignment_id,
                 semantic_event_ids=(semantic["event_id"],),
             ),
         )

@@ -751,6 +751,7 @@ def _append_special_group(
     generated_refs,
     opens_attempt=False,
     new_claim_row=None,
+    new_review_row=None,
     closed_claim_status=None,
 ):
     """Append one single-task follow-up fixture and derived table projection."""
@@ -984,6 +985,8 @@ def _append_special_group(
     rows["attempts"] = tuple(sorted(attempt_rows, key=lambda row: row[:2]))
     if new_claim_row is not None:
         rows["claims"] = tuple(sorted(rows["claims"] + (new_claim_row,)))
+    if new_review_row is not None:
+        rows["reviews"] = tuple(sorted(rows["reviews"] + (new_review_row,)))
     if closed_claim_status is not None:
         claim_rows = list(rows["claims"])
         claim_index = next(
@@ -1158,6 +1161,39 @@ def _append_governance_fixture(
         payload_data={},
         generated_refs=[],
         closed_claim_status=closed_claim_status,
+    )
+
+
+def _append_review_assignment_fixture(image, values):
+    before_state = values["complete_review_after_state"]
+    assignment_id = "123e4567-e89b-42d3-a456-426614174160"
+    semantic_id = "123e4567-e89b-42d3-a456-426614174161"
+    after_state = json.loads(json.dumps(before_state))
+    after_state.update({
+        "review": "REVIEWING",
+        "scheduler_generation": before_state["scheduler_generation"] + 1,
+        "reviewer_assignment_id": assignment_id,
+    })
+    return _append_special_group(
+        image, values,
+        prefix="assign-review",
+        before_state_key="complete_review_after_state",
+        operation="ASSIGN_REVIEW",
+        event_type="REVIEW_ASSIGNED",
+        semantic_id=semantic_id,
+        commit_id="123e4567-e89b-42d3-a456-426614174162",
+        transaction_id="123e4567-e89b-42d3-a456-426614174163",
+        arguments={"actor": "skeptic-a", "role": "05 Skeptic"},
+        after_state=after_state,
+        payload_data={"assignment_id": assignment_id},
+        generated_refs=[{
+            "kind": "REVIEW_ASSIGNMENT", "identifier": assignment_id,
+            "sha256": None,
+        }],
+        new_review_row=(
+            assignment_id, before_state["task_id"], before_state["attempt"],
+            "skeptic-a", "05 Skeptic", "OPEN", semantic_id, None,
+        ),
     )
 
 
@@ -2685,6 +2721,33 @@ class RuntimeV2InitialTests(unittest.TestCase):
         ))
         self.assertEqual(report.status, "INVALID")
         self.assertIn("TABLE_DERIVATION", self.codes(report))
+
+    def test_review_assignment_is_derived_and_independent(self):
+        image, values = complete_review_fixture()
+        image, values = _append_review_assignment_fixture(image, values)
+        report = reduce_initial_runtime_image(image)
+        self.assertEqual(report.status, "UNSUPPORTED")
+        rows = {item.table: item.rows for item in image.table_snapshots}
+        self.assertEqual(len(rows["reviews"]), 1)
+        self.assertEqual(rows["reviews"][0][5], "OPEN")
+        self.assertEqual(values["assign-review_after_state"]["review"], "REVIEWING")
+
+        for field, value, code in (
+            ("actor", "03 Research", "TRANSITION_REVIEW_ACTOR_NOT_INDEPENDENT"),
+            ("role", "research", "TRANSITION_REVIEW_ROLE_NOT_INDEPENDENT"),
+        ):
+            attacked = _rehash_group_request(
+                image,
+                values,
+                "assign-review",
+                lambda request, field=field, value=value: request["arguments"].update(
+                    {field: value}
+                ),
+            )
+            with self.subTest(field=field):
+                result = reduce_initial_runtime_image(attacked)
+                self.assertEqual(result.status, "INVALID")
+                self.assertIn(code, self.codes(result))
 
         image, values = start_fixture()
         image, _ = _append_claim_fixture(

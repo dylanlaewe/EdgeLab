@@ -648,9 +648,10 @@ class RuntimeV2TransitionWorkspaceTests(unittest.TestCase):
         with self.assertRaises(transition.TransitionViolation) as caught:
             workspace.stage(
                 intent(
-                    "ASSIGN_REVIEW",
-                    args=arguments(actor="skeptic-fixture", role="05 Skeptic"),
-                    generated_id=uuid4(100),
+                    "APPROVE",
+                    args=arguments(
+                        assignment_id=uuid4(100), decision_sha256=DIGEST
+                    ),
                 )
             )
         self.assertEqual(caught.exception.code, "TRANSITION_OPERATION_OUTSIDE_WORKSPACE")
