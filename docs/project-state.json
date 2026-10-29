@@ -48,6 +48,7 @@
     "The cumulative deny-only runtime-v2 semantic resource-classification v3 now byte-binds its v2 predecessor, re-audits its v1 ancestor, and additionally binds MAX_SCHEMA_DOCUMENT_BYTES plus four exact image/verifier source sites under pinned source/schema census identities, complete source-module and enclosing-function ASTs, governing contracts, boundary evidence, and adversarial fail-closed checks; 682 sites remain semantically unclassified, coverage remains INCOMPLETE, and generation remains blocked",
     "The cumulative deny-only runtime-v2 semantic resource-classification v4 now byte-binds its v3 predecessor, re-audits its v2/v1 ancestor chain, and additionally binds MAX_SCHEMA_REF_NODES plus its exact verifier definition/enforcement sites under pinned source/schema census identities, complete verifier-module and schema-safety-function ASTs, an additive exact contract, boundary evidence, and adversarial fail-closed checks; 680 sites remain semantically unclassified, coverage remains INCOMPLETE, and generation remains blocked",
     "Runtime-v2 resource discovery v2 now preserves all 394 predecessor source sites and adds seven exact branch-specific bindings behind the two generic byte-table comparators; classification v5 is a census-only rebase preserving the same four constraints and ten classified sites, 687 of 697 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked",
+    "The cumulative deny-only runtime-v2 semantic resource-classification v6 now byte-binds its v5 predecessor and additionally binds MAX_EVENT_BYTES to its exact definition and events branch-specific table binding under an exact boundary matrix and attacker-refreshed semantic-pin evidence; 685 of 697 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked",
     "Historical capture reconstruction/verifier engineering completed with native engineering review; formal Skeptic acceptance remains pending",
     "Revision-aware handoff dependency validation and production repository validation restored",
     "Read-only local laboratory observatory exposes governed project status and the retained MOCK_ONLY walkthrough through a fail-closed loopback interface",
@@ -62,18 +63,18 @@
     "Resolve statistical, freshness, paper-capital, exposure, correlation, drawdown, and live-gate thresholds before M0 exit"
   ],
   "blockers": [
-    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002.v31 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
+    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002.v32 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
     "H-M0-086 is BLOCKED because no genuinely distinct trusted 05 Skeptic authority is provisioned",
     "H-M0-041.v23 remains BLOCKED pending formal Skeptic acceptance and separate Director release",
     "The locked authority and historical binding substrates are diagnostic and DENY-only; positive authoritative currentness and authenticated receipt/R-gate integration remain unresolved",
     "M0.3A engineering completion does not constitute formal acceptance or operational authority"
   ],
   "next_assignment": "Select and classify the next smallest unambiguous branch-specific non-relational resource maximum under exact binding, semantic-dependency, evidence, and adversarial-review discipline while retaining incomplete coverage and generation denial",
-  "updated_at": "2026-10-29T22:14:04Z",
+  "updated_at": "2026-10-29T22:41:00Z",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json",
     "reports/stops/STOP-M0-3A-001.v1.json",
-    "reports/stops/STOP-M0-3A-002.v31.json"
+    "reports/stops/STOP-M0-3A-002.v32.json"
   ],
   "review_ref": "reports/reviews/M0.2-M0.3-final-evidence-plan-rereview.v1.md",
   "open_findings": [

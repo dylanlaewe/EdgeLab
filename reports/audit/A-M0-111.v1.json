@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-111",
+  "version": 1,
+  "occurred_at": "2026-10-29T22:41:00Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_EVENT_BYTE_RESOURCE_CLASSIFIED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-129-runtime-v2-event-byte-resource-classification.v1.md",
+  "previous_state": "DISCOVERY_V2_697_SITES_TEN_CLASSIFIED_687_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V2_697_SITES_TWELVE_CLASSIFIED_685_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 6f773f7260c4d8b855a19f4e61df71ee8f77a9a4 binds MAX_EVENT_BYTES to its exact definition and branch-specific events table binding with an exact boundary matrix and adversarial semantic-pin evidence. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": ["reports/H-M0-129-runtime-v2-event-byte-resource-classification.v1.md", "docs/M0.3A_EVENT_BYTE_LIMIT.v1.md", "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v6.json", "schemas/m0-3a-runtime-v2-resource-classification.v6.schema.json", "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md", "tools/check_runtime_v2_release_readiness.py", "tests/test_runtime_v2_event_byte_bound.py", "tests/test_runtime_v2_release_readiness.py", "reports/stops/STOP-M0-3A-002.v32.json"],
+  "code_ref": "6f773f7260c4d8b855a19f4e61df71ee8f77a9a4",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-129",
+  "supersedes": null
+}
