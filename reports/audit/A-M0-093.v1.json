@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-093",
+  "version": 1,
+  "occurred_at": "2026-10-29T16:36:08Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_PRIVATE_ATOMIC_TRANSITION_WORKSPACE_IMPLEMENTED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-111-transition-workspace.v1.md",
+  "previous_state": "FORMAT_2_ARBITRARY_COMPILED_WORKER_DEPTH_REPLAYED_WITH_REPEATED_WHOLE_STATE_VALIDATION_STOP_OPEN",
+  "new_state": "FORMAT_2_COMPILED_WORKER_REPLAY_USES_ATOMIC_PRIVATE_TRANSITION_WORKSPACE_RECLAIM_RETRY_AND_ATTEMPT_HISTORY_ABSENT_STOP_OPEN",
+  "reason": "Commit cb33bc85d9c0724a94bab0e6b00847ceaed58a84 stages exact revision-bound task/claim deltas, commits only after complete group validation, binds group patches to exact event pairs, rejects forged and aliased workspace plans, and freezes through the full ReducerState invariant backstop once. Re-claim, RETRY, and cumulative attempt history remain uncompiled. Valid candidates remain opaque UNSUPPORTED/CLOSURE_NOT_COMPILED/DENY; no public-verifier, currentness, execution, or capital path was added.",
+  "evidence_refs": [
+    "reports/H-M0-111-transition-workspace.v1.md",
+    "docs/M0.3A_TRANSITION_WORKSPACE_SLICE.v1.md",
+    "src/edgelab/runtime_v2_transition.py",
+    "src/edgelab/runtime_v2_group.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "tests/test_runtime_v2_transition_workspace.py",
+    "reports/stops/STOP-M0-3A-002.v14.json"
+  ],
+  "code_ref": "cb33bc85d9c0724a94bab0e6b00847ceaed58a84",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-111",
+  "supersedes": null
+}

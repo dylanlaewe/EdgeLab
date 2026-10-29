@@ -1,0 +1,71 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-111",
+  "version": 1,
+  "created_at": "2026-10-29T16:36:08Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Replace repeated whole-state reconstruction in the compiled runtime-v2 image replay with a private atomic transition workspace without expanding lifecycle or capital authority.",
+  "work_done": "Implemented a private non-copyable transition workspace shared with the immutable transition planner. It stages revision-bound exact task/claim deltas, commits only after whole-group validation, binds each patch to the exact semantic/commit pair, preserves retained event uniqueness and resource bounds, and freezes once through complete ReducerState validation. Re-CLAIM and RETRY dispatch remain denied; valid candidates remain opaque UNSUPPORTED/CLOSURE_NOT_COMPILED/DENY.",
+  "evidence_refs": [
+    "reports/H-M0-111-transition-workspace.v1.md",
+    "reports/audit/A-M0-093.v1.json",
+    "reports/stops/STOP-M0-3A-002.v14.json",
+    "docs/M0.3A_TRANSITION_WORKSPACE_SLICE.v1.md",
+    "src/edgelab/runtime_v2_transition.py",
+    "src/edgelab/runtime_v2_group.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "tests/test_runtime_v2_transition_workspace.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_TRANSITION_WORKSPACE_SLICE.v1.md",
+    "src/edgelab/runtime_v2_transition.py",
+    "src/edgelab/runtime_v2_group.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "tests/test_runtime_v2_transition_workspace.py",
+    "tests/test_runtime_v2_initial.py",
+    "tools/run_test_tier.py",
+    "reports/H-M0-111-transition-workspace.v1.md",
+    "reports/audit/A-M0-093.v1.json",
+    "reports/stops/STOP-M0-3A-002.v14.json",
+    "docs/handoffs/H-M0-111.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json"
+  ],
+  "tests_run": [
+    "Focused transition, workspace, image, reducer, and public-verifier suite: 114 tests passed.",
+    "The same 114 tests passed under optimized Python (-O).",
+    "Fast tier: 306 tests passed across 18 isolated modules.",
+    "Production validator before evidence publication: 392 records and published history validated; M0 capital remained LOCKED and no approval was granted.",
+    "Production validator after evidence publication: 395 records and published history validated with the same locked and non-authorizing result.",
+    "Alpha/observatory regression: 18 tests passed after STOP provenance was extended.",
+    "Python compile checks and Git diff whitespace checks passed."
+  ],
+  "open_questions": [
+    "How should a cumulative attempt projection atomically retain attempt n while RETRY creates attempt n+1 with its exact origin and task-root predecessor?",
+    "What smallest group-dispatch change admits re-CLAIM after YIELD/RECOVER without relaxing the first-claim grammar or historical claim uniqueness?",
+    "What incremental ownership boundary should later compose review/remediation/import records without duplicating cursor or workspace facts?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v14 remains OPEN pending cumulative attempt history, re-claim/retry, later lifecycle groups, snapshot cuts, exact closure generation, A-J testing, and independent acceptance.",
+    "The public verifier remains disconnected and can return only INVALID or UNSUPPORTED under UNANCHORED/UNKNOWN/DENY.",
+    "Delegated subagent engineering review does not satisfy the genuinely distinct trusted 05 Skeptic requirement; H-M0-086 and H-M0-041 remain BLOCKED.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked, live remains LOCKED, kill remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Implement cumulative immutable attempt projection and closed re-CLAIM/RETRY dispatch atop the private transition workspace.",
+  "completion_criteria": [
+    "Every currently compiled group stages without mutating retained task/claim state and commits only after complete group validation.",
+    "Foreign, stale, double, forged, copied, and cross-event-pair plans reject before workspace or cursor mutation.",
+    "A long compiled trace performs exactly one final full-state freeze while preserving exact comparison-only table projections and deny-only authority."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-110.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-110",
+      "version": 1,
+      "sha256": "7d7ec037753d07f3201abcef9ecf7d16462786c326b423461e386dac28e05dd6"
+    }
+  ]
+}
