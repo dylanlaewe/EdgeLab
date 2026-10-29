@@ -19,6 +19,7 @@ from tools.check_runtime_v2_release_readiness import (
     PIN_END_MARKER,
     PIN_REPLACEMENT,
     RESOURCE_CLASSIFICATION_DOMAIN,
+    RESOURCE_CLASSIFICATION_ANCESTORS,
     RESOURCE_CLASSIFICATION_EVIDENCE,
     RESOURCE_CLASSIFICATION_MANIFEST,
     RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
@@ -51,6 +52,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             RESOURCE_CLASSIFICATION_MANIFEST[1],
             RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST["path"],
             RESOURCE_CLASSIFICATION_PREDECESSOR_SCHEMA["path"],
+            *(item["path"] for item in RESOURCE_CLASSIFICATION_ANCESTORS),
             *(item["path"] for item in RESOURCE_CLASSIFICATION_EVIDENCE),
         }
         for relative in paths:
@@ -103,7 +105,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                 source_identity,
             )
             manifest["unclassified_site_count"] = (
-                len(source_sites) + manifest["schema_bound_site_count"] - 4
+                len(source_sites) + manifest["schema_bound_site_count"] - 8
             )
 
         self.rewrite_manifest(root, refresh)
@@ -167,9 +169,9 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(len(discovery["schema_inputs"]), 15)
         self.assertEqual(len(discovery["source_inputs"]), 10)
         classification = inventory["resource_inventory_classification"]
-        self.assertEqual(classification["classified_constraint_count"], 2)
-        self.assertEqual(classification["classified_site_count"], 4)
-        self.assertEqual(classification["unclassified_site_count"], 686)
+        self.assertEqual(classification["classified_constraint_count"], 3)
+        self.assertEqual(classification["classified_site_count"], 8)
+        self.assertEqual(classification["unclassified_site_count"], 682)
         self.assertEqual(classification["coverage_status"], "INCOMPLETE")
         self.assertEqual(classification["generation_disposition"], "DENY")
         expected_schema_paths = {
@@ -463,11 +465,15 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(claimed, expected)
         self.assertEqual(manifest["coverage_status"], "INCOMPLETE")
         self.assertEqual(manifest["generation_disposition"], "DENY")
-        self.assertEqual(manifest["classified_site_count"], 4)
-        self.assertEqual(manifest["unclassified_site_count"], 686)
+        self.assertEqual(manifest["classified_site_count"], 8)
+        self.assertEqual(manifest["unclassified_site_count"], 682)
         self.assertEqual(
             [item["constraint_id"] for item in manifest["constraints"]],
-            ["MAX_BLOB_BYTES", "MAX_DEPENDENCY_CLOSURE_BYTES"],
+            [
+                "MAX_BLOB_BYTES",
+                "MAX_DEPENDENCY_CLOSURE_BYTES",
+                "MAX_SCHEMA_DOCUMENT_BYTES",
+            ],
         )
 
     def test_partial_classification_rejects_hostile_manifest_mutations(self):
@@ -494,7 +500,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         root = self.copy_inputs()
         path = root / RESOURCE_CLASSIFICATION_MANIFEST[1]
         raw = path.read_bytes().replace(
-            b'"schema_version": 2', b'"schema_version": 2, "schema_version": 2'
+            b'"schema_version": 3', b'"schema_version": 3, "schema_version": 3'
         )
         path.write_bytes(raw)
         with self.assertRaises(ReadinessError) as caught:
@@ -537,7 +543,12 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                 with self.assertRaises(ReadinessError) as caught:
                     build_report(root)
                 self.assertEqual(
-                    caught.exception.code, "RESOURCE_CLASSIFICATION_CONSTRAINT"
+                    caught.exception.code,
+                    (
+                        "RESOURCE_CLASSIFICATION_CONSTRAINT_KEYS"
+                        if mutation == "reordered"
+                        else "RESOURCE_CLASSIFICATION_CONSTRAINTS"
+                    ),
                 )
 
     def test_partial_classification_binds_schema_and_evidence_bytes(self):
@@ -584,6 +595,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         for predecessor in (
             RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
             RESOURCE_CLASSIFICATION_PREDECESSOR_SCHEMA,
+            *RESOURCE_CLASSIFICATION_ANCESTORS,
         ):
             with self.subTest(predecessor=predecessor["path"]):
                 root = self.copy_inputs()
@@ -773,7 +785,129 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                     build_report(root)
                 self.assertEqual(caught.exception.code, expected_code)
 
-    def test_v2_classification_binds_predecessor_link_records(self):
+    def test_schema_document_classification_binds_both_implementations(self):
+        attacks = (
+            (
+                "src/edgelab/runtime_v2_image.py",
+                b"if body_size > MAX_SCHEMA_DOCUMENT_BYTES:",
+                b"if body_size >= MAX_SCHEMA_DOCUMENT_BYTES:",
+                "RESOURCE_CLASSIFICATION_SITE_MISSING",
+            ),
+            (
+                "src/edgelab/runtime_v2_verifier.py",
+                b"if len(record.canonical_json) > MAX_SCHEMA_DOCUMENT_BYTES:",
+                b"if len(record.canonical_json) >= MAX_SCHEMA_DOCUMENT_BYTES:",
+                "RESOURCE_CLASSIFICATION_SITE_MISSING",
+            ),
+            (
+                "src/edgelab/runtime_v2_image.py",
+                b"if body_size > MAX_SCHEMA_DOCUMENT_BYTES:\n",
+                b"if False and body_size > MAX_SCHEMA_DOCUMENT_BYTES:\n",
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+            ),
+            (
+                "src/edgelab/runtime_v2_verifier.py",
+                b"if len(record.canonical_json) > MAX_SCHEMA_DOCUMENT_BYTES:\n",
+                b"if False and len(record.canonical_json) > MAX_SCHEMA_DOCUMENT_BYTES:\n",
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+            ),
+            (
+                "src/edgelab/runtime_v2_image.py",
+                b'findings.add("IMAGE_ITEM_BYTE_LIMIT", "schema_documents", ',
+                b'findings.add("WRONG_LIMIT", "schema_documents", ',
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+            ),
+            (
+                "src/edgelab/runtime_v2_verifier.py",
+                b'_finding("SCHEMA_DOCUMENT_TOO_LARGE", "schema_documents", ',
+                b'_finding("WRONG_LIMIT", "schema_documents", ',
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+            ),
+            (
+                "src/edgelab/runtime_v2_image.py",
+                b"                body_size = len(body)\n",
+                b"                body_size = len(body[:True])\n",
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+            ),
+            (
+                "src/edgelab/runtime_v2_verifier.py",
+                b"    if findings:\n        return findings, False\n",
+                b"    if False:\n        return findings, False\n",
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+            ),
+            (
+                "src/edgelab/runtime_v2_verifier.py",
+                b"    findings.extend(bundle_findings)\n",
+                b"    findings.extend(())\n",
+                "RESOURCE_CLASSIFICATION_MODULE_SHAPE",
+            ),
+            (
+                "src/edgelab/runtime_v2_verifier.py",
+                b'    authorizing_use: str = field(default="DENY", init=False)\n',
+                b'    authorizing_use: str = field(default="ALLOW", init=False)\n',
+                "RESOURCE_CLASSIFICATION_MODULE_SHAPE",
+            ),
+            (
+                "src/edgelab/runtime_v2_verifier.py",
+                b"\n_REQUIRED_DESCRIPTOR_TABLES = (",
+                b"\nlen = lambda value: value.__len__()\n\n_REQUIRED_DESCRIPTOR_TABLES = (",
+                "RESOURCE_CLASSIFICATION_MODULE_SHAPE",
+            ),
+        )
+        for relative, old, new, expected_code in attacks:
+            with self.subTest(path=relative, attack=old[:36]):
+                root = self.copy_inputs()
+                source = root / relative
+                mutated = source.read_bytes().replace(old, new, 1)
+                self.assertNotEqual(mutated, source.read_bytes())
+                source.write_bytes(mutated)
+                self.refresh_source_bindings(root)
+                with self.assertRaises(ReadinessError) as caught:
+                    build_report(root)
+                self.assertEqual(caught.exception.code, expected_code)
+
+        for relative in (
+            "src/edgelab/runtime_v2_image.py",
+            "src/edgelab/runtime_v2_verifier.py",
+        ):
+            with self.subTest(path=relative, attack="constant divergence"):
+                root = self.copy_inputs()
+                source = root / relative
+                mutated = source.read_bytes().replace(
+                    b"MAX_SCHEMA_DOCUMENT_BYTES = 262_144",
+                    b"MAX_SCHEMA_DOCUMENT_BYTES = 262_143",
+                    1,
+                )
+                self.assertNotEqual(mutated, source.read_bytes())
+                source.write_bytes(mutated)
+                self.refresh_source_bindings(root)
+                with self.assertRaises(ReadinessError) as caught:
+                    build_report(root)
+                self.assertEqual(
+                    caught.exception.code, "RESOURCE_LIMIT_CONFLICT"
+                )
+
+        for relative in (
+            "src/edgelab/runtime_v2_image.py",
+            "src/edgelab/runtime_v2_verifier.py",
+        ):
+            with self.subTest(path=relative, attack="extra constant read"):
+                root = self.copy_inputs()
+                source = root / relative
+                source.write_bytes(
+                    source.read_bytes()
+                    + b"\ndef _extra_limit_read():\n"
+                    + b"    return MAX_SCHEMA_DOCUMENT_BYTES\n"
+                )
+                self.refresh_source_bindings(root)
+                with self.assertRaises(ReadinessError) as caught:
+                    build_report(root)
+                self.assertEqual(
+                    caught.exception.code,
+                    "RESOURCE_CLASSIFICATION_NAME_CARDINALITY",
+                )
+
+    def test_v3_classification_binds_predecessor_link_records(self):
         attacks = (
             ("predecessor_manifest", "raw_sha256", "0" * 64),
             ("predecessor_manifest", "classification_manifest_sha256", "1" * 64),

@@ -35,6 +35,7 @@ FAST_MODULES = (
     "tests.test_runtime_v2_initialize_replay",
     "tests.test_runtime_v2_post_import",
     "tests.test_runtime_v2_release_readiness",
+    "tests.test_runtime_v2_schema_document_bound",
     "tests.test_runtime_v2_snapshot",
     "tests.test_runtime_v2_legacy_amendment",
     "tests.test_runtime_v2_storage_descriptor",
