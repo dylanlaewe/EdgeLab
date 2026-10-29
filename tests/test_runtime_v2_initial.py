@@ -753,6 +753,7 @@ def _append_special_group(
     new_claim_row=None,
     new_review_row=None,
     closed_claim_status=None,
+    closed_review_status=None,
 ):
     """Append one single-task follow-up fixture and derived table projection."""
     before_state = values[before_state_key]
@@ -998,6 +999,17 @@ def _append_special_group(
         claim[7] = semantic_id
         claim_rows[claim_index] = tuple(claim)
         rows["claims"] = tuple(claim_rows)
+    if closed_review_status is not None:
+        review_rows = list(rows["reviews"])
+        review_index = next(
+            index for index, row in enumerate(review_rows)
+            if row[0] == before_state["reviewer_assignment_id"]
+        )
+        review = list(review_rows[review_index])
+        review[5] = closed_review_status
+        review[7] = semantic_id
+        review_rows[review_index] = tuple(review)
+        rows["reviews"] = tuple(review_rows)
     idempotency = (
         operation_key, transaction_id, request_sha, response_sha,
         commit_id, semantic_index + 1, CREATED_AT,
@@ -1128,6 +1140,11 @@ def _append_governance_fixture(
             if before_state["active_claim_id"] is not None
             else None
         )
+        closed_review_status = (
+            "GOVERNANCE_REVOKED"
+            if before_state["reviewer_assignment_id"] is not None
+            else None
+        )
     elif operation == "REVALIDATE":
         review_pending = before_state["review"] == "REVIEW_PENDING"
         after_state.update({
@@ -1144,6 +1161,7 @@ def _append_governance_fixture(
         event_type = "GOVERNANCE_REVALIDATED"
         arguments = {"evidence_sha256": "b" * 64}
         closed_claim_status = None
+        closed_review_status = None
     else:
         raise ValueError(operation)
     return _append_special_group(
@@ -1161,6 +1179,7 @@ def _append_governance_fixture(
         payload_data={},
         generated_refs=[],
         closed_claim_status=closed_claim_status,
+        closed_review_status=closed_review_status,
     )
 
 
@@ -1194,6 +1213,72 @@ def _append_review_assignment_fixture(image, values):
             assignment_id, before_state["task_id"], before_state["attempt"],
             "skeptic-a", "05 Skeptic", "OPEN", semantic_id, None,
         ),
+    )
+
+
+def _append_review_decision_fixture(
+    image, values, *, operation, prefix, semantic_id, commit_id,
+    transaction_id,
+):
+    before_state = values["assign-review_after_state"]
+    profiles = {
+        "APPROVE": ("REVIEW_APPROVED", "APPROVED", "APPROVED"),
+        "REJECT": ("REVIEW_REJECTED", "REJECTED", "REJECTED"),
+        "REMEDIATE": (
+            "REVIEW_REMEDIATED",
+            "REMEDIATION_REQUIRED",
+            "REMEDIATION_REQUIRED",
+        ),
+    }
+    event_type, review_state, row_status = profiles[operation]
+    after_state = json.loads(json.dumps(before_state))
+    after_state.update({
+        "review": review_state,
+        "scheduler_generation": before_state["scheduler_generation"] + 1,
+        "reviewer_assignment_id": None,
+    })
+    return _append_special_group(
+        image,
+        values,
+        prefix=prefix,
+        before_state_key="assign-review_after_state",
+        operation=operation,
+        event_type=event_type,
+        semantic_id=semantic_id,
+        commit_id=commit_id,
+        transaction_id=transaction_id,
+        arguments={
+            "assignment_id": before_state["reviewer_assignment_id"],
+            "decision_sha256": "c" * 64,
+        },
+        after_state=after_state,
+        payload_data={},
+        generated_refs=[],
+        closed_review_status=row_status,
+    )
+
+
+def _append_route_fixture(image, values, *, before_state_key="approve_after_state"):
+    before_state = values[before_state_key]
+    after_state = json.loads(json.dumps(before_state))
+    after_state.update({
+        "workflow": "DIRECTOR_GATE_READY",
+        "scheduler_generation": before_state["scheduler_generation"] + 1,
+    })
+    return _append_special_group(
+        image,
+        values,
+        prefix="route",
+        before_state_key=before_state_key,
+        operation="ROUTE",
+        event_type="DIRECTOR_ROUTED",
+        semantic_id="123e4567-e89b-42d3-a456-426614174176",
+        commit_id="123e4567-e89b-42d3-a456-426614174177",
+        transaction_id="123e4567-e89b-42d3-a456-426614174178",
+        arguments={"routing_evidence_sha256": "d" * 64},
+        after_state=after_state,
+        payload_data={},
+        generated_refs=[],
     )
 
 
@@ -1871,6 +1956,47 @@ def _rehash_semantic_context(image, values, prefix, mutate):
         PAYLOAD_SCHEMA_ID,
         canonical_json(commit_payload),
     )
+    return replace(
+        image,
+        blobs=tuple(sorted(blob_by_digest.values(), key=lambda record: record.sha256)),
+        events=image.events[:-2] + (
+            canonical_json(semantic), canonical_json(commit),
+        ),
+    )
+
+
+def _rehash_semantic_payload(image, values, prefix, mutate):
+    """Rehash a final semantic payload so identity attacks reach group logic."""
+    payload = json.loads(json.dumps(values[f"{prefix}_semantic_payload"]))
+    semantic = json.loads(json.dumps(values[f"{prefix}_semantic"]))
+    commit_payload = json.loads(json.dumps(values[f"{prefix}_commit_payload"]))
+    commit = json.loads(json.dumps(values[f"{prefix}_commit"]))
+    mutate(payload)
+    payload_sha = blob_digest(payload)
+    semantic["payload_ref"]["sha256"] = payload_sha
+    semantic["event_sha256"] = event_digest(semantic)
+    commit_payload["data"]["post_semantic_head"]["event_sha256"] = (
+        semantic["event_sha256"]
+    )
+    commit_payload_sha = blob_digest(commit_payload)
+    commit["global_predecessor"]["event_sha256"] = semantic["event_sha256"]
+    commit["payload_ref"]["sha256"] = commit_payload_sha
+    commit["event_sha256"] = event_digest(commit)
+    removed = {
+        blob_digest(values[f"{prefix}_semantic_payload"]),
+        blob_digest(values[f"{prefix}_commit_payload"]),
+    }
+    blob_by_digest = {
+        record.sha256: record for record in image.blobs
+        if record.sha256 not in removed
+    }
+    for record in (
+        BlobRecord(payload_sha, PAYLOAD_SCHEMA_ID, canonical_json(payload)),
+        BlobRecord(
+            commit_payload_sha, PAYLOAD_SCHEMA_ID, canonical_json(commit_payload)
+        ),
+    ):
+        blob_by_digest[record.sha256] = record
     return replace(
         image,
         blobs=tuple(sorted(blob_by_digest.values(), key=lambda record: record.sha256)),
@@ -2579,6 +2705,41 @@ class RuntimeV2InitialTests(unittest.TestCase):
             ("ACTIVE", "EXECUTION_COMPLETED", "REVIEW_PENDING"),
         )
 
+        image, values = complete_review_fixture()
+        image, values = _append_review_assignment_fixture(image, values)
+        image, values = _append_governance_fixture(
+            image,
+            values,
+            before_state_key="assign-review_after_state",
+            prefix="block-n4",
+            semantic_id="123e4567-e89b-42d3-a456-426614174173",
+            commit_id="123e4567-e89b-42d3-a456-426614174174",
+            transaction_id="123e4567-e89b-42d3-a456-426614174175",
+            operation="GOVERNANCE_BLOCK",
+        )
+        image, values = _append_governance_fixture(
+            image,
+            values,
+            before_state_key="block-n4_after_state",
+            prefix="revalidate-review-b1",
+            semantic_id="123e4567-e89b-42d3-a456-426614174179",
+            commit_id="123e4567-e89b-42d3-a456-426614174180",
+            transaction_id="123e4567-e89b-42d3-a456-426614174181",
+            operation="REVALIDATE",
+        )
+        report = reduce_initial_runtime_image(image)
+        self.assertEqual(report.status, "UNSUPPORTED")
+        rows = {snapshot.table: snapshot.rows for snapshot in image.table_snapshots}
+        self.assertEqual(rows["reviews"][0][5], "GOVERNANCE_REVOKED")
+        self.assertEqual(
+            rows["reviews"][0][7],
+            "123e4567-e89b-42d3-a456-426614174173",
+        )
+        self.assertEqual(
+            values["revalidate-review-b1_after_state"]["review"],
+            "REVIEW_PENDING",
+        )
+
     def test_governance_receipt_source_and_history_attacks_fail_closed(self):
         image, values = initialize_fixture()
         image, values = _append_governance_fixture(
@@ -2748,6 +2909,177 @@ class RuntimeV2InitialTests(unittest.TestCase):
                 result = reduce_initial_runtime_image(attacked)
                 self.assertEqual(result.status, "INVALID")
                 self.assertIn(code, self.codes(result))
+
+        attacked = _rehash_semantic_payload(
+            image,
+            values,
+            "assign-review",
+            lambda payload: payload["data"].update(
+                assignment_id="123e4567-e89b-42d3-a456-426614174199"
+            ),
+        )
+        result = reduce_initial_runtime_image(attacked)
+        self.assertEqual(result.status, "INVALID")
+        self.assertIn("GROUP_CONST", self.codes(result))
+
+    def test_review_decisions_and_route_derive_exact_history(self):
+        profiles = (
+            (
+                "APPROVE", "approve", "APPROVED", "APPROVED",
+                "123e4567-e89b-42d3-a456-426614174164",
+                "123e4567-e89b-42d3-a456-426614174165",
+                "123e4567-e89b-42d3-a456-426614174166",
+            ),
+            (
+                "REJECT", "reject", "REJECTED", "REJECTED",
+                "123e4567-e89b-42d3-a456-426614174167",
+                "123e4567-e89b-42d3-a456-426614174168",
+                "123e4567-e89b-42d3-a456-426614174169",
+            ),
+            (
+                "REMEDIATE", "remediate", "REMEDIATION_REQUIRED",
+                "REMEDIATION_REQUIRED",
+                "123e4567-e89b-42d3-a456-426614174170",
+                "123e4567-e89b-42d3-a456-426614174171",
+                "123e4567-e89b-42d3-a456-426614174172",
+            ),
+        )
+        approved_image = None
+        approved_values = None
+        for (
+            operation, prefix, task_review, row_status, semantic_id,
+            commit_id, transaction_id,
+        ) in profiles:
+            image, values = complete_review_fixture()
+            image, values = _append_review_assignment_fixture(image, values)
+            image, values = _append_review_decision_fixture(
+                image,
+                values,
+                operation=operation,
+                prefix=prefix,
+                semantic_id=semantic_id,
+                commit_id=commit_id,
+                transaction_id=transaction_id,
+            )
+            with self.subTest(operation=operation):
+                report = reduce_initial_runtime_image(image)
+                self.assertEqual(report.status, "UNSUPPORTED")
+                self.assertEqual(self.codes(report), {"CLOSURE_NOT_COMPILED"})
+                rows = {
+                    snapshot.table: snapshot.rows
+                    for snapshot in image.table_snapshots
+                }
+                self.assertEqual(rows["reviews"][0][5], row_status)
+                self.assertEqual(rows["reviews"][0][7], semantic_id)
+                self.assertEqual(rows["attempts"][0][4], 6)
+                self.assertEqual(len(rows["idempotency"]), 6)
+                after = values[f"{prefix}_after_state"]
+                self.assertEqual(after["review"], task_review)
+                self.assertIsNone(after["reviewer_assignment_id"])
+                self.assertEqual(
+                    after["scheduler_generation"],
+                    values["assign-review_after_state"]["scheduler_generation"] + 1,
+                )
+            if operation == "APPROVE":
+                approved_image, approved_values = image, values
+
+        if approved_image is None or approved_values is None:
+            self.fail("approved fixture was not constructed")
+        routed, routed_values = _append_route_fixture(
+            approved_image, approved_values
+        )
+        report = reduce_initial_runtime_image(routed)
+        self.assertEqual(report.status, "UNSUPPORTED")
+        self.assertEqual(self.codes(report), {"CLOSURE_NOT_COMPILED"})
+        route_after = routed_values["route_after_state"]
+        self.assertEqual(route_after["workflow"], "DIRECTOR_GATE_READY")
+        self.assertEqual(route_after["review"], "APPROVED")
+        self.assertIsNone(route_after["reviewer_assignment_id"])
+        rows = {snapshot.table: snapshot.rows for snapshot in routed.table_snapshots}
+        self.assertEqual(rows["reviews"][0][5], "APPROVED")
+        self.assertEqual(rows["attempts"][0][4], 7)
+        self.assertEqual(len(rows["idempotency"]), 7)
+
+    def test_review_decision_and_route_attacks_fail_closed(self):
+        image, values = complete_review_fixture()
+        image, values = _append_review_assignment_fixture(image, values)
+        image, values = _append_review_decision_fixture(
+            image,
+            values,
+            operation="APPROVE",
+            prefix="approve",
+            semantic_id="123e4567-e89b-42d3-a456-426614174164",
+            commit_id="123e4567-e89b-42d3-a456-426614174165",
+            transaction_id="123e4567-e89b-42d3-a456-426614174166",
+        )
+        for name, mutate, expected in (
+            (
+                "wrong_assignment",
+                lambda request: request["arguments"].update(
+                    assignment_id="123e4567-e89b-42d3-a456-426614174199"
+                ),
+                "TRANSITION_REVIEW_CAS",
+            ),
+            (
+                "malformed_decision",
+                lambda request: request["arguments"].update(
+                    decision_sha256=None
+                ),
+                "TRANSITION_TEXT",
+            ),
+        ):
+            attacked = _rehash_group_request(image, values, "approve", mutate)
+            with self.subTest(attack=name):
+                report = reduce_initial_runtime_image(attacked)
+                self.assertEqual(report.status, "INVALID")
+                self.assertIn(expected, self.codes(report))
+
+        snapshots = list(image.table_snapshots)
+        review_index = TABLE_NAMES.index("reviews")
+        review_rows = list(snapshots[review_index].rows)
+        changed = list(review_rows[0])
+        changed[5] = "OPEN"
+        changed[7] = None
+        review_rows[0] = tuple(changed)
+        snapshots[review_index] = TableSnapshot("reviews", tuple(review_rows))
+        report = reduce_initial_runtime_image(replace(
+            image, table_snapshots=tuple(snapshots),
+        ))
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("TABLE_DERIVATION", self.codes(report))
+
+        rejected, rejected_values = complete_review_fixture()
+        rejected, rejected_values = _append_review_assignment_fixture(
+            rejected, rejected_values
+        )
+        rejected, rejected_values = _append_review_decision_fixture(
+            rejected,
+            rejected_values,
+            operation="REJECT",
+            prefix="reject",
+            semantic_id="123e4567-e89b-42d3-a456-426614174167",
+            commit_id="123e4567-e89b-42d3-a456-426614174168",
+            transaction_id="123e4567-e89b-42d3-a456-426614174169",
+        )
+        routed, _ = _append_route_fixture(
+            rejected, rejected_values, before_state_key="reject_after_state"
+        )
+        report = reduce_initial_runtime_image(routed)
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("TRANSITION_SOURCE_STATE", self.codes(report))
+
+        approved, approved_values = _append_route_fixture(image, values)
+        attacked = _rehash_group_request(
+            approved,
+            approved_values,
+            "route",
+            lambda request: request["arguments"].update(
+                routing_evidence_sha256=None
+            ),
+        )
+        report = reduce_initial_runtime_image(attacked)
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("TRANSITION_TEXT", self.codes(report))
 
         image, values = start_fixture()
         image, _ = _append_claim_fixture(

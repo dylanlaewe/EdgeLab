@@ -623,7 +623,7 @@ def _check_worker(task: TaskState, args: dict[str, Any]) -> None:
 _WORKSPACE_OPERATIONS = frozenset({
     "INITIALIZE", "CLAIM", "START", "CONTINUE", "YIELD", "FAIL",
     "COMPLETE", "RECOVER", "RETRY", "GOVERNANCE_BLOCK", "REVALIDATE",
-    "ASSIGN_REVIEW",
+    "ASSIGN_REVIEW", "APPROVE", "REJECT", "REMEDIATE", "ROUTE",
 })
 
 
@@ -649,10 +649,18 @@ class _ReviewWrite:
 
 
 @dataclass(frozen=True, slots=True)
+class _DecisionWrite:
+    key: tuple[str, int]
+    before: ReviewDecision | None
+    after: ReviewDecision
+
+
+@dataclass(frozen=True, slots=True)
 class _TransitionDelta:
     task_writes: tuple[_TaskWrite, ...]
     claim_writes: tuple[_ClaimWrite, ...]
     review_writes: tuple[_ReviewWrite, ...]
+    decision_writes: tuple[_DecisionWrite, ...]
     after_task: TaskState
 
 
@@ -707,9 +715,10 @@ def _plan_workspace_transition(
     tasks: Mapping[str, TaskState],
     claims: Mapping[str, ClaimRecord],
     reviews: Mapping[str, ReviewRecord],
+    decisions: Mapping[tuple[str, int], ReviewDecision],
     intent: TransitionIntent,
 ) -> _TransitionDelta:
-    """Plan one currently compiled task/claim transition without mutation."""
+    """Plan one currently compiled task transition without mutation."""
     operation = intent.operation
     if operation not in _WORKSPACE_OPERATIONS:
         _deny("TRANSITION_OPERATION_OUTSIDE_WORKSPACE", "/operation")
@@ -740,7 +749,9 @@ def _plan_workspace_transition(
             owner=_identity(args["owner"], "/arguments/owner"),
             owner_role=_identity(args["owner_role"], "/arguments/owner_role"),
         )
-        return _TransitionDelta((_TaskWrite(task_id, None, task),), (), (), task)
+        return _TransitionDelta(
+            (_TaskWrite(task_id, None, task),), (), (), (), task
+        )
 
     event_id = _expect_events(intent, 1)[0]
     task = _subject(intent, tasks)
@@ -751,6 +762,7 @@ def _plan_workspace_transition(
         _deny("TRANSITION_STALE_TASK", "/repository_generation")
     claim_writes: tuple[_ClaimWrite, ...] = ()
     review_writes: tuple[_ReviewWrite, ...] = ()
+    decision_writes: tuple[_DecisionWrite, ...] = ()
 
     if operation == "CLAIM":
         if task.code != "N0":
@@ -921,7 +933,7 @@ def _plan_workspace_transition(
             active_claim_id=None,
             reviewer_assignment_id=None,
         )
-    else:
+    elif operation == "ASSIGN_REVIEW":
         if task.code != "N3":
             _deny("TRANSITION_SOURCE_STATE", "/task_id")
         args = intent.args(("actor", "role"))
@@ -950,10 +962,66 @@ def _plan_workspace_transition(
                 "OPEN", event_id,
             ),
         ),)
+    elif operation in {"APPROVE", "REJECT", "REMEDIATE"}:
+        if task.code != "N4":
+            _deny("TRANSITION_SOURCE_STATE", "/task_id")
+        args = intent.args(("assignment_id", "decision_sha256"))
+        assignment_id = _uuid(
+            args["assignment_id"], "/arguments/assignment_id"
+        )
+        decision_sha256 = _digest(
+            args["decision_sha256"], "/arguments/decision_sha256"
+        )
+        if assignment_id != task.reviewer_assignment_id:
+            _deny("TRANSITION_REVIEW_CAS", "/arguments/assignment_id")
+        decision_key = (task.task_id, task.attempt)
+        if decision_key in decisions:
+            _deny("TRANSITION_DECISION_EXISTS", "/task_id")
+        target = {
+            "APPROVE": "N7", "REJECT": "N5", "REMEDIATE": "N6",
+        }[operation]
+        status = {
+            "APPROVE": "APPROVED",
+            "REJECT": "REJECTED",
+            "REMEDIATE": "REMEDIATION_REQUIRED",
+        }[operation]
+        review_writes = (
+            _closed_review_write(reviews, task, status, event_id),
+        )
+        decision = ReviewDecision(
+            task.task_id, task.attempt, operation, decision_sha256, event_id
+        )
+        decision_writes = (
+            _DecisionWrite(decision_key, None, decision),
+        )
+        after = _with_code(
+            task,
+            target,
+            scheduler_generation=_increment(
+                task.scheduler_generation, "/scheduler_generation"
+            ),
+            reviewer_assignment_id=None,
+        )
+    else:
+        if task.code != "N7":
+            _deny("TRANSITION_SOURCE_STATE", "/task_id")
+        args = intent.args(("routing_evidence_sha256",))
+        _digest(
+            args["routing_evidence_sha256"],
+            "/arguments/routing_evidence_sha256",
+        )
+        after = _with_code(
+            task,
+            "N8",
+            scheduler_generation=_increment(
+                task.scheduler_generation, "/scheduler_generation"
+            ),
+        )
     return _TransitionDelta(
         (_TaskWrite(task.task_id, task, after),),
         claim_writes,
         review_writes,
+        decision_writes,
         after,
     )
 
@@ -995,7 +1063,7 @@ def _new_review_event_ids(
 
 
 class _TransitionWorkspace:
-    """Private two-phase task/claim/review workspace; freeze revalidates all."""
+    """Private two-phase task/claim/review/decision workspace."""
 
     __slots__ = (
         "_claims", "_decisions", "_links", "_repository_bundle_sha256",
@@ -1062,6 +1130,7 @@ class _TransitionWorkspace:
             self._tasks,
             self._claims,
             self._reviews,
+            self._decisions,
             intent,
         )
         self._precheck(delta)
@@ -1075,6 +1144,7 @@ class _TransitionWorkspace:
         task_keys = tuple(write.key for write in delta.task_writes)
         claim_keys = tuple(write.key for write in delta.claim_writes)
         review_keys = tuple(write.key for write in delta.review_writes)
+        decision_keys = tuple(write.key for write in delta.decision_writes)
         if (
             not task_keys
             or task_keys != tuple(sorted(task_keys))
@@ -1083,6 +1153,8 @@ class _TransitionWorkspace:
             or len(claim_keys) != len(set(claim_keys))
             or review_keys != tuple(sorted(review_keys))
             or len(review_keys) != len(set(review_keys))
+            or decision_keys != tuple(sorted(decision_keys))
+            or len(decision_keys) != len(set(decision_keys))
         ):
             _deny("TRANSITION_WORKSPACE_PLAN", "/")
         added_tasks = 0
@@ -1112,12 +1184,25 @@ class _TransitionWorkspace:
                 _deny("TRANSITION_WORKSPACE_CAS", f"/reviews/{write.key}")
             added_reviews += int(current is None)
             added_events.extend(_new_review_event_ids(current, write.after))
+        added_decisions = 0
+        for write in delta.decision_writes:
+            if (
+                type(write) is not _DecisionWrite
+                or write.key != (write.after.task_id, write.after.attempt)
+            ):
+                _deny("TRANSITION_WORKSPACE_PLAN", "/decisions")
+            current = self._decisions.get(write.key)
+            if current != write.before:
+                _deny("TRANSITION_WORKSPACE_CAS", f"/decisions/{write.key[0]}")
+            added_decisions += int(current is None)
         if len(self._tasks) + added_tasks > MAX_TASKS:
             _deny("TRANSITION_RESOURCE_TASKS", "/tasks")
         if len(self._claims) + added_claims > MAX_EVENTS:
             _deny("TRANSITION_RESOURCE_RECORDS", "/claims")
         if len(self._reviews) + added_reviews > MAX_EVENTS:
             _deny("TRANSITION_RESOURCE_RECORDS", "/reviews")
+        if len(self._decisions) + added_decisions > MAX_EVENTS:
+            _deny("TRANSITION_RESOURCE_RECORDS", "/decisions")
         if len(added_events) != len(set(added_events)) or any(
             event_id in self._retained_event_ids for event_id in added_events
         ):
@@ -1146,6 +1231,8 @@ class _TransitionWorkspace:
             self._claims[write.key] = write.after
         for write in staged.delta.review_writes:
             self._reviews[write.key] = write.after
+        for write in staged.delta.decision_writes:
+            self._decisions[write.key] = write.after
         self._retained_event_ids.update(added_events)
         self._revision += 1
         self._issued.clear()
@@ -1229,7 +1316,12 @@ def reduce_transition(state: ReducerState, intent: TransitionIntent) -> ReducerS
 
     if operation in _WORKSPACE_OPERATIONS:
         delta = _plan_workspace_transition(
-            state.repository_generation, tasks, claims, reviews, intent
+            state.repository_generation,
+            tasks,
+            claims,
+            reviews,
+            decisions,
+            intent,
         )
         for write in delta.task_writes:
             tasks[write.key] = write.after
@@ -1237,6 +1329,8 @@ def reduce_transition(state: ReducerState, intent: TransitionIntent) -> ReducerS
             claims[write.key] = write.after
         for write in delta.review_writes:
             reviews[write.key] = write.after
+        for write in delta.decision_writes:
+            decisions[write.key] = write.after
     elif operation == "CREATE_REMEDIATION_TASK":
         event_ids = _expect_events(intent, 2)
         source = _subject(intent, tasks)

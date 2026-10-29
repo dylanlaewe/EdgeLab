@@ -3,11 +3,10 @@
 The compiled slices support ``INITIALIZE`` after a validated NEW genesis,
 followed by repeatable ``CLAIM``, worker operations ``START``, ``CONTINUE``,
 ``YIELD``, ``FAIL``, and ``COMPLETE``, synthetic ``RECOVER``, and exact
-attempt-boundary ``RETRY``, plus ``GOVERNANCE_BLOCK`` and ``REVALIDATE``.
-They are deliberately
-narrow: supplied blobs and events are treated as untrusted comparison inputs,
-task state is recomputed with the immutable transition kernel, and no result
-can authorize use.
+attempt-boundary ``RETRY``, plus governance, review-decision, and routing
+follow-ups. They are deliberately narrow: supplied blobs and events are
+treated as untrusted comparison inputs, task state is recomputed with the
+immutable transition kernel, and no result can authorize use.
 """
 from __future__ import annotations
 
@@ -96,6 +95,22 @@ _FOLLOWUP_PROFILES = {
     "REVIEW_ASSIGNED": (
         "ASSIGN_REVIEW",
         frozenset({"actor", "role"}),
+    ),
+    "REVIEW_APPROVED": (
+        "APPROVE",
+        frozenset({"assignment_id", "decision_sha256"}),
+    ),
+    "REVIEW_REJECTED": (
+        "REJECT",
+        frozenset({"assignment_id", "decision_sha256"}),
+    ),
+    "REVIEW_REMEDIATED": (
+        "REMEDIATE",
+        frozenset({"assignment_id", "decision_sha256"}),
+    ),
+    "DIRECTOR_ROUTED": (
+        "ROUTE",
+        frozenset({"routing_evidence_sha256"}),
     ),
 }
 

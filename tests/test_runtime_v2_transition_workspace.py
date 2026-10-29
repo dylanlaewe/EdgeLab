@@ -392,6 +392,139 @@ class RuntimeV2TransitionWorkspaceTests(unittest.TestCase):
         workspace.commit(staged)
         self.assertEqual(workspace.freeze().tasks[0].code, "B0")
 
+    def test_review_decisions_and_route_share_one_atomic_workspace(self) -> None:
+        targets = {
+            "APPROVE": ("N7", "APPROVED"),
+            "REJECT": ("N5", "REJECTED"),
+            "REMEDIATE": ("N6", "REMEDIATION_REQUIRED"),
+        }
+        for operation, (target, review_status) in targets.items():
+            with self.subTest(operation=operation):
+                claim_id = uuid4(200)
+                assignment_id = uuid4(201)
+                trace = (
+                    initialize_intent(1),
+                    intent(
+                        "CLAIM",
+                        args=arguments(actor="worker-fixture"),
+                        generated_id=claim_id,
+                        event=2,
+                    ),
+                    intent(
+                        "START",
+                        args=arguments(claim_id=claim_id, fence=1),
+                        event=3,
+                    ),
+                    intent(
+                        "COMPLETE",
+                        args=arguments(
+                            claim_id=claim_id,
+                            close=False,
+                            completion_evidence_sha256=DIGEST,
+                            fence=1,
+                        ),
+                        event=4,
+                    ),
+                    intent(
+                        "ASSIGN_REVIEW",
+                        args=arguments(
+                            actor="skeptic-fixture", role="05 Skeptic"
+                        ),
+                        generated_id=assignment_id,
+                        event=5,
+                    ),
+                    intent(
+                        operation,
+                        args=arguments(
+                            assignment_id=assignment_id,
+                            decision_sha256="b" * 64,
+                        ),
+                        event=6,
+                    ),
+                )
+                immutable = self.empty
+                workspace = transition._TransitionWorkspace(self.empty)
+                for item in trace:
+                    immutable = transition.reduce_transition(immutable, item)
+                    staged = workspace.stage(item)
+                    if item.operation == operation:
+                        self.assertEqual(len(staged.delta.review_writes), 1)
+                        self.assertEqual(len(staged.delta.decision_writes), 1)
+                        self.assertEqual(
+                            staged.delta.review_writes[0].after.status,
+                            review_status,
+                        )
+                        self.assertEqual(
+                            staged.delta.decision_writes[0].after.operation,
+                            operation,
+                        )
+                    workspace.commit(staged)
+                frozen = workspace.freeze()
+                self.assertEqual(frozen, immutable)
+                self.assertEqual(frozen.tasks[0].code, target)
+                self.assertEqual(frozen.reviews[0].status, review_status)
+                self.assertEqual(frozen.reviews[0].closed_event_id, uuid4(6))
+                self.assertEqual(frozen.decisions[0].decision_sha256, "b" * 64)
+
+                if operation == "APPROVE":
+                    route = intent(
+                        "ROUTE",
+                        args=arguments(routing_evidence_sha256="c" * 64),
+                        event=7,
+                    )
+                    immutable = transition.reduce_transition(immutable, route)
+                    self.commit(workspace, route)
+                    routed = workspace.freeze()
+                    self.assertEqual(routed, immutable)
+                    self.assertEqual(routed.tasks[0].code, "N8")
+                    self.assertEqual(routed.reviews[0].status, "APPROVED")
+                    self.assertEqual(routed.decisions, frozen.decisions)
+
+    def test_review_decision_rejects_reused_close_event_without_writes(self) -> None:
+        claim_id = uuid4(210)
+        assignment_id = uuid4(211)
+        workspace = transition._TransitionWorkspace(self.empty)
+        for item in (
+            initialize_intent(1),
+            intent(
+                "CLAIM",
+                args=arguments(actor="worker-fixture"),
+                generated_id=claim_id,
+                event=2,
+            ),
+            intent(
+                "START", args=arguments(claim_id=claim_id, fence=1), event=3
+            ),
+            intent(
+                "COMPLETE",
+                args=arguments(
+                    claim_id=claim_id,
+                    close=False,
+                    completion_evidence_sha256=DIGEST,
+                    fence=1,
+                ),
+                event=4,
+            ),
+            intent(
+                "ASSIGN_REVIEW",
+                args=arguments(actor="skeptic-fixture", role="05 Skeptic"),
+                generated_id=assignment_id,
+                event=5,
+            ),
+        ):
+            self.commit(workspace, item)
+        before = workspace.freeze()
+        with self.assertRaises(transition.TransitionViolation) as caught:
+            workspace.stage(intent(
+                "APPROVE",
+                args=arguments(
+                    assignment_id=assignment_id, decision_sha256=DIGEST
+                ),
+                event=5,
+            ))
+        self.assertEqual(caught.exception.code, "TRANSITION_STATE_EVENT_REUSED")
+        self.assertEqual(workspace.freeze(), before)
+
     def test_group_patch_pair_mismatch_rejects_before_workspace_or_cursor_mutation(self) -> None:
         genesis = {
             "runtime_id": uuid4(900),
@@ -648,10 +781,8 @@ class RuntimeV2TransitionWorkspaceTests(unittest.TestCase):
         with self.assertRaises(transition.TransitionViolation) as caught:
             workspace.stage(
                 intent(
-                    "APPROVE",
-                    args=arguments(
-                        assignment_id=uuid4(100), decision_sha256=DIGEST
-                    ),
+                    "CHECKPOINT",
+                    args=arguments(checkpoint_sha256=DIGEST),
                 )
             )
         self.assertEqual(caught.exception.code, "TRANSITION_OPERATION_OUTSIDE_WORKSPACE")
