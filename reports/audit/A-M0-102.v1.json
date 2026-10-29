@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-102",
+  "version": 1,
+  "occurred_at": "2026-10-29T19:06:04Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_POST_IMPORT_TASK_SELECTION_IMPLEMENTED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-120-post-import-task-selection.v1.md",
+  "previous_state": "FORMAT_2_PRIVATE_REPLAY_COMPILES_EXACT_CHECKPOINT_EXPORT_CUTS_STOP_OPEN",
+  "new_state": "FORMAT_2_PRIVATE_REPLAY_COMPILES_EXPLICIT_MULTI_TASK_POST_IMPORT_SELECTION_STOP_OPEN",
+  "reason": "Commit 24a73073681f08ec1012dc752859d59bc47ee8b4 replaces sole-task and parity assumptions with exact request-subject selection, preserves multi-task history, permits repeated import and snapshot-interleaved tails, and enforces the sole stale GOVERNANCE_BLOCK exception. The slice remains private and deny-only; no STOP, execution, public-verifier, or capital boundary changed.",
+  "evidence_refs": ["reports/H-M0-120-post-import-task-selection.v1.md", "docs/M0.3A_POST_IMPORT_TASK_SELECTION_SLICE.v1.md", "src/edgelab/runtime_v2_group.py", "src/edgelab/runtime_v2_initial.py", "tests/test_runtime_v2_post_import.py", "reports/stops/STOP-M0-3A-002.v23.json"],
+  "code_ref": "24a73073681f08ec1012dc752859d59bc47ee8b4",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-120",
+  "supersedes": null
+}

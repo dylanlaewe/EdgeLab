@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-002",
+  "version": 23,
+  "issued_at": "2026-10-29T19:06:04Z",
+  "issuer": "00 Director",
+  "reason": "Private replay now derives explicit post-import task selection across multi-task workspaces, but later-position initialization, exact generated closure identity/carrier, the unsupported legacy bridge, and the complete A-J matrix remain unfinished. No positive local-consistency result is supportable.",
+  "affected_components": ["runtime-v2 replay outside the compiled NEW operation order", "exact generated verifier closure", "legacy bridge carrier", "complete whole-image acceptance matrix", "public result vocabulary"],
+  "evidence_refs": ["reports/H-M0-120-post-import-task-selection.v1.md", "docs/M0.3A_POST_IMPORT_TASK_SELECTION_SLICE.v1.md", "src/edgelab/runtime_v2_group.py", "src/edgelab/runtime_v2_initial.py", "tests/test_runtime_v2_post_import.py"],
+  "severity": "HIGH",
+  "remediation_required": ["Compile or conservatively disposition later-position INITIALIZE and the unsupported legacy bridge under versioned evidence.", "Freeze the completed runtime-v2 verifier source set and generate the dependency-closure carrier.", "Complete independent acceptance and the A-J matrix before any positive result."],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}

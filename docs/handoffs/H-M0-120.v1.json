@@ -1,0 +1,19 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-120",
+  "version": 1,
+  "created_at": "2026-10-29T19:06:04Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Compile explicit post-import task selection and the remaining A-J acceptance cases.",
+  "work_done": "Compiled the bounded post-import selection slice: request-subject task/attempt selection, multi-task preservation, odd-width and repeated imports, remediation source/child continuation, snapshot-interleaved tails, and the sole stale GOVERNANCE_BLOCK path.",
+  "evidence_refs": ["reports/H-M0-120-post-import-task-selection.v1.md", "reports/audit/A-M0-102.v1.json", "reports/stops/STOP-M0-3A-002.v23.json", "docs/M0.3A_POST_IMPORT_TASK_SELECTION_SLICE.v1.md", "src/edgelab/runtime_v2_group.py", "src/edgelab/runtime_v2_initial.py", "tests/test_runtime_v2_post_import.py"],
+  "files_changed": ["docs/M0.3A_POST_IMPORT_TASK_SELECTION_SLICE.v1.md", "src/edgelab/runtime_v2_group.py", "src/edgelab/runtime_v2_initial.py", "tests/test_runtime_v2_initial.py", "tests/test_runtime_v2_snapshot.py", "tests/test_runtime_v2_post_import.py", "tools/run_test_tier.py", "reports/H-M0-120-post-import-task-selection.v1.md", "reports/audit/A-M0-102.v1.json", "reports/stops/STOP-M0-3A-002.v23.json", "docs/handoffs/H-M0-120.v1.json", "docs/project-state.json", "examples/alpha/sample-workflow.v1.json"],
+  "tests_run": ["65 focused initial/snapshot/post-import tests passed normally and under optimized Python.", "213 runtime-v2 tests passed.", "342 fast-tier tests passed across 20 isolated modules.", "Independent Skeptic, contract, and engineering reviews found no blocker.", "422 governed records and published history validated after publication.", "18 alpha and observatory tests passed."],
+  "open_questions": ["What exact genesis/import/snapshot prefixes may precede the sole INITIALIZE group without admitting a second task initialization?"],
+  "blockers": ["STOP-M0-3A-002.v23 remains OPEN.", "Public verification remains deny-only.", "Live remains LOCKED and deployable capital remains USD 0."],
+  "next_action": "Compile later-position INITIALIZE and the remaining reducer-order acceptance cases.",
+  "completion_criteria": ["Post-import groups select exactly one retained task from the request subject and independently bind event context.", "Stale tasks fail every operation except exact GOVERNANCE_BLOCK, and unrelated multi-task history remains unchanged.", "Valid images remain opaque deny-only and public verification remains disconnected."],
+  "depends_on": [{"path": "docs/handoffs/H-M0-119.v1.json", "kind": "handoff", "id": "H-M0-119", "version": 1, "sha256": "49ff392f0b8ceedcd8616e8933c538babb5da3fc7318491ee00785fe8225ed86"}]
+}
