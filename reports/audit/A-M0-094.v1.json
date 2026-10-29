@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-094",
+  "version": 1,
+  "occurred_at": "2026-10-29T16:47:52Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_CUMULATIVE_ATTEMPT_PROJECTION_IMPLEMENTED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-112-cumulative-attempt-projection.v1.md",
+  "previous_state": "FORMAT_2_COMPILED_WORKER_REPLAY_USES_ATOMIC_PRIVATE_TRANSITION_WORKSPACE_RECLAIM_RETRY_AND_ATTEMPT_HISTORY_ABSENT_STOP_OPEN",
+  "new_state": "FORMAT_2_PRIVATE_CURSOR_PROJECTS_CUMULATIVE_IMMUTABLE_ATTEMPT_HISTORY_RECLAIM_AND_RETRY_DISPATCH_ABSENT_STOP_OPEN",
+  "reason": "Commit c4946e36c3e4352307f6c81683a7d04fb39237d7 makes the accepted replay cursor the sole owner of cumulative attempt heads, validates attempt opening and advancement before workspace mutation, preserves prior attempt origin and head identity, and derives the complete sorted attempts table without trusting candidate rows. RETRY and repeated CLAIM remain uncompiled. Valid candidates remain opaque UNSUPPORTED/CLOSURE_NOT_COMPILED/DENY; no public-verifier, currentness, execution, or capital path was added.",
+  "evidence_refs": [
+    "reports/H-M0-112-cumulative-attempt-projection.v1.md",
+    "docs/M0.3A_CUMULATIVE_ATTEMPT_PROJECTION_SLICE.v1.md",
+    "src/edgelab/runtime_v2_group.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "tests/test_runtime_v2_transition_workspace.py",
+    "reports/stops/STOP-M0-3A-002.v15.json"
+  ],
+  "code_ref": "c4946e36c3e4352307f6c81683a7d04fb39237d7",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-112",
+  "supersedes": null
+}

@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-002",
+  "version": 15,
+  "issued_at": "2026-10-29T16:47:52Z",
+  "issuer": "00 Director",
+  "reason": "The private NEW-genesis replay now derives cumulative immutable attempt rows from accepted cursor history and validates attempt-head mutation before workspace commit, but re-claim/retry and repeated attempt cycles, governance/review, remediation, repository imports, checkpoint/export cuts, cumulative root work, exact generated closure identity, and the complete A-J matrix remain unfinished. No positive local-consistency result is supportable.",
+  "affected_components": [
+    "runtime-v2 semantic whole-image reduction beyond one-claim worker replay",
+    "exact generated verifier dependency closure and pin carrier",
+    "versioned legacy migration evidence carrier and projector",
+    "re-claim/retry, repeated attempts, governance/review, remediation, repository import, checkpoints, exports, and cumulative root work",
+    "public local-consistency result vocabulary"
+  ],
+  "evidence_refs": [
+    "reports/H-M0-112-cumulative-attempt-projection.v1.md",
+    "docs/M0.3A_CUMULATIVE_ATTEMPT_PROJECTION_SLICE.v1.md",
+    "src/edgelab/runtime_v2_group.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "tests/test_runtime_v2_transition_workspace.py",
+    "reports/H-M0-111-transition-workspace.v1.md",
+    "docs/M0.3A_RUNTIME_IMAGE_CONTRACT.v1.md"
+  ],
+  "severity": "HIGH",
+  "remediation_required": [
+    "Add exact RETRY semantics to the shared transition-workspace planner and preserve the failed attempt head while opening the contiguous new attempt at task sequence 1.",
+    "Extend closed dispatch through re-CLAIM, RETRY, repeated CONTINUE, and repeated claim/attempt cycles while preserving every historical claim and attempt projection.",
+    "Implement governance, review, route, two-event remediation, and variable-cardinality repository import without accepting supplied state as transition input.",
+    "Implement export and checkpoint pre-registration cuts from incrementally reduced state, including selector evolution, checkpoint copies, and cumulative root-work charging.",
+    "After semantic source freeze, generate the exact closure and pin carrier, prove deterministic regeneration, obtain independent acceptance, and pass every case in the M0.3A runtime-image A-J acceptance matrix before introducing a separately versioned LOCALLY_CONSISTENT_DENY_ONLY result."
+  ],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}

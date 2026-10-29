@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-112",
+  "version": 1,
+  "created_at": "2026-10-29T16:47:52Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Replace the private runtime-v2 image reducer's singleton final attempt row with cumulative immutable attempt history before compiling retry cycles.",
+  "work_done": "Implemented cursor-owned cumulative attempt heads and sorted attempt-table projection. Attempt opening and same-attempt advancement are checked against retained history before transition-workspace mutation; old origins and heads are preserved, and group patches no longer supply materialized attempt rows. RETRY and repeated CLAIM remain denied; valid candidates remain opaque UNSUPPORTED/CLOSURE_NOT_COMPILED/DENY.",
+  "evidence_refs": [
+    "reports/H-M0-112-cumulative-attempt-projection.v1.md",
+    "reports/audit/A-M0-094.v1.json",
+    "reports/stops/STOP-M0-3A-002.v15.json",
+    "docs/M0.3A_CUMULATIVE_ATTEMPT_PROJECTION_SLICE.v1.md",
+    "src/edgelab/runtime_v2_group.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "tests/test_runtime_v2_transition_workspace.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_CUMULATIVE_ATTEMPT_PROJECTION_SLICE.v1.md",
+    "src/edgelab/runtime_v2_group.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "tests/test_runtime_v2_transition_workspace.py",
+    "reports/H-M0-112-cumulative-attempt-projection.v1.md",
+    "reports/audit/A-M0-094.v1.json",
+    "reports/stops/STOP-M0-3A-002.v15.json",
+    "docs/handoffs/H-M0-112.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json"
+  ],
+  "tests_run": [
+    "Focused workspace and initial-image suite: 49 tests passed.",
+    "The same 49 tests passed under optimized Python (-O).",
+    "Fast tier: 308 tests passed across 18 isolated modules.",
+    "Delegated read-only reviewer: 82 focused tests passed normally and 82 under optimized Python.",
+    "Production validator before evidence publication: 395 records and published history validated; M0 capital remained LOCKED and no approval was granted.",
+    "Production validator after evidence publication: 398 records and published history validated with the same locked and non-authorizing result.",
+    "Alpha/observatory regression: 18 tests passed; live loopback snapshot showed STOP v15, live LOCKED, and kill ENGAGED.",
+    "Python compile checks and Git diff whitespace checks passed."
+  ],
+  "open_questions": [
+    "What smallest exact RETRY group implementation preserves request/before attempt n while semantic context/after state open attempt n+1?",
+    "How should the closed dispatcher share validation across CLAIM, worker, and RETRY groups without weakening their distinct task-chain grammar?",
+    "Which end-to-end attempt and claim history mutations best prove cumulative derivation after repeated cycles?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v15 remains OPEN pending re-claim/retry, later lifecycle groups, snapshot cuts, exact closure generation, A-J testing, and independent acceptance.",
+    "The public verifier remains disconnected and can return only INVALID or UNSUPPORTED under UNANCHORED/UNKNOWN/DENY.",
+    "Delegated subagent engineering review does not satisfy the genuinely distinct trusted 05 Skeptic requirement; H-M0-086 and H-M0-041 remain BLOCKED.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked, live remains LOCKED, kill remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Compile closed repeated CLAIM and exact RETRY dispatch atop cumulative cursor history and the private transition workspace.",
+  "completion_criteria": [
+    "All accepted attempt rows derive from one cursor-owned cumulative history rather than the final group patch.",
+    "Opening, skipping, duplicating, or rewriting attempt history rejects before workspace or cursor mutation.",
+    "Existing single-attempt replay remains byte-exact and deny-only while later-attempt mechanics are covered without claiming RETRY support."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-111.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-111",
+      "version": 1,
+      "sha256": "fccbd26585eeeb6949285e05c102b290729cea983884b8ad25eb4b9697a3e82a"
+    }
+  ]
+}
