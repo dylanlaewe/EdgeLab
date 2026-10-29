@@ -1,0 +1,19 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-125",
+  "version": 1,
+  "created_at": "2026-10-29T20:26:57Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Classify the next smallest unambiguous non-relational resource maximum under exact semantic-dependency, evidence, and adversarial-review bindings while retaining incomplete coverage and generation denial.",
+  "work_done": "Added cumulative resource-classification v2, byte-bound the complete v1 predecessor, and classified only MAX_BLOB_BYTES plus its exact definition/enforcement sites. Bound all source/schema census identities, the complete image source-module and preflight-function ASTs, governing contracts, exact boundary evidence, and adversarial fail-closed behavior. Coverage remains INCOMPLETE with 686 sites unclassified and generation denied.",
+  "evidence_refs": ["reports/H-M0-125-runtime-v2-blob-resource-classification.v1.md", "reports/audit/A-M0-107.v1.json", "reports/stops/STOP-M0-3A-002.v28.json", "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v2.json", "schemas/m0-3a-runtime-v2-resource-classification.v2.schema.json", "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v1.md", "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md", "tools/check_runtime_v2_release_readiness.py", "tests/test_runtime_v2_release_readiness.py", "tests/test_runtime_v2_image.py"],
+  "files_changed": ["docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v2.json", "schemas/m0-3a-runtime-v2-resource-classification.v2.schema.json", "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v1.md", "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md", "tools/check_runtime_v2_release_readiness.py", "tests/test_runtime_v2_release_readiness.py", "tests/test_runtime_v2_image.py", "reports/H-M0-125-runtime-v2-blob-resource-classification.v1.md", "reports/audit/A-M0-107.v1.json", "reports/stops/STOP-M0-3A-002.v28.json", "docs/handoffs/H-M0-125.v1.json", "docs/project-state.json", "examples/alpha/sample-workflow.v1.json", "tests/test_alpha.py", "tests/test_web.py"],
+  "tests_run": ["46 focused readiness, closure, and image tests passed normally and under optimized Python.", "372 fast-tier tests passed across 22 isolated modules.", "The Skeptic initially blocked missing durable fail-closed attacks and passed after every finding was repaired; two independent engineering reviews also passed.", "434 governed records and published history validated before evidence publication; 437 expected after publication.", "18 alpha and observatory tests must pass after evidence publication."],
+  "open_questions": ["Which next exact non-relational maximum has a complete, independently reviewable source-level semantic dependency boundary?", "How should content-asset descriptor bounds and relational/accounting equations bind into later classification versions without broadening their meaning?"],
+  "blockers": ["STOP-M0-3A-002.v28 remains OPEN.", "Only four of 690 census sites are semantically classified; 686 remain unclassified with INCOMPLETE coverage.", "Public verification remains deny-only.", "Live remains LOCKED and deployable capital remains USD 0."],
+  "next_action": "Classify the next smallest unambiguous non-relational resource maximum under the same exact predecessor, schema, semantic-dependency, evidence, and adversarial-review discipline; retain incomplete coverage and generation denial.",
+  "completion_criteria": ["Exactly one additional bounded resource maximum and every source-level definition/enforcement dependency needed for its meaning are fixed and adversarially tested.", "All other sites remain unclassified and RESOURCE_INVENTORY_INCOMPLETE remains unconditional.", "No closure/carrier, positive verifier result, STOP clearance, or operational/capital authority is created."],
+  "depends_on": [{"path": "docs/handoffs/H-M0-124.v1.json", "kind": "handoff", "id": "H-M0-124", "version": 1, "sha256": "271d38552c40222d47de1a44a5ca85d99223b8159d03aadd2b3101052e0909da"}]
+}

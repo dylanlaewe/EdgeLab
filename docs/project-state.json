@@ -44,6 +44,7 @@
     "A deterministic fixed-root runtime-v2 release-readiness gate now inventories prospective source, schema, content, digest-domain, resource-limit, and runtime-assumption inputs while unconditionally denying generation under four explicit blockers; no closure, carrier, public integration, STOP clearance, authority, or capital path was created",
     "The deny-only runtime-v2 readiness gate now carries a reproducible candidate census of 394 source-bound AST sites and 296 numeric bound sites across 15 fixed schemas with domain-separated identities and adversarial drift tests; every site remains syntactically UNCLASSIFIED, semantic coverage remains INCOMPLETE, and generation remains blocked",
     "The first deny-only runtime-v2 semantic resource-classification manifest now binds MAX_DEPENDENCY_CLOSURE_BYTES and two exact source sites under pinned source/schema census identities, complete closure-module and validator-function ASTs, schema, evidence, and self-digest checks; 688 sites remain semantically unclassified, coverage remains INCOMPLETE, and generation remains blocked",
+    "The cumulative deny-only runtime-v2 semantic resource-classification v2 now byte-binds its v1 predecessor and additionally binds MAX_BLOB_BYTES plus two exact source sites under pinned source/schema census identities, complete image source-module and preflight-function ASTs, governing contracts, boundary evidence, and adversarial fail-closed checks; 686 sites remain semantically unclassified, coverage remains INCOMPLETE, and generation remains blocked",
     "Historical capture reconstruction/verifier engineering completed with native engineering review; formal Skeptic acceptance remains pending",
     "Revision-aware handoff dependency validation and production repository validation restored",
     "Read-only local laboratory observatory exposes governed project status and the retained MOCK_ONLY walkthrough through a fail-closed loopback interface",
@@ -58,18 +59,18 @@
     "Resolve statistical, freshness, paper-capital, exposure, correlation, drawdown, and live-gate thresholds before M0 exit"
   ],
   "blockers": [
-    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002.v27 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
+    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002.v28 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
     "H-M0-086 is BLOCKED because no genuinely distinct trusted 05 Skeptic authority is provisioned",
     "H-M0-041.v23 remains BLOCKED pending formal Skeptic acceptance and separate Director release",
     "The locked authority and historical binding substrates are diagnostic and DENY-only; positive authoritative currentness and authenticated receipt/R-gate integration remain unresolved",
     "M0.3A engineering completion does not constitute formal acceptance or operational authority"
   ],
   "next_assignment": "Classify the next smallest unambiguous non-relational resource maximum under exact semantic-dependency, evidence, and adversarial-review bindings while retaining incomplete coverage and generation denial",
-  "updated_at": "2026-10-29T20:11:06Z",
+  "updated_at": "2026-10-29T20:26:57Z",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json",
     "reports/stops/STOP-M0-3A-001.v1.json",
-    "reports/stops/STOP-M0-3A-002.v27.json"
+    "reports/stops/STOP-M0-3A-002.v28.json"
   ],
   "review_ref": "reports/reviews/M0.2-M0.3-final-evidence-plan-rereview.v1.md",
   "open_findings": [

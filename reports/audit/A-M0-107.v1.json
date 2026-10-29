@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-107",
+  "version": 1,
+  "occurred_at": "2026-10-29T20:26:57Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_SECOND_SEMANTIC_RESOURCE_MAXIMUM_CLASSIFIED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-125-runtime-v2-blob-resource-classification.v1.md",
+  "previous_state": "FORMAT_2_ONE_RESOURCE_MAXIMUM_CLASSIFIED_688_SITES_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "FORMAT_2_TWO_RESOURCE_MAXIMA_CLASSIFIED_686_SITES_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit a6ac1c0add8286686e485e90dc77495cb58dc1e0 cumulatively classifies only MAX_BLOB_BYTES and its two exact source sites under predecessor, source-module/function AST, schema, census, source, evidence, and self-digest bindings. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": ["reports/H-M0-125-runtime-v2-blob-resource-classification.v1.md", "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v2.json", "schemas/m0-3a-runtime-v2-resource-classification.v2.schema.json", "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v1.md", "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md", "tools/check_runtime_v2_release_readiness.py", "tests/test_runtime_v2_release_readiness.py", "tests/test_runtime_v2_image.py", "reports/stops/STOP-M0-3A-002.v28.json"],
+  "code_ref": "a6ac1c0add8286686e485e90dc77495cb58dc1e0",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-125",
+  "supersedes": null
+}
