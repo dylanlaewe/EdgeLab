@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-104",
+  "version": 1,
+  "occurred_at": "2026-10-29T19:39:44Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_RELEASE_READINESS_GATE_IMPLEMENTED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-122-runtime-v2-release-readiness.v1.md",
+  "previous_state": "FORMAT_2_PRIVATE_REPLAY_COMPILES_CURSOR_RELATIVE_MULTI_TASK_INITIALIZE_STOP_OPEN",
+  "new_state": "FORMAT_2_RELEASE_INPUT_READINESS_INVENTORIED_GENERATION_BLOCKED_STOP_OPEN",
+  "reason": "Commit 6a59178c6a457bde59d793fd2124d48981ca2a3f adds a fixed-root read-only readiness inventory and makes four unresolved generation blockers explicit. It emits no closure, carrier, release digest, positive verifier result, STOP clearance, operational authority, or capital path.",
+  "evidence_refs": ["reports/H-M0-122-runtime-v2-release-readiness.v1.md", "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md", "tools/check_runtime_v2_release_readiness.py", "tests/test_runtime_v2_release_readiness.py", "reports/stops/STOP-M0-3A-002.v25.json"],
+  "code_ref": "6a59178c6a457bde59d793fd2124d48981ca2a3f",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-122",
+  "supersedes": null
+}
