@@ -543,7 +543,10 @@ def claim_fixture():
         "operation_key": operation_key,
         "repository_generation": 0,
         "repository_bundle_sha256": BUNDLE,
-        "subject": {"task_id": task_id, "attempt": 1},
+        "subject": {
+            "task_id": task_id,
+            "attempt": before_state["attempt"],
+        },
         "expected_state_ref": {"schema_id": TASK_STATE_SCHEMA_ID, "sha256": before_sha},
         "arguments": {"actor": "worker-a"},
     }
@@ -557,7 +560,7 @@ def claim_fixture():
         "status": "COMMITTED",
         "affected_states": [{
             "task_id": task_id,
-            "attempt": 1,
+            "attempt": after_state["attempt"],
             "state_ref": {"schema_id": TASK_STATE_SCHEMA_ID, "sha256": after_sha},
         }],
         "generated_refs": [{
@@ -729,6 +732,357 @@ def claim_fixture():
         "claim_commit": commit,
     })
     return result, values
+
+
+def _append_special_group(
+    image,
+    values,
+    *,
+    prefix,
+    before_state_key,
+    operation,
+    event_type,
+    semantic_id,
+    commit_id,
+    transaction_id,
+    arguments,
+    after_state,
+    payload_data,
+    generated_refs,
+    opens_attempt=False,
+    new_claim_row=None,
+):
+    """Append a CLAIM or RETRY fixture without trusting materialized rows."""
+    before_state = values[before_state_key]
+    task_id = before_state["task_id"]
+    before_sha = blob_digest(before_state)
+    after_sha = blob_digest(after_state)
+    operation_key = f"v2:{CHAIN_ID}:{prefix}-task-alpha"
+    request = {
+        "schema_version": 1,
+        "request_format_version": 2,
+        "runtime_id": RUNTIME_ID,
+        "chain_id": CHAIN_ID,
+        "operation": operation,
+        "operation_key": operation_key,
+        "repository_generation": 0,
+        "repository_bundle_sha256": BUNDLE,
+        "subject": {
+            "task_id": task_id,
+            "attempt": before_state["attempt"],
+        },
+        "expected_state_ref": {
+            "schema_id": TASK_STATE_SCHEMA_ID,
+            "sha256": before_sha,
+        },
+        "arguments": arguments,
+    }
+    response = {
+        "schema_version": 1,
+        "response_format_version": 2,
+        "runtime_id": RUNTIME_ID,
+        "chain_id": CHAIN_ID,
+        "operation": operation,
+        "operation_key": operation_key,
+        "status": "COMMITTED",
+        "affected_states": [{
+            "task_id": task_id,
+            "attempt": after_state["attempt"],
+            "state_ref": {
+                "schema_id": TASK_STATE_SCHEMA_ID,
+                "sha256": after_sha,
+            },
+        }],
+        "generated_refs": generated_refs,
+    }
+    semantic_payload = {
+        "schema_version": 1,
+        "payload_format_version": 2,
+        "event_type": event_type,
+        "data": payload_data,
+    }
+    request_sha = blob_digest(request)
+    response_sha = blob_digest(response)
+    payload_sha = blob_digest(semantic_payload)
+    prior_events = tuple(json.loads(raw) for raw in image.events)
+    prior = prior_events[-1]
+    semantic_index = len(prior_events)
+    if opens_attempt:
+        context_attempt = after_state["attempt"]
+        task_sequence = 1
+        predecessor_id, predecessor_sha = task_predecessor(
+            CHAIN_ID, task_id, context_attempt
+        )
+    else:
+        context_attempt = before_state["attempt"]
+        prior_task_events = tuple(
+            event for event in prior_events
+            if event["stream"] == "TASK"
+            and event["task_context"]["task_id"] == task_id
+            and event["task_context"]["attempt"] == context_attempt
+        )
+        prior_task = prior_task_events[-1]
+        task_sequence = prior_task["task_context"]["task_sequence"] + 1
+        predecessor_id = prior_task["event_id"]
+        predecessor_sha = prior_task["event_sha256"]
+    semantic = {
+        "schema_version": 1,
+        "event_format_version": 2,
+        "runtime_id": RUNTIME_ID,
+        "chain_id": CHAIN_ID,
+        "event_id": semantic_id,
+        "event_type": event_type,
+        "occurred_at": CREATED_AT,
+        "global_sequence": semantic_index,
+        "global_predecessor": {
+            "event_id": prior["event_id"],
+            "event_sha256": prior["event_sha256"],
+        },
+        "stream": "TASK",
+        "task_context": {
+            "task_id": task_id,
+            "attempt": context_attempt,
+            "task_sequence": task_sequence,
+            "task_predecessor": {
+                "event_id": predecessor_id,
+                "event_sha256": predecessor_sha,
+            },
+        },
+        "transaction": {
+            "transaction_id": transaction_id,
+            "position": 0,
+            "event_count": 2,
+            "operation_key": operation_key,
+            "request_sha256": request_sha,
+            "response_sha256": response_sha,
+        },
+        "payload_ref": {"schema_id": PAYLOAD_SCHEMA_ID, "sha256": payload_sha},
+        "state_before_ref": {
+            "schema_id": TASK_STATE_SCHEMA_ID,
+            "sha256": before_sha,
+        },
+        "state_after_ref": {
+            "schema_id": TASK_STATE_SCHEMA_ID,
+            "sha256": after_sha,
+        },
+        "repository_generation": 0,
+        "repository_bundle_sha256": BUNDLE,
+        "authority_binding_sha256": None,
+        "authorizing_use": "DENY",
+        "event_sha256": "0" * 64,
+    }
+    semantic["event_sha256"] = event_digest(semantic)
+    commit_payload = {
+        "schema_version": 1,
+        "payload_format_version": 2,
+        "event_type": "COMMAND_COMMITTED",
+        "data": {
+            "semantic_event_ids": [semantic_id],
+            "pre_command_head": {
+                "global_sequence": prior["global_sequence"],
+                "event_id": prior["event_id"],
+                "event_sha256": prior["event_sha256"],
+            },
+            "post_semantic_head": {
+                "global_sequence": semantic_index,
+                "event_id": semantic_id,
+                "event_sha256": semantic["event_sha256"],
+            },
+            "operation": operation,
+            "operation_key": operation_key,
+            "request_ref": {
+                "schema_id": REQUEST_SCHEMA_ID,
+                "sha256": request_sha,
+            },
+            "response_ref": {
+                "schema_id": RESPONSE_SCHEMA_ID,
+                "sha256": response_sha,
+            },
+            "result": "COMMITTED",
+        },
+    }
+    commit_payload_sha = blob_digest(commit_payload)
+    commit = {
+        "schema_version": 1,
+        "event_format_version": 2,
+        "runtime_id": RUNTIME_ID,
+        "chain_id": CHAIN_ID,
+        "event_id": commit_id,
+        "event_type": "COMMAND_COMMITTED",
+        "occurred_at": CREATED_AT,
+        "global_sequence": semantic_index + 1,
+        "global_predecessor": {
+            "event_id": semantic_id,
+            "event_sha256": semantic["event_sha256"],
+        },
+        "stream": "RUNTIME",
+        "task_context": None,
+        "transaction": {
+            "transaction_id": transaction_id,
+            "position": 1,
+            "event_count": 2,
+            "operation_key": operation_key,
+            "request_sha256": request_sha,
+            "response_sha256": response_sha,
+        },
+        "payload_ref": {
+            "schema_id": PAYLOAD_SCHEMA_ID,
+            "sha256": commit_payload_sha,
+        },
+        "state_before_ref": None,
+        "state_after_ref": None,
+        "repository_generation": 0,
+        "repository_bundle_sha256": BUNDLE,
+        "authority_binding_sha256": None,
+        "authorizing_use": "DENY",
+        "event_sha256": "0" * 64,
+    }
+    commit["event_sha256"] = event_digest(commit)
+    additions = (
+        BlobRecord(request_sha, REQUEST_SCHEMA_ID, canonical_json(request)),
+        BlobRecord(response_sha, RESPONSE_SCHEMA_ID, canonical_json(response)),
+        BlobRecord(payload_sha, PAYLOAD_SCHEMA_ID, canonical_json(semantic_payload)),
+        BlobRecord(
+            commit_payload_sha, PAYLOAD_SCHEMA_ID, canonical_json(commit_payload)
+        ),
+        BlobRecord(after_sha, TASK_STATE_SCHEMA_ID, canonical_json(after_state)),
+    )
+    blob_by_digest = {record.sha256: record for record in image.blobs}
+    for addition in additions:
+        blob_by_digest.setdefault(addition.sha256, addition)
+    blobs = tuple(sorted(blob_by_digest.values(), key=lambda record: record.sha256))
+    rows = {snapshot.table: snapshot.rows for snapshot in image.table_snapshots}
+    rows["blobs"] = tuple(
+        (record.sha256, record.schema_id, record.canonical_json.decode("ascii"))
+        for record in blobs
+    )
+    rows["events"] = rows["events"] + (
+        (
+            semantic_index, semantic_id, semantic["event_sha256"],
+            canonical_json(semantic).decode("ascii"),
+        ),
+        (
+            semantic_index + 1, commit_id, commit["event_sha256"],
+            canonical_json(commit).decode("ascii"),
+        ),
+    )
+    attempt_rows = list(rows["attempts"])
+    if opens_attempt:
+        attempt_rows.append((
+            task_id, context_attempt, before_state["attempt"], semantic_id,
+            1, semantic_id, semantic["event_sha256"],
+        ))
+    else:
+        attempt_index = next(
+            index for index, row in enumerate(attempt_rows)
+            if row[:2] == (task_id, context_attempt)
+        )
+        attempt = list(attempt_rows[attempt_index])
+        attempt[4:] = [task_sequence, semantic_id, semantic["event_sha256"]]
+        attempt_rows[attempt_index] = tuple(attempt)
+    rows["attempts"] = tuple(sorted(attempt_rows, key=lambda row: row[:2]))
+    if new_claim_row is not None:
+        rows["claims"] = tuple(sorted(rows["claims"] + (new_claim_row,)))
+    idempotency = (
+        operation_key, transaction_id, request_sha, response_sha,
+        commit_id, semantic_index + 1, CREATED_AT,
+    )
+    rows["idempotency"] = tuple(sorted(rows["idempotency"] + (idempotency,)))
+    metadata = list(rows["metadata"][0])
+    metadata[15:18] = [semantic_index + 1, commit_id, commit["event_sha256"]]
+    rows["metadata"] = (tuple(metadata),)
+    rows["tasks"] = (_task_table_row(after_state),)
+    result = replace(
+        image,
+        blobs=blobs,
+        events=image.events + (canonical_json(semantic), canonical_json(commit)),
+        table_snapshots=tuple(TableSnapshot(name, rows[name]) for name in TABLE_NAMES),
+    )
+    values.update({
+        f"{prefix}_request": request,
+        f"{prefix}_response": response,
+        f"{prefix}_before_state": before_state,
+        f"{prefix}_after_state": after_state,
+        f"{prefix}_semantic_payload": semantic_payload,
+        f"{prefix}_commit_payload": commit_payload,
+        f"{prefix}_semantic": semantic,
+        f"{prefix}_commit": commit,
+    })
+    return result, values
+
+
+def _append_claim_fixture(
+    image, values, *, before_state_key, prefix, semantic_id, commit_id,
+    transaction_id, claim_id, actor="worker-b",
+):
+    before_state = values[before_state_key]
+    after_state = json.loads(json.dumps(before_state))
+    after_state.update({
+        "execution": "CLAIMED",
+        "scheduler_generation": before_state["scheduler_generation"] + 1,
+        "dispatch_generation": before_state["dispatch_generation"] + 1,
+        "task_fence": before_state["task_fence"] + 1,
+        "active_claim_id": claim_id,
+    })
+    new_claim_row = (
+        claim_id, before_state["task_id"], before_state["attempt"],
+        after_state["task_fence"], "OPEN", actor, semantic_id, None,
+    )
+    return _append_special_group(
+        image,
+        values,
+        prefix=prefix,
+        before_state_key=before_state_key,
+        operation="CLAIM",
+        event_type="CLAIM_ISSUED",
+        semantic_id=semantic_id,
+        commit_id=commit_id,
+        transaction_id=transaction_id,
+        arguments={"actor": actor},
+        after_state=after_state,
+        payload_data={"claim_id": claim_id},
+        generated_refs=[{
+            "kind": "CLAIM", "identifier": claim_id, "sha256": None,
+        }],
+        new_claim_row=new_claim_row,
+    )
+
+
+def _append_retry_fixture(
+    image, values, *, before_state_key, prefix, semantic_id, commit_id,
+    transaction_id,
+):
+    before_state = values[before_state_key]
+    after_state = json.loads(json.dumps(before_state))
+    after_state.update({
+        "attempt": before_state["attempt"] + 1,
+        "execution": "CLAIMABLE",
+        "scheduler_generation": before_state["scheduler_generation"] + 1,
+        "dispatch_generation": before_state["dispatch_generation"] + 1,
+        "task_fence": before_state["task_fence"] + 1,
+        "active_claim_id": None,
+        "reviewer_assignment_id": None,
+        "continuation_count": 0,
+    })
+    return _append_special_group(
+        image,
+        values,
+        prefix=prefix,
+        before_state_key=before_state_key,
+        operation="RETRY",
+        event_type="TASK_RETRIED",
+        semantic_id=semantic_id,
+        commit_id=commit_id,
+        transaction_id=transaction_id,
+        arguments={
+            "retry_evidence_sha256": "2" * 64,
+            "retryable": True,
+        },
+        after_state=after_state,
+        payload_data={},
+        generated_refs=[],
+        opens_attempt=True,
+    )
 
 
 def _task_table_row(state):
@@ -970,7 +1324,10 @@ def _worker_fixture(image, values, fixture_operation):
         "operation_key": operation_key,
         "repository_generation": 0,
         "repository_bundle_sha256": BUNDLE,
-        "subject": {"task_id": task_id, "attempt": 1},
+        "subject": {
+            "task_id": task_id,
+            "attempt": before_state["attempt"],
+        },
         "expected_state_ref": {
             "schema_id": TASK_STATE_SCHEMA_ID,
             "sha256": before_sha,
@@ -987,7 +1344,7 @@ def _worker_fixture(image, values, fixture_operation):
         "status": "COMMITTED",
         "affected_states": [{
             "task_id": task_id,
-            "attempt": 1,
+            "attempt": after_state["attempt"],
             "state_ref": {
                 "schema_id": TASK_STATE_SCHEMA_ID,
                 "sha256": after_sha,
@@ -1007,7 +1364,10 @@ def _worker_fixture(image, values, fixture_operation):
     prior_events = tuple(json.loads(raw) for raw in image.events)
     prior = prior_events[-1]
     prior_task_events = tuple(
-        event for event in prior_events if event["stream"] == "TASK"
+        event for event in prior_events
+        if event["stream"] == "TASK"
+        and event["task_context"]["task_id"] == task_id
+        and event["task_context"]["attempt"] == before_state["attempt"]
     )
     prior_task = prior_task_events[-1]
     semantic_index = len(prior_events)
@@ -1028,7 +1388,7 @@ def _worker_fixture(image, values, fixture_operation):
         "stream": "TASK",
         "task_context": {
             "task_id": task_id,
-            "attempt": 1,
+            "attempt": before_state["attempt"],
             "task_sequence": task_sequence,
             "task_predecessor": {
                 "event_id": prior_task["event_id"],
@@ -1153,9 +1513,15 @@ def _worker_fixture(image, values, fixture_operation):
             canonical_json(commit).decode("ascii"),
         ),
     )
-    attempt = list(rows["attempts"][0])
+    attempt_rows = list(rows["attempts"])
+    attempt_index = next(
+        index for index, row in enumerate(attempt_rows)
+        if row[:2] == (task_id, before_state["attempt"])
+    )
+    attempt = list(attempt_rows[attempt_index])
     attempt[4:] = [task_sequence, semantic["event_id"], semantic["event_sha256"]]
-    rows["attempts"] = (tuple(attempt),)
+    attempt_rows[attempt_index] = tuple(attempt)
+    rows["attempts"] = tuple(attempt_rows)
     claim_status = {
         "YIELD": "YIELDED",
         "FAIL": "FAILED",
@@ -1163,10 +1529,16 @@ def _worker_fixture(image, values, fixture_operation):
         "RECOVER": "RECOVERED",
     }.get(operation)
     if claim_status is not None:
-        claim = list(rows["claims"][0])
+        claim_rows = list(rows["claims"])
+        claim_index = next(
+            index for index, row in enumerate(claim_rows)
+            if row[0] == claim_id
+        )
+        claim = list(claim_rows[claim_index])
         claim[4] = claim_status
         claim[7] = semantic["event_id"]
-        rows["claims"] = (tuple(claim),)
+        claim_rows[claim_index] = tuple(claim)
+        rows["claims"] = tuple(claim_rows)
     idempotency = (
         operation_key, profile["transaction_id"], request_sha, response_sha,
         commit["event_id"], semantic_index + 1, CREATED_AT,
@@ -1260,6 +1632,183 @@ def recover_fixture():
 def recover_started_fixture():
     image, values = start_fixture()
     return _worker_fixture(image, values, "RECOVER_STARTED")
+
+
+def recover_reclaim_start_fixture():
+    image, values = recover_fixture()
+    image, values = _append_claim_fixture(
+        image,
+        values,
+        before_state_key="recover_after_state",
+        prefix="recover-reclaim",
+        semantic_id="123e4567-e89b-42d3-a456-426614174060",
+        commit_id="123e4567-e89b-42d3-a456-426614174061",
+        transaction_id="123e4567-e89b-42d3-a456-426614174062",
+        claim_id="123e4567-e89b-42d3-a456-426614174063",
+    )
+    return _worker_fixture(image, values, {
+        "operation": "START",
+        "prefix": "recover_reclaim_start",
+        "before_state": "recover-reclaim_after_state",
+        "semantic_id": "123e4567-e89b-42d3-a456-426614174064",
+        "commit_id": "123e4567-e89b-42d3-a456-426614174065",
+        "transaction_id": "123e4567-e89b-42d3-a456-426614174066",
+        "event_type": "TASK_STARTED",
+    })
+
+
+def yield_reclaim_fixture():
+    image, values = yield_fixture()
+    return _append_claim_fixture(
+        image,
+        values,
+        before_state_key="yield_after_state",
+        prefix="yield-reclaim",
+        semantic_id="123e4567-e89b-42d3-a456-426614174067",
+        commit_id="123e4567-e89b-42d3-a456-426614174068",
+        transaction_id="123e4567-e89b-42d3-a456-426614174069",
+        claim_id="123e4567-e89b-42d3-a456-426614174070",
+    )
+
+
+def fail_retry_reclaim_start_fixture():
+    image, values = fail_fixture()
+    image, values = _append_retry_fixture(
+        image,
+        values,
+        before_state_key="fail_after_state",
+        prefix="retry-attempt-2",
+        semantic_id="123e4567-e89b-42d3-a456-426614174071",
+        commit_id="123e4567-e89b-42d3-a456-426614174072",
+        transaction_id="123e4567-e89b-42d3-a456-426614174073",
+    )
+    image, values = _append_claim_fixture(
+        image,
+        values,
+        before_state_key="retry-attempt-2_after_state",
+        prefix="claim-attempt-2",
+        semantic_id="123e4567-e89b-42d3-a456-426614174074",
+        commit_id="123e4567-e89b-42d3-a456-426614174075",
+        transaction_id="123e4567-e89b-42d3-a456-426614174076",
+        claim_id="123e4567-e89b-42d3-a456-426614174077",
+    )
+    return _worker_fixture(image, values, {
+        "operation": "START",
+        "prefix": "start_attempt_2",
+        "before_state": "claim-attempt-2_after_state",
+        "semantic_id": "123e4567-e89b-42d3-a456-426614174078",
+        "commit_id": "123e4567-e89b-42d3-a456-426614174079",
+        "transaction_id": "123e4567-e89b-42d3-a456-426614174080",
+        "event_type": "TASK_STARTED",
+    })
+
+
+def two_retry_cycles_fixture():
+    image, values = fail_retry_reclaim_start_fixture()
+    image, values = _worker_fixture(image, values, {
+        "operation": "FAIL",
+        "prefix": "fail_attempt_2",
+        "before_state": "start_attempt_2_after_state",
+        "semantic_id": "123e4567-e89b-42d3-a456-426614174081",
+        "commit_id": "123e4567-e89b-42d3-a456-426614174082",
+        "transaction_id": "123e4567-e89b-42d3-a456-426614174083",
+        "event_type": "TASK_FAILED",
+    })
+    image, values = _append_retry_fixture(
+        image,
+        values,
+        before_state_key="fail_attempt_2_after_state",
+        prefix="retry-attempt-3",
+        semantic_id="123e4567-e89b-42d3-a456-426614174084",
+        commit_id="123e4567-e89b-42d3-a456-426614174085",
+        transaction_id="123e4567-e89b-42d3-a456-426614174086",
+    )
+    return _append_claim_fixture(
+        image,
+        values,
+        before_state_key="retry-attempt-3_after_state",
+        prefix="claim-attempt-3",
+        semantic_id="123e4567-e89b-42d3-a456-426614174087",
+        commit_id="123e4567-e89b-42d3-a456-426614174088",
+        transaction_id="123e4567-e89b-42d3-a456-426614174089",
+        claim_id="123e4567-e89b-42d3-a456-426614174090",
+    )
+
+
+def _rehash_semantic_context(image, values, prefix, mutate):
+    """Rehash a final semantic pair so context attacks reach group semantics."""
+    semantic = json.loads(json.dumps(values[f"{prefix}_semantic"]))
+    commit_payload = json.loads(json.dumps(values[f"{prefix}_commit_payload"]))
+    commit = json.loads(json.dumps(values[f"{prefix}_commit"]))
+    mutate(semantic["task_context"])
+    semantic["event_sha256"] = event_digest(semantic)
+    commit_payload["data"]["post_semantic_head"]["event_sha256"] = (
+        semantic["event_sha256"]
+    )
+    commit_payload_sha = blob_digest(commit_payload)
+    commit["global_predecessor"]["event_sha256"] = semantic["event_sha256"]
+    commit["payload_ref"]["sha256"] = commit_payload_sha
+    commit["event_sha256"] = event_digest(commit)
+    old_commit_payload_sha = blob_digest(values[f"{prefix}_commit_payload"])
+    blob_by_digest = {
+        record.sha256: record for record in image.blobs
+        if record.sha256 != old_commit_payload_sha
+    }
+    blob_by_digest[commit_payload_sha] = BlobRecord(
+        commit_payload_sha,
+        PAYLOAD_SCHEMA_ID,
+        canonical_json(commit_payload),
+    )
+    return replace(
+        image,
+        blobs=tuple(sorted(blob_by_digest.values(), key=lambda record: record.sha256)),
+        events=image.events[:-2] + (
+            canonical_json(semantic), canonical_json(commit),
+        ),
+    )
+
+
+def _rehash_group_request(image, values, prefix, mutate):
+    """Rehash request and dependent pair bindings for exact argument attacks."""
+    request = json.loads(json.dumps(values[f"{prefix}_request"]))
+    semantic = json.loads(json.dumps(values[f"{prefix}_semantic"]))
+    commit_payload = json.loads(json.dumps(values[f"{prefix}_commit_payload"]))
+    commit = json.loads(json.dumps(values[f"{prefix}_commit"]))
+    mutate(request)
+    request_sha = blob_digest(request)
+    semantic["transaction"]["request_sha256"] = request_sha
+    semantic["event_sha256"] = event_digest(semantic)
+    commit_payload["data"]["request_ref"]["sha256"] = request_sha
+    commit_payload["data"]["post_semantic_head"]["event_sha256"] = (
+        semantic["event_sha256"]
+    )
+    commit_payload_sha = blob_digest(commit_payload)
+    commit["transaction"]["request_sha256"] = request_sha
+    commit["global_predecessor"]["event_sha256"] = semantic["event_sha256"]
+    commit["payload_ref"]["sha256"] = commit_payload_sha
+    commit["event_sha256"] = event_digest(commit)
+    removed = {
+        blob_digest(values[f"{prefix}_request"]),
+        blob_digest(values[f"{prefix}_commit_payload"]),
+    }
+    blob_by_digest = {
+        record.sha256: record for record in image.blobs
+        if record.sha256 not in removed
+    }
+    for record in (
+        BlobRecord(request_sha, REQUEST_SCHEMA_ID, canonical_json(request)),
+        BlobRecord(
+            commit_payload_sha, PAYLOAD_SCHEMA_ID, canonical_json(commit_payload)
+        ),
+    ):
+        blob_by_digest[record.sha256] = record
+    return replace(
+        image,
+        blobs=tuple(sorted(blob_by_digest.values(), key=lambda record: record.sha256)),
+        events=image.events[:-2] + (
+            canonical_json(semantic), canonical_json(commit),
+        ),
+    )
 
 
 def continue_twice_fixture():
@@ -1630,6 +2179,233 @@ class RuntimeV2InitialTests(unittest.TestCase):
                 self.assertEqual(self.codes(report), {"CLOSURE_NOT_COMPILED"})
                 self.assertEqual(report.authorizing_use, "DENY")
 
+    def test_reclaim_and_retry_cycles_reduce_cumulative_history_but_remain_opaque(self):
+        for name, build in (
+            ("recover_reclaim_start", recover_reclaim_start_fixture),
+            ("yield_reclaim", yield_reclaim_fixture),
+            ("fail_retry_reclaim_start", fail_retry_reclaim_start_fixture),
+            ("two_retry_cycles", two_retry_cycles_fixture),
+        ):
+            with self.subTest(trace=name):
+                image, values = build()
+                report = reduce_initial_runtime_image(image)
+                self.assertEqual(report.status, "UNSUPPORTED")
+                self.assertEqual(self.codes(report), {"CLOSURE_NOT_COMPILED"})
+                self.assertEqual(report.authorizing_use, "DENY")
+                rows = {snapshot.table: snapshot.rows for snapshot in image.table_snapshots}
+                self.assertEqual(rows["tasks"][0][1], values[
+                    {
+                        "recover_reclaim_start": "recover_reclaim_start_after_state",
+                        "yield_reclaim": "yield-reclaim_after_state",
+                        "fail_retry_reclaim_start": "start_attempt_2_after_state",
+                        "two_retry_cycles": "claim-attempt-3_after_state",
+                    }[name]
+                ]["attempt"])
+
+        image, values = recover_reclaim_start_fixture()
+        rows = {snapshot.table: snapshot.rows for snapshot in image.table_snapshots}
+        self.assertEqual(len(rows["attempts"]), 1)
+        self.assertEqual([row[3] for row in rows["claims"]], [1, 3])
+        self.assertEqual([row[4] for row in rows["claims"]], ["RECOVERED", "OPEN"])
+        self.assertEqual(
+            rows["attempts"][0][5],
+            values["recover_reclaim_start_semantic"]["event_id"],
+        )
+
+        image, _ = yield_reclaim_fixture()
+        rows = {snapshot.table: snapshot.rows for snapshot in image.table_snapshots}
+        self.assertEqual([row[4] for row in rows["claims"]], ["YIELDED", "OPEN"])
+        self.assertEqual([row[3] for row in rows["claims"]], [1, 3])
+
+        image, values = fail_retry_reclaim_start_fixture()
+        rows = {snapshot.table: snapshot.rows for snapshot in image.table_snapshots}
+        self.assertEqual(len(rows["attempts"]), 2)
+        self.assertEqual(
+            rows["attempts"][0][5], values["fail_semantic"]["event_id"]
+        )
+        self.assertEqual(rows["attempts"][1][2], 1)
+        self.assertEqual(
+            rows["attempts"][1][3],
+            values["retry-attempt-2_semantic"]["event_id"],
+        )
+        self.assertEqual(rows["attempts"][1][4], 3)
+        self.assertEqual([row[2] for row in rows["claims"]], [1, 2])
+        self.assertEqual([row[4] for row in rows["claims"]], ["FAILED", "OPEN"])
+
+        image, values = two_retry_cycles_fixture()
+        rows = {snapshot.table: snapshot.rows for snapshot in image.table_snapshots}
+        self.assertEqual([row[1] for row in rows["attempts"]], [1, 2, 3])
+        self.assertEqual([row[2] for row in rows["attempts"]], [None, 1, 2])
+        self.assertEqual(
+            [row[5] for row in rows["attempts"]],
+            [
+                values["fail_semantic"]["event_id"],
+                values["fail_attempt_2_semantic"]["event_id"],
+                values["claim-attempt-3_semantic"]["event_id"],
+            ],
+        )
+        self.assertEqual([row[2] for row in rows["claims"]], [1, 2, 3])
+        self.assertEqual(
+            [row[4] for row in rows["claims"]],
+            ["FAILED", "FAILED", "OPEN"],
+        )
+
+    def test_retry_attempt_boundary_and_task_root_are_exact(self):
+        image, values = fail_fixture()
+        retry_image, retry_values = _append_retry_fixture(
+            image,
+            values,
+            before_state_key="fail_after_state",
+            prefix="retry-boundary",
+            semantic_id="123e4567-e89b-42d3-a456-426614174091",
+            commit_id="123e4567-e89b-42d3-a456-426614174092",
+            transaction_id="123e4567-e89b-42d3-a456-426614174093",
+        )
+        for name, mutate in (
+            ("old_attempt", lambda context: context.update(attempt=1)),
+            ("skipped_attempt", lambda context: context.update(attempt=3)),
+            ("wrong_sequence", lambda context: context.update(task_sequence=2)),
+            (
+                "old_failure_predecessor",
+                lambda context: context.update(task_predecessor={
+                    "event_id": retry_values["fail_semantic"]["event_id"],
+                    "event_sha256": retry_values["fail_semantic"]["event_sha256"],
+                }),
+            ),
+            (
+                "wrong_attempt_root",
+                lambda context: context.update(task_predecessor=dict(zip(
+                    ("event_id", "event_sha256"),
+                    task_predecessor(CHAIN_ID, context["task_id"], 1),
+                ))),
+            ),
+        ):
+            attacked = _rehash_semantic_context(
+                retry_image, retry_values, "retry-boundary", mutate
+            )
+            with self.subTest(attack=name):
+                report = reduce_initial_runtime_image(attacked)
+                self.assertEqual(report.status, "INVALID")
+                self.assertTrue(
+                    {"GROUP_CONST", "GROUP_ATTEMPT_ROOT"} & self.codes(report)
+                )
+
+        for name, mutate, expected in (
+            (
+                "wrong_subject_attempt",
+                lambda request: request["subject"].update(attempt=2),
+                "GROUP_CONST",
+            ),
+            (
+                "retryable_false",
+                lambda request: request["arguments"].update(retryable=False),
+                "TRANSITION_RETRYABLE",
+            ),
+            (
+                "retryable_integer_alias",
+                lambda request: request["arguments"].update(retryable=1),
+                "TRANSITION_RETRYABLE",
+            ),
+            (
+                "wrong_evidence",
+                lambda request: request["arguments"].update(
+                    retry_evidence_sha256="not-a-digest"
+                ),
+                "TRANSITION_TEXT",
+            ),
+        ):
+            attacked = _rehash_group_request(
+                retry_image, retry_values, "retry-boundary", mutate
+            )
+            with self.subTest(request_attack=name):
+                report = reduce_initial_runtime_image(attacked)
+                self.assertEqual(report.status, "INVALID")
+                self.assertIn(expected, self.codes(report))
+
+    def test_retry_and_reclaim_wrong_source_states_deny(self):
+        image, values = initialize_fixture()
+        image, _ = _append_retry_fixture(
+            image,
+            values,
+            before_state_key="initialize_state",
+            prefix="retry-from-n0",
+            semantic_id="123e4567-e89b-42d3-a456-426614174094",
+            commit_id="123e4567-e89b-42d3-a456-426614174095",
+            transaction_id="123e4567-e89b-42d3-a456-426614174096",
+        )
+        report = reduce_initial_runtime_image(image)
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("TRANSITION_SOURCE_STATE", self.codes(report))
+
+        image, values = start_fixture()
+        image, _ = _append_claim_fixture(
+            image,
+            values,
+            before_state_key="start_after_state",
+            prefix="reclaim-from-n2",
+            semantic_id="123e4567-e89b-42d3-a456-426614174097",
+            commit_id="123e4567-e89b-42d3-a456-426614174098",
+            transaction_id="123e4567-e89b-42d3-a456-426614174099",
+            claim_id="123e4567-e89b-42d3-a456-426614174100",
+        )
+        report = reduce_initial_runtime_image(image)
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("TRANSITION_SOURCE_STATE", self.codes(report))
+
+    def test_cumulative_attempt_and_claim_tables_are_derived_not_trusted(self):
+        image, _ = two_retry_cycles_fixture()
+        baseline = {snapshot.table: snapshot for snapshot in image.table_snapshots}
+        attacks = []
+
+        attempts = list(baseline["attempts"].rows)
+        attacks.append(("attempt_missing_old", "attempts", tuple(attempts[1:])))
+        changed = list(attempts)
+        row = list(changed[1])
+        row[2] = None
+        changed[1] = tuple(row)
+        attacks.append(("attempt_wrong_predecessor", "attempts", tuple(changed)))
+        changed = list(attempts)
+        row = list(changed[0])
+        row[3] = changed[1][3]
+        changed[0] = tuple(row)
+        attacks.append(("attempt_rewritten_origin", "attempts", tuple(changed)))
+        changed = list(attempts)
+        row = list(changed[0])
+        row[5:7] = [changed[1][3], changed[1][6]]
+        changed[0] = tuple(row)
+        attacks.append(("attempt_rewritten_head", "attempts", tuple(changed)))
+        attacks.append(("attempt_reordered", "attempts", tuple(reversed(attempts))))
+
+        claims = list(baseline["claims"].rows)
+        attacks.append(("claim_missing_old", "claims", tuple(claims[1:])))
+        for name, column, value in (
+            ("claim_wrong_attempt", 2, 3),
+            ("claim_wrong_fence", 3, 99),
+            ("claim_reopened", 4, "OPEN"),
+            ("claim_wrong_open", 6, claims[1][6]),
+            ("claim_wrong_close", 7, claims[1][7]),
+        ):
+            changed = list(claims)
+            row = list(changed[0])
+            row[column] = value
+            changed[0] = tuple(row)
+            attacks.append((name, "claims", tuple(changed)))
+        attacks.append(("claim_reordered", "claims", tuple(reversed(claims))))
+
+        for name, table, rows in attacks:
+            snapshots = list(image.table_snapshots)
+            index = TABLE_NAMES.index(table)
+            snapshots[index] = TableSnapshot(table, rows)
+            with self.subTest(attack=name):
+                report = reduce_initial_runtime_image(replace(
+                    image, table_snapshots=tuple(snapshots),
+                ))
+                self.assertEqual(report.status, "INVALID")
+                self.assertTrue(
+                    {"TABLE_DERIVATION", "TABLE_ROW_ORDER"}
+                    & self.codes(report)
+                )
+
     def test_cursor_replays_non_enumerated_worker_depth_exactly(self):
         image, values = continue_thrice_fixture()
         self.assertEqual(len(image.events), 13)
@@ -1731,7 +2507,7 @@ class RuntimeV2InitialTests(unittest.TestCase):
             semantic = json.loads(json.dumps(values["continue_third_semantic"]))
             semantic["event_type"] = event_type
             semantic["event_sha256"] = event_digest(semantic)
-            with self.subTest(uncompiled_event_type=event_type):
+            with self.subTest(mismatched_dispatched_event_type=event_type):
                 report = reduce_initial_runtime_image(replace(
                     image,
                     events=image.events[:-2] + (
@@ -1739,7 +2515,32 @@ class RuntimeV2InitialTests(unittest.TestCase):
                     ),
                 ))
                 self.assertEqual(report.status, "INVALID")
-                self.assertIn("GROUP_WORKER_OPERATION", self.codes(report))
+                self.assertIn("GROUP_CONST", self.codes(report))
+
+        semantic = json.loads(json.dumps(values["continue_third_semantic"]))
+        semantic["event_type"] = "TASK_UNKNOWN"
+        semantic["event_sha256"] = event_digest(semantic)
+        report = reduce_initial_runtime_image(replace(
+            image,
+            events=image.events[:-2] + (
+                canonical_json(semantic), image.events[-1],
+            ),
+        ))
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("GROUP_FOLLOWUP_OPERATION", self.codes(report))
+
+        for hostile_event_type in ([], {}, None, 7):
+            semantic = json.loads(json.dumps(values["continue_third_semantic"]))
+            semantic["event_type"] = hostile_event_type
+            with self.subTest(hostile_event_type=hostile_event_type):
+                report = reduce_initial_runtime_image(replace(
+                    image,
+                    events=image.events[:-2] + (
+                        canonical_json(semantic), image.events[-1],
+                    ),
+                ))
+                self.assertEqual(report.status, "INVALID")
+                self.assertIn("GROUP_FOLLOWUP_OPERATION", self.codes(report))
 
         semantic = json.loads(json.dumps(values["continue_third_semantic"]))
         semantic["task_context"]["task_sequence"] = 1

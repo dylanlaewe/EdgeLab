@@ -321,8 +321,9 @@ class RuntimeV2TransitionWorkspaceTests(unittest.TestCase):
             },
         }
         cursor = group._ReplayCursor(genesis)
+        first_root = group.task_predecessor(DIGEST, "T1", 1)
         first, first_commit = cursor_pair(
-            1, attempt=1, task_sequence=1, predecessor=(uuid4(910), "a" * 64)
+            1, attempt=1, task_sequence=1, predecessor=first_root
         )
         cursor.check_attempt_advance(
             first, opens_attempt=True, predecessor_attempt=None
@@ -344,8 +345,9 @@ class RuntimeV2TransitionWorkspaceTests(unittest.TestCase):
         )
         old_row = cursor.attempt_rows()[0]
 
+        retry_root = group.task_predecessor(DIGEST, "T1", 2)
         retried, retried_commit = cursor_pair(
-            5, attempt=2, task_sequence=1, predecessor=(uuid4(920), "c" * 64)
+            5, attempt=2, task_sequence=1, predecessor=retry_root
         )
         cursor.check_attempt_advance(
             retried, opens_attempt=True, predecessor_attempt=1
@@ -418,8 +420,9 @@ class RuntimeV2TransitionWorkspaceTests(unittest.TestCase):
         self.assertEqual(cursor.global_sequence, 0)
         self.assertEqual(cursor.attempt_rows(), ())
 
+        first_root = group.task_predecessor(DIGEST, "T1", 1)
         valid, valid_commit = cursor_pair(
-            1, attempt=1, task_sequence=1, predecessor=(uuid4(910), "a" * 64)
+            1, attempt=1, task_sequence=1, predecessor=first_root
         )
         cursor.check_attempt_advance(
             valid, opens_attempt=True, predecessor_attempt=None
@@ -428,8 +431,9 @@ class RuntimeV2TransitionWorkspaceTests(unittest.TestCase):
             valid, valid_commit, opens_attempt=True, predecessor_attempt=None
         )
         baseline = cursor.attempt_rows()
+        third_root = group.task_predecessor(DIGEST, "T1", 3)
         skipped, _ = cursor_pair(
-            3, attempt=3, task_sequence=1, predecessor=(uuid4(930), "d" * 64)
+            3, attempt=3, task_sequence=1, predecessor=third_root
         )
         with self.assertRaises(group.GroupValidationError) as caught:
             cursor.check_attempt_advance(
@@ -438,13 +442,90 @@ class RuntimeV2TransitionWorkspaceTests(unittest.TestCase):
         self.assertEqual(caught.exception.code, "GROUP_ATTEMPT_PREDECESSOR")
         self.assertEqual(cursor.attempt_rows(), baseline)
 
+    def test_workspace_retry_matches_immutable_kernel_and_preserves_failed_claim(self) -> None:
+        workspace = transition._TransitionWorkspace(self.empty)
+        immutable = self.empty
+        claim_id = uuid4(100)
+        trace = (
+            initialize_intent(event=1),
+            intent(
+                "CLAIM",
+                args=arguments(actor="worker-fixture"),
+                generated_id=claim_id,
+                event=2,
+            ),
+            intent(
+                "FAIL",
+                args=arguments(
+                    claim_id=claim_id,
+                    failure_code="WORKER_ERROR",
+                    failure_evidence_sha256=DIGEST,
+                    fence=1,
+                ),
+                event=3,
+            ),
+        )
+        for item in trace:
+            immutable = transition.reduce_transition(immutable, item)
+            self.commit(workspace, item)
+        failed = workspace.freeze()
+        failed_revision = workspace.revision
+        for bad_retry, expected in (
+            (
+                intent(
+                    "RETRY",
+                    args=arguments(
+                        retry_evidence_sha256=DIGEST, retryable=False
+                    ),
+                    event=40,
+                ),
+                "TRANSITION_RETRYABLE",
+            ),
+            (
+                intent(
+                    "RETRY",
+                    attempt=2,
+                    args=arguments(
+                        retry_evidence_sha256=DIGEST, retryable=True
+                    ),
+                    event=41,
+                ),
+                "TRANSITION_ATTEMPT_MISMATCH",
+            ),
+        ):
+            with self.subTest(expected=expected):
+                with self.assertRaises(transition.TransitionViolation) as caught:
+                    workspace.stage(bad_retry)
+                self.assertEqual(caught.exception.code, expected)
+                self.assertEqual(workspace.revision, failed_revision)
+                self.assertEqual(workspace.freeze(), failed)
+        retry = intent(
+            "RETRY",
+            args=arguments(retry_evidence_sha256=DIGEST, retryable=True),
+            event=4,
+        )
+        staged = workspace.stage(retry)
+        self.assertEqual(len(staged.delta.task_writes), 1)
+        self.assertEqual(staged.delta.claim_writes, ())
+        workspace.commit(staged)
+        immutable = transition.reduce_transition(immutable, retry)
+        retried = workspace.freeze()
+        self.assertEqual(retried, immutable)
+        self.assertEqual(retried.tasks[0].attempt, 2)
+        self.assertEqual(retried.tasks[0].code, "N0")
+        self.assertEqual(retried.tasks[0].scheduler_generation, 3)
+        self.assertEqual(retried.tasks[0].dispatch_generation, 3)
+        self.assertEqual(retried.tasks[0].task_fence, 3)
+        self.assertEqual(retried.claims, failed.claims)
+        self.assertEqual(retried.claims[0].status, "FAILED")
+
     def test_workspace_scope_is_closed_and_private(self) -> None:
         workspace = transition._TransitionWorkspace(self.empty)
         with self.assertRaises(transition.TransitionViolation) as caught:
             workspace.stage(
                 intent(
-                    "RETRY",
-                    args=arguments(retry_evidence_sha256=DIGEST, retryable=True),
+                    "GOVERNANCE_BLOCK",
+                    args=arguments(evidence_sha256=DIGEST, reason_code="STOP"),
                 )
             )
         self.assertEqual(caught.exception.code, "TRANSITION_OPERATION_OUTSIDE_WORKSPACE")

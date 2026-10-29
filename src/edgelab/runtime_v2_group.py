@@ -1,8 +1,9 @@
 """Private atomic transaction-group planning for runtime format 2.
 
 The compiled slices support ``INITIALIZE`` after a validated NEW genesis,
-followed by ``CLAIM``, worker operations ``START``, ``CONTINUE``, ``YIELD``,
-``FAIL``, and ``COMPLETE``, plus synthetic ``RECOVER``. They are deliberately
+followed by repeatable ``CLAIM``, worker operations ``START``, ``CONTINUE``,
+``YIELD``, ``FAIL``, and ``COMPLETE``, synthetic ``RECOVER``, and exact
+attempt-boundary ``RETRY``. They are deliberately
 narrow: supplied blobs and events are treated as untrusted comparison inputs,
 task state is recomputed with the immutable transition kernel, and no result
 can authorize use.
@@ -78,6 +79,10 @@ _WORKER_PROFILES = {
     "TASK_YIELDED": (
         "YIELD",
         frozenset({"claim_id", "fence", "yield_evidence_sha256"}),
+    ),
+    "TASK_RETRIED": (
+        "RETRY",
+        frozenset({"retry_evidence_sha256", "retryable"}),
     ),
 }
 
@@ -208,6 +213,14 @@ class _ReplayCursor:
             if prior is not None or context["task_sequence"] != 1:
                 _deny("GROUP_ATTEMPT_OPEN", "/events")
             attempt = context["attempt"]
+            predecessor_id, predecessor_sha = task_predecessor(
+                self.chain_id, context["task_id"], attempt
+            )
+            if context["task_predecessor"] != {
+                "event_id": predecessor_id,
+                "event_sha256": predecessor_sha,
+            }:
+                _deny("GROUP_ATTEMPT_ROOT", "/events")
             if attempt == 1:
                 if predecessor_attempt is not None:
                     _deny("GROUP_ATTEMPT_PREDECESSOR", "/events")
@@ -629,8 +642,12 @@ def reduce_claim_group(
     commit_event: Any,
     catalog: Mapping[str, BlobValue],
 ) -> ClaimGroupPatch:
-    """Validate and plan one complete CLAIM group after INITIALIZE."""
-    if type(cursor) is not _ReplayCursor or cursor.global_sequence != 2:
+    """Validate and plan one complete CLAIM group from a current N0 state."""
+    if (
+        type(cursor) is not _ReplayCursor
+        or cursor.global_sequence < 2
+        or cursor.global_sequence % 2 != 0
+    ):
         _deny("GROUP_CURSOR", "/events")
     semantic_index = cursor.global_sequence + 1
     commit_index = semantic_index + 1
@@ -737,9 +754,13 @@ def reduce_claim_group(
     _const(context["task_id"], task.task_id, f"/events/{semantic_index}/task_context/task_id")
     _const(context["attempt"], task.attempt, f"/events/{semantic_index}/task_context/attempt")
     prior_task = cursor.task_head(task.task_id, task.attempt)
-    if prior_task is None or prior_task.sequence != 1:
+    if prior_task is None:
         _deny("GROUP_TASK_HISTORY", f"/events/{semantic_index}/task_context")
-    _const(context["task_sequence"], 2, f"/events/{semantic_index}/task_context/task_sequence")
+    task_sequence = prior_task.sequence + 1
+    _const(
+        context["task_sequence"], task_sequence,
+        f"/events/{semantic_index}/task_context/task_sequence",
+    )
     _const(context["task_predecessor"], {
         "event_id": prior_task.head_event_id,
         "event_sha256": prior_task.head_event_sha256,
@@ -858,10 +879,10 @@ def reduce_worker_group(
     commit_event: Any,
     catalog: Mapping[str, BlobValue],
 ) -> WorkerGroupPatch:
-    """Validate and plan one compiled worker transaction group."""
+    """Validate and plan one compiled worker or RETRY transaction group."""
     if (
         type(cursor) is not _ReplayCursor
-        or cursor.global_sequence < 4
+        or cursor.global_sequence < 2
         or cursor.global_sequence % 2 != 0
     ):
         _deny("GROUP_CURSOR", "/events")
@@ -891,6 +912,7 @@ def reduce_worker_group(
     if profile is None:
         _deny("GROUP_WORKER_OPERATION", f"/events/{semantic_index}/event_type")
     operation, argument_keys = profile
+    opens_attempt = operation == "RETRY"
     runtime_id = cursor.runtime_id
     chain_id = cursor.chain_id
     repository_generation = workspace.repository_generation
@@ -1029,22 +1051,24 @@ def reduce_worker_group(
         context["task_id"], task.task_id,
         f"/events/{semantic_index}/task_context/task_id",
     )
-    _const(
-        context["attempt"], task.attempt,
-        f"/events/{semantic_index}/task_context/attempt",
-    )
-    prior_task = cursor.task_head(task.task_id, task.attempt)
-    if prior_task is None:
-        _deny("GROUP_TASK_HISTORY", f"/events/{semantic_index}/task_context")
-    task_sequence = prior_task.sequence + 1
-    _const(
-        context["task_sequence"], task_sequence,
-        f"/events/{semantic_index}/task_context/task_sequence",
-    )
-    _const(context["task_predecessor"], {
-        "event_id": prior_task.head_event_id,
-        "event_sha256": prior_task.head_event_sha256,
-    }, f"/events/{semantic_index}/task_context/task_predecessor")
+    if not opens_attempt:
+        _const(
+            context["attempt"], task.attempt,
+            f"/events/{semantic_index}/task_context/attempt",
+        )
+        prior_task = cursor.task_head(task.task_id, task.attempt)
+        if prior_task is None:
+            _deny("GROUP_TASK_HISTORY", f"/events/{semantic_index}/task_context")
+        task_sequence = prior_task.sequence + 1
+        _const(
+            context["task_sequence"], task_sequence,
+            f"/events/{semantic_index}/task_context/task_sequence",
+        )
+        _const(context["task_predecessor"], {
+            "event_id": prior_task.head_event_id,
+            "event_sha256": prior_task.head_event_sha256,
+        }, f"/events/{semantic_index}/task_context/task_predecessor")
+
     semantic_before_sha = _ref(
         semantic["state_before_ref"], TASK_STATE_SCHEMA_ID,
         f"/events/{semantic_index}/state_before_ref",
@@ -1091,6 +1115,27 @@ def reduce_worker_group(
         )
     except TransitionViolation as error:
         raise GroupValidationError(error.code, error.coordinate) from error
+    if opens_attempt:
+        _const(
+            context["attempt"], staged.after_task.attempt,
+            f"/events/{semantic_index}/task_context/attempt",
+        )
+        _const(
+            context["task_sequence"], 1,
+            f"/events/{semantic_index}/task_context/task_sequence",
+        )
+        predecessor_id, predecessor_sha = task_predecessor(
+            chain_id, task.task_id, staged.after_task.attempt
+        )
+        _const(context["task_predecessor"], {
+            "event_id": predecessor_id,
+            "event_sha256": predecessor_sha,
+        }, f"/events/{semantic_index}/task_context/task_predecessor")
+        if cursor.task_head(task.task_id, staged.after_task.attempt) is not None:
+            _deny(
+                "GROUP_TASK_HISTORY",
+                f"/events/{semantic_index}/task_context",
+            )
     supplied_after = _resolve(
         catalog, after_sha, TASK_STATE_SCHEMA_ID,
         f"/events/{semantic_index}/state_after_ref",
@@ -1099,7 +1144,7 @@ def reduce_worker_group(
         _deny("GROUP_STATE_DERIVATION", f"/events/{semantic_index}/state_after_ref")
     _const(response["affected_states"], [{
         "task_id": task.task_id,
-        "attempt": task.attempt,
+        "attempt": staged.after_task.attempt,
         "state_ref": {
             "schema_id": TASK_STATE_SCHEMA_ID,
             "sha256": after_sha,
@@ -1155,8 +1200,8 @@ def reduce_worker_group(
             commit["event_id"], commit["event_sha256"],
         ),
         reachable_blob_digests=reachable,
-        opens_attempt=False,
-        predecessor_attempt=None,
+        opens_attempt=opens_attempt,
+        predecessor_attempt=(task.attempt if opens_attempt else None),
         idempotency_row=(
             operation_key, transaction["transaction_id"], request_sha,
             response_sha, commit["event_id"], commit_index,

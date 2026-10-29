@@ -622,7 +622,7 @@ def _check_worker(task: TaskState, args: dict[str, Any]) -> None:
 
 _WORKSPACE_OPERATIONS = frozenset({
     "INITIALIZE", "CLAIM", "START", "CONTINUE", "YIELD", "FAIL",
-    "COMPLETE", "RECOVER",
+    "COMPLETE", "RECOVER", "RETRY",
 })
 
 
@@ -798,7 +798,7 @@ def _plan_workspace_transition(
             task_fence=_increment(task.task_fence, "/task_fence"),
             active_claim_id=None,
         )
-    else:
+    elif operation == "RECOVER":
         if task.code != "N1":
             _deny("TRANSITION_SOURCE_STATE", "/task_id")
         args = intent.args(("claim_id", "liveness_evidence_sha256"))
@@ -814,6 +814,28 @@ def _plan_workspace_transition(
             dispatch_generation=_increment(task.dispatch_generation, "/dispatch_generation"),
             task_fence=_increment(task.task_fence, "/task_fence"),
             active_claim_id=None,
+        )
+    else:
+        if task.code != "F0":
+            _deny("TRANSITION_SOURCE_STATE", "/task_id")
+        args = intent.args(("retry_evidence_sha256", "retryable"))
+        if args["retryable"] is not True:
+            _deny("TRANSITION_RETRYABLE", "/arguments/retryable")
+        _digest(args["retry_evidence_sha256"], "/arguments/retry_evidence_sha256")
+        after = _with_code(
+            task,
+            "N0",
+            attempt=_increment(task.attempt, "/attempt"),
+            scheduler_generation=_increment(
+                task.scheduler_generation, "/scheduler_generation"
+            ),
+            dispatch_generation=_increment(
+                task.dispatch_generation, "/dispatch_generation"
+            ),
+            task_fence=_increment(task.task_fence, "/task_fence"),
+            continuation_count=0,
+            active_claim_id=None,
+            reviewer_assignment_id=None,
         )
     return _TransitionDelta((_TaskWrite(task.task_id, task, after),), claim_writes, after)
 
@@ -1279,21 +1301,6 @@ def reduce_transition(state: ReducerState, intent: TransitionIntent) -> ReducerS
                 scheduler_generation=_increment(task.scheduler_generation, "/scheduler_generation"),
                 dispatch_generation=_increment(task.dispatch_generation, "/dispatch_generation"),
                 task_fence=_increment(task.task_fence, "/task_fence"), active_claim_id=None,
-            )
-        elif operation == "RETRY":
-            if task.code != "F0":
-                _deny("TRANSITION_SOURCE_STATE", "/task_id")
-            args = intent.args(("retry_evidence_sha256", "retryable"))
-            if args["retryable"] is not True:
-                _deny("TRANSITION_RETRYABLE", "/arguments/retryable")
-            _digest(args["retry_evidence_sha256"], "/arguments/retry_evidence_sha256")
-            tasks[task.task_id] = _with_code(
-                task, "N0", attempt=_increment(task.attempt, "/attempt"),
-                scheduler_generation=_increment(task.scheduler_generation, "/scheduler_generation"),
-                dispatch_generation=_increment(task.dispatch_generation, "/dispatch_generation"),
-                task_fence=_increment(task.task_fence, "/task_fence"),
-                continuation_count=0, active_claim_id=None,
-                reviewer_assignment_id=None,
             )
         elif operation == "GOVERNANCE_BLOCK":
             if task.code not in {"N0", "N1", "N2", "N3", "N4"}:

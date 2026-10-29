@@ -60,6 +60,7 @@ from .runtime_v2_group import (
     ClaimGroupPatch,
     GroupValidationError,
     InitializeGroupPatch,
+    _WORKER_PROFILES,
     _ReplayCursor,
     WorkerGroupPatch,
     reduce_claim_group,
@@ -658,58 +659,51 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
             request_sha, response_sha, payload_sha,
             *initialize_patch.reachable_blob_digests,
         }
-        if len(parsed_events) >= 5:
+        for semantic_index in range(3, len(parsed_events), 2):
+            semantic_candidate = parsed_events[semantic_index]
+            event_type = (
+                semantic_candidate.get("event_type")
+                if type(semantic_candidate) is dict
+                else None
+            )
+            if event_type == "CLAIM_ISSUED":
+                reducer = reduce_claim_group
+                artifact = "claim_transaction_group"
+            elif type(event_type) is str and event_type in _WORKER_PROFILES:
+                reducer = reduce_worker_group
+                artifact = "worker_transaction_group"
+            else:
+                sink.add(
+                    "GROUP_FOLLOWUP_OPERATION",
+                    "transaction_group",
+                    f"/events/{semantic_index}/event_type",
+                )
+                return _invalid(sink)
             try:
-                claim_patch = reduce_claim_group(
+                patch = reducer(
                     cursor=cursor,
                     workspace=workspace,
-                    semantic_event=parsed_events[3],
-                    commit_event=parsed_events[4],
+                    semantic_event=semantic_candidate,
+                    commit_event=parsed_events[semantic_index + 1],
                     catalog=blobs,
                 )
             except GroupValidationError as error:
-                sink.add(error.code, "claim_transaction_group", error.coordinate)
+                sink.add(error.code, artifact, error.coordinate)
                 return _invalid(sink)
             try:
                 _commit_group_patch(
                     cursor=cursor,
                     workspace=workspace,
-                    patch=claim_patch,
-                    semantic_event=parsed_events[3],
-                    commit_event=parsed_events[4],
+                    patch=patch,
+                    semantic_event=semantic_candidate,
+                    commit_event=parsed_events[semantic_index + 1],
                 )
             except (GroupValidationError, TransitionViolation) as error:
-                sink.add(error.code, "claim_transaction_group", error.coordinate)
+                sink.add(error.code, artifact, error.coordinate)
                 return _invalid(sink)
-            final_patch = claim_patch
-            idempotency_rows.append(claim_patch.idempotency_row)
-            expected_reachable.update(claim_patch.reachable_blob_digests)
-            for semantic_index in range(5, len(parsed_events), 2):
-                try:
-                    worker_patch = reduce_worker_group(
-                        cursor=cursor,
-                        workspace=workspace,
-                        semantic_event=parsed_events[semantic_index],
-                        commit_event=parsed_events[semantic_index + 1],
-                        catalog=blobs,
-                    )
-                except GroupValidationError as error:
-                    sink.add(error.code, "worker_transaction_group", error.coordinate)
-                    return _invalid(sink)
-                try:
-                    _commit_group_patch(
-                        cursor=cursor,
-                        workspace=workspace,
-                        patch=worker_patch,
-                        semantic_event=parsed_events[semantic_index],
-                        commit_event=parsed_events[semantic_index + 1],
-                    )
-                except (GroupValidationError, TransitionViolation) as error:
-                    sink.add(error.code, "worker_transaction_group", error.coordinate)
-                    return _invalid(sink)
-                final_patch = worker_patch
-                idempotency_rows.append(worker_patch.idempotency_row)
-                expected_reachable.update(worker_patch.reachable_blob_digests)
+            final_patch = patch
+            idempotency_rows.append(patch.idempotency_row)
+            expected_reachable.update(patch.reachable_blob_digests)
         if set(blobs) != expected_reachable:
             sink.add("BLOB_REACHABILITY", "blobs", "/")
             return _invalid(sink)
