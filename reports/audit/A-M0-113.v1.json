@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-113",
+  "version": 1,
+  "occurred_at": "2026-10-29T23:41:38Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_BOOTSTRAP_DOCUMENT_RESOURCE_CLASSIFIED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-131-runtime-v2-bootstrap-document-resource-classification.v1.md",
+  "previous_state": "DISCOVERY_V2_697_SITES_SIXTEEN_CLASSIFIED_681_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V2_697_SITES_TWENTY_TWO_CLASSIFIED_675_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit cb3278fcf3ad9d2437b86d12477967f83c36e674 binds MAX_BOOTSTRAP_DOCUMENT_BYTES to its sole definition and all five host branch bindings with complete boundary, ordering, sibling-independence, and adversarial semantic-pin evidence. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": ["reports/H-M0-131-runtime-v2-bootstrap-document-resource-classification.v1.md", "docs/M0.3A_BOOTSTRAP_DOCUMENT_BYTE_LIMIT.v1.md", "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v8.json", "schemas/m0-3a-runtime-v2-resource-classification.v8.schema.json", "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md", "tools/check_runtime_v2_release_readiness.py", "tests/test_runtime_v2_bootstrap_document_byte_bound.py", "tests/test_runtime_v2_release_readiness.py", "reports/stops/STOP-M0-3A-002.v34.json"],
+  "code_ref": "cb3278fcf3ad9d2437b86d12477967f83c36e674",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-131",
+  "supersedes": null
+}
