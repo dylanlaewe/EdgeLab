@@ -747,19 +747,31 @@ def _worker_fixture(image, values, operation):
             "transaction_id": "123e4567-e89b-42d3-a456-426614174015",
             "event_type": "TASK_YIELDED",
         },
+        "CONTINUE": {
+            "semantic_id": "123e4567-e89b-42d3-a456-426614174016",
+            "commit_id": "123e4567-e89b-42d3-a456-426614174017",
+            "transaction_id": "123e4567-e89b-42d3-a456-426614174018",
+            "event_type": "TASK_CONTINUED",
+        },
     }[operation]
     prefix = operation.lower()
-    before_state = (
-        values["claim_after_state"]
-        if operation == "START"
-        else values["start_after_state"]
-    )
+    if operation == "START":
+        before_state = values["claim_after_state"]
+    else:
+        before_state = values["start_after_state"]
     after_state = json.loads(json.dumps(before_state))
     after_state["scheduler_generation"] += 1
     claim_id = before_state["active_claim_id"]
     if operation == "START":
         after_state["execution"] = "IN_PROGRESS"
         arguments = {"claim_id": claim_id, "fence": before_state["task_fence"]}
+    elif operation == "CONTINUE":
+        after_state["continuation_count"] += 1
+        arguments = {
+            "claim_id": claim_id,
+            "fence": before_state["task_fence"],
+            "progress_evidence_sha256": "7" * 64,
+        }
     else:
         after_state.update({
             "execution": "CLAIMABLE",
@@ -1013,6 +1025,11 @@ def yield_fixture():
     return _worker_fixture(image, values, "YIELD")
 
 
+def continue_fixture():
+    image, values = start_fixture()
+    return _worker_fixture(image, values, "CONTINUE")
+
+
 class RuntimeV2InitialTests(unittest.TestCase):
     def codes(self, report):
         return {violation.code for violation in report.violations}
@@ -1240,8 +1257,12 @@ class RuntimeV2InitialTests(unittest.TestCase):
                 self.assertEqual(report.status, "INVALID")
                 self.assertIn("TABLE_DERIVATION", self.codes(report))
 
-    def test_start_and_yield_reduce_end_to_end_but_remain_opaque(self):
-        for name, build in (("start", start_fixture), ("yield", yield_fixture)):
+    def test_worker_groups_reduce_end_to_end_but_remain_opaque(self):
+        for name, build in (
+            ("start", start_fixture),
+            ("continue", continue_fixture),
+            ("yield", yield_fixture),
+        ):
             with self.subTest(group=name):
                 image, _ = build()
                 report = reduce_initial_runtime_image(image)
@@ -1250,7 +1271,11 @@ class RuntimeV2InitialTests(unittest.TestCase):
                 self.assertEqual(report.authorizing_use, "DENY")
 
     def test_worker_groups_enforce_claim_and_fence_cas(self):
-        for name, build in (("start", start_fixture), ("yield", yield_fixture)):
+        for name, build in (
+            ("start", start_fixture),
+            ("continue", continue_fixture),
+            ("yield", yield_fixture),
+        ):
             image, values = build()
             for field, replacement_value, expected_code in (
                 (
@@ -1373,6 +1398,44 @@ class RuntimeV2InitialTests(unittest.TestCase):
         claim[4] = "OPEN"
         claim[7] = None
         snapshots[index] = TableSnapshot("claims", (tuple(claim),))
+        report = reduce_initial_runtime_image(replace(
+            image, table_snapshots=tuple(snapshots),
+        ))
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("TABLE_DERIVATION", self.codes(report))
+
+    def test_continue_count_is_derived_not_trusted(self):
+        image, values = continue_fixture()
+        state = json.loads(json.dumps(values["continue_after_state"]))
+        state["continuation_count"] += 8
+        state_sha = blob_digest(state)
+        semantic = json.loads(json.dumps(values["continue_semantic"]))
+        semantic["state_after_ref"]["sha256"] = state_sha
+        semantic["event_sha256"] = event_digest(semantic)
+        commit = json.loads(json.dumps(values["continue_commit"]))
+        commit["global_predecessor"]["event_sha256"] = semantic["event_sha256"]
+        commit["event_sha256"] = event_digest(commit)
+        old_state_sha = blob_digest(values["continue_after_state"])
+        blobs = tuple(
+            record for record in image.blobs if record.sha256 != old_state_sha
+        ) + (
+            BlobRecord(state_sha, TASK_STATE_SCHEMA_ID, canonical_json(state)),
+        )
+        report = reduce_initial_runtime_image(replace(
+            image,
+            blobs=tuple(sorted(blobs, key=lambda record: record.sha256)),
+            events=image.events[:-2] + (
+                canonical_json(semantic), canonical_json(commit),
+            ),
+        ))
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("GROUP_STATE_DERIVATION", self.codes(report))
+
+        snapshots = list(image.table_snapshots)
+        index = TABLE_NAMES.index("tasks")
+        task = list(snapshots[index].rows[0])
+        task[10] += 1
+        snapshots[index] = TableSnapshot("tasks", (tuple(task),))
         report = reduce_initial_runtime_image(replace(
             image, table_snapshots=tuple(snapshots),
         ))

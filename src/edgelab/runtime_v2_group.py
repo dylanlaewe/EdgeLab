@@ -1,10 +1,10 @@
 """Private atomic transaction-group planning for runtime format 2.
 
 The compiled slices support ``INITIALIZE`` after a validated NEW genesis,
-followed by ``CLAIM`` and the worker operations ``START`` and ``YIELD``. They
-are deliberately narrow: supplied blobs and events are treated as untrusted
-comparison inputs, task state is recomputed with the immutable transition
-kernel, and no result can authorize use.
+followed by ``CLAIM`` and the worker operations ``START``, ``CONTINUE``, and
+``YIELD``. They are deliberately narrow: supplied blobs and events are treated
+as untrusted comparison inputs, task state is recomputed with the immutable
+transition kernel, and no result can authorize use.
 """
 from __future__ import annotations
 
@@ -647,7 +647,7 @@ def reduce_worker_group(
     commit_event: Any,
     catalog: Mapping[str, BlobValue],
 ) -> WorkerGroupPatch:
-    """Validate and plan one START or YIELD group after a task claim."""
+    """Validate and plan one START, CONTINUE, or YIELD worker group."""
     if (
         len(prior_events) < 5
         or len(prior_events) % 2 != 1
@@ -666,6 +666,12 @@ def reduce_worker_group(
     commit = _validate_event_shape(commit_event, f"/events/{commit_index}")
     operation_profile = {
         "TASK_STARTED": ("START", frozenset({"claim_id", "fence"})),
+        "TASK_CONTINUED": (
+            "CONTINUE",
+            frozenset({
+                "claim_id", "fence", "progress_evidence_sha256",
+            }),
+        ),
         "TASK_YIELDED": (
             "YIELD",
             frozenset({"claim_id", "fence", "yield_evidence_sha256"}),

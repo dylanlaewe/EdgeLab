@@ -426,7 +426,7 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
         )
     if image.checkpoint_copies:
         sink.add("GENESIS_CHECKPOINT_COPY", "checkpoint_copies", "/")
-    if len(image.events) not in {1, 3, 5, 7, 9}:
+    if len(image.events) not in {1, 3, 5, 7, 9, 11}:
         sink.add("COMPILED_EVENT_CARDINALITY", "events", "/")
     if len(image.selector_history) != 2:
         sink.add("GENESIS_SELECTOR_CARDINALITY", "selector_history", "/")
@@ -435,7 +435,7 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
     parsed_events = tuple(
         _parse(raw, f"events[{index}]", sink)
         for index, raw in enumerate(image.events)
-    ) if len(image.events) in {1, 3, 5, 7, 9} else ()
+    ) if len(image.events) in {1, 3, 5, 7, 9, 11} else ()
     event = parsed_events[0] if parsed_events else None
     selectors = tuple(
         _parse(raw, f"selector_history[{index}]", sink)
