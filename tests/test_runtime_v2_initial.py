@@ -470,7 +470,10 @@ def initialize_fixture():
         BlobRecord(commit_payload_sha, PAYLOAD_SCHEMA_ID, canonical_json(commit_payload)),
         BlobRecord(state_sha, TASK_STATE_SCHEMA_ID, canonical_json(state)),
     )
-    blobs = tuple(sorted(image.blobs + additions, key=lambda record: record.sha256))
+    blob_by_digest = {record.sha256: record for record in image.blobs}
+    for addition in additions:
+        blob_by_digest.setdefault(addition.sha256, addition)
+    blobs = tuple(sorted(blob_by_digest.values(), key=lambda record: record.sha256))
     rows = {snapshot.table: snapshot.rows for snapshot in image.table_snapshots}
     rows["blobs"] = tuple(
         (record.sha256, record.schema_id, record.canonical_json.decode("ascii"))
@@ -675,7 +678,10 @@ def claim_fixture():
         BlobRecord(commit_payload_sha, PAYLOAD_SCHEMA_ID, canonical_json(commit_payload)),
         BlobRecord(after_sha, TASK_STATE_SCHEMA_ID, canonical_json(after_state)),
     )
-    blobs = tuple(sorted(image.blobs + additions, key=lambda record: record.sha256))
+    blob_by_digest = {record.sha256: record for record in image.blobs}
+    for addition in additions:
+        blob_by_digest.setdefault(addition.sha256, addition)
+    blobs = tuple(sorted(blob_by_digest.values(), key=lambda record: record.sha256))
     rows = {snapshot.table: snapshot.rows for snapshot in image.table_snapshots}
     rows["blobs"] = tuple(
         (record.sha256, record.schema_id, record.canonical_json.decode("ascii"))
@@ -734,7 +740,7 @@ def _task_table_row(state):
 
 
 def _worker_fixture(image, values, fixture_operation):
-    profile = {
+    profiles = {
         "START": {
             "operation": "START",
             "prefix": "start",
@@ -857,7 +863,30 @@ def _worker_fixture(image, values, fixture_operation):
             "transaction_id": "123e4567-e89b-42d3-a456-426614174048",
             "event_type": "CLAIM_RECOVERED",
         },
-    }[fixture_operation]
+        "CONTINUE_AGAIN": {
+            "operation": "CONTINUE",
+            "prefix": "continue_again",
+            "before_state": "continue_after_state",
+            "semantic_id": "123e4567-e89b-42d3-a456-426614174049",
+            "commit_id": "123e4567-e89b-42d3-a456-426614174050",
+            "transaction_id": "123e4567-e89b-42d3-a456-426614174051",
+            "event_type": "TASK_CONTINUED",
+        },
+        "CONTINUE_THIRD": {
+            "operation": "CONTINUE",
+            "prefix": "continue_third",
+            "before_state": "continue_again_after_state",
+            "semantic_id": "123e4567-e89b-42d3-a456-426614174052",
+            "commit_id": "123e4567-e89b-42d3-a456-426614174053",
+            "transaction_id": "123e4567-e89b-42d3-a456-426614174054",
+            "event_type": "TASK_CONTINUED",
+        },
+    }
+    profile = (
+        fixture_operation
+        if type(fixture_operation) is dict
+        else profiles[fixture_operation]
+    )
     operation = profile["operation"]
     prefix = profile["prefix"]
     before_state = values[profile["before_state"]]
@@ -1103,7 +1132,10 @@ def _worker_fixture(image, values, fixture_operation):
         ),
         BlobRecord(after_sha, TASK_STATE_SCHEMA_ID, canonical_json(after_state)),
     )
-    blobs = tuple(sorted(image.blobs + additions, key=lambda record: record.sha256))
+    blob_by_digest = {record.sha256: record for record in image.blobs}
+    for addition in additions:
+        blob_by_digest.setdefault(addition.sha256, addition)
+    blobs = tuple(sorted(blob_by_digest.values(), key=lambda record: record.sha256))
     rows = {snapshot.table: snapshot.rows for snapshot in image.table_snapshots}
     rows["blobs"] = tuple(
         (record.sha256, record.schema_id, record.canonical_json.decode("ascii"))
@@ -1226,6 +1258,41 @@ def recover_fixture():
 def recover_started_fixture():
     image, values = start_fixture()
     return _worker_fixture(image, values, "RECOVER_STARTED")
+
+
+def continue_twice_fixture():
+    image, values = continue_fixture()
+    return _worker_fixture(image, values, "CONTINUE_AGAIN")
+
+
+def continue_thrice_fixture():
+    image, values = continue_twice_fixture()
+    return _worker_fixture(image, values, "CONTINUE_THIRD")
+
+
+def continue_many_fixture(count):
+    image, values = start_fixture()
+    before_state = "start_after_state"
+    for index in range(count):
+        prefix = f"continue_many_{index}"
+        base = 100 + index * 3
+        image, values = _worker_fixture(image, values, {
+            "operation": "CONTINUE",
+            "prefix": prefix,
+            "before_state": before_state,
+            "semantic_id": (
+                f"123e4567-e89b-42d3-a456-{base:012d}"
+            ),
+            "commit_id": (
+                f"123e4567-e89b-42d3-a456-{base + 1:012d}"
+            ),
+            "transaction_id": (
+                f"123e4567-e89b-42d3-a456-{base + 2:012d}"
+            ),
+            "event_type": "TASK_CONTINUED",
+        })
+        before_state = f"{prefix}_after_state"
+    return image, values
 
 
 def _replace_worker_request(image, values, prefix, request):
@@ -1552,6 +1619,7 @@ class RuntimeV2InitialTests(unittest.TestCase):
             ("continue_complete_review", continue_complete_review_fixture),
             ("continue_complete_close", continue_complete_close_fixture),
             ("recover", recover_fixture),
+            ("continue_thrice", continue_thrice_fixture),
         ):
             with self.subTest(group=name):
                 image, _ = build()
@@ -1559,6 +1627,111 @@ class RuntimeV2InitialTests(unittest.TestCase):
                 self.assertEqual(report.status, "UNSUPPORTED")
                 self.assertEqual(self.codes(report), {"CLOSURE_NOT_COMPILED"})
                 self.assertEqual(report.authorizing_use, "DENY")
+
+    def test_cursor_replays_non_enumerated_worker_depth_exactly(self):
+        image, values = continue_thrice_fixture()
+        self.assertEqual(len(image.events), 13)
+        report = reduce_initial_runtime_image(image)
+        self.assertEqual(report.status, "UNSUPPORTED")
+        self.assertEqual(self.codes(report), {"CLOSURE_NOT_COMPILED"})
+
+        state = values["continue_third_after_state"]
+        self.assertEqual(state["continuation_count"], 3)
+        self.assertEqual(state["scheduler_generation"], 5)
+        rows = {item.table: item.rows for item in image.table_snapshots}
+        self.assertEqual(rows["attempts"][0][4], 6)
+        self.assertEqual(rows["attempts"][0][5], values["continue_third_semantic"]["event_id"])
+        self.assertEqual(len(rows["idempotency"]), 6)
+        self.assertEqual(rows["tasks"][0][10], 3)
+
+        partial = replace(image, events=image.events[:-1])
+        report = reduce_initial_runtime_image(partial)
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("COMPILED_EVENT_CARDINALITY", self.codes(report))
+
+        long_image, long_values = continue_many_fixture(16)
+        self.assertEqual(len(long_image.events), 39)
+        report = reduce_initial_runtime_image(long_image)
+        self.assertEqual(report.status, "UNSUPPORTED")
+        self.assertEqual(self.codes(report), {"CLOSURE_NOT_COMPILED"})
+        long_rows = {
+            item.table: item.rows for item in long_image.table_snapshots
+        }
+        self.assertEqual(long_rows["attempts"][0][4], 19)
+        self.assertEqual(len(long_rows["idempotency"]), 19)
+        self.assertEqual(
+            long_values["continue_many_15_after_state"]["continuation_count"],
+            16,
+        )
+
+    def test_cursor_retains_early_identity_indexes_at_late_depth(self):
+        image, values = continue_thrice_fixture()
+
+        semantic = json.loads(json.dumps(values["continue_third_semantic"]))
+        semantic["event_id"] = values["start_semantic"]["event_id"]
+        semantic["event_sha256"] = event_digest(semantic)
+        report = reduce_initial_runtime_image(replace(
+            image,
+            events=image.events[:-2] + (
+                canonical_json(semantic), image.events[-1],
+            ),
+        ))
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("GROUP_EVENT_ID_DUPLICATE", self.codes(report))
+
+        for field, earlier, code in (
+            (
+                "transaction_id",
+                values["continue_semantic"]["transaction"]["transaction_id"],
+                "GROUP_TRANSACTION_DUPLICATE",
+            ),
+            (
+                "operation_key",
+                values["continue_semantic"]["transaction"]["operation_key"],
+                "GROUP_OPERATION_KEY_DUPLICATE",
+            ),
+        ):
+            semantic = json.loads(json.dumps(values["continue_third_semantic"]))
+            commit = json.loads(json.dumps(values["continue_third_commit"]))
+            semantic["transaction"][field] = earlier
+            commit["transaction"][field] = earlier
+            semantic["event_sha256"] = event_digest(semantic)
+            commit["event_sha256"] = event_digest(commit)
+            with self.subTest(field=field):
+                report = reduce_initial_runtime_image(replace(
+                    image,
+                    events=image.events[:-2] + (
+                        canonical_json(semantic), canonical_json(commit),
+                    ),
+                ))
+                self.assertEqual(report.status, "INVALID")
+                self.assertIn(code, self.codes(report))
+
+        for event_type in ("CLAIM_ISSUED", "TASK_RETRIED"):
+            semantic = json.loads(json.dumps(values["continue_third_semantic"]))
+            semantic["event_type"] = event_type
+            semantic["event_sha256"] = event_digest(semantic)
+            with self.subTest(uncompiled_event_type=event_type):
+                report = reduce_initial_runtime_image(replace(
+                    image,
+                    events=image.events[:-2] + (
+                        canonical_json(semantic), image.events[-1],
+                    ),
+                ))
+                self.assertEqual(report.status, "INVALID")
+                self.assertIn("GROUP_WORKER_OPERATION", self.codes(report))
+
+        semantic = json.loads(json.dumps(values["continue_third_semantic"]))
+        semantic["task_context"]["task_sequence"] = 1
+        semantic["event_sha256"] = event_digest(semantic)
+        report = reduce_initial_runtime_image(replace(
+            image,
+            events=image.events[:-2] + (
+                canonical_json(semantic), image.events[-1],
+            ),
+        ))
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("GROUP_CONST", self.codes(report))
 
     def test_worker_groups_enforce_claim_and_fence_cas(self):
         for name, build in (
@@ -2284,6 +2457,16 @@ class RuntimeV2InitialTests(unittest.TestCase):
                 elif isinstance(node, ast.ImportFrom) and node.module:
                     imports.add(node.module.split(".")[-1])
             self.assertTrue(forbidden.isdisjoint(imports), (name, imports & forbidden))
+
+        group_source = (
+            ROOT / "src" / "edgelab" / "runtime_v2_group.py"
+        ).read_text(encoding="utf-8")
+        initial_source = (
+            ROOT / "src" / "edgelab" / "runtime_v2_initial.py"
+        ).read_text(encoding="utf-8")
+        self.assertNotIn("prior_events", group_source)
+        self.assertNotIn("parsed_events[:", initial_source)
+        self.assertNotIn("{1, 3, 5, 7, 9, 11}", initial_source)
 
 
 if __name__ == "__main__":

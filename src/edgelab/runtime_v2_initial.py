@@ -49,12 +49,18 @@ from .runtime_v2_genesis import (
     validate_runtime_genesis_envelope,
     validate_runtime_genesis_payload,
 )
-from .runtime_v2_image import RuntimeImage, TableSnapshot, inspect_runtime_image_host
+from .runtime_v2_image import (
+    MAX_EVENTS,
+    RuntimeImage,
+    TableSnapshot,
+    inspect_runtime_image_host,
+)
 from .runtime_v2_group import (
     BlobValue,
     ClaimGroupPatch,
     GroupValidationError,
     InitializeGroupPatch,
+    _ReplayCursor,
     WorkerGroupPatch,
     reduce_claim_group,
     reduce_initialize_group,
@@ -297,9 +303,8 @@ def _expected_tables(
     image: RuntimeImage,
     catalog: dict[str, BlobValue],
     events: tuple[dict[str, Any], ...],
-    group_patch: InitializeGroupPatch | None,
-    claim_patch: ClaimGroupPatch | None,
-    worker_patches: tuple[WorkerGroupPatch, ...],
+    final_patch: InitializeGroupPatch | ClaimGroupPatch | WorkerGroupPatch | None,
+    idempotency_rows: tuple[tuple[Any, ...], ...],
     manifest_sha: str,
     attachment_sha: str,
     selector1_sha: str,
@@ -356,20 +361,16 @@ def _expected_tables(
         "RUNTIME_GENESIS_IDENTITY", attachment_sha, event_id, event_sha,
         manifest_sha, event_id, created_at,
     ),)
-    final_patch = (
-        worker_patches[-1]
-        if worker_patches
-        else claim_patch if claim_patch is not None else group_patch
-    )
     if final_patch is not None:
         rows["attempts"] = (final_patch.attempt_row,)
-        idempotency_rows = [group_patch.idempotency_row] if group_patch is not None else []
-        if claim_patch is not None:
-            idempotency_rows.append(claim_patch.idempotency_row)
-            rows["claims"] = (claim_patch.claim_row,)
-        idempotency_rows.extend(patch.idempotency_row for patch in worker_patches)
-        if worker_patches:
-            rows["claims"] = worker_patches[-1].claim_rows
+        rows["claims"] = tuple(
+            (
+                claim.claim_id, claim.task_id, claim.attempt, claim.fence,
+                claim.status, claim.actor, claim.opened_event_id,
+                claim.closed_event_id,
+            )
+            for claim in final_patch.state.claims
+        )
         rows["idempotency"] = tuple(sorted(idempotency_rows))
         rows["tasks"] = tuple(
             (
@@ -426,7 +427,10 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
         )
     if image.checkpoint_copies:
         sink.add("GENESIS_CHECKPOINT_COPY", "checkpoint_copies", "/")
-    if len(image.events) not in {1, 3, 5, 7, 9, 11}:
+    compiled_event_count = (
+        1 <= len(image.events) <= MAX_EVENTS and len(image.events) % 2 == 1
+    )
+    if not compiled_event_count:
         sink.add("COMPILED_EVENT_CARDINALITY", "events", "/")
     if len(image.selector_history) != 2:
         sink.add("GENESIS_SELECTOR_CARDINALITY", "selector_history", "/")
@@ -435,7 +439,7 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
     parsed_events = tuple(
         _parse(raw, f"events[{index}]", sink)
         for index, raw in enumerate(image.events)
-    ) if len(image.events) in {1, 3, 5, 7, 9, 11} else ()
+    ) if compiled_event_count else ()
     event = parsed_events[0] if parsed_events else None
     selectors = tuple(
         _parse(raw, f"selector_history[{index}]", sink)
@@ -578,13 +582,16 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
 
     if sink.result():
         return _invalid(sink)
-    group_patch: InitializeGroupPatch | None = None
-    claim_patch: ClaimGroupPatch | None = None
-    worker_patches: list[WorkerGroupPatch] = []
+    final_patch: (
+        InitializeGroupPatch | ClaimGroupPatch | WorkerGroupPatch | None
+    ) = None
+    idempotency_rows: list[tuple[Any, ...]] = []
+    cursor = _ReplayCursor(event)
     if len(parsed_events) >= 3:
         try:
-            group_patch = reduce_initialize_group(
+            initialize_patch = reduce_initialize_group(
                 genesis_event=event,
+                cursor=cursor,
                 semantic_event=parsed_events[1],
                 commit_event=parsed_events[2],
                 catalog=blobs,
@@ -592,15 +599,18 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
         except GroupValidationError as error:
             sink.add(error.code, "transaction_group", error.coordinate)
             return _invalid(sink)
+        cursor.advance_pair(parsed_events[1], parsed_events[2])
+        final_patch = initialize_patch
+        idempotency_rows.append(initialize_patch.idempotency_row)
         expected_reachable = {
             request_sha, response_sha, payload_sha,
-            *group_patch.reachable_blob_digests,
+            *initialize_patch.reachable_blob_digests,
         }
         if len(parsed_events) >= 5:
             try:
                 claim_patch = reduce_claim_group(
-                    prior_events=tuple(parsed_events[:3]),
-                    prior_state=group_patch.state,
+                    cursor=cursor,
+                    prior_state=initialize_patch.state,
                     semantic_event=parsed_events[3],
                     commit_event=parsed_events[4],
                     catalog=blobs,
@@ -608,12 +618,15 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
             except GroupValidationError as error:
                 sink.add(error.code, "claim_transaction_group", error.coordinate)
                 return _invalid(sink)
+            cursor.advance_pair(parsed_events[3], parsed_events[4])
+            final_patch = claim_patch
+            idempotency_rows.append(claim_patch.idempotency_row)
             expected_reachable.update(claim_patch.reachable_blob_digests)
             prior_state = claim_patch.state
             for semantic_index in range(5, len(parsed_events), 2):
                 try:
                     worker_patch = reduce_worker_group(
-                        prior_events=tuple(parsed_events[:semantic_index]),
+                        cursor=cursor,
                         prior_state=prior_state,
                         semantic_event=parsed_events[semantic_index],
                         commit_event=parsed_events[semantic_index + 1],
@@ -622,7 +635,12 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
                 except GroupValidationError as error:
                     sink.add(error.code, "worker_transaction_group", error.coordinate)
                     return _invalid(sink)
-                worker_patches.append(worker_patch)
+                cursor.advance_pair(
+                    parsed_events[semantic_index],
+                    parsed_events[semantic_index + 1],
+                )
+                final_patch = worker_patch
+                idempotency_rows.append(worker_patch.idempotency_row)
                 prior_state = worker_patch.state
                 expected_reachable.update(worker_patch.reachable_blob_digests)
         if set(blobs) != expected_reachable:
@@ -636,9 +654,8 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
         image=image,
         catalog=blobs,
         events=tuple(parsed_events),
-        group_patch=group_patch,
-        claim_patch=claim_patch,
-        worker_patches=tuple(worker_patches),
+        final_patch=final_patch,
+        idempotency_rows=tuple(idempotency_rows),
         manifest_sha=manifest_sha,
         attachment_sha=attachment_sha,
         selector1_sha=selector1_sha,

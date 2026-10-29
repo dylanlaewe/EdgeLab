@@ -52,6 +52,34 @@ _RESPONSE_KEYS = frozenset({
     "operation", "operation_key", "status", "affected_states", "generated_refs",
 })
 _PAYLOAD_KEYS = frozenset({"schema_version", "payload_format_version", "event_type", "data"})
+_WORKER_PROFILES = {
+    "TASK_STARTED": ("START", frozenset({"claim_id", "fence"})),
+    "TASK_CONTINUED": (
+        "CONTINUE",
+        frozenset({"claim_id", "fence", "progress_evidence_sha256"}),
+    ),
+    "TASK_FAILED": (
+        "FAIL",
+        frozenset({
+            "claim_id", "fence", "failure_code",
+            "failure_evidence_sha256",
+        }),
+    ),
+    "TASK_COMPLETED": (
+        "COMPLETE",
+        frozenset({
+            "claim_id", "fence", "close", "completion_evidence_sha256",
+        }),
+    ),
+    "CLAIM_RECOVERED": (
+        "RECOVER",
+        frozenset({"claim_id", "liveness_evidence_sha256"}),
+    ),
+    "TASK_YIELDED": (
+        "YIELD",
+        frozenset({"claim_id", "fence", "yield_evidence_sha256"}),
+    ),
+}
 
 
 class GroupValidationError(ValueError):
@@ -71,6 +99,112 @@ class BlobValue:
 
 
 @dataclass(frozen=True, slots=True)
+class _TaskReplayHead:
+    origin_event_id: str
+    sequence: int
+    head_event_id: str
+    head_event_sha256: str
+
+
+class _ReplayCursor:
+    """Private mutable indexes derived only from fully accepted event groups.
+
+    The cursor is an in-memory replay optimization, never a candidate artifact
+    or authority carrier. A group may inspect it while validating, but the
+    top-level reducer advances it only after the complete group succeeds.
+    """
+
+    __slots__ = (
+        "runtime_id", "chain_id", "repository_generation",
+        "repository_bundle_sha256", "global_sequence", "head_event_id",
+        "head_event_sha256", "_event_ids", "_event_digests",
+        "_transaction_ids", "_operation_keys", "_task_heads",
+    )
+
+    def __init__(self, genesis_event: dict[str, Any]) -> None:
+        if type(genesis_event) is not dict:
+            _deny("GROUP_CURSOR_GENESIS", "/events/0")
+        transaction = genesis_event.get("transaction")
+        if type(transaction) is not dict:
+            _deny("GROUP_CURSOR_GENESIS", "/events/0/transaction")
+        self.runtime_id = genesis_event["runtime_id"]
+        self.chain_id = genesis_event["chain_id"]
+        self.repository_generation = genesis_event["repository_generation"]
+        self.repository_bundle_sha256 = genesis_event[
+            "repository_bundle_sha256"
+        ]
+        self.global_sequence = genesis_event["global_sequence"]
+        self.head_event_id = genesis_event["event_id"]
+        self.head_event_sha256 = genesis_event["event_sha256"]
+        self._event_ids = {genesis_event["event_id"]}
+        self._event_digests = {genesis_event["event_sha256"]}
+        self._transaction_ids = {transaction["transaction_id"]}
+        self._operation_keys = {transaction["operation_key"]}
+        self._task_heads: dict[tuple[str, int], _TaskReplayHead] = {}
+
+    def check_pair(
+        self, semantic: dict[str, Any], commit: dict[str, Any]
+    ) -> tuple[int, int]:
+        semantic_index = self.global_sequence + 1
+        commit_index = semantic_index + 1
+        if (
+            semantic["event_id"] in self._event_ids
+            or commit["event_id"] in self._event_ids
+            or semantic["event_id"] == commit["event_id"]
+        ):
+            _deny("GROUP_EVENT_ID_DUPLICATE", f"/events/{semantic_index}")
+        if (
+            semantic["event_sha256"] in self._event_digests
+            or commit["event_sha256"] in self._event_digests
+            or semantic["event_sha256"] == commit["event_sha256"]
+        ):
+            _deny("GROUP_EVENT_DIGEST_DUPLICATE", f"/events/{semantic_index}")
+        transaction = semantic["transaction"]
+        if transaction["transaction_id"] in self._transaction_ids:
+            _deny(
+                "GROUP_TRANSACTION_DUPLICATE",
+                f"/events/{semantic_index}/transaction/transaction_id",
+            )
+        if transaction["operation_key"] in self._operation_keys:
+            _deny(
+                "GROUP_OPERATION_KEY_DUPLICATE",
+                f"/events/{semantic_index}/transaction/operation_key",
+            )
+        return semantic_index, commit_index
+
+    def task_head(self, task_id: str, attempt: int) -> _TaskReplayHead | None:
+        return self._task_heads.get((task_id, attempt))
+
+    def advance_pair(
+        self, semantic: dict[str, Any], commit: dict[str, Any]
+    ) -> None:
+        """Commit indexes after a complete group has validated atomically."""
+        self._event_ids.update((semantic["event_id"], commit["event_id"]))
+        self._event_digests.update((
+            semantic["event_sha256"], commit["event_sha256"],
+        ))
+        transaction = semantic["transaction"]
+        self._transaction_ids.add(transaction["transaction_id"])
+        self._operation_keys.add(transaction["operation_key"])
+        context = semantic["task_context"]
+        if semantic["stream"] == "TASK" and type(context) is dict:
+            key = (context["task_id"], context["attempt"])
+            prior = self._task_heads.get(key)
+            self._task_heads[key] = _TaskReplayHead(
+                origin_event_id=(
+                    semantic["event_id"]
+                    if prior is None else prior.origin_event_id
+                ),
+                sequence=context["task_sequence"],
+                head_event_id=semantic["event_id"],
+                head_event_sha256=semantic["event_sha256"],
+            )
+        self.global_sequence = commit["global_sequence"]
+        self.head_event_id = commit["event_id"]
+        self.head_event_sha256 = commit["event_sha256"]
+
+
+@dataclass(frozen=True, slots=True)
 class InitializeGroupPatch:
     state: ReducerState
     reachable_blob_digests: tuple[str, ...]
@@ -84,7 +218,6 @@ class ClaimGroupPatch:
     reachable_blob_digests: tuple[str, ...]
     attempt_row: tuple[Any, ...]
     idempotency_row: tuple[Any, ...]
-    claim_row: tuple[Any, ...]
 
 
 @dataclass(frozen=True, slots=True)
@@ -93,7 +226,6 @@ class WorkerGroupPatch:
     reachable_blob_digests: tuple[str, ...]
     attempt_row: tuple[Any, ...]
     idempotency_row: tuple[Any, ...]
-    claim_rows: tuple[tuple[Any, ...], ...]
 
 
 def _deny(code: str, coordinate: str = "/") -> None:
@@ -205,17 +337,41 @@ def _task_state_document(state: Any) -> dict[str, Any]:
 def reduce_initialize_group(
     *,
     genesis_event: dict[str, Any],
+    cursor: _ReplayCursor,
     semantic_event: Any,
     commit_event: Any,
     catalog: Mapping[str, BlobValue],
 ) -> InitializeGroupPatch:
     """Validate and plan one complete INITIALIZE group atomically."""
+    if type(cursor) is not _ReplayCursor or cursor.global_sequence != 0:
+        _deny("GROUP_CURSOR", "/events")
     semantic = _validate_event_shape(semantic_event, "/events/1")
     commit = _validate_event_shape(commit_event, "/events/2")
+    semantic_index, commit_index = cursor.check_pair(semantic, commit)
+    _const(semantic_index, 1, "/events/1/global_sequence")
+    _const(commit_index, 2, "/events/2/global_sequence")
     runtime_id = genesis_event["runtime_id"]
     chain_id = genesis_event["chain_id"]
     repository_generation = genesis_event["repository_generation"]
     repository_bundle = genesis_event["repository_bundle_sha256"]
+    for actual, expected, coordinate in (
+        (cursor.runtime_id, runtime_id, "/events/0/runtime_id"),
+        (cursor.chain_id, chain_id, "/events/0/chain_id"),
+        (
+            cursor.repository_generation, repository_generation,
+            "/events/0/repository_generation",
+        ),
+        (
+            cursor.repository_bundle_sha256, repository_bundle,
+            "/events/0/repository_bundle_sha256",
+        ),
+        (cursor.head_event_id, genesis_event["event_id"], "/events/0/event_id"),
+        (
+            cursor.head_event_sha256, genesis_event["event_sha256"],
+            "/events/0/event_sha256",
+        ),
+    ):
+        _const(actual, expected, coordinate)
     transaction = semantic["transaction"]
     operation_key = transaction["operation_key"]
     match = _OPERATION_KEY.fullmatch(operation_key)
@@ -387,25 +543,34 @@ def reduce_initialize_group(
 
 def reduce_claim_group(
     *,
-    prior_events: tuple[dict[str, Any], ...],
+    cursor: _ReplayCursor,
     prior_state: ReducerState,
     semantic_event: Any,
     commit_event: Any,
     catalog: Mapping[str, BlobValue],
 ) -> ClaimGroupPatch:
     """Validate and plan one complete CLAIM group after INITIALIZE."""
-    if len(prior_events) != 3 or any(type(event) is not dict for event in prior_events):
-        _deny("GROUP_PRIOR_EVENTS", "/events")
-    previous = prior_events[-1]
-    semantic_index = len(prior_events)
+    if type(cursor) is not _ReplayCursor or cursor.global_sequence != 2:
+        _deny("GROUP_CURSOR", "/events")
+    semantic_index = cursor.global_sequence + 1
     commit_index = semantic_index + 1
     semantic = _validate_event_shape(semantic_event, f"/events/{semantic_index}")
     commit = _validate_event_shape(commit_event, f"/events/{commit_index}")
+    cursor.check_pair(semantic, commit)
     if type(prior_state) is not ReducerState or len(prior_state.tasks) != 1:
         _deny("GROUP_PRIOR_STATE", "/state")
+    _const(
+        prior_state.repository_generation, cursor.repository_generation,
+        "/state/repository_generation",
+    )
+    _const(
+        prior_state.repository_bundle_sha256,
+        cursor.repository_bundle_sha256,
+        "/state/repository_bundle_sha256",
+    )
     task = prior_state.tasks[0]
-    runtime_id = prior_events[0]["runtime_id"]
-    chain_id = prior_events[0]["chain_id"]
+    runtime_id = cursor.runtime_id
+    chain_id = cursor.chain_id
     repository_generation = prior_state.repository_generation
     repository_bundle = prior_state.repository_bundle_sha256
     transaction = semantic["transaction"]
@@ -413,23 +578,6 @@ def reduce_claim_group(
     match = _OPERATION_KEY.fullmatch(operation_key)
     assert match is not None
     _const(match.group(1), chain_id, f"/events/{semantic_index}/transaction/operation_key")
-
-    event_ids = {event["event_id"] for event in prior_events}
-    event_digests = {event["event_sha256"] for event in prior_events}
-    transaction_ids = {event["transaction"]["transaction_id"] for event in prior_events}
-    operation_keys = {event["transaction"]["operation_key"] for event in prior_events}
-    if semantic["event_id"] in event_ids or commit["event_id"] in event_ids or semantic["event_id"] == commit["event_id"]:
-        _deny("GROUP_EVENT_ID_DUPLICATE", f"/events/{semantic_index}")
-    if (
-        semantic["event_sha256"] in event_digests
-        or commit["event_sha256"] in event_digests
-        or semantic["event_sha256"] == commit["event_sha256"]
-    ):
-        _deny("GROUP_EVENT_DIGEST_DUPLICATE", f"/events/{semantic_index}")
-    if transaction["transaction_id"] in transaction_ids:
-        _deny("GROUP_TRANSACTION_DUPLICATE", f"/events/{semantic_index}/transaction/transaction_id")
-    if operation_key in operation_keys:
-        _deny("GROUP_OPERATION_KEY_DUPLICATE", f"/events/{semantic_index}/transaction/operation_key")
 
     for name in (
         "runtime_id", "chain_id", "occurred_at", "repository_generation",
@@ -455,7 +603,8 @@ def reduce_claim_group(
         _const(event["transaction"]["position"], position, f"/events/{index}/transaction/position")
         _const(event["transaction"]["event_count"], 2, f"/events/{index}/transaction/event_count")
     _const(semantic["global_predecessor"], {
-        "event_id": previous["event_id"], "event_sha256": previous["event_sha256"],
+        "event_id": cursor.head_event_id,
+        "event_sha256": cursor.head_event_sha256,
     }, f"/events/{semantic_index}/global_predecessor")
     _const(commit["global_predecessor"], {
         "event_id": semantic["event_id"], "event_sha256": semantic["event_sha256"],
@@ -505,19 +654,13 @@ def reduce_claim_group(
     )
     _const(context["task_id"], task.task_id, f"/events/{semantic_index}/task_context/task_id")
     _const(context["attempt"], task.attempt, f"/events/{semantic_index}/task_context/attempt")
-    prior_task_events = tuple(
-        event for event in prior_events
-        if event["stream"] == "TASK"
-        and event["task_context"]["task_id"] == task.task_id
-        and event["task_context"]["attempt"] == task.attempt
-    )
-    if len(prior_task_events) != 1:
+    prior_task = cursor.task_head(task.task_id, task.attempt)
+    if prior_task is None or prior_task.sequence != 1:
         _deny("GROUP_TASK_HISTORY", f"/events/{semantic_index}/task_context")
-    prior_task_event = prior_task_events[0]
     _const(context["task_sequence"], 2, f"/events/{semantic_index}/task_context/task_sequence")
     _const(context["task_predecessor"], {
-        "event_id": prior_task_event["event_id"],
-        "event_sha256": prior_task_event["event_sha256"],
+        "event_id": prior_task.head_event_id,
+        "event_sha256": prior_task.head_event_sha256,
     }, f"/events/{semantic_index}/task_context/task_predecessor")
     semantic_before_sha = _ref(
         semantic["state_before_ref"], TASK_STATE_SCHEMA_ID,
@@ -591,9 +734,9 @@ def reduce_claim_group(
         "data": {
             "semantic_event_ids": [semantic["event_id"]],
             "pre_command_head": {
-                "global_sequence": previous["global_sequence"],
-                "event_id": previous["event_id"],
-                "event_sha256": previous["event_sha256"],
+                "global_sequence": cursor.global_sequence,
+                "event_id": cursor.head_event_id,
+                "event_sha256": cursor.head_event_sha256,
             },
             "post_semantic_head": {
                 "global_sequence": semantic_index,
@@ -610,39 +753,23 @@ def reduce_claim_group(
     reachable = tuple(sorted({
         request_sha, response_sha, semantic_payload_sha, commit_payload_sha, after_sha,
     }))
-    claim = next_state.claims[0]
     return ClaimGroupPatch(
         state=next_state,
         reachable_blob_digests=reachable,
         attempt_row=(
-            task.task_id, task.attempt, None, prior_task_event["event_id"], 2,
+            task.task_id, task.attempt, None, prior_task.origin_event_id, 2,
             semantic["event_id"], semantic["event_sha256"],
         ),
         idempotency_row=(
             operation_key, transaction["transaction_id"], request_sha, response_sha,
             commit["event_id"], commit_index, semantic["occurred_at"],
         ),
-        claim_row=(
-            claim.claim_id, claim.task_id, claim.attempt, claim.fence,
-            claim.status, claim.actor, claim.opened_event_id, claim.closed_event_id,
-        ),
-    )
-
-
-def _claim_rows(state: ReducerState) -> tuple[tuple[Any, ...], ...]:
-    return tuple(
-        (
-            claim.claim_id, claim.task_id, claim.attempt, claim.fence,
-            claim.status, claim.actor, claim.opened_event_id,
-            claim.closed_event_id,
-        )
-        for claim in state.claims
     )
 
 
 def reduce_worker_group(
     *,
-    prior_events: tuple[dict[str, Any], ...],
+    cursor: _ReplayCursor,
     prior_state: ReducerState,
     semantic_event: Any,
     commit_event: Any,
@@ -650,59 +777,37 @@ def reduce_worker_group(
 ) -> WorkerGroupPatch:
     """Validate and plan one compiled worker transaction group."""
     if (
-        len(prior_events) < 5
-        or len(prior_events) % 2 != 1
-        or any(type(event) is not dict for event in prior_events)
+        type(cursor) is not _ReplayCursor
+        or cursor.global_sequence < 4
+        or cursor.global_sequence % 2 != 0
     ):
-        _deny("GROUP_PRIOR_EVENTS", "/events")
+        _deny("GROUP_CURSOR", "/events")
     if type(prior_state) is not ReducerState or len(prior_state.tasks) != 1:
         _deny("GROUP_PRIOR_STATE", "/state")
+    _const(
+        prior_state.repository_generation, cursor.repository_generation,
+        "/state/repository_generation",
+    )
+    _const(
+        prior_state.repository_bundle_sha256,
+        cursor.repository_bundle_sha256,
+        "/state/repository_bundle_sha256",
+    )
 
-    previous = prior_events[-1]
-    semantic_index = len(prior_events)
+    semantic_index = cursor.global_sequence + 1
     commit_index = semantic_index + 1
     semantic = _validate_event_shape(
         semantic_event, f"/events/{semantic_index}"
     )
     commit = _validate_event_shape(commit_event, f"/events/{commit_index}")
-    operation_profile = {
-        "TASK_STARTED": ("START", frozenset({"claim_id", "fence"})),
-        "TASK_CONTINUED": (
-            "CONTINUE",
-            frozenset({
-                "claim_id", "fence", "progress_evidence_sha256",
-            }),
-        ),
-        "TASK_FAILED": (
-            "FAIL",
-            frozenset({
-                "claim_id", "fence", "failure_code",
-                "failure_evidence_sha256",
-            }),
-        ),
-        "TASK_COMPLETED": (
-            "COMPLETE",
-            frozenset({
-                "claim_id", "fence", "close",
-                "completion_evidence_sha256",
-            }),
-        ),
-        "CLAIM_RECOVERED": (
-            "RECOVER",
-            frozenset({"claim_id", "liveness_evidence_sha256"}),
-        ),
-        "TASK_YIELDED": (
-            "YIELD",
-            frozenset({"claim_id", "fence", "yield_evidence_sha256"}),
-        ),
-    }
-    profile = operation_profile.get(semantic["event_type"])
+    cursor.check_pair(semantic, commit)
+    profile = _WORKER_PROFILES.get(semantic["event_type"])
     if profile is None:
         _deny("GROUP_WORKER_OPERATION", f"/events/{semantic_index}/event_type")
     operation, argument_keys = profile
     task = prior_state.tasks[0]
-    runtime_id = prior_events[0]["runtime_id"]
-    chain_id = prior_events[0]["chain_id"]
+    runtime_id = cursor.runtime_id
+    chain_id = cursor.chain_id
     repository_generation = prior_state.repository_generation
     repository_bundle = prior_state.repository_bundle_sha256
     transaction = semantic["transaction"]
@@ -713,37 +818,6 @@ def reduce_worker_group(
         match.group(1), chain_id,
         f"/events/{semantic_index}/transaction/operation_key",
     )
-
-    event_ids = {event["event_id"] for event in prior_events}
-    event_digests = {event["event_sha256"] for event in prior_events}
-    transaction_ids = {
-        event["transaction"]["transaction_id"] for event in prior_events
-    }
-    operation_keys = {
-        event["transaction"]["operation_key"] for event in prior_events
-    }
-    if (
-        semantic["event_id"] in event_ids
-        or commit["event_id"] in event_ids
-        or semantic["event_id"] == commit["event_id"]
-    ):
-        _deny("GROUP_EVENT_ID_DUPLICATE", f"/events/{semantic_index}")
-    if (
-        semantic["event_sha256"] in event_digests
-        or commit["event_sha256"] in event_digests
-        or semantic["event_sha256"] == commit["event_sha256"]
-    ):
-        _deny("GROUP_EVENT_DIGEST_DUPLICATE", f"/events/{semantic_index}")
-    if transaction["transaction_id"] in transaction_ids:
-        _deny(
-            "GROUP_TRANSACTION_DUPLICATE",
-            f"/events/{semantic_index}/transaction/transaction_id",
-        )
-    if operation_key in operation_keys:
-        _deny(
-            "GROUP_OPERATION_KEY_DUPLICATE",
-            f"/events/{semantic_index}/transaction/operation_key",
-        )
 
     for name in (
         "runtime_id", "chain_id", "occurred_at", "repository_generation",
@@ -784,8 +858,8 @@ def reduce_worker_group(
             f"/events/{index}/transaction/event_count",
         )
     _const(semantic["global_predecessor"], {
-        "event_id": previous["event_id"],
-        "event_sha256": previous["event_sha256"],
+        "event_id": cursor.head_event_id,
+        "event_sha256": cursor.head_event_sha256,
     }, f"/events/{semantic_index}/global_predecessor")
     _const(commit["global_predecessor"], {
         "event_id": semantic["event_id"],
@@ -874,23 +948,17 @@ def reduce_worker_group(
         context["attempt"], task.attempt,
         f"/events/{semantic_index}/task_context/attempt",
     )
-    prior_task_events = tuple(
-        event for event in prior_events
-        if event["stream"] == "TASK"
-        and event["task_context"]["task_id"] == task.task_id
-        and event["task_context"]["attempt"] == task.attempt
-    )
-    if not prior_task_events:
+    prior_task = cursor.task_head(task.task_id, task.attempt)
+    if prior_task is None:
         _deny("GROUP_TASK_HISTORY", f"/events/{semantic_index}/task_context")
-    prior_task_event = prior_task_events[-1]
-    task_sequence = len(prior_task_events) + 1
+    task_sequence = prior_task.sequence + 1
     _const(
         context["task_sequence"], task_sequence,
         f"/events/{semantic_index}/task_context/task_sequence",
     )
     _const(context["task_predecessor"], {
-        "event_id": prior_task_event["event_id"],
-        "event_sha256": prior_task_event["event_sha256"],
+        "event_id": prior_task.head_event_id,
+        "event_sha256": prior_task.head_event_sha256,
     }, f"/events/{semantic_index}/task_context/task_predecessor")
     semantic_before_sha = _ref(
         semantic["state_before_ref"], TASK_STATE_SCHEMA_ID,
@@ -969,9 +1037,9 @@ def reduce_worker_group(
         "data": {
             "semantic_event_ids": [semantic["event_id"]],
             "pre_command_head": {
-                "global_sequence": previous["global_sequence"],
-                "event_id": previous["event_id"],
-                "event_sha256": previous["event_sha256"],
+                "global_sequence": cursor.global_sequence,
+                "event_id": cursor.head_event_id,
+                "event_sha256": cursor.head_event_sha256,
             },
             "post_semantic_head": {
                 "global_sequence": semantic_index,
@@ -996,12 +1064,11 @@ def reduce_worker_group(
         request_sha, response_sha, semantic_payload_sha, commit_payload_sha,
         after_sha,
     }))
-    origin_task_event = prior_task_events[0]
     return WorkerGroupPatch(
         state=next_state,
         reachable_blob_digests=reachable,
         attempt_row=(
-            task.task_id, task.attempt, None, origin_task_event["event_id"],
+            task.task_id, task.attempt, None, prior_task.origin_event_id,
             task_sequence, semantic["event_id"], semantic["event_sha256"],
         ),
         idempotency_row=(
@@ -1009,12 +1076,12 @@ def reduce_worker_group(
             response_sha, commit["event_id"], commit_index,
             semantic["occurred_at"],
         ),
-        claim_rows=_claim_rows(next_state),
     )
 
 
 __all__ = (
     "BlobValue", "ClaimGroupPatch", "GroupValidationError",
-    "InitializeGroupPatch", "TASK_STATE_SCHEMA_ID", "WorkerGroupPatch",
+    "InitializeGroupPatch", "TASK_STATE_SCHEMA_ID",
+    "WorkerGroupPatch",
     "reduce_claim_group", "reduce_initialize_group", "reduce_worker_group",
 )
