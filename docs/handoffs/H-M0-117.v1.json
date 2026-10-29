@@ -1,0 +1,19 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-117",
+  "version": 1,
+  "created_at": "2026-10-29T18:22:57Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Compile two-semantic remediation with exact decision ancestry.",
+  "work_done": "Compiled terminal CREATE_REMEDIATION_TASK replay with atomic source/child/link reconstruction, exact retained decision ancestry, two task-head advancement, and fail-closed request validation.",
+  "evidence_refs": ["reports/H-M0-117-remediation-group-replay.v1.md", "reports/audit/A-M0-099.v1.json", "reports/stops/STOP-M0-3A-002.v20.json", "docs/M0.3A_REMEDIATION_GROUP_SLICE.v1.md", "src/edgelab/runtime_v2_transition.py", "src/edgelab/runtime_v2_group.py", "src/edgelab/runtime_v2_initial.py", "tests/test_runtime_v2_initial.py"],
+  "files_changed": ["docs/M0.3A_REMEDIATION_GROUP_SLICE.v1.md", "src/edgelab/runtime_v2_transition.py", "src/edgelab/runtime_v2_group.py", "src/edgelab/runtime_v2_initial.py", "tests/test_runtime_v2_initial.py", "tests/test_runtime_v2_transition_workspace.py", "reports/H-M0-117-remediation-group-replay.v1.md", "reports/audit/A-M0-099.v1.json", "reports/stops/STOP-M0-3A-002.v20.json", "docs/handoffs/H-M0-117.v1.json", "docs/project-state.json", "examples/alpha/sample-workflow.v1.json"],
+  "tests_run": ["66 focused tests passed normally and under optimized Python.", "133 combined runtime-v2 tests passed.", "325 fast-tier tests passed across 18 isolated modules.", "Adversarial review found and verified repair of one untrusted-key crash, then found no remaining blocker.", "413 governed records and published history validated after publication.", "18 alpha and observatory tests passed."],
+  "open_questions": ["How should repository import select and advance multiple exact task heads while preserving the terminal remediation boundary?"],
+  "blockers": ["STOP-M0-3A-002.v20 remains OPEN.", "Public verification remains deny-only.", "Live remains LOCKED and deployable capital remains USD 0."],
+  "next_action": "Compile repository import through exact affected-task replay.",
+  "completion_criteria": ["The remediation request matches the frozen subject and argument schemas.", "Both semantic events, tasks, link, decision ancestry, and task heads derive atomically.", "Valid images remain opaque deny-only."],
+  "depends_on": [{"path": "docs/handoffs/H-M0-116.v1.json", "kind": "handoff", "id": "H-M0-116", "version": 1, "sha256": "e493067626e4d33f31d9024c82fbfd3955e6037fe4455f324b1688d02f85c647"}]
+}

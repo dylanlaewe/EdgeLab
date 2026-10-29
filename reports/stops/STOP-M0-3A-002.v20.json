@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-002",
+  "version": 20,
+  "issued_at": "2026-10-29T18:22:57Z",
+  "issuer": "00 Director",
+  "reason": "Private replay now derives the terminal remediation group with exact decision ancestry and reciprocal lineage, but repository import, post-remediation task selection, checkpoint/export cuts, cumulative root work, exact closure identity, and the complete A-J matrix remain unfinished. No positive local-consistency result is supportable.",
+  "affected_components": ["runtime-v2 replay beyond terminal remediation", "exact generated verifier closure", "repository import and checkpoint/export/root work", "public result vocabulary"],
+  "evidence_refs": ["reports/H-M0-117-remediation-group-replay.v1.md", "docs/M0.3A_REMEDIATION_GROUP_SLICE.v1.md", "src/edgelab/runtime_v2_transition.py", "src/edgelab/runtime_v2_group.py", "src/edgelab/runtime_v2_initial.py", "tests/test_runtime_v2_initial.py"],
+  "severity": "HIGH",
+  "remediation_required": ["Compile repository import and explicit multi-task selection without trusting supplied state.", "Compile checkpoint and export cuts with exact cumulative roots.", "Complete root-work, exact closure generation, independent acceptance, and the A-J matrix before any positive result."],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}

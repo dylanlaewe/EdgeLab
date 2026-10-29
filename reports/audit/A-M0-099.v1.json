@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-099",
+  "version": 1,
+  "occurred_at": "2026-10-29T18:22:57Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_REMEDIATION_GROUP_REPLAY_IMPLEMENTED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-117-remediation-group-replay.v1.md",
+  "previous_state": "FORMAT_2_PRIVATE_REPLAY_COMPILES_REVIEW_DECISIONS_AND_DIRECTOR_ROUTING_STOP_OPEN",
+  "new_state": "FORMAT_2_PRIVATE_REPLAY_COMPILES_TERMINAL_TWO_SEMANTIC_REMEDIATION_GROUP_STOP_OPEN",
+  "reason": "Commit 275b4d0019794ea7e4d2ff9a98551d46fbe9b938 atomically reconstructs the source task, attempt-one remediation child, reciprocal link, decision ancestry, and both task heads for CREATE_REMEDIATION_TASK. The group remains terminal and private; no STOP, execution, public-verifier, or capital boundary changed.",
+  "evidence_refs": ["reports/H-M0-117-remediation-group-replay.v1.md", "docs/M0.3A_REMEDIATION_GROUP_SLICE.v1.md", "src/edgelab/runtime_v2_transition.py", "src/edgelab/runtime_v2_group.py", "src/edgelab/runtime_v2_initial.py", "tests/test_runtime_v2_initial.py", "reports/stops/STOP-M0-3A-002.v20.json"],
+  "code_ref": "275b4d0019794ea7e4d2ff9a98551d46fbe9b938",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-117",
+  "supersedes": null
+}
