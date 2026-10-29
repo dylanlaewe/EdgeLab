@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-110",
+  "version": 1,
+  "occurred_at": "2026-10-29T22:14:04Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_RESOURCE_BINDING_CENSUS_REBASED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-128-runtime-v2-resource-binding-census.v1.md",
+  "previous_state": "DISCOVERY_V1_690_SITES_TEN_CLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V2_697_SITES_TEN_CLASSIFIED_687_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 5c680512d9a3fdb7275b5b70f6e09cfb161966c3 preserves the complete v1 census and adds seven exact fail-closed table-binding records before any further semantic classification. Classification v5 preserves the same four constraints and ten classified source sites. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": ["reports/H-M0-128-runtime-v2-resource-binding-census.v1.md", "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v2.md", "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v2.json", "schemas/m0-3a-runtime-v2-resource-discovery.v2.schema.json", "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v5.json", "schemas/m0-3a-runtime-v2-resource-classification.v5.schema.json", "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md", "tools/check_runtime_v2_release_readiness.py", "tests/test_runtime_v2_release_readiness.py", "reports/stops/STOP-M0-3A-002.v31.json"],
+  "code_ref": "5c680512d9a3fdb7275b5b70f6e09cfb161966c3",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-128",
+  "supersedes": null
+}
