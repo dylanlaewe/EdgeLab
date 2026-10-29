@@ -1,0 +1,75 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-114",
+  "version": 1,
+  "created_at": "2026-10-29T17:12:31Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Compile exact governance block and revalidation groups atop the cumulative cursor and transition workspace.",
+  "work_done": "Implemented closed GOVERNANCE_BLOCK and REVALIDATE follow-up dispatch through one immutable planner and atomic task/claim/review workspace. Governance is the sole stale-task exception, adopts current repository generation, fences work, and invalidates active claims/reviews; revalidation accepts only B0/B1 and replaces the decision receipt exactly from request evidence without restoring work. Valid candidates remain opaque UNSUPPORTED/CLOSURE_NOT_COMPILED/DENY.",
+  "evidence_refs": [
+    "reports/H-M0-114-governance-revalidation-replay.v1.md",
+    "reports/audit/A-M0-096.v1.json",
+    "reports/stops/STOP-M0-3A-002.v17.json",
+    "docs/M0.3A_GOVERNANCE_REVALIDATION_REPLAY_SLICE.v1.md",
+    "src/edgelab/runtime_v2_transition.py",
+    "src/edgelab/runtime_v2_group.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "tests/test_runtime_v2_transition_workspace.py",
+    "tests/test_runtime_v2_initial.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_GOVERNANCE_REVALIDATION_REPLAY_SLICE.v1.md",
+    "src/edgelab/runtime_v2_transition.py",
+    "src/edgelab/runtime_v2_group.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "tests/test_runtime_v2_transition_workspace.py",
+    "tests/test_runtime_v2_initial.py",
+    "examples/alpha/sample-workflow.v1.json",
+    "reports/H-M0-114-governance-revalidation-replay.v1.md",
+    "reports/audit/A-M0-096.v1.json",
+    "reports/stops/STOP-M0-3A-002.v17.json",
+    "docs/handoffs/H-M0-114.v1.json",
+    "docs/project-state.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "Focused transition/workspace/image suite: 91 tests passed.",
+    "The same 91 tests passed under optimized Python (-O).",
+    "Fast tier: 317 tests passed across 18 isolated modules.",
+    "Delegated read-only reviewer: 91 focused tests passed normally and 91 under optimized Python; no remaining blocker found.",
+    "Production validator before evidence publication: 401 records and published history validated; M0 capital remained LOCKED and no approval was granted.",
+    "Production validator after evidence publication: 404 records and published history validated with the same locked and non-authorizing result.",
+    "Alpha/observatory regression: 18 tests passed after correcting STOP-v16 provenance and extending current STOP provenance.",
+    "Python compile checks and Git diff whitespace checks passed."
+  ],
+  "open_questions": [
+    "What smallest review slice can compile assignment and terminal decisions while preserving independent identity and cumulative decision history?",
+    "Should ROUTE compile with APPROVE so an approved review cannot be mistaken for director-gate authority?",
+    "Which review-row and decision-row mutations must be rejected before N4 governance can be considered end-to-end covered?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v17 remains OPEN pending review/route, remediation/import, snapshot cuts, exact closure generation, A-J testing, and independent acceptance.",
+    "The public verifier remains disconnected and can return only INVALID or UNSUPPORTED under UNANCHORED/UNKNOWN/DENY.",
+    "Delegated subagent engineering review does not satisfy the genuinely distinct trusted 05 Skeptic requirement; H-M0-086 and H-M0-041 remain BLOCKED.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked, live remains LOCKED, kill remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Compile closed review assignment, review decisions, and director routing atop cumulative cursor and workspace history.",
+  "completion_criteria": [
+    "GOVERNANCE_BLOCK is the sole stale-task exception and atomically derives task plus claim/review closure.",
+    "REVALIDATE accepts only B0/B1, advances scheduler generation only, and derives the exact replacement receipt without restoring auxiliary work.",
+    "Reachable N0, N1, N2, and N3 whole-image paths retain exact attempt and auxiliary history while N4 and stale import-dependent branches remain explicitly bounded.",
+    "Valid private images remain opaque and non-authorizing."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-113.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-113",
+      "version": 1,
+      "sha256": "1796a6893eb7df363234878bd2ace17b1fda9b64fadc146428380fd45dd8cb6a"
+    }
+  ]
+}

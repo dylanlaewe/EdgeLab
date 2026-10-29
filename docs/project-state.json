@@ -33,6 +33,7 @@
     "The private runtime-v2 transition workspace now stages exact revision-bound task/claim deltas for the compiled image replay, commits only after whole-group validation, rejects forged/copied/cross-pair plans, and freezes once through the full immutable state invariant backstop; cumulative attempt history, re-claim, and RETRY remain uncompiled and the public verifier remains disconnected",
     "The private runtime-v2 replay cursor now owns cumulative immutable attempt heads, validates contiguous opening and exact same-attempt advancement before workspace mutation, and derives every retained attempt row in primary-key order; re-claim and RETRY remain uncompiled and the public verifier remains disconnected",
     "The private runtime-v2 replay now compiles closed repeated CLAIM and exact RETRY groups through one cumulative cursor and transition workspace, preserves every historical attempt and claim row across repeated cycles, and rejects hostile dispatcher values without exposing a positive or authorizing result; governance and later groups remain uncompiled and the public verifier remains disconnected",
+    "The private runtime-v2 replay now compiles exact GOVERNANCE_BLOCK and REVALIDATE groups through a shared immutable planner and atomic task/claim/review workspace, with the sole stale-task exception, exact fencing, auxiliary-history closure, and receipt replacement; N4 and stale paths remain prerequisite-bounded end-to-end, later groups remain uncompiled, and the public verifier remains disconnected",
     "Historical capture reconstruction/verifier engineering completed with native engineering review; formal Skeptic acceptance remains pending",
     "Revision-aware handoff dependency validation and production repository validation restored",
     "Read-only local laboratory observatory exposes governed project status and the retained MOCK_ONLY walkthrough through a fail-closed loopback interface",
@@ -41,24 +42,24 @@
   "remaining_m0": [
     "Obtain a genuinely distinct trusted 05 Skeptic review and formal disposition of H-M0-080 under H-M0-086",
     "Define and independently review positive currentness and generation invariants plus an authenticated M0.2-to-M0.3A receipt/R-gate; the completed historical binding diagnostic cannot authorize or be reused as a stored receipt",
-    "Resolve STOP-M0-3A-002 by adding governance/revalidation, review/routing, remediation/import, checkpoint/export cuts, cumulative root work, and the remaining A-J matrix atop cumulative cursor history and the private transition workspace, then source-freezing and generating the exact closure/carrier without a writer, database, migration, selector cutover, or authority expansion; legacy migration remains unsupported unless a new evidence carrier is separately versioned and accepted",
+    "Resolve STOP-M0-3A-002 by adding review/routing, remediation/import, checkpoint/export cuts, cumulative root work, and the remaining A-J matrix atop cumulative cursor history and the private transition workspace, then source-freezing and generating the exact closure/carrier without a writer, database, migration, selector cutover, or authority expansion; legacy migration remains unsupported unless a new evidence carrier is separately versioned and accepted",
     "Resolve reviewed historical fixture-coupling debt through new versioned tests without rewriting the preserved outcome baseline",
     "Provision the trusted external authority boundary and satisfy typed STOP-clearance prerequisites",
     "Resolve statistical, freshness, paper-capital, exposure, correlation, drawdown, and live-gate thresholds before M0 exit"
   ],
   "blockers": [
-    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002.v16 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
+    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002.v17 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
     "H-M0-086 is BLOCKED because no genuinely distinct trusted 05 Skeptic authority is provisioned",
     "H-M0-041.v23 remains BLOCKED pending formal Skeptic acceptance and separate Director release",
     "The locked authority and historical binding substrates are diagnostic and DENY-only; positive authoritative currentness and authenticated receipt/R-gate integration remain unresolved",
     "M0.3A engineering completion does not constitute formal acceptance or operational authority"
   ],
-  "next_assignment": "Compile exact governance block and revalidation groups atop the cumulative cursor and transition workspace",
-  "updated_at": "2026-10-29T17:04:06Z",
+  "next_assignment": "Compile closed review assignment, review decisions, and director routing atop cumulative cursor and workspace history",
+  "updated_at": "2026-10-29T17:12:31Z",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json",
     "reports/stops/STOP-M0-3A-001.v1.json",
-    "reports/stops/STOP-M0-3A-002.v16.json"
+    "reports/stops/STOP-M0-3A-002.v17.json"
   ],
   "review_ref": "reports/reviews/M0.2-M0.3-final-evidence-plan-rereview.v1.md",
   "open_findings": [

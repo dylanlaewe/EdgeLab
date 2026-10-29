@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-096",
+  "version": 1,
+  "occurred_at": "2026-10-29T17:12:31Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_GOVERNANCE_REVALIDATION_REPLAY_IMPLEMENTED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-114-governance-revalidation-replay.v1.md",
+  "previous_state": "FORMAT_2_PRIVATE_REPLAY_COMPILES_REPEATED_CLAIM_AND_EXACT_RETRY_ATTEMPT_BOUNDARY_STOP_OPEN",
+  "new_state": "FORMAT_2_PRIVATE_REPLAY_COMPILES_GOVERNANCE_BLOCK_AND_EXACT_REVALIDATION_STOP_OPEN",
+  "reason": "Commit 05844e9dc1d4b7e7d530f2f3118207c09aaac8b7 compiles closed GOVERNANCE_BLOCK and REVALIDATE groups through the shared planner, cumulative cursor, and atomic task/claim/review workspace. Governance is the sole stale-task exception, fences active work, and preserves the prior receipt; revalidation accepts only B0/B1 and derives the replacement receipt from request evidence. Valid candidates remain opaque UNSUPPORTED/CLOSURE_NOT_COMPILED/DENY; no public-verifier, authenticated-currentness, STOP-clearance, execution, or capital path was added.",
+  "evidence_refs": [
+    "reports/H-M0-114-governance-revalidation-replay.v1.md",
+    "docs/M0.3A_GOVERNANCE_REVALIDATION_REPLAY_SLICE.v1.md",
+    "src/edgelab/runtime_v2_transition.py",
+    "src/edgelab/runtime_v2_group.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "tests/test_runtime_v2_transition_workspace.py",
+    "tests/test_runtime_v2_initial.py",
+    "reports/stops/STOP-M0-3A-002.v17.json"
+  ],
+  "code_ref": "05844e9dc1d4b7e7d530f2f3118207c09aaac8b7",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-114",
+  "supersedes": null
+}
