@@ -20,6 +20,7 @@ from .runtime_v2_transition import (
     TransitionIntent,
     TransitionViolation,
     _StagedTransition,
+    _StagedStateReplacement,
     _TransitionWorkspace,
 )
 
@@ -206,6 +207,38 @@ class _ReplayCursor:
             )
         return semantic_index, commit_index
 
+    def check_remediation(
+        self,
+        source: dict[str, Any],
+        child: dict[str, Any],
+        commit: dict[str, Any],
+    ) -> tuple[int, int, int]:
+        """Reject duplicates for a three-event remediation transaction."""
+        source_index = self.global_sequence + 1
+        child_index = source_index + 1
+        commit_index = child_index + 1
+        events = (source, child, commit)
+        ids = tuple(item["event_id"] for item in events)
+        digests = tuple(item["event_sha256"] for item in events)
+        if len(set(ids)) != 3 or any(item in self._event_ids for item in ids):
+            _deny("GROUP_EVENT_ID_DUPLICATE", f"/events/{source_index}")
+        if len(set(digests)) != 3 or any(
+            item in self._event_digests for item in digests
+        ):
+            _deny("GROUP_EVENT_DIGEST_DUPLICATE", f"/events/{source_index}")
+        transaction = source["transaction"]
+        if transaction["transaction_id"] in self._transaction_ids:
+            _deny(
+                "GROUP_TRANSACTION_DUPLICATE",
+                f"/events/{source_index}/transaction/transaction_id",
+            )
+        if transaction["operation_key"] in self._operation_keys:
+            _deny(
+                "GROUP_OPERATION_KEY_DUPLICATE",
+                f"/events/{source_index}/transaction/operation_key",
+            )
+        return source_index, child_index, commit_index
+
     def task_head(self, task_id: str, attempt: int) -> _TaskReplayHead | None:
         return self._task_heads.get((task_id, attempt))
 
@@ -305,6 +338,46 @@ class _ReplayCursor:
         self.head_event_id = commit["event_id"]
         self.head_event_sha256 = commit["event_sha256"]
 
+    def advance_remediation(
+        self,
+        source: dict[str, Any],
+        child: dict[str, Any],
+        commit: dict[str, Any],
+    ) -> None:
+        """Advance both task heads and the global head as one accepted group."""
+        self._event_ids.update(
+            (source["event_id"], child["event_id"], commit["event_id"])
+        )
+        self._event_digests.update((
+            source["event_sha256"], child["event_sha256"],
+            commit["event_sha256"],
+        ))
+        transaction = source["transaction"]
+        self._transaction_ids.add(transaction["transaction_id"])
+        self._operation_keys.add(transaction["operation_key"])
+        source_context = source["task_context"]
+        source_key = (source_context["task_id"], source_context["attempt"])
+        prior = self._task_heads[source_key]
+        self._task_heads[source_key] = _TaskReplayHead(
+            predecessor_attempt=prior.predecessor_attempt,
+            origin_event_id=prior.origin_event_id,
+            sequence=source_context["task_sequence"],
+            head_event_id=source["event_id"],
+            head_event_sha256=source["event_sha256"],
+        )
+        child_context = child["task_context"]
+        child_key = (child_context["task_id"], child_context["attempt"])
+        self._task_heads[child_key] = _TaskReplayHead(
+            predecessor_attempt=None,
+            origin_event_id=child["event_id"],
+            sequence=1,
+            head_event_id=child["event_id"],
+            head_event_sha256=child["event_sha256"],
+        )
+        self.global_sequence = commit["global_sequence"]
+        self.head_event_id = commit["event_id"]
+        self.head_event_sha256 = commit["event_sha256"]
+
 
 @dataclass(frozen=True, slots=True)
 class InitializeGroupPatch:
@@ -333,6 +406,14 @@ class WorkerGroupPatch:
     reachable_blob_digests: tuple[str, ...]
     opens_attempt: bool
     predecessor_attempt: int | None
+    idempotency_row: tuple[Any, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class RemediationGroupPatch:
+    transition: _StagedStateReplacement
+    event_triplet: tuple[str, str, str, str, str, str]
+    reachable_blob_digests: tuple[str, ...]
     idempotency_row: tuple[Any, ...]
 
 
@@ -1259,9 +1340,324 @@ def reduce_worker_group(
     )
 
 
+def reduce_remediation_group(
+    *,
+    cursor: _ReplayCursor,
+    workspace: _TransitionWorkspace,
+    source_event: Any,
+    child_event: Any,
+    commit_event: Any,
+    catalog: Mapping[str, BlobValue],
+) -> RemediationGroupPatch:
+    """Validate the atomic two-task CREATE_REMEDIATION_TASK group."""
+    if (
+        type(cursor) is not _ReplayCursor
+        or cursor.global_sequence < 2
+        or cursor.global_sequence % 2 != 0
+    ):
+        _deny("GROUP_CURSOR", "/events")
+    if type(workspace) is not _TransitionWorkspace:
+        _deny("GROUP_PRIOR_STATE", "/state")
+    source_index = cursor.global_sequence + 1
+    child_index = source_index + 1
+    commit_index = child_index + 1
+    source = _validate_event_shape(source_event, f"/events/{source_index}")
+    child = _validate_event_shape(child_event, f"/events/{child_index}")
+    commit = _validate_event_shape(commit_event, f"/events/{commit_index}")
+    cursor.check_remediation(source, child, commit)
+    _const(source["event_type"], "REMEDIATION_CREATED", f"/events/{source_index}/event_type")
+    _const(
+        child["event_type"], "TASK_CREATED_FROM_REMEDIATION",
+        f"/events/{child_index}/event_type",
+    )
+    _const(commit["event_type"], "COMMAND_COMMITTED", f"/events/{commit_index}/event_type")
+    for event, index, position, stream in (
+        (source, source_index, 0, "TASK"),
+        (child, child_index, 1, "TASK"),
+        (commit, commit_index, 2, "RUNTIME"),
+    ):
+        _const(event["runtime_id"], cursor.runtime_id, f"/events/{index}/runtime_id")
+        _const(event["chain_id"], cursor.chain_id, f"/events/{index}/chain_id")
+        _const(event["global_sequence"], index, f"/events/{index}/global_sequence")
+        _const(event["stream"], stream, f"/events/{index}/stream")
+        _const(event["transaction"]["position"], position, f"/events/{index}/transaction/position")
+        _const(event["transaction"]["event_count"], 3, f"/events/{index}/transaction/event_count")
+        _const(
+            event["repository_generation"], workspace.repository_generation,
+            f"/events/{index}/repository_generation",
+        )
+        _const(
+            event["repository_bundle_sha256"],
+            workspace.repository_bundle_sha256,
+            f"/events/{index}/repository_bundle_sha256",
+        )
+    transaction = source["transaction"]
+    operation_key = transaction["operation_key"]
+    match = _OPERATION_KEY.fullmatch(operation_key)
+    assert match is not None
+    _const(match.group(1), cursor.chain_id, f"/events/{source_index}/transaction/operation_key")
+    for event, index in ((child, child_index), (commit, commit_index)):
+        for name in (
+            "runtime_id", "chain_id", "occurred_at", "repository_generation",
+            "repository_bundle_sha256",
+        ):
+            _const(event[name], source[name], f"/events/{index}/{name}")
+        for name in (
+            "transaction_id", "event_count", "operation_key",
+            "request_sha256", "response_sha256",
+        ):
+            _const(
+                event["transaction"][name], transaction[name],
+                f"/events/{index}/transaction/{name}",
+            )
+    _const(source["global_predecessor"], {
+        "event_id": cursor.head_event_id,
+        "event_sha256": cursor.head_event_sha256,
+    }, f"/events/{source_index}/global_predecessor")
+    _const(child["global_predecessor"], {
+        "event_id": source["event_id"],
+        "event_sha256": source["event_sha256"],
+    }, f"/events/{child_index}/global_predecessor")
+    _const(commit["global_predecessor"], {
+        "event_id": child["event_id"],
+        "event_sha256": child["event_sha256"],
+    }, f"/events/{commit_index}/global_predecessor")
+    _const(commit["task_context"], None, f"/events/{commit_index}/task_context")
+    _const(commit["state_before_ref"], None, f"/events/{commit_index}/state_before_ref")
+    _const(commit["state_after_ref"], None, f"/events/{commit_index}/state_after_ref")
+
+    request_sha = transaction["request_sha256"]
+    response_sha = transaction["response_sha256"]
+    request = _object(
+        _resolve(catalog, request_sha, REQUEST_SCHEMA_ID, "/remediation_request").value,
+        _REQUEST_KEYS, "/remediation_request",
+    )
+    response = _object(
+        _resolve(catalog, response_sha, RESPONSE_SCHEMA_ID, "/remediation_response").value,
+        _RESPONSE_KEYS, "/remediation_response",
+    )
+    for artifact, value, version_key in (
+        ("remediation_request", request, "request_format_version"),
+        ("remediation_response", response, "response_format_version"),
+    ):
+        _const(value["schema_version"], 1, f"/{artifact}/schema_version")
+        _const(value[version_key], 2, f"/{artifact}/{version_key}")
+        _const(value["runtime_id"], cursor.runtime_id, f"/{artifact}/runtime_id")
+        _const(value["chain_id"], cursor.chain_id, f"/{artifact}/chain_id")
+        _const(value["operation"], "CREATE_REMEDIATION_TASK", f"/{artifact}/operation")
+        _const(value["operation_key"], operation_key, f"/{artifact}/operation_key")
+    _const(
+        request["repository_generation"], workspace.repository_generation,
+        "/remediation_request/repository_generation",
+    )
+    _const(
+        request["repository_bundle_sha256"], workspace.repository_bundle_sha256,
+        "/remediation_request/repository_bundle_sha256",
+    )
+    subject = _object(
+        request["subject"],
+        frozenset({
+            "source_task_id", "source_attempt", "child_task_id",
+            "child_attempt",
+        }),
+        "/remediation_request/subject",
+    )
+    source_task_id = _pattern(
+        subject["source_task_id"], _TASK,
+        "/remediation_request/subject/source_task_id",
+    )
+    source_task = workspace.task(source_task_id)
+    if source_task is None:
+        _deny(
+            "GROUP_PRIOR_STATE",
+            "/remediation_request/subject/source_task_id",
+        )
+    _const(
+        subject["source_attempt"], source_task.attempt,
+        "/remediation_request/subject/source_attempt",
+    )
+    child_task_id = _pattern(
+        subject["child_task_id"], _TASK,
+        "/remediation_request/subject/child_task_id",
+    )
+    _const(
+        subject["child_attempt"], 1,
+        "/remediation_request/subject/child_attempt",
+    )
+    before_sha = _ref(
+        request["expected_state_ref"], TASK_STATE_SCHEMA_ID,
+        "/remediation_request/expected_state_ref",
+    )
+    supplied_before = _resolve(
+        catalog, before_sha, TASK_STATE_SCHEMA_ID,
+        "/remediation_request/expected_state_ref",
+    ).value
+    if supplied_before != _task_state_document(source_task):
+        _deny("GROUP_STATE_BEFORE", "/remediation_request/expected_state_ref")
+    arguments = _object(
+        request["arguments"],
+        frozenset({
+            "child_decision_receipt_digest", "child_owner", "child_owner_role",
+            "decision_sha256", "relationship_id",
+        }),
+        "/remediation_request/arguments",
+    )
+    relationship_id = _pattern(
+        arguments["relationship_id"], _UUID4,
+        "/remediation_request/arguments/relationship_id",
+    )
+    try:
+        staged = workspace.stage_remediation(TransitionIntent(
+            operation="CREATE_REMEDIATION_TASK",
+            task_id=source_task.task_id,
+            attempt=source_task.attempt,
+            child_task_id=child_task_id,
+            child_attempt=1,
+            arguments=tuple(sorted(arguments.items())),
+            semantic_event_ids=(source["event_id"], child["event_id"]),
+        ))
+    except TransitionViolation as error:
+        raise GroupValidationError(error.code, error.coordinate) from error
+    after_by_id = {item.task_id: item for item in staged.after.tasks}
+    source_after = after_by_id[source_task.task_id]
+    child_after = after_by_id[child_task_id]
+    link = next(
+        item for item in staged.after.remediation_links
+        if item.link_id == relationship_id
+    )
+
+    source_context = _object(
+        source["task_context"],
+        frozenset({"task_id", "attempt", "task_sequence", "task_predecessor"}),
+        f"/events/{source_index}/task_context",
+    )
+    prior_source = cursor.task_head(source_task.task_id, source_task.attempt)
+    if prior_source is None:
+        _deny("GROUP_TASK_HISTORY", f"/events/{source_index}/task_context")
+    _const(source_context["task_id"], source_task.task_id, f"/events/{source_index}/task_context/task_id")
+    _const(source_context["attempt"], source_task.attempt, f"/events/{source_index}/task_context/attempt")
+    _const(source_context["task_sequence"], prior_source.sequence + 1, f"/events/{source_index}/task_context/task_sequence")
+    _const(source_context["task_predecessor"], {
+        "event_id": prior_source.head_event_id,
+        "event_sha256": prior_source.head_event_sha256,
+    }, f"/events/{source_index}/task_context/task_predecessor")
+    child_context = _object(
+        child["task_context"],
+        frozenset({"task_id", "attempt", "task_sequence", "task_predecessor"}),
+        f"/events/{child_index}/task_context",
+    )
+    child_root_id, child_root_sha = task_predecessor(cursor.chain_id, child_task_id, 1)
+    _const(child_context["task_id"], child_task_id, f"/events/{child_index}/task_context/task_id")
+    _const(child_context["attempt"], 1, f"/events/{child_index}/task_context/attempt")
+    _const(child_context["task_sequence"], 1, f"/events/{child_index}/task_context/task_sequence")
+    _const(child_context["task_predecessor"], {
+        "event_id": child_root_id, "event_sha256": child_root_sha,
+    }, f"/events/{child_index}/task_context/task_predecessor")
+
+    source_before_sha = _ref(
+        source["state_before_ref"], TASK_STATE_SCHEMA_ID,
+        f"/events/{source_index}/state_before_ref",
+    )
+    _const(source_before_sha, before_sha, f"/events/{source_index}/state_before_ref/sha256")
+    source_after_sha = _ref(
+        source["state_after_ref"], TASK_STATE_SCHEMA_ID,
+        f"/events/{source_index}/state_after_ref",
+    )
+    _const(child["state_before_ref"], None, f"/events/{child_index}/state_before_ref")
+    child_after_sha = _ref(
+        child["state_after_ref"], TASK_STATE_SCHEMA_ID,
+        f"/events/{child_index}/state_after_ref",
+    )
+    if _resolve(catalog, source_after_sha, TASK_STATE_SCHEMA_ID, f"/events/{source_index}/state_after_ref").value != _task_state_document(source_after):
+        _deny("GROUP_STATE_DERIVATION", f"/events/{source_index}/state_after_ref")
+    if _resolve(catalog, child_after_sha, TASK_STATE_SCHEMA_ID, f"/events/{child_index}/state_after_ref").value != _task_state_document(child_after):
+        _deny("GROUP_STATE_DERIVATION", f"/events/{child_index}/state_after_ref")
+
+    payload_digests: list[str] = []
+    for event, index in ((source, source_index), (child, child_index)):
+        payload_sha = event["payload_ref"]["sha256"]
+        payload_digests.append(payload_sha)
+        payload = _object(
+            _resolve(catalog, payload_sha, PAYLOAD_SCHEMA_ID, f"/events/{index}/payload_ref").value,
+            _PAYLOAD_KEYS, f"/events/{index}/payload_ref",
+        )
+        _const(payload, {
+            "schema_version": 1,
+            "payload_format_version": 2,
+            "event_type": event["event_type"],
+            "data": {"relationship_id": relationship_id},
+        }, f"/events/{index}/payload_ref")
+    _const(response["status"], "COMMITTED", "/remediation_response/status")
+    _const(response["affected_states"], [
+        {
+            "task_id": source_task.task_id,
+            "attempt": source_after.attempt,
+            "state_ref": {"schema_id": TASK_STATE_SCHEMA_ID, "sha256": source_after_sha},
+        },
+        {
+            "task_id": child_task_id,
+            "attempt": 1,
+            "state_ref": {"schema_id": TASK_STATE_SCHEMA_ID, "sha256": child_after_sha},
+        },
+    ], "/remediation_response/affected_states")
+    _const(response["generated_refs"], [{
+        "kind": "REMEDIATION_LINK",
+        "identifier": relationship_id,
+        "sha256": link.link_sha256,
+    }], "/remediation_response/generated_refs")
+
+    commit_payload_sha = commit["payload_ref"]["sha256"]
+    commit_payload = _object(
+        _resolve(catalog, commit_payload_sha, PAYLOAD_SCHEMA_ID, f"/events/{commit_index}/payload_ref").value,
+        _PAYLOAD_KEYS, "/remediation_commit_payload",
+    )
+    _const(commit_payload, {
+        "schema_version": 1,
+        "payload_format_version": 2,
+        "event_type": "COMMAND_COMMITTED",
+        "data": {
+            "semantic_event_ids": [source["event_id"], child["event_id"]],
+            "pre_command_head": {
+                "global_sequence": cursor.global_sequence,
+                "event_id": cursor.head_event_id,
+                "event_sha256": cursor.head_event_sha256,
+            },
+            "post_semantic_head": {
+                "global_sequence": child_index,
+                "event_id": child["event_id"],
+                "event_sha256": child["event_sha256"],
+            },
+            "operation": "CREATE_REMEDIATION_TASK",
+            "operation_key": operation_key,
+            "request_ref": {"schema_id": REQUEST_SCHEMA_ID, "sha256": request_sha},
+            "response_ref": {"schema_id": RESPONSE_SCHEMA_ID, "sha256": response_sha},
+            "result": "COMMITTED",
+        },
+    }, "/remediation_commit_payload")
+    reachable = tuple(sorted({
+        request_sha, response_sha, *payload_digests, commit_payload_sha,
+        source_after_sha, child_after_sha,
+    }))
+    return RemediationGroupPatch(
+        transition=staged,
+        event_triplet=(
+            source["event_id"], source["event_sha256"],
+            child["event_id"], child["event_sha256"],
+            commit["event_id"], commit["event_sha256"],
+        ),
+        reachable_blob_digests=reachable,
+        idempotency_row=(
+            operation_key, transaction["transaction_id"], request_sha,
+            response_sha, commit["event_id"], commit_index,
+            source["occurred_at"],
+        ),
+    )
+
+
 __all__ = (
     "BlobValue", "ClaimGroupPatch", "GroupValidationError",
     "InitializeGroupPatch", "TASK_STATE_SCHEMA_ID",
-    "WorkerGroupPatch",
-    "reduce_claim_group", "reduce_initialize_group", "reduce_worker_group",
+    "RemediationGroupPatch", "WorkerGroupPatch",
+    "reduce_claim_group", "reduce_initialize_group",
+    "reduce_remediation_group", "reduce_worker_group",
 )

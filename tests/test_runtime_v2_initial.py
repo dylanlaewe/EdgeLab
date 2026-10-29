@@ -13,6 +13,7 @@ from src.edgelab.runtime_v2_codec import (
     canonical_json,
     event_digest,
     manifest_digest,
+    remediation_link_digest,
     schema_document_digest,
     selector_digest,
     selector_history_digest,
@@ -1280,6 +1281,324 @@ def _append_route_fixture(image, values, *, before_state_key="approve_after_stat
         payload_data={},
         generated_refs=[],
     )
+
+
+def _append_remediation_fixture(
+    image,
+    values,
+    *,
+    before_state_key="reject_after_state",
+    decision_sha256="c" * 64,
+    reverse_response=False,
+    generated_link_sha256=None,
+    legacy_subject=False,
+    child_in_arguments=False,
+    subject_source_override=None,
+):
+    """Append the terminal three-event remediation group and its projection."""
+    source_before = values[before_state_key]
+    source_id = source_before["task_id"]
+    child_id = "task-alpha-remediation"
+    relationship_id = "123e4567-e89b-42d3-a456-426614174183"
+    source_event_id = "123e4567-e89b-42d3-a456-426614174180"
+    child_event_id = "123e4567-e89b-42d3-a456-426614174181"
+    commit_event_id = "123e4567-e89b-42d3-a456-426614174182"
+    transaction_id = "123e4567-e89b-42d3-a456-426614174184"
+    operation_key = f"v2:{CHAIN_ID}:create-remediation-task-alpha"
+    source_after = json.loads(json.dumps(source_before))
+    source_after.update({
+        "scheduler_generation": source_before["scheduler_generation"] + 1,
+        "successor_task": child_id,
+    })
+    child_after = {
+        "task_id": child_id,
+        "attempt": 1,
+        "workflow": "ACTIVE",
+        "execution": "CLAIMABLE",
+        "review": "NOT_REQUIRED",
+        "scheduler_generation": 0,
+        "dispatch_generation": 0,
+        "task_fence": 0,
+        "active_claim_id": None,
+        "reviewer_assignment_id": None,
+        "continuation_count": 0,
+        "repository_generation": 0,
+        "decision_receipt_digest": "e" * 64,
+        "owner": "03 Research remediation",
+        "owner_role": "research-remediation",
+        "reviewer": None,
+        "predecessor_task": source_id,
+        "successor_task": None,
+    }
+    link_preimage = {
+        "link_id": relationship_id,
+        "source_task_id": source_id,
+        "source_attempt": source_before["attempt"],
+        "child_task_id": child_id,
+        "child_attempt": 1,
+        "source_event_id": source_event_id,
+        "child_event_id": child_event_id,
+        "decision_sha256": decision_sha256,
+        "link_sha256": "0" * 64,
+    }
+    link_sha = remediation_link_digest(link_preimage)
+    source_before_sha = blob_digest(source_before)
+    source_after_sha = blob_digest(source_after)
+    child_after_sha = blob_digest(child_after)
+    request = {
+        "schema_version": 1,
+        "request_format_version": 2,
+        "runtime_id": RUNTIME_ID,
+        "chain_id": CHAIN_ID,
+        "operation": "CREATE_REMEDIATION_TASK",
+        "operation_key": operation_key,
+        "repository_generation": 0,
+        "repository_bundle_sha256": BUNDLE,
+        "subject": (
+            {"task_id": source_id, "attempt": source_before["attempt"]}
+            if legacy_subject else {
+                "source_task_id": source_id,
+                "source_attempt": source_before["attempt"],
+                "child_task_id": child_id,
+                "child_attempt": 1,
+            }
+        ),
+        "expected_state_ref": {
+            "schema_id": TASK_STATE_SCHEMA_ID, "sha256": source_before_sha,
+        },
+        "arguments": {
+            "child_decision_receipt_digest": "e" * 64,
+            "child_owner": "03 Research remediation",
+            "child_owner_role": "research-remediation",
+            "decision_sha256": decision_sha256,
+            "relationship_id": relationship_id,
+        },
+    }
+    if child_in_arguments:
+        request["arguments"]["child_task_id"] = child_id
+    if subject_source_override is not None and not legacy_subject:
+        request["subject"]["source_task_id"] = subject_source_override
+    affected = [
+        {
+            "task_id": source_id,
+            "attempt": source_after["attempt"],
+            "state_ref": {
+                "schema_id": TASK_STATE_SCHEMA_ID, "sha256": source_after_sha,
+            },
+        },
+        {
+            "task_id": child_id,
+            "attempt": 1,
+            "state_ref": {
+                "schema_id": TASK_STATE_SCHEMA_ID, "sha256": child_after_sha,
+            },
+        },
+    ]
+    if reverse_response:
+        affected.reverse()
+    response = {
+        "schema_version": 1,
+        "response_format_version": 2,
+        "runtime_id": RUNTIME_ID,
+        "chain_id": CHAIN_ID,
+        "operation": "CREATE_REMEDIATION_TASK",
+        "operation_key": operation_key,
+        "status": "COMMITTED",
+        "affected_states": affected,
+        "generated_refs": [{
+            "kind": "REMEDIATION_LINK",
+            "identifier": relationship_id,
+            "sha256": (
+                link_sha if generated_link_sha256 is None
+                else generated_link_sha256
+            ),
+        }],
+    }
+    source_payload = {
+        "schema_version": 1, "payload_format_version": 2,
+        "event_type": "REMEDIATION_CREATED",
+        "data": {"relationship_id": relationship_id},
+    }
+    child_payload = {
+        "schema_version": 1, "payload_format_version": 2,
+        "event_type": "TASK_CREATED_FROM_REMEDIATION",
+        "data": {"relationship_id": relationship_id},
+    }
+    request_sha = blob_digest(request)
+    response_sha = blob_digest(response)
+    source_payload_sha = blob_digest(source_payload)
+    child_payload_sha = blob_digest(child_payload)
+    prior_events = tuple(json.loads(raw) for raw in image.events)
+    prior = prior_events[-1]
+    source_index = len(prior_events)
+    prior_source = next(
+        event for event in reversed(prior_events)
+        if event["stream"] == "TASK"
+        and event["task_context"]["task_id"] == source_id
+        and event["task_context"]["attempt"] == source_before["attempt"]
+    )
+
+    def task_event(event_id, event_type, index, position, context, before_ref, after_ref, payload_sha, predecessor):
+        event = {
+            "schema_version": 1, "event_format_version": 2,
+            "runtime_id": RUNTIME_ID, "chain_id": CHAIN_ID,
+            "event_id": event_id, "event_type": event_type,
+            "occurred_at": CREATED_AT, "global_sequence": index,
+            "global_predecessor": predecessor,
+            "stream": "TASK", "task_context": context,
+            "transaction": {
+                "transaction_id": transaction_id, "position": position,
+                "event_count": 3, "operation_key": operation_key,
+                "request_sha256": request_sha, "response_sha256": response_sha,
+            },
+            "payload_ref": {"schema_id": PAYLOAD_SCHEMA_ID, "sha256": payload_sha},
+            "state_before_ref": before_ref, "state_after_ref": after_ref,
+            "repository_generation": 0,
+            "repository_bundle_sha256": BUNDLE,
+            "authority_binding_sha256": None, "authorizing_use": "DENY",
+            "event_sha256": "0" * 64,
+        }
+        event["event_sha256"] = event_digest(event)
+        return event
+
+    source = task_event(
+        source_event_id, "REMEDIATION_CREATED", source_index, 0,
+        {
+            "task_id": source_id, "attempt": source_before["attempt"],
+            "task_sequence": prior_source["task_context"]["task_sequence"] + 1,
+            "task_predecessor": {
+                "event_id": prior_source["event_id"],
+                "event_sha256": prior_source["event_sha256"],
+            },
+        },
+        {"schema_id": TASK_STATE_SCHEMA_ID, "sha256": source_before_sha},
+        {"schema_id": TASK_STATE_SCHEMA_ID, "sha256": source_after_sha},
+        source_payload_sha,
+        {"event_id": prior["event_id"], "event_sha256": prior["event_sha256"]},
+    )
+    child_root_id, child_root_sha = task_predecessor(CHAIN_ID, child_id, 1)
+    child = task_event(
+        child_event_id, "TASK_CREATED_FROM_REMEDIATION", source_index + 1, 1,
+        {
+            "task_id": child_id, "attempt": 1, "task_sequence": 1,
+            "task_predecessor": {
+                "event_id": child_root_id, "event_sha256": child_root_sha,
+            },
+        },
+        None,
+        {"schema_id": TASK_STATE_SCHEMA_ID, "sha256": child_after_sha},
+        child_payload_sha,
+        {"event_id": source["event_id"], "event_sha256": source["event_sha256"]},
+    )
+    commit_payload = {
+        "schema_version": 1, "payload_format_version": 2,
+        "event_type": "COMMAND_COMMITTED",
+        "data": {
+            "semantic_event_ids": [source_event_id, child_event_id],
+            "pre_command_head": {
+                "global_sequence": prior["global_sequence"],
+                "event_id": prior["event_id"],
+                "event_sha256": prior["event_sha256"],
+            },
+            "post_semantic_head": {
+                "global_sequence": source_index + 1,
+                "event_id": child_event_id,
+                "event_sha256": child["event_sha256"],
+            },
+            "operation": "CREATE_REMEDIATION_TASK",
+            "operation_key": operation_key,
+            "request_ref": {"schema_id": REQUEST_SCHEMA_ID, "sha256": request_sha},
+            "response_ref": {"schema_id": RESPONSE_SCHEMA_ID, "sha256": response_sha},
+            "result": "COMMITTED",
+        },
+    }
+    commit_payload_sha = blob_digest(commit_payload)
+    commit = {
+        "schema_version": 1, "event_format_version": 2,
+        "runtime_id": RUNTIME_ID, "chain_id": CHAIN_ID,
+        "event_id": commit_event_id, "event_type": "COMMAND_COMMITTED",
+        "occurred_at": CREATED_AT, "global_sequence": source_index + 2,
+        "global_predecessor": {
+            "event_id": child_event_id, "event_sha256": child["event_sha256"],
+        },
+        "stream": "RUNTIME", "task_context": None,
+        "transaction": {
+            "transaction_id": transaction_id, "position": 2,
+            "event_count": 3, "operation_key": operation_key,
+            "request_sha256": request_sha, "response_sha256": response_sha,
+        },
+        "payload_ref": {"schema_id": PAYLOAD_SCHEMA_ID, "sha256": commit_payload_sha},
+        "state_before_ref": None, "state_after_ref": None,
+        "repository_generation": 0, "repository_bundle_sha256": BUNDLE,
+        "authority_binding_sha256": None, "authorizing_use": "DENY",
+        "event_sha256": "0" * 64,
+    }
+    commit["event_sha256"] = event_digest(commit)
+    additions = (
+        BlobRecord(request_sha, REQUEST_SCHEMA_ID, canonical_json(request)),
+        BlobRecord(response_sha, RESPONSE_SCHEMA_ID, canonical_json(response)),
+        BlobRecord(source_payload_sha, PAYLOAD_SCHEMA_ID, canonical_json(source_payload)),
+        BlobRecord(child_payload_sha, PAYLOAD_SCHEMA_ID, canonical_json(child_payload)),
+        BlobRecord(commit_payload_sha, PAYLOAD_SCHEMA_ID, canonical_json(commit_payload)),
+        BlobRecord(source_after_sha, TASK_STATE_SCHEMA_ID, canonical_json(source_after)),
+        BlobRecord(child_after_sha, TASK_STATE_SCHEMA_ID, canonical_json(child_after)),
+    )
+    blob_by_digest = {record.sha256: record for record in image.blobs}
+    for addition in additions:
+        blob_by_digest.setdefault(addition.sha256, addition)
+    blobs = tuple(sorted(blob_by_digest.values(), key=lambda record: record.sha256))
+    rows = {snapshot.table: snapshot.rows for snapshot in image.table_snapshots}
+    rows["blobs"] = tuple(
+        (record.sha256, record.schema_id, record.canonical_json.decode("ascii"))
+        for record in blobs
+    )
+    rows["events"] = rows["events"] + tuple(
+        (event["global_sequence"], event["event_id"], event["event_sha256"], canonical_json(event).decode("ascii"))
+        for event in (source, child, commit)
+    )
+    attempts = list(rows["attempts"])
+    source_attempt_index = next(
+        index for index, row in enumerate(attempts)
+        if row[:2] == (source_id, source_before["attempt"])
+    )
+    source_attempt = list(attempts[source_attempt_index])
+    source_attempt[4:] = [source["task_context"]["task_sequence"], source_event_id, source["event_sha256"]]
+    attempts[source_attempt_index] = tuple(source_attempt)
+    attempts.append((child_id, 1, None, child_event_id, 1, child_event_id, child["event_sha256"]))
+    rows["attempts"] = tuple(sorted(attempts, key=lambda row: row[:2]))
+    rows["remediation_links"] = ((
+        relationship_id, source_id, source_before["attempt"], child_id, 1,
+        source_event_id, child_event_id, decision_sha256, link_sha,
+    ),)
+    idempotency = (
+        operation_key, transaction_id, request_sha, response_sha,
+        commit_event_id, source_index + 2, CREATED_AT,
+    )
+    rows["idempotency"] = tuple(sorted(rows["idempotency"] + (idempotency,)))
+    metadata = list(rows["metadata"][0])
+    metadata[15:18] = [source_index + 2, commit_event_id, commit["event_sha256"]]
+    rows["metadata"] = (tuple(metadata),)
+    rows["tasks"] = tuple(sorted((
+        _task_table_row(source_after), _task_table_row(child_after),
+    )))
+    result = replace(
+        image,
+        blobs=blobs,
+        events=image.events + tuple(canonical_json(event) for event in (source, child, commit)),
+        table_snapshots=tuple(TableSnapshot(name, rows[name]) for name in TABLE_NAMES),
+    )
+    values.update({
+        "remediation_request": request,
+        "remediation_response": response,
+        "remediation_source_before_state": source_before,
+        "remediation_source_after_state": source_after,
+        "remediation_child_after_state": child_after,
+        "remediation_source": source,
+        "remediation_child": child,
+        "remediation_commit": commit,
+        "remediation_link_sha256": link_sha,
+    })
+    return result, values
 
 
 def _task_table_row(state):
@@ -3096,6 +3415,189 @@ class RuntimeV2InitialTests(unittest.TestCase):
         self.assertEqual(report.status, "INVALID")
         self.assertIn("TRANSITION_SOURCE_STATE", self.codes(report))
 
+    def test_remediation_group_derives_exact_two_task_history(self):
+        profiles = (
+            (
+                "REJECT", "reject", "reject_after_state",
+                "123e4567-e89b-42d3-a456-426614174167",
+                "123e4567-e89b-42d3-a456-426614174168",
+                "123e4567-e89b-42d3-a456-426614174169",
+            ),
+            (
+                "REMEDIATE", "remediate", "remediate_after_state",
+                "123e4567-e89b-42d3-a456-426614174170",
+                "123e4567-e89b-42d3-a456-426614174171",
+                "123e4567-e89b-42d3-a456-426614174172",
+            ),
+        )
+        for operation, prefix, before_key, semantic_id, commit_id, transaction_id in profiles:
+            image, values = complete_review_fixture()
+            image, values = _append_review_assignment_fixture(image, values)
+            image, values = _append_review_decision_fixture(
+                image,
+                values,
+                operation=operation,
+                prefix=prefix,
+                semantic_id=semantic_id,
+                commit_id=commit_id,
+                transaction_id=transaction_id,
+            )
+            image, values = _append_remediation_fixture(
+                image, values, before_state_key=before_key,
+            )
+            with self.subTest(operation=operation):
+                report = reduce_initial_runtime_image(image)
+                self.assertEqual(report.status, "UNSUPPORTED")
+                self.assertEqual(self.codes(report), {"CLOSURE_NOT_COMPILED"})
+                rows = {
+                    snapshot.table: snapshot.rows
+                    for snapshot in image.table_snapshots
+                }
+                self.assertEqual(len(rows["tasks"]), 2)
+                self.assertEqual(len(rows["remediation_links"]), 1)
+                self.assertEqual(rows["remediation_links"][0][7], "c" * 64)
+                self.assertEqual(
+                    rows["remediation_links"][0][8],
+                    values["remediation_link_sha256"],
+                )
+                attempts = {row[:2]: row for row in rows["attempts"]}
+                self.assertEqual(attempts[("task-alpha-remediation", 1)][4], 1)
+                self.assertEqual(
+                    attempts[("task-alpha", 1)][5],
+                    values["remediation_source"]["event_id"],
+                )
+                self.assertEqual(rows["metadata"][0][25], "DENY")
+                self.assertEqual(
+                    set(values["remediation_request"]["subject"]),
+                    {
+                        "source_task_id", "source_attempt", "child_task_id",
+                        "child_attempt",
+                    },
+                )
+                self.assertNotIn(
+                    "child_task_id",
+                    values["remediation_request"]["arguments"],
+                )
+
+    def test_remediation_group_attacks_and_partial_materialization_fail_closed(self):
+        image, values = complete_review_fixture()
+        image, values = _append_review_assignment_fixture(image, values)
+        image, values = _append_review_decision_fixture(
+            image,
+            values,
+            operation="REJECT",
+            prefix="reject",
+            semantic_id="123e4567-e89b-42d3-a456-426614174167",
+            commit_id="123e4567-e89b-42d3-a456-426614174168",
+            transaction_id="123e4567-e89b-42d3-a456-426614174169",
+        )
+
+        wrong_decision, _ = _append_remediation_fixture(
+            image, dict(values), decision_sha256="d" * 64,
+        )
+        report = reduce_initial_runtime_image(wrong_decision)
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("TRANSITION_DECISION_MISMATCH", self.codes(report))
+
+        legacy_subject, _ = _append_remediation_fixture(
+            image, dict(values), legacy_subject=True,
+        )
+        report = reduce_initial_runtime_image(legacy_subject)
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("GROUP_OBJECT", self.codes(report))
+
+        for malformed_source in (["task-alpha"], {"task": "task-alpha"}):
+            malformed, _ = _append_remediation_fixture(
+                image,
+                dict(values),
+                subject_source_override=malformed_source,
+            )
+            with self.subTest(malformed_source=type(malformed_source).__name__):
+                report = reduce_initial_runtime_image(malformed)
+                self.assertEqual(report.status, "INVALID")
+                self.assertIn("GROUP_PATTERN", self.codes(report))
+
+        duplicated_child, _ = _append_remediation_fixture(
+            image, dict(values), child_in_arguments=True,
+        )
+        report = reduce_initial_runtime_image(duplicated_child)
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("GROUP_OBJECT", self.codes(report))
+
+        reversed_response, _ = _append_remediation_fixture(
+            image, dict(values), reverse_response=True,
+        )
+        report = reduce_initial_runtime_image(reversed_response)
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("GROUP_CONST", self.codes(report))
+
+        wrong_link_ref, _ = _append_remediation_fixture(
+            image, dict(values), generated_link_sha256="f" * 64,
+        )
+        report = reduce_initial_runtime_image(wrong_link_ref)
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("GROUP_CONST", self.codes(report))
+
+        valid, valid_values = _append_remediation_fixture(image, dict(values))
+        swapped = replace(
+            valid,
+            events=(
+                valid.events[:-3]
+                + (valid.events[-2], valid.events[-3], valid.events[-1])
+            ),
+        )
+        report = reduce_initial_runtime_image(swapped)
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("GROUP_FOLLOWUP_OPERATION", self.codes(report))
+
+        snapshots = list(valid.table_snapshots)
+        link_index = TABLE_NAMES.index("remediation_links")
+        link = list(snapshots[link_index].rows[0])
+        link[8] = "0" * 64
+        snapshots[link_index] = TableSnapshot("remediation_links", (tuple(link),))
+        report = reduce_initial_runtime_image(replace(
+            valid, table_snapshots=tuple(snapshots),
+        ))
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("TABLE_DERIVATION", self.codes(report))
+
+        snapshots = list(valid.table_snapshots)
+        task_index = TABLE_NAMES.index("tasks")
+        source_row = list(next(
+            row for row in snapshots[task_index].rows if row[0] == "task-alpha"
+        ))
+        source_row[17] = None
+        snapshots[task_index] = TableSnapshot("tasks", (tuple(source_row),))
+        snapshots[link_index] = TableSnapshot("remediation_links", ())
+        report = reduce_initial_runtime_image(replace(
+            valid, table_snapshots=tuple(snapshots),
+        ))
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("TABLE_DERIVATION", self.codes(report))
+
+        extra_payload = {
+            "schema_version": 1, "payload_format_version": 2,
+            "event_type": "DIRECTOR_ROUTED", "data": {},
+        }
+        extra_sha = blob_digest(extra_payload)
+        extra_blob = BlobRecord(
+            extra_sha, PAYLOAD_SCHEMA_ID, canonical_json(extra_payload)
+        )
+        report = reduce_initial_runtime_image(replace(
+            valid,
+            blobs=tuple(sorted(
+                valid.blobs + (extra_blob,), key=lambda record: record.sha256,
+            )),
+        ))
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("BLOB_REACHABILITY", self.codes(report))
+
+        report = reduce_initial_runtime_image(replace(
+            valid, events=valid.events + valid.events[-2:],
+        ))
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("GROUP_REMEDIATION_TERMINAL", self.codes(report))
+
     def test_cumulative_attempt_and_claim_tables_are_derived_not_trusted(self):
         image, _ = two_retry_cycles_fixture()
         baseline = {snapshot.table: snapshot for snapshot in image.table_snapshots}
@@ -3169,7 +3671,7 @@ class RuntimeV2InitialTests(unittest.TestCase):
         partial = replace(image, events=image.events[:-1])
         report = reduce_initial_runtime_image(partial)
         self.assertEqual(report.status, "INVALID")
-        self.assertIn("COMPILED_EVENT_CARDINALITY", self.codes(report))
+        self.assertIn("GROUP_EVENT_COUNT", self.codes(report))
 
         long_image, long_values = continue_many_fixture(16)
         self.assertEqual(len(long_image.events), 39)

@@ -675,6 +675,16 @@ class _StagedTransition:
         return self.delta.after_task
 
 
+@dataclass(frozen=True, slots=True)
+class _StagedStateReplacement:
+    """Whole-state CAS used only by compiled multi-task transaction groups."""
+
+    _workspace_token: object
+    base_revision: int
+    before: ReducerState
+    after: ReducerState
+
+
 def _closed_claim(
     claims: Mapping[str, ClaimRecord], task: TaskState, status: str, event_id: str
 ) -> _ClaimWrite:
@@ -1062,6 +1072,12 @@ def _new_review_event_ids(
     return ()
 
 
+def _retained_review_event_ids(review: ReviewRecord) -> tuple[str, ...]:
+    if review.closed_event_id is None:
+        return (review.opened_event_id,)
+    return (review.opened_event_id, review.closed_event_id)
+
+
 class _TransitionWorkspace:
     """Private two-phase task/claim/review/decision workspace."""
 
@@ -1138,6 +1154,21 @@ class _TransitionWorkspace:
         self._issued[id(staged)] = staged
         return staged
 
+    def stage_remediation(self, intent: TransitionIntent) -> _StagedStateReplacement:
+        """Plan CREATE_REMEDIATION_TASK without exposing partial task writes."""
+        if type(intent) is not TransitionIntent:
+            _deny("TRANSITION_HOST_TYPE", "/")
+        _validate_intent_shape(intent)
+        if intent.operation != "CREATE_REMEDIATION_TASK":
+            _deny("TRANSITION_OPERATION_OUTSIDE_WORKSPACE", "/operation")
+        before = self.freeze()
+        after = reduce_transition(before, intent)
+        staged = _StagedStateReplacement(
+            self._token, self._revision, before, after
+        )
+        self._issued[id(staged)] = staged
+        return staged
+
     def _precheck(self, delta: _TransitionDelta) -> None:
         if type(delta) is not _TransitionDelta:
             _deny("TRANSITION_WORKSPACE_PLAN", "/")
@@ -1210,8 +1241,8 @@ class _TransitionWorkspace:
         if delta.after_task not in tuple(write.after for write in delta.task_writes):
             _deny("TRANSITION_WORKSPACE_PLAN", "/after_task")
 
-    def commit(self, staged: _StagedTransition) -> None:
-        if type(staged) is not _StagedTransition:
+    def commit(self, staged: _StagedTransition | _StagedStateReplacement) -> None:
+        if type(staged) not in {_StagedTransition, _StagedStateReplacement}:
             _deny("TRANSITION_WORKSPACE_PLAN", "/")
         if staged._workspace_token is not self._token:
             _deny("TRANSITION_WORKSPACE_FOREIGN", "/")
@@ -1219,6 +1250,37 @@ class _TransitionWorkspace:
             _deny("TRANSITION_WORKSPACE_STALE", "/")
         if self._issued.get(id(staged)) is not staged:
             _deny("TRANSITION_WORKSPACE_FORGED", "/")
+        if type(staged) is _StagedStateReplacement:
+            if self.freeze() != staged.before:
+                _deny("TRANSITION_WORKSPACE_CAS", "/")
+            after = staged.after
+            self._tasks = {item.task_id: item for item in after.tasks}
+            self._claims = {item.claim_id: item for item in after.claims}
+            self._reviews = {
+                item.assignment_id: item for item in after.reviews
+            }
+            self._decisions = {
+                (item.task_id, item.attempt): item
+                for item in after.decisions
+            }
+            self._links = {item.link_id: item for item in after.remediation_links}
+            self._retained_event_ids = {
+                event_id
+                for claim in after.claims
+                for event_id in _retained_claim_event_ids(claim)
+            }
+            for review in after.reviews:
+                self._retained_event_ids.update(
+                    _retained_review_event_ids(review)
+                )
+            for link in after.remediation_links:
+                self._retained_event_ids.update(
+                    (link.source_event_id, link.child_event_id)
+                )
+            self._revision += 1
+            self._issued.clear()
+            return
+        assert type(staged) is _StagedTransition
         self._precheck(staged.delta)
         added_events: list[str] = []
         for write in staged.delta.claim_writes:

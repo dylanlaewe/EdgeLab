@@ -480,6 +480,92 @@ class RuntimeV2TransitionWorkspaceTests(unittest.TestCase):
                     self.assertEqual(routed.reviews[0].status, "APPROVED")
                     self.assertEqual(routed.decisions, frozen.decisions)
 
+    def test_remediation_replacement_stages_and_commits_atomically(self) -> None:
+        claim_id = uuid4(220)
+        assignment_id = uuid4(221)
+        workspace = transition._TransitionWorkspace(self.empty)
+        for item in (
+            initialize_intent(1),
+            intent(
+                "CLAIM",
+                args=arguments(actor="worker-fixture"),
+                generated_id=claim_id,
+                event=2,
+            ),
+            intent(
+                "START", args=arguments(claim_id=claim_id, fence=1), event=3,
+            ),
+            intent(
+                "COMPLETE",
+                args=arguments(
+                    claim_id=claim_id,
+                    close=False,
+                    completion_evidence_sha256=DIGEST,
+                    fence=1,
+                ),
+                event=4,
+            ),
+            intent(
+                "ASSIGN_REVIEW",
+                args=arguments(actor="skeptic-fixture", role="05 Skeptic"),
+                generated_id=assignment_id,
+                event=5,
+            ),
+            intent(
+                "REJECT",
+                args=arguments(
+                    assignment_id=assignment_id,
+                    decision_sha256="b" * 64,
+                ),
+                event=6,
+            ),
+        ):
+            self.commit(workspace, item)
+        before = workspace.freeze()
+        remediation = transition.TransitionIntent(
+            operation="CREATE_REMEDIATION_TASK",
+            task_id="T1",
+            attempt=1,
+            child_task_id="T2",
+            child_attempt=1,
+            arguments=arguments(
+                child_decision_receipt_digest="c" * 64,
+                child_owner="remediation-owner",
+                child_owner_role="research-remediation",
+                decision_sha256="b" * 64,
+                relationship_id=uuid4(222),
+            ),
+            semantic_event_ids=(uuid4(7), uuid4(8)),
+        )
+        staged = workspace.stage_remediation(remediation)
+        self.assertEqual(workspace.revision, 6)
+        self.assertEqual(workspace.freeze(), before)
+        self.assertEqual(tuple(item.task_id for item in staged.after.tasks), ("T1", "T2"))
+        self.assertEqual(staged.after.tasks[0].successor_task, "T2")
+        self.assertEqual(staged.after.tasks[1].predecessor_task, "T1")
+        self.assertEqual(staged.after.remediation_links[0].decision_sha256, "b" * 64)
+
+        wrong = replace(
+            remediation,
+            arguments=arguments(
+                child_decision_receipt_digest="c" * 64,
+                child_owner="remediation-owner",
+                child_owner_role="research-remediation",
+                decision_sha256="d" * 64,
+                relationship_id=uuid4(223),
+            ),
+        )
+        with self.assertRaises(transition.TransitionViolation) as caught:
+            workspace.stage_remediation(wrong)
+        self.assertEqual(caught.exception.code, "TRANSITION_DECISION_MISMATCH")
+        self.assertEqual(workspace.freeze(), before)
+
+        workspace.commit(staged)
+        after = workspace.freeze()
+        self.assertEqual(workspace.revision, 7)
+        self.assertEqual(len(after.tasks), 2)
+        self.assertEqual(len(after.remediation_links), 1)
+
     def test_review_decision_rejects_reused_close_event_without_writes(self) -> None:
         claim_id = uuid4(210)
         assignment_id = uuid4(211)

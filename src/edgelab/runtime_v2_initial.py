@@ -60,11 +60,13 @@ from .runtime_v2_group import (
     ClaimGroupPatch,
     GroupValidationError,
     InitializeGroupPatch,
+    RemediationGroupPatch,
     _FOLLOWUP_PROFILES,
     _ReplayCursor,
     WorkerGroupPatch,
     reduce_claim_group,
     reduce_initialize_group,
+    reduce_remediation_group,
     reduce_worker_group,
 )
 from .runtime_v2_transition import (
@@ -393,6 +395,15 @@ def _expected_tables(
             )
             for review in final_state.reviews
         )
+        rows["remediation_links"] = tuple(
+            (
+                link.link_id, link.source_task_id, link.source_attempt,
+                link.child_task_id, link.child_attempt,
+                link.source_event_id, link.child_event_id,
+                link.decision_sha256, link.link_sha256,
+            )
+            for link in final_state.remediation_links
+        )
         rows["idempotency"] = tuple(sorted(idempotency_rows))
         rows["tasks"] = tuple(
             (
@@ -439,6 +450,28 @@ def _commit_group_patch(
     )
 
 
+def _commit_remediation_patch(
+    *,
+    cursor: _ReplayCursor,
+    workspace: _TransitionWorkspace,
+    patch: RemediationGroupPatch,
+    source_event: dict[str, Any],
+    child_event: dict[str, Any],
+    commit_event: dict[str, Any],
+) -> None:
+    """Atomically advance a validated two-task remediation transaction."""
+    observed = (
+        source_event["event_id"], source_event["event_sha256"],
+        child_event["event_id"], child_event["event_sha256"],
+        commit_event["event_id"], commit_event["event_sha256"],
+    )
+    if patch.event_triplet != observed:
+        raise GroupValidationError("GROUP_PATCH_TRIPLET", "/events")
+    cursor.check_remediation(source_event, child_event, commit_event)
+    workspace.commit(patch.transition)
+    cursor.advance_remediation(source_event, child_event, commit_event)
+
+
 def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
     """Reduce a candidate NEW genesis image without ever authorizing it."""
     sink = _Sink()
@@ -480,7 +513,7 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
     if image.checkpoint_copies:
         sink.add("GENESIS_CHECKPOINT_COPY", "checkpoint_copies", "/")
     compiled_event_count = (
-        1 <= len(image.events) <= MAX_EVENTS and len(image.events) % 2 == 1
+        len(image.events) == 1 or 3 <= len(image.events) <= MAX_EVENTS
     )
     if not compiled_event_count:
         sink.add("COMPILED_EVENT_CARDINALITY", "events", "/")
@@ -635,7 +668,8 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
     if sink.result():
         return _invalid(sink)
     final_patch: (
-        InitializeGroupPatch | ClaimGroupPatch | WorkerGroupPatch | None
+        InitializeGroupPatch | ClaimGroupPatch | WorkerGroupPatch
+        | RemediationGroupPatch | None
     ) = None
     idempotency_rows: list[tuple[Any, ...]] = []
     cursor = _ReplayCursor(event)
@@ -672,13 +706,69 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
             request_sha, response_sha, payload_sha,
             *initialize_patch.reachable_blob_digests,
         }
-        for semantic_index in range(3, len(parsed_events), 2):
+        semantic_index = 3
+        while semantic_index < len(parsed_events):
             semantic_candidate = parsed_events[semantic_index]
             event_type = (
                 semantic_candidate.get("event_type")
                 if type(semantic_candidate) is dict
                 else None
             )
+            if event_type == "REMEDIATION_CREATED":
+                if semantic_index + 2 >= len(parsed_events):
+                    sink.add(
+                        "GROUP_EVENT_COUNT", "remediation_transaction_group",
+                        f"/events/{semantic_index}",
+                    )
+                    return _invalid(sink)
+                try:
+                    patch = reduce_remediation_group(
+                        cursor=cursor,
+                        workspace=workspace,
+                        source_event=semantic_candidate,
+                        child_event=parsed_events[semantic_index + 1],
+                        commit_event=parsed_events[semantic_index + 2],
+                        catalog=blobs,
+                    )
+                except GroupValidationError as error:
+                    sink.add(
+                        error.code, "remediation_transaction_group",
+                        error.coordinate,
+                    )
+                    return _invalid(sink)
+                try:
+                    _commit_remediation_patch(
+                        cursor=cursor,
+                        workspace=workspace,
+                        patch=patch,
+                        source_event=semantic_candidate,
+                        child_event=parsed_events[semantic_index + 1],
+                        commit_event=parsed_events[semantic_index + 2],
+                    )
+                except (GroupValidationError, TransitionViolation) as error:
+                    sink.add(
+                        error.code, "remediation_transaction_group",
+                        error.coordinate,
+                    )
+                    return _invalid(sink)
+                final_patch = patch
+                idempotency_rows.append(patch.idempotency_row)
+                expected_reachable.update(patch.reachable_blob_digests)
+                semantic_index += 3
+                if semantic_index != len(parsed_events):
+                    sink.add(
+                        "GROUP_REMEDIATION_TERMINAL",
+                        "remediation_transaction_group",
+                        f"/events/{semantic_index}",
+                    )
+                    return _invalid(sink)
+                continue
+            if semantic_index + 1 >= len(parsed_events):
+                sink.add(
+                    "GROUP_EVENT_COUNT", "transaction_group",
+                    f"/events/{semantic_index}",
+                )
+                return _invalid(sink)
             if event_type == "CLAIM_ISSUED":
                 reducer = reduce_claim_group
                 artifact = "claim_transaction_group"
@@ -717,6 +807,7 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
             final_patch = patch
             idempotency_rows.append(patch.idempotency_row)
             expected_reachable.update(patch.reachable_blob_digests)
+            semantic_index += 2
         if set(blobs) != expected_reachable:
             sink.add("BLOB_REACHABILITY", "blobs", "/")
             return _invalid(sink)
