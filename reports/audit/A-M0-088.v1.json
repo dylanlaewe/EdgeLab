@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-088",
+  "version": 1,
+  "occurred_at": "2026-10-29T15:23:43Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_START_YIELD_GROUPS_IMPLEMENTED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-106-runtime-v2-worker-groups.v1.md",
+  "previous_state": "FORMAT_2_INITIALIZE_AND_CLAIM_GROUPS_COMPILED_REMAINING_GROUPS_AND_SNAPSHOTS_ABSENT_STOP_OPEN",
+  "new_state": "FORMAT_2_INITIALIZE_CLAIM_START_YIELD_GROUPS_COMPILED_REMAINING_GROUPS_AND_SNAPSHOTS_ABSENT_STOP_OPEN",
+  "reason": "Commit ce6d92192555146a4d7e9700a096a6d90b6cfff3 implements shared private START and YIELD group replay with exact prefix chains, claim/fence CAS, immutable task and claim derivation, typed reachability, and all-table comparison. Valid candidates remain opaque UNSUPPORTED/CLOSURE_NOT_COMPILED/DENY; no public-verifier, currentness, execution, or capital path was added.",
+  "evidence_refs": [
+    "reports/H-M0-106-runtime-v2-worker-groups.v1.md",
+    "docs/M0.3A_WORKER_GROUP_SLICE.v1.md",
+    "src/edgelab/runtime_v2_group.py",
+    "tests/test_runtime_v2_initial.py",
+    "reports/stops/STOP-M0-3A-002.v9.json"
+  ],
+  "code_ref": "ce6d92192555146a4d7e9700a096a6d90b6cfff3",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-106",
+  "supersedes": null
+}
