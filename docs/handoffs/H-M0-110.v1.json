@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-110",
+  "version": 1,
+  "created_at": "2026-10-29T16:22:33Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Replace enumerated private runtime-v2 worker depths and growing-prefix scans with a locally derived sequential cursor without expanding lifecycle or capital authority.",
+  "work_done": "Implemented exact sequential replay for the existing one-task, one-attempt, one-claim worker lifecycle. The cursor is seeded internally, advances only after complete group validation, retains exact global/task heads and four uniqueness domains, and permits any structurally complete odd depth within the host cap. Final typed reachability, idempotency, task, claim, attempt, and all-table projections remain derived. Re-claim and RETRY are explicitly denied; valid candidates remain opaque UNSUPPORTED/CLOSURE_NOT_COMPILED/DENY.",
+  "evidence_refs": [
+    "reports/H-M0-110-sequential-worker-replay-cursor.v1.md",
+    "reports/audit/A-M0-092.v1.json",
+    "reports/stops/STOP-M0-3A-002.v13.json",
+    "docs/M0.3A_SEQUENTIAL_WORKER_REPLAY_SLICE.v1.md",
+    "src/edgelab/runtime_v2_group.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "tests/test_runtime_v2_initial.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_SEQUENTIAL_WORKER_REPLAY_SLICE.v1.md",
+    "src/edgelab/runtime_v2_group.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "tests/test_runtime_v2_initial.py",
+    "reports/H-M0-110-sequential-worker-replay-cursor.v1.md",
+    "reports/audit/A-M0-092.v1.json",
+    "reports/stops/STOP-M0-3A-002.v13.json",
+    "docs/handoffs/H-M0-110.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "Focused reducer, transition, image, and public-verifier suite: 103 tests passed.",
+    "The same 103 tests passed under optimized Python (-O).",
+    "Fast tier: 295 tests passed across 17 isolated modules.",
+    "Production validator before evidence publication: 389 records and published history validated; M0 capital remained LOCKED and no approval was granted.",
+    "Production validator after evidence publication: 392 records and published history validated with the same locked and non-authorizing result.",
+    "Alpha/observatory regression: 18 tests passed after STOP provenance was extended.",
+    "Python compile checks and Git diff whitespace checks passed."
+  ],
+  "open_questions": [
+    "What minimal batch transition workspace can validate retained state once, stage each group atomically, and freeze exact state once at the end?",
+    "How should RETRY retain the failed attempt row while creating the exact attempt n+1 origin and task-root predecessor?",
+    "What closed dispatcher shape best composes re-CLAIM/RETRY with later governance, import, and snapshot operations?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v13 remains OPEN pending transition-workspace scaling, re-claim/retry, later lifecycle groups, snapshot cuts, exact closure generation, A-J testing, and independent acceptance.",
+    "The public verifier remains disconnected and can return only INVALID or UNSUPPORTED under UNANCHORED/UNKNOWN/DENY.",
+    "Delegated subagent engineering review does not satisfy the genuinely distinct trusted 05 Skeptic requirement; H-M0-086 and H-M0-041 remain BLOCKED.",
+    "STOP-M0-001 and STOP-M0-3A-001 remain OPEN; M0 remains blocked, live remains LOCKED, kill remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Implement a private transition workspace with atomic deltas and cumulative historical attempt projection, then add closed dispatch for re-CLAIM and RETRY.",
+  "completion_criteria": [
+    "Every compiled one-claim worker group reduces without enumerated depth or rescanning supplied event prefixes.",
+    "Cursor advancement is post-validation, exact uniqueness and task heads survive long prefixes, and final reachability and projections remain comparison-only.",
+    "Re-CLAIM and RETRY remain explicitly denied while the public verifier and capital-safety state remain unchanged."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-109.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-109",
+      "version": 1,
+      "sha256": "d75e4d10d863a2bb23f219b5c8b912698770c1778a8c9b66d964968bb531ae32"
+    }
+  ]
+}

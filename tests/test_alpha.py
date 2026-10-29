@@ -42,7 +42,7 @@ class AlphaTests(unittest.TestCase):
         self.assertEqual(report["controls"]["capital"]["live_deployable_minor"], 0)
         self.assertEqual(report["controls"]["capital"]["live_status"], "LOCKED")
         self.assertEqual(report["controls"]["capital"]["kill_switch"], "ENGAGED")
-        self.assertEqual(len(report["provenance"]), 24)
+        self.assertEqual(len(report["provenance"]), 25)
 
     def test_changed_bound_evidence_fails_closed(self):
         manifest = copy.deepcopy(self.manifest())
