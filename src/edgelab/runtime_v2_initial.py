@@ -50,6 +50,12 @@ from .runtime_v2_genesis import (
     validate_runtime_genesis_payload,
 )
 from .runtime_v2_image import RuntimeImage, TableSnapshot, inspect_runtime_image_host
+from .runtime_v2_group import (
+    BlobValue,
+    GroupValidationError,
+    InitializeGroupPatch,
+    reduce_initialize_group,
+)
 
 
 MAX_FINDINGS = 128
@@ -91,9 +97,7 @@ SCHEMA_DOCUMENT_PINS = (
         "c8b9a47df5b91ae467f3008c8c7c27bdf2df089a3fbc25d684f53e56bc37ede8",
     ),
 )
-_EXPECTED_BLOB_ROLES = frozenset({
-    REQUEST_SCHEMA_ID, RESPONSE_SCHEMA_ID, PAYLOAD_SCHEMA_ID,
-})
+_KNOWN_BLOB_ROLES = frozenset(schema_id for schema_id, _ in SCHEMA_DOCUMENT_PINS)
 
 
 @dataclass(frozen=True, order=True, slots=True)
@@ -233,16 +237,14 @@ def _closure(raw: bytes, sink: _Sink) -> dict[str, Any] | None:
         return None
 
 
-def _blob_values(image: RuntimeImage, sink: _Sink) -> dict[str, tuple[Any, str]]:
-    values: dict[str, tuple[Any, str]] = {}
-    if len(image.blobs) != 3:
-        sink.add("GENESIS_BLOB_CARDINALITY", "blobs", "/")
+def _blob_catalog(image: RuntimeImage, sink: _Sink) -> dict[str, BlobValue]:
+    values: dict[str, BlobValue] = {}
     for index, record in enumerate(image.blobs):
-        if record.schema_id not in _EXPECTED_BLOB_ROLES:
-            sink.add("GENESIS_BLOB_ROLE", "blobs", f"/{index}/schema_id")
+        if record.schema_id not in _KNOWN_BLOB_ROLES:
+            sink.add("BLOB_ROLE", "blobs", f"/{index}/schema_id")
             continue
-        if record.schema_id in values:
-            sink.add("GENESIS_BLOB_ROLE_DUPLICATE", "blobs", f"/{index}/schema_id")
+        if record.sha256 in values:
+            sink.add("BLOB_DIGEST_DUPLICATE", "blobs", f"/{index}/sha256")
             continue
         value = _parse(record.canonical_json, record.schema_id, sink)
         if value is None:
@@ -253,38 +255,62 @@ def _blob_values(image: RuntimeImage, sink: _Sink) -> dict[str, tuple[Any, str]]
             sink.add("BLOB_VALUE", record.schema_id, "/")
             continue
         _digest_match(record.sha256, derived, record.schema_id, "/sha256", sink)
-        values[record.schema_id] = (value, derived)
-    if values.keys() != _EXPECTED_BLOB_ROLES:
-        sink.add("GENESIS_BLOB_INVENTORY", "blobs", "/")
+        values[record.sha256] = BlobValue(
+            record.schema_id, value, record.canonical_json.decode("ascii")
+        )
     return values
+
+
+def _resolve_blob(
+    catalog: dict[str, BlobValue], digest: Any, schema_id: str,
+    artifact: str, coordinate: str, sink: _Sink,
+) -> tuple[Any, str] | None:
+    if type(digest) is not str:
+        sink.add("BLOB_REFERENCE", artifact, coordinate)
+        return None
+    item = catalog.get(digest)
+    if item is None:
+        role_candidates = tuple(
+            (candidate_digest, candidate)
+            for candidate_digest, candidate in catalog.items()
+            if candidate.schema_id == schema_id
+        )
+        if len(role_candidates) == 1:
+            candidate_digest, candidate = role_candidates[0]
+            sink.add("DIGEST_MISMATCH", artifact, coordinate)
+            sink.add("BINDING_MISMATCH", artifact, coordinate)
+            return candidate.value, candidate_digest
+        sink.add("GENESIS_BLOB_INVENTORY", "blobs", "/")
+        return None
+    if item.schema_id != schema_id:
+        sink.add("GENESIS_BLOB_INVENTORY", "blobs", "/")
+        return None
+    return item.value, digest
 
 
 def _expected_tables(
     *,
     image: RuntimeImage,
-    request: dict[str, Any],
-    request_sha: str,
-    response: dict[str, Any],
-    response_sha: str,
-    payload: dict[str, Any],
-    payload_sha: str,
-    event: dict[str, Any],
-    event_sha: str,
+    catalog: dict[str, BlobValue],
+    events: tuple[dict[str, Any], ...],
+    group_patch: InitializeGroupPatch | None,
     manifest_sha: str,
     attachment_sha: str,
     selector1_sha: str,
     history_sha: str,
 ) -> dict[str, tuple[tuple[Any, ...], ...]]:
-    runtime_id = event["runtime_id"]
-    chain_id = event["chain_id"]
-    created_at = event["occurred_at"]
-    event_id = event["event_id"]
-    repository_bundle = event["repository_bundle_sha256"]
-    blobs = sorted((
-        (request_sha, REQUEST_SCHEMA_ID, canonical_json(request).decode("ascii")),
-        (response_sha, RESPONSE_SCHEMA_ID, canonical_json(response).decode("ascii")),
-        (payload_sha, PAYLOAD_SCHEMA_ID, canonical_json(payload).decode("ascii")),
-    ))
+    genesis = events[0]
+    head = events[-1]
+    runtime_id = genesis["runtime_id"]
+    chain_id = genesis["chain_id"]
+    created_at = genesis["occurred_at"]
+    event_id = genesis["event_id"]
+    event_sha = genesis["event_sha256"]
+    repository_bundle = genesis["repository_bundle_sha256"]
+    blobs = tuple(
+        (digest, catalog[digest].schema_id, catalog[digest].canonical_text)
+        for digest in sorted(catalog)
+    )
     schema_rows = tuple(
         (
             record.schema_id,
@@ -301,15 +327,17 @@ def _expected_tables(
             "snapshots", "tasks",
         )
     }
-    rows["blobs"] = tuple(blobs)
-    rows["events"] = ((
-        0, event_id, event_sha, canonical_json(event).decode("ascii"),
-    ),)
+    rows["blobs"] = blobs
+    rows["events"] = tuple(
+        (event["global_sequence"], event["event_id"], event["event_sha256"], canonical_json(event).decode("ascii"))
+        for event in events
+    )
     rows["metadata"] = ((
         "runtime", runtime_id, chain_id, 2, 2, "NEW", created_at,
         manifest_sha, attachment_sha, SUPPORTED_STORAGE_DESCRIPTOR_SHA256,
         SUPPORTED_SCHEMA_REGISTRY_SHA256, event_id, event_sha, 0,
-        repository_bundle, 0, event_id, event_sha, None, 1, selector1_sha,
+        repository_bundle, head["global_sequence"], head["event_id"],
+        head["event_sha256"], None, 1, selector1_sha,
         history_sha, None, "UNANCHORED", "UNKNOWN", "DENY",
     ),)
     rows["schema_documents"] = schema_rows
@@ -322,6 +350,21 @@ def _expected_tables(
         "RUNTIME_GENESIS_IDENTITY", attachment_sha, event_id, event_sha,
         manifest_sha, event_id, created_at,
     ),)
+    if group_patch is not None:
+        rows["attempts"] = (group_patch.attempt_row,)
+        rows["idempotency"] = (group_patch.idempotency_row,)
+        rows["tasks"] = tuple(
+            (
+                task.task_id, task.attempt, task.workflow, task.execution,
+                task.review, task.scheduler_generation, task.dispatch_generation,
+                task.task_fence, task.active_claim_id,
+                task.reviewer_assignment_id, task.continuation_count,
+                task.repository_generation, task.decision_receipt_digest,
+                task.owner, task.owner_role, task.reviewer,
+                task.predecessor_task, task.successor_task,
+            )
+            for task in group_patch.state.tasks
+        )
     return rows
 
 
@@ -365,13 +408,17 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
         )
     if image.checkpoint_copies:
         sink.add("GENESIS_CHECKPOINT_COPY", "checkpoint_copies", "/")
-    if len(image.events) != 1:
-        sink.add("GENESIS_EVENT_CARDINALITY", "events", "/")
+    if len(image.events) not in {1, 3}:
+        sink.add("COMPILED_EVENT_CARDINALITY", "events", "/")
     if len(image.selector_history) != 2:
         sink.add("GENESIS_SELECTOR_CARDINALITY", "selector_history", "/")
 
-    blobs = _blob_values(image, sink)
-    event = _parse(image.events[0], "events", sink) if len(image.events) == 1 else None
+    blobs = _blob_catalog(image, sink)
+    parsed_events = tuple(
+        _parse(raw, f"events[{index}]", sink)
+        for index, raw in enumerate(image.events)
+    ) if len(image.events) in {1, 3} else ()
+    event = parsed_events[0] if parsed_events else None
     selectors = tuple(
         _parse(raw, f"selector_history[{index}]", sink)
         for index, raw in enumerate(image.selector_history)
@@ -379,16 +426,35 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
     if sink.result():
         return _invalid(sink)
 
-    request, request_sha = blobs[REQUEST_SCHEMA_ID]
-    response, response_sha = blobs[RESPONSE_SCHEMA_ID]
-    payload, payload_sha = blobs[PAYLOAD_SCHEMA_ID]
     selector0, selector1 = selectors
-    _validate(request, "request", validate_new_genesis_request, sink)
-    _validate(response, "response", validate_new_genesis_response, sink)
-    _validate(payload, "payload", validate_runtime_genesis_payload, sink)
     _validate(event, "event", validate_runtime_genesis_envelope, sink)
     _validate(selector0, "selector_history[0]", validate_selector, sink)
     _validate(selector1, "selector_history[1]", validate_selector, sink)
+    if sink.result():
+        return _invalid(sink)
+
+    assert type(event) is dict
+    request_item = _resolve_blob(
+        blobs, event["transaction"]["request_sha256"], REQUEST_SCHEMA_ID,
+        "event", "/transaction/request_sha256", sink,
+    )
+    response_item = _resolve_blob(
+        blobs, event["transaction"]["response_sha256"], RESPONSE_SCHEMA_ID,
+        "event", "/transaction/response_sha256", sink,
+    )
+    payload_item = _resolve_blob(
+        blobs, event["payload_ref"]["sha256"], PAYLOAD_SCHEMA_ID,
+        "event", "/payload_ref/sha256", sink,
+    )
+    if sink.result():
+        return _invalid(sink)
+    assert request_item is not None and response_item is not None and payload_item is not None
+    request, request_sha = request_item
+    response, response_sha = response_item
+    payload, payload_sha = payload_item
+    _validate(request, "request", validate_new_genesis_request, sink)
+    _validate(response, "response", validate_new_genesis_response, sink)
+    _validate(payload, "payload", validate_runtime_genesis_payload, sink)
     if sink.result():
         return _invalid(sink)
 
@@ -494,16 +560,34 @@ def reduce_initial_runtime_image(candidate: object) -> InitialReductionReport:
 
     if sink.result():
         return _invalid(sink)
+    group_patch: InitializeGroupPatch | None = None
+    if len(parsed_events) == 3:
+        try:
+            group_patch = reduce_initialize_group(
+                genesis_event=event,
+                semantic_event=parsed_events[1],
+                commit_event=parsed_events[2],
+                catalog=blobs,
+            )
+        except GroupValidationError as error:
+            sink.add(error.code, "transaction_group", error.coordinate)
+            return _invalid(sink)
+        expected_reachable = {
+            request_sha, response_sha, payload_sha,
+            *group_patch.reachable_blob_digests,
+        }
+        if set(blobs) != expected_reachable:
+            sink.add("BLOB_REACHABILITY", "blobs", "/")
+            return _invalid(sink)
+    elif set(blobs) != {request_sha, response_sha, payload_sha}:
+        sink.add("BLOB_REACHABILITY", "blobs", "/")
+        return _invalid(sink)
+
     expected_rows = _expected_tables(
         image=image,
-        request=request,
-        request_sha=request_sha,
-        response=response,
-        response_sha=response_sha,
-        payload=payload,
-        payload_sha=payload_sha,
-        event=event,
-        event_sha=derived_event_sha,
+        catalog=blobs,
+        events=tuple(parsed_events),
+        group_patch=group_patch,
         manifest_sha=manifest_sha,
         attachment_sha=attachment_sha,
         selector1_sha=selector1_sha,

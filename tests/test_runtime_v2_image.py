@@ -384,6 +384,8 @@ class RuntimeV2ImageTests(unittest.TestCase):
         self.assertNotIn("runtime_v2_image", public_source)
         self.assertNotIn("runtime_v2_initial", public_source)
         self.assertNotIn("runtime_v2_closure", public_source)
+        self.assertNotIn("runtime_v2_group", public_source)
+        self.assertNotIn("runtime_v2_transition", public_source)
 
 
 if __name__ == "__main__":
