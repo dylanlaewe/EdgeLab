@@ -171,29 +171,36 @@ CLOSURE_SCHEMA = (
     "schemas/m0-3a-verifier-dependency-closure.v1.schema.json",
 )
 RESOURCE_CLASSIFICATION_SCHEMA = (
-    "urn:edgelab:m0-3a-runtime-v2-resource-classification:1",
-    "schemas/m0-3a-runtime-v2-resource-classification.v1.schema.json",
+    "urn:edgelab:m0-3a-runtime-v2-resource-classification:2",
+    "schemas/m0-3a-runtime-v2-resource-classification.v2.schema.json",
 )
 RESOURCE_CLASSIFICATION_MANIFEST = (
-    "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V1",
-    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v1.json",
+    "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V2",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v2.json",
 )
 RESOURCE_CLASSIFICATION_DOMAIN = (
-    "EDGELAB\0RUNTIME_V2_RESOURCE_CLASSIFICATION\0V1\0"
+    "EDGELAB\0RUNTIME_V2_RESOURCE_CLASSIFICATION\0V2\0"
 )
 RESOURCE_SOURCE_INPUT_DOMAIN = (
     "EDGELAB\0RUNTIME_V2_RESOURCE_SOURCE_INPUTS\0V1\0"
 )
 RESOURCE_CLASSIFICATION_SCHEMA_RAW_SHA256 = (
-    "e032738e99a1f99f1fe3458867fc80517c7a3c7dd4758837306dd71ef8156992"
+    "719392f98cae9798659dd851f13348ba5615895da86bea49e9286be8e58cbbda"
 )
-RESOURCE_CLASSIFICATION_FUNCTION_AST_SHA256 = (
-    "9c9e9b785430028f44d93df883e0b7edd52b777546b8811b732fdf2b99bc0e30"
-)
-RESOURCE_CLASSIFICATION_MODULE_AST_SHA256 = (
-    "30502d160af1538889e36f2411835749381362cec5935936fcf4e4db90bf48c7"
-)
-RESOURCE_CLASSIFICATION_EVIDENCE = (
+RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST = {
+    "byte_length": 2557,
+    "classification_manifest_sha256": (
+        "8ab916ec611ce6cb8b72aaaa5afb25fcec372fd28071364803b75ba9e1a4ded0"
+    ),
+    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v1.json",
+    "raw_sha256": "cb510ff0d8fb329c65ede93dce8751c4826047519a7d7de4b74a8276bc6d3736",
+}
+RESOURCE_CLASSIFICATION_PREDECESSOR_SCHEMA = {
+    "byte_length": 4294,
+    "path": "schemas/m0-3a-runtime-v2-resource-classification.v1.schema.json",
+    "raw_sha256": "e032738e99a1f99f1fe3458867fc80517c7a3c7dd4758837306dd71ef8156992",
+}
+CLOSURE_RESOURCE_EVIDENCE = (
     {
         "byte_length": 4153,
         "path": "docs/M0.3A_DEPENDENCY_CLOSURE_SHAPE.v1.md",
@@ -205,8 +212,31 @@ RESOURCE_CLASSIFICATION_EVIDENCE = (
         "raw_sha256": "56a8bbcf7afbdcb81a6d398fcbbee4f705a054f5cd2736e7a36fc6f20e922b57",
     },
 )
+BLOB_RESOURCE_EVIDENCE = (
+    {
+        "byte_length": 27054,
+        "path": "docs/M0.3A_CONTENT_REDUCER_CONTRACT.v1.md",
+        "raw_sha256": "3f3c031c11be2c9a96bf973447c6c3f04ed29609fca7230793e5fc4afafc7aac",
+    },
+    {
+        "byte_length": 30521,
+        "path": "docs/M0.3A_RUNTIME_IMAGE_CONTRACT.v1.md",
+        "raw_sha256": "408c62a9fabd6182098d0fbe1c1f88c4b780f96b0aaf208e20b3fedfaf4ec550",
+    },
+    {
+        "byte_length": 18200,
+        "path": "tests/test_runtime_v2_image.py",
+        "raw_sha256": "2cd685c78186bce2beb4f0d252acb084d03a4f0cf42d3e12364c4cfb1b75488d",
+    },
+)
+RESOURCE_CLASSIFICATION_EVIDENCE = (
+    *BLOB_RESOURCE_EVIDENCE,
+    *CLOSURE_RESOURCE_EVIDENCE,
+)
 CLASSIFIED_RESOURCE_SITE_IDS = frozenset({
+    "1ef42fea7eca273c2040d72810435052d0241a4e9a4d7ba63598548d95d5249c",
     "344950b527bcecb073b777c4bbf743de50dd920bd4aa76dbbf58045ff9f00ab5",
+    "a1c0d45cbce3ceffdaeb036a93474801b525220e1d16ab5505dba14115313caa",
     "f0929588df702f47d6a2f6fe255d87b6bf4a0e083cbfdbb0cc0f699973edc2ab",
 })
 SCHEMA_BOUND_KEYWORDS = frozenset({
@@ -1028,7 +1058,31 @@ def _resource_classification_inventory(
     source_inputs: list[dict[str, Any]],
     resource_discovery: dict[str, Any],
 ) -> dict[str, Any]:
-    """Validate the first deny-only semantic classification slice."""
+    """Validate the cumulative deny-only semantic classification slices."""
+    predecessor_records = (
+        (RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST, True),
+        (RESOURCE_CLASSIFICATION_PREDECESSOR_SCHEMA, False),
+    )
+    for expected, has_self_digest in predecessor_records:
+        raw, identity = _audit_path(root, expected["path"])
+        if identity in identities:
+            raise ReadinessError("HARDLINK_INPUT_ALIAS", expected["path"])
+        identities.add(identity)
+        if len(raw) != expected["byte_length"] or _sha256(raw) != expected[
+            "raw_sha256"
+        ]:
+            raise ReadinessError(
+                "RESOURCE_CLASSIFICATION_PREDECESSOR_IDENTITY", expected["path"]
+            )
+        if has_self_digest:
+            value = _parse_json(raw, expected["path"])
+            if type(value) is not dict or value.get(
+                "classification_manifest_sha256"
+            ) != expected["classification_manifest_sha256"]:
+                raise ReadinessError(
+                    "RESOURCE_CLASSIFICATION_PREDECESSOR_DIGEST", expected["path"]
+                )
+
     schema_id, schema_path = RESOURCE_CLASSIFICATION_SCHEMA
     schema_raw, schema_identity = _audit_path(root, schema_path)
     if schema_identity in identities:
@@ -1053,6 +1107,7 @@ def _resource_classification_inventory(
         "classification_manifest_sha256",
         "constraints", "coverage_status", "discovery_profile_id",
         "generation_disposition", "manifest_id", "profile_id",
+        "predecessor_manifest", "predecessor_schema",
         "schema_bound_site_count", "schema_bound_sites_sha256",
         "schema_inputs_sha256", "schema_version", "source_bound_site_count",
         "source_bound_sites_sha256", "source_input_count",
@@ -1061,7 +1116,7 @@ def _resource_classification_inventory(
     if set(manifest) != expected_keys:
         raise ReadinessError("RESOURCE_CLASSIFICATION_KEYS", manifest_path)
     scalar_expected = {
-        "schema_version": 1,
+        "schema_version": 2,
         "manifest_id": schema_id,
         "profile_id": profile_id,
         "discovery_profile_id": resource_discovery["profile_id"],
@@ -1069,6 +1124,12 @@ def _resource_classification_inventory(
         "generation_disposition": "DENY",
         "classification_schema_raw_sha256": (
             RESOURCE_CLASSIFICATION_SCHEMA_RAW_SHA256
+        ),
+        "predecessor_manifest": dict(
+            RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST
+        ),
+        "predecessor_schema": dict(
+            RESOURCE_CLASSIFICATION_PREDECESSOR_SCHEMA
         ),
         "source_input_count": 10,
         "source_inputs_sha256": _domain_digest(
@@ -1083,60 +1144,103 @@ def _resource_classification_inventory(
             "schema_bound_sites_sha256"
         ],
         "schema_inputs_sha256": resource_discovery["schema_inputs_sha256"],
-        "classified_site_count": 2,
-        "unclassified_site_count": 688,
+        "classified_site_count": 4,
+        "unclassified_site_count": 686,
     }
     for key, expected in scalar_expected.items():
         if type(manifest.get(key)) is not type(expected) or manifest.get(key) != expected:
             raise ReadinessError("RESOURCE_CLASSIFICATION_BINDING", key)
 
     constraints = manifest.get("constraints")
-    if type(constraints) is not list or len(constraints) != 1:
+    if type(constraints) is not list or len(constraints) != 2:
         raise ReadinessError("RESOURCE_CLASSIFICATION_CONSTRAINTS", manifest_path)
-    constraint = constraints[0]
-    if type(constraint) is not dict or set(constraint) != {
+    constraint_keys = {
         "accepted_equation", "classification", "constraint_id",
         "definition_site_ids", "enforcement_site_ids", "evidence_inputs",
         "maximum", "semantic_function_ast_sha256", "semantic_module_ast_sha256",
         "semantic_proof", "semantic_subject", "unit",
-    }:
-        raise ReadinessError("RESOURCE_CLASSIFICATION_CONSTRAINT_KEYS", manifest_path)
-    expected_constraint = {
-        "accepted_equation": (
-            "len(raw_dependency_closure_bytes) <= maximum"
-        ),
-        "classification": "RESOURCE_MAXIMUM",
-        "constraint_id": "MAX_DEPENDENCY_CLOSURE_BYTES",
-        "definition_site_ids": [
-            "f0929588df702f47d6a2f6fe255d87b6bf4a0e083cbfdbb0cc0f699973edc2ab"
-        ],
-        "enforcement_site_ids": [
-            "344950b527bcecb073b777c4bbf743de50dd920bd4aa76dbbf58045ff9f00ab5"
-        ],
-        "evidence_inputs": [
-            dict(item) for item in RESOURCE_CLASSIFICATION_EVIDENCE
-        ],
-        "maximum": 1_048_576,
-        "semantic_function_ast_sha256": (
-            RESOURCE_CLASSIFICATION_FUNCTION_AST_SHA256
-        ),
-        "semantic_module_ast_sha256": RESOURCE_CLASSIFICATION_MODULE_AST_SHA256,
-        "semantic_proof": {
-            "function_coordinate": (
-                "src/edgelab/runtime_v2_closure.py:"
-                "validate_verifier_dependency_closure"
-            ),
-            "input_binding": "UNMODIFIED_EXACT_BYTES_FUNCTION_ARGUMENT",
-            "enforcement_order": "TYPE_GUARD_BEFORE_SIZE_GUARD_BEFORE_PARSE",
-            "rejection_action": "RAISE_BYTE_LIMIT",
-        },
-        "semantic_subject": "RAW_DEPENDENCY_CLOSURE_BYTES",
-        "unit": "BYTES",
     }
-    if constraint != expected_constraint:
+    if any(type(item) is not dict or set(item) != constraint_keys for item in constraints):
+        raise ReadinessError("RESOURCE_CLASSIFICATION_CONSTRAINT_KEYS", manifest_path)
+    expected_constraints = [
+        {
+            "accepted_equation": (
+                "for each exact BlobRecord in runtime_image.blobs: "
+                "len(captured canonical_json bytes) <= maximum"
+            ),
+            "classification": "RESOURCE_MAXIMUM",
+            "constraint_id": "MAX_BLOB_BYTES",
+            "definition_site_ids": [
+                "a1c0d45cbce3ceffdaeb036a93474801b525220e1d16ab5505dba14115313caa"
+            ],
+            "enforcement_site_ids": [
+                "1ef42fea7eca273c2040d72810435052d0241a4e9a4d7ba63598548d95d5249c"
+            ],
+            "evidence_inputs": [dict(item) for item in BLOB_RESOURCE_EVIDENCE],
+            "maximum": 16_777_216,
+            "semantic_function_ast_sha256": (
+                "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f"
+            ),
+            "semantic_module_ast_sha256": (
+                "89d50071bdb9b49f32c631fb6f9ffece243d8a7b97280c3065ca85eea4df9857"
+            ),
+            "semantic_proof": {
+                "function_coordinate": (
+                    "src/edgelab/runtime_v2_image.py:inspect_runtime_image_host"
+                ),
+                "input_binding": (
+                    "VALID_CARDINALITY_EXACT_BLOB_RECORD_CAPTURED_BYTES_FIELD"
+                ),
+                "enforcement_order": (
+                    "CARDINALITY_RECORD_AND_FIELD_TYPE_GUARDS_BEFORE_SIZE_GUARD"
+                ),
+                "rejection_action": (
+                    "ADD_IMAGE_ITEM_BYTE_LIMIT_FINDING_AND_WITHHOLD_IMAGE"
+                ),
+            },
+            "semantic_subject": "SUPPLIED_BLOB_RECORD_CANONICAL_JSON_FIELD_BYTES",
+            "unit": "BYTES",
+        },
+        {
+            "accepted_equation": (
+                "len(raw_dependency_closure_bytes) <= maximum"
+            ),
+            "classification": "RESOURCE_MAXIMUM",
+            "constraint_id": "MAX_DEPENDENCY_CLOSURE_BYTES",
+            "definition_site_ids": [
+                "f0929588df702f47d6a2f6fe255d87b6bf4a0e083cbfdbb0cc0f699973edc2ab"
+            ],
+            "enforcement_site_ids": [
+                "344950b527bcecb073b777c4bbf743de50dd920bd4aa76dbbf58045ff9f00ab5"
+            ],
+            "evidence_inputs": [dict(item) for item in CLOSURE_RESOURCE_EVIDENCE],
+            "maximum": 1_048_576,
+            "semantic_function_ast_sha256": (
+                "9c9e9b785430028f44d93df883e0b7edd52b777546b8811b732fdf2b99bc0e30"
+            ),
+            "semantic_module_ast_sha256": (
+                "30502d160af1538889e36f2411835749381362cec5935936fcf4e4db90bf48c7"
+            ),
+            "semantic_proof": {
+                "function_coordinate": (
+                    "src/edgelab/runtime_v2_closure.py:"
+                    "validate_verifier_dependency_closure"
+                ),
+                "input_binding": "UNMODIFIED_EXACT_BYTES_FUNCTION_ARGUMENT",
+                "enforcement_order": "TYPE_GUARD_BEFORE_SIZE_GUARD_BEFORE_PARSE",
+                "rejection_action": "RAISE_BYTE_LIMIT",
+            },
+            "semantic_subject": "RAW_DEPENDENCY_CLOSURE_BYTES",
+            "unit": "BYTES",
+        },
+    ]
+    if constraints != expected_constraints:
         raise ReadinessError("RESOURCE_CLASSIFICATION_CONSTRAINT", manifest_path)
 
-    for evidence in RESOURCE_CLASSIFICATION_EVIDENCE:
+    evidence_by_path = {item["path"]: item for item in RESOURCE_CLASSIFICATION_EVIDENCE}
+    if len(evidence_by_path) != len(RESOURCE_CLASSIFICATION_EVIDENCE):
+        raise ReadinessError("RESOURCE_CLASSIFICATION_EVIDENCE_DUPLICATE", "/")
+    for evidence in evidence_by_path.values():
         evidence_raw, evidence_identity = _audit_path(root, evidence["path"])
         if evidence_identity in identities:
             raise ReadinessError("HARDLINK_INPUT_ALIAS", evidence["path"])
@@ -1154,68 +1258,100 @@ def _resource_classification_inventory(
     }
     if len(sites) != len(resource_discovery["source_bound_sites"]):
         raise ReadinessError("RESOURCE_SITE_ID_DUPLICATE", "/")
-    if set(expected_constraint["definition_site_ids"] + expected_constraint[
-        "enforcement_site_ids"
-    ]) != CLASSIFIED_RESOURCE_SITE_IDS:
+    classified_site_ids = {
+        site_id
+        for constraint in expected_constraints
+        for field in ("definition_site_ids", "enforcement_site_ids")
+        for site_id in constraint[field]
+    }
+    if classified_site_ids != CLASSIFIED_RESOURCE_SITE_IDS:
         raise ReadinessError("RESOURCE_CLASSIFICATION_SITE_SET", manifest_path)
-    definition = sites.get(expected_constraint["definition_site_ids"][0])
-    enforcement = sites.get(expected_constraint["enforcement_site_ids"][0])
-    if definition is None or enforcement is None:
-        raise ReadinessError("RESOURCE_CLASSIFICATION_SITE_MISSING", manifest_path)
-    for record, expected in (
-        (definition, {
+    site_shapes = {
+        "a1c0d45cbce3ceffdaeb036a93474801b525220e1d16ab5505dba14115313caa": {
+            "ast_sha256": "62849f3abfb53a58b818ddb723fe42e71b29a0c828a6131fa3a9e59ecded2665",
+            "expression": "MAX_BLOB_BYTES = 16777216",
+            "kind": "MODULE_NUMERIC_ASSIGNMENT", "occurrence": 1,
+            "path": "src/edgelab/runtime_v2_image.py", "qualname": "<module>",
+        },
+        "1ef42fea7eca273c2040d72810435052d0241a4e9a4d7ba63598548d95d5249c": {
+            "ast_sha256": "077ef96d0da69583a93af4ba54fa4d12823c51a69df9d03334b98a80420adab6",
+            "expression": "len(body) > MAX_BLOB_BYTES",
+            "kind": "BOUND_COMPARISON", "occurrence": 1,
+            "path": "src/edgelab/runtime_v2_image.py",
+            "qualname": "<module>.inspect_runtime_image_host",
+        },
+        "f0929588df702f47d6a2f6fe255d87b6bf4a0e083cbfdbb0cc0f699973edc2ab": {
             "ast_sha256": "acc40cd702b61b819d926d1541c5e0b7cf45ac859e6b3aab7c78f4a8a8b82ec3",
             "expression": "MAX_DEPENDENCY_CLOSURE_BYTES = 1048576",
             "kind": "MODULE_NUMERIC_ASSIGNMENT", "occurrence": 1,
             "path": "src/edgelab/runtime_v2_closure.py", "qualname": "<module>",
-        }),
-        (enforcement, {
+        },
+        "344950b527bcecb073b777c4bbf743de50dd920bd4aa76dbbf58045ff9f00ab5": {
             "ast_sha256": "c9eac5f8c0d8b650b2862eedc45da5591c5f8c5923591c302ce4d2d89c6f2c3a",
             "expression": "len(raw) > MAX_DEPENDENCY_CLOSURE_BYTES",
             "kind": "BOUND_COMPARISON", "occurrence": 1,
             "path": "src/edgelab/runtime_v2_closure.py",
             "qualname": "<module>.validate_verifier_dependency_closure",
-        }),
-    ):
+        },
+    }
+    for site_id, expected in site_shapes.items():
+        record = sites.get(site_id)
+        if record is None:
+            raise ReadinessError("RESOURCE_CLASSIFICATION_SITE_MISSING", site_id)
         if any(record.get(key) != value for key, value in expected.items()):
-            raise ReadinessError("RESOURCE_CLASSIFICATION_SITE_SHAPE", record["site_id"])
+            raise ReadinessError("RESOURCE_CLASSIFICATION_SITE_SHAPE", site_id)
 
-    closure_path = "src/edgelab/runtime_v2_closure.py"
-    try:
-        closure_tree = ast.parse(source_bytes[closure_path], filename=closure_path)
-    except (KeyError, SyntaxError, ValueError) as error:
-        raise ReadinessError("RESOURCE_CLASSIFICATION_SOURCE", closure_path) from error
-    stores = [
-        node for node in ast.walk(closure_tree)
-        if isinstance(node, ast.Name)
-        and node.id == "MAX_DEPENDENCY_CLOSURE_BYTES"
-        and isinstance(node.ctx, ast.Store)
-    ]
-    loads = [
-        node for node in ast.walk(closure_tree)
-        if isinstance(node, ast.Name)
-        and node.id == "MAX_DEPENDENCY_CLOSURE_BYTES"
-        and isinstance(node.ctx, ast.Load)
-    ]
-    if len(stores) != 1 or len(loads) != 1:
-        raise ReadinessError("RESOURCE_CLASSIFICATION_NAME_CARDINALITY", closure_path)
-    functions = [
-        node for node in ast.walk(closure_tree)
-        if isinstance(node, ast.FunctionDef)
-        and node.name == "validate_verifier_dependency_closure"
-    ]
-    if len(functions) != 1:
-        raise ReadinessError("RESOURCE_CLASSIFICATION_FUNCTION", closure_path)
-    function_dump = ast.dump(
-        functions[0], annotate_fields=True, include_attributes=False
-    ).encode("utf-8")
-    if _sha256(function_dump) != RESOURCE_CLASSIFICATION_FUNCTION_AST_SHA256:
-        raise ReadinessError("RESOURCE_CLASSIFICATION_FUNCTION_SHAPE", closure_path)
-    module_dump = ast.dump(
-        closure_tree, annotate_fields=True, include_attributes=False
-    ).encode("utf-8")
-    if _sha256(module_dump) != RESOURCE_CLASSIFICATION_MODULE_AST_SHA256:
-        raise ReadinessError("RESOURCE_CLASSIFICATION_MODULE_SHAPE", closure_path)
+    ast_profiles = (
+        (
+            "src/edgelab/runtime_v2_closure.py",
+            "MAX_DEPENDENCY_CLOSURE_BYTES",
+            "validate_verifier_dependency_closure",
+            "9c9e9b785430028f44d93df883e0b7edd52b777546b8811b732fdf2b99bc0e30",
+            "30502d160af1538889e36f2411835749381362cec5935936fcf4e4db90bf48c7",
+        ),
+        (
+            "src/edgelab/runtime_v2_image.py",
+            "MAX_BLOB_BYTES",
+            "inspect_runtime_image_host",
+            "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f",
+            "89d50071bdb9b49f32c631fb6f9ffece243d8a7b97280c3065ca85eea4df9857",
+        ),
+    )
+    for path, constant_name, function_name, function_sha256, module_sha256 in ast_profiles:
+        try:
+            tree = ast.parse(source_bytes[path], filename=path)
+        except (KeyError, SyntaxError, ValueError) as error:
+            raise ReadinessError("RESOURCE_CLASSIFICATION_SOURCE", path) from error
+        stores = [
+            node for node in ast.walk(tree)
+            if isinstance(node, ast.Name)
+            and node.id == constant_name
+            and isinstance(node.ctx, ast.Store)
+        ]
+        loads = [
+            node for node in ast.walk(tree)
+            if isinstance(node, ast.Name)
+            and node.id == constant_name
+            and isinstance(node.ctx, ast.Load)
+        ]
+        if len(stores) != 1 or len(loads) != 1:
+            raise ReadinessError("RESOURCE_CLASSIFICATION_NAME_CARDINALITY", path)
+        functions = [
+            node for node in ast.walk(tree)
+            if isinstance(node, ast.FunctionDef) and node.name == function_name
+        ]
+        if len(functions) != 1:
+            raise ReadinessError("RESOURCE_CLASSIFICATION_FUNCTION", path)
+        function_dump = ast.dump(
+            functions[0], annotate_fields=True, include_attributes=False
+        ).encode("utf-8")
+        if _sha256(function_dump) != function_sha256:
+            raise ReadinessError("RESOURCE_CLASSIFICATION_FUNCTION_SHAPE", path)
+        module_dump = ast.dump(
+            tree, annotate_fields=True, include_attributes=False
+        ).encode("utf-8")
+        if _sha256(module_dump) != module_sha256:
+            raise ReadinessError("RESOURCE_CLASSIFICATION_MODULE_SHAPE", path)
 
     digest_value = dict(manifest)
     claimed_digest = digest_value.pop("classification_manifest_sha256")
@@ -1225,12 +1361,12 @@ def _resource_classification_inventory(
         raise ReadinessError("RESOURCE_CLASSIFICATION_SELF_DIGEST", manifest_path)
 
     return {
-        "classified_constraint_count": 1,
-        "classified_site_count": 2,
+        "classified_constraint_count": 2,
+        "classified_site_count": 4,
         "classification_manifest_sha256": claimed_digest,
         "coverage_status": "INCOMPLETE",
         "evidence_inputs": [
-            dict(item) for item in RESOURCE_CLASSIFICATION_EVIDENCE
+            dict(item) for item in evidence_by_path.values()
         ],
         "generation_disposition": "DENY",
         "manifest": {
@@ -1239,6 +1375,12 @@ def _resource_classification_inventory(
             "raw_sha256": _sha256(manifest_raw),
         },
         "profile_id": profile_id,
+        "predecessor_manifest": dict(
+            RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST
+        ),
+        "predecessor_schema": dict(
+            RESOURCE_CLASSIFICATION_PREDECESSOR_SCHEMA
+        ),
         "schema": {
             "byte_length": len(schema_raw),
             "path": schema_path,
@@ -1340,9 +1482,9 @@ def build_report(root: Path = ROOT) -> dict[str, Any]:
         "code": "RESOURCE_INVENTORY_INCOMPLETE",
         "evidence": (
             "The discovery census contains "
-            f"{len(source_bound_sites) + len(schema_bound_sites) - 2} "
-            "unclassified sites after one classified resource maximum bound "
-            "two source sites; "
+            f"{len(source_bound_sites) + len(schema_bound_sites) - 4} "
+            "unclassified sites after two classified resource maxima bound "
+            "four source sites; "
             f"{len(source_bound_sites)} source-bound sites and "
             f"{len(schema_bound_sites)} unclassified schema-bound sites; no "
             "reviewed bidirectional manifest yet classifies every constraint."

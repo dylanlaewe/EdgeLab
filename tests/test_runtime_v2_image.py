@@ -191,10 +191,28 @@ class RuntimeV2ImageTests(unittest.TestCase):
         report = inspect_runtime_image_host(replace(base, events=(b"x" * (MAX_EVENT_BYTES + 1),)))
         self.assertIn("IMAGE_ITEM_BYTE_LIMIT", self.codes(report))
 
-        report = inspect_runtime_image_host(self.image(blobs=(BlobRecord("", "", b"x" * MAX_BLOB_BYTES),)))
-        self.assertNotIn("IMAGE_ITEM_BYTE_LIMIT", self.codes(report))
-        report = inspect_runtime_image_host(self.image(blobs=(BlobRecord("", "", b"x" * (MAX_BLOB_BYTES + 1)),)))
-        self.assertIn("IMAGE_ITEM_BYTE_LIMIT", self.codes(report))
+        for size in (MAX_BLOB_BYTES - 1, MAX_BLOB_BYTES):
+            with self.subTest(blob_size=size):
+                body = b"x" * size
+                report = inspect_runtime_image_host(
+                    self.image(blobs=(BlobRecord("", "", body),))
+                )
+                self.assertEqual(report.violations, ())
+                self.assertIsNotNone(report.image)
+                self.assertEqual(report.image.blobs[0].canonical_json, body)
+                self.assertEqual(report.authorizing_use, "DENY")
+        report = inspect_runtime_image_host(
+            self.image(blobs=(BlobRecord("", "", b"x" * (MAX_BLOB_BYTES + 1)),))
+        )
+        self.assertEqual(
+            report.violations,
+            (image_module.ImageViolation(
+                "IMAGE_ITEM_BYTE_LIMIT", "blobs", "/0/canonical_json"
+            ),),
+        )
+        self.assertIsNone(report.image)
+        self.assertNotIn("TOTAL_ACCOUNTED_INPUT_LIMIT", self.codes(report))
+        self.assertEqual(report.authorizing_use, "DENY")
 
     def test_table_inventory_types_width_cells_and_int64(self):
         base = self.image()

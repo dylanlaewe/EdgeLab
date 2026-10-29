@@ -12,13 +12,17 @@ import unittest
 
 from tools.check_runtime_v2_release_readiness import (
     BOOTSTRAP_SCHEMAS,
+    BLOB_RESOURCE_EVIDENCE,
     CLOSURE_SCHEMA,
     CONTENT_ASSETS,
     PIN_BEGIN_MARKER,
     PIN_END_MARKER,
     PIN_REPLACEMENT,
     RESOURCE_CLASSIFICATION_DOMAIN,
+    RESOURCE_CLASSIFICATION_EVIDENCE,
     RESOURCE_CLASSIFICATION_MANIFEST,
+    RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
+    RESOURCE_CLASSIFICATION_PREDECESSOR_SCHEMA,
     RESOURCE_CLASSIFICATION_SCHEMA,
     RESOURCE_SOURCE_INPUT_DOMAIN,
     RETAINED_SCHEMAS,
@@ -45,8 +49,9 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         } | {path for _, _, path in CONTENT_ASSETS} | {
             CLOSURE_SCHEMA[1], RESOURCE_CLASSIFICATION_SCHEMA[1],
             RESOURCE_CLASSIFICATION_MANIFEST[1],
-            "docs/M0.3A_DEPENDENCY_CLOSURE_SHAPE.v1.md",
-            "tests/test_runtime_v2_closure.py",
+            RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST["path"],
+            RESOURCE_CLASSIFICATION_PREDECESSOR_SCHEMA["path"],
+            *(item["path"] for item in RESOURCE_CLASSIFICATION_EVIDENCE),
         }
         for relative in paths:
             source = ROOT / relative
@@ -69,6 +74,39 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             ).encode("ascii")
         ).hexdigest()
         path.write_text(json.dumps(manifest), encoding="ascii")
+
+    def refresh_source_bindings(self, root: Path) -> None:
+        source, _, source_bytes = _source_inventory(root)
+        source_sites = _source_bound_inventory(source_bytes)
+        source_identity = [
+            {key: value for key, value in item.items() if key != "line"}
+            for item in source_sites
+        ]
+        source_inputs = [
+            {
+                "byte_length": item["byte_length"],
+                "module": item["module"],
+                "path": item["path"],
+                "raw_sha256": item["raw_sha256"],
+            }
+            for item in source["local_artifacts"]
+        ]
+
+        def refresh(manifest):
+            manifest["source_input_count"] = len(source_inputs)
+            manifest["source_inputs_sha256"] = _domain_digest(
+                RESOURCE_SOURCE_INPUT_DOMAIN, source_inputs
+            )
+            manifest["source_bound_site_count"] = len(source_sites)
+            manifest["source_bound_sites_sha256"] = _domain_digest(
+                "EDGELAB\0RUNTIME_V2_SOURCE_BOUND_SITES\0V1\0",
+                source_identity,
+            )
+            manifest["unclassified_site_count"] = (
+                len(source_sites) + manifest["schema_bound_site_count"] - 4
+            )
+
+        self.rewrite_manifest(root, refresh)
 
     def test_current_inventory_is_deterministic_blocked_and_deny_only(self):
         first = build_report(ROOT)
@@ -129,9 +167,9 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(len(discovery["schema_inputs"]), 15)
         self.assertEqual(len(discovery["source_inputs"]), 10)
         classification = inventory["resource_inventory_classification"]
-        self.assertEqual(classification["classified_constraint_count"], 1)
-        self.assertEqual(classification["classified_site_count"], 2)
-        self.assertEqual(classification["unclassified_site_count"], 688)
+        self.assertEqual(classification["classified_constraint_count"], 2)
+        self.assertEqual(classification["classified_site_count"], 4)
+        self.assertEqual(classification["unclassified_site_count"], 686)
         self.assertEqual(classification["coverage_status"], "INCOMPLETE")
         self.assertEqual(classification["generation_disposition"], "DENY")
         expected_schema_paths = {
@@ -425,8 +463,12 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(claimed, expected)
         self.assertEqual(manifest["coverage_status"], "INCOMPLETE")
         self.assertEqual(manifest["generation_disposition"], "DENY")
-        self.assertEqual(manifest["classified_site_count"], 2)
-        self.assertEqual(manifest["unclassified_site_count"], 688)
+        self.assertEqual(manifest["classified_site_count"], 4)
+        self.assertEqual(manifest["unclassified_site_count"], 686)
+        self.assertEqual(
+            [item["constraint_id"] for item in manifest["constraints"]],
+            ["MAX_BLOB_BYTES", "MAX_DEPENDENCY_CLOSURE_BYTES"],
+        )
 
     def test_partial_classification_rejects_hostile_manifest_mutations(self):
         mutations = (
@@ -452,7 +494,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         root = self.copy_inputs()
         path = root / RESOURCE_CLASSIFICATION_MANIFEST[1]
         raw = path.read_bytes().replace(
-            b'"schema_version": 1', b'"schema_version": 1, "schema_version": 1'
+            b'"schema_version": 2', b'"schema_version": 2, "schema_version": 2'
         )
         path.write_bytes(raw)
         with self.assertRaises(ReadinessError) as caught:
@@ -472,12 +514,31 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         self.rewrite_manifest(
             root,
             lambda manifest: manifest["constraints"][0].__setitem__(
-                "maximum", 1_048_575
+                "maximum", 16_777_215
             ),
         )
         with self.assertRaises(ReadinessError) as caught:
             build_report(root)
         self.assertEqual(caught.exception.code, "RESOURCE_CLASSIFICATION_CONSTRAINT")
+
+        for mutation in ("reordered", "duplicated"):
+            with self.subTest(constraints=mutation):
+                root = self.copy_inputs()
+
+                def alter(manifest):
+                    constraints = manifest["constraints"]
+                    manifest["constraints"] = (
+                        list(reversed(constraints))
+                        if mutation == "reordered"
+                        else [constraints[0], constraints[0]]
+                    )
+
+                self.rewrite_manifest(root, alter)
+                with self.assertRaises(ReadinessError) as caught:
+                    build_report(root)
+                self.assertEqual(
+                    caught.exception.code, "RESOURCE_CLASSIFICATION_CONSTRAINT"
+                )
 
     def test_partial_classification_binds_schema_and_evidence_bytes(self):
         root = self.copy_inputs()
@@ -492,10 +553,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             caught.exception.code, "RESOURCE_CLASSIFICATION_SCHEMA_IDENTITY"
         )
 
-        for evidence_path in (
-            "docs/M0.3A_DEPENDENCY_CLOSURE_SHAPE.v1.md",
-            "tests/test_runtime_v2_closure.py",
-        ):
+        for evidence_path in (item["path"] for item in RESOURCE_CLASSIFICATION_EVIDENCE):
             with self.subTest(evidence=evidence_path):
                 root = self.copy_inputs()
                 evidence = root / evidence_path
@@ -522,6 +580,30 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         with self.assertRaises(ReadinessError) as caught:
             build_report(root)
         self.assertEqual(caught.exception.code, "SYMLINK_INPUT")
+
+        for predecessor in (
+            RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
+            RESOURCE_CLASSIFICATION_PREDECESSOR_SCHEMA,
+        ):
+            with self.subTest(predecessor=predecessor["path"]):
+                root = self.copy_inputs()
+                path = root / predecessor["path"]
+                path.write_bytes(path.read_bytes() + b"\n")
+                with self.assertRaises(ReadinessError) as caught:
+                    build_report(root)
+                self.assertEqual(
+                    caught.exception.code,
+                    "RESOURCE_CLASSIFICATION_PREDECESSOR_IDENTITY",
+                )
+
+        root = self.copy_inputs()
+        first = root / BLOB_RESOURCE_EVIDENCE[0]["path"]
+        second = root / BLOB_RESOURCE_EVIDENCE[1]["path"]
+        second.unlink()
+        second.hardlink_to(first)
+        with self.assertRaises(ReadinessError) as caught:
+            build_report(root)
+        self.assertEqual(caught.exception.code, "HARDLINK_INPUT_ALIAS")
 
     def test_partial_classification_binds_full_enforcement_function_context(self):
         for old, new in (
@@ -620,41 +702,100 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         source_path.write_bytes(
             source_path.read_bytes() + b"\nif len(()) > 777:\n    pass\n"
         )
-        source, _, source_bytes = _source_inventory(root)
-        source_sites = _source_bound_inventory(source_bytes)
-        source_identity = [
-            {key: value for key, value in item.items() if key != "line"}
-            for item in source_sites
-        ]
-        source_inputs = [
-            {
-                "byte_length": item["byte_length"],
-                "module": item["module"],
-                "path": item["path"],
-                "raw_sha256": item["raw_sha256"],
-            }
-            for item in source["local_artifacts"]
-        ]
-
-        def refresh(manifest):
-            manifest["source_input_count"] = len(source_inputs)
-            manifest["source_inputs_sha256"] = _domain_digest(
-                RESOURCE_SOURCE_INPUT_DOMAIN, source_inputs
-            )
-            manifest["source_bound_site_count"] = len(source_sites)
-            manifest["source_bound_sites_sha256"] = _domain_digest(
-                "EDGELAB\0RUNTIME_V2_SOURCE_BOUND_SITES\0V1\0",
-                source_identity,
-            )
-            manifest["unclassified_site_count"] = (
-                len(source_sites) + manifest["schema_bound_site_count"] - 2
-            )
-
-        self.rewrite_manifest(root, refresh)
+        self.refresh_source_bindings(root)
         with self.assertRaises(ReadinessError) as caught:
             build_report(root)
         self.assertEqual(caught.exception.code, "RESOURCE_CLASSIFICATION_BINDING")
         self.assertEqual(caught.exception.coordinate, "source_bound_site_count")
+
+    def test_blob_classification_binds_site_function_and_module_semantics(self):
+        attacks = (
+            (
+                b"if len(body) > MAX_BLOB_BYTES:",
+                b"if len(body) >= MAX_BLOB_BYTES:",
+                "RESOURCE_CLASSIFICATION_SITE_MISSING",
+            ),
+            (
+                b'findings.add("IMAGE_ITEM_BYTE_LIMIT", "blobs", ',
+                b'findings.add("WRONG_LIMIT", "blobs", ',
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+            ),
+            (
+                b"\n__all__ = (",
+                b"\nlen = lambda value: False\n\n__all__ = (",
+                "RESOURCE_CLASSIFICATION_MODULE_SHAPE",
+            ),
+            (
+                b"if len(body) > MAX_BLOB_BYTES:",
+                b"if False and len(body) > MAX_BLOB_BYTES:",
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+            ),
+            (
+                b"        finding = ImageViolation(code, artifact, coordinate)\n",
+                b"        return\n        finding = ImageViolation(code, artifact, coordinate)\n",
+                "RESOURCE_CLASSIFICATION_MODULE_SHAPE",
+            ),
+            (
+                b"        items = list(self._items)\n",
+                b"        return ()\n        items = list(self._items)\n",
+                "RESOURCE_CLASSIFICATION_MODULE_SHAPE",
+            ),
+            (
+                b"    if not violations:\n",
+                b"    if True:\n",
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+            ),
+            (
+                b'            body = record_values["canonical_json"]\n'
+                b'            if type(body) is not bytes:\n'
+                b'                findings.add("IMAGE_RECORD_FIELD_TYPE", "blobs",',
+                b'            body = record_values["canonical_json"]\n'
+                b'            body = body[:True]\n'
+                b'            if type(body) is not bytes:\n'
+                b'                findings.add("IMAGE_RECORD_FIELD_TYPE", "blobs",',
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+            ),
+            (
+                b'    authorizing_use: str = field(default="DENY", init=False)\n',
+                b'    authorizing_use: str = field(default="ALLOW", init=False)\n',
+                "RESOURCE_CLASSIFICATION_MODULE_SHAPE",
+            ),
+        )
+        for old, new, expected_code in attacks:
+            with self.subTest(attack=old[:32]):
+                root = self.copy_inputs()
+                source = root / "src/edgelab/runtime_v2_image.py"
+                mutated = source.read_bytes().replace(old, new, 1)
+                self.assertNotEqual(mutated, source.read_bytes())
+                source.write_bytes(mutated)
+                self.refresh_source_bindings(root)
+                with self.assertRaises(ReadinessError) as caught:
+                    build_report(root)
+                self.assertEqual(caught.exception.code, expected_code)
+
+    def test_v2_classification_binds_predecessor_link_records(self):
+        attacks = (
+            ("predecessor_manifest", "raw_sha256", "0" * 64),
+            ("predecessor_manifest", "classification_manifest_sha256", "1" * 64),
+            (
+                "predecessor_schema",
+                "path",
+                "schemas/m0-3a-runtime-v2-resource-classification.v0.schema.json",
+            ),
+        )
+        for record, field, hostile_value in attacks:
+            with self.subTest(record=record, field=field):
+                root = self.copy_inputs()
+
+                def alter(manifest):
+                    manifest[record][field] = hostile_value
+
+                self.rewrite_manifest(root, alter)
+                with self.assertRaises(ReadinessError) as caught:
+                    build_report(root)
+                self.assertEqual(
+                    caught.exception.code, "RESOURCE_CLASSIFICATION_BINDING"
+                )
 
     def test_checker_source_has_no_write_network_git_or_package_metadata_path(self):
         path = ROOT / "tools" / "check_runtime_v2_release_readiness.py"
