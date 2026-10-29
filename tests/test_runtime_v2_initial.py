@@ -733,32 +733,116 @@ def _task_table_row(state):
     ))
 
 
-def _worker_fixture(image, values, operation):
+def _worker_fixture(image, values, fixture_operation):
     profile = {
         "START": {
+            "operation": "START",
+            "prefix": "start",
+            "before_state": "claim_after_state",
             "semantic_id": "123e4567-e89b-42d3-a456-426614174010",
             "commit_id": "123e4567-e89b-42d3-a456-426614174011",
             "transaction_id": "123e4567-e89b-42d3-a456-426614174012",
             "event_type": "TASK_STARTED",
         },
         "YIELD": {
+            "operation": "YIELD",
+            "prefix": "yield",
+            "before_state": "start_after_state",
             "semantic_id": "123e4567-e89b-42d3-a456-426614174013",
             "commit_id": "123e4567-e89b-42d3-a456-426614174014",
             "transaction_id": "123e4567-e89b-42d3-a456-426614174015",
             "event_type": "TASK_YIELDED",
         },
         "CONTINUE": {
+            "operation": "CONTINUE",
+            "prefix": "continue",
+            "before_state": "start_after_state",
             "semantic_id": "123e4567-e89b-42d3-a456-426614174016",
             "commit_id": "123e4567-e89b-42d3-a456-426614174017",
             "transaction_id": "123e4567-e89b-42d3-a456-426614174018",
             "event_type": "TASK_CONTINUED",
         },
-    }[operation]
-    prefix = operation.lower()
-    if operation == "START":
-        before_state = values["claim_after_state"]
-    else:
-        before_state = values["start_after_state"]
+        "CLAIM_FAIL": {
+            "operation": "FAIL",
+            "prefix": "claim_fail",
+            "before_state": "claim_after_state",
+            "semantic_id": "123e4567-e89b-42d3-a456-426614174019",
+            "commit_id": "123e4567-e89b-42d3-a456-426614174020",
+            "transaction_id": "123e4567-e89b-42d3-a456-426614174021",
+            "event_type": "TASK_FAILED",
+        },
+        "FAIL": {
+            "operation": "FAIL",
+            "prefix": "fail",
+            "before_state": "start_after_state",
+            "semantic_id": "123e4567-e89b-42d3-a456-426614174022",
+            "commit_id": "123e4567-e89b-42d3-a456-426614174023",
+            "transaction_id": "123e4567-e89b-42d3-a456-426614174024",
+            "event_type": "TASK_FAILED",
+        },
+        "COMPLETE_REVIEW": {
+            "operation": "COMPLETE",
+            "prefix": "complete_review",
+            "before_state": "start_after_state",
+            "close": False,
+            "semantic_id": "123e4567-e89b-42d3-a456-426614174025",
+            "commit_id": "123e4567-e89b-42d3-a456-426614174026",
+            "transaction_id": "123e4567-e89b-42d3-a456-426614174027",
+            "event_type": "TASK_COMPLETED",
+        },
+        "COMPLETE_CLOSE": {
+            "operation": "COMPLETE",
+            "prefix": "complete_close",
+            "before_state": "start_after_state",
+            "close": True,
+            "semantic_id": "123e4567-e89b-42d3-a456-426614174028",
+            "commit_id": "123e4567-e89b-42d3-a456-426614174029",
+            "transaction_id": "123e4567-e89b-42d3-a456-426614174030",
+            "event_type": "TASK_COMPLETED",
+        },
+        "CONTINUE_FAIL": {
+            "operation": "FAIL",
+            "prefix": "continue_fail",
+            "before_state": "continue_after_state",
+            "semantic_id": "123e4567-e89b-42d3-a456-426614174031",
+            "commit_id": "123e4567-e89b-42d3-a456-426614174032",
+            "transaction_id": "123e4567-e89b-42d3-a456-426614174033",
+            "event_type": "TASK_FAILED",
+        },
+        "CONTINUE_COMPLETE_REVIEW": {
+            "operation": "COMPLETE",
+            "prefix": "continue_complete_review",
+            "before_state": "continue_after_state",
+            "close": False,
+            "semantic_id": "123e4567-e89b-42d3-a456-426614174034",
+            "commit_id": "123e4567-e89b-42d3-a456-426614174035",
+            "transaction_id": "123e4567-e89b-42d3-a456-426614174036",
+            "event_type": "TASK_COMPLETED",
+        },
+        "CLAIM_COMPLETE_REVIEW": {
+            "operation": "COMPLETE",
+            "prefix": "claim_complete_review",
+            "before_state": "claim_after_state",
+            "close": False,
+            "semantic_id": "123e4567-e89b-42d3-a456-426614174037",
+            "commit_id": "123e4567-e89b-42d3-a456-426614174038",
+            "transaction_id": "123e4567-e89b-42d3-a456-426614174039",
+            "event_type": "TASK_COMPLETED",
+        },
+        "CONTINUE_COMPLETE_CLOSE": {
+            "operation": "COMPLETE",
+            "prefix": "continue_complete_close",
+            "before_state": "continue_after_state",
+            "close": True,
+            "semantic_id": "123e4567-e89b-42d3-a456-426614174040",
+            "commit_id": "123e4567-e89b-42d3-a456-426614174041",
+            "transaction_id": "123e4567-e89b-42d3-a456-426614174042",
+            "event_type": "TASK_COMPLETED",
+        },
+    }[fixture_operation]
+    operation = profile["operation"]
+    prefix = profile["prefix"]
+    before_state = values[profile["before_state"]]
     after_state = json.loads(json.dumps(before_state))
     after_state["scheduler_generation"] += 1
     claim_id = before_state["active_claim_id"]
@@ -772,7 +856,7 @@ def _worker_fixture(image, values, operation):
             "fence": before_state["task_fence"],
             "progress_evidence_sha256": "7" * 64,
         }
-    else:
+    elif operation == "YIELD":
         after_state.update({
             "execution": "CLAIMABLE",
             "dispatch_generation": before_state["dispatch_generation"] + 1,
@@ -783,6 +867,35 @@ def _worker_fixture(image, values, operation):
             "claim_id": claim_id,
             "fence": before_state["task_fence"],
             "yield_evidence_sha256": "6" * 64,
+        }
+    elif operation == "FAIL":
+        after_state.update({
+            "execution": "FAILED",
+            "dispatch_generation": before_state["dispatch_generation"] + 1,
+            "task_fence": before_state["task_fence"] + 1,
+            "active_claim_id": None,
+        })
+        arguments = {
+            "claim_id": claim_id,
+            "fence": before_state["task_fence"],
+            "failure_code": "WORKER_ERROR",
+            "failure_evidence_sha256": "5" * 64,
+        }
+    else:
+        close = profile["close"]
+        after_state.update({
+            "workflow": "CLOSED" if close else "ACTIVE",
+            "execution": "EXECUTION_COMPLETED",
+            "review": "NOT_REQUIRED" if close else "REVIEW_PENDING",
+            "dispatch_generation": before_state["dispatch_generation"] + 1,
+            "task_fence": before_state["task_fence"] + 1,
+            "active_claim_id": None,
+        })
+        arguments = {
+            "claim_id": claim_id,
+            "fence": before_state["task_fence"],
+            "close": close,
+            "completion_evidence_sha256": "4" * 64,
         }
     task_id = before_state["task_id"]
     before_sha = blob_digest(before_state)
@@ -980,9 +1093,14 @@ def _worker_fixture(image, values, operation):
     attempt = list(rows["attempts"][0])
     attempt[4:] = [task_sequence, semantic["event_id"], semantic["event_sha256"]]
     rows["attempts"] = (tuple(attempt),)
-    if operation == "YIELD":
+    claim_status = {
+        "YIELD": "YIELDED",
+        "FAIL": "FAILED",
+        "COMPLETE": "COMPLETED",
+    }.get(operation)
+    if claim_status is not None:
         claim = list(rows["claims"][0])
-        claim[4] = "YIELDED"
+        claim[4] = claim_status
         claim[7] = semantic["event_id"]
         rows["claims"] = (tuple(claim),)
     idempotency = (
@@ -1028,6 +1146,130 @@ def yield_fixture():
 def continue_fixture():
     image, values = start_fixture()
     return _worker_fixture(image, values, "CONTINUE")
+
+
+def claim_fail_fixture():
+    image, values = claim_fixture()
+    return _worker_fixture(image, values, "CLAIM_FAIL")
+
+
+def fail_fixture():
+    image, values = start_fixture()
+    return _worker_fixture(image, values, "FAIL")
+
+
+def complete_review_fixture():
+    image, values = start_fixture()
+    return _worker_fixture(image, values, "COMPLETE_REVIEW")
+
+
+def complete_close_fixture():
+    image, values = start_fixture()
+    return _worker_fixture(image, values, "COMPLETE_CLOSE")
+
+
+def continue_fail_fixture():
+    image, values = continue_fixture()
+    return _worker_fixture(image, values, "CONTINUE_FAIL")
+
+
+def continue_complete_review_fixture():
+    image, values = continue_fixture()
+    return _worker_fixture(image, values, "CONTINUE_COMPLETE_REVIEW")
+
+
+def claim_complete_review_fixture():
+    image, values = claim_fixture()
+    return _worker_fixture(image, values, "CLAIM_COMPLETE_REVIEW")
+
+
+def continue_complete_close_fixture():
+    image, values = continue_fixture()
+    return _worker_fixture(image, values, "CONTINUE_COMPLETE_CLOSE")
+
+
+def _replace_worker_request(image, values, prefix, request):
+    request_sha = blob_digest(request)
+    semantic = json.loads(json.dumps(values[f"{prefix}_semantic"]))
+    semantic["transaction"]["request_sha256"] = request_sha
+    semantic["event_sha256"] = event_digest(semantic)
+    commit_payload = json.loads(json.dumps(values[f"{prefix}_commit_payload"]))
+    commit_payload["data"]["request_ref"]["sha256"] = request_sha
+    commit_payload["data"]["post_semantic_head"]["event_sha256"] = (
+        semantic["event_sha256"]
+    )
+    commit_payload_sha = blob_digest(commit_payload)
+    commit = json.loads(json.dumps(values[f"{prefix}_commit"]))
+    commit["transaction"]["request_sha256"] = request_sha
+    commit["global_predecessor"]["event_sha256"] = semantic["event_sha256"]
+    commit["payload_ref"]["sha256"] = commit_payload_sha
+    commit["event_sha256"] = event_digest(commit)
+    removed = {
+        blob_digest(values[f"{prefix}_request"]),
+        blob_digest(values[f"{prefix}_commit_payload"]),
+    }
+    blobs = tuple(
+        record for record in image.blobs if record.sha256 not in removed
+    ) + (
+        BlobRecord(request_sha, REQUEST_SCHEMA_ID, canonical_json(request)),
+        BlobRecord(
+            commit_payload_sha,
+            PAYLOAD_SCHEMA_ID,
+            canonical_json(commit_payload),
+        ),
+    )
+    return replace(
+        image,
+        blobs=tuple(sorted(blobs, key=lambda record: record.sha256)),
+        events=image.events[:-2] + (
+            canonical_json(semantic), canonical_json(commit),
+        ),
+    )
+
+
+def _replace_worker_after_state(image, values, prefix, state):
+    state_sha = blob_digest(state)
+    response = json.loads(json.dumps(values[f"{prefix}_response"]))
+    response["affected_states"][0]["state_ref"]["sha256"] = state_sha
+    response_sha = blob_digest(response)
+    semantic = json.loads(json.dumps(values[f"{prefix}_semantic"]))
+    semantic["state_after_ref"]["sha256"] = state_sha
+    semantic["transaction"]["response_sha256"] = response_sha
+    semantic["event_sha256"] = event_digest(semantic)
+    commit_payload = json.loads(json.dumps(values[f"{prefix}_commit_payload"]))
+    commit_payload["data"]["response_ref"]["sha256"] = response_sha
+    commit_payload["data"]["post_semantic_head"]["event_sha256"] = (
+        semantic["event_sha256"]
+    )
+    commit_payload_sha = blob_digest(commit_payload)
+    commit = json.loads(json.dumps(values[f"{prefix}_commit"]))
+    commit["transaction"]["response_sha256"] = response_sha
+    commit["global_predecessor"]["event_sha256"] = semantic["event_sha256"]
+    commit["payload_ref"]["sha256"] = commit_payload_sha
+    commit["event_sha256"] = event_digest(commit)
+    removed = {
+        blob_digest(values[f"{prefix}_response"]),
+        blob_digest(values[f"{prefix}_commit_payload"]),
+        blob_digest(values[f"{prefix}_after_state"]),
+    }
+    blobs = tuple(
+        record for record in image.blobs if record.sha256 not in removed
+    ) + (
+        BlobRecord(response_sha, RESPONSE_SCHEMA_ID, canonical_json(response)),
+        BlobRecord(
+            commit_payload_sha,
+            PAYLOAD_SCHEMA_ID,
+            canonical_json(commit_payload),
+        ),
+        BlobRecord(state_sha, TASK_STATE_SCHEMA_ID, canonical_json(state)),
+    )
+    return replace(
+        image,
+        blobs=tuple(sorted(blobs, key=lambda record: record.sha256)),
+        events=image.events[:-2] + (
+            canonical_json(semantic), canonical_json(commit),
+        ),
+    )
 
 
 class RuntimeV2InitialTests(unittest.TestCase):
@@ -1262,6 +1504,13 @@ class RuntimeV2InitialTests(unittest.TestCase):
             ("start", start_fixture),
             ("continue", continue_fixture),
             ("yield", yield_fixture),
+            ("claim_fail", claim_fail_fixture),
+            ("fail", fail_fixture),
+            ("complete_review", complete_review_fixture),
+            ("complete_close", complete_close_fixture),
+            ("continue_fail", continue_fail_fixture),
+            ("continue_complete_review", continue_complete_review_fixture),
+            ("continue_complete_close", continue_complete_close_fixture),
         ):
             with self.subTest(group=name):
                 image, _ = build()
@@ -1275,6 +1524,13 @@ class RuntimeV2InitialTests(unittest.TestCase):
             ("start", start_fixture),
             ("continue", continue_fixture),
             ("yield", yield_fixture),
+            ("claim_fail", claim_fail_fixture),
+            ("fail", fail_fixture),
+            ("complete_review", complete_review_fixture),
+            ("complete_close", complete_close_fixture),
+            ("continue_fail", continue_fail_fixture),
+            ("continue_complete_review", continue_complete_review_fixture),
+            ("continue_complete_close", continue_complete_close_fixture),
         ):
             image, values = build()
             for field, replacement_value, expected_code in (
@@ -1441,6 +1697,159 @@ class RuntimeV2InitialTests(unittest.TestCase):
         ))
         self.assertEqual(report.status, "INVALID")
         self.assertIn("TABLE_DERIVATION", self.codes(report))
+
+    def test_fail_and_complete_claim_closure_is_derived_not_trusted(self):
+        for name, build in (
+            ("claim_fail", claim_fail_fixture),
+            ("fail", fail_fixture),
+            ("complete_review", complete_review_fixture),
+            ("complete_close", complete_close_fixture),
+            ("continue_fail", continue_fail_fixture),
+            ("continue_complete_review", continue_complete_review_fixture),
+            ("continue_complete_close", continue_complete_close_fixture),
+        ):
+            image, _ = build()
+            snapshots = list(image.table_snapshots)
+            index = TABLE_NAMES.index("claims")
+            claim = list(snapshots[index].rows[0])
+            claim[4] = "OPEN"
+            claim[7] = None
+            snapshots[index] = TableSnapshot("claims", (tuple(claim),))
+            with self.subTest(group=name):
+                report = reduce_initial_runtime_image(replace(
+                    image, table_snapshots=tuple(snapshots),
+                ))
+                self.assertEqual(report.status, "INVALID")
+                self.assertIn("TABLE_DERIVATION", self.codes(report))
+
+    def test_terminal_worker_targets_and_claim_history_are_exact(self):
+        for name, build, expected_triple, expected_status, continuation_count in (
+            (
+                "claim_fail", claim_fail_fixture,
+                ("ACTIVE", "FAILED", "NOT_REQUIRED"), "FAILED", 0,
+            ),
+            (
+                "fail", fail_fixture,
+                ("ACTIVE", "FAILED", "NOT_REQUIRED"), "FAILED", 0,
+            ),
+            (
+                "complete_review", complete_review_fixture,
+                ("ACTIVE", "EXECUTION_COMPLETED", "REVIEW_PENDING"),
+                "COMPLETED", 0,
+            ),
+            (
+                "complete_close", complete_close_fixture,
+                ("CLOSED", "EXECUTION_COMPLETED", "NOT_REQUIRED"),
+                "COMPLETED", 0,
+            ),
+            (
+                "continue_fail", continue_fail_fixture,
+                ("ACTIVE", "FAILED", "NOT_REQUIRED"), "FAILED", 1,
+            ),
+            (
+                "continue_complete_review", continue_complete_review_fixture,
+                ("ACTIVE", "EXECUTION_COMPLETED", "REVIEW_PENDING"),
+                "COMPLETED", 1,
+            ),
+            (
+                "continue_complete_close", continue_complete_close_fixture,
+                ("CLOSED", "EXECUTION_COMPLETED", "NOT_REQUIRED"),
+                "COMPLETED", 1,
+            ),
+        ):
+            image, values = build()
+            state = values[f"{name}_after_state"]
+            claim_row = image.table_snapshots[TABLE_NAMES.index("claims")].rows[0]
+            with self.subTest(group=name):
+                self.assertEqual(
+                    (state["workflow"], state["execution"], state["review"]),
+                    expected_triple,
+                )
+                self.assertEqual(state["continuation_count"], continuation_count)
+                self.assertIsNone(state["active_claim_id"])
+                self.assertEqual(claim_row[4], expected_status)
+                self.assertEqual(
+                    claim_row[7], values[f"{name}_semantic"]["event_id"]
+                )
+
+    def test_terminal_event_and_request_operation_cannot_be_swapped(self):
+        image, values = fail_fixture()
+        request = json.loads(json.dumps(values["fail_request"]))
+        request["operation"] = "COMPLETE"
+        report = reduce_initial_runtime_image(_replace_worker_request(
+            image, values, "fail", request,
+        ))
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("GROUP_CONST", self.codes(report))
+
+    def test_complete_boolean_and_source_state_fail_closed(self):
+        image, values = complete_review_fixture()
+        for replacement_value in (0, 1, "false", None):
+            request = json.loads(json.dumps(values["complete_review_request"]))
+            request["arguments"]["close"] = replacement_value
+            with self.subTest(close=replacement_value):
+                report = reduce_initial_runtime_image(_replace_worker_request(
+                    image, values, "complete_review", request,
+                ))
+                self.assertEqual(report.status, "INVALID")
+                self.assertIn("TRANSITION_CLOSE_TYPE", self.codes(report))
+
+        image, _ = claim_complete_review_fixture()
+        report = reduce_initial_runtime_image(image)
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("TRANSITION_SOURCE_STATE", self.codes(report))
+
+    def test_terminal_worker_arguments_fail_closed(self):
+        image, values = fail_fixture()
+        for field, replacement_value, expected_code in (
+            ("failure_code", "worker_error", "TRANSITION_TEXT"),
+            ("failure_code", "A" * 65, "TRANSITION_TEXT"),
+            ("failure_evidence_sha256", "x" * 64, "TRANSITION_TEXT"),
+            ("fence", True, "TRANSITION_INTEGER"),
+        ):
+            request = json.loads(json.dumps(values["fail_request"]))
+            request["arguments"][field] = replacement_value
+            with self.subTest(operation="FAIL", field=field):
+                report = reduce_initial_runtime_image(_replace_worker_request(
+                    image, values, "fail", request,
+                ))
+                self.assertEqual(report.status, "INVALID")
+                self.assertIn(expected_code, self.codes(report))
+
+        image, values = complete_review_fixture()
+        request = json.loads(json.dumps(values["complete_review_request"]))
+        request["arguments"]["completion_evidence_sha256"] = "x" * 64
+        report = reduce_initial_runtime_image(_replace_worker_request(
+            image, values, "complete_review", request,
+        ))
+        self.assertEqual(report.status, "INVALID")
+        self.assertIn("TRANSITION_TEXT", self.codes(report))
+
+    def test_terminal_after_state_is_recomputed_after_consistent_rehash(self):
+        for name, build, field, replacement_value in (
+            ("fail", fail_fixture, "workflow", "CLOSED"),
+            (
+                "complete_review", complete_review_fixture,
+                "review", "NOT_REQUIRED",
+            ),
+            (
+                "complete_close", complete_close_fixture,
+                "workflow", "ACTIVE",
+            ),
+            (
+                "continue_complete_review", continue_complete_review_fixture,
+                "continuation_count", 0,
+            ),
+        ):
+            image, values = build()
+            state = json.loads(json.dumps(values[f"{name}_after_state"]))
+            state[field] = replacement_value
+            with self.subTest(group=name, field=field):
+                report = reduce_initial_runtime_image(
+                    _replace_worker_after_state(image, values, name, state)
+                )
+                self.assertEqual(report.status, "INVALID")
+                self.assertIn("GROUP_STATE_DERIVATION", self.codes(report))
 
     def test_initialize_group_rejects_shared_grammar_and_commit_mutations(self):
         image, values = initialize_fixture()
