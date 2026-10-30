@@ -1,0 +1,79 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-141",
+  "version": 1,
+  "created_at": "2026-10-30T11:42:48Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Re-inventory the remaining Discovery V3 cardinality families and implement only the smallest scientifically honest next slice without changing runtime behavior or authority.",
+  "work_done": "Rejected direct classification of the remaining overloaded V3 branches; added Discovery V4 with fifteen exact positional table-row-cap bindings over all 407 V3 source sites; bound every _TABLE_SPECS helper to its aggregate position, exact-15 table_snapshots predecessor, strict snapshot/spec loop, complete guard/slot/comparator/diagnostic flow, and full function/module identity; added Classification V18 as a census-only exact V17 rebase preserving all fifteen constraints and forty-two classified sites; added runtime boundary and positional-label evidence plus refreshed-census attacks; retained INCOMPLETE/DENY with 676 of 718 sites unclassified.",
+  "evidence_refs": [
+    "reports/H-M0-141-runtime-v2-table-row-cap-discovery.v1.md",
+    "reports/audit/A-M0-123.v1.json",
+    "reports/stops/STOP-M0-3A-002.v44.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v4.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v4.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v4.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v18.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v18.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_table_row_cap_binding.py",
+    "tests/test_runtime_v2_release_readiness.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v4.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v4.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v4.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v18.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v18.schema.json",
+    "tests/test_runtime_v2_table_row_cap_binding.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tools/run_test_tier.py",
+    "reports/H-M0-141-runtime-v2-table-row-cap-discovery.v1.md",
+    "reports/audit/A-M0-123.v1.json",
+    "reports/stops/STOP-M0-3A-002.v44.json",
+    "docs/handoffs/H-M0-141.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "44 readiness tests passed, including V4 prefix, positional row-cap semantic attacks, attacker-refreshed census, V18 prefix, and manifest mutation attacks.",
+    "3 dedicated table-row-cap tests passed normally and under optimized Python.",
+    "495 fast-tier tests passed across 36 isolated modules.",
+    "Normal and optimized readiness outputs were byte-identical and both remained exit 1 BLOCKED/DENY.",
+    "Independent bounded inventory and Skeptic reviews reproduced and accepted the final engineering evidence; neither review grants formal authority.",
+    "482 governed records and published history validated before governance publication; 485 validated after publication.",
+    "18 alpha and observatory tests passed after evidence publication."
+  ],
+  "open_questions": [
+    "Is the zero-row migrations positional cap the smallest complete V4 classification slice?",
+    "Which descriptor, schema, reducer, and public-verifier meanings must remain separate from any host-preflight row-cap classification?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v44 remains OPEN.",
+    "Only forty-two of 718 census sites are semantically classified; 676 remain unclassified with INCOMPLETE coverage.",
+    "Public verification remains deny-only.",
+    "Live remains LOCKED and deployable capital remains USD 0."
+  ],
+  "next_action": "Inventory and independently review the smallest complete V4 positional row-cap classification, provisionally the migrations maximum of zero, while keeping descriptor, schema, reducer, label, and public-verifier meanings separate.",
+  "completion_criteria": [
+    "The selected row cap is bound to its exact _TABLE_SPECS helper and V4 positional binding with inclusive boundary, guard-order, label-independence, diagnostic, accounting, continuation, and hostile-input evidence.",
+    "Equal-valued caps, descriptor/schema limits, reducer exactness, supplied labels, table content validity, and public-verifier semantics remain separately classified or unclassified as evidence requires.",
+    "RESOURCE_INVENTORY_INCOMPLETE remains unconditional and no closure, carrier, verifier acceptance, STOP clearance, or capital authority is created."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-140.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-140",
+      "version": 1,
+      "sha256": "43dfeff7712a007deaf66976908e513dd25225cea5121d35fed79c9133db77d4"
+    }
+  ]
+}

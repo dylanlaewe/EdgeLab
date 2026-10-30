@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-002",
+  "version": 44,
+  "issued_at": "2026-10-30T11:42:48Z",
+  "issuer": "00 Director",
+  "reason": "Discovery V4 now binds all fifteen positional _TABLE_SPECS row ceilings through the exact strict snapshot/spec iteration and rejection flow, while Classification V18 preserves fifteen constraints and forty-two classified sites exactly. Of 718 census sites, 676 remain unclassified and coverage is explicitly incomplete. Exact resource-manifest completion, public-entrypoint integration, conservative V1 bridge disposition, and the independently accepted A-J evidence manifest remain unresolved. Release generation is blocked and no positive local-consistency result is supportable.",
+  "affected_components": [
+    "exact generated verifier closure",
+    "semantic resource-limit classification and coverage proof",
+    "legacy bridge disposition",
+    "complete whole-image acceptance matrix",
+    "public result vocabulary"
+  ],
+  "evidence_refs": [
+    "reports/H-M0-141-runtime-v2-table-row-cap-discovery.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v4.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v4.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v4.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v18.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v18.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_table_row_cap_binding.py",
+    "tests/test_runtime_v2_release_readiness.py"
+  ],
+  "severity": "HIGH",
+  "remediation_required": [
+    "Classify every remaining discovered source/schema site and prove bidirectional coverage of all remaining enforcement mechanisms and descriptor/contract constraints.",
+    "Bind every accepted resource maximum to all definitions, enforcement sites, branch-specific and positional bindings, source-level semantic dependencies, contract equations, units, and boundary evidence without misclassifying labels, minima, exact values, diagnostic bounds, representation limits, relational constraints, or equal-valued limits on different subjects.",
+    "Conservatively disposition the unsupported V1 migration bridge under the retained legacy amendment without inventing unavailable preimages.",
+    "Connect the sole public entrypoint and bind independently accepted A-J evidence before generating any closure or carrier."
+  ],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}

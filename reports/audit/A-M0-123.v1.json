@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-123",
+  "version": 1,
+  "occurred_at": "2026-10-30T11:42:48Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_POSITIONAL_TABLE_ROW_CAP_DISCOVERY_EXTENDED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-141-runtime-v2-table-row-cap-discovery.v1.md",
+  "previous_state": "DISCOVERY_V3_703_SITES_FORTY_TWO_CLASSIFIED_661_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V4_718_SITES_FORTY_TWO_CLASSIFIED_676_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit d2aeb14 preserves all 407 Discovery V3 source sites and adds fifteen positional table-row-cap bindings that identity-bind every _TABLE_SPECS helper through the strict snapshot/spec loop and exact rejection flow. Classification V18 is a census-only V17 rebase preserving all fifteen constraints and forty-two classified sites exactly. The new sites remain UNCLASSIFIED; coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": [
+    "reports/H-M0-141-runtime-v2-table-row-cap-discovery.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v4.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v4.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v4.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v18.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v18.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_table_row_cap_binding.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v44.json"
+  ],
+  "code_ref": "d2aeb14",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-141",
+  "supersedes": null
+}

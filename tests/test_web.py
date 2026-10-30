@@ -79,7 +79,7 @@ class WebTests(unittest.TestCase):
             [item["id"] for item in report["open_stops"]],
             ["STOP-M0-001", "STOP-M0-3A-001", "STOP-M0-3A-002"],
         )
-        self.assertEqual(len(report["source_digests"]), 53)
+        self.assertEqual(len(report["source_digests"]), 54)
 
     def test_status_builder_is_read_only_and_source_races_fail_closed(self):
         paths = web.project_status._stop_paths(web.project_status.ROOT)
@@ -171,7 +171,7 @@ class WebTests(unittest.TestCase):
         self.assertEqual(report["controls"]["capital"]["live_deployable_minor"], 0)
         self.assertEqual(report["controls"]["capital"]["live_status"], "LOCKED")
         self.assertEqual(report["controls"]["capital"]["kill_switch"], "ENGAGED")
-        self.assertEqual(len(report["provenance"]), 55)
+        self.assertEqual(len(report["provenance"]), 56)
 
     def test_page_is_static_safe_and_non_operational(self):
         with running_server() as server:
