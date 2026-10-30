@@ -37,6 +37,7 @@ FAST_MODULES = (
     "tests.test_runtime_v2_post_import",
     "tests.test_runtime_v2_release_readiness",
     "tests.test_runtime_v2_bootstrap_document_byte_bound",
+    "tests.test_runtime_v2_checkpoint_copy_cardinality_bound",
     "tests.test_runtime_v2_schema_document_bound",
     "tests.test_runtime_v2_schema_bundle_byte_bound",
     "tests.test_runtime_v2_schema_ref_node_bound",
