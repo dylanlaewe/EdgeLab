@@ -38,9 +38,12 @@ from tools.check_runtime_v2_release_readiness import (
     RESOURCE_DISCOVERY_SCHEMA,
     RESOURCE_DISCOVERY_V2_ID,
     RESOURCE_DISCOVERY_V3_ID,
+    RESOURCE_DISCOVERY_V4_ID,
     RESOURCE_SOURCE_BOUND_SITES_V2_DOMAIN,
     RESOURCE_SOURCE_BOUND_SITES_V3_DOMAIN,
     RESOURCE_SOURCE_BOUND_SITES_V3_SHA256,
+    RESOURCE_SOURCE_BOUND_SITES_V4_DOMAIN,
+    RESOURCE_SOURCE_BOUND_SITES_V4_SHA256,
     RESOURCE_SOURCE_INPUT_DOMAIN,
     RETAINED_SCHEMAS,
     SCHEMA_REF_NODE_RESOURCE_EVIDENCE,
@@ -52,6 +55,7 @@ from tools.check_runtime_v2_release_readiness import (
     ReadinessError,
     _domain_digest,
     _source_bound_cardinality_binding_inventory,
+    _source_bound_table_row_cap_binding_inventory,
     _source_bound_inventory,
     _source_bound_binding_inventory,
     _source_inventory,
@@ -77,6 +81,8 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             RESOURCE_DISCOVERY_SCHEMA[1], RESOURCE_DISCOVERY_MANIFEST[1],
             "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v2.json",
             "schemas/m0-3a-runtime-v2-resource-discovery.v2.schema.json",
+            "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v3.json",
+            "schemas/m0-3a-runtime-v2-resource-discovery.v3.schema.json",
             RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST["path"],
             RESOURCE_CLASSIFICATION_PREDECESSOR_SCHEMA["path"],
             *(item["path"] for item in RESOURCE_CLASSIFICATION_ANCESTORS),
@@ -103,6 +109,19 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             ).encode("ascii")
         ).hexdigest()
         path.write_text(json.dumps(manifest), encoding="ascii")
+
+    @staticmethod
+    def baseline_row_cap_bindings() -> list[dict[str, object]]:
+        _, _, source_bytes = _source_inventory(ROOT)
+        ordinary = _source_bound_inventory(source_bytes)
+        v2 = _source_bound_binding_inventory(source_bytes, ordinary)
+        v3 = _source_bound_cardinality_binding_inventory(
+            source_bytes, ordinary + v2
+        )
+        return _source_bound_table_row_cap_binding_inventory(
+            source_bytes,
+            sorted(ordinary + v2 + v3, key=lambda x: (x["path"], x["site_id"])),
+        )
 
     def refresh_source_bindings(self, root: Path) -> None:
         source, _, source_bytes = _source_inventory(root)
@@ -132,10 +151,22 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                     baseline_predecessor_sites + baseline_table_binding_sites,
                 )
             )
-        source_sites = sorted(
+        v3_sites = sorted(
             predecessor_sites
             + table_binding_sites
             + cardinality_binding_sites,
+            key=lambda item: (item["path"], item["site_id"]),
+        )
+        try:
+            row_cap_sites = _source_bound_table_row_cap_binding_inventory(
+                source_bytes, v3_sites
+            )
+        except ReadinessError as error:
+            if not error.code.startswith("RESOURCE_ROW_CAP_BINDING_"):
+                raise
+            row_cap_sites = self.baseline_row_cap_bindings()
+        source_sites = sorted(
+            v3_sites + row_cap_sites,
             key=lambda item: (item["path"], item["site_id"]),
         )
         source_identity = [
@@ -159,7 +190,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             )
             manifest["source_bound_site_count"] = len(source_sites)
             manifest["source_bound_sites_sha256"] = _domain_digest(
-                RESOURCE_SOURCE_BOUND_SITES_V3_DOMAIN,
+                RESOURCE_SOURCE_BOUND_SITES_V4_DOMAIN,
                 source_identity,
             )
             manifest["unclassified_site_count"] = (
@@ -190,8 +221,13 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             baseline_source_bytes,
             baseline_predecessor_sites + baseline_table_binding_sites,
         )
-        source_sites = sorted(
+        row_cap_binding_sites = self.baseline_row_cap_bindings()
+        v3_source_sites = sorted(
             v2_source_sites + cardinality_binding_sites,
+            key=lambda item: (item["path"], item["site_id"]),
+        )
+        source_sites = sorted(
+            v3_source_sites + row_cap_binding_sites,
             key=lambda item: (item["path"], item["site_id"]),
         )
         source_identity = [
@@ -207,8 +243,15 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             }
             for item in source["local_artifacts"]
         ]
+        v3_source_digest = _domain_digest(
+            RESOURCE_SOURCE_BOUND_SITES_V3_DOMAIN,
+            [
+                {key: value for key, value in item.items() if key != "line"}
+                for item in v3_source_sites
+            ],
+        )
         source_digest = _domain_digest(
-            RESOURCE_SOURCE_BOUND_SITES_V3_DOMAIN, source_identity
+            RESOURCE_SOURCE_BOUND_SITES_V4_DOMAIN, source_identity
         )
         v2_source_digest = _domain_digest(
             RESOURCE_SOURCE_BOUND_SITES_V2_DOMAIN,
@@ -244,12 +287,22 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             ),
             mock.patch.object(
                 readiness_checker,
+                "_source_bound_table_row_cap_binding_inventory",
+                return_value=row_cap_binding_sites,
+            ),
+            mock.patch.object(
+                readiness_checker,
                 "RESOURCE_SOURCE_BOUND_SITES_V2_SHA256",
                 v2_source_digest,
             ),
             mock.patch.object(
                 readiness_checker,
                 "RESOURCE_SOURCE_BOUND_SITES_V3_SHA256",
+                v3_source_digest,
+            ),
+            mock.patch.object(
+                readiness_checker,
+                "RESOURCE_SOURCE_BOUND_SITES_V4_SHA256",
                 source_digest,
             ),
         ):
@@ -288,6 +341,18 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                 for item in source_sites
             ],
         )
+        row_cap_binding_sites = self.baseline_row_cap_bindings()
+        v4_sites = sorted(
+            source_sites + row_cap_binding_sites,
+            key=lambda item: (item["path"], item["site_id"]),
+        )
+        v4_digest = _domain_digest(
+            RESOURCE_SOURCE_BOUND_SITES_V4_DOMAIN,
+            [
+                {key: value for key, value in item.items() if key != "line"}
+                for item in v4_sites
+            ],
+        )
         source_inputs = [
             {
                 "byte_length": item["byte_length"],
@@ -303,10 +368,10 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             manifest["source_inputs_sha256"] = _domain_digest(
                 RESOURCE_SOURCE_INPUT_DOMAIN, source_inputs
             )
-            manifest["source_bound_site_count"] = len(source_sites)
-            manifest["source_bound_sites_sha256"] = source_digest
+            manifest["source_bound_site_count"] = len(v4_sites)
+            manifest["source_bound_sites_sha256"] = v4_digest
             manifest["unclassified_site_count"] = (
-                len(source_sites) + manifest["schema_bound_site_count"]
+                len(v4_sites) + manifest["schema_bound_site_count"]
                 - manifest["classified_site_count"]
             )
 
@@ -319,6 +384,11 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             ),
             mock.patch.object(
                 readiness_checker,
+                "_source_bound_table_row_cap_binding_inventory",
+                return_value=row_cap_binding_sites,
+            ),
+            mock.patch.object(
+                readiness_checker,
                 "RESOURCE_SOURCE_BOUND_SITES_V2_SHA256",
                 v2_source_digest,
             ),
@@ -326,6 +396,11 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                 readiness_checker,
                 "RESOURCE_SOURCE_BOUND_SITES_V3_SHA256",
                 source_digest,
+            ),
+            mock.patch.object(
+                readiness_checker,
+                "RESOURCE_SOURCE_BOUND_SITES_V4_SHA256",
+                v4_digest,
             ),
         ):
             return build_report(root)
@@ -411,14 +486,14 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         discovery = inventory["resource_inventory_discovery"]
         self.assertEqual(discovery["classification_status"], "UNCLASSIFIED")
         self.assertEqual(discovery["coverage_status"], "INCOMPLETE")
-        self.assertEqual(len(discovery["source_bound_sites"]), 407)
+        self.assertEqual(len(discovery["source_bound_sites"]), 422)
         self.assertEqual(len(discovery["schema_bound_sites"]), 296)
         self.assertEqual(len(discovery["schema_inputs"]), 15)
         self.assertEqual(len(discovery["source_inputs"]), 10)
         classification = inventory["resource_inventory_classification"]
         self.assertEqual(classification["classified_constraint_count"], 15)
         self.assertEqual(classification["classified_site_count"], 42)
-        self.assertEqual(classification["unclassified_site_count"], 661)
+        self.assertEqual(classification["unclassified_site_count"], 676)
         self.assertEqual(classification["coverage_status"], "INCOMPLETE")
         self.assertEqual(classification["generation_disposition"], "DENY")
         expected_schema_paths = {
@@ -486,31 +561,31 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                 self.assertEqual(item["byte_length"], len(raw))
                 self.assertEqual(item["raw_sha256"], hashlib.sha256(raw).hexdigest())
 
-    def test_resource_discovery_v3_preserves_v2_and_adds_exact_bindings(self):
+    def test_resource_discovery_v4_preserves_v3_and_adds_exact_bindings(self):
         discovery = build_report(ROOT)["inventory"]["resource_inventory_discovery"]
-        self.assertEqual(discovery["profile_id"], RESOURCE_DISCOVERY_V3_ID)
-        self.assertEqual(len(discovery["source_bound_sites"]), 407)
+        self.assertEqual(discovery["profile_id"], RESOURCE_DISCOVERY_V4_ID)
+        self.assertEqual(len(discovery["source_bound_sites"]), 422)
         self.assertEqual(len(discovery["schema_bound_sites"]), 296)
         self.assertEqual(
             len(discovery["source_bound_sites"])
             + len(discovery["schema_bound_sites"]),
-            703,
+            718,
         )
-        self.assertEqual(discovery["legacy_source_bound_site_count"], 401)
-        self.assertEqual(discovery["derived_binding_site_count"], 6)
-        self.assertEqual(discovery["cumulative_derived_binding_site_count"], 13)
+        self.assertEqual(discovery["legacy_source_bound_site_count"], 407)
+        self.assertEqual(discovery["derived_binding_site_count"], 15)
+        self.assertEqual(discovery["cumulative_derived_binding_site_count"], 28)
         self.assertEqual(
             discovery["source_bound_sites_sha256"],
-            RESOURCE_SOURCE_BOUND_SITES_V3_SHA256,
+            RESOURCE_SOURCE_BOUND_SITES_V4_SHA256,
         )
         self.assertEqual(
-            RESOURCE_SOURCE_BOUND_SITES_V3_SHA256,
-            "d38e35a0f2466735c0895b6bfb7f20c83b52834ccbc3995943f8147d8f664071",
+            RESOURCE_SOURCE_BOUND_SITES_V4_SHA256,
+            "5918304896b54b757e26d94367227c9f36db56e367964133d793c3539f47ab2f",
         )
         self.assertEqual(
             discovery["predecessor_discovery"],
             {
-                "profile_id": RESOURCE_DISCOVERY_V2_ID,
+                "profile_id": RESOURCE_DISCOVERY_V3_ID,
                 "schema_bound_site_count": 296,
                 "schema_bound_sites_sha256": (
                     "00b27a32303836f9d9910663e6bd2f76a7ca6d8c7cd614e5f22346b53cd104de"
@@ -519,9 +594,9 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                 "schema_inputs_sha256": (
                     "14ccff50a49f337336f01b5a40b845e5011218063d2cdfa68f0b73b1a3c94239"
                 ),
-                "source_bound_site_count": 401,
+                "source_bound_site_count": 407,
                 "source_bound_sites_sha256": (
-                    "4a8707fd2ea6b1a398de1207a397f57c7dda9f368259dc58a10dc171352e0864"
+                    "d38e35a0f2466735c0895b6bfb7f20c83b52834ccbc3995943f8147d8f664071"
                 ),
                 "source_input_count": 10,
                 "source_inputs_sha256": (
@@ -636,22 +711,59 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             ),
             cardinality_bindings,
         )
+        row_cap_bindings = [
+            item for item in discovery["source_bound_sites"]
+            if item["kind"] == "BOUND_TABLE_ROW_CAP_COMPARISON_BINDING"
+        ]
+        self.assertEqual(len(row_cap_bindings), 15)
+        self.assertEqual(
+            {(item["row_index"], item["table_name"], item["maximum"])
+             for item in row_cap_bindings},
+            {
+                (0, "attempts", 100_000), (1, "blobs", 300_000),
+                (2, "claims", 100_000), (3, "events", 100_000),
+                (4, "idempotency", 100_000), (5, "legacy_archive", 1),
+                (6, "metadata", 1), (7, "migrations", 0),
+                (8, "remediation_links", 100_000),
+                (9, "reviews", 100_000), (10, "schema_documents", 9),
+                (11, "schema_registry", 1), (12, "seals", 1),
+                (13, "snapshots", 100_000), (14, "tasks", 100_000),
+            },
+        )
+        self.assertTrue(all(
+            item["classification"] == "UNCLASSIFIED"
+            and item["selection_semantics"]
+            == "POSITIONAL_STRICT_ZIP_NOT_SUPPLIED_TABLE_LABEL"
+            and item["subject_binding"]
+            == f"captured['table_snapshots'][{item['row_index']}].rows"
+            for item in row_cap_bindings
+        ))
+        self.assertEqual(
+            _source_bound_table_row_cap_binding_inventory(
+                source_bytes,
+                sorted(
+                    predecessor + table_bindings + cardinality_bindings,
+                    key=lambda item: (item["path"], item["site_id"]),
+                ),
+            ),
+            row_cap_bindings,
+        )
         manifest_bytes = (ROOT / RESOURCE_DISCOVERY_MANIFEST[1]).read_bytes()
         manifest = json.loads(manifest_bytes)
         self.assertEqual(
             manifest["discovery_manifest_sha256"],
-            "831b4e0137fd7a3aaeb5cd91da66f2f16030f875d7998a4f03ac4fd2eb284c95",
+            "2f34479e4597041b122a61c4aea29ae051446285ec51518d965bfd0e8b8e09d6",
         )
         self.assertEqual(
             hashlib.sha256(manifest_bytes).hexdigest(),
-            "39eb28b0e54cd4504a28d0ad3cae065aad185c4c5950ade74ceaf095b605a72d",
+            "9d4c0630a802ef849e3ccb2cd6993cc58b8b2c8fa694888bff8ef96a52384681",
         )
         self.assertEqual(
             hashlib.sha256((ROOT / RESOURCE_DISCOVERY_SCHEMA[1]).read_bytes()).hexdigest(),
-            "60d8cb918f985308bdb5c7d477398066abc25d230642a266ff6836fa4f85f766",
+            "558baf8aa2e1da502e4c19a733bfe0a73d42bcd1d0c1d5e1ad3b948fd12d9bd4",
         )
 
-    def test_resource_discovery_v3_evidence_artifacts_fail_closed(self):
+    def test_resource_discovery_v4_evidence_artifacts_fail_closed(self):
         root = self.copy_inputs()
         schema = root / RESOURCE_DISCOVERY_SCHEMA[1]
         schema.write_bytes(schema.read_bytes() + b"\n")
@@ -693,10 +805,232 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             build_report(root)
         self.assertEqual(caught.exception.code, "HARDLINK_INPUT_ALIAS")
 
-    def test_resource_discovery_v3_binds_v2_predecessor_evidence(self):
+    def test_v4_row_cap_derivation_rejects_full_semantic_attack_matrix(self):
+        _, _, baseline_bytes = _source_inventory(ROOT)
+        ordinary = _source_bound_inventory(baseline_bytes)
+        v2 = _source_bound_binding_inventory(baseline_bytes, ordinary)
+        v3 = _source_bound_cardinality_binding_inventory(
+            baseline_bytes, sorted(ordinary + v2, key=lambda x: (x["path"], x["site_id"])),
+        )
+        predecessor = sorted(
+            ordinary + v2 + v3, key=lambda x: (x["path"], x["site_id"])
+        )
+        path = "src/edgelab/runtime_v2_image.py"
+        original = baseline_bytes[path]
+        attempt_row = next(
+            line for line in original.splitlines(keepends=True)
+            if b'_TableSpec("attempts"' in line
+        )
+        row_limit_block = (
+            b'            if len(rows) > spec.max_rows:\n'
+            b'                findings.add("TABLE_ROW_LIMIT", "table_snapshots", f"{coordinate}/rows")\n'
+            b'                accounting_complete = False\n'
+            b'                continue\n'
+        )
+        attacks = {
+            "class-positional-meaning": (
+                b"    row_order: tuple[int, ...]\n    max_rows: int\n",
+                b"    max_rows: int\n    row_order: tuple[int, ...]\n",
+            ),
+            "aggregate-maximum": (b"(0,), (0,), 300_000),", b"(0,), (0,), 299_999),"),
+            "same-valued-cap-expression": (
+                attempt_row,
+                attempt_row.replace(b"100_000),", b"99_999 + 1),"),
+            ),
+            "helper-delete": (attempt_row, b""),
+            "helper-duplicate": (attempt_row, attempt_row + attempt_row),
+            "helper-add": (
+                attempt_row,
+                attempt_row + attempt_row.replace(b'"attempts"', b'"attempts_extra"', 1),
+            ),
+            "outer-gate": (
+                b'if cardinality_valid.get("table_snapshots", False):',
+                b'if cardinality_valid.get("table_snapshots", True):',
+            ),
+            "loop-target": (
+                b"for index, (snapshot, spec) in enumerate(zip(",
+                b"for index, (spec, snapshot) in enumerate(zip(",
+            ),
+            "iterator-source": (
+                b'captured["table_snapshots"], _TABLE_SPECS, strict=True',
+                b'_TABLE_SPECS, captured["table_snapshots"], strict=True',
+            ),
+            "strict-zip-false": (
+                b'captured["table_snapshots"], _TABLE_SPECS, strict=True',
+                b'captured["table_snapshots"], _TABLE_SPECS, strict=False',
+            ),
+            "snapshot-type-gate": (
+                b"type(snapshot) is not TableSnapshot",
+                b"not isinstance(snapshot, TableSnapshot)",
+            ),
+            "table-read": (
+                b'table = _read_slot(snapshot, "table")',
+                b'table = _read_slot(snapshot, "rows")',
+            ),
+            "rows-read": (
+                b'rows = _read_slot(snapshot, "rows")',
+                b'rows = _read_slot(snapshot, "table")',
+            ),
+            "table-missing": (b"if table is _MISSING:", b"if table is None:"),
+            "rows-missing": (b"if rows is _MISSING:", b"if rows is None:"),
+            "combined-missing": (
+                b"if table is _MISSING or rows is _MISSING:",
+                b"if table is _MISSING and rows is _MISSING:",
+            ),
+            "identity-gate": (
+                b"if type(table) is not str or table != spec.name:",
+                b"if type(table) is not str and table != spec.name:",
+            ),
+            "identity-mismatch-continue": (
+                b'                findings.add("TABLE_INVENTORY", "table_snapshots", f"{coordinate}/table")\n'
+                b"                accounting_complete = False\n",
+                b'                findings.add("TABLE_INVENTORY", "table_snapshots", f"{coordinate}/table")\n'
+                b"                accounting_complete = False\n"
+                b"                continue\n",
+            ),
+            "rows-type-gate": (
+                b"if type(rows) is not tuple:",
+                b"if not isinstance(rows, tuple):",
+            ),
+            "comparator": (
+                b"if len(rows) > spec.max_rows:",
+                b"if len(rows) >= spec.max_rows:",
+            ),
+            "diagnostic-code": (
+                b'findings.add("TABLE_ROW_LIMIT", "table_snapshots", f"{coordinate}/rows")',
+                b'findings.add("TABLE_ROWS_TYPE", "table_snapshots", f"{coordinate}/rows")',
+            ),
+            "diagnostic-artifact": (
+                row_limit_block,
+                row_limit_block.replace(b'"table_snapshots"', b'"runtime_image"'),
+            ),
+            "diagnostic-coordinate": (
+                row_limit_block,
+                row_limit_block.replace(b'f"{coordinate}/rows"', b'f"{coordinate}"'),
+            ),
+            "accounting": (
+                row_limit_block,
+                row_limit_block.replace(
+                    b"                accounting_complete = False\n", b""
+                ),
+            ),
+            "continue": (
+                row_limit_block,
+                row_limit_block.replace(b"                continue\n", b"                pass\n"),
+            ),
+            "inter-loop-rows-rebind": (
+                b"            if len(rows) > spec.max_rows:",
+                b"            rows = ()\n            if len(rows) > spec.max_rows:",
+            ),
+            "inter-loop-spec-rebind": (
+                b"            if len(rows) > spec.max_rows:",
+                b"            spec = _TABLE_SPECS[0]\n            if len(rows) > spec.max_rows:",
+            ),
+            "len-shadow": (
+                b"_MISSING = object()\n",
+                b"_MISSING = object()\nlen = tuple.__len__\n",
+            ),
+            "zip-shadow": (
+                b"_MISSING = object()\n",
+                b"_MISSING = object()\nzip = lambda *args, **kwargs: ()\n",
+            ),
+            "type-shadow": (
+                b"_MISSING = object()\n",
+                b"_MISSING = object()\ntype = lambda value: value.__class__\n",
+            ),
+            "enumerate-shadow": (
+                b"_MISSING = object()\n",
+                b"_MISSING = object()\nenumerate = lambda values: ()\n",
+            ),
+            "read-slot-shadow": (
+                b"def inspect_runtime_image_host(candidate: object)",
+                b"_read_slot = lambda value, name: ()\ndef inspect_runtime_image_host(candidate: object)",
+            ),
+            "missing-shadow": (
+                b"def inspect_runtime_image_host(candidate: object)",
+                b"_MISSING = object()\ndef inspect_runtime_image_host(candidate: object)",
+            ),
+            "table-specs-rebind": (
+                b"    snapshot_sizes: list[int] = []\n",
+                b"    _TABLE_SPECS = ()\n    snapshot_sizes: list[int] = []\n",
+            ),
+            "snapshot-rebind": (
+                b"            if type(snapshot) is not TableSnapshot:",
+                b"            snapshot = captured['table_snapshots'][0]\n"
+                b"            if type(snapshot) is not TableSnapshot:",
+            ),
+        }
+        for name, (needle, replacement) in attacks.items():
+            with self.subTest(attack=name):
+                self.assertEqual(original.count(needle), 1)
+                hostile = dict(baseline_bytes)
+                hostile[path] = original.replace(needle, replacement, 1)
+                with self.assertRaises(ReadinessError) as caught:
+                    _source_bound_table_row_cap_binding_inventory(hostile, predecessor)
+                self.assertTrue(caught.exception.code.startswith("RESOURCE_ROW_CAP_BINDING_"))
+
+        lines = original.splitlines(keepends=True)
+        first = next(i for i, line in enumerate(lines) if b'_TableSpec("attempts"' in line)
+        second = next(i for i, line in enumerate(lines) if b'_TableSpec("claims"' in line)
+        lines[first], lines[second] = lines[second], lines[first]
+        hostile = dict(baseline_bytes)
+        hostile[path] = b"".join(lines)
+        with self.assertRaises(ReadinessError):
+            _source_bound_table_row_cap_binding_inventory(hostile, predecessor)
+
+    def test_v4_evidence_rejects_attacker_refreshed_row_cap_census(self):
+        root = self.copy_inputs()
+        _, _, source_bytes = _source_inventory(root)
+        ordinary = _source_bound_inventory(source_bytes)
+        v2 = _source_bound_binding_inventory(source_bytes, ordinary)
+        v3 = _source_bound_cardinality_binding_inventory(
+            source_bytes, ordinary + v2
+        )
+        row_caps = _source_bound_table_row_cap_binding_inventory(
+            source_bytes,
+            sorted(ordinary + v2 + v3, key=lambda x: (x["path"], x["site_id"])),
+        )
+        forged = [dict(item) for item in row_caps]
+        forged[0]["maximum"] = 99_999
+        forged[0]["site_id"] = "0" * 64
+        all_sites = sorted(
+            ordinary + v2 + v3 + forged,
+            key=lambda item: (item["path"], item["site_id"]),
+        )
+        forged_digest = _domain_digest(
+            RESOURCE_SOURCE_BOUND_SITES_V4_DOMAIN,
+            [
+                {key: value for key, value in item.items() if key != "line"}
+                for item in all_sites
+            ],
+        )
+
+        def refresh(manifest):
+            manifest["source_bound_sites_sha256"] = forged_digest
+
+        self.rewrite_manifest(root, refresh)
+        with (
+            mock.patch.object(
+                readiness_checker,
+                "_source_bound_table_row_cap_binding_inventory",
+                return_value=forged,
+            ),
+            mock.patch.object(
+                readiness_checker,
+                "RESOURCE_SOURCE_BOUND_SITES_V4_SHA256",
+                forged_digest,
+            ),
+        ):
+            with self.assertRaises(ReadinessError) as caught:
+                build_report(root)
+        self.assertEqual(
+            caught.exception.code, "RESOURCE_DISCOVERY_MANIFEST_BINDING"
+        )
+
+    def test_resource_discovery_v4_binds_v3_predecessor_evidence(self):
         for relative in (
-            "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v2.json",
-            "schemas/m0-3a-runtime-v2-resource-discovery.v2.schema.json",
+            "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v3.json",
+            "schemas/m0-3a-runtime-v2-resource-discovery.v3.schema.json",
         ):
             with self.subTest(predecessor=relative):
                 root = self.copy_inputs()
@@ -1205,7 +1539,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             b"# nonsemantic 999 bound note\n" + source.read_bytes()
         )
         before_discovery = baseline["inventory"]["resource_inventory_discovery"]
-        self.assertEqual(len(before_discovery["source_bound_sites"]), 407)
+        self.assertEqual(len(before_discovery["source_bound_sites"]), 422)
         with self.assertRaises(ReadinessError) as caught:
             build_report(root)
         self.assertEqual(caught.exception.code, "RESOURCE_CLASSIFICATION_BINDING")
@@ -1230,25 +1564,25 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(claimed, expected)
         self.assertEqual(
             claimed,
-            "3a7d8c3f595aa516e96422ccce73b3884bdeb6f58ce41e525f291ffe9976cb55",
+            "b7ef974f4bf1ae67a60f671fdf607c79be3b0727663f3adafd5bc4e09094947d",
         )
         self.assertEqual(
             hashlib.sha256((ROOT / RESOURCE_CLASSIFICATION_SCHEMA[1]).read_bytes()).hexdigest(),
-            "12fe501633f5d6417449a9edd34a47952cb7d0ffa58fe80459ee690f30885504",
+            "7901e551042b9dd95832c811de44d2ff9bad11c6464ee9b104c158a8f900b739",
         )
         self.assertEqual(
             hashlib.sha256((ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_bytes()).hexdigest(),
-            "595049a2059cd7bf335a55546727500e97e7660f9b54e164db2388fe1e3a8c5b",
+            "77a61978d92b1087321ab51281617516faace8a083db12245d8ae1b37e240333",
         )
         self.assertEqual(manifest["coverage_status"], "INCOMPLETE")
         self.assertEqual(manifest["generation_disposition"], "DENY")
-        self.assertEqual(manifest["schema_version"], 17)
+        self.assertEqual(manifest["schema_version"], 18)
         self.assertEqual(
             manifest["profile_id"],
-            "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V17",
+            "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V18",
         )
         self.assertEqual(manifest["classified_site_count"], 42)
-        self.assertEqual(manifest["unclassified_site_count"], 661)
+        self.assertEqual(manifest["unclassified_site_count"], 676)
         self.assertEqual(
             [item["constraint_id"] for item in manifest["constraints"]],
             [
@@ -1701,15 +2035,17 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         )
         self.assertEqual(
             manifest["predecessor_manifest"]["path"],
-            "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v16.json",
+            "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v17.json",
         )
         self.assertEqual(
             manifest["predecessor_schema"]["path"],
-            "schemas/m0-3a-runtime-v2-resource-classification.v16.schema.json",
+            "schemas/m0-3a-runtime-v2-resource-classification.v17.schema.json",
         )
         self.assertEqual(
             [item["path"] for item in RESOURCE_CLASSIFICATION_ANCESTORS],
             [
+                "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v16.json",
+                "schemas/m0-3a-runtime-v2-resource-classification.v16.schema.json",
                 "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v15.json",
                 "schemas/m0-3a-runtime-v2-resource-classification.v15.schema.json",
                 "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v14.json",
@@ -1767,7 +2103,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         root = self.copy_inputs()
         path = root / RESOURCE_CLASSIFICATION_MANIFEST[1]
         raw = path.read_bytes().replace(
-            b'"schema_version": 17', b'"schema_version": 17, "schema_version": 17'
+            b'"schema_version": 18', b'"schema_version": 18, "schema_version": 18'
         )
         path.write_bytes(raw)
         with self.assertRaises(ReadinessError) as caught:
@@ -2186,7 +2522,10 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                 self.refresh_source_bindings(root)
                 with self.assertRaises(ReadinessError) as caught:
                     build_report(root)
-                self.assertEqual(caught.exception.code, expected_code)
+                self.assertIn(
+                    caught.exception.code,
+                    {expected_code, "RESOURCE_ROW_CAP_BINDING_MODULE_AST"},
+                )
 
     def test_event_byte_classification_binds_definition_binding_and_evidence(self):
         _, _, baseline_source_bytes = _source_inventory(ROOT)
@@ -2294,9 +2633,12 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                 self.refresh_source_bindings(root)
                 with self.assertRaises(ReadinessError) as caught:
                     build_report(root)
-                self.assertEqual(
+                self.assertIn(
                     caught.exception.code,
-                    "RESOURCE_CLASSIFICATION_NAME_CARDINALITY",
+                    {
+                        "RESOURCE_CLASSIFICATION_NAME_CARDINALITY",
+                        "RESOURCE_ROW_CAP_BINDING_MODULE_AST",
+                    },
                 )
 
         semantic_attacks = (
@@ -2337,7 +2679,10 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                     else:
                         self.refresh_source_bindings(root)
                         build_report(root)
-                self.assertEqual(caught.exception.code, expected_code)
+                self.assertIn(
+                    caught.exception.code,
+                    {expected_code, "RESOURCE_ROW_CAP_BINDING_MODULE_AST"},
+                )
 
     def test_checkpoint_copy_classification_survives_attacker_census_refresh(self):
         _, _, baseline_source_bytes = _source_inventory(ROOT)
@@ -2864,9 +3209,12 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                 self.refresh_source_bindings(root)
                 with self.assertRaises(ReadinessError) as caught:
                     build_report(root)
-                self.assertEqual(
+                self.assertIn(
                     caught.exception.code,
-                    "RESOURCE_CLASSIFICATION_NAME_CARDINALITY",
+                    {
+                        "RESOURCE_CLASSIFICATION_NAME_CARDINALITY",
+                        "RESOURCE_ROW_CAP_BINDING_MODULE_AST",
+                    },
                 )
 
         semantic_attacks = (
@@ -3070,7 +3418,11 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                     build_report(root)
                 self.assertEqual(
                     caught.exception.code,
-                    "RESOURCE_CLASSIFICATION_NAME_CARDINALITY",
+                    (
+                        "RESOURCE_ROW_CAP_BINDING_MODULE_AST"
+                        if relative == "src/edgelab/runtime_v2_image.py"
+                        else "RESOURCE_CLASSIFICATION_NAME_CARDINALITY"
+                    ),
                 )
 
         semantic_attacks = (
@@ -3147,7 +3499,13 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                     else:
                         self.refresh_source_bindings(root)
                         build_report(root)
-                self.assertEqual(caught.exception.code, expected_code)
+                self.assertIn(
+                    caught.exception.code,
+                    {
+                        expected_code,
+                        "RESOURCE_ROW_CAP_BINDING_MODULE_AST",
+                    },
+                )
 
         for field, hostile_value in (
             ("semantic_bindings", []),
@@ -3285,7 +3643,11 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                     build_report(root)
                 self.assertEqual(
                     caught.exception.code,
-                    "RESOURCE_CLASSIFICATION_NAME_CARDINALITY",
+                    (
+                        "RESOURCE_ROW_CAP_BINDING_MODULE_AST"
+                        if relative == "src/edgelab/runtime_v2_image.py"
+                        else "RESOURCE_CLASSIFICATION_NAME_CARDINALITY"
+                    ),
                 )
 
     def test_schema_ref_node_classification_binds_exact_semantics(self):
@@ -3964,7 +4326,11 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                         build_report(root)
                     self.assertEqual(
                         caught.exception.code,
-                        "RESOURCE_CLASSIFICATION_NAME_CARDINALITY",
+                        (
+                            "RESOURCE_ROW_CAP_BINDING_MODULE_AST"
+                            if path == "src/edgelab/runtime_v2_image.py"
+                            else "RESOURCE_CLASSIFICATION_NAME_CARDINALITY"
+                        ),
                     )
 
         function_attacks = (
@@ -4086,7 +4452,11 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                         build_report(root)
                     self.assertEqual(
                         caught.exception.code,
-                        "RESOURCE_CLASSIFICATION_MODULE_SHAPE",
+                        (
+                            "RESOURCE_ROW_CAP_BINDING_MODULE_AST"
+                            if path == "src/edgelab/runtime_v2_image.py"
+                            else "RESOURCE_CLASSIFICATION_MODULE_SHAPE"
+                        ),
                     )
 
     def test_portable_path_classification_binds_exact_semantics(self):
@@ -4395,7 +4765,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                     "RESOURCE_CLASSIFICATION_MODULE_SHAPE",
                 )
 
-    def test_v17_classification_extends_v16_with_blob_cardinality(self):
+    def test_v18_classification_is_exact_v17_census_rebase(self):
         current = json.loads(
             (ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_text(
                 encoding="ascii"
@@ -4403,29 +4773,29 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         )
         predecessor = json.loads(
             (
-                ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v16.json"
+                ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v17.json"
             ).read_text(encoding="ascii")
         )
-        self.assertEqual(current["constraints"][:-1], predecessor["constraints"])
+        self.assertEqual(current["constraints"], predecessor["constraints"])
         self.assertEqual(len(current["constraints"]), 15)
         self.assertEqual(current["classified_site_count"], 42)
-        self.assertEqual(current["source_bound_site_count"], 407)
+        self.assertEqual(current["source_bound_site_count"], 422)
         self.assertEqual(current["schema_bound_site_count"], 296)
-        self.assertEqual(current["unclassified_site_count"], 661)
+        self.assertEqual(current["unclassified_site_count"], 676)
         self.assertEqual(current["coverage_status"], "INCOMPLETE")
         self.assertEqual(current["generation_disposition"], "DENY")
         self.assertEqual(
             current["predecessor_manifest"],
             {
-                "byte_length": 35018,
+                "byte_length": 37309,
                 "classification_manifest_sha256": (
-                    "52772284683ac1ce1dbbf39e7e2858c35de3feb7c9b10afe7ce3537b75a26dc8"
+                    "3a7d8c3f595aa516e96422ccce73b3884bdeb6f58ce41e525f291ffe9976cb55"
                 ),
                 "path": (
-                    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v16.json"
+                    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v17.json"
                 ),
                 "raw_sha256": (
-                    "95cfa3ba2949277a2572da116aa1267bd7d1b77a039338fb2084fe770a9eb407"
+                    "595049a2059cd7bf335a55546727500e97e7660f9b54e164db2388fe1e3a8c5b"
                 ),
             },
         )
@@ -4450,7 +4820,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             },
         )
 
-    def test_v17_classification_binds_predecessor_link_records(self):
+    def test_v18_classification_binds_predecessor_link_records(self):
         attacks = (
             ("predecessor_manifest", "raw_sha256", "0" * 64),
             ("predecessor_manifest", "classification_manifest_sha256", "1" * 64),
