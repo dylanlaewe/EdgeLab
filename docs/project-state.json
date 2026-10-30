@@ -53,6 +53,7 @@
     "The cumulative deny-only runtime-v2 semantic resource-classification v8 now byte-binds its v7 predecessor and additionally binds MAX_BOOTSTRAP_DOCUMENT_BYTES to its sole definition and all five host branch bindings under complete field and collection-member boundary matrices, ordering and sibling-independence evidence, and attacker-refreshed semantic-pin tests; 675 of 697 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked",
     "The cumulative deny-only runtime-v2 semantic resource-classification v9 now byte-binds its v8 predecessor and additionally binds MAX_ARGUMENTS to its sole definition and direct TransitionIntent comparison under exact tuple-cardinality boundaries, enforcement-order, immutable-state, non-authority, and attacker-refreshed semantic-pin evidence; 673 of 697 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked",
     "The cumulative deny-only runtime-v2 semantic resource-classification v10 now byte-binds its v9 predecessor and additionally binds _PORTABLE_PATH_MAX to its sole definition and direct _path comparison under exact character-cardinality boundaries, pattern-precondition, ordering, sibling-independence, non-authority, and attacker-refreshed semantic-pin evidence; 671 of 697 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked",
+    "The cumulative deny-only runtime-v2 semantic resource-classification v11 now byte-binds its v10 predecessor and additionally binds _PORTABLE_COMPONENT_MAX to its sole definition and generator comparison under exact component-character boundaries, slash-split and total-path preconditions, any(generator) short-circuit ordering, later-rule independence, non-authority, and attacker-refreshed semantic-pin evidence; 669 of 697 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked",
     "Historical capture reconstruction/verifier engineering completed with native engineering review; formal Skeptic acceptance remains pending",
     "Revision-aware handoff dependency validation and production repository validation restored",
     "Read-only local laboratory observatory exposes governed project status and the retained MOCK_ONLY walkthrough through a fail-closed loopback interface",
@@ -67,18 +68,18 @@
     "Resolve statistical, freshness, paper-capital, exposure, correlation, drawdown, and live-gate thresholds before M0 exit"
   ],
   "blockers": [
-    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002.v36 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
+    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002.v37 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
     "H-M0-086 is BLOCKED because no genuinely distinct trusted 05 Skeptic authority is provisioned",
     "H-M0-041.v23 remains BLOCKED pending formal Skeptic acceptance and separate Director release",
     "The locked authority and historical binding substrates are diagnostic and DENY-only; positive authoritative currentness and authenticated receipt/R-gate integration remain unresolved",
     "M0.3A engineering completion does not constitute formal acceptance or operational authority"
   ],
-  "next_assignment": "Select and classify the next smallest semantically complete resource maximum under exact binding, semantic-dependency, evidence, and adversarial-review discipline; add discovery bindings first when a candidate cannot be represented honestly; retain incomplete coverage and generation denial",
-  "updated_at": "2026-10-30T01:54:49Z",
+  "next_assignment": "Select and classify the next smallest semantically complete resource maximum under exact binding, relational-dependency, evidence, and adversarial-review discipline; add discovery bindings first when a candidate cannot be represented honestly; retain incomplete coverage and generation denial",
+  "updated_at": "2026-10-30T02:16:26Z",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json",
     "reports/stops/STOP-M0-3A-001.v1.json",
-    "reports/stops/STOP-M0-3A-002.v36.json"
+    "reports/stops/STOP-M0-3A-002.v37.json"
   ],
   "review_ref": "reports/reviews/M0.2-M0.3-final-evidence-plan-rereview.v1.md",
   "open_findings": [
