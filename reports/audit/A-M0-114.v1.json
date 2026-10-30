@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-114",
+  "version": 1,
+  "occurred_at": "2026-10-30T01:26:48Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_TRANSITION_ARGUMENT_RESOURCE_CLASSIFIED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-132-runtime-v2-transition-argument-resource-classification.v1.md",
+  "previous_state": "DISCOVERY_V2_697_SITES_TWENTY_TWO_CLASSIFIED_675_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V2_697_SITES_TWENTY_FOUR_CLASSIFIED_673_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 0db28547a02690c2158f58b835c2b83cd8b07564 binds MAX_ARGUMENTS to its sole definition and direct comparison with exact boundary, enforcement-order, immutable-state, non-authority, and attacker-refreshed semantic-pin evidence. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": ["reports/H-M0-132-runtime-v2-transition-argument-resource-classification.v1.md", "docs/M0.3A_TRANSITION_ARGUMENT_LIMIT.v1.md", "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v9.json", "schemas/m0-3a-runtime-v2-resource-classification.v9.schema.json", "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md", "tools/check_runtime_v2_release_readiness.py", "tests/test_runtime_v2_transition_argument_bound.py", "tests/test_runtime_v2_release_readiness.py", "reports/stops/STOP-M0-3A-002.v35.json"],
+  "code_ref": "0db28547a02690c2158f58b835c2b83cd8b07564",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-132",
+  "supersedes": null
+}
