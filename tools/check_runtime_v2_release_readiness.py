@@ -171,15 +171,15 @@ CLOSURE_SCHEMA = (
     "schemas/m0-3a-verifier-dependency-closure.v1.schema.json",
 )
 RESOURCE_CLASSIFICATION_SCHEMA = (
-    "urn:edgelab:m0-3a-runtime-v2-resource-classification:8",
-    "schemas/m0-3a-runtime-v2-resource-classification.v8.schema.json",
+    "urn:edgelab:m0-3a-runtime-v2-resource-classification:9",
+    "schemas/m0-3a-runtime-v2-resource-classification.v9.schema.json",
 )
 RESOURCE_CLASSIFICATION_MANIFEST = (
-    "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V8",
-    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v8.json",
+    "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V9",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v9.json",
 )
 RESOURCE_CLASSIFICATION_DOMAIN = (
-    "EDGELAB\0RUNTIME_V2_RESOURCE_CLASSIFICATION\0V8\0"
+    "EDGELAB\0RUNTIME_V2_RESOURCE_CLASSIFICATION\0V9\0"
 )
 RESOURCE_SOURCE_INPUT_DOMAIN = (
     "EDGELAB\0RUNTIME_V2_RESOURCE_SOURCE_INPUTS\0V1\0"
@@ -208,22 +208,35 @@ RESOURCE_SOURCE_BOUND_SITES_V2_SHA256 = (
     "4a8707fd2ea6b1a398de1207a397f57c7dda9f368259dc58a10dc171352e0864"
 )
 RESOURCE_CLASSIFICATION_SCHEMA_RAW_SHA256 = (
-    "decde7f7f5927a4809d21077848bfcb31dde68daf4df2e51c8cfcfb5e34a97cb"
+    "5d53e9141dfee5758b4b4e841e43d33c0cc1299ed41ff812a5db9728de6d1d77"
 )
 RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST = {
-    "byte_length": 15279,
+    "byte_length": 18074,
     "classification_manifest_sha256": (
-        "9f08a5f8f56907a661c9cc0ba31874bf63bf1e730dc2aa728408c07f76d98c0d"
+        "a2b112dfec65b15cda67ea6d14a1199305a3614cfe2174966894afb32ca261e7"
     ),
-    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v7.json",
-    "raw_sha256": "773579688c9ab1363d3a9576582c1ea9ec21cf00616e05d4878f370f7fe444c5",
+    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v8.json",
+    "raw_sha256": "32aa72a70f77e9d0a43969b8471e3374ebd3adfd108283a65a1d9f263f2de1b7",
 }
 RESOURCE_CLASSIFICATION_PREDECESSOR_SCHEMA = {
-    "byte_length": 17615,
-    "path": "schemas/m0-3a-runtime-v2-resource-classification.v7.schema.json",
-    "raw_sha256": "84447dba722c97f50e60e928e3356e485aa093f06a267019e88e01948dd82cb8",
+    "byte_length": 20602,
+    "path": "schemas/m0-3a-runtime-v2-resource-classification.v8.schema.json",
+    "raw_sha256": "decde7f7f5927a4809d21077848bfcb31dde68daf4df2e51c8cfcfb5e34a97cb",
 }
 RESOURCE_CLASSIFICATION_ANCESTORS = (
+    {
+        "byte_length": 15279,
+        "classification_manifest_sha256": (
+            "9f08a5f8f56907a661c9cc0ba31874bf63bf1e730dc2aa728408c07f76d98c0d"
+        ),
+        "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v7.json",
+        "raw_sha256": "773579688c9ab1363d3a9576582c1ea9ec21cf00616e05d4878f370f7fe444c5",
+    },
+    {
+        "byte_length": 17615,
+        "path": "schemas/m0-3a-runtime-v2-resource-classification.v7.schema.json",
+        "raw_sha256": "84447dba722c97f50e60e928e3356e485aa093f06a267019e88e01948dd82cb8",
+    },
     {
         "byte_length": 11660,
         "classification_manifest_sha256": (
@@ -409,6 +422,18 @@ BOOTSTRAP_DOCUMENT_RESOURCE_EVIDENCE = (
     },
     BLOB_RESOURCE_EVIDENCE[2],
 )
+TRANSITION_ARGUMENT_RESOURCE_EVIDENCE = (
+    {
+        "byte_length": 9182,
+        "path": "docs/M0.3A_TRANSITION_ARGUMENT_LIMIT.v1.md",
+        "raw_sha256": "bdd5372ccb67e1414036a6b3c4adafff145652f3c397f8546ec76a09345cf7e0",
+    },
+    {
+        "byte_length": 7924,
+        "path": "tests/test_runtime_v2_transition_argument_bound.py",
+        "raw_sha256": "b2dab044b678b21b873b8b4de036c93dd85df67a704dea54a3f8d0cff543cc0a",
+    },
+)
 RESOURCE_CLASSIFICATION_EVIDENCE = (
     *BLOB_RESOURCE_EVIDENCE,
     *CLOSURE_RESOURCE_EVIDENCE,
@@ -421,6 +446,7 @@ RESOURCE_CLASSIFICATION_EVIDENCE = (
     SCHEMA_REGISTRY_RESOURCE_EVIDENCE[5],
     BOOTSTRAP_DOCUMENT_RESOURCE_EVIDENCE[0],
     BOOTSTRAP_DOCUMENT_RESOURCE_EVIDENCE[2],
+    *TRANSITION_ARGUMENT_RESOURCE_EVIDENCE,
 )
 CLASSIFIED_RESOURCE_SITE_IDS = frozenset({
     "1ef42fea7eca273c2040d72810435052d0241a4e9a4d7ba63598548d95d5249c",
@@ -445,6 +471,8 @@ CLASSIFIED_RESOURCE_SITE_IDS = frozenset({
     "7ea348002f2b6caf5e341cc7739453f80b8e576f18a354da8cccd1432ad3a6cc",
     "9a911b0807e818c67215b24ca2aef14d904826e042c65cfb5d74f51f989ef275",
     "4da76883b64b45ef3e46ca843d83de74162b42fc5649008a595c806277a47a99",
+    "5e7fc3b44c63b42e94213efd280dd3af90eac0beb4a2b28f600a5284f17fc3b4",
+    "3d85d6c3d9c53b2d68ee976d4b159cc92ae9fd506ad608d00ff0563db5864209",
 })
 SCHEMA_BOUND_KEYWORDS = frozenset({
     "exclusiveMaximum", "exclusiveMinimum", "maximum", "maxContains",
@@ -1674,6 +1702,8 @@ def _resource_classification_inventory(
         (RESOURCE_CLASSIFICATION_ANCESTORS[9], False),
         (RESOURCE_CLASSIFICATION_ANCESTORS[10], True),
         (RESOURCE_CLASSIFICATION_ANCESTORS[11], False),
+        (RESOURCE_CLASSIFICATION_ANCESTORS[12], True),
+        (RESOURCE_CLASSIFICATION_ANCESTORS[13], False),
     )
     manifest_values: dict[str, dict[str, Any]] = {}
     for expected, has_self_digest in predecessor_records:
@@ -1728,6 +1758,11 @@ def _resource_classification_inventory(
             RESOURCE_CLASSIFICATION_ANCESTORS[10],
             RESOURCE_CLASSIFICATION_ANCESTORS[11],
         ),
+        (
+            RESOURCE_CLASSIFICATION_ANCESTORS[10],
+            RESOURCE_CLASSIFICATION_ANCESTORS[12],
+            RESOURCE_CLASSIFICATION_ANCESTORS[13],
+        ),
     )
     for owner, predecessor_manifest, predecessor_schema in chain:
         value = manifest_values.get(owner["path"])
@@ -1773,7 +1808,7 @@ def _resource_classification_inventory(
     if set(manifest) != expected_keys:
         raise ReadinessError("RESOURCE_CLASSIFICATION_KEYS", manifest_path)
     scalar_expected = {
-        "schema_version": 8,
+        "schema_version": 9,
         "manifest_id": schema_id,
         "profile_id": profile_id,
         "discovery_profile_id": resource_discovery["profile_id"],
@@ -1801,15 +1836,15 @@ def _resource_classification_inventory(
             "schema_bound_sites_sha256"
         ],
         "schema_inputs_sha256": resource_discovery["schema_inputs_sha256"],
-        "classified_site_count": 22,
-        "unclassified_site_count": 675,
+        "classified_site_count": 24,
+        "unclassified_site_count": 673,
     }
     for key, expected in scalar_expected.items():
         if type(manifest.get(key)) is not type(expected) or manifest.get(key) != expected:
             raise ReadinessError("RESOURCE_CLASSIFICATION_BINDING", key)
 
     constraints = manifest.get("constraints")
-    if type(constraints) is not list or len(constraints) != 7:
+    if type(constraints) is not list or len(constraints) != 8:
         raise ReadinessError("RESOURCE_CLASSIFICATION_CONSTRAINTS", manifest_path)
     single_binding_constraint_keys = {
         "accepted_equation", "classification", "constraint_id",
@@ -1828,7 +1863,10 @@ def _resource_classification_inventory(
         or set(constraints[3]) != multi_binding_constraint_keys
         or set(constraints[4]) != single_binding_constraint_keys
         or set(constraints[5]) != multi_binding_constraint_keys
-        or set(constraints[6]) != single_binding_constraint_keys
+        or any(
+            set(constraints[index]) != single_binding_constraint_keys
+            for index in (6, 7)
+        )
     ):
         raise ReadinessError("RESOURCE_CLASSIFICATION_CONSTRAINT_KEYS", manifest_path)
     expected_constraints = [
@@ -2195,6 +2233,56 @@ def _resource_classification_inventory(
             ),
             "unit": "BYTES",
         },
+        {
+            "accepted_equation": (
+                "for each TransitionIntent construction input reaching the "
+                "argument-cardinality guard: len(exact built-in tuple "
+                "arguments) <= maximum"
+            ),
+            "classification": "RESOURCE_MAXIMUM",
+            "constraint_id": "MAX_ARGUMENTS",
+            "definition_site_ids": [
+                "5e7fc3b44c63b42e94213efd280dd3af90eac0beb4a2b28f600a5284f17fc3b4"
+            ],
+            "enforcement_site_ids": [
+                "3d85d6c3d9c53b2d68ee976d4b159cc92ae9fd506ad608d00ff0563db5864209"
+            ],
+            "evidence_inputs": [
+                dict(item) for item in TRANSITION_ARGUMENT_RESOURCE_EVIDENCE
+            ],
+            "maximum": 8,
+            "semantic_function_ast_sha256": (
+                "42b1b9103cffdc52d38f4033e71b4b750b334305b3c952d7ac7b86843bec58f7"
+            ),
+            "semantic_module_ast_sha256": (
+                "2bb8a77ac83dc22d9df027384d5c29d1aa6f180fe3de33d4119b3433722b603b"
+            ),
+            "semantic_proof": {
+                "function_coordinate": (
+                    "src/edgelab/runtime_v2_transition.py:"
+                    "TransitionIntent.__post_init__"
+                ),
+                "input_binding": (
+                    "EXACT_BUILTIN_TUPLE_ARGUMENTS_FIELD_AFTER_JOINT_"
+                    "CONTAINER_TYPE_GUARD"
+                ),
+                "enforcement_order": (
+                    "JOINT_ARGUMENTS_AND_SEMANTIC_EVENT_IDS_EXACT_TUPLE_"
+                    "TYPE_GUARD_BEFORE_ARGUMENT_CARDINALITY_GUARD_BEFORE_"
+                    "EVENT_CARDINALITY_ARGUMENT_SHAPE_ORDER_DUPLICATE_AND_"
+                    "EVENT_ID_VALIDATION"
+                ),
+                "rejection_action": (
+                    "RAISE_TRANSITION_RESOURCE_ARGUMENTS_AT_ARGUMENTS_"
+                    "COORDINATE"
+                ),
+            },
+            "semantic_subject": (
+                "EXACT_BUILTIN_TUPLE_ARGUMENT_ITEMS_SUPPLIED_TO_TRANSITION_"
+                "INTENT_CONSTRUCTION"
+            ),
+            "unit": "ITEMS",
+        },
     ]
     if constraints != expected_constraints:
         raise ReadinessError("RESOURCE_CLASSIFICATION_CONSTRAINT", manifest_path)
@@ -2499,6 +2587,20 @@ def _resource_classification_inventory(
             ),
             "table_name": "byte_collections",
         },
+        "5e7fc3b44c63b42e94213efd280dd3af90eac0beb4a2b28f600a5284f17fc3b4": {
+            "ast_sha256": "d1a354657b6c476434bc4f4fc14c9dfb03fbf71903f2006d7691a0aa173b9e28",
+            "expression": "MAX_ARGUMENTS = 8",
+            "kind": "MODULE_NUMERIC_ASSIGNMENT", "occurrence": 1,
+            "path": "src/edgelab/runtime_v2_transition.py",
+            "qualname": "<module>",
+        },
+        "3d85d6c3d9c53b2d68ee976d4b159cc92ae9fd506ad608d00ff0563db5864209": {
+            "ast_sha256": "c6be7015b670b520b96e47b34766d5482080c89b475479e69eb9d2559b347b56",
+            "expression": "len(self.arguments) > MAX_ARGUMENTS",
+            "kind": "BOUND_COMPARISON", "occurrence": 1,
+            "path": "src/edgelab/runtime_v2_transition.py",
+            "qualname": "<module>.TransitionIntent.__post_init__",
+        },
     }
     for site_id, expected in site_shapes.items():
         record = sites.get(site_id)
@@ -2580,6 +2682,14 @@ def _resource_classification_inventory(
             "4cf60eb1416f7cfe080bd68653d748431084e04a17790a4244317834158acdfc",
             1,
         ),
+        (
+            "src/edgelab/runtime_v2_transition.py",
+            "MAX_ARGUMENTS",
+            "TransitionIntent.__post_init__",
+            "42b1b9103cffdc52d38f4033e71b4b750b334305b3c952d7ac7b86843bec58f7",
+            "2bb8a77ac83dc22d9df027384d5c29d1aa6f180fe3de33d4119b3433722b603b",
+            1,
+        ),
     )
     parsed_profiles: list[tuple[str, str, str, str, str, int, ast.AST]] = []
     parsed_trees: dict[str, ast.AST] = {}
@@ -2617,10 +2727,25 @@ def _resource_classification_inventory(
             raise ReadinessError("RESOURCE_CLASSIFICATION_NAME_CARDINALITY", path)
 
     for path, _, function_name, function_sha256, _, _, tree in parsed_profiles:
-        functions = [
-            node for node in ast.walk(tree)
-            if isinstance(node, ast.FunctionDef) and node.name == function_name
-        ]
+        coordinate_parts = function_name.split(".")
+        if len(coordinate_parts) == 1:
+            functions = [
+                node for node in ast.walk(tree)
+                if isinstance(node, ast.FunctionDef)
+                and node.name == function_name
+            ]
+        elif len(coordinate_parts) == 2:
+            class_name, method_name = coordinate_parts
+            owners = [
+                node for node in tree.body
+                if isinstance(node, ast.ClassDef) and node.name == class_name
+            ]
+            functions = [
+                node for owner in owners for node in owner.body
+                if isinstance(node, ast.FunctionDef) and node.name == method_name
+            ]
+        else:
+            functions = []
         if len(functions) != 1:
             raise ReadinessError("RESOURCE_CLASSIFICATION_FUNCTION", path)
         function_dump = ast.dump(
@@ -2648,8 +2773,8 @@ def _resource_classification_inventory(
         raise ReadinessError("RESOURCE_CLASSIFICATION_SELF_DIGEST", manifest_path)
 
     return {
-        "classified_constraint_count": 7,
-        "classified_site_count": 22,
+        "classified_constraint_count": 8,
+        "classified_site_count": 24,
         "classification_manifest_sha256": claimed_digest,
         "coverage_status": "INCOMPLETE",
         "evidence_inputs": [
@@ -2818,8 +2943,8 @@ def build_report(root: Path = ROOT) -> dict[str, Any]:
         "code": "RESOURCE_INVENTORY_INCOMPLETE",
         "evidence": (
             "The discovery census contains "
-            f"{len(source_bound_sites) + len(schema_bound_sites) - 22} "
-            "unclassified sites after 22 classified resource sites; "
+            f"{len(source_bound_sites) + len(schema_bound_sites) - 24} "
+            "unclassified sites after 24 classified resource sites; "
             f"{len(source_bound_sites)} source-bound sites and "
             f"{len(schema_bound_sites)} unclassified schema-bound sites; no "
             "reviewed bidirectional manifest yet classifies every constraint."
