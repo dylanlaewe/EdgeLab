@@ -171,35 +171,52 @@ CLOSURE_SCHEMA = (
     "schemas/m0-3a-verifier-dependency-closure.v1.schema.json",
 )
 RESOURCE_CLASSIFICATION_SCHEMA = (
-    "urn:edgelab:m0-3a-runtime-v2-resource-classification:14",
-    "schemas/m0-3a-runtime-v2-resource-classification.v14.schema.json",
+    "urn:edgelab:m0-3a-runtime-v2-resource-classification:15",
+    "schemas/m0-3a-runtime-v2-resource-classification.v15.schema.json",
 )
 RESOURCE_CLASSIFICATION_MANIFEST = (
-    "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V14",
-    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v14.json",
+    "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V15",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v15.json",
 )
 RESOURCE_CLASSIFICATION_DOMAIN = (
-    "EDGELAB\0RUNTIME_V2_RESOURCE_CLASSIFICATION\0V14\0"
+    "EDGELAB\0RUNTIME_V2_RESOURCE_CLASSIFICATION\0V15\0"
 )
 RESOURCE_SOURCE_INPUT_DOMAIN = (
     "EDGELAB\0RUNTIME_V2_RESOURCE_SOURCE_INPUTS\0V1\0"
 )
 RESOURCE_DISCOVERY_V1_ID = "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V1"
 RESOURCE_DISCOVERY_V2_ID = "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V2"
+RESOURCE_DISCOVERY_V3_ID = "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V3"
 RESOURCE_DISCOVERY_SCHEMA = (
-    "urn:edgelab:m0-3a-runtime-v2-resource-discovery:2",
-    "schemas/m0-3a-runtime-v2-resource-discovery.v2.schema.json",
+    "urn:edgelab:m0-3a-runtime-v2-resource-discovery:3",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v3.schema.json",
 )
 RESOURCE_DISCOVERY_MANIFEST = (
-    RESOURCE_DISCOVERY_V2_ID,
-    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v2.json",
+    RESOURCE_DISCOVERY_V3_ID,
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v3.json",
 )
-RESOURCE_DISCOVERY_DOMAIN = "EDGELAB\0RUNTIME_V2_RESOURCE_DISCOVERY\0V2\0"
+RESOURCE_DISCOVERY_DOMAIN = "EDGELAB\0RUNTIME_V2_RESOURCE_DISCOVERY\0V3\0"
 RESOURCE_DISCOVERY_SCHEMA_RAW_SHA256 = (
-    "05cc1d76c95833e8b2d9bd3eaa2dbc4abc4cbed87088cca7ba1323a04a849243"
+    "60d8cb918f985308bdb5c7d477398066abc25d230642a266ff6836fa4f85f766"
 )
+RESOURCE_DISCOVERY_PREDECESSOR_MANIFEST = {
+    "byte_length": 9649,
+    "discovery_manifest_sha256": (
+        "c865ac494361d7ad310464efd19a0bf3d9c79ddfaa7d58e50a4ff9ef449c7725"
+    ),
+    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v2.json",
+    "raw_sha256": "12e0b1e722f9b49e14e530bb2721ee1ded1865fa4168f02d13c741f8e59adefe",
+}
+RESOURCE_DISCOVERY_PREDECESSOR_SCHEMA = {
+    "byte_length": 11712,
+    "path": "schemas/m0-3a-runtime-v2-resource-discovery.v2.schema.json",
+    "raw_sha256": "05cc1d76c95833e8b2d9bd3eaa2dbc4abc4cbed87088cca7ba1323a04a849243",
+}
 RESOURCE_BINDING_SITE_DOMAIN = (
     "EDGELAB\0RUNTIME_V2_RESOURCE_BINDING_SITE\0V2\0"
+)
+RESOURCE_CARDINALITY_BINDING_SITE_DOMAIN = (
+    "EDGELAB\0RUNTIME_V2_RESOURCE_CARDINALITY_BINDING_SITE\0V3\0"
 )
 RESOURCE_SOURCE_BOUND_SITES_V2_DOMAIN = (
     "EDGELAB\0RUNTIME_V2_SOURCE_BOUND_SITES\0V2\0"
@@ -207,23 +224,42 @@ RESOURCE_SOURCE_BOUND_SITES_V2_DOMAIN = (
 RESOURCE_SOURCE_BOUND_SITES_V2_SHA256 = (
     "4a8707fd2ea6b1a398de1207a397f57c7dda9f368259dc58a10dc171352e0864"
 )
+RESOURCE_SOURCE_BOUND_SITES_V3_DOMAIN = (
+    "EDGELAB\0RUNTIME_V2_SOURCE_BOUND_SITES\0V3\0"
+)
+RESOURCE_SOURCE_BOUND_SITES_V3_SHA256 = (
+    "d38e35a0f2466735c0895b6bfb7f20c83b52834ccbc3995943f8147d8f664071"
+)
 RESOURCE_CLASSIFICATION_SCHEMA_RAW_SHA256 = (
-    "43bcb30ab3ae233122acec3cc820559b53dfd3071d9441df0f4a799f12e9c509"
+    "2ca078ece22eaa8887184302110b727bfbf3ade49762a4be089c16628bd8378c"
 )
 RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST = {
-    "byte_length": 28604,
+    "byte_length": 32650,
     "classification_manifest_sha256": (
-        "1fbd86f9587ccfb424bdeff7feda092004436475b491412837fc5d8d29adf043"
+        "855b694a556f4a6ad86ef43301101bc4c69ece5e36a1e310bed9e359514375e7"
     ),
-    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v13.json",
-    "raw_sha256": "ce9a29e6d2a5703b6513f47afc123e3632d3bd5685edeb626715af66987f395f",
+    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v14.json",
+    "raw_sha256": "14f31c3f9d5451b7fe42dc45c3de44f58cc5e992f26a3e70e87c99cbdded24f8",
 }
 RESOURCE_CLASSIFICATION_PREDECESSOR_SCHEMA = {
-    "byte_length": 31864,
-    "path": "schemas/m0-3a-runtime-v2-resource-classification.v13.schema.json",
-    "raw_sha256": "037d0874beeae356b07f4e38f2f30a2d0256ba85f7824454e55bc79529e09414",
+    "byte_length": 36142,
+    "path": "schemas/m0-3a-runtime-v2-resource-classification.v14.schema.json",
+    "raw_sha256": "43bcb30ab3ae233122acec3cc820559b53dfd3071d9441df0f4a799f12e9c509",
 }
 RESOURCE_CLASSIFICATION_ANCESTORS = (
+    {
+        "byte_length": 28604,
+        "classification_manifest_sha256": (
+            "1fbd86f9587ccfb424bdeff7feda092004436475b491412837fc5d8d29adf043"
+        ),
+        "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v13.json",
+        "raw_sha256": "ce9a29e6d2a5703b6513f47afc123e3632d3bd5685edeb626715af66987f395f",
+    },
+    {
+        "byte_length": 31864,
+        "path": "schemas/m0-3a-runtime-v2-resource-classification.v13.schema.json",
+        "raw_sha256": "037d0874beeae356b07f4e38f2f30a2d0256ba85f7824454e55bc79529e09414",
+    },
     {
         "byte_length": 25470,
         "classification_manifest_sha256": (
@@ -1472,6 +1508,417 @@ def _source_bound_binding_inventory(
     return sorted(result, key=lambda item: (item["path"], item["site_id"]))
 
 
+def _is_cardinality_bound_comparison(node: ast.AST) -> bool:
+    return (
+        isinstance(node, ast.Compare)
+        and isinstance(node.left, ast.Name)
+        and node.left.id == "minimum"
+        and len(node.ops) == 2
+        and all(isinstance(operator, ast.LtE) for operator in node.ops)
+        and len(node.comparators) == 2
+        and isinstance(node.comparators[0], ast.Call)
+        and isinstance(node.comparators[0].func, ast.Name)
+        and node.comparators[0].func.id == "len"
+        and len(node.comparators[0].args) == 1
+        and not node.comparators[0].keywords
+        and isinstance(node.comparators[0].args[0], ast.Name)
+        and node.comparators[0].args[0].id == "value"
+        and isinstance(node.comparators[1], ast.Name)
+        and node.comparators[1].id == "maximum"
+    )
+
+
+def _source_bound_cardinality_binding_inventory(
+    source_bytes: dict[str, bytes],
+    predecessor_sites: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Derive the closed V3 cardinality-table extension to the V2 census."""
+    path = "src/edgelab/runtime_v2_image.py"
+    coordinate = f"{path}:inspect_runtime_image_host"
+    try:
+        tree = ast.parse(source_bytes[path], filename=path)
+    except KeyError as error:
+        raise ReadinessError("RESOURCE_CARDINALITY_BINDING_SOURCE", path) from error
+    except (SyntaxError, ValueError) as error:
+        raise ReadinessError("PYTHON_SOURCE", path) from error
+
+    functions = [
+        node for node in tree.body
+        if isinstance(node, ast.FunctionDef)
+        and node.name == "inspect_runtime_image_host"
+    ]
+    if len(functions) != 1:
+        raise ReadinessError("RESOURCE_CARDINALITY_BINDING_FUNCTION", coordinate)
+    function = functions[0]
+    semantic_function_ast_sha256 = _ast_sha256(function)
+
+    constant_values = {
+        "MAX_BLOBS": 300_000,
+        "MAX_EVENTS": 100_000,
+        "MAX_CHECKPOINT_COPIES": 49_999,
+        "MAX_SELECTORS": 50_001,
+        "MIN_SELECTORS": 2,
+    }
+    for name, expected_value in constant_values.items():
+        definitions = [
+            node for node in tree.body
+            if isinstance(node, ast.Assign)
+            and len(node.targets) == 1
+            and isinstance(node.targets[0], ast.Name)
+            and node.targets[0].id == name
+        ]
+        if (
+            len(definitions) != 1
+            or _integer_constant(definitions[0].value) != expected_value
+        ):
+            raise ReadinessError(
+                "RESOURCE_CARDINALITY_BINDING_LIMIT", f"{path}:{name}"
+            )
+
+    table_spec_assignments = [
+        node for node in tree.body
+        if isinstance(node, ast.Assign)
+        and len(node.targets) == 1
+        and isinstance(node.targets[0], ast.Name)
+        and node.targets[0].id == "_TABLE_SPECS"
+    ]
+    if (
+        len(table_spec_assignments) != 1
+        or _ast_sha256(table_spec_assignments[0])
+        != "60d9b16f6030dce58a70f4493dc201afaabb6bd0d1a797508232dd88a6015cae"
+    ):
+        raise ReadinessError(
+            "RESOURCE_CARDINALITY_BINDING_TABLE_SPECS", f"{path}:_TABLE_SPECS"
+        )
+
+    subject_table_name = "tuple_fields"
+    subject_name_nodes = [
+        node for node in ast.walk(function)
+        if isinstance(node, ast.Name) and node.id == subject_table_name
+    ]
+    subject_stores = [
+        node for node in subject_name_nodes if isinstance(node.ctx, ast.Store)
+    ]
+    subject_loads = [
+        node for node in subject_name_nodes if isinstance(node.ctx, ast.Load)
+    ]
+    if len(subject_stores) != 1 or len(subject_loads) != 1:
+        raise ReadinessError(
+            "RESOURCE_CARDINALITY_BINDING_SUBJECT_TABLE_NAME",
+            f"{coordinate}:{subject_table_name}",
+        )
+    subject_assignments = [
+        node for node in ast.walk(function)
+        if isinstance(node, ast.Assign)
+        and len(node.targets) == 1
+        and node.targets[0] is subject_stores[0]
+    ]
+    if len(subject_assignments) != 1:
+        raise ReadinessError(
+            "RESOURCE_CARDINALITY_BINDING_SUBJECT_ASSIGNMENT",
+            f"{coordinate}:{subject_table_name}",
+        )
+    subject_assignment = subject_assignments[0]
+    if _ast_sha256(subject_assignment) != (
+        "2c8b915ebfb7a82cd65a78509e4ef1077045440266f37fa5e284f73a2e6020f5"
+    ):
+        raise ReadinessError(
+            "RESOURCE_CARDINALITY_BINDING_SUBJECT_ASSIGNMENT_AST",
+            f"{coordinate}:{subject_table_name}",
+        )
+    expected_branches = (
+        "schema_documents", "blobs", "events", "table_snapshots",
+        "checkpoint_copies", "selector_history",
+    )
+    if (
+        not isinstance(subject_assignment.value, ast.Tuple)
+        or len(subject_assignment.value.elts) != len(expected_branches)
+    ):
+        raise ReadinessError(
+            "RESOURCE_CARDINALITY_BINDING_SUBJECT_ROWS",
+            f"{coordinate}:{subject_table_name}",
+        )
+    for row_index, (row, branch_key) in enumerate(zip(
+        subject_assignment.value.elts, expected_branches, strict=True,
+    )):
+        if (
+            not isinstance(row, ast.Tuple)
+            or len(row.elts) != 2
+            or not isinstance(row.elts[0], ast.Constant)
+            or type(row.elts[0].value) is not str
+            or row.elts[0].value != branch_key
+            or not _is_captured_branch(row.elts[1], branch_key)
+        ):
+            raise ReadinessError(
+                "RESOURCE_CARDINALITY_BINDING_SUBJECT_ROW",
+                f"{coordinate}:{subject_table_name}:{row_index}",
+            )
+    subject_loops = [
+        node for node in ast.walk(function)
+        if isinstance(node, ast.For) and node.iter is subject_loads[0]
+    ]
+    if len(subject_loops) != 1:
+        raise ReadinessError(
+            "RESOURCE_CARDINALITY_BINDING_SUBJECT_LOOP",
+            f"{coordinate}:{subject_table_name}",
+        )
+    subject_loop = subject_loops[0]
+    if _ast_sha256(subject_loop) != (
+        "9e3c2a4b8b7a01aefe2d991cbd889eb3e438c2849d75e31b89ed89afd9265b41"
+    ):
+        raise ReadinessError(
+            "RESOURCE_CARDINALITY_BINDING_SUBJECT_LOOP_AST",
+            f"{coordinate}:{subject_table_name}",
+        )
+    if (
+        not isinstance(subject_loop.target, ast.Tuple)
+        or tuple(
+            item.id if isinstance(item, ast.Name) else None
+            for item in subject_loop.target.elts
+        ) != ("name", "value")
+    ):
+        raise ReadinessError(
+            "RESOURCE_CARDINALITY_BINDING_SUBJECT_LOOP_TARGET",
+            f"{coordinate}:{subject_table_name}",
+        )
+
+    table_name = "cardinalities"
+    name_nodes = [
+        node for node in ast.walk(function)
+        if isinstance(node, ast.Name) and node.id == table_name
+    ]
+    stores = [node for node in name_nodes if isinstance(node.ctx, ast.Store)]
+    loads = [node for node in name_nodes if isinstance(node.ctx, ast.Load)]
+    if len(stores) != 1 or len(loads) != 1:
+        raise ReadinessError(
+            "RESOURCE_CARDINALITY_BINDING_TABLE_NAME", f"{coordinate}:{table_name}"
+        )
+    if any(
+        isinstance(node, ast.Constant) and node.value == table_name
+        for node in ast.walk(function)
+    ):
+        raise ReadinessError(
+            "RESOURCE_CARDINALITY_BINDING_DYNAMIC_TABLE",
+            f"{coordinate}:{table_name}",
+        )
+
+    assignments = [
+        node for node in ast.walk(function)
+        if isinstance(node, ast.Assign)
+        and len(node.targets) == 1
+        and node.targets[0] is stores[0]
+    ]
+    if len(assignments) != 1:
+        raise ReadinessError(
+            "RESOURCE_CARDINALITY_BINDING_ASSIGNMENT",
+            f"{coordinate}:{table_name}",
+        )
+    assignment = assignments[0]
+    assignment_hash = _ast_sha256(assignment)
+    if assignment_hash != (
+        "49d78a29c5302a5f0c2a9d4edaef5072af28db8375c35677cb1e1effd2e25c94"
+    ):
+        raise ReadinessError(
+            "RESOURCE_CARDINALITY_BINDING_ASSIGNMENT_AST",
+            f"{coordinate}:{table_name}",
+        )
+
+    rows = (
+        (
+            "schema_documents", "9", "9",
+            "9322c9eed913fee8a120b2d2bbe4c665d87230d40446aef1621c35a0e4c630d9",
+            "cc70a073ff6cb3d1a80a48869ff0073a91600b675a290a0318e83eb7b6c7907b",
+        ),
+        (
+            "blobs", "0", "MAX_BLOBS",
+            "8dc4ce59580dbb69690973f368094a14a3292b63e1c523a65abb87230e60c4ff",
+            "9cd4a36115b048b5729c12787474b202859dd786e34b645ab8b647a5b68b76c3",
+        ),
+        (
+            "events", "0", "MAX_EVENTS",
+            "94944d590dfbc915aa3ab92438f56f116ba8066724cd88c5aa9acbe50a9d4751",
+            "fd2933fa143fb9fb2d6a9d6f375f1f6b1e0aae26e447e9fea4ad3b9d7c2b92a1",
+        ),
+        (
+            "table_snapshots", "len(_TABLE_SPECS)", "len(_TABLE_SPECS)",
+            "20ae06e86122a5e082532a0a9fdffc229db47b917a9a3a98249bb146a48eb329",
+            "56e98674b7d3cea2c63839f264be9afd63b55b3d9acb1dfc321cf1c4dc60744a",
+        ),
+        (
+            "checkpoint_copies", "0", "MAX_CHECKPOINT_COPIES",
+            "795c31fe76805ff8a2cbf3d0d459bfd4a9156dd3a95b24253eacee21334c96f1",
+            "e97220f7bc97ef6a73c731794238c6f6e2ffe2c1b744e945c35cde22afaa2f13",
+        ),
+        (
+            "selector_history", "MIN_SELECTORS", "MAX_SELECTORS",
+            "9ab078af59b3b851dbd4deba1ea77e7d1822ad3758af503ee8c494ea47b27484",
+            "eeee1fcbd15b357a15780fe79e32e2e5046cbb44d1d02e7025828aaa61940557",
+        ),
+    )
+    if not isinstance(assignment.value, ast.Tuple) or len(
+        assignment.value.elts
+    ) != len(rows):
+        raise ReadinessError(
+            "RESOURCE_CARDINALITY_BINDING_ROWS", f"{coordinate}:{table_name}"
+        )
+
+    loops = [
+        node for node in ast.walk(function)
+        if isinstance(node, ast.For) and node.iter is loads[0]
+    ]
+    if len(loops) != 1:
+        raise ReadinessError(
+            "RESOURCE_CARDINALITY_BINDING_LOOP", f"{coordinate}:{table_name}"
+        )
+    loop = loops[0]
+    loop_hash = _ast_sha256(loop)
+    if loop_hash != (
+        "240c758d427bfefb4cd9ae2f020a6c8d8212178637c304811e1751dea8b98e2f"
+    ):
+        raise ReadinessError(
+            "RESOURCE_CARDINALITY_BINDING_LOOP_AST", f"{coordinate}:{table_name}"
+        )
+    if (
+        not isinstance(loop.target, ast.Tuple)
+        or tuple(
+            item.id if isinstance(item, ast.Name) else None
+            for item in loop.target.elts
+        ) != ("name", "minimum", "maximum")
+    ):
+        raise ReadinessError(
+            "RESOURCE_CARDINALITY_BINDING_LOOP_TARGET",
+            f"{coordinate}:{table_name}",
+        )
+    flow_pins = {
+        "validity_gate_ast_sha256": (
+            "80f43e2757b87785145812c7bbdd11dd7f2b75ca7983a0e20657f51bf0493557"
+        ),
+        "subject_lookup_ast_sha256": (
+            "c7fee319573f6b06586df87192a91ea53633133dc1970225b005d91733d96f34"
+        ),
+        "comparison_assignment_ast_sha256": (
+            "0ac4a3c116faf2d3b271a709a0b15171fa566779bb8e03797b6271aaaec94018"
+        ),
+        "result_assignment_ast_sha256": (
+            "f7babf5f583439c6651955a1f94cd7ded828a872da0550f437198585bcdfc6e6"
+        ),
+        "invalid_branch_ast_sha256": (
+            "10f692935ade01e94f5748199c52cdc242aa0260a5c88603a03dd3710c13accb"
+        ),
+    }
+    if (
+        len(loop.body) != 5
+        or tuple(_ast_sha256(node) for node in loop.body)
+        != tuple(flow_pins.values())
+    ):
+        raise ReadinessError(
+            "RESOURCE_CARDINALITY_BINDING_FLOW_AST",
+            f"{coordinate}:{table_name}",
+        )
+    comparisons = [
+        node for node in ast.walk(loop)
+        if _is_cardinality_bound_comparison(node)
+    ]
+    if len(comparisons) != 1:
+        raise ReadinessError(
+            "RESOURCE_CARDINALITY_BINDING_COMPARATOR",
+            f"{coordinate}:{table_name}",
+        )
+    comparator_site_id = (
+        "807681eb5829047729803ad4290cd3239097de959106e756ab8bd52329894e24"
+    )
+    predecessor_by_id = {item["site_id"]: item for item in predecessor_sites}
+    if len(predecessor_by_id) != len(predecessor_sites):
+        raise ReadinessError("RESOURCE_CARDINALITY_BINDING_PREDECESSOR_DUPLICATE", path)
+    predecessor = predecessor_by_id.get(comparator_site_id)
+    if predecessor != {
+        "ast_sha256": _ast_sha256(comparisons[0]),
+        "classification": "UNCLASSIFIED",
+        "expression": ast.unparse(comparisons[0]),
+        "kind": "BOUND_COMPARISON",
+        "line": comparisons[0].lineno,
+        "occurrence": predecessor.get("occurrence") if predecessor else None,
+        "path": path,
+        "qualname": "<module>.inspect_runtime_image_host",
+        "site_id": comparator_site_id,
+    }:
+        raise ReadinessError(
+            "RESOURCE_CARDINALITY_BINDING_COMPARATOR_SITE",
+            f"{coordinate}:{table_name}",
+        )
+    if semantic_function_ast_sha256 != (
+        "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f"
+    ):
+        raise ReadinessError(
+            "RESOURCE_CARDINALITY_BINDING_FUNCTION_AST", coordinate
+        )
+
+    result: list[dict[str, Any]] = []
+    for row_index, (row, subject_row, expected) in enumerate(zip(
+        assignment.value.elts, subject_assignment.value.elts, rows,
+        strict=True,
+    )):
+        branch_key, minimum_expression, maximum_expression, expected_ast, expected_site = expected
+        if (
+            not isinstance(row, ast.Tuple)
+            or len(row.elts) != 3
+            or not isinstance(row.elts[0], ast.Constant)
+            or type(row.elts[0].value) is not str
+            or row.elts[0].value != branch_key
+            or ast.unparse(row.elts[1]) != minimum_expression
+            or ast.unparse(row.elts[2]) != maximum_expression
+            or _ast_sha256(row) != expected_ast
+        ):
+            raise ReadinessError(
+                "RESOURCE_CARDINALITY_BINDING_ROW_AST",
+                f"{coordinate}:{table_name}:{row_index}",
+            )
+        record = {
+            "ast_sha256": expected_ast,
+            "binding": f"{table_name}:{branch_key}",
+            "branch_key": branch_key,
+            "classification": "UNCLASSIFIED",
+            "comparator_site_id": comparator_site_id,
+            "expression": ast.unparse(row),
+            "kind": "BOUND_CARDINALITY_TABLE_COMPARISON_BINDING",
+            "line": row.lineno,
+            "loop_ast_sha256": loop_hash,
+            "maximum_expression": maximum_expression,
+            "minimum_expression": minimum_expression,
+            "path": path,
+            "qualname": "<module>.inspect_runtime_image_host",
+            "row_index": row_index,
+            "semantic_function_ast_sha256": semantic_function_ast_sha256,
+            "subject_loop_ast_sha256": _ast_sha256(subject_loop),
+            "subject_row_ast_sha256": _ast_sha256(subject_row),
+            "subject_table_assignment_ast_sha256": _ast_sha256(
+                subject_assignment
+            ),
+            "subject_binding": f"captured[{branch_key!r}]",
+            "subject_expression": "captured[name]",
+            "table_assignment_ast_sha256": assignment_hash,
+            "table_name": table_name,
+            **flow_pins,
+        }
+        identity = {
+            key: value for key, value in record.items()
+            if key not in {"classification", "expression", "line"}
+        }
+        record["site_id"] = _domain_digest(
+            RESOURCE_CARDINALITY_BINDING_SITE_DOMAIN, identity
+        )
+        if record["site_id"] != expected_site:
+            raise ReadinessError(
+                "RESOURCE_CARDINALITY_BINDING_SITE_ID",
+                f"{coordinate}:{table_name}:{row_index}",
+            )
+        result.append(record)
+
+    if len(result) != 6 or len({item["site_id"] for item in result}) != 6:
+        raise ReadinessError("RESOURCE_CARDINALITY_BINDING_CARDINALITY", path)
+    return sorted(result, key=lambda item: (item["path"], item["site_id"]))
+
+
 def _resource_unit(name: str) -> str:
     if "BYTE" in name:
         return "BYTES"
@@ -1726,7 +2173,49 @@ def _resource_discovery_evidence_inventory(
     identities: set[tuple[int, int]],
     resource_discovery: dict[str, Any],
 ) -> dict[str, Any]:
-    """Validate the closed, deny-only Discovery V2 evidence manifest."""
+    """Validate the closed, deny-only Discovery V3 evidence manifest."""
+    predecessor_values: dict[str, dict[str, Any]] = {}
+    for expected, has_self_digest in (
+        (RESOURCE_DISCOVERY_PREDECESSOR_MANIFEST, True),
+        (RESOURCE_DISCOVERY_PREDECESSOR_SCHEMA, False),
+    ):
+        raw, identity = _audit_path(root, expected["path"])
+        if identity in identities:
+            raise ReadinessError("HARDLINK_INPUT_ALIAS", expected["path"])
+        identities.add(identity)
+        if len(raw) != expected["byte_length"] or _sha256(raw) != expected[
+            "raw_sha256"
+        ]:
+            raise ReadinessError(
+                "RESOURCE_DISCOVERY_PREDECESSOR_IDENTITY", expected["path"]
+            )
+        value = _parse_json(raw, expected["path"])
+        if type(value) is not dict:
+            raise ReadinessError(
+                "RESOURCE_DISCOVERY_PREDECESSOR_OBJECT", expected["path"]
+            )
+        predecessor_values[expected["path"]] = value
+        if has_self_digest and value.get(
+            "discovery_manifest_sha256"
+        ) != expected["discovery_manifest_sha256"]:
+            raise ReadinessError(
+                "RESOURCE_DISCOVERY_PREDECESSOR_DIGEST", expected["path"]
+            )
+
+    predecessor_manifest = predecessor_values[
+        RESOURCE_DISCOVERY_PREDECESSOR_MANIFEST["path"]
+    ]
+    if (
+        predecessor_manifest.get("profile_id") != RESOURCE_DISCOVERY_V2_ID
+        or predecessor_manifest.get("source_bound_site_count") != 401
+        or predecessor_manifest.get("source_bound_sites_sha256")
+        != RESOURCE_SOURCE_BOUND_SITES_V2_SHA256
+    ):
+        raise ReadinessError(
+            "RESOURCE_DISCOVERY_PREDECESSOR_BINDING",
+            RESOURCE_DISCOVERY_PREDECESSOR_MANIFEST["path"],
+        )
+
     schema_id, schema_path = RESOURCE_DISCOVERY_SCHEMA
     schema_raw, schema_identity = _audit_path(root, schema_path)
     if schema_identity in identities:
@@ -1745,11 +2234,13 @@ def _resource_discovery_evidence_inventory(
     identities.add(manifest_identity)
     manifest = _parse_json(manifest_raw, manifest_path)
     expected_keys = {
-        "classification_status", "coverage_status", "derived_binding_site_count",
+        "classification_status", "coverage_status",
+        "cumulative_derived_binding_site_count", "derived_binding_site_count",
         "derived_binding_site_ids", "derived_binding_sites",
         "discovered_site_count", "discovery_manifest_sha256",
         "discovery_schema_raw_sha256", "generation_disposition",
         "legacy_source_bound_site_count", "manifest_id", "predecessor_discovery",
+        "predecessor_manifest", "predecessor_schema",
         "profile_id", "schema_bound_site_count", "schema_bound_sites_sha256",
         "schema_input_count", "schema_inputs_sha256", "schema_version",
         "source_bound_site_count", "source_bound_sites_sha256",
@@ -1760,10 +2251,10 @@ def _resource_discovery_evidence_inventory(
 
     binding_sites = [
         item for item in resource_discovery["source_bound_sites"]
-        if item.get("kind") == "BOUND_TABLE_COMPARISON_BINDING"
+        if item.get("kind") == "BOUND_CARDINALITY_TABLE_COMPARISON_BINDING"
     ]
     scalar_expected = {
-        "schema_version": 2,
+        "schema_version": 3,
         "manifest_id": schema_id,
         "profile_id": profile_id,
         "coverage_status": "INCOMPLETE",
@@ -1771,10 +2262,15 @@ def _resource_discovery_evidence_inventory(
         "generation_disposition": "DENY",
         "discovery_schema_raw_sha256": RESOURCE_DISCOVERY_SCHEMA_RAW_SHA256,
         "predecessor_discovery": resource_discovery["predecessor_discovery"],
+        "predecessor_manifest": dict(RESOURCE_DISCOVERY_PREDECESSOR_MANIFEST),
+        "predecessor_schema": dict(RESOURCE_DISCOVERY_PREDECESSOR_SCHEMA),
         "source_input_count": len(resource_discovery["source_inputs"]),
         "source_inputs_sha256": resource_discovery["source_inputs_sha256"],
         "legacy_source_bound_site_count": resource_discovery[
             "legacy_source_bound_site_count"
+        ],
+        "cumulative_derived_binding_site_count": resource_discovery[
+            "cumulative_derived_binding_site_count"
         ],
         "derived_binding_site_count": len(binding_sites),
         "source_bound_site_count": len(resource_discovery["source_bound_sites"]),
@@ -1812,6 +2308,8 @@ def _resource_discovery_evidence_inventory(
             "path": manifest_path,
             "raw_sha256": _sha256(manifest_raw),
         },
+        "predecessor_manifest": dict(RESOURCE_DISCOVERY_PREDECESSOR_MANIFEST),
+        "predecessor_schema": dict(RESOURCE_DISCOVERY_PREDECESSOR_SCHEMA),
         "profile_id": profile_id,
         "schema": {
             "byte_length": len(schema_raw),
@@ -1914,7 +2412,7 @@ def _resource_classification_inventory(
     if set(manifest) != expected_keys:
         raise ReadinessError("RESOURCE_CLASSIFICATION_KEYS", manifest_path)
     scalar_expected = {
-        "schema_version": 14,
+        "schema_version": 15,
         "manifest_id": schema_id,
         "profile_id": profile_id,
         "discovery_profile_id": resource_discovery["profile_id"],
@@ -1933,7 +2431,7 @@ def _resource_classification_inventory(
         "source_inputs_sha256": _domain_digest(
             RESOURCE_SOURCE_INPUT_DOMAIN, source_inputs
         ),
-        "source_bound_site_count": 401,
+        "source_bound_site_count": 407,
         "source_bound_sites_sha256": resource_discovery[
             "source_bound_sites_sha256"
         ],
@@ -1943,7 +2441,7 @@ def _resource_classification_inventory(
         ],
         "schema_inputs_sha256": resource_discovery["schema_inputs_sha256"],
         "classified_site_count": 38,
-        "unclassified_site_count": 659,
+        "unclassified_site_count": 665,
     }
     for key, expected in scalar_expected.items():
         if type(manifest.get(key)) is not type(expected) or manifest.get(key) != expected:
@@ -2714,6 +3212,17 @@ def _resource_classification_inventory(
     ]
     if constraints != expected_constraints:
         raise ReadinessError("RESOURCE_CLASSIFICATION_CONSTRAINT", manifest_path)
+    predecessor_value = manifest_values.get(
+        RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST["path"]
+    )
+    if (
+        predecessor_value is None
+        or predecessor_value.get("constraints") != constraints
+        or predecessor_value.get("classified_site_count") != 38
+    ):
+        raise ReadinessError(
+            "RESOURCE_CLASSIFICATION_CENSUS_REBASE", manifest_path
+        )
 
     evidence_by_path = {item["path"]: item for item in RESOURCE_CLASSIFICATION_EVIDENCE}
     if len(evidence_by_path) != len(RESOURCE_CLASSIFICATION_EVIDENCE):
@@ -3422,25 +3931,45 @@ def build_report(root: Path = ROOT) -> dict[str, Any]:
     content = _content_inventory(root, identities)
     digest_domains = _digest_domains(source, source_bytes)
     resource_limits = _resource_limits(source, source_bytes)
-    predecessor_source_bound_sites = _source_bound_inventory(source_bytes)
-    if len(predecessor_source_bound_sites) != 394:
+    v1_source_bound_sites = _source_bound_inventory(source_bytes)
+    if len(v1_source_bound_sites) != 394:
         raise ReadinessError("RESOURCE_DISCOVERY_V1_CARDINALITY", "source_bound_sites")
-    source_bound_binding_sites = _source_bound_binding_inventory(
-        source_bytes, predecessor_source_bound_sites
+    v2_binding_sites = _source_bound_binding_inventory(
+        source_bytes, v1_source_bound_sites
     )
-    source_bound_sites = sorted(
-        predecessor_source_bound_sites + source_bound_binding_sites,
+    v2_source_bound_sites = sorted(
+        v1_source_bound_sites + v2_binding_sites,
         key=lambda item: (item["path"], item["site_id"]),
     )
-    if len(source_bound_sites) != 401:
+    if len(v2_source_bound_sites) != 401:
         raise ReadinessError("RESOURCE_DISCOVERY_V2_CARDINALITY", "source_bound_sites")
+    v2_source_bound_identity = [
+        {key: value for key, value in item.items() if key != "line"}
+        for item in v2_source_bound_sites
+    ]
+    v2_source_bound_sites_sha256 = _domain_digest(
+        RESOURCE_SOURCE_BOUND_SITES_V2_DOMAIN, v2_source_bound_identity
+    )
+    if v2_source_bound_sites_sha256 != RESOURCE_SOURCE_BOUND_SITES_V2_SHA256:
+        raise ReadinessError(
+            "RESOURCE_DISCOVERY_V2_IDENTITY", "source_bound_sites_sha256"
+        )
+    cardinality_binding_sites = _source_bound_cardinality_binding_inventory(
+        source_bytes, v2_source_bound_sites
+    )
+    source_bound_sites = sorted(
+        v2_source_bound_sites + cardinality_binding_sites,
+        key=lambda item: (item["path"], item["site_id"]),
+    )
+    if len(source_bound_sites) != 407:
+        raise ReadinessError("RESOURCE_DISCOVERY_V3_CARDINALITY", "source_bound_sites")
     source_bound_identity = [
         {key: value for key, value in item.items() if key != "line"}
         for item in source_bound_sites
     ]
-    predecessor_source_bound_identity = [
+    v1_source_bound_identity = [
         {key: value for key, value in item.items() if key != "line"}
-        for item in predecessor_source_bound_sites
+        for item in v1_source_bound_sites
     ]
     schema_inputs = [
         {
@@ -3473,44 +4002,55 @@ def build_report(root: Path = ROOT) -> dict[str, Any]:
             "EDGELAB\0RUNTIME_V2_RESOURCE_SCHEMA_INPUTS\0V1\0",
             schema_inputs,
         ),
-        "source_bound_sites": predecessor_source_bound_sites,
+        "source_bound_sites": v1_source_bound_sites,
         "source_bound_sites_sha256": _domain_digest(
             "EDGELAB\0RUNTIME_V2_SOURCE_BOUND_SITES\0V1\0",
-            predecessor_source_bound_identity,
+            v1_source_bound_identity,
         ),
         "source_inputs": source_inputs,
         "source_inputs_sha256": _domain_digest(
             RESOURCE_SOURCE_INPUT_DOMAIN, source_inputs,
         ),
     }
+    resource_discovery_v2 = {
+        **resource_discovery_v1,
+        "derived_binding_site_count": len(v2_binding_sites),
+        "legacy_source_bound_site_count": len(v1_source_bound_sites),
+        "profile_id": RESOURCE_DISCOVERY_V2_ID,
+        "source_bound_sites": v2_source_bound_sites,
+        "source_bound_sites_sha256": v2_source_bound_sites_sha256,
+    }
     predecessor_discovery = {
-        "profile_id": resource_discovery_v1["profile_id"],
+        "profile_id": resource_discovery_v2["profile_id"],
         "schema_bound_site_count": len(schema_bound_sites),
-        "schema_bound_sites_sha256": resource_discovery_v1[
+        "schema_bound_sites_sha256": resource_discovery_v2[
             "schema_bound_sites_sha256"
         ],
         "schema_input_count": len(schema_inputs),
-        "schema_inputs_sha256": resource_discovery_v1["schema_inputs_sha256"],
-        "source_bound_site_count": len(predecessor_source_bound_sites),
-        "source_bound_sites_sha256": resource_discovery_v1[
+        "schema_inputs_sha256": resource_discovery_v2["schema_inputs_sha256"],
+        "source_bound_site_count": len(v2_source_bound_sites),
+        "source_bound_sites_sha256": resource_discovery_v2[
             "source_bound_sites_sha256"
         ],
         "source_input_count": len(source_inputs),
-        "source_inputs_sha256": resource_discovery_v1["source_inputs_sha256"],
+        "source_inputs_sha256": resource_discovery_v2["source_inputs_sha256"],
     }
     source_bound_sites_sha256 = _domain_digest(
-        RESOURCE_SOURCE_BOUND_SITES_V2_DOMAIN, source_bound_identity
+        RESOURCE_SOURCE_BOUND_SITES_V3_DOMAIN, source_bound_identity
     )
-    if source_bound_sites_sha256 != RESOURCE_SOURCE_BOUND_SITES_V2_SHA256:
+    if source_bound_sites_sha256 != RESOURCE_SOURCE_BOUND_SITES_V3_SHA256:
         raise ReadinessError(
-            "RESOURCE_DISCOVERY_V2_IDENTITY", "source_bound_sites_sha256"
+            "RESOURCE_DISCOVERY_V3_IDENTITY", "source_bound_sites_sha256"
         )
     resource_discovery = {
-        **resource_discovery_v1,
-        "derived_binding_site_count": len(source_bound_binding_sites),
-        "legacy_source_bound_site_count": len(predecessor_source_bound_sites),
+        **resource_discovery_v2,
+        "cumulative_derived_binding_site_count": (
+            len(v2_binding_sites) + len(cardinality_binding_sites)
+        ),
+        "derived_binding_site_count": len(cardinality_binding_sites),
+        "legacy_source_bound_site_count": len(v2_source_bound_sites),
         "predecessor_discovery": predecessor_discovery,
-        "profile_id": RESOURCE_DISCOVERY_V2_ID,
+        "profile_id": RESOURCE_DISCOVERY_V3_ID,
         "source_bound_sites": source_bound_sites,
         "source_bound_sites_sha256": source_bound_sites_sha256,
     }

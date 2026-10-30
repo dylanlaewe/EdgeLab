@@ -1,0 +1,324 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:m0-3a-runtime-v2-resource-discovery:3",
+  "title": "EdgeLab runtime-v2 resource discovery v3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "manifest_id",
+    "profile_id",
+    "coverage_status",
+    "classification_status",
+    "generation_disposition",
+    "discovery_schema_raw_sha256",
+    "predecessor_discovery",
+    "predecessor_manifest",
+    "predecessor_schema",
+    "source_input_count",
+    "source_inputs_sha256",
+    "legacy_source_bound_site_count",
+    "cumulative_derived_binding_site_count",
+    "derived_binding_site_count",
+    "source_bound_site_count",
+    "source_bound_sites_sha256",
+    "schema_input_count",
+    "schema_inputs_sha256",
+    "schema_bound_site_count",
+    "schema_bound_sites_sha256",
+    "discovered_site_count",
+    "derived_binding_site_ids",
+    "derived_binding_sites",
+    "discovery_manifest_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 3
+    },
+    "manifest_id": {
+      "const": "urn:edgelab:m0-3a-runtime-v2-resource-discovery:3"
+    },
+    "profile_id": {
+      "const": "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V3"
+    },
+    "coverage_status": {
+      "const": "INCOMPLETE"
+    },
+    "classification_status": {
+      "const": "UNCLASSIFIED"
+    },
+    "generation_disposition": {
+      "const": "DENY"
+    },
+    "discovery_schema_raw_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "predecessor_discovery": {
+      "const": {
+        "profile_id": "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V2",
+        "source_input_count": 10,
+        "source_inputs_sha256": "b22a453f6b2f5f44281054752bf9bce5e259d6a60ae22fe7b190383292e4ba2a",
+        "source_bound_site_count": 401,
+        "source_bound_sites_sha256": "4a8707fd2ea6b1a398de1207a397f57c7dda9f368259dc58a10dc171352e0864",
+        "schema_input_count": 15,
+        "schema_inputs_sha256": "14ccff50a49f337336f01b5a40b845e5011218063d2cdfa68f0b73b1a3c94239",
+        "schema_bound_site_count": 296,
+        "schema_bound_sites_sha256": "00b27a32303836f9d9910663e6bd2f76a7ca6d8c7cd614e5f22346b53cd104de"
+      }
+    },
+    "source_input_count": {
+      "const": 10
+    },
+    "source_inputs_sha256": {
+      "const": "b22a453f6b2f5f44281054752bf9bce5e259d6a60ae22fe7b190383292e4ba2a"
+    },
+    "legacy_source_bound_site_count": {
+      "const": 401
+    },
+    "derived_binding_site_count": {
+      "const": 6
+    },
+    "source_bound_site_count": {
+      "const": 407
+    },
+    "source_bound_sites_sha256": {
+      "const": "d38e35a0f2466735c0895b6bfb7f20c83b52834ccbc3995943f8147d8f664071"
+    },
+    "schema_input_count": {
+      "const": 15
+    },
+    "schema_inputs_sha256": {
+      "const": "14ccff50a49f337336f01b5a40b845e5011218063d2cdfa68f0b73b1a3c94239"
+    },
+    "schema_bound_site_count": {
+      "const": 296
+    },
+    "schema_bound_sites_sha256": {
+      "const": "00b27a32303836f9d9910663e6bd2f76a7ca6d8c7cd614e5f22346b53cd104de"
+    },
+    "discovered_site_count": {
+      "const": 703
+    },
+    "derived_binding_site_ids": {
+      "const": [
+        "56e98674b7d3cea2c63839f264be9afd63b55b3d9acb1dfc321cf1c4dc60744a",
+        "9cd4a36115b048b5729c12787474b202859dd786e34b645ab8b647a5b68b76c3",
+        "cc70a073ff6cb3d1a80a48869ff0073a91600b675a290a0318e83eb7b6c7907b",
+        "e97220f7bc97ef6a73c731794238c6f6e2ffe2c1b744e945c35cde22afaa2f13",
+        "eeee1fcbd15b357a15780fe79e32e2e5046cbb44d1d02e7025828aaa61940557",
+        "fd2933fa143fb9fb2d6a9d6f375f1f6b1e0aae26e447e9fea4ad3b9d7c2b92a1"
+      ]
+    },
+    "derived_binding_sites": {
+      "const": [
+        {
+          "ast_sha256": "20ae06e86122a5e082532a0a9fdffc229db47b917a9a3a98249bb146a48eb329",
+          "binding": "cardinalities:table_snapshots",
+          "branch_key": "table_snapshots",
+          "classification": "UNCLASSIFIED",
+          "comparator_site_id": "807681eb5829047729803ad4290cd3239097de959106e756ab8bd52329894e24",
+          "expression": "('table_snapshots', len(_TABLE_SPECS), len(_TABLE_SPECS))",
+          "kind": "BOUND_CARDINALITY_TABLE_COMPARISON_BINDING",
+          "line": 377,
+          "loop_ast_sha256": "240c758d427bfefb4cd9ae2f020a6c8d8212178637c304811e1751dea8b98e2f",
+          "maximum_expression": "len(_TABLE_SPECS)",
+          "minimum_expression": "len(_TABLE_SPECS)",
+          "path": "src/edgelab/runtime_v2_image.py",
+          "qualname": "<module>.inspect_runtime_image_host",
+          "row_index": 3,
+          "semantic_function_ast_sha256": "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f",
+          "subject_loop_ast_sha256": "9e3c2a4b8b7a01aefe2d991cbd889eb3e438c2849d75e31b89ed89afd9265b41",
+          "subject_row_ast_sha256": "f30887a6149c0abbf6bb93feeb5693d7fd8728ea60a42fa16ed370111c5c50b7",
+          "subject_table_assignment_ast_sha256": "2c8b915ebfb7a82cd65a78509e4ef1077045440266f37fa5e284f73a2e6020f5",
+          "subject_binding": "captured['table_snapshots']",
+          "subject_expression": "captured[name]",
+          "table_assignment_ast_sha256": "49d78a29c5302a5f0c2a9d4edaef5072af28db8375c35677cb1e1effd2e25c94",
+          "table_name": "cardinalities",
+          "validity_gate_ast_sha256": "80f43e2757b87785145812c7bbdd11dd7f2b75ca7983a0e20657f51bf0493557",
+          "subject_lookup_ast_sha256": "c7fee319573f6b06586df87192a91ea53633133dc1970225b005d91733d96f34",
+          "comparison_assignment_ast_sha256": "0ac4a3c116faf2d3b271a709a0b15171fa566779bb8e03797b6271aaaec94018",
+          "result_assignment_ast_sha256": "f7babf5f583439c6651955a1f94cd7ded828a872da0550f437198585bcdfc6e6",
+          "invalid_branch_ast_sha256": "10f692935ade01e94f5748199c52cdc242aa0260a5c88603a03dd3710c13accb",
+          "site_id": "56e98674b7d3cea2c63839f264be9afd63b55b3d9acb1dfc321cf1c4dc60744a"
+        },
+        {
+          "ast_sha256": "8dc4ce59580dbb69690973f368094a14a3292b63e1c523a65abb87230e60c4ff",
+          "binding": "cardinalities:blobs",
+          "branch_key": "blobs",
+          "classification": "UNCLASSIFIED",
+          "comparator_site_id": "807681eb5829047729803ad4290cd3239097de959106e756ab8bd52329894e24",
+          "expression": "('blobs', 0, MAX_BLOBS)",
+          "kind": "BOUND_CARDINALITY_TABLE_COMPARISON_BINDING",
+          "line": 375,
+          "loop_ast_sha256": "240c758d427bfefb4cd9ae2f020a6c8d8212178637c304811e1751dea8b98e2f",
+          "maximum_expression": "MAX_BLOBS",
+          "minimum_expression": "0",
+          "path": "src/edgelab/runtime_v2_image.py",
+          "qualname": "<module>.inspect_runtime_image_host",
+          "row_index": 1,
+          "semantic_function_ast_sha256": "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f",
+          "subject_loop_ast_sha256": "9e3c2a4b8b7a01aefe2d991cbd889eb3e438c2849d75e31b89ed89afd9265b41",
+          "subject_row_ast_sha256": "63eb8b4b003aa9cb12dd66a8a78da47559ae90e9992d5cafa645ef0f85bf8cc0",
+          "subject_table_assignment_ast_sha256": "2c8b915ebfb7a82cd65a78509e4ef1077045440266f37fa5e284f73a2e6020f5",
+          "subject_binding": "captured['blobs']",
+          "subject_expression": "captured[name]",
+          "table_assignment_ast_sha256": "49d78a29c5302a5f0c2a9d4edaef5072af28db8375c35677cb1e1effd2e25c94",
+          "table_name": "cardinalities",
+          "validity_gate_ast_sha256": "80f43e2757b87785145812c7bbdd11dd7f2b75ca7983a0e20657f51bf0493557",
+          "subject_lookup_ast_sha256": "c7fee319573f6b06586df87192a91ea53633133dc1970225b005d91733d96f34",
+          "comparison_assignment_ast_sha256": "0ac4a3c116faf2d3b271a709a0b15171fa566779bb8e03797b6271aaaec94018",
+          "result_assignment_ast_sha256": "f7babf5f583439c6651955a1f94cd7ded828a872da0550f437198585bcdfc6e6",
+          "invalid_branch_ast_sha256": "10f692935ade01e94f5748199c52cdc242aa0260a5c88603a03dd3710c13accb",
+          "site_id": "9cd4a36115b048b5729c12787474b202859dd786e34b645ab8b647a5b68b76c3"
+        },
+        {
+          "ast_sha256": "9322c9eed913fee8a120b2d2bbe4c665d87230d40446aef1621c35a0e4c630d9",
+          "binding": "cardinalities:schema_documents",
+          "branch_key": "schema_documents",
+          "classification": "UNCLASSIFIED",
+          "comparator_site_id": "807681eb5829047729803ad4290cd3239097de959106e756ab8bd52329894e24",
+          "expression": "('schema_documents', 9, 9)",
+          "kind": "BOUND_CARDINALITY_TABLE_COMPARISON_BINDING",
+          "line": 374,
+          "loop_ast_sha256": "240c758d427bfefb4cd9ae2f020a6c8d8212178637c304811e1751dea8b98e2f",
+          "maximum_expression": "9",
+          "minimum_expression": "9",
+          "path": "src/edgelab/runtime_v2_image.py",
+          "qualname": "<module>.inspect_runtime_image_host",
+          "row_index": 0,
+          "semantic_function_ast_sha256": "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f",
+          "subject_loop_ast_sha256": "9e3c2a4b8b7a01aefe2d991cbd889eb3e438c2849d75e31b89ed89afd9265b41",
+          "subject_row_ast_sha256": "c671cc5666d38e9b086b8da940baa1221cba1410cefbd0afeab89f69876bc21e",
+          "subject_table_assignment_ast_sha256": "2c8b915ebfb7a82cd65a78509e4ef1077045440266f37fa5e284f73a2e6020f5",
+          "subject_binding": "captured['schema_documents']",
+          "subject_expression": "captured[name]",
+          "table_assignment_ast_sha256": "49d78a29c5302a5f0c2a9d4edaef5072af28db8375c35677cb1e1effd2e25c94",
+          "table_name": "cardinalities",
+          "validity_gate_ast_sha256": "80f43e2757b87785145812c7bbdd11dd7f2b75ca7983a0e20657f51bf0493557",
+          "subject_lookup_ast_sha256": "c7fee319573f6b06586df87192a91ea53633133dc1970225b005d91733d96f34",
+          "comparison_assignment_ast_sha256": "0ac4a3c116faf2d3b271a709a0b15171fa566779bb8e03797b6271aaaec94018",
+          "result_assignment_ast_sha256": "f7babf5f583439c6651955a1f94cd7ded828a872da0550f437198585bcdfc6e6",
+          "invalid_branch_ast_sha256": "10f692935ade01e94f5748199c52cdc242aa0260a5c88603a03dd3710c13accb",
+          "site_id": "cc70a073ff6cb3d1a80a48869ff0073a91600b675a290a0318e83eb7b6c7907b"
+        },
+        {
+          "ast_sha256": "795c31fe76805ff8a2cbf3d0d459bfd4a9156dd3a95b24253eacee21334c96f1",
+          "binding": "cardinalities:checkpoint_copies",
+          "branch_key": "checkpoint_copies",
+          "classification": "UNCLASSIFIED",
+          "comparator_site_id": "807681eb5829047729803ad4290cd3239097de959106e756ab8bd52329894e24",
+          "expression": "('checkpoint_copies', 0, MAX_CHECKPOINT_COPIES)",
+          "kind": "BOUND_CARDINALITY_TABLE_COMPARISON_BINDING",
+          "line": 378,
+          "loop_ast_sha256": "240c758d427bfefb4cd9ae2f020a6c8d8212178637c304811e1751dea8b98e2f",
+          "maximum_expression": "MAX_CHECKPOINT_COPIES",
+          "minimum_expression": "0",
+          "path": "src/edgelab/runtime_v2_image.py",
+          "qualname": "<module>.inspect_runtime_image_host",
+          "row_index": 4,
+          "semantic_function_ast_sha256": "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f",
+          "subject_loop_ast_sha256": "9e3c2a4b8b7a01aefe2d991cbd889eb3e438c2849d75e31b89ed89afd9265b41",
+          "subject_row_ast_sha256": "c11892f9255d14fdda980db1e9cbfe7d938ad6b97e1fac74cc2362b1fecd2773",
+          "subject_table_assignment_ast_sha256": "2c8b915ebfb7a82cd65a78509e4ef1077045440266f37fa5e284f73a2e6020f5",
+          "subject_binding": "captured['checkpoint_copies']",
+          "subject_expression": "captured[name]",
+          "table_assignment_ast_sha256": "49d78a29c5302a5f0c2a9d4edaef5072af28db8375c35677cb1e1effd2e25c94",
+          "table_name": "cardinalities",
+          "validity_gate_ast_sha256": "80f43e2757b87785145812c7bbdd11dd7f2b75ca7983a0e20657f51bf0493557",
+          "subject_lookup_ast_sha256": "c7fee319573f6b06586df87192a91ea53633133dc1970225b005d91733d96f34",
+          "comparison_assignment_ast_sha256": "0ac4a3c116faf2d3b271a709a0b15171fa566779bb8e03797b6271aaaec94018",
+          "result_assignment_ast_sha256": "f7babf5f583439c6651955a1f94cd7ded828a872da0550f437198585bcdfc6e6",
+          "invalid_branch_ast_sha256": "10f692935ade01e94f5748199c52cdc242aa0260a5c88603a03dd3710c13accb",
+          "site_id": "e97220f7bc97ef6a73c731794238c6f6e2ffe2c1b744e945c35cde22afaa2f13"
+        },
+        {
+          "ast_sha256": "9ab078af59b3b851dbd4deba1ea77e7d1822ad3758af503ee8c494ea47b27484",
+          "binding": "cardinalities:selector_history",
+          "branch_key": "selector_history",
+          "classification": "UNCLASSIFIED",
+          "comparator_site_id": "807681eb5829047729803ad4290cd3239097de959106e756ab8bd52329894e24",
+          "expression": "('selector_history', MIN_SELECTORS, MAX_SELECTORS)",
+          "kind": "BOUND_CARDINALITY_TABLE_COMPARISON_BINDING",
+          "line": 379,
+          "loop_ast_sha256": "240c758d427bfefb4cd9ae2f020a6c8d8212178637c304811e1751dea8b98e2f",
+          "maximum_expression": "MAX_SELECTORS",
+          "minimum_expression": "MIN_SELECTORS",
+          "path": "src/edgelab/runtime_v2_image.py",
+          "qualname": "<module>.inspect_runtime_image_host",
+          "row_index": 5,
+          "semantic_function_ast_sha256": "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f",
+          "subject_loop_ast_sha256": "9e3c2a4b8b7a01aefe2d991cbd889eb3e438c2849d75e31b89ed89afd9265b41",
+          "subject_row_ast_sha256": "01e94769128a5d12b8b6db6a3e3b7b8c4bd729b1df87c350cd162a783a37ed08",
+          "subject_table_assignment_ast_sha256": "2c8b915ebfb7a82cd65a78509e4ef1077045440266f37fa5e284f73a2e6020f5",
+          "subject_binding": "captured['selector_history']",
+          "subject_expression": "captured[name]",
+          "table_assignment_ast_sha256": "49d78a29c5302a5f0c2a9d4edaef5072af28db8375c35677cb1e1effd2e25c94",
+          "table_name": "cardinalities",
+          "validity_gate_ast_sha256": "80f43e2757b87785145812c7bbdd11dd7f2b75ca7983a0e20657f51bf0493557",
+          "subject_lookup_ast_sha256": "c7fee319573f6b06586df87192a91ea53633133dc1970225b005d91733d96f34",
+          "comparison_assignment_ast_sha256": "0ac4a3c116faf2d3b271a709a0b15171fa566779bb8e03797b6271aaaec94018",
+          "result_assignment_ast_sha256": "f7babf5f583439c6651955a1f94cd7ded828a872da0550f437198585bcdfc6e6",
+          "invalid_branch_ast_sha256": "10f692935ade01e94f5748199c52cdc242aa0260a5c88603a03dd3710c13accb",
+          "site_id": "eeee1fcbd15b357a15780fe79e32e2e5046cbb44d1d02e7025828aaa61940557"
+        },
+        {
+          "ast_sha256": "94944d590dfbc915aa3ab92438f56f116ba8066724cd88c5aa9acbe50a9d4751",
+          "binding": "cardinalities:events",
+          "branch_key": "events",
+          "classification": "UNCLASSIFIED",
+          "comparator_site_id": "807681eb5829047729803ad4290cd3239097de959106e756ab8bd52329894e24",
+          "expression": "('events', 0, MAX_EVENTS)",
+          "kind": "BOUND_CARDINALITY_TABLE_COMPARISON_BINDING",
+          "line": 376,
+          "loop_ast_sha256": "240c758d427bfefb4cd9ae2f020a6c8d8212178637c304811e1751dea8b98e2f",
+          "maximum_expression": "MAX_EVENTS",
+          "minimum_expression": "0",
+          "path": "src/edgelab/runtime_v2_image.py",
+          "qualname": "<module>.inspect_runtime_image_host",
+          "row_index": 2,
+          "semantic_function_ast_sha256": "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f",
+          "subject_loop_ast_sha256": "9e3c2a4b8b7a01aefe2d991cbd889eb3e438c2849d75e31b89ed89afd9265b41",
+          "subject_row_ast_sha256": "6ff87fbad51539d6568c3109d1fe2fd55316fcb9de57395dddc62b7fa68bf482",
+          "subject_table_assignment_ast_sha256": "2c8b915ebfb7a82cd65a78509e4ef1077045440266f37fa5e284f73a2e6020f5",
+          "subject_binding": "captured['events']",
+          "subject_expression": "captured[name]",
+          "table_assignment_ast_sha256": "49d78a29c5302a5f0c2a9d4edaef5072af28db8375c35677cb1e1effd2e25c94",
+          "table_name": "cardinalities",
+          "validity_gate_ast_sha256": "80f43e2757b87785145812c7bbdd11dd7f2b75ca7983a0e20657f51bf0493557",
+          "subject_lookup_ast_sha256": "c7fee319573f6b06586df87192a91ea53633133dc1970225b005d91733d96f34",
+          "comparison_assignment_ast_sha256": "0ac4a3c116faf2d3b271a709a0b15171fa566779bb8e03797b6271aaaec94018",
+          "result_assignment_ast_sha256": "f7babf5f583439c6651955a1f94cd7ded828a872da0550f437198585bcdfc6e6",
+          "invalid_branch_ast_sha256": "10f692935ade01e94f5748199c52cdc242aa0260a5c88603a03dd3710c13accb",
+          "site_id": "fd2933fa143fb9fb2d6a9d6f375f1f6b1e0aae26e447e9fea4ad3b9d7c2b92a1"
+        }
+      ]
+    },
+    "discovery_manifest_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "predecessor_manifest": {
+      "const": {
+        "byte_length": 9649,
+        "discovery_manifest_sha256": "c865ac494361d7ad310464efd19a0bf3d9c79ddfaa7d58e50a4ff9ef449c7725",
+        "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v2.json",
+        "raw_sha256": "12e0b1e722f9b49e14e530bb2721ee1ded1865fa4168f02d13c741f8e59adefe"
+      }
+    },
+    "predecessor_schema": {
+      "const": {
+        "byte_length": 11712,
+        "path": "schemas/m0-3a-runtime-v2-resource-discovery.v2.schema.json",
+        "raw_sha256": "05cc1d76c95833e8b2d9bd3eaa2dbc4abc4cbed87088cca7ba1323a04a849243"
+      }
+    },
+    "cumulative_derived_binding_site_count": {
+      "const": 13
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}
