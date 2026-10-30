@@ -1,0 +1,76 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-145",
+  "version": 1,
+  "created_at": "2026-10-30T19:41:56Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Inventory and independently review the smallest complete remaining Discovery V4 positional row-cap slice, provisionally the schema_registry maximum of one, while preserving singleton, document-count, descriptor, reducer, label, diagnostic, and public-verifier separations.",
+  "work_done": "Added Classification V22 as the exact V21 prefix plus one TABLE_SCHEMA_REGISTRY_ROWS constraint over the single composite Discovery V4 positional binding at strict-zip index eleven; proved inclusive zero/one/two behavior, content fall-through, supplied-label independence, guard order, equal-valued seals isolation, unique-site union accounting, predecessor history, attacker-refreshed census resistance, and explicit separation of table-row ITEMS from registry/bundle BYTES and schema-document counts; retained 672 of 718 sites as unclassified with INCOMPLETE/DENY and no runtime or authority change.",
+  "evidence_refs": [
+    "reports/H-M0-145-runtime-v2-schema-registry-row-cap-classification.v1.md",
+    "reports/audit/A-M0-127.v1.json",
+    "reports/stops/STOP-M0-3A-002.v48.json",
+    "docs/M0.3A_RUNTIME_SCHEMA_REGISTRY_TABLE_ROW_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v22.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v22.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_schema_registry_table_row_bound.py",
+    "tests/test_runtime_v2_release_readiness.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v4.md",
+    "docs/M0.3A_RUNTIME_SCHEMA_REGISTRY_TABLE_ROW_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v22.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v22.schema.json",
+    "tests/test_runtime_v2_schema_registry_table_row_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tools/run_test_tier.py",
+    "reports/H-M0-145-runtime-v2-schema-registry-row-cap-classification.v1.md",
+    "reports/audit/A-M0-127.v1.json",
+    "reports/stops/STOP-M0-3A-002.v48.json",
+    "docs/handoffs/H-M0-145.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "49 readiness tests passed, including exact V21 prefix, site shape, unique-site union, scope expansion, predecessor history, attacker-refreshed census, and manifest attacks.",
+    "The dedicated schema-registry row-cap tests passed normally and under optimized Python.",
+    "532 fast-tier tests passed across 40 isolated modules.",
+    "Normal and optimized readiness outputs were byte-identical and both remained exit 1 BLOCKED/DENY with four blockers and no release artifacts.",
+    "Independent bounded inventory and Skeptic reviews reproduced and accepted the final engineering evidence; neither review grants formal authority.",
+    "494 governed records and published history validated before governance publication; 497 validated after publication.",
+    "18 alpha and observatory tests passed after evidence publication."
+  ],
+  "open_questions": [
+    "Is the remaining equal-valued seals positional cap the smallest complete next V4 classification slice?",
+    "Which exact singleton, seal-purpose, reducer, label, diagnostic, and public-verifier meanings must remain outside that resource classification?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v48 remains OPEN.",
+    "Only forty-six of 718 census sites are semantically classified; 672 remain unclassified with INCOMPLETE coverage.",
+    "Public verification remains deny-only.",
+    "Live remains LOCKED and deployable capital remains USD 0."
+  ],
+  "next_action": "Inventory and independently review the smallest complete remaining Discovery V4 positional row-cap slice, provisionally the seals maximum of one, while preserving singleton, exact-value, seal-purpose, reducer, label, diagnostic, and public-verifier separations.",
+  "completion_criteria": [
+    "The selected row cap is bound to its exact V4 composite positional site with inclusive boundary, guard-order, label-independence, diagnostic, accounting, continuation, and hostile-input evidence.",
+    "Equal-valued caps, exact-value and singleton constraints, descriptor/schema limits, reducer exactness, supplied labels, row content validity, and public-verifier semantics remain separately classified or unclassified as evidence requires.",
+    "RESOURCE_INVENTORY_INCOMPLETE remains unconditional and no closure, carrier, verifier acceptance, STOP clearance, or capital authority is created."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-144.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-144",
+      "version": 1,
+      "sha256": "cadd3d35c463367dd099056c23cd62deb07658e37029bf3c5c4e11702576041b"
+    }
+  ]
+}
