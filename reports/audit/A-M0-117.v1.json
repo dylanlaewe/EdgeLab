@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-117",
+  "version": 1,
+  "occurred_at": "2026-10-30T02:34:45Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_TRANSITION_SEMANTIC_EVENT_RESOURCE_CLASSIFIED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-135-runtime-v2-transition-semantic-event-resource-classification.v1.md",
+  "previous_state": "DISCOVERY_V2_697_SITES_TWENTY_EIGHT_CLASSIFIED_669_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V2_697_SITES_THIRTY_CLASSIFIED_667_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 2ebd941772f9f1bc09f13c5fabc1686c41cd3f64 binds MAX_GROUP_EVENTS only to the TransitionIntent semantic_event_ids constructor tuple ceiling through its sole definition and direct comparison with exact type, ordering, UUID-validation, non-authority, and attacker-refreshed semantic-pin evidence. It does not classify a valid group or operation count. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": [
+    "reports/H-M0-135-runtime-v2-transition-semantic-event-resource-classification.v1.md",
+    "docs/M0.3A_TRANSITION_SEMANTIC_EVENT_CONSTRUCTION_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v12.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v12.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_transition_semantic_event_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v38.json"
+  ],
+  "code_ref": "2ebd941772f9f1bc09f13c5fabc1686c41cd3f64",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-135",
+  "supersedes": null
+}
