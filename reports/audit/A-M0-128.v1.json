@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-128",
+  "version": 1,
+  "occurred_at": "2026-10-30T20:04:22Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_SEALS_POSITIONAL_ROW_CAP_CLASSIFIED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-146-runtime-v2-seals-row-cap-classification.v1.md",
+  "previous_state": "DISCOVERY_V4_718_SITES_FORTY_SIX_CLASSIFIED_672_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V4_718_SITES_FORTY_SEVEN_CLASSIFIED_671_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit d206f30 preserves the exact Classification V22 prefix and classifies only the composite Discovery V4 positional seals inclusive one-row cap. The same site supplies definition and enforcement evidence and counts once by set union. Exact-one, deterministic seal, authenticity, content, cross-table identity, descriptor, reducer, label, diagnostic, public-verifier, STOP, execution, and capital meanings remain excluded. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": [
+    "reports/H-M0-146-runtime-v2-seals-row-cap-classification.v1.md",
+    "docs/M0.3A_RUNTIME_SEALS_TABLE_ROW_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v23.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v23.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_seals_table_row_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v49.json"
+  ],
+  "code_ref": "d206f30",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-146",
+  "supersedes": null
+}

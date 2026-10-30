@@ -1,0 +1,76 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-146",
+  "version": 1,
+  "created_at": "2026-10-30T20:04:22Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Inventory and independently review the smallest complete remaining Discovery V4 positional row-cap slice, provisionally the seals maximum of one, while preserving singleton, exact-value, seal-purpose, reducer, label, diagnostic, and public-verifier separations.",
+  "work_done": "Added Classification V23 as the exact V22 prefix plus one TABLE_SEALS_ROWS constraint over the single composite Discovery V4 positional binding at strict-zip index twelve; proved inclusive zero/one/two behavior, malformed and contradictory full-width one-row fall-through, supplied-label independence, guard order, unique-site union accounting, predecessor history, attacker-refreshed census resistance, and explicit separation from deterministic seal purpose and cross-table identity; corrected a generic adversarial fixture to continue targeting an unclassified site; retained 671 of 718 sites as unclassified with INCOMPLETE/DENY and no runtime or authority change.",
+  "evidence_refs": [
+    "reports/H-M0-146-runtime-v2-seals-row-cap-classification.v1.md",
+    "reports/audit/A-M0-128.v1.json",
+    "reports/stops/STOP-M0-3A-002.v49.json",
+    "docs/M0.3A_RUNTIME_SEALS_TABLE_ROW_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v23.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v23.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_seals_table_row_bound.py",
+    "tests/test_runtime_v2_release_readiness.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v4.md",
+    "docs/M0.3A_RUNTIME_SEALS_TABLE_ROW_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v23.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v23.schema.json",
+    "tests/test_runtime_v2_seals_table_row_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tools/run_test_tier.py",
+    "reports/H-M0-146-runtime-v2-seals-row-cap-classification.v1.md",
+    "reports/audit/A-M0-128.v1.json",
+    "reports/stops/STOP-M0-3A-002.v49.json",
+    "docs/handoffs/H-M0-146.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "50 readiness tests passed after correcting the generic attacker-refresh fixture to target the still-unclassified attempts site.",
+    "The dedicated seals row-cap tests passed normally and under optimized Python.",
+    "540 fast-tier tests passed across 41 isolated modules.",
+    "Normal and optimized readiness outputs were byte-identical and both remained exit 1 BLOCKED/DENY with four blockers and no release artifacts.",
+    "Independent bounded inventory and Skeptic reviews reproduced and accepted the final engineering evidence and test correction; neither review grants formal authority.",
+    "497 governed records and published history validated before governance publication; 500 validated after publication.",
+    "18 alpha and observatory tests passed after evidence publication."
+  ],
+  "open_questions": [
+    "Is the schema_documents positional maximum of nine the smallest complete next V4 classification slice?",
+    "Which exact-nine top-level cardinality, retained-document inventory, descriptor, reducer, label, diagnostic, and public-verifier meanings must remain separate?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v49 remains OPEN.",
+    "Only forty-seven of 718 census sites are semantically classified; 671 remain unclassified with INCOMPLETE coverage.",
+    "Public verification remains deny-only.",
+    "Live remains LOCKED and deployable capital remains USD 0."
+  ],
+  "next_action": "Inventory and independently review the smallest complete remaining Discovery V4 positional row-cap slice, provisionally the schema_documents maximum of nine, while separating it from top-level exact-nine cardinality, retained-document inventory, byte limits, descriptor, reducer, label, diagnostic, and public-verifier semantics.",
+  "completion_criteria": [
+    "The selected row cap is bound to its exact V4 composite positional site with inclusive boundary, guard-order, label-independence, diagnostic, accounting, continuation, and hostile-input evidence.",
+    "Top-level exact counts, equal-valued caps, descriptor/schema limits, reducer exactness, supplied labels, row content validity, retained inventory, and public-verifier semantics remain separately classified or unclassified as evidence requires.",
+    "RESOURCE_INVENTORY_INCOMPLETE remains unconditional and no closure, carrier, verifier acceptance, STOP clearance, or capital authority is created."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-145.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-145",
+      "version": 1,
+      "sha256": "186cafb3995c1f28e2617e9c334bf86e354509f8d703decda21beab3a8a95882"
+    }
+  ]
+}
