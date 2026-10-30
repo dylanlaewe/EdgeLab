@@ -57,6 +57,7 @@
     "The cumulative deny-only runtime-v2 semantic resource-classification v12 now byte-binds its v11 predecessor and additionally binds MAX_GROUP_EVENTS only as the TransitionIntent semantic_event_ids constructor tuple ceiling through its sole definition and direct comparison under exact container, argument-precedence, UUID-validation, operation-non-equivalence, non-authority, and attacker-refreshed semantic-pin evidence; 667 of 697 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked",
     "The cumulative deny-only runtime-v2 semantic resource-classification v13 now byte-binds its v12 predecessor and additionally binds MAX_TASKS to the exact ReducerState tuple cardinality and transition-workspace retained task keys plus validated absent-key writes through its sole definition and both direct comparisons under exact type, absent-key accounting, atomic-failure, non-authority, and attacker-refreshed semantic-pin evidence; 664 of 697 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked",
     "The cumulative deny-only runtime-v2 semantic resource-classification v14 now byte-binds its v13 predecessor and additionally binds MAX_SCHEMA_BUNDLE_BYTES to the separate host and verifier registry/document-body aggregates and standalone verifier storage-descriptor bytes through both definitions and all three comparisons under exact accumulator, inclusion/exclusion, type/inventory ordering, parse-order, non-authority, and attacker-refreshed semantic-pin evidence; 659 of 697 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked",
+    "Runtime-v2 resource discovery v3 now preserves all 401 Discovery v2 source sites and adds six exact cardinality-table bindings through matching tuple subjects, complete validation/comparison/diagnostic flow, and full host-preflight function identity; classification v15 is a census-only rebase preserving all thirteen v14 constraints and thirty-eight classified sites, 665 of 703 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked",
     "Historical capture reconstruction/verifier engineering completed with native engineering review; formal Skeptic acceptance remains pending",
     "Revision-aware handoff dependency validation and production repository validation restored",
     "Read-only local laboratory observatory exposes governed project status and the retained MOCK_ONLY walkthrough through a fail-closed loopback interface",
@@ -71,18 +72,18 @@
     "Resolve statistical, freshness, paper-capital, exposure, correlation, drawdown, and live-gate thresholds before M0 exit"
   ],
   "blockers": [
-    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002.v40 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
+    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002.v41 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
     "H-M0-086 is BLOCKED because no genuinely distinct trusted 05 Skeptic authority is provisioned",
     "H-M0-041.v23 remains BLOCKED pending formal Skeptic acceptance and separate Director release",
     "The locked authority and historical binding substrates are diagnostic and DENY-only; positive authoritative currentness and authenticated receipt/R-gate integration remain unresolved",
     "M0.3A engineering completion does not constitute formal acceptance or operational authority"
   ],
-  "next_assignment": "Design and independently review the smallest Discovery v3 extension needed to bind generic cardinality-table rows to exact branch subjects without changing runtime behavior; retain incomplete coverage and generation denial",
-  "updated_at": "2026-10-30T03:25:58Z",
+  "next_assignment": "Classify the smallest semantically complete Discovery v3 cardinality family, likely MAX_EVENTS if exact subject, guard ordering, boundary behavior, diagnostics, and non-authority can be proven without conflating sibling limits",
+  "updated_at": "2026-10-30T04:04:02Z",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json",
     "reports/stops/STOP-M0-3A-001.v1.json",
-    "reports/stops/STOP-M0-3A-002.v40.json"
+    "reports/stops/STOP-M0-3A-002.v41.json"
   ],
   "review_ref": "reports/reviews/M0.2-M0.3-final-evidence-plan-rereview.v1.md",
   "open_findings": [

@@ -1,0 +1,75 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-138",
+  "version": 1,
+  "created_at": "2026-10-30T04:04:02Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Extend deny-only resource discovery to bind generic runtime-image cardinality rows to their exact branch subjects without changing runtime behavior or authority.",
+  "work_done": "Added Discovery V3 with six exact cardinality-table bindings over all 401 V2 source sites; bound each row to its tuple subject, complete validation/comparison/diagnostic flow, predecessor comparator, and full enclosing host-preflight function identity; byte-bound the V2 discovery artifacts; added Classification V15 as a census-only V14 rebase preserving all thirteen constraints and thirty-eight classified sites exactly; added refreshed-census adversarial attacks; and retained INCOMPLETE/DENY with 665 of 703 sites unclassified.",
+  "evidence_refs": [
+    "reports/H-M0-138-runtime-v2-cardinality-resource-discovery.v1.md",
+    "reports/audit/A-M0-120.v1.json",
+    "reports/stops/STOP-M0-3A-002.v41.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v3.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v3.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v3.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v15.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v15.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_release_readiness.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v15.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v3.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v3.md",
+    "schemas/m0-3a-runtime-v2-resource-classification.v15.schema.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v3.schema.json",
+    "tests/test_runtime_v2_release_readiness.py",
+    "tools/check_runtime_v2_release_readiness.py",
+    "reports/H-M0-138-runtime-v2-cardinality-resource-discovery.v1.md",
+    "reports/audit/A-M0-120.v1.json",
+    "reports/stops/STOP-M0-3A-002.v41.json",
+    "docs/handoffs/H-M0-138.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "39 readiness tests passed, including refreshed-census cardinality and inter-loop attacks.",
+    "466 fast-tier tests passed across 33 isolated modules.",
+    "Normal and optimized readiness outputs were byte-identical and both remained exit 1 BLOCKED/DENY.",
+    "Independent bounded design, inventory, and Skeptic reviews reproduced the final evidence; Skeptic rejected the first draft, then accepted the function-bound repair.",
+    "473 governed records and published history validated before governance publication; 476 validated after publication.",
+    "18 alpha and observatory tests passed after evidence publication."
+  ],
+  "open_questions": [
+    "Which V3-bound cardinality family is the smallest next semantically complete classification slice?",
+    "Can MAX_EVENTS be classified without conflating tuple cardinality, per-event byte size, total accounting, or downstream replay limits?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v41 remains OPEN.",
+    "Only thirty-eight of 703 census sites are semantically classified; 665 remain unclassified with INCOMPLETE coverage.",
+    "Public verification remains deny-only.",
+    "Live remains LOCKED and deployable capital remains USD 0."
+  ],
+  "next_action": "Classify the smallest semantically complete V3-bound cardinality family, likely MAX_EVENTS if exact subject, guard ordering, diagnostics, boundary behavior, and non-authority can be proven without conflating sibling limits.",
+  "completion_criteria": [
+    "The selected cardinality constraint is bound to every definition and exact V3 branch site with inclusive boundary and hostile-type evidence.",
+    "Sibling minima, maxima, exact cardinalities, byte ceilings, and total-accounting limits remain separately classified or unclassified as evidence requires.",
+    "RESOURCE_INVENTORY_INCOMPLETE remains unconditional and no closure, carrier, verifier acceptance, STOP clearance, or capital authority is created."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-137.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-137",
+      "version": 1,
+      "sha256": "28d35de560e0c8b54cea928d8653ab56f850024bb0cfe3dd0f04455e536e8116"
+    }
+  ]
+}
