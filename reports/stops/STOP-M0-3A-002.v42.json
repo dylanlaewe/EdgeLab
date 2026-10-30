@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-002",
+  "version": 42,
+  "issued_at": "2026-10-30T04:33:20Z",
+  "issuer": "00 Director",
+  "reason": "Classification V16 now binds MAX_CHECKPOINT_COPIES to its exact definition and Discovery V3 branch-specific cardinality flow under complete boundary, ordering, accounting, sibling-independence, and attacker-refresh evidence. Fourteen constraints and forty sites are classified, but 663 of 703 census sites remain unclassified and coverage is explicitly incomplete. Exact resource-manifest completion, public-entrypoint integration, conservative V1 bridge disposition, and the independently accepted A-J evidence manifest remain unresolved. Release generation is blocked and no positive local-consistency result is supportable.",
+  "affected_components": [
+    "exact generated verifier closure",
+    "semantic resource-limit classification and coverage proof",
+    "legacy bridge disposition",
+    "complete whole-image acceptance matrix",
+    "public result vocabulary"
+  ],
+  "evidence_refs": [
+    "reports/H-M0-139-runtime-v2-checkpoint-copy-cardinality-classification.v1.md",
+    "docs/M0.3A_RUNTIME_CHECKPOINT_COPY_CARDINALITY_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v3.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v3.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v16.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v16.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_checkpoint_copy_cardinality_bound.py",
+    "tests/test_runtime_v2_release_readiness.py"
+  ],
+  "severity": "HIGH",
+  "remediation_required": [
+    "Classify every remaining discovered source/schema site and prove bidirectional coverage of all remaining enforcement mechanisms and descriptor/contract constraints.",
+    "Bind every accepted resource maximum to all definitions, enforcement sites, branch-specific table bindings, source-level semantic dependencies, contract equations, units, and boundary evidence without misclassifying minima, exact values, diagnostic bounds, representation limits, or relational constraints.",
+    "Conservatively disposition the unsupported V1 migration bridge under the retained legacy amendment without inventing unavailable preimages.",
+    "Connect the sole public entrypoint and bind independently accepted A-J evidence before generating any closure or carrier."
+  ],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}

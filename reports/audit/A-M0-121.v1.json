@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-121",
+  "version": 1,
+  "occurred_at": "2026-10-30T04:33:20Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_CHECKPOINT_COPY_CARDINALITY_CLASSIFIED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-139-runtime-v2-checkpoint-copy-cardinality-classification.v1.md",
+  "previous_state": "DISCOVERY_V3_703_SITES_THIRTY_EIGHT_CLASSIFIED_665_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V3_703_SITES_FORTY_CLASSIFIED_663_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit dbb751f preserves Classification V15 exactly and appends one narrow MAX_CHECKPOINT_COPIES constraint over its sole definition and exact Discovery V3 branch binding. Boundary, guard-order, accounting, sibling-independence, attacker-refresh, and combined cardinality/member-size evidence passed. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": [
+    "reports/H-M0-139-runtime-v2-checkpoint-copy-cardinality-classification.v1.md",
+    "docs/M0.3A_RUNTIME_CHECKPOINT_COPY_CARDINALITY_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v3.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v3.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v16.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v16.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_checkpoint_copy_cardinality_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v42.json"
+  ],
+  "code_ref": "dbb751f",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-139",
+  "supersedes": null
+}
