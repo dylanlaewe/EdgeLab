@@ -171,15 +171,15 @@ CLOSURE_SCHEMA = (
     "schemas/m0-3a-verifier-dependency-closure.v1.schema.json",
 )
 RESOURCE_CLASSIFICATION_SCHEMA = (
-    "urn:edgelab:m0-3a-runtime-v2-resource-classification:13",
-    "schemas/m0-3a-runtime-v2-resource-classification.v13.schema.json",
+    "urn:edgelab:m0-3a-runtime-v2-resource-classification:14",
+    "schemas/m0-3a-runtime-v2-resource-classification.v14.schema.json",
 )
 RESOURCE_CLASSIFICATION_MANIFEST = (
-    "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V13",
-    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v13.json",
+    "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V14",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v14.json",
 )
 RESOURCE_CLASSIFICATION_DOMAIN = (
-    "EDGELAB\0RUNTIME_V2_RESOURCE_CLASSIFICATION\0V13\0"
+    "EDGELAB\0RUNTIME_V2_RESOURCE_CLASSIFICATION\0V14\0"
 )
 RESOURCE_SOURCE_INPUT_DOMAIN = (
     "EDGELAB\0RUNTIME_V2_RESOURCE_SOURCE_INPUTS\0V1\0"
@@ -208,22 +208,35 @@ RESOURCE_SOURCE_BOUND_SITES_V2_SHA256 = (
     "4a8707fd2ea6b1a398de1207a397f57c7dda9f368259dc58a10dc171352e0864"
 )
 RESOURCE_CLASSIFICATION_SCHEMA_RAW_SHA256 = (
-    "037d0874beeae356b07f4e38f2f30a2d0256ba85f7824454e55bc79529e09414"
+    "43bcb30ab3ae233122acec3cc820559b53dfd3071d9441df0f4a799f12e9c509"
 )
 RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST = {
-    "byte_length": 25470,
+    "byte_length": 28604,
     "classification_manifest_sha256": (
-        "59c4ccf12dde9c0204f87cc76c7cf49d875c6f544d3c5401f17d7084fe628834"
+        "1fbd86f9587ccfb424bdeff7feda092004436475b491412837fc5d8d29adf043"
     ),
-    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v12.json",
-    "raw_sha256": "07b93bfe96bc75b2a2f12fee9ab4076d4d1b6224253810ad912d1cad0e2acfff",
+    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v13.json",
+    "raw_sha256": "ce9a29e6d2a5703b6513f47afc123e3632d3bd5685edeb626715af66987f395f",
 }
 RESOURCE_CLASSIFICATION_PREDECESSOR_SCHEMA = {
-    "byte_length": 28544,
-    "path": "schemas/m0-3a-runtime-v2-resource-classification.v12.schema.json",
-    "raw_sha256": "e55c3f71e45384f34973bb1b290a62a59f1fa49201630955b2c20b2559ba249c",
+    "byte_length": 31864,
+    "path": "schemas/m0-3a-runtime-v2-resource-classification.v13.schema.json",
+    "raw_sha256": "037d0874beeae356b07f4e38f2f30a2d0256ba85f7824454e55bc79529e09414",
 }
 RESOURCE_CLASSIFICATION_ANCESTORS = (
+    {
+        "byte_length": 25470,
+        "classification_manifest_sha256": (
+            "59c4ccf12dde9c0204f87cc76c7cf49d875c6f544d3c5401f17d7084fe628834"
+        ),
+        "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v12.json",
+        "raw_sha256": "07b93bfe96bc75b2a2f12fee9ab4076d4d1b6224253810ad912d1cad0e2acfff",
+    },
+    {
+        "byte_length": 28544,
+        "path": "schemas/m0-3a-runtime-v2-resource-classification.v12.schema.json",
+        "raw_sha256": "e55c3f71e45384f34973bb1b290a62a59f1fa49201630955b2c20b2559ba249c",
+    },
     {
         "byte_length": 23496,
         "classification_manifest_sha256": (
@@ -510,6 +523,18 @@ TRANSITION_TASK_RESOURCE_EVIDENCE = (
         "raw_sha256": "97c8436043ef7a297cc697dbfff412d823596ea718b81ce7fef60c0e0be0cdd0",
     },
 )
+SCHEMA_BUNDLE_RESOURCE_EVIDENCE = (
+    {
+        "byte_length": 4513,
+        "path": "docs/M0.3A_SCHEMA_BUNDLE_BYTE_LIMIT.v1.md",
+        "raw_sha256": "5f58822d964eed424b8d2e11b23bea10241d227f0b378f67c20dfd7f49092a4e",
+    },
+    {
+        "byte_length": 10794,
+        "path": "tests/test_runtime_v2_schema_bundle_byte_bound.py",
+        "raw_sha256": "f1d9c240998065e2aec1118a2c35be61f39647a542350ac9b300ce5846b3faea",
+    },
+)
 PORTABLE_PATH_RESOURCE_EVIDENCE = (
     {
         "byte_length": 10592,
@@ -549,6 +574,7 @@ RESOURCE_CLASSIFICATION_EVIDENCE = (
     *TRANSITION_ARGUMENT_RESOURCE_EVIDENCE,
     *TRANSITION_SEMANTIC_EVENT_RESOURCE_EVIDENCE,
     *TRANSITION_TASK_RESOURCE_EVIDENCE,
+    *SCHEMA_BUNDLE_RESOURCE_EVIDENCE,
     *PORTABLE_PATH_RESOURCE_EVIDENCE,
     *PORTABLE_COMPONENT_RESOURCE_EVIDENCE,
 )
@@ -586,6 +612,11 @@ CLASSIFIED_RESOURCE_SITE_IDS = frozenset({
     "2663812aee226be4f57a1862523798243d7df5a12a1d9e29f586ec8e7ded5638",
     "3d07b02992a995d0a13d408dda7d2acf04e1c5a9d185f98651814d6dfff2b59d",
     "0f3792a9755d878d6e5a60afd21ef8e1d38c30f3be3d59879b6cfa860754f465",
+    "18d9f6c7a27e97c092460277fc35bbf9151791127dd0da5a161a8866ef04bbcf",
+    "4a75bf21a088cd48d5c1b38b2b3157fc47542b0132b562be3699e94858a65c9e",
+    "2d673fb49e50239b37577ac23e4f6fdbf899523908d338e3618993594ab5f410",
+    "344713dc75b24db9402649b88570c54a438e5b3b9f17dac677b8cd4313825df4",
+    "4ba11eee3bbe1d3fa772fabebf0edc386903f94c9862c242c7124b8bf0cf6cb6",
 })
 SCHEMA_BOUND_KEYWORDS = frozenset({
     "exclusiveMaximum", "exclusiveMinimum", "maximum", "maxContains",
@@ -1883,7 +1914,7 @@ def _resource_classification_inventory(
     if set(manifest) != expected_keys:
         raise ReadinessError("RESOURCE_CLASSIFICATION_KEYS", manifest_path)
     scalar_expected = {
-        "schema_version": 13,
+        "schema_version": 14,
         "manifest_id": schema_id,
         "profile_id": profile_id,
         "discovery_profile_id": resource_discovery["profile_id"],
@@ -1911,15 +1942,15 @@ def _resource_classification_inventory(
             "schema_bound_sites_sha256"
         ],
         "schema_inputs_sha256": resource_discovery["schema_inputs_sha256"],
-        "classified_site_count": 33,
-        "unclassified_site_count": 664,
+        "classified_site_count": 38,
+        "unclassified_site_count": 659,
     }
     for key, expected in scalar_expected.items():
         if type(manifest.get(key)) is not type(expected) or manifest.get(key) != expected:
             raise ReadinessError("RESOURCE_CLASSIFICATION_BINDING", key)
 
     constraints = manifest.get("constraints")
-    if type(constraints) is not list or len(constraints) != 12:
+    if type(constraints) is not list or len(constraints) != 13:
         raise ReadinessError("RESOURCE_CLASSIFICATION_CONSTRAINTS", manifest_path)
     single_binding_constraint_keys = {
         "accepted_equation", "classification", "constraint_id",
@@ -2573,6 +2604,113 @@ def _resource_classification_inventory(
             ),
             "unit": "ITEMS",
         },
+        {
+            "accepted_equation": (
+                "for host preflight and verifier schema-bundle inspection: "
+                "len(exact built-in bytes schema_registry when admitted) + "
+                "sum(len(exact built-in bytes canonical_json body) for each "
+                "admitted exact SchemaDocumentRecord) <= maximum; separately "
+                "at the public verifier descriptor branch: len(exact built-in "
+                "bytes storage_descriptor) <= maximum"
+            ),
+            "classification": "RESOURCE_MAXIMUM",
+            "constraint_id": "MAX_SCHEMA_BUNDLE_BYTES",
+            "definition_site_ids": [
+                "18d9f6c7a27e97c092460277fc35bbf9151791127dd0da5a161a8866ef04bbcf",
+                "2d673fb49e50239b37577ac23e4f6fdbf899523908d338e3618993594ab5f410",
+            ],
+            "enforcement_site_ids": [
+                "4a75bf21a088cd48d5c1b38b2b3157fc47542b0132b562be3699e94858a65c9e",
+                "344713dc75b24db9402649b88570c54a438e5b3b9f17dac677b8cd4313825df4",
+                "4ba11eee3bbe1d3fa772fabebf0edc386903f94c9862c242c7124b8bf0cf6cb6",
+            ],
+            "evidence_inputs": [
+                dict(item) for item in SCHEMA_BUNDLE_RESOURCE_EVIDENCE
+            ],
+            "maximum": 2_097_152,
+            "semantic_bindings": [
+                {
+                    "function_coordinate": (
+                        "src/edgelab/runtime_v2_image.py:inspect_runtime_image_host"
+                    ),
+                    "semantic_function_ast_sha256": (
+                        "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f"
+                    ),
+                    "module_path": "src/edgelab/runtime_v2_image.py",
+                    "semantic_module_ast_sha256": (
+                        "89d50071bdb9b49f32c631fb6f9ffece243d8a7b97280c3065ca85eea4df9857"
+                    ),
+                    "input_binding": (
+                        "EXACT_CAPTURED_SCHEMA_REGISTRY_BYTES_OR_ZERO_PLUS_"
+                        "EXACT_BYTES_BODIES_OF_ADMITTED_EXACT_SCHEMA_DOCUMENT_"
+                        "RECORDS"
+                    ),
+                    "enforcement_order": (
+                        "FIELD_CAPTURE_AND_SCHEMA_DOCUMENT_TUPLE_CARDINALITY_"
+                        "BEFORE_REGISTRY_EXACT_TYPE_INITIALIZATION_BEFORE_"
+                        "RECORD_AND_BODY_EXACT_TYPE_GUARDS_BEFORE_PER_BODY_"
+                        "ADDITION_BEFORE_AGGREGATE_COMPARISON"
+                    ),
+                    "rejection_action": (
+                        "ADD_SCHEMA_BUNDLE_BYTE_LIMIT_AND_WITHHOLD_IMAGE"
+                    ),
+                },
+                {
+                    "function_coordinate": (
+                        "src/edgelab/runtime_v2_verifier.py:_schema_bundle_findings"
+                    ),
+                    "semantic_function_ast_sha256": (
+                        "054e65a5e37bf65c79c2390dcdc6b0ed4b20683496159ad5d2cae04502f2c14e"
+                    ),
+                    "module_path": "src/edgelab/runtime_v2_verifier.py",
+                    "semantic_module_ast_sha256": (
+                        "4cf60eb1416f7cfe080bd68653d748431084e04a17790a4244317834158acdfc"
+                    ),
+                    "input_binding": (
+                        "NONEMPTY_EXACT_SCHEMA_REGISTRY_BYTES_PLUS_EXACT_"
+                        "BYTES_BODIES_OF_EXACT_SCHEMA_DOCUMENT_RECORDS_AFTER_"
+                        "PRESENCE_REGISTRY_SIZE_AND_EXACT_INVENTORY_GUARDS"
+                    ),
+                    "enforcement_order": (
+                        "BUNDLE_PRESENCE_REGISTRY_SIZE_AND_EXACT_DOCUMENT_"
+                        "COUNT_GUARDS_BEFORE_REGISTRY_INITIALIZATION_BEFORE_"
+                        "RECORD_AND_BODY_EXACT_TYPE_GUARDS_BEFORE_BODY_"
+                        "ADDITION_BEFORE_AGGREGATE_COMPARISON_BEFORE_PARSE"
+                    ),
+                    "rejection_action": (
+                        "ADD_SCHEMA_BUNDLE_TOO_LARGE_AND_RETURN_INVALID_DENY"
+                    ),
+                },
+                {
+                    "function_coordinate": (
+                        "src/edgelab/runtime_v2_verifier.py:verify_runtime_image"
+                    ),
+                    "semantic_function_ast_sha256": (
+                        "1742c7e8785c03ddfb26fbc3c1eb695c0daa79aa355eb77dae6b8350a373502c"
+                    ),
+                    "module_path": "src/edgelab/runtime_v2_verifier.py",
+                    "semantic_module_ast_sha256": (
+                        "4cf60eb1416f7cfe080bd68653d748431084e04a17790a4244317834158acdfc"
+                    ),
+                    "input_binding": (
+                        "EXACT_BUILTIN_BYTES_STORAGE_DESCRIPTOR_FIELD"
+                    ),
+                    "enforcement_order": (
+                        "RUNTIME_IMAGE_AND_DESCRIPTOR_EXACT_TYPE_GUARDS_BEFORE_"
+                        "DESCRIPTOR_SIZE_COMPARISON_BEFORE_CANONICAL_PARSE"
+                    ),
+                    "rejection_action": (
+                        "ADD_DESCRIPTOR_TOO_LARGE_AND_RETURN_INVALID_DENY_"
+                        "WITHOUT_DESCRIPTOR_PARSE"
+                    ),
+                },
+            ],
+            "semantic_subject": (
+                "SCHEMA_REGISTRY_AND_ADMITTED_SCHEMA_DOCUMENT_BODY_BYTE_"
+                "AGGREGATE_OR_SEPARATE_RAW_STORAGE_DESCRIPTOR_BYTES"
+            ),
+            "unit": "BYTES",
+        },
     ]
     if constraints != expected_constraints:
         raise ReadinessError("RESOURCE_CLASSIFICATION_CONSTRAINT", manifest_path)
@@ -2926,6 +3064,39 @@ def _resource_classification_inventory(
             "path": "src/edgelab/runtime_v2_transition.py",
             "qualname": "<module>._TransitionWorkspace._precheck",
         },
+        "18d9f6c7a27e97c092460277fc35bbf9151791127dd0da5a161a8866ef04bbcf": {
+            "ast_sha256": "d62d04ec8b3667377679790b50cb1338a10b1f165362421da6480b4b8b0cf298",
+            "expression": "MAX_SCHEMA_BUNDLE_BYTES = 2097152",
+            "kind": "MODULE_NUMERIC_ASSIGNMENT", "occurrence": 1,
+            "path": "src/edgelab/runtime_v2_image.py", "qualname": "<module>",
+        },
+        "4a75bf21a088cd48d5c1b38b2b3157fc47542b0132b562be3699e94858a65c9e": {
+            "ast_sha256": "9c3e07769ef579a9d7fdb256d86ee59cb3029cc0b7628de7356bbdae6a666f3f",
+            "expression": "schema_bundle_bytes > MAX_SCHEMA_BUNDLE_BYTES",
+            "kind": "BOUND_COMPARISON", "occurrence": 1,
+            "path": "src/edgelab/runtime_v2_image.py",
+            "qualname": "<module>.inspect_runtime_image_host",
+        },
+        "2d673fb49e50239b37577ac23e4f6fdbf899523908d338e3618993594ab5f410": {
+            "ast_sha256": "d62d04ec8b3667377679790b50cb1338a10b1f165362421da6480b4b8b0cf298",
+            "expression": "MAX_SCHEMA_BUNDLE_BYTES = 2097152",
+            "kind": "MODULE_NUMERIC_ASSIGNMENT", "occurrence": 1,
+            "path": "src/edgelab/runtime_v2_verifier.py", "qualname": "<module>",
+        },
+        "344713dc75b24db9402649b88570c54a438e5b3b9f17dac677b8cd4313825df4": {
+            "ast_sha256": "35a0272498d0eebe546fafa708a8f20b54b2e09edd2b86f0b0ee39af405ded6e",
+            "expression": "raw_total > MAX_SCHEMA_BUNDLE_BYTES",
+            "kind": "BOUND_COMPARISON", "occurrence": 1,
+            "path": "src/edgelab/runtime_v2_verifier.py",
+            "qualname": "<module>._schema_bundle_findings",
+        },
+        "4ba11eee3bbe1d3fa772fabebf0edc386903f94c9862c242c7124b8bf0cf6cb6": {
+            "ast_sha256": "cae1123c39910904bae21ca4916212d1125cd36a8cba70fd4ef7c0a6dc11b1e2",
+            "expression": "len(image.storage_descriptor) > MAX_SCHEMA_BUNDLE_BYTES",
+            "kind": "BOUND_COMPARISON", "occurrence": 1,
+            "path": "src/edgelab/runtime_v2_verifier.py",
+            "qualname": "<module>.verify_runtime_image",
+        },
         "fc3a2cf8ca0ab37c1fedcfb108152b40bd65fec0207eac9cd9b3f7f32b8cfd27": {
             "ast_sha256": "4fe28d2328f0988be50eeb9a03c2fdcc3203a4f5f7cd1e98186c9912e1b6d7f0",
             "expression": "_PORTABLE_PATH_MAX = 4096",
@@ -3012,6 +3183,14 @@ def _resource_classification_inventory(
             1,
         ),
         (
+            "src/edgelab/runtime_v2_image.py",
+            "MAX_SCHEMA_BUNDLE_BYTES",
+            "inspect_runtime_image_host",
+            "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f",
+            "89d50071bdb9b49f32c631fb6f9ffece243d8a7b97280c3065ca85eea4df9857",
+            1,
+        ),
+        (
             "src/edgelab/runtime_v2_verifier.py",
             "MAX_SCHEMA_REF_NODES",
             "_schema_safety_findings",
@@ -3034,6 +3213,22 @@ def _resource_classification_inventory(
             "054e65a5e37bf65c79c2390dcdc6b0ed4b20683496159ad5d2cae04502f2c14e",
             "4cf60eb1416f7cfe080bd68653d748431084e04a17790a4244317834158acdfc",
             1,
+        ),
+        (
+            "src/edgelab/runtime_v2_verifier.py",
+            "MAX_SCHEMA_BUNDLE_BYTES",
+            "_schema_bundle_findings",
+            "054e65a5e37bf65c79c2390dcdc6b0ed4b20683496159ad5d2cae04502f2c14e",
+            "4cf60eb1416f7cfe080bd68653d748431084e04a17790a4244317834158acdfc",
+            2,
+        ),
+        (
+            "src/edgelab/runtime_v2_verifier.py",
+            "MAX_SCHEMA_BUNDLE_BYTES",
+            "verify_runtime_image",
+            "1742c7e8785c03ddfb26fbc3c1eb695c0daa79aa355eb77dae6b8350a373502c",
+            "4cf60eb1416f7cfe080bd68653d748431084e04a17790a4244317834158acdfc",
+            2,
         ),
         (
             "src/edgelab/runtime_v2_transition.py",
@@ -3166,8 +3361,8 @@ def _resource_classification_inventory(
         raise ReadinessError("RESOURCE_CLASSIFICATION_SELF_DIGEST", manifest_path)
 
     return {
-        "classified_constraint_count": 12,
-        "classified_site_count": 33,
+        "classified_constraint_count": 13,
+        "classified_site_count": 38,
         "classification_manifest_sha256": claimed_digest,
         "coverage_status": "INCOMPLETE",
         "evidence_inputs": [
@@ -3336,8 +3531,8 @@ def build_report(root: Path = ROOT) -> dict[str, Any]:
         "code": "RESOURCE_INVENTORY_INCOMPLETE",
         "evidence": (
             "The discovery census contains "
-            f"{len(source_bound_sites) + len(schema_bound_sites) - 33} "
-            "unclassified sites after 33 classified resource sites; "
+            f"{len(source_bound_sites) + len(schema_bound_sites) - 38} "
+            "unclassified sites after 38 classified resource sites; "
             f"{len(source_bound_sites)} source-bound sites and "
             f"{len(schema_bound_sites)} unclassified schema-bound sites; no "
             "reviewed bidirectional manifest yet classifies every constraint."
