@@ -43,6 +43,7 @@ FAST_MODULES = (
     "tests.test_runtime_v2_schema_bundle_byte_bound",
     "tests.test_runtime_v2_schema_ref_node_bound",
     "tests.test_runtime_v2_schema_registry_byte_bound",
+    "tests.test_runtime_v2_schema_registry_table_row_bound",
     "tests.test_runtime_v2_snapshot",
     "tests.test_runtime_v2_legacy_amendment",
     "tests.test_runtime_v2_legacy_archive_table_row_bound",

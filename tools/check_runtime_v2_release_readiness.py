@@ -171,15 +171,15 @@ CLOSURE_SCHEMA = (
     "schemas/m0-3a-verifier-dependency-closure.v1.schema.json",
 )
 RESOURCE_CLASSIFICATION_SCHEMA = (
-    "urn:edgelab:m0-3a-runtime-v2-resource-classification:21",
-    "schemas/m0-3a-runtime-v2-resource-classification.v21.schema.json",
+    "urn:edgelab:m0-3a-runtime-v2-resource-classification:22",
+    "schemas/m0-3a-runtime-v2-resource-classification.v22.schema.json",
 )
 RESOURCE_CLASSIFICATION_MANIFEST = (
-    "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V21",
-    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v21.json",
+    "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V22",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v22.json",
 )
 RESOURCE_CLASSIFICATION_DOMAIN = (
-    "EDGELAB\0RUNTIME_V2_RESOURCE_CLASSIFICATION\0V21\0"
+    "EDGELAB\0RUNTIME_V2_RESOURCE_CLASSIFICATION\0V22\0"
 )
 RESOURCE_SOURCE_INPUT_DOMAIN = (
     "EDGELAB\0RUNTIME_V2_RESOURCE_SOURCE_INPUTS\0V1\0"
@@ -241,22 +241,35 @@ RESOURCE_SOURCE_BOUND_SITES_V4_SHA256 = (
     "5918304896b54b757e26d94367227c9f36db56e367964133d793c3539f47ab2f"
 )
 RESOURCE_CLASSIFICATION_SCHEMA_RAW_SHA256 = (
-    "10ebe1d8aeb72c1cb69f2d6f3da0b7e3716d53a1f75c4c43e4d20b146d22eec9"
+    "128144d02fcaaf399881a817b6b25b065d160b8af7b9f89feeda87c1129a73bf"
 )
 RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST = {
-    "byte_length": 41850,
+    "byte_length": 44109,
     "classification_manifest_sha256": (
-        "6119e639cbc9604ce8a9014a66f3e63a568747d07e42eaa22f9e5f1bf65323d5"
+        "44929d4058538e354d09940a671ac78306d2d03a0b101bd2ba55035c5814ff8a"
     ),
-    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v20.json",
-    "raw_sha256": "4f178d854d7ae2ed43cb10dfbbc08376307318deb73a71d23dbb9a98483e8f6a",
+    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v21.json",
+    "raw_sha256": "903ce2b2bc63498bc18adfd43c03518bddd1c4d41e1c5fd94b82e2276416e9b1",
 }
 RESOURCE_CLASSIFICATION_PREDECESSOR_SCHEMA = {
-    "byte_length": 45990,
-    "path": "schemas/m0-3a-runtime-v2-resource-classification.v20.schema.json",
-    "raw_sha256": "faecaead5bc49e60dea73e51ba2f0e1d41de417b267dc2906208d6bc8a8b57ad",
+    "byte_length": 48385,
+    "path": "schemas/m0-3a-runtime-v2-resource-classification.v21.schema.json",
+    "raw_sha256": "10ebe1d8aeb72c1cb69f2d6f3da0b7e3716d53a1f75c4c43e4d20b146d22eec9",
 }
 RESOURCE_CLASSIFICATION_ANCESTORS = (
+    {
+        "byte_length": 41850,
+        "classification_manifest_sha256": (
+            "6119e639cbc9604ce8a9014a66f3e63a568747d07e42eaa22f9e5f1bf65323d5"
+        ),
+        "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v20.json",
+        "raw_sha256": "4f178d854d7ae2ed43cb10dfbbc08376307318deb73a71d23dbb9a98483e8f6a",
+    },
+    {
+        "byte_length": 45990,
+        "path": "schemas/m0-3a-runtime-v2-resource-classification.v20.schema.json",
+        "raw_sha256": "faecaead5bc49e60dea73e51ba2f0e1d41de417b267dc2906208d6bc8a8b57ad",
+    },
     {
         "byte_length": 39567,
         "classification_manifest_sha256": (
@@ -759,6 +772,22 @@ METADATA_TABLE_ROW_RESOURCE_EVIDENCE = (
         ),
     },
 )
+SCHEMA_REGISTRY_TABLE_ROW_RESOURCE_EVIDENCE = (
+    {
+        "byte_length": 4006,
+        "path": "docs/M0.3A_RUNTIME_SCHEMA_REGISTRY_TABLE_ROW_LIMIT.v1.md",
+        "raw_sha256": (
+            "f9eb3c17566906a179d3aaea387615b689f92254a842a610a7304a886dc984cf"
+        ),
+    },
+    {
+        "byte_length": 7349,
+        "path": "tests/test_runtime_v2_schema_registry_table_row_bound.py",
+        "raw_sha256": (
+            "628d74115c8cfbaa183f9db87e2bab5f8295b04707712a1b20abf14e50068797"
+        ),
+    },
+)
 RESOURCE_CLASSIFICATION_EVIDENCE = (
     *BLOB_RESOURCE_EVIDENCE,
     *CLOSURE_RESOURCE_EVIDENCE,
@@ -784,8 +813,10 @@ RESOURCE_CLASSIFICATION_EVIDENCE = (
     *MIGRATIONS_TABLE_ROW_RESOURCE_EVIDENCE,
     *LEGACY_ARCHIVE_TABLE_ROW_RESOURCE_EVIDENCE,
     *METADATA_TABLE_ROW_RESOURCE_EVIDENCE,
+    *SCHEMA_REGISTRY_TABLE_ROW_RESOURCE_EVIDENCE,
 )
 CLASSIFIED_RESOURCE_SITE_IDS = frozenset({
+    "fda4fc6a03e3b64d2d398e1c8658acb7788ecfe8b3d2512036e4ac9b14b84793",
     "badbd3a475028cf7a3166768a9d403c651f5ceffab899ddd7d6fa460b5e2f96e",
     "da67d5943016f6af5f024dbac99959ad526f513565305cfdcdf0df960a4cba18",
     "8049eeb8f33f5337042577cfb67d005307c6e9354e64851a345f55efa3a13c5a",
@@ -2864,7 +2895,7 @@ def _resource_classification_inventory(
     if set(manifest) != expected_keys:
         raise ReadinessError("RESOURCE_CLASSIFICATION_KEYS", manifest_path)
     scalar_expected = {
-        "schema_version": 21,
+        "schema_version": 22,
         "manifest_id": schema_id,
         "profile_id": profile_id,
         "discovery_profile_id": resource_discovery["profile_id"],
@@ -2892,15 +2923,15 @@ def _resource_classification_inventory(
             "schema_bound_sites_sha256"
         ],
         "schema_inputs_sha256": resource_discovery["schema_inputs_sha256"],
-        "classified_site_count": 45,
-        "unclassified_site_count": 673,
+        "classified_site_count": 46,
+        "unclassified_site_count": 672,
     }
     for key, expected in scalar_expected.items():
         if type(manifest.get(key)) is not type(expected) or manifest.get(key) != expected:
             raise ReadinessError("RESOURCE_CLASSIFICATION_BINDING", key)
 
     constraints = manifest.get("constraints")
-    if type(constraints) is not list or len(constraints) != 18:
+    if type(constraints) is not list or len(constraints) != 19:
         raise ReadinessError("RESOURCE_CLASSIFICATION_CONSTRAINTS", manifest_path)
     single_binding_constraint_keys = {
         "accepted_equation", "classification", "constraint_id",
@@ -3917,6 +3948,60 @@ def _resource_classification_inventory(
             ),
             "unit": "ITEMS",
         },
+        {
+            "accepted_equation": (
+                "for the exact table snapshot paired by strict positional zip "
+                "with _TABLE_SPECS[11] after exact table-snapshot cardinality, "
+                "snapshot and field-presence guards, the non-blocking table-"
+                "identity diagnostic regardless of label match, and the rows-"
+                "tuple guard: "
+                "len(captured['table_snapshots'][11].rows) <= maximum"
+            ),
+            "classification": "RESOURCE_MAXIMUM",
+            "constraint_id": "TABLE_SCHEMA_REGISTRY_ROWS",
+            "definition_site_ids": [
+                "fda4fc6a03e3b64d2d398e1c8658acb7788ecfe8b3d2512036e4ac9b14b84793"
+            ],
+            "enforcement_site_ids": [
+                "fda4fc6a03e3b64d2d398e1c8658acb7788ecfe8b3d2512036e4ac9b14b84793"
+            ],
+            "evidence_inputs": [
+                dict(item) for item in SCHEMA_REGISTRY_TABLE_ROW_RESOURCE_EVIDENCE
+            ],
+            "maximum": 1,
+            "semantic_function_ast_sha256": (
+                "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f"
+            ),
+            "semantic_module_ast_sha256": (
+                "89d50071bdb9b49f32c631fb6f9ffece243d8a7b97280c3065ca85eea4df9857"
+            ),
+            "semantic_proof": {
+                "function_coordinate": (
+                    "src/edgelab/runtime_v2_image.py:inspect_runtime_image_host"
+                ),
+                "input_binding": (
+                    "EXACT_ROWS_TUPLE_OF_TABLE_SNAPSHOT_AT_STRICT_ZIP_POSITION_11_"
+                    "NOT_SELECTED_BY_SUPPLIED_TABLE_LABEL"
+                ),
+                "enforcement_order": (
+                    "EXACT_RUNTIME_IMAGE_AND_TABLE_SNAPSHOTS_TUPLE_THEN_EXACT_"
+                    "TABLE_SNAPSHOT_CARDINALITY_THEN_STRICT_ZIP_POSITION_11_THEN_"
+                    "EXACT_SNAPSHOT_TYPE_FIELD_READS_AND_PRESENCE_THEN_NON_"
+                    "BLOCKING_TABLE_IDENTITY_DIAGNOSTIC_REGARDLESS_OF_MATCH_"
+                    "THEN_EXACT_ROWS_TUPLE_THEN_INCLUSIVE_ONE_ROW_"
+                    "COMPARISON_BEFORE_ROW_CANONICALIZATION_VALIDATION_OR_ACCOUNTING"
+                ),
+                "rejection_action": (
+                    "ADD_TABLE_ROW_LIMIT_AT_POSITION_11_ROWS_SET_ACCOUNTING_"
+                    "INCOMPLETE_CONTINUE_AND_WITHHOLD_SANITIZED_IMAGE"
+                ),
+            },
+            "semantic_subject": (
+                "EXACT_BUILTIN_TUPLE_ROWS_FIELD_OF_CAPTURED_TABLE_SNAPSHOT_"
+                "AT_STRICT_POSITION_11_SCHEMA_REGISTRY_SPEC"
+            ),
+            "unit": "ITEMS",
+        },
     ]
     if constraints != expected_constraints:
         raise ReadinessError("RESOURCE_CLASSIFICATION_CONSTRAINT", manifest_path)
@@ -3926,7 +4011,7 @@ def _resource_classification_inventory(
     if (
         predecessor_value is None
         or predecessor_value.get("constraints") != constraints[:-1]
-        or predecessor_value.get("classified_site_count") != 44
+        or predecessor_value.get("classified_site_count") != 45
     ):
         raise ReadinessError(
             "RESOURCE_CLASSIFICATION_CENSUS_REBASE", manifest_path
@@ -3962,6 +4047,95 @@ def _resource_classification_inventory(
     if classified_site_ids != CLASSIFIED_RESOURCE_SITE_IDS:
         raise ReadinessError("RESOURCE_CLASSIFICATION_SITE_SET", manifest_path)
     site_shapes = {
+        "fda4fc6a03e3b64d2d398e1c8658acb7788ecfe8b3d2512036e4ac9b14b84793": {
+            "ast_sha256": (
+                "79684afc536b1317fe0d6ba1886d7c84a31feb27a642dd43fca0fe636eef1cf0"
+            ),
+            "binding": "table_row_caps:schema_registry",
+            "classification": "UNCLASSIFIED",
+            "comparator_site_id": (
+                "41ab1d3712b89ce44af6a77c3a694346032502dcad0bca11a5cd6077d06be79a"
+            ),
+            "expression": (
+                "_TableSpec('schema_registry', (_c('singleton', 'TEXT'), "
+                "_c('schema_registry_sha256', 'TEXT'), "
+                "_c('canonical_json', 'TEXT')), (0,), (0,), 1)"
+            ),
+            "kind": "BOUND_TABLE_ROW_CAP_COMPARISON_BINDING",
+            "line": 126,
+            "loop_ast_sha256": (
+                "e40732e96491df8527c69672882d11dbfd2c1cb319f334cbe62ab7efd4812b91"
+            ),
+            "iterator_ast_sha256": (
+                "a403a440387a29fa43204ecbcf0d89a81197079ca4ecd0d36f442c833e9f13cc"
+            ),
+            "strict_zip_ast_sha256": (
+                "c2b2db9f47e7091791368bf16ce15e2cac2868d2f0a75d5315bd30559e12ab81"
+            ),
+            "maximum": 1,
+            "outer_cardinality_gate_ast_sha256": (
+                "c6b3f092d05483b71b492155a293155bbdd8b38dcbb5a445423afc9c45409d3a"
+            ),
+            "path": "src/edgelab/runtime_v2_image.py",
+            "qualname": "<module>.inspect_runtime_image_host",
+            "row_index": 11,
+            "selection_semantics": (
+                "POSITIONAL_STRICT_ZIP_NOT_SUPPLIED_TABLE_LABEL"
+            ),
+            "semantic_function_ast_sha256": (
+                "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f"
+            ),
+            "semantic_module_ast_sha256": (
+                "89d50071bdb9b49f32c631fb6f9ffece243d8a7b97280c3065ca85eea4df9857"
+            ),
+            "subject_binding": "captured['table_snapshots'][11].rows",
+            "table_name": "schema_registry",
+            "table_snapshots_cardinality_site_id": (
+                "56e98674b7d3cea2c63839f264be9afd63b55b3d9acb1dfc321cf1c4dc60744a"
+            ),
+            "table_spec_class_ast_sha256": (
+                "97b4789d083370dabe775cbc0a17a023f9786da4a9f1b69ee89aa7a83b11b47d"
+            ),
+            "table_spec_ast_sha256": (
+                "79684afc536b1317fe0d6ba1886d7c84a31feb27a642dd43fca0fe636eef1cf0"
+            ),
+            "table_spec_site_id": (
+                "8b93a8c07c34c56e41f154e9c01c69802103c63fbd09b1d6858262c5b70aef2d"
+            ),
+            "table_specs_assignment_ast_sha256": (
+                "60d9b16f6030dce58a70f4493dc201afaabb6bd0d1a797508232dd88a6015cae"
+            ),
+            "snapshot_type_gate_ast_sha256": (
+                "155e0217b4406bfc3bfa72b85679d542a1f71cb814e7f957bdb92e8e489fc3bf"
+            ),
+            "table_read_ast_sha256": (
+                "ad5224162b5f5ef63f5d7698b1b8758b3db070e1e33250bab7635f809aac76b5"
+            ),
+            "rows_read_ast_sha256": (
+                "677411f1fdeb57709c313f0579f62a2d5ffe919e92cebfffec0aa69297c7d937"
+            ),
+            "table_missing_gate_ast_sha256": (
+                "110275f6f01f61acc9d39c012d46be5926ae7fd873f99eb1048406f68d99eda6"
+            ),
+            "rows_missing_gate_ast_sha256": (
+                "017cdb5e6ac07bde32192e3257f0f6cfe4feb52e2b23b4857d278b5bebac83b1"
+            ),
+            "missing_gate_ast_sha256": (
+                "5b0670163dbd36c4ff23e8118fe5cd5d823ec1823f9edf4377ef28d7b3cf0d86"
+            ),
+            "table_identity_gate_ast_sha256": (
+                "7bcc4099d0adabfb3853cd6769bd07df9acd85b4206f0dd984655e12783d14d5"
+            ),
+            "rows_type_gate_ast_sha256": (
+                "4006c58377860796372c6a7ba0ade5432be7826ac1c221d92debfbb3e1b49149"
+            ),
+            "row_cap_branch_ast_sha256": (
+                "f08103d3d93095d12467bcaa94798c7cf80a06591850d2c470a182ce920a2306"
+            ),
+            "site_id": (
+                "fda4fc6a03e3b64d2d398e1c8658acb7788ecfe8b3d2512036e4ac9b14b84793"
+            ),
+        },
         "badbd3a475028cf7a3166768a9d403c651f5ceffab899ddd7d6fa460b5e2f96e": {
             "ast_sha256": (
                 "603a2ffd90c3e09feac265d108beb5a7a48ec62def22a202fd0f45ca1feb5579"
@@ -5015,8 +5189,8 @@ def _resource_classification_inventory(
         raise ReadinessError("RESOURCE_CLASSIFICATION_SELF_DIGEST", manifest_path)
 
     return {
-        "classified_constraint_count": 18,
-        "classified_site_count": 45,
+        "classified_constraint_count": 19,
+        "classified_site_count": 46,
         "classification_manifest_sha256": claimed_digest,
         "coverage_status": "INCOMPLETE",
         "evidence_inputs": [
