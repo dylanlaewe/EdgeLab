@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-118",
+  "version": 1,
+  "occurred_at": "2026-10-30T02:55:43Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_TRANSITION_TASK_RESOURCE_CLASSIFIED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-136-runtime-v2-transition-task-resource-classification.v1.md",
+  "previous_state": "DISCOVERY_V2_697_SITES_THIRTY_CLASSIFIED_667_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V2_697_SITES_THIRTY_THREE_CLASSIFIED_664_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit ec2cf8beaa2f3976ffe27f5f84a765d1710bac15 binds MAX_TASKS only to the exact ReducerState tuple cardinality and the transition workspace retained-key plus validated absent-key write ceiling through its sole definition and both direct comparisons with exact type, ordering, absent-key accounting, atomic failure, non-authority, and attacker-refreshed semantic-pin evidence. It does not classify global task history, import width, workload, or authority. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": [
+    "reports/H-M0-136-runtime-v2-transition-task-resource-classification.v1.md",
+    "docs/M0.3A_TRANSITION_TASK_RESOURCE_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v13.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v13.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_transition_task_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v39.json"
+  ],
+  "code_ref": "ec2cf8beaa2f3976ffe27f5f84a765d1710bac15",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-136",
+  "supersedes": null
+}
