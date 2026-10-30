@@ -45,6 +45,7 @@ FAST_MODULES = (
     "tests.test_runtime_v2_schema_registry_byte_bound",
     "tests.test_runtime_v2_snapshot",
     "tests.test_runtime_v2_legacy_amendment",
+    "tests.test_runtime_v2_migrations_table_row_bound",
     "tests.test_runtime_v2_storage_descriptor",
     "tests.test_runtime_v2_table_row_cap_binding",
     "tests.test_runtime_v2_transition",
