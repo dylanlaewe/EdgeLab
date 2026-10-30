@@ -45,6 +45,7 @@ FAST_MODULES = (
     "tests.test_runtime_v2_storage_descriptor",
     "tests.test_runtime_v2_transition",
     "tests.test_runtime_v2_transition_argument_bound",
+    "tests.test_runtime_v2_portable_path_bound",
     "tests.test_runtime_v2_transition_workspace",
     "tests.test_runtime_v2_verifier",
     "tests.test_successor_runtime_contract",
