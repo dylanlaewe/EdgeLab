@@ -1,0 +1,749 @@
+{
+  "schema_version": 20,
+  "manifest_id": "urn:edgelab:m0-3a-runtime-v2-resource-classification:20",
+  "profile_id": "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V20",
+  "discovery_profile_id": "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V4",
+  "coverage_status": "INCOMPLETE",
+  "generation_disposition": "DENY",
+  "classification_schema_raw_sha256": "faecaead5bc49e60dea73e51ba2f0e1d41de417b267dc2906208d6bc8a8b57ad",
+  "predecessor_manifest": {
+    "byte_length": 39567,
+    "classification_manifest_sha256": "ccf08c2b484131ef04231d44beba0e82f04e27a6f97a67e5cbd32db742faba2c",
+    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v19.json",
+    "raw_sha256": "0f74476dbb2e6747542a6a2f52b8c525f1d6cb43ef4a1898b8fca6a974b3938e"
+  },
+  "predecessor_schema": {
+    "byte_length": 43571,
+    "path": "schemas/m0-3a-runtime-v2-resource-classification.v19.schema.json",
+    "raw_sha256": "928e254e59d8dac8d82c6c6dc2fc0dd7598be5c1bd33bb5a543e09fe318f87ac"
+  },
+  "source_input_count": 10,
+  "source_inputs_sha256": "b22a453f6b2f5f44281054752bf9bce5e259d6a60ae22fe7b190383292e4ba2a",
+  "source_bound_site_count": 422,
+  "source_bound_sites_sha256": "5918304896b54b757e26d94367227c9f36db56e367964133d793c3539f47ab2f",
+  "schema_bound_site_count": 296,
+  "schema_bound_sites_sha256": "00b27a32303836f9d9910663e6bd2f76a7ca6d8c7cd614e5f22346b53cd104de",
+  "schema_inputs_sha256": "14ccff50a49f337336f01b5a40b845e5011218063d2cdfa68f0b73b1a3c94239",
+  "classified_site_count": 44,
+  "unclassified_site_count": 674,
+  "constraints": [
+    {
+      "constraint_id": "MAX_BLOB_BYTES",
+      "classification": "RESOURCE_MAXIMUM",
+      "semantic_subject": "SUPPLIED_BLOB_RECORD_CANONICAL_JSON_FIELD_BYTES",
+      "unit": "BYTES",
+      "maximum": 16777216,
+      "accepted_equation": "for each exact BlobRecord in runtime_image.blobs: len(captured canonical_json bytes) <= maximum",
+      "semantic_function_ast_sha256": "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f",
+      "semantic_module_ast_sha256": "89d50071bdb9b49f32c631fb6f9ffece243d8a7b97280c3065ca85eea4df9857",
+      "semantic_proof": {
+        "function_coordinate": "src/edgelab/runtime_v2_image.py:inspect_runtime_image_host",
+        "input_binding": "VALID_CARDINALITY_EXACT_BLOB_RECORD_CAPTURED_BYTES_FIELD",
+        "enforcement_order": "CARDINALITY_RECORD_AND_FIELD_TYPE_GUARDS_BEFORE_SIZE_GUARD",
+        "rejection_action": "ADD_IMAGE_ITEM_BYTE_LIMIT_FINDING_AND_WITHHOLD_IMAGE"
+      },
+      "definition_site_ids": [
+        "a1c0d45cbce3ceffdaeb036a93474801b525220e1d16ab5505dba14115313caa"
+      ],
+      "enforcement_site_ids": [
+        "1ef42fea7eca273c2040d72810435052d0241a4e9a4d7ba63598548d95d5249c"
+      ],
+      "evidence_inputs": [
+        {
+          "byte_length": 27054,
+          "path": "docs/M0.3A_CONTENT_REDUCER_CONTRACT.v1.md",
+          "raw_sha256": "3f3c031c11be2c9a96bf973447c6c3f04ed29609fca7230793e5fc4afafc7aac"
+        },
+        {
+          "byte_length": 30521,
+          "path": "docs/M0.3A_RUNTIME_IMAGE_CONTRACT.v1.md",
+          "raw_sha256": "408c62a9fabd6182098d0fbe1c1f88c4b780f96b0aaf208e20b3fedfaf4ec550"
+        },
+        {
+          "byte_length": 18200,
+          "path": "tests/test_runtime_v2_image.py",
+          "raw_sha256": "2cd685c78186bce2beb4f0d252acb084d03a4f0cf42d3e12364c4cfb1b75488d"
+        }
+      ]
+    },
+    {
+      "constraint_id": "MAX_DEPENDENCY_CLOSURE_BYTES",
+      "classification": "RESOURCE_MAXIMUM",
+      "semantic_subject": "RAW_DEPENDENCY_CLOSURE_BYTES",
+      "unit": "BYTES",
+      "maximum": 1048576,
+      "accepted_equation": "len(raw_dependency_closure_bytes) <= maximum",
+      "semantic_function_ast_sha256": "9c9e9b785430028f44d93df883e0b7edd52b777546b8811b732fdf2b99bc0e30",
+      "semantic_module_ast_sha256": "30502d160af1538889e36f2411835749381362cec5935936fcf4e4db90bf48c7",
+      "semantic_proof": {
+        "function_coordinate": "src/edgelab/runtime_v2_closure.py:validate_verifier_dependency_closure",
+        "input_binding": "UNMODIFIED_EXACT_BYTES_FUNCTION_ARGUMENT",
+        "enforcement_order": "TYPE_GUARD_BEFORE_SIZE_GUARD_BEFORE_PARSE",
+        "rejection_action": "RAISE_BYTE_LIMIT"
+      },
+      "definition_site_ids": [
+        "f0929588df702f47d6a2f6fe255d87b6bf4a0e083cbfdbb0cc0f699973edc2ab"
+      ],
+      "enforcement_site_ids": [
+        "344950b527bcecb073b777c4bbf743de50dd920bd4aa76dbbf58045ff9f00ab5"
+      ],
+      "evidence_inputs": [
+        {
+          "byte_length": 4153,
+          "path": "docs/M0.3A_DEPENDENCY_CLOSURE_SHAPE.v1.md",
+          "raw_sha256": "cb36c54b5e23d517868817e06a5420c954412942eb4451996f8c5f2281e0522b"
+        },
+        {
+          "byte_length": 18786,
+          "path": "tests/test_runtime_v2_closure.py",
+          "raw_sha256": "56a8bbcf7afbdcb81a6d398fcbbee4f705a054f5cd2736e7a36fc6f20e922b57"
+        }
+      ]
+    },
+    {
+      "constraint_id": "MAX_EVENT_BYTES",
+      "classification": "RESOURCE_MAXIMUM",
+      "semantic_subject": "EXACT_BUILTIN_BYTES_MEMBERS_OF_CAPTURED_RUNTIME_IMAGE_EVENTS",
+      "unit": "BYTES",
+      "maximum": 1048576,
+      "accepted_equation": "for each exact built-in bytes member reached after events tuple and cardinality validation: len(supplied event member bytes) <= maximum",
+      "semantic_function_ast_sha256": "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f",
+      "semantic_module_ast_sha256": "89d50071bdb9b49f32c631fb6f9ffece243d8a7b97280c3065ca85eea4df9857",
+      "semantic_proof": {
+        "function_coordinate": "src/edgelab/runtime_v2_image.py:inspect_runtime_image_host",
+        "input_binding": "EXACT_BUILTIN_BYTES_MEMBERS_AFTER_EVENTS_TUPLE_AND_CARDINALITY_VALIDATION",
+        "enforcement_order": "TOP_LEVEL_CAPTURE_THEN_TUPLE_TYPE_THEN_CARDINALITY_THEN_MEMBER_TYPE_THEN_ACCOUNTING_THEN_SIZE_GUARD",
+        "rejection_action": "ADD_IMAGE_ITEM_BYTE_LIMIT_FOR_EVENTS_INDEX_AND_WITHHOLD_IMAGE"
+      },
+      "definition_site_ids": [
+        "7db6dd7c8847d19d5b451a58dc88346ff1d16db0d6c1b2dc62eec0b0780f662a"
+      ],
+      "enforcement_site_ids": [
+        "8a65115a6e18d3b2a23dc717ac5500638641dc0fe90a227554e9b4b500464534"
+      ],
+      "evidence_inputs": [
+        {
+          "byte_length": 8989,
+          "path": "docs/M0.3A_EVENT_BYTE_LIMIT.v1.md",
+          "raw_sha256": "0b4113252759c144d8d44238b5a33d55fbd48b88f592daddb73354ff7b81ad2e"
+        },
+        {
+          "byte_length": 30521,
+          "path": "docs/M0.3A_RUNTIME_IMAGE_CONTRACT.v1.md",
+          "raw_sha256": "408c62a9fabd6182098d0fbe1c1f88c4b780f96b0aaf208e20b3fedfaf4ec550"
+        },
+        {
+          "byte_length": 5878,
+          "path": "tests/test_runtime_v2_event_byte_bound.py",
+          "raw_sha256": "06482fe7b557514ad0f4fbb55aa69fcd24ec901b0897df45ae98e1efaec9cb7b"
+        },
+        {
+          "byte_length": 18200,
+          "path": "tests/test_runtime_v2_image.py",
+          "raw_sha256": "2cd685c78186bce2beb4f0d252acb084d03a4f0cf42d3e12364c4cfb1b75488d"
+        }
+      ]
+    },
+    {
+      "constraint_id": "MAX_SCHEMA_DOCUMENT_BYTES",
+      "classification": "RESOURCE_MAXIMUM",
+      "semantic_subject": "SUPPLIED_SCHEMA_DOCUMENT_CANONICAL_JSON_FIELD_BYTES",
+      "unit": "BYTES",
+      "maximum": 262144,
+      "accepted_equation": "for each exact supplied schema-document record admitted to host preflight or verifier bundle inspection: len(supplied canonical_json field bytes) <= maximum",
+      "semantic_bindings": [
+        {
+          "function_coordinate": "src/edgelab/runtime_v2_image.py:inspect_runtime_image_host",
+          "semantic_function_ast_sha256": "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f",
+          "module_path": "src/edgelab/runtime_v2_image.py",
+          "semantic_module_ast_sha256": "89d50071bdb9b49f32c631fb6f9ffece243d8a7b97280c3065ca85eea4df9857",
+          "input_binding": "VALID_CARDINALITY_EXACT_SCHEMA_DOCUMENT_RECORD_CAPTURED_BYTES_FIELD",
+          "enforcement_order": "CARDINALITY_RECORD_AND_FIELD_TYPE_GUARDS_BEFORE_SIZE_GUARD",
+          "rejection_action": "ADD_IMAGE_ITEM_BYTE_LIMIT_FINDING_AND_WITHHOLD_IMAGE"
+        },
+        {
+          "function_coordinate": "src/edgelab/runtime_v2_verifier.py:_schema_bundle_findings",
+          "semantic_function_ast_sha256": "054e65a5e37bf65c79c2390dcdc6b0ed4b20683496159ad5d2cae04502f2c14e",
+          "module_path": "src/edgelab/runtime_v2_verifier.py",
+          "semantic_module_ast_sha256": "4cf60eb1416f7cfe080bd68653d748431084e04a17790a4244317834158acdfc",
+          "input_binding": "EXACT_SCHEMA_DOCUMENT_RECORD_CANONICAL_JSON_BYTES_FIELD",
+          "enforcement_order": "RECORD_AND_FIELD_TYPE_GUARDS_BEFORE_SIZE_GUARD_BEFORE_PARSE",
+          "rejection_action": "ADD_SCHEMA_DOCUMENT_TOO_LARGE_AND_RETURN_INVALID_DENY"
+        }
+      ],
+      "definition_site_ids": [
+        "fa0e657aa776634a22b750a8fce2c4ed1ff0de61ff58841530de76225f9e8630",
+        "e5ebe2c841739dfbb79d7fb7c04879320c9d4b5313534822b1e3696798afc40d"
+      ],
+      "enforcement_site_ids": [
+        "9c9756b7f77e91caf4044c0cb19c52dc2d0335a749fc7690e00ddd6a9a1b6b38",
+        "222b398c640f6311f8597b487de626c2dfb65f4340a6fb1ece58292788c9b8d3"
+      ],
+      "evidence_inputs": [
+        {
+          "byte_length": 27054,
+          "path": "docs/M0.3A_CONTENT_REDUCER_CONTRACT.v1.md",
+          "raw_sha256": "3f3c031c11be2c9a96bf973447c6c3f04ed29609fca7230793e5fc4afafc7aac"
+        },
+        {
+          "byte_length": 30521,
+          "path": "docs/M0.3A_RUNTIME_IMAGE_CONTRACT.v1.md",
+          "raw_sha256": "408c62a9fabd6182098d0fbe1c1f88c4b780f96b0aaf208e20b3fedfaf4ec550"
+        },
+        {
+          "byte_length": 6452,
+          "path": "tests/test_runtime_v2_schema_document_bound.py",
+          "raw_sha256": "39e0385619d62dbea2018225c1f25212e45a4c15e3e59552a2b90b661c11e121"
+        }
+      ]
+    },
+    {
+      "constraint_id": "MAX_SCHEMA_REF_NODES",
+      "classification": "RESOURCE_MAXIMUM",
+      "semantic_subject": "VALID_ROOT_SCHEMA_DEFINITION_OWNER_KEYS_ADMITTED_TO_CYCLE_TRAVERSAL",
+      "unit": "NODES",
+      "maximum": 4096,
+      "accepted_equation": "when graph-cardinality evaluation is reached before diagnostic-budget exhaustion: len(valid root $defs owner keys in edges) <= maximum",
+      "semantic_function_ast_sha256": "e445bd1a06dfbee91a6ed8146a6524874a84dbcc0439b06e3667d31a8e49f60d",
+      "semantic_module_ast_sha256": "4cf60eb1416f7cfe080bd68653d748431084e04a17790a4244317834158acdfc",
+      "semantic_proof": {
+        "function_coordinate": "src/edgelab/runtime_v2_verifier.py:_schema_safety_findings",
+        "input_binding": "VALID_ROOT_SCHEMA_DEFINITION_OWNER_KEYS_IN_EDGES",
+        "enforcement_order": "SCHEMA_WALK_AND_DEFINITION_NAME_VALIDATION_BEFORE_NODE_GUARD_BEFORE_CYCLE_TRAVERSAL",
+        "rejection_action": "ADD_SCHEMA_REF_GRAPH_TOO_LARGE_AND_RETURN_INVALID_DENY_BEFORE_CYCLE_TRAVERSAL"
+      },
+      "definition_site_ids": [
+        "61d3dcc5d5ed733e6d561edeb43ddcc00ab2aa8fc899b09353733877ea76a721"
+      ],
+      "enforcement_site_ids": [
+        "4650c76c2ae3e065cd5767e97b8a59d917415ba1dfc73f79f0efd8b09f4f3eef"
+      ],
+      "evidence_inputs": [
+        {
+          "byte_length": 5330,
+          "path": "docs/M0.3A_SCHEMA_REFERENCE_GRAPH_LIMIT.v1.md",
+          "raw_sha256": "a7f6b16df0709b95755e83f1309934dff0e168db94c4c57e831f27b5b41d61f7"
+        },
+        {
+          "byte_length": 7920,
+          "path": "tests/test_runtime_v2_schema_ref_node_bound.py",
+          "raw_sha256": "b0337687f556bfc35af28918614863d4b5aab0437200d5b286b6b8e66667779c"
+        }
+      ]
+    },
+    {
+      "constraint_id": "MAX_SCHEMA_REGISTRY_BYTES",
+      "classification": "RESOURCE_MAXIMUM",
+      "semantic_subject": "EXACT_BUILTIN_BYTES_SCHEMA_REGISTRY_FIELDS_SUPPLIED_TO_HOST_PREFLIGHT_OR_VERIFIER_BUNDLE_INSPECTION",
+      "unit": "BYTES",
+      "maximum": 262144,
+      "accepted_equation": "for each exact supplied built-in bytes RuntimeImage.schema_registry field admitted to host preflight or verifier bundle inspection: len(supplied schema_registry bytes) <= maximum",
+      "semantic_bindings": [
+        {
+          "function_coordinate": "src/edgelab/runtime_v2_image.py:inspect_runtime_image_host",
+          "semantic_function_ast_sha256": "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f",
+          "module_path": "src/edgelab/runtime_v2_image.py",
+          "semantic_module_ast_sha256": "89d50071bdb9b49f32c631fb6f9ffece243d8a7b97280c3065ca85eea4df9857",
+          "input_binding": "EXACT_CAPTURED_SCHEMA_REGISTRY_BYTES_AFTER_RUNTIME_IMAGE_FIELD_CAPTURE",
+          "enforcement_order": "FIELD_CAPTURE_AND_EXACT_BYTES_TYPE_GUARD_BEFORE_ACCOUNTING_BEFORE_SIZE_GUARD",
+          "rejection_action": "ADD_IMAGE_ITEM_BYTE_LIMIT_FOR_SCHEMA_REGISTRY_AND_WITHHOLD_IMAGE"
+        },
+        {
+          "function_coordinate": "src/edgelab/runtime_v2_verifier.py:_schema_bundle_findings",
+          "semantic_function_ast_sha256": "054e65a5e37bf65c79c2390dcdc6b0ed4b20683496159ad5d2cae04502f2c14e",
+          "module_path": "src/edgelab/runtime_v2_verifier.py",
+          "semantic_module_ast_sha256": "4cf60eb1416f7cfe080bd68653d748431084e04a17790a4244317834158acdfc",
+          "input_binding": "NONEMPTY_EXACT_SCHEMA_REGISTRY_BYTES_WITH_PRESENT_SCHEMA_DOCUMENTS",
+          "enforcement_order": "REGISTRY_AND_DOCUMENT_PRESENCE_GUARDS_BEFORE_SIZE_GUARD_BEFORE_INVENTORY_ACCOUNTING_AND_PARSE",
+          "rejection_action": "ADD_SCHEMA_REGISTRY_TOO_LARGE_AND_RETURN_INVALID_DENY_BEFORE_DOCUMENT_TRAVERSAL"
+        }
+      ],
+      "definition_site_ids": [
+        "4c9346726487e13663e822fd8b63e995c6066a487dfbe2b6350e051ce2440384",
+        "cc9e6904b1fdb98deea9fd35ddc4ae864aa572cbf5d963addbf8cc42beae4522"
+      ],
+      "enforcement_site_ids": [
+        "a5edf2e2129f2918e47e765f74655da1e97a725f42015d1e38dbb7e6a92b50e4",
+        "d02eb8dbac3f0359f160e1fb6259b5a438ec699a64cca7cd05d94c5ab86b1683"
+      ],
+      "evidence_inputs": [
+        {
+          "byte_length": 14328,
+          "path": "docs/M0.3A_SCHEMA_REGISTRY_BYTE_LIMIT.v1.md",
+          "raw_sha256": "0feb49080ee64e29f8d578c99c71140402c380794f31a903c8ea4771e767c25a"
+        },
+        {
+          "byte_length": 27054,
+          "path": "docs/M0.3A_CONTENT_REDUCER_CONTRACT.v1.md",
+          "raw_sha256": "3f3c031c11be2c9a96bf973447c6c3f04ed29609fca7230793e5fc4afafc7aac"
+        },
+        {
+          "byte_length": 30521,
+          "path": "docs/M0.3A_RUNTIME_IMAGE_CONTRACT.v1.md",
+          "raw_sha256": "408c62a9fabd6182098d0fbe1c1f88c4b780f96b0aaf208e20b3fedfaf4ec550"
+        },
+        {
+          "byte_length": 9613,
+          "path": "tests/test_runtime_v2_schema_registry_byte_bound.py",
+          "raw_sha256": "7418100acf989cf22c11ccf0eba8de743ec4e7f9220ee3416f72270760ceb6b6"
+        },
+        {
+          "byte_length": 18200,
+          "path": "tests/test_runtime_v2_image.py",
+          "raw_sha256": "2cd685c78186bce2beb4f0d252acb084d03a4f0cf42d3e12364c4cfb1b75488d"
+        },
+        {
+          "byte_length": 21052,
+          "path": "tests/test_runtime_v2_verifier.py",
+          "raw_sha256": "159d601546a7c3076479c853154601a27e407c23950e9e61baa38c2abe0fa5fa"
+        }
+      ]
+    },
+    {
+      "constraint_id": "MAX_BOOTSTRAP_DOCUMENT_BYTES",
+      "classification": "RESOURCE_MAXIMUM",
+      "semantic_subject": "EXACT_BUILTIN_BYTES_BOOTSTRAP_FIELDS_OR_COLLECTION_MEMBERS_ADMITTED_BY_HOST_PREFLIGHT",
+      "unit": "BYTES",
+      "maximum": 1048576,
+      "accepted_equation": "for each exact built-in bytes RuntimeImage.verifier_dependency_closure, RuntimeImage.manifest, or RuntimeImage.attachment field, and for each exact built-in bytes member reached after tuple and cardinality validation in RuntimeImage.checkpoint_copies or RuntimeImage.selector_history: len(supplied field or member bytes) <= maximum",
+      "semantic_function_ast_sha256": "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f",
+      "semantic_module_ast_sha256": "89d50071bdb9b49f32c631fb6f9ffece243d8a7b97280c3065ca85eea4df9857",
+      "semantic_proof": {
+        "function_coordinate": "src/edgelab/runtime_v2_image.py:inspect_runtime_image_host",
+        "input_binding": "EXACT_CAPTURED_BOOTSTRAP_FIELD_BYTES_OR_EXACT_COLLECTION_MEMBER_BYTES_AFTER_TUPLE_AND_CARDINALITY_VALIDATION",
+        "enforcement_order": "COMPLETE_FIELD_CAPTURE_BEFORE_EXACT_SCALAR_TYPE_AND_ACCOUNTING_OR_EXACT_TUPLE_TYPE_CARDINALITY_MEMBER_TYPE_AND_ACCOUNTING_BEFORE_SIZE_GUARD",
+        "rejection_action": "ADD_IMAGE_ITEM_BYTE_LIMIT_FOR_EXACT_ARTIFACT_AND_COORDINATE_AND_WITHHOLD_IMAGE"
+      },
+      "definition_site_ids": [
+        "8927485f8c04590dc06fa8d3bffde6e82517d898ec72637dbf758e21a56996d8"
+      ],
+      "enforcement_site_ids": [
+        "55746a75fc2eb842245ba7bcdad51086efbc304200a958f592b064757c9b9f1c",
+        "82ac9bd0ba24bed59304ea8a2aad0cbaa7bdf92db3e332e58b661285512990b6",
+        "7ea348002f2b6caf5e341cc7739453f80b8e576f18a354da8cccd1432ad3a6cc",
+        "9a911b0807e818c67215b24ca2aef14d904826e042c65cfb5d74f51f989ef275",
+        "4da76883b64b45ef3e46ca843d83de74162b42fc5649008a595c806277a47a99"
+      ],
+      "evidence_inputs": [
+        {
+          "byte_length": 12317,
+          "path": "docs/M0.3A_BOOTSTRAP_DOCUMENT_BYTE_LIMIT.v1.md",
+          "raw_sha256": "9366d24c7c9913d05a6a26218e90153927b39fb22304e55cfc6942b93fa452eb"
+        },
+        {
+          "byte_length": 30521,
+          "path": "docs/M0.3A_RUNTIME_IMAGE_CONTRACT.v1.md",
+          "raw_sha256": "408c62a9fabd6182098d0fbe1c1f88c4b780f96b0aaf208e20b3fedfaf4ec550"
+        },
+        {
+          "byte_length": 9317,
+          "path": "tests/test_runtime_v2_bootstrap_document_byte_bound.py",
+          "raw_sha256": "8a24c95f506e9dc8e9f2ddec3bec47e6be0ad8de6a0450b65251a13c44290951"
+        },
+        {
+          "byte_length": 18200,
+          "path": "tests/test_runtime_v2_image.py",
+          "raw_sha256": "2cd685c78186bce2beb4f0d252acb084d03a4f0cf42d3e12364c4cfb1b75488d"
+        }
+      ]
+    },
+    {
+      "constraint_id": "MAX_ARGUMENTS",
+      "classification": "RESOURCE_MAXIMUM",
+      "semantic_subject": "EXACT_BUILTIN_TUPLE_ARGUMENT_ITEMS_SUPPLIED_TO_TRANSITION_INTENT_CONSTRUCTION",
+      "unit": "ITEMS",
+      "maximum": 8,
+      "accepted_equation": "for each TransitionIntent construction input reaching the argument-cardinality guard: len(exact built-in tuple arguments) <= maximum",
+      "semantic_function_ast_sha256": "42b1b9103cffdc52d38f4033e71b4b750b334305b3c952d7ac7b86843bec58f7",
+      "semantic_module_ast_sha256": "2bb8a77ac83dc22d9df027384d5c29d1aa6f180fe3de33d4119b3433722b603b",
+      "semantic_proof": {
+        "function_coordinate": "src/edgelab/runtime_v2_transition.py:TransitionIntent.__post_init__",
+        "input_binding": "EXACT_BUILTIN_TUPLE_ARGUMENTS_FIELD_AFTER_JOINT_CONTAINER_TYPE_GUARD",
+        "enforcement_order": "JOINT_ARGUMENTS_AND_SEMANTIC_EVENT_IDS_EXACT_TUPLE_TYPE_GUARD_BEFORE_ARGUMENT_CARDINALITY_GUARD_BEFORE_EVENT_CARDINALITY_ARGUMENT_SHAPE_ORDER_DUPLICATE_AND_EVENT_ID_VALIDATION",
+        "rejection_action": "RAISE_TRANSITION_RESOURCE_ARGUMENTS_AT_ARGUMENTS_COORDINATE"
+      },
+      "definition_site_ids": [
+        "5e7fc3b44c63b42e94213efd280dd3af90eac0beb4a2b28f600a5284f17fc3b4"
+      ],
+      "enforcement_site_ids": [
+        "3d85d6c3d9c53b2d68ee976d4b159cc92ae9fd506ad608d00ff0563db5864209"
+      ],
+      "evidence_inputs": [
+        {
+          "byte_length": 9182,
+          "path": "docs/M0.3A_TRANSITION_ARGUMENT_LIMIT.v1.md",
+          "raw_sha256": "bdd5372ccb67e1414036a6b3c4adafff145652f3c397f8546ec76a09345cf7e0"
+        },
+        {
+          "byte_length": 7924,
+          "path": "tests/test_runtime_v2_transition_argument_bound.py",
+          "raw_sha256": "b2dab044b678b21b873b8b4de036c93dd85df67a704dea54a3f8d0cff543cc0a"
+        }
+      ]
+    },
+    {
+      "constraint_id": "_PORTABLE_PATH_MAX",
+      "classification": "RESOURCE_MAXIMUM",
+      "semantic_subject": "EXACT_BUILTIN_STR_PORTABLE_RELATIVE_PATH_ARGUMENT_AFTER_PATH_PATTERN_VALIDATION",
+      "unit": "CHARACTERS",
+      "maximum": 4096,
+      "accepted_equation": "for each exact built-in str path admitted by _PATH: len(path) <= maximum",
+      "semantic_function_ast_sha256": "d4bcf6527c507a9e580c563f57cc1d2f79b3caa8a205b0fc6fdf2c7f5cc2d806",
+      "semantic_module_ast_sha256": "30502d160af1538889e36f2411835749381362cec5935936fcf4e4db90bf48c7",
+      "semantic_proof": {
+        "function_coordinate": "src/edgelab/runtime_v2_closure.py:_path",
+        "input_binding": "EXACT_BUILTIN_STR_RETURNED_BY_PATH_PATTERN_VALIDATION",
+        "enforcement_order": "EXACT_STR_AND_PATH_PATTERN_VALIDATION_BEFORE_SPLIT_BEFORE_TOTAL_PATH_COMPARISON_AS_FIRST_SHORT_CIRCUIT_ARM_BEFORE_COMPONENT_AND_PORTABILITY_CHECKS",
+        "rejection_action": "RAISE_PATH_LENGTH_AT_CALLER_COORDINATE"
+      },
+      "definition_site_ids": [
+        "fc3a2cf8ca0ab37c1fedcfb108152b40bd65fec0207eac9cd9b3f7f32b8cfd27"
+      ],
+      "enforcement_site_ids": [
+        "ab8d61b1084c8ac24f8b434b52065e9fc3c5dce60285fed332f3489d165b03d3"
+      ],
+      "evidence_inputs": [
+        {
+          "byte_length": 10592,
+          "path": "docs/M0.3A_PORTABLE_PATH_CHARACTER_LIMIT.v1.md",
+          "raw_sha256": "1d9995dd26cc8f11b4527a91b9971547141a55f8fce10ecb3b2b8f45ef63d023"
+        },
+        {
+          "byte_length": 6046,
+          "path": "tests/test_runtime_v2_portable_path_bound.py",
+          "raw_sha256": "f8683bc5ad8da3d29816b3034a23d4d98225ea62ee365af36e3b6454468db50e"
+        }
+      ]
+    },
+    {
+      "constraint_id": "_PORTABLE_COMPONENT_MAX",
+      "classification": "RESOURCE_MAXIMUM",
+      "semantic_subject": "EXACT_SLASH_SEPARATED_COMPONENT_STRINGS_OF_EXACT_BUILTIN_STR_PATH_AFTER_PATH_PATTERN_AND_TOTAL_PATH_ADMISSION",
+      "unit": "CHARACTERS",
+      "maximum": 255,
+      "accepted_equation": "for each exact built-in str path admitted by _PATH and the total-path maximum: all(len(component) <= maximum for component in path.split(\"/\"))",
+      "semantic_function_ast_sha256": "d4bcf6527c507a9e580c563f57cc1d2f79b3caa8a205b0fc6fdf2c7f5cc2d806",
+      "semantic_module_ast_sha256": "30502d160af1538889e36f2411835749381362cec5935936fcf4e4db90bf48c7",
+      "semantic_proof": {
+        "function_coordinate": "src/edgelab/runtime_v2_closure.py:_path",
+        "input_binding": "EXACT_BUILTIN_STR_COMPONENTS_PRODUCED_BY_SLASH_SPLIT_AND_INSPECTED_AFTER_TOTAL_PATH_ADMISSION",
+        "enforcement_order": "EXACT_STR_AND_PATH_PATTERN_VALIDATION_BEFORE_SLASH_SPLIT_BEFORE_TOTAL_PATH_COMPARISON_AS_FIRST_SHORT_CIRCUIT_ARM_BEFORE_COMPONENT_ANY_GENERATOR_BEFORE_PORTABILITY_CHECKS",
+        "rejection_action": "RAISE_PATH_LENGTH_AT_CALLER_COORDINATE"
+      },
+      "definition_site_ids": [
+        "9313b4636313fad249f6a01b9e4ef96f22ef88b10fa98ca95a736d0ce994c3df"
+      ],
+      "enforcement_site_ids": [
+        "80d3960b21e42ebc549ca5eabd07e811430b1628150d9eb1e8922d491dc86072"
+      ],
+      "evidence_inputs": [
+        {
+          "byte_length": 8073,
+          "path": "docs/M0.3A_PORTABLE_COMPONENT_CHARACTER_LIMIT.v1.md",
+          "raw_sha256": "916185c0ba63a6cf482cd4f89072e3709b3dfbbcfeaba18927be683f951f35b8"
+        },
+        {
+          "byte_length": 6380,
+          "path": "tests/test_runtime_v2_portable_component_bound.py",
+          "raw_sha256": "51ad4220bcc8f540c4e1aaf7b9274af62cc88ff1c3ef48ab2751ad55d9e74e29"
+        }
+      ]
+    },
+    {
+      "constraint_id": "MAX_GROUP_EVENTS",
+      "classification": "RESOURCE_MAXIMUM",
+      "semantic_subject": "EXACT_BUILTIN_TUPLE_SEMANTIC_EVENT_ID_ITEMS_SUPPLIED_TO_TRANSITION_INTENT_CONSTRUCTION",
+      "unit": "ITEMS",
+      "maximum": 10002,
+      "accepted_equation": "for each TransitionIntent construction input reaching the semantic-event-cardinality guard: len(exact built-in tuple semantic_event_ids) <= maximum",
+      "semantic_function_ast_sha256": "42b1b9103cffdc52d38f4033e71b4b750b334305b3c952d7ac7b86843bec58f7",
+      "semantic_module_ast_sha256": "2bb8a77ac83dc22d9df027384d5c29d1aa6f180fe3de33d4119b3433722b603b",
+      "semantic_proof": {
+        "function_coordinate": "src/edgelab/runtime_v2_transition.py:TransitionIntent.__post_init__",
+        "input_binding": "EXACT_BUILTIN_TUPLE_SEMANTIC_EVENT_IDS_FIELD_AFTER_JOINT_CONTAINER_AND_ARGUMENT_CARDINALITY_GUARDS",
+        "enforcement_order": "OPERATION_EXACT_STR_GUARD_BEFORE_JOINT_ARGUMENTS_AND_SEMANTIC_EVENT_IDS_EXACT_TUPLE_GUARD_BEFORE_ARGUMENT_CARDINALITY_GUARD_BEFORE_SEMANTIC_EVENT_CARDINALITY_GUARD_BEFORE_ARGUMENT_SHAPE_ORDER_AND_UUID_MEMBER_VALIDATION",
+        "rejection_action": "RAISE_TRANSITION_RESOURCE_EVENTS_AT_SEMANTIC_EVENT_IDS_COORDINATE"
+      },
+      "definition_site_ids": [
+        "13130db6d96d447bd0bec45528c39f4354a2897e282585c7b4976335e25b025c"
+      ],
+      "enforcement_site_ids": [
+        "6109c0c4afb317c7bde39b19501f7de6b627528dd36f967c82e2ed311fbfc0ca"
+      ],
+      "evidence_inputs": [
+        {
+          "byte_length": 7665,
+          "path": "docs/M0.3A_TRANSITION_SEMANTIC_EVENT_CONSTRUCTION_LIMIT.v1.md",
+          "raw_sha256": "1d1af397aeb3b4af815aa5ea91af9e415ccdf2059aca008d6f00c84832839c90"
+        },
+        {
+          "byte_length": 7354,
+          "path": "tests/test_runtime_v2_transition_semantic_event_bound.py",
+          "raw_sha256": "60dca2b55983d3daa008a0c5a5ab1d085043434dde223b76c0d992beb5ba2245"
+        }
+      ]
+    },
+    {
+      "constraint_id": "MAX_TASKS",
+      "classification": "RESOURCE_MAXIMUM",
+      "semantic_subject": "REDUCER_STATE_EXACT_BUILTIN_TUPLE_TASK_ITEMS_OR_TRANSITION_WORKSPACE_RETAINED_TASK_KEYS_PLUS_VALIDATED_ABSENT_KEY_WRITES",
+      "unit": "ITEMS",
+      "maximum": 100000,
+      "accepted_equation": "for each ReducerState construction reaching the task-cardinality guard and each transition-workspace precheck reaching the prospective task-cardinality guard: len(exact built-in tuple tasks) <= maximum and len(current workspace task keys) + count(validated task writes whose current key is absent) <= maximum",
+      "semantic_bindings": [
+        {
+          "function_coordinate": "src/edgelab/runtime_v2_transition.py:ReducerState.__post_init__",
+          "semantic_function_ast_sha256": "acfc468a2815e245ee3da5230df49c20e8dc1f2601fa24b367507e77d847a337",
+          "module_path": "src/edgelab/runtime_v2_transition.py",
+          "semantic_module_ast_sha256": "2bb8a77ac83dc22d9df027384d5c29d1aa6f180fe3de33d4119b3433722b603b",
+          "input_binding": "EXACT_BUILTIN_TUPLE_TASKS_FIELD_AFTER_ALL_REDUCER_STATE_COLLECTION_CONTAINER_GUARDS",
+          "enforcement_order": "REPOSITORY_SCALAR_GUARDS_BEFORE_ALL_COLLECTION_EXACT_TUPLE_GUARDS_BEFORE_TASK_CARDINALITY_GUARD_BEFORE_OTHER_RECORD_CARDINALITY_MEMBER_ORDER_UNIQUENESS_AND_CROSS_RECORD_VALIDATION",
+          "rejection_action": "RAISE_TRANSITION_RESOURCE_TASKS_AT_TASKS_COORDINATE"
+        },
+        {
+          "function_coordinate": "src/edgelab/runtime_v2_transition.py:_TransitionWorkspace._precheck",
+          "semantic_function_ast_sha256": "280ca713360ad0b61cd3810999f6d0cf1ea4e31b854596bbaedb4ad03c8b12b1",
+          "module_path": "src/edgelab/runtime_v2_transition.py",
+          "semantic_module_ast_sha256": "2bb8a77ac83dc22d9df027384d5c29d1aa6f180fe3de33d4119b3433722b603b",
+          "input_binding": "CURRENT_WORKSPACE_TASK_KEY_MAPPING_PLUS_VALIDATED_ABSENT_KEY_TASK_WRITES",
+          "enforcement_order": "EXACT_DELTA_AND_SORTED_UNIQUE_KEY_SET_GUARDS_BEFORE_EXACT_TASK_WRITE_SHAPE_AND_CAS_VALIDATION_BEFORE_ABSENT_KEY_COUNT_DERIVATION_BEFORE_PROSPECTIVE_TASK_CARDINALITY_GUARD_BEFORE_AUXILIARY_RESOURCE_EVENT_REUSE_AND_AFTER_TASK_CHECKS",
+          "rejection_action": "RAISE_TRANSITION_RESOURCE_TASKS_AT_TASKS_COORDINATE_WITHOUT_WORKSPACE_MUTATION"
+        }
+      ],
+      "definition_site_ids": [
+        "2663812aee226be4f57a1862523798243d7df5a12a1d9e29f586ec8e7ded5638"
+      ],
+      "enforcement_site_ids": [
+        "3d07b02992a995d0a13d408dda7d2acf04e1c5a9d185f98651814d6dfff2b59d",
+        "0f3792a9755d878d6e5a60afd21ef8e1d38c30f3be3d59879b6cfa860754f465"
+      ],
+      "evidence_inputs": [
+        {
+          "byte_length": 8371,
+          "path": "docs/M0.3A_TRANSITION_TASK_RESOURCE_LIMIT.v1.md",
+          "raw_sha256": "fcdcd50031ff551473f282e52c4b61976f9d31a3c4561891f5b0d20abfcc5481"
+        },
+        {
+          "byte_length": 7979,
+          "path": "tests/test_runtime_v2_transition_task_bound.py",
+          "raw_sha256": "97c8436043ef7a297cc697dbfff412d823596ea718b81ce7fef60c0e0be0cdd0"
+        }
+      ]
+    },
+    {
+      "accepted_equation": "for host preflight and verifier schema-bundle inspection: len(exact built-in bytes schema_registry when admitted) + sum(len(exact built-in bytes canonical_json body) for each admitted exact SchemaDocumentRecord) <= maximum; separately at the public verifier descriptor branch: len(exact built-in bytes storage_descriptor) <= maximum",
+      "classification": "RESOURCE_MAXIMUM",
+      "constraint_id": "MAX_SCHEMA_BUNDLE_BYTES",
+      "definition_site_ids": [
+        "18d9f6c7a27e97c092460277fc35bbf9151791127dd0da5a161a8866ef04bbcf",
+        "2d673fb49e50239b37577ac23e4f6fdbf899523908d338e3618993594ab5f410"
+      ],
+      "enforcement_site_ids": [
+        "4a75bf21a088cd48d5c1b38b2b3157fc47542b0132b562be3699e94858a65c9e",
+        "344713dc75b24db9402649b88570c54a438e5b3b9f17dac677b8cd4313825df4",
+        "4ba11eee3bbe1d3fa772fabebf0edc386903f94c9862c242c7124b8bf0cf6cb6"
+      ],
+      "evidence_inputs": [
+        {
+          "byte_length": 4513,
+          "path": "docs/M0.3A_SCHEMA_BUNDLE_BYTE_LIMIT.v1.md",
+          "raw_sha256": "5f58822d964eed424b8d2e11b23bea10241d227f0b378f67c20dfd7f49092a4e"
+        },
+        {
+          "byte_length": 10794,
+          "path": "tests/test_runtime_v2_schema_bundle_byte_bound.py",
+          "raw_sha256": "f1d9c240998065e2aec1118a2c35be61f39647a542350ac9b300ce5846b3faea"
+        }
+      ],
+      "maximum": 2097152,
+      "semantic_bindings": [
+        {
+          "function_coordinate": "src/edgelab/runtime_v2_image.py:inspect_runtime_image_host",
+          "semantic_function_ast_sha256": "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f",
+          "module_path": "src/edgelab/runtime_v2_image.py",
+          "semantic_module_ast_sha256": "89d50071bdb9b49f32c631fb6f9ffece243d8a7b97280c3065ca85eea4df9857",
+          "input_binding": "EXACT_CAPTURED_SCHEMA_REGISTRY_BYTES_OR_ZERO_PLUS_EXACT_BYTES_BODIES_OF_ADMITTED_EXACT_SCHEMA_DOCUMENT_RECORDS",
+          "enforcement_order": "FIELD_CAPTURE_AND_SCHEMA_DOCUMENT_TUPLE_CARDINALITY_BEFORE_REGISTRY_EXACT_TYPE_INITIALIZATION_BEFORE_RECORD_AND_BODY_EXACT_TYPE_GUARDS_BEFORE_PER_BODY_ADDITION_BEFORE_AGGREGATE_COMPARISON",
+          "rejection_action": "ADD_SCHEMA_BUNDLE_BYTE_LIMIT_AND_WITHHOLD_IMAGE"
+        },
+        {
+          "function_coordinate": "src/edgelab/runtime_v2_verifier.py:_schema_bundle_findings",
+          "semantic_function_ast_sha256": "054e65a5e37bf65c79c2390dcdc6b0ed4b20683496159ad5d2cae04502f2c14e",
+          "module_path": "src/edgelab/runtime_v2_verifier.py",
+          "semantic_module_ast_sha256": "4cf60eb1416f7cfe080bd68653d748431084e04a17790a4244317834158acdfc",
+          "input_binding": "NONEMPTY_EXACT_SCHEMA_REGISTRY_BYTES_PLUS_EXACT_BYTES_BODIES_OF_EXACT_SCHEMA_DOCUMENT_RECORDS_AFTER_PRESENCE_REGISTRY_SIZE_AND_EXACT_INVENTORY_GUARDS",
+          "enforcement_order": "BUNDLE_PRESENCE_REGISTRY_SIZE_AND_EXACT_DOCUMENT_COUNT_GUARDS_BEFORE_REGISTRY_INITIALIZATION_BEFORE_RECORD_AND_BODY_EXACT_TYPE_GUARDS_BEFORE_BODY_ADDITION_BEFORE_AGGREGATE_COMPARISON_BEFORE_PARSE",
+          "rejection_action": "ADD_SCHEMA_BUNDLE_TOO_LARGE_AND_RETURN_INVALID_DENY"
+        },
+        {
+          "function_coordinate": "src/edgelab/runtime_v2_verifier.py:verify_runtime_image",
+          "semantic_function_ast_sha256": "1742c7e8785c03ddfb26fbc3c1eb695c0daa79aa355eb77dae6b8350a373502c",
+          "module_path": "src/edgelab/runtime_v2_verifier.py",
+          "semantic_module_ast_sha256": "4cf60eb1416f7cfe080bd68653d748431084e04a17790a4244317834158acdfc",
+          "input_binding": "EXACT_BUILTIN_BYTES_STORAGE_DESCRIPTOR_FIELD",
+          "enforcement_order": "RUNTIME_IMAGE_AND_DESCRIPTOR_EXACT_TYPE_GUARDS_BEFORE_DESCRIPTOR_SIZE_COMPARISON_BEFORE_CANONICAL_PARSE",
+          "rejection_action": "ADD_DESCRIPTOR_TOO_LARGE_AND_RETURN_INVALID_DENY_WITHOUT_DESCRIPTOR_PARSE"
+        }
+      ],
+      "semantic_subject": "SCHEMA_REGISTRY_AND_ADMITTED_SCHEMA_DOCUMENT_BODY_BYTE_AGGREGATE_OR_SEPARATE_RAW_STORAGE_DESCRIPTOR_BYTES",
+      "unit": "BYTES"
+    },
+    {
+      "constraint_id": "MAX_CHECKPOINT_COPIES",
+      "classification": "RESOURCE_MAXIMUM",
+      "semantic_subject": "EXACT_BUILTIN_TUPLE_ITEM_COUNT_OF_CAPTURED_RUNTIME_IMAGE_CHECKPOINT_COPIES",
+      "unit": "ITEMS",
+      "maximum": 49999,
+      "accepted_equation": "for each exact RuntimeImage input reaching the checkpoint-copy cardinality guard: 0 <= len(exact built-in tuple checkpoint_copies) <= maximum",
+      "semantic_function_ast_sha256": "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f",
+      "semantic_module_ast_sha256": "89d50071bdb9b49f32c631fb6f9ffece243d8a7b97280c3065ca85eea4df9857",
+      "semantic_proof": {
+        "function_coordinate": "src/edgelab/runtime_v2_image.py:inspect_runtime_image_host",
+        "input_binding": "COMPLETE_TOP_LEVEL_CAPTURED_CHECKPOINT_COPIES_VALUE_AFTER_EXACT_RUNTIME_IMAGE_AND_EXACT_BUILTIN_TUPLE_GUARDS",
+        "enforcement_order": "EXACT_RUNTIME_IMAGE_TYPE_THEN_COMPLETE_SLOT_CAPTURE_THEN_ALL_TUPLE_FIELD_TYPE_GUARDS_THEN_CHECKPOINT_COPIES_BRANCH_CARDINALITY_BEFORE_MEMBER_TYPE_BYTE_ACCOUNTING_AND_SIZE_CHECKS",
+        "rejection_action": "ADD_IMAGE_CARDINALITY_LIMIT_FOR_CHECKPOINT_COPIES_AT_ROOT_SET_ACCOUNTING_INCOMPLETE_AND_WITHHOLD_SANITIZED_IMAGE"
+      },
+      "definition_site_ids": [
+        "4c738024dfcbda75cf4c6a621c2b51624a9278bb5b4e10b912c43f1dbd5be208"
+      ],
+      "enforcement_site_ids": [
+        "e97220f7bc97ef6a73c731794238c6f6e2ffe2c1b744e945c35cde22afaa2f13"
+      ],
+      "evidence_inputs": [
+        {
+          "byte_length": 8341,
+          "path": "docs/M0.3A_RUNTIME_CHECKPOINT_COPY_CARDINALITY_LIMIT.v1.md",
+          "raw_sha256": "724350e3ea697a076b9d1176f1eb5c81305236d097fc5505a9d7e41ddef986fa"
+        },
+        {
+          "byte_length": 30521,
+          "path": "docs/M0.3A_RUNTIME_IMAGE_CONTRACT.v1.md",
+          "raw_sha256": "408c62a9fabd6182098d0fbe1c1f88c4b780f96b0aaf208e20b3fedfaf4ec550"
+        },
+        {
+          "byte_length": 9906,
+          "path": "tests/test_runtime_v2_checkpoint_copy_cardinality_bound.py",
+          "raw_sha256": "2e287d493f1d11451107a05d30a19ac6d25617629fb7a04f53155de866e576e0"
+        },
+        {
+          "byte_length": 18200,
+          "path": "tests/test_runtime_v2_image.py",
+          "raw_sha256": "2cd685c78186bce2beb4f0d252acb084d03a4f0cf42d3e12364c4cfb1b75488d"
+        }
+      ]
+    },
+    {
+      "constraint_id": "MAX_BLOBS",
+      "classification": "RESOURCE_MAXIMUM",
+      "semantic_subject": "EXACT_BUILTIN_TUPLE_ITEM_COUNT_OF_CAPTURED_RUNTIME_IMAGE_BLOBS",
+      "unit": "ITEMS",
+      "maximum": 300000,
+      "accepted_equation": "for each exact RuntimeImage input reaching the top-level blob cardinality guard: 0 <= len(exact built-in tuple blobs) <= maximum",
+      "semantic_function_ast_sha256": "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f",
+      "semantic_module_ast_sha256": "89d50071bdb9b49f32c631fb6f9ffece243d8a7b97280c3065ca85eea4df9857",
+      "semantic_proof": {
+        "function_coordinate": "src/edgelab/runtime_v2_image.py:inspect_runtime_image_host",
+        "input_binding": "COMPLETE_TOP_LEVEL_CAPTURED_BLOBS_VALUE_AFTER_EXACT_RUNTIME_IMAGE_AND_EXACT_BUILTIN_TUPLE_GUARDS",
+        "enforcement_order": "EXACT_RUNTIME_IMAGE_TYPE_THEN_COMPLETE_SLOT_CAPTURE_THEN_ALL_TUPLE_FIELD_TYPE_GUARDS_THEN_BLOBS_BRANCH_CARDINALITY_BEFORE_RECORD_FIELD_BYTE_ACCOUNTING_SIZE_AND_RECONSTRUCTION_CHECKS",
+        "rejection_action": "ADD_IMAGE_CARDINALITY_LIMIT_FOR_BLOBS_AT_ROOT_SET_ACCOUNTING_INCOMPLETE_AND_WITHHOLD_SANITIZED_IMAGE"
+      },
+      "definition_site_ids": [
+        "d59dabf071e0d9cce0c5d6e1478ce6aa55a09362b85136709a4df94bf19966e0"
+      ],
+      "enforcement_site_ids": [
+        "9cd4a36115b048b5729c12787474b202859dd786e34b645ab8b647a5b68b76c3"
+      ],
+      "evidence_inputs": [
+        {
+          "byte_length": 9018,
+          "path": "docs/M0.3A_RUNTIME_BLOB_CARDINALITY_LIMIT.v1.md",
+          "raw_sha256": "c102c63a42703bcbecf4edbcb9ab6ef5aaa5cbebe5e4d886b06a40c0411158bd"
+        },
+        {
+          "byte_length": 30521,
+          "path": "docs/M0.3A_RUNTIME_IMAGE_CONTRACT.v1.md",
+          "raw_sha256": "408c62a9fabd6182098d0fbe1c1f88c4b780f96b0aaf208e20b3fedfaf4ec550"
+        },
+        {
+          "byte_length": 11439,
+          "path": "tests/test_runtime_v2_blob_cardinality_bound.py",
+          "raw_sha256": "284ef2be27905cd18c81b5f2cbf6dad870b14d5a4fa508abef9b5ba322fbb93a"
+        },
+        {
+          "byte_length": 18200,
+          "path": "tests/test_runtime_v2_image.py",
+          "raw_sha256": "2cd685c78186bce2beb4f0d252acb084d03a4f0cf42d3e12364c4cfb1b75488d"
+        }
+      ]
+    },
+    {
+      "accepted_equation": "for the exact table snapshot paired by strict positional zip with _TABLE_SPECS[7] after exact table-snapshot cardinality, snapshot and field-presence guards, the non-blocking table-identity diagnostic regardless of label match, and the rows-tuple guard: len(captured['table_snapshots'][7].rows) <= maximum",
+      "classification": "RESOURCE_MAXIMUM",
+      "constraint_id": "TABLE_MIGRATIONS_ROWS",
+      "definition_site_ids": [
+        "8049eeb8f33f5337042577cfb67d005307c6e9354e64851a345f55efa3a13c5a"
+      ],
+      "enforcement_site_ids": [
+        "8049eeb8f33f5337042577cfb67d005307c6e9354e64851a345f55efa3a13c5a"
+      ],
+      "evidence_inputs": [
+        {
+          "byte_length": 3535,
+          "path": "docs/M0.3A_RUNTIME_MIGRATIONS_TABLE_ROW_LIMIT.v1.md",
+          "raw_sha256": "64468af7dbd1a2a83c9540b69773d0e7e413b38b4ad99cef5dbe55d24c63e8f3"
+        },
+        {
+          "byte_length": 7090,
+          "path": "tests/test_runtime_v2_migrations_table_row_bound.py",
+          "raw_sha256": "85bc9dd3f9c9f9e2d758a9d7d12b2e3f493e750c586b1869078de722066d76a7"
+        }
+      ],
+      "maximum": 0,
+      "semantic_function_ast_sha256": "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f",
+      "semantic_module_ast_sha256": "89d50071bdb9b49f32c631fb6f9ffece243d8a7b97280c3065ca85eea4df9857",
+      "semantic_proof": {
+        "function_coordinate": "src/edgelab/runtime_v2_image.py:inspect_runtime_image_host",
+        "input_binding": "EXACT_ROWS_TUPLE_OF_TABLE_SNAPSHOT_AT_STRICT_ZIP_POSITION_7_NOT_SELECTED_BY_SUPPLIED_TABLE_LABEL",
+        "enforcement_order": "EXACT_RUNTIME_IMAGE_AND_TABLE_SNAPSHOTS_TUPLE_THEN_EXACT_TABLE_SNAPSHOT_CARDINALITY_THEN_STRICT_ZIP_POSITION_7_THEN_EXACT_SNAPSHOT_TYPE_FIELD_READS_AND_PRESENCE_THEN_NON_BLOCKING_TABLE_IDENTITY_DIAGNOSTIC_REGARDLESS_OF_MATCH_THEN_EXACT_ROWS_TUPLE_THEN_ZERO_ROW_COMPARISON_BEFORE_ROW_CANONICALIZATION_VALIDATION_OR_ACCOUNTING",
+        "rejection_action": "ADD_TABLE_ROW_LIMIT_AT_POSITION_7_ROWS_SET_ACCOUNTING_INCOMPLETE_CONTINUE_AND_WITHHOLD_SANITIZED_IMAGE"
+      },
+      "semantic_subject": "EXACT_BUILTIN_TUPLE_ROWS_FIELD_OF_CAPTURED_TABLE_SNAPSHOT_AT_STRICT_POSITION_7_MIGRATIONS_SPEC",
+      "unit": "ITEMS"
+    },
+    {
+      "accepted_equation": "for the exact table snapshot paired by strict positional zip with _TABLE_SPECS[5] after exact table-snapshot cardinality, snapshot and field-presence guards, the non-blocking table-identity diagnostic regardless of label match, and the rows-tuple guard: len(captured['table_snapshots'][5].rows) <= maximum",
+      "classification": "RESOURCE_MAXIMUM",
+      "constraint_id": "TABLE_LEGACY_ARCHIVE_ROWS",
+      "definition_site_ids": [
+        "da67d5943016f6af5f024dbac99959ad526f513565305cfdcdf0df960a4cba18"
+      ],
+      "enforcement_site_ids": [
+        "da67d5943016f6af5f024dbac99959ad526f513565305cfdcdf0df960a4cba18"
+      ],
+      "evidence_inputs": [
+        {
+          "byte_length": 3822,
+          "path": "docs/M0.3A_RUNTIME_LEGACY_ARCHIVE_TABLE_ROW_LIMIT.v1.md",
+          "raw_sha256": "3cd2e54880feb82c77ed598fec64508933e80e07c210607bc5873caa4ad0880b"
+        },
+        {
+          "byte_length": 7252,
+          "path": "tests/test_runtime_v2_legacy_archive_table_row_bound.py",
+          "raw_sha256": "f1fa67307be78d835405a1c42878682fc6530fb2ead74bb9ee48b187e504d11b"
+        }
+      ],
+      "maximum": 1,
+      "semantic_function_ast_sha256": "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f",
+      "semantic_module_ast_sha256": "89d50071bdb9b49f32c631fb6f9ffece243d8a7b97280c3065ca85eea4df9857",
+      "semantic_proof": {
+        "function_coordinate": "src/edgelab/runtime_v2_image.py:inspect_runtime_image_host",
+        "input_binding": "EXACT_ROWS_TUPLE_OF_TABLE_SNAPSHOT_AT_STRICT_ZIP_POSITION_5_NOT_SELECTED_BY_SUPPLIED_TABLE_LABEL",
+        "enforcement_order": "EXACT_RUNTIME_IMAGE_AND_TABLE_SNAPSHOTS_TUPLE_THEN_EXACT_TABLE_SNAPSHOT_CARDINALITY_THEN_STRICT_ZIP_POSITION_5_THEN_EXACT_SNAPSHOT_TYPE_FIELD_READS_AND_PRESENCE_THEN_NON_BLOCKING_TABLE_IDENTITY_DIAGNOSTIC_REGARDLESS_OF_MATCH_THEN_EXACT_ROWS_TUPLE_THEN_INCLUSIVE_ONE_ROW_COMPARISON_BEFORE_ROW_CANONICALIZATION_VALIDATION_OR_ACCOUNTING",
+        "rejection_action": "ADD_TABLE_ROW_LIMIT_AT_POSITION_5_ROWS_SET_ACCOUNTING_INCOMPLETE_CONTINUE_AND_WITHHOLD_SANITIZED_IMAGE"
+      },
+      "semantic_subject": "EXACT_BUILTIN_TUPLE_ROWS_FIELD_OF_CAPTURED_TABLE_SNAPSHOT_AT_STRICT_POSITION_5_LEGACY_ARCHIVE_SPEC",
+      "unit": "ITEMS"
+    }
+  ],
+  "classification_manifest_sha256": "6119e639cbc9604ce8a9014a66f3e63a568747d07e42eaa22f9e5f1bf65323d5"
+}
