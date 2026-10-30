@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-115",
+  "version": 1,
+  "occurred_at": "2026-10-30T01:54:49Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_PORTABLE_PATH_RESOURCE_CLASSIFIED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-133-runtime-v2-portable-path-resource-classification.v1.md",
+  "previous_state": "DISCOVERY_V2_697_SITES_TWENTY_FOUR_CLASSIFIED_673_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V2_697_SITES_TWENTY_SIX_CLASSIFIED_671_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 3012e5665290eacde96b73f7878dfe78e54d34ad binds _PORTABLE_PATH_MAX to its sole definition and direct comparison with exact character-cardinality, pattern-precondition, ordering, sibling-independence, non-authority, and attacker-refreshed semantic-pin evidence. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": ["reports/H-M0-133-runtime-v2-portable-path-resource-classification.v1.md", "docs/M0.3A_PORTABLE_PATH_CHARACTER_LIMIT.v1.md", "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v10.json", "schemas/m0-3a-runtime-v2-resource-classification.v10.schema.json", "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md", "tools/check_runtime_v2_release_readiness.py", "tests/test_runtime_v2_portable_path_bound.py", "tests/test_runtime_v2_release_readiness.py", "reports/stops/STOP-M0-3A-002.v36.json"],
+  "code_ref": "3012e5665290eacde96b73f7878dfe78e54d34ad",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-133",
+  "supersedes": null
+}
