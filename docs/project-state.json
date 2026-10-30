@@ -61,6 +61,7 @@
     "The cumulative deny-only runtime-v2 semantic resource-classification v16 now byte-binds its v15 predecessor and additionally binds MAX_CHECKPOINT_COPIES to its sole definition and exact Discovery v3 checkpoint_copies branch through tuple guards, inclusive cardinality boundaries, member-loop ordering, accounting, sibling independence, combined cardinality/member-size cases, and attacker-refreshed semantic-pin evidence; 663 of 703 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked",
     "The cumulative deny-only runtime-v2 semantic resource-classification v17 now byte-binds its v16 predecessor and additionally binds MAX_BLOBS only as the supplied top-level RuntimeImage.blobs tuple ceiling through exact tuple guards, inclusive boundaries, member-loop ordering, accounting, input preservation, equal-valued table-cap separation, and attacker-refreshed semantic-pin evidence; 661 of 703 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked",
     "Runtime-v2 resource discovery v4 now preserves all 407 Discovery v3 source sites and adds fifteen exact positional _TABLE_SPECS row-cap bindings through the exact-15 snapshot predecessor, strict snapshot/spec zip, complete guard/slot/comparison/diagnostic flow, and full host-preflight function identity; classification v18 is a census-only rebase preserving all fifteen v17 constraints and forty-two classified sites, 676 of 718 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked",
+    "The cumulative deny-only runtime-v2 semantic resource-classification v19 now byte-binds its v18 predecessor and classifies only the composite positional migrations zero-row host-preflight cap at strict-zip index seven, with supplied-label independence, exact guard order, overlapping definition/enforcement roles counted once by set union, sibling isolation, and attacker-refreshed evidence; 675 of 718 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked",
     "Historical capture reconstruction/verifier engineering completed with native engineering review; formal Skeptic acceptance remains pending",
     "Revision-aware handoff dependency validation and production repository validation restored",
     "Read-only local laboratory observatory exposes governed project status and the retained MOCK_ONLY walkthrough through a fail-closed loopback interface",
@@ -75,18 +76,18 @@
     "Resolve statistical, freshness, paper-capital, exposure, correlation, drawdown, and live-gate thresholds before M0 exit"
   ],
   "blockers": [
-    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002.v44 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
+    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002.v45 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
     "H-M0-086 is BLOCKED because no genuinely distinct trusted 05 Skeptic authority is provisioned",
     "H-M0-041.v23 remains BLOCKED pending formal Skeptic acceptance and separate Director release",
     "The locked authority and historical binding substrates are diagnostic and DENY-only; positive authoritative currentness and authenticated receipt/R-gate integration remain unresolved",
     "M0.3A engineering completion does not constitute formal acceptance or operational authority"
   ],
-  "next_assignment": "Inventory and independently review the smallest complete Discovery v4 positional row-cap classification, provisionally the migrations maximum of zero, while keeping descriptor, schema, reducer, label, and public-verifier meanings separate",
-  "updated_at": "2026-10-30T11:42:48Z",
+  "next_assignment": "Inventory and independently review the smallest complete remaining Discovery v4 positional row-cap slice, provisionally the legacy_archive maximum of one, while preserving exact-value, minimum, descriptor, reducer, diagnostic, and public-verifier separations",
+  "updated_at": "2026-10-30T18:36:58Z",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json",
     "reports/stops/STOP-M0-3A-001.v1.json",
-    "reports/stops/STOP-M0-3A-002.v44.json"
+    "reports/stops/STOP-M0-3A-002.v45.json"
   ],
   "review_ref": "reports/reviews/M0.2-M0.3-final-evidence-plan-rereview.v1.md",
   "open_findings": [
