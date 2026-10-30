@@ -28,6 +28,7 @@ FAST_MODULES = (
     "tests.test_orchestration",
     "tests.test_orchestration_final",
     "tests.test_runtime_v2_bootstrap",
+    "tests.test_runtime_v2_blob_cardinality_bound",
     "tests.test_runtime_v2_closure",
     "tests.test_runtime_v2_codec",
     "tests.test_runtime_v2_event_byte_bound",
