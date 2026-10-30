@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-122",
+  "version": 1,
+  "occurred_at": "2026-10-30T04:57:01Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_TOP_LEVEL_BLOB_CARDINALITY_CLASSIFIED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-140-runtime-v2-blob-cardinality-classification.v1.md",
+  "previous_state": "DISCOVERY_V3_703_SITES_FORTY_CLASSIFIED_663_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V3_703_SITES_FORTY_TWO_CLASSIFIED_661_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 7712b35 preserves Classification V16 exactly and appends one narrow MAX_BLOBS constraint over its sole definition and exact Discovery V3 top-level blobs branch binding. Boundary, guard-order, member-loop, accounting, table-cap separation, attacker-refresh, and combined cardinality/member-size evidence passed. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": [
+    "reports/H-M0-140-runtime-v2-blob-cardinality-classification.v1.md",
+    "docs/M0.3A_RUNTIME_BLOB_CARDINALITY_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v3.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v3.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v17.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v17.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_blob_cardinality_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v43.json"
+  ],
+  "code_ref": "7712b35",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-140",
+  "supersedes": null
+}

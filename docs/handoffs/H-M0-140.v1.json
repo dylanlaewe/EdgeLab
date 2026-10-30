@@ -1,0 +1,78 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-140",
+  "version": 1,
+  "created_at": "2026-10-30T04:57:01Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Inventory and classify the smallest remaining semantically complete Discovery V3 cardinality family without changing runtime behavior, authority, STOP status, or capital controls.",
+  "work_done": "Added Classification V17 as an exact V16-prefix successor and classified MAX_BLOBS only as the supplied top-level RuntimeImage.blobs tuple ceiling over its sole definition and exact blobs branch binding; added a governing contract, exact boundary, member-order, accounting, input-preservation, equal-valued table-cap separation, and attacker-refreshed semantic-pin evidence; retained INCOMPLETE/DENY with forty-two of 703 sites classified and 661 unclassified.",
+  "evidence_refs": [
+    "reports/H-M0-140-runtime-v2-blob-cardinality-classification.v1.md",
+    "reports/audit/A-M0-122.v1.json",
+    "reports/stops/STOP-M0-3A-002.v43.json",
+    "docs/M0.3A_RUNTIME_BLOB_CARDINALITY_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v3.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v3.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v17.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v17.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_blob_cardinality_bound.py",
+    "tests/test_runtime_v2_release_readiness.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "docs/M0.3A_RUNTIME_BLOB_CARDINALITY_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v17.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v3.md",
+    "schemas/m0-3a-runtime-v2-resource-classification.v17.schema.json",
+    "tests/test_runtime_v2_blob_cardinality_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tools/run_test_tier.py",
+    "reports/H-M0-140-runtime-v2-blob-cardinality-classification.v1.md",
+    "reports/audit/A-M0-122.v1.json",
+    "reports/stops/STOP-M0-3A-002.v43.json",
+    "docs/handoffs/H-M0-140.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "42 readiness tests passed, including V17 prefix, attacker-refreshed census, and manifest mutation attacks.",
+    "11 dedicated top-level blob cardinality tests passed normally and under optimized Python.",
+    "490 fast-tier tests passed across 35 isolated modules.",
+    "Normal and optimized readiness outputs were byte-identical and both remained exit 1 BLOCKED/DENY.",
+    "Independent bounded inventory and Skeptic reviews reproduced and accepted the final engineering evidence; neither review grants formal authority.",
+    "479 governed records and published history validated before governance publication; 482 validated after publication.",
+    "18 alpha and observatory tests passed after evidence publication."
+  ],
+  "open_questions": [
+    "Which remaining Discovery V3 cardinality family is the smallest semantically complete slice after excluding overloaded MAX_EVENTS uses?",
+    "Can any remaining branch be classified without conflating exact-count, minimum, dynamic relational, table-row, accounting, replay, or public-verifier semantics?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v43 remains OPEN.",
+    "Only forty-two of 703 census sites are semantically classified; 661 remain unclassified with INCOMPLETE coverage.",
+    "Public verification remains deny-only.",
+    "Live remains LOCKED and deployable capital remains USD 0."
+  ],
+  "next_action": "Re-inventory the remaining Discovery V3 cardinality families and choose only a semantically complete, independently reviewed slice; do not classify MAX_EVENTS until all same-name cross-module meanings are explicitly separated.",
+  "completion_criteria": [
+    "The selected constraint is bound to every definition and exact Discovery branch site with complete type, boundary, ordering, accounting, downstream-interaction, and hostile-input evidence.",
+    "Equal-valued and same-named limits on different subjects, plus minima, exact cardinalities, byte ceilings, table caps, total-accounting limits, and dynamic relations, remain separately classified or unclassified as evidence requires.",
+    "RESOURCE_INVENTORY_INCOMPLETE remains unconditional and no closure, carrier, verifier acceptance, STOP clearance, or capital authority is created."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-139.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-139",
+      "version": 1,
+      "sha256": "23f0321c5248728db786656ad7e4b3bf69c6dc4716c40e836a44bc7c9062a2e7"
+    }
+  ]
+}
