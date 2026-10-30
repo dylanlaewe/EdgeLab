@@ -1,0 +1,76 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-137",
+  "version": 1,
+  "created_at": "2026-10-30T03:25:58Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Classify the next smallest semantically complete direct resource maximum while retaining incomplete coverage and generation denial.",
+  "work_done": "Added cumulative V14 classification of MAX_SCHEMA_BUNDLE_BYTES over the separate host and verifier registry/document-body aggregates and standalone verifier storage-descriptor bytes; retained all V13 constraints exactly; bound both definitions, all three comparisons, exact accumulator initialization/addition, type and inventory guards, rejection and parse ordering, and complete enclosing semantic shapes; added inclusive boundaries, inclusion/exclusion, non-authority, and attacker-refreshed adversarial evidence; rebound schema, evidence, ancestry, and self-digest; and preserved INCOMPLETE/DENY with 659 of 697 sites unclassified.",
+  "evidence_refs": [
+    "reports/H-M0-137-runtime-v2-schema-bundle-resource-classification.v1.md",
+    "reports/audit/A-M0-119.v1.json",
+    "reports/stops/STOP-M0-3A-002.v40.json",
+    "docs/M0.3A_SCHEMA_BUNDLE_BYTE_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v14.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v14.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v2.md",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_schema_bundle_byte_bound.py",
+    "tests/test_runtime_v2_release_readiness.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_SCHEMA_BUNDLE_BYTE_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v14.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v14.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v2.md",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tools/run_test_tier.py",
+    "tests/test_runtime_v2_schema_bundle_byte_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/H-M0-137-runtime-v2-schema-bundle-resource-classification.v1.md",
+    "reports/audit/A-M0-119.v1.json",
+    "reports/stops/STOP-M0-3A-002.v40.json",
+    "docs/handoffs/H-M0-137.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "43 focused readiness and schema-bundle tests passed normally and under optimized Python.",
+    "465 fast-tier tests passed across 33 isolated modules.",
+    "Independent identity and Skeptic reviews reproduced the exact five-site three-subject slice and returned ACCEPT.",
+    "470 governed records and published history validated before evidence publication; 473 validated after publication.",
+    "18 alpha and observatory tests passed after evidence publication."
+  ],
+  "open_questions": [
+    "Which remaining resource families require Discovery v3 branch-specific cardinality bindings before honest classification?",
+    "Should the next milestone extend discovery for generic cardinality-table rows before classifying MAX_EVENTS or a smaller image collection limit?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v40 remains OPEN.",
+    "Only thirty-eight of 697 census sites are semantically classified; 659 remain unclassified with INCOMPLETE coverage.",
+    "Public verification remains deny-only.",
+    "Live remains LOCKED and deployable capital remains USD 0."
+  ],
+  "next_action": "Design and independently review the smallest Discovery v3 extension needed to bind generic cardinality-table rows to exact branch subjects without changing runtime behavior; retain incomplete coverage and generation denial.",
+  "completion_criteria": [
+    "Every newly exposed branch binding has a deterministic identity and cannot be substituted across equal-valued sibling limits.",
+    "All classification sites not yet semantically proven remain unclassified and RESOURCE_INVENTORY_INCOMPLETE remains unconditional.",
+    "No closure/carrier, positive verifier result, STOP clearance, or operational/capital authority is created."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-136.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-136",
+      "version": 1,
+      "sha256": "bb20604f136b6ebf9d3dd05316ccc22ae29cf416c48ce455e19685d516def7c9"
+    }
+  ]
+}

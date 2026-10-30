@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-119",
+  "version": 1,
+  "occurred_at": "2026-10-30T03:25:58Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_SCHEMA_BUNDLE_RESOURCE_CLASSIFIED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-137-runtime-v2-schema-bundle-resource-classification.v1.md",
+  "previous_state": "DISCOVERY_V2_697_SITES_THIRTY_THREE_CLASSIFIED_664_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V2_697_SITES_THIRTY_EIGHT_CLASSIFIED_659_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 4efabea76ea14549acbcb3fc0cbdf689c26e24c6 binds MAX_SCHEMA_BUNDLE_BYTES only to the host and verifier registry/document-body aggregates and the separate verifier storage-descriptor raw-byte ceiling through both definitions and all three direct comparisons with exact accumulator, type/inventory ordering, descriptor parse-order, non-authority, and attacker-refreshed semantic-pin evidence. It does not establish schema or descriptor validity, a global image bound, verifier acceptance, or authority. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": [
+    "reports/H-M0-137-runtime-v2-schema-bundle-resource-classification.v1.md",
+    "docs/M0.3A_SCHEMA_BUNDLE_BYTE_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v14.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v14.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_schema_bundle_byte_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v40.json"
+  ],
+  "code_ref": "4efabea76ea14549acbcb3fc0cbdf689c26e24c6",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-137",
+  "supersedes": null
+}
