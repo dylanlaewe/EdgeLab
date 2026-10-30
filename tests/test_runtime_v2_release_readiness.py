@@ -43,6 +43,7 @@ from tools.check_runtime_v2_release_readiness import (
     SCHEMA_REF_NODE_RESOURCE_EVIDENCE,
     SCHEMA_REGISTRY_RESOURCE_EVIDENCE,
     TRANSITION_ARGUMENT_RESOURCE_EVIDENCE,
+    TRANSITION_SEMANTIC_EVENT_RESOURCE_EVIDENCE,
     ReadinessError,
     _domain_digest,
     _source_bound_inventory,
@@ -275,9 +276,9 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(len(discovery["schema_inputs"]), 15)
         self.assertEqual(len(discovery["source_inputs"]), 10)
         classification = inventory["resource_inventory_classification"]
-        self.assertEqual(classification["classified_constraint_count"], 10)
-        self.assertEqual(classification["classified_site_count"], 28)
-        self.assertEqual(classification["unclassified_site_count"], 669)
+        self.assertEqual(classification["classified_constraint_count"], 11)
+        self.assertEqual(classification["classified_site_count"], 30)
+        self.assertEqual(classification["unclassified_site_count"], 667)
         self.assertEqual(classification["coverage_status"], "INCOMPLETE")
         self.assertEqual(classification["generation_disposition"], "DENY")
         expected_schema_paths = {
@@ -752,25 +753,25 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(claimed, expected)
         self.assertEqual(
             claimed,
-            "9dd7186a350c36035d831c5ac9df1003e2c9b71a286ebd67873c170282c68d4e",
+            "59c4ccf12dde9c0204f87cc76c7cf49d875c6f544d3c5401f17d7084fe628834",
         )
         self.assertEqual(
             hashlib.sha256((ROOT / RESOURCE_CLASSIFICATION_SCHEMA[1]).read_bytes()).hexdigest(),
-            "a2f3d5cb2a7621b1cec5b92d847f8370aba9226626d8dd133302ac5b6ad96049",
+            "e55c3f71e45384f34973bb1b290a62a59f1fa49201630955b2c20b2559ba249c",
         )
         self.assertEqual(
             hashlib.sha256((ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_bytes()).hexdigest(),
-            "f427f01f2626ba148f7eb13439d7923fa430b4aaa97cfe7596b3695d2ecd9a0b",
+            "07b93bfe96bc75b2a2f12fee9ab4076d4d1b6224253810ad912d1cad0e2acfff",
         )
         self.assertEqual(manifest["coverage_status"], "INCOMPLETE")
         self.assertEqual(manifest["generation_disposition"], "DENY")
-        self.assertEqual(manifest["schema_version"], 11)
+        self.assertEqual(manifest["schema_version"], 12)
         self.assertEqual(
             manifest["profile_id"],
-            "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V11",
+            "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V12",
         )
-        self.assertEqual(manifest["classified_site_count"], 28)
-        self.assertEqual(manifest["unclassified_site_count"], 669)
+        self.assertEqual(manifest["classified_site_count"], 30)
+        self.assertEqual(manifest["unclassified_site_count"], 667)
         self.assertEqual(
             [item["constraint_id"] for item in manifest["constraints"]],
             [
@@ -784,6 +785,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                 "MAX_ARGUMENTS",
                 "_PORTABLE_PATH_MAX",
                 "_PORTABLE_COMPONENT_MAX",
+                "MAX_GROUP_EVENTS",
             ],
         )
         event_constraint = manifest["constraints"][2]
@@ -1061,17 +1063,44 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             schema["properties"]["constraints"]["const"][9],
             component_constraint,
         )
+        semantic_event_constraint = manifest["constraints"][10]
+        self.assertEqual(semantic_event_constraint["classification"], "RESOURCE_MAXIMUM")
+        self.assertEqual(semantic_event_constraint["unit"], "ITEMS")
+        self.assertEqual(semantic_event_constraint["maximum"], 10_002)
+        self.assertEqual(
+            semantic_event_constraint["semantic_subject"],
+            "EXACT_BUILTIN_TUPLE_SEMANTIC_EVENT_ID_ITEMS_SUPPLIED_TO_"
+            "TRANSITION_INTENT_CONSTRUCTION",
+        )
+        self.assertEqual(
+            semantic_event_constraint["definition_site_ids"],
+            ["13130db6d96d447bd0bec45528c39f4354a2897e282585c7b4976335e25b025c"],
+        )
+        self.assertEqual(
+            semantic_event_constraint["enforcement_site_ids"],
+            ["6109c0c4afb317c7bde39b19501f7de6b627528dd36f967c82e2ed311fbfc0ca"],
+        )
+        self.assertEqual(
+            semantic_event_constraint["evidence_inputs"],
+            [dict(item) for item in TRANSITION_SEMANTIC_EVENT_RESOURCE_EVIDENCE],
+        )
+        self.assertEqual(
+            schema["properties"]["constraints"]["const"][10],
+            semantic_event_constraint,
+        )
         self.assertEqual(
             manifest["predecessor_manifest"]["path"],
-            "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v10.json",
+            "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v11.json",
         )
         self.assertEqual(
             manifest["predecessor_schema"]["path"],
-            "schemas/m0-3a-runtime-v2-resource-classification.v10.schema.json",
+            "schemas/m0-3a-runtime-v2-resource-classification.v11.schema.json",
         )
         self.assertEqual(
             [item["path"] for item in RESOURCE_CLASSIFICATION_ANCESTORS],
             [
+                "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v10.json",
+                "schemas/m0-3a-runtime-v2-resource-classification.v10.schema.json",
                 "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v9.json",
                 "schemas/m0-3a-runtime-v2-resource-classification.v9.schema.json",
                 "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v8.json",
@@ -1117,7 +1146,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         root = self.copy_inputs()
         path = root / RESOURCE_CLASSIFICATION_MANIFEST[1]
         raw = path.read_bytes().replace(
-            b'"schema_version": 11', b'"schema_version": 11, "schema_version": 11'
+            b'"schema_version": 12', b'"schema_version": 12, "schema_version": 12'
         )
         path.write_bytes(raw)
         with self.assertRaises(ReadinessError) as caught:
@@ -2544,6 +2573,143 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             caught.exception.code, "RESOURCE_CLASSIFICATION_MODULE_SHAPE"
         )
 
+    def test_transition_semantic_event_classification_binds_exact_semantics(self):
+        _, _, baseline_source_bytes = _source_inventory(ROOT)
+        baseline_predecessor_sites = _source_bound_inventory(
+            baseline_source_bytes
+        )
+        baseline_binding_sites = _source_bound_binding_inventory(
+            baseline_source_bytes, baseline_predecessor_sites
+        )
+        transition_source = baseline_source_bytes[
+            "src/edgelab/runtime_v2_transition.py"
+        ]
+        tree = ast.parse(transition_source)
+        stores = [
+            node for node in ast.walk(tree)
+            if isinstance(node, ast.Name)
+            and node.id == "MAX_GROUP_EVENTS"
+            and isinstance(node.ctx, ast.Store)
+        ]
+        loads = [
+            node for node in ast.walk(tree)
+            if isinstance(node, ast.Name)
+            and node.id == "MAX_GROUP_EVENTS"
+            and isinstance(node.ctx, ast.Load)
+        ]
+        self.assertEqual(len(stores), 1)
+        self.assertEqual(len(loads), 1)
+
+        for old, new in (
+            (b"MAX_GROUP_EVENTS = 10_002", b"MAX_GROUP_EVENTS = 5_001 + 5_001"),
+            (b"MAX_GROUP_EVENTS = 10_002", b"MAX_GROUP_EVENTS = 10_001"),
+            (
+                b"len(self.semantic_event_ids) > MAX_GROUP_EVENTS",
+                b"len(self.semantic_event_ids) >= MAX_GROUP_EVENTS",
+            ),
+            (
+                b"len(self.semantic_event_ids) > MAX_GROUP_EVENTS",
+                b"len(self.arguments) > MAX_GROUP_EVENTS",
+            ),
+            (
+                b"len(self.semantic_event_ids) > MAX_GROUP_EVENTS",
+                b"len(self.semantic_event_ids) > MAX_ARGUMENTS",
+            ),
+        ):
+            with self.subTest(site_attack=new):
+                root = self.copy_inputs()
+                source = root / "src/edgelab/runtime_v2_transition.py"
+                original = source.read_bytes()
+                mutated = original.replace(old, new, 1)
+                self.assertNotEqual(mutated, original)
+                source.write_bytes(mutated)
+                with self.assertRaises(ReadinessError) as caught:
+                    self.build_with_refreshed_ordinary_source_bindings(
+                        root, baseline_binding_sites
+                    )
+                self.assertEqual(
+                    caught.exception.code,
+                    "RESOURCE_CLASSIFICATION_SITE_MISSING",
+                )
+
+        for suffix in (
+            b"\n\ndef _semantic_event_limit_extra_read():\n"
+            b"    return MAX_GROUP_EVENTS\n",
+            b"\n\ndef _semantic_event_limit_extra_store():\n"
+            b"    MAX_GROUP_EVENTS = 10_002\n"
+            b"    return None\n",
+        ):
+            with self.subTest(name_cardinality=suffix.splitlines()[2]):
+                root = self.copy_inputs()
+                source = root / "src/edgelab/runtime_v2_transition.py"
+                source.write_bytes(source.read_bytes() + suffix)
+                self.refresh_source_bindings(root)
+                with self.assertRaises(ReadinessError) as caught:
+                    build_report(root)
+                self.assertEqual(
+                    caught.exception.code,
+                    "RESOURCE_CLASSIFICATION_NAME_CARDINALITY",
+                )
+
+        for old, new in (
+            (
+                b"if len(self.semantic_event_ids) > MAX_GROUP_EVENTS:",
+                b"if False and len(self.semantic_event_ids) > MAX_GROUP_EVENTS:",
+            ),
+            (
+                b'_deny("TRANSITION_RESOURCE_EVENTS", "/semantic_event_ids")',
+                b'_deny("WRONG_EVENT_LIMIT", "/semantic_event_ids")',
+            ),
+            (
+                b"        if len(self.arguments) > MAX_ARGUMENTS:\n"
+                b"            _deny(\"TRANSITION_RESOURCE_ARGUMENTS\", \"/arguments\")\n"
+                b"        if len(self.semantic_event_ids) > MAX_GROUP_EVENTS:\n"
+                b"            _deny(\"TRANSITION_RESOURCE_EVENTS\", \"/semantic_event_ids\")\n",
+                b"        if len(self.semantic_event_ids) > MAX_GROUP_EVENTS:\n"
+                b"            _deny(\"TRANSITION_RESOURCE_EVENTS\", \"/semantic_event_ids\")\n"
+                b"        if len(self.arguments) > MAX_ARGUMENTS:\n"
+                b"            _deny(\"TRANSITION_RESOURCE_ARGUMENTS\", \"/arguments\")\n",
+            ),
+            (
+                b"        for event_id in self.semantic_event_ids:\n"
+                b"            _uuid(event_id, \"/semantic_event_ids\")\n",
+                b"        for event_id in self.semantic_event_ids:\n"
+                b"            pass\n",
+            ),
+        ):
+            with self.subTest(function_attack=old[:48]):
+                root = self.copy_inputs()
+                source = root / "src/edgelab/runtime_v2_transition.py"
+                original = source.read_bytes()
+                mutated = original.replace(old, new, 1)
+                self.assertNotEqual(mutated, original)
+                source.write_bytes(mutated)
+                self.refresh_source_bindings(root)
+                with self.assertRaises(ReadinessError) as caught:
+                    build_report(root)
+                self.assertEqual(
+                    caught.exception.code,
+                    "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+                )
+
+        root = self.copy_inputs()
+        source = root / "src/edgelab/runtime_v2_transition.py"
+        original = source.read_bytes()
+        mutated = original.replace(
+            b'_REASON = re.compile(r"^[A-Z][A-Z0-9_]{0,63}$")\n',
+            b'_REASON = re.compile(r"^[A-Z][A-Z0-9_]{0,63}$")\n'
+            b"len = lambda value: value.__len__()\n",
+            1,
+        )
+        self.assertNotEqual(mutated, original)
+        source.write_bytes(mutated)
+        self.refresh_source_bindings(root)
+        with self.assertRaises(ReadinessError) as caught:
+            build_report(root)
+        self.assertEqual(
+            caught.exception.code, "RESOURCE_CLASSIFICATION_MODULE_SHAPE"
+        )
+
     def test_portable_path_classification_binds_exact_semantics(self):
         _, _, baseline_source_bytes = _source_inventory(ROOT)
         baseline_predecessor_sites = _source_bound_inventory(
@@ -2850,7 +3016,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                     "RESOURCE_CLASSIFICATION_MODULE_SHAPE",
                 )
 
-    def test_v11_classification_binds_predecessor_link_records(self):
+    def test_v12_classification_binds_predecessor_link_records(self):
         attacks = (
             ("predecessor_manifest", "raw_sha256", "0" * 64),
             ("predecessor_manifest", "classification_manifest_sha256", "1" * 64),
@@ -2874,26 +3040,26 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                     caught.exception.code, "RESOURCE_CLASSIFICATION_BINDING"
                 )
 
-    def test_v11_classification_binds_v10_v9_and_earlier_ancestor_links(self):
+    def test_v12_classification_binds_v11_v10_and_earlier_ancestor_links(self):
         for record, field in (
             ("predecessor_manifest", "raw_sha256"),
             ("predecessor_schema", "raw_sha256"),
         ):
-            with self.subTest(manifest="v10", record=record, field=field):
+            with self.subTest(manifest="v11", record=record, field=field):
                 root = self.copy_inputs()
 
-                def mutate_v10(manifest):
+                def mutate_v11(manifest):
                     manifest[record][field] = "0" * 64
 
-                v10_expected = self.rewrite_versioned_classification_manifest(
+                v11_expected = self.rewrite_versioned_classification_manifest(
                     root,
                     RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
-                    10,
-                    mutate_v10,
+                    11,
+                    mutate_v11,
                 )
                 with mock.patch.dict(
                     RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
-                    v10_expected,
+                    v11_expected,
                     clear=True,
                 ):
                     with self.assertRaises(ReadinessError) as caught:
@@ -2907,35 +3073,35 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             ("predecessor_manifest", "raw_sha256"),
             ("predecessor_schema", "raw_sha256"),
         ):
-            with self.subTest(manifest="v9", record=record, field=field):
+            with self.subTest(manifest="v10", record=record, field=field):
                 root = self.copy_inputs()
 
-                def mutate_v9(manifest):
+                def mutate_v10(manifest):
                     manifest[record][field] = "0" * 64
-
-                v9_expected = self.rewrite_versioned_classification_manifest(
-                    root,
-                    RESOURCE_CLASSIFICATION_ANCESTORS[0],
-                    9,
-                    mutate_v9,
-                )
-
-                def link_v10_to_mutated_v9(manifest):
-                    manifest["predecessor_manifest"] = dict(v9_expected)
 
                 v10_expected = self.rewrite_versioned_classification_manifest(
                     root,
-                    RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
+                    RESOURCE_CLASSIFICATION_ANCESTORS[0],
                     10,
-                    link_v10_to_mutated_v9,
+                    mutate_v10,
+                )
+
+                def link_v11_to_mutated_v10(manifest):
+                    manifest["predecessor_manifest"] = dict(v10_expected)
+
+                v11_expected = self.rewrite_versioned_classification_manifest(
+                    root,
+                    RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
+                    11,
+                    link_v11_to_mutated_v10,
                 )
                 with mock.patch.dict(
                     RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
-                    v10_expected,
+                    v11_expected,
                     clear=True,
                 ), mock.patch.dict(
                     RESOURCE_CLASSIFICATION_ANCESTORS[0],
-                    v9_expected,
+                    v10_expected,
                     clear=True,
                 ):
                     with self.assertRaises(ReadinessError) as caught:
