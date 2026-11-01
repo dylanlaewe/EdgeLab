@@ -49,6 +49,7 @@ FAST_MODULES = (
     "tests.test_runtime_v2_attempts_table_row_bound",
     "tests.test_runtime_v2_claims_table_row_bound",
     "tests.test_runtime_v2_blobs_table_row_bound",
+    "tests.test_runtime_v2_events_table_row_bound",
     "tests.test_runtime_v2_snapshot",
     "tests.test_runtime_v2_legacy_amendment",
     "tests.test_runtime_v2_legacy_archive_table_row_bound",
