@@ -25,6 +25,7 @@ from tools.check_runtime_v2_release_readiness import (
     CONTENT_ASSETS,
     EVENT_BYTE_RESOURCE_EVIDENCE,
     EVENTS_TABLE_ROW_RESOURCE_EVIDENCE,
+    IDEMPOTENCY_TABLE_ROW_RESOURCE_EVIDENCE,
     LEGACY_ARCHIVE_TABLE_ROW_RESOURCE_EVIDENCE,
     METADATA_TABLE_ROW_RESOURCE_EVIDENCE,
     MIGRATIONS_TABLE_ROW_RESOURCE_EVIDENCE,
@@ -501,9 +502,9 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(len(discovery["schema_inputs"]), 15)
         self.assertEqual(len(discovery["source_inputs"]), 10)
         classification = inventory["resource_inventory_classification"]
-        self.assertEqual(classification["classified_constraint_count"], 25)
-        self.assertEqual(classification["classified_site_count"], 52)
-        self.assertEqual(classification["unclassified_site_count"], 666)
+        self.assertEqual(classification["classified_constraint_count"], 26)
+        self.assertEqual(classification["classified_site_count"], 53)
+        self.assertEqual(classification["unclassified_site_count"], 665)
         self.assertEqual(classification["coverage_status"], "INCOMPLETE")
         self.assertEqual(classification["generation_disposition"], "DENY")
         expected_schema_paths = {
@@ -1003,7 +1004,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         forged = [dict(item) for item in row_caps]
         unclassified_index = next(
             index for index, item in enumerate(forged)
-            if item["table_name"] == "idempotency"
+            if item["table_name"] == "remediation_links"
         )
         forged[unclassified_index]["maximum"] = 99_999
         forged[unclassified_index]["site_id"] = "0" * 64
@@ -1578,25 +1579,25 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(claimed, expected)
         self.assertEqual(
             claimed,
-            "248cf2774c60af1c3bb8d23149e923491f0e6e22da8f09c38718d8fc7e57ede2",
+            "6437ae3086076bafa2e732244b6cb8c4dddf03529c2a7c7d741d0392da383864",
         )
         self.assertEqual(
             hashlib.sha256((ROOT / RESOURCE_CLASSIFICATION_SCHEMA[1]).read_bytes()).hexdigest(),
-            "812f396cdf5d6a995e0df624c9c313ec72da1c16283e4d2a9a0f79ae42e85332",
+            "6288fcbf2a5a23d710709533ba647b8b6838fe2c4bb365a89663846b8a7488b5",
         )
         self.assertEqual(
             hashlib.sha256((ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_bytes()).hexdigest(),
-            "77b39852f3e0f25ec6ae59838f1e910043ffd03e14eee66d1e56afbdc60a1353",
+            "af16e6b10fad1bf604f0c43457c5cc2cb2f1b183d67d317a4bd94901d850bb2e",
         )
         self.assertEqual(manifest["coverage_status"], "INCOMPLETE")
         self.assertEqual(manifest["generation_disposition"], "DENY")
-        self.assertEqual(manifest["schema_version"], 28)
+        self.assertEqual(manifest["schema_version"], 29)
         self.assertEqual(
             manifest["profile_id"],
-            "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V28",
+            "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V29",
         )
-        self.assertEqual(manifest["classified_site_count"], 52)
-        self.assertEqual(manifest["unclassified_site_count"], 666)
+        self.assertEqual(manifest["classified_site_count"], 53)
+        self.assertEqual(manifest["unclassified_site_count"], 665)
         self.assertEqual(
             [item["constraint_id"] for item in manifest["constraints"]],
             [
@@ -1625,6 +1626,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                 "TABLE_CLAIMS_ROWS",
                 "TABLE_BLOBS_ROWS",
                 "TABLE_EVENTS_ROWS",
+                "TABLE_IDEMPOTENCY_ROWS",
             ],
         )
         event_constraint = manifest["constraints"][2]
@@ -2317,17 +2319,48 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             schema["properties"]["constraints"]["const"][24],
             events_table_constraint,
         )
+        idempotency_table_constraint = manifest["constraints"][25]
+        idempotency_table_site = (
+            "1a228b50f30afae33f6a23bc125a8311cbeee1eb588bfa507a176b0087fbed72"
+        )
+        self.assertEqual(
+            idempotency_table_constraint["constraint_id"],
+            "TABLE_IDEMPOTENCY_ROWS",
+        )
+        self.assertEqual(
+            idempotency_table_constraint["classification"], "RESOURCE_MAXIMUM"
+        )
+        self.assertEqual(idempotency_table_constraint["unit"], "ITEMS")
+        self.assertEqual(idempotency_table_constraint["maximum"], 100_000)
+        self.assertEqual(
+            idempotency_table_constraint["definition_site_ids"],
+            [idempotency_table_site],
+        )
+        self.assertEqual(
+            idempotency_table_constraint["enforcement_site_ids"],
+            [idempotency_table_site],
+        )
+        self.assertEqual(
+            idempotency_table_constraint["evidence_inputs"],
+            [dict(item) for item in IDEMPOTENCY_TABLE_ROW_RESOURCE_EVIDENCE],
+        )
+        self.assertEqual(
+            schema["properties"]["constraints"]["const"][25],
+            idempotency_table_constraint,
+        )
         self.assertEqual(
             manifest["predecessor_manifest"]["path"],
-            "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v27.json",
+            "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v28.json",
         )
         self.assertEqual(
             manifest["predecessor_schema"]["path"],
-            "schemas/m0-3a-runtime-v2-resource-classification.v27.schema.json",
+            "schemas/m0-3a-runtime-v2-resource-classification.v28.schema.json",
         )
         self.assertEqual(
             [item["path"] for item in RESOURCE_CLASSIFICATION_ANCESTORS],
             [
+                "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v27.json",
+                "schemas/m0-3a-runtime-v2-resource-classification.v27.schema.json",
                 "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v26.json",
                 "schemas/m0-3a-runtime-v2-resource-classification.v26.schema.json",
                 "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v25.json",
@@ -2407,7 +2440,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         root = self.copy_inputs()
         path = root / RESOURCE_CLASSIFICATION_MANIFEST[1]
         raw = path.read_bytes().replace(
-            b'"schema_version": 28', b'"schema_version": 28, "schema_version": 28'
+            b'"schema_version": 29', b'"schema_version": 29, "schema_version": 29'
         )
         path.write_bytes(raw)
         with self.assertRaises(ReadinessError) as caught:
@@ -5449,8 +5482,8 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
 
         def expand(manifest):
             manifest["constraints"][20]["enforcement_site_ids"].append(sibling)
-            manifest["classified_site_count"] = 52
-            manifest["unclassified_site_count"] = 666
+            manifest["classified_site_count"] = 53
+            manifest["unclassified_site_count"] = 665
 
         self.rewrite_manifest(root, expand)
         with self.assertRaises(ReadinessError) as caught:
@@ -5527,8 +5560,8 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
 
         def expand(manifest):
             manifest["constraints"][21]["enforcement_site_ids"].append(sibling)
-            manifest["classified_site_count"] = 52
-            manifest["unclassified_site_count"] = 666
+            manifest["classified_site_count"] = 53
+            manifest["unclassified_site_count"] = 665
 
         self.rewrite_manifest(root, expand)
         with self.assertRaises(ReadinessError) as caught:
@@ -5605,8 +5638,8 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
 
         def expand(manifest):
             manifest["constraints"][22]["enforcement_site_ids"].append(sibling)
-            manifest["classified_site_count"] = 52
-            manifest["unclassified_site_count"] = 666
+            manifest["classified_site_count"] = 53
+            manifest["unclassified_site_count"] = 665
 
         self.rewrite_manifest(root, expand)
         with self.assertRaises(ReadinessError) as caught:
@@ -5683,8 +5716,8 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
 
         def expand(manifest):
             manifest["constraints"][-1]["enforcement_site_ids"].append(sibling)
-            manifest["classified_site_count"] = 52
-            manifest["unclassified_site_count"] = 666
+            manifest["classified_site_count"] = 53
+            manifest["unclassified_site_count"] = 665
 
         self.rewrite_manifest(root, expand)
         with self.assertRaises(ReadinessError) as caught:
@@ -5704,9 +5737,9 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             index for index, item in enumerate(v4_bindings)
             if item["table_name"] == "events"
         )
-        idempotency_site = next(
+        remediation_links_site = next(
             item["site_id"] for item in v4_bindings
-            if item["table_name"] == "idempotency"
+            if item["table_name"] == "remediation_links"
         )
         predecessor_sites = [
             item for item in baseline["source_bound_sites"]
@@ -5716,7 +5749,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             ("maximum", 99_999, "RESOURCE_CLASSIFICATION_SITE_SHAPE"),
             ("row_index", 4, "RESOURCE_CLASSIFICATION_SITE_SHAPE"),
             ("selection_semantics", "SUPPLIED_LABEL", "RESOURCE_CLASSIFICATION_SITE_SHAPE"),
-            ("site_id", idempotency_site, "RESOURCE_SITE_ID_DUPLICATE"),
+            ("site_id", remediation_links_site, "RESOURCE_SITE_ID_DUPLICATE"),
             ("site_id", "0" * 64, "RESOURCE_CLASSIFICATION_SITE_MISSING"),
         ):
             with self.subTest(field=field, hostile_value=hostile_value):
@@ -5755,7 +5788,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         sibling = next(
             item["site_id"] for item in discovery["source_bound_sites"]
             if item["kind"] == "BOUND_TABLE_ROW_CAP_COMPARISON_BINDING"
-            and item["table_name"] == "idempotency"
+            and item["table_name"] == "remediation_links"
         )
         root = self.copy_inputs()
 
@@ -5772,7 +5805,85 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             {"RESOURCE_CLASSIFICATION_BINDING", "RESOURCE_CLASSIFICATION_CONSTRAINT"},
         )
 
-    def test_v28_classification_extends_v27_with_only_events_table_row_cap(self):
+    def test_idempotency_table_row_classification_survives_census_refresh(self):
+        baseline = build_report(ROOT)["inventory"]["resource_inventory_discovery"]
+        v4_bindings = [
+            dict(item) for item in baseline["source_bound_sites"]
+            if item["kind"] == "BOUND_TABLE_ROW_CAP_COMPARISON_BINDING"
+        ]
+        target_index = next(
+            index for index, item in enumerate(v4_bindings)
+            if item["table_name"] == "idempotency"
+        )
+        remediation_links_site = next(
+            item["site_id"] for item in v4_bindings
+            if item["table_name"] == "remediation_links"
+        )
+        predecessor_sites = [
+            item for item in baseline["source_bound_sites"]
+            if item["kind"] != "BOUND_TABLE_ROW_CAP_COMPARISON_BINDING"
+        ]
+        for field, hostile_value, expected_code in (
+            ("maximum", 99_999, "RESOURCE_CLASSIFICATION_SITE_SHAPE"),
+            ("row_index", 8, "RESOURCE_CLASSIFICATION_SITE_SHAPE"),
+            ("selection_semantics", "SUPPLIED_LABEL", "RESOURCE_CLASSIFICATION_SITE_SHAPE"),
+            ("site_id", remediation_links_site, "RESOURCE_SITE_ID_DUPLICATE"),
+            ("site_id", "0" * 64, "RESOURCE_CLASSIFICATION_SITE_MISSING"),
+        ):
+            with self.subTest(field=field, hostile_value=hostile_value):
+                root = self.copy_inputs()
+                hostile = [dict(item) for item in v4_bindings]
+                hostile[target_index][field] = hostile_value
+                source_sites = sorted(
+                    predecessor_sites + hostile,
+                    key=lambda item: (item["path"], item["site_id"]),
+                )
+                digest = _domain_digest(
+                    RESOURCE_SOURCE_BOUND_SITES_V4_DOMAIN,
+                    [{key: value for key, value in item.items() if key != "line"}
+                     for item in source_sites],
+                )
+                self.rewrite_manifest(root, lambda manifest: manifest.__setitem__(
+                    "source_bound_sites_sha256", digest
+                ))
+                with (
+                    mock.patch.object(
+                        readiness_checker,
+                        "_source_bound_table_row_cap_binding_inventory",
+                        return_value=hostile,
+                    ),
+                    mock.patch.object(
+                        readiness_checker,
+                        "RESOURCE_SOURCE_BOUND_SITES_V4_SHA256", digest,
+                    ),
+                ):
+                    with self.assertRaises(ReadinessError) as caught:
+                        build_report(root)
+                self.assertEqual(caught.exception.code, expected_code)
+
+    def test_idempotency_table_row_classification_rejects_scope_expansion(self):
+        discovery = build_report(ROOT)["inventory"]["resource_inventory_discovery"]
+        sibling = next(
+            item["site_id"] for item in discovery["source_bound_sites"]
+            if item["kind"] == "BOUND_TABLE_ROW_CAP_COMPARISON_BINDING"
+            and item["table_name"] == "remediation_links"
+        )
+        root = self.copy_inputs()
+
+        def expand(manifest):
+            manifest["constraints"][-1]["enforcement_site_ids"].append(sibling)
+            manifest["classified_site_count"] = 54
+            manifest["unclassified_site_count"] = 664
+
+        self.rewrite_manifest(root, expand)
+        with self.assertRaises(ReadinessError) as caught:
+            build_report(root)
+        self.assertIn(
+            caught.exception.code,
+            {"RESOURCE_CLASSIFICATION_BINDING", "RESOURCE_CLASSIFICATION_CONSTRAINT"},
+        )
+
+    def test_v29_classification_extends_v28_with_only_idempotency_table_row_cap(self):
         current = json.loads(
             (ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_text(
                 encoding="ascii"
@@ -5780,29 +5891,29 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         )
         predecessor = json.loads(
             (
-                ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v27.json"
+                ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v28.json"
             ).read_text(encoding="ascii")
         )
         self.assertEqual(current["constraints"][:-1], predecessor["constraints"])
-        self.assertEqual(len(current["constraints"]), 25)
-        self.assertEqual(current["classified_site_count"], 52)
+        self.assertEqual(len(current["constraints"]), 26)
+        self.assertEqual(current["classified_site_count"], 53)
         self.assertEqual(current["source_bound_site_count"], 422)
         self.assertEqual(current["schema_bound_site_count"], 296)
-        self.assertEqual(current["unclassified_site_count"], 666)
+        self.assertEqual(current["unclassified_site_count"], 665)
         self.assertEqual(current["coverage_status"], "INCOMPLETE")
         self.assertEqual(current["generation_disposition"], "DENY")
         self.assertEqual(
             current["predecessor_manifest"],
             {
-                "byte_length": 57778,
+                "byte_length": 60051,
                 "classification_manifest_sha256": (
-                    "8c01543438e9a6c61d0b29d4fab44ead41a62558521e28529069badda6c550b3"
+                    "248cf2774c60af1c3bb8d23149e923491f0e6e22da8f09c38718d8fc7e57ede2"
                 ),
                 "path": (
-                    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v27.json"
+                    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v28.json"
                 ),
                 "raw_sha256": (
-                    "b9ef8ebf2d5698c2b7bb37634aae26f56534ca28caeae8480fc1c1b9948bbda3"
+                    "77b39852f3e0f25ec6ae59838f1e910043ffd03e14eee66d1e56afbdc60a1353"
                 ),
             },
         )
@@ -5846,12 +5957,12 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                 "4be3587c25022ecc89e1b9935c77fcbd36b19db59118701d09de06f46510e737",
                 "3403f4586733a9541140f3d4ec7590a7466ba3de8fb7ed599661cfb1cd20d428",
                 "9138c0111059d3e29b19bcacd451fa8cedf572d56ea6f4d04fdbc405cf8b00ed",
+                "1a228b50f30afae33f6a23bc125a8311cbeee1eb588bfa507a176b0087fbed72",
             },
         )
         self.assertEqual(
             row_cap_site_ids - classified_site_ids,
             {
-                "1a228b50f30afae33f6a23bc125a8311cbeee1eb588bfa507a176b0087fbed72",
                 "6eb1e8475a75168cb60283d4b97c37c5a037e377b6f06c30c386678136d1d03a",
                 "8f1e936be695ee430acb2d111c3ddbf7da8b2a5cce958f5dd34896730b20c2c0",
                 "ff2bb0a8c4e48b59f86fea74496f463a5dfbbb06cb62db33ea473cff4f8f627b",
@@ -5868,46 +5979,42 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             "41ab1d3712b89ce44af6a77c3a694346032502dcad0bca11a5cd6077d06be79a",
             "56e98674b7d3cea2c63839f264be9afd63b55b3d9acb1dfc321cf1c4dc60744a",
             "cc70a073ff6cb3d1a80a48869ff0073a91600b675a290a0318e83eb7b6c7907b",
+            "c4ae34b3a69aa97f06d98d75313060be2cf8290c032e63593919813095789b7a",
         }.isdisjoint(classified_site_ids))
-        events_rows = current["constraints"][-1]
+        idempotency_rows = current["constraints"][-1]
         self.assertEqual(
-            set(events_rows["definition_site_ids"])
-            | set(events_rows["enforcement_site_ids"]),
-            {"9138c0111059d3e29b19bcacd451fa8cedf572d56ea6f4d04fdbc405cf8b00ed"},
+            set(idempotency_rows["definition_site_ids"])
+            | set(idempotency_rows["enforcement_site_ids"]),
+            {"1a228b50f30afae33f6a23bc125a8311cbeee1eb588bfa507a176b0087fbed72"},
         )
         semantic_text = json.dumps({
-            key: value for key, value in events_rows.items()
+            key: value for key, value in idempotency_rows.items()
             if key not in {"evidence_inputs", "constraint_id"}
         }).lower()
         for excluded_meaning in (
             "descriptor", "reducer", "public_verifier", "migration_authority",
             "schema_authority", "execution_authority", "capital_authority",
-            "sequence_validity", "chain_continuity", "event_identity",
-            "digest_correctness", "canonical_json_validity", "envelope_validity",
-            "payload_validity", "schema_validity", "task_chain_linkage",
-            "head_consistency", "event_table_correspondence",
-            "uniqueness_semantics", "primary_key", "row_order", "row_content",
-            "reachability", "byte_size_compliance", "verifier_acceptance",
-            "stop_clearance",
+            "operation_key_uniqueness", "deduplication", "exactly_once",
+            "retry_safety", "transaction_identity", "request_digest",
+            "response_digest", "response_correspondence", "commit_event",
+            "commit_sequence", "timestamp_validity", "event_task_linkage",
+            "replay_semantics", "storage_atomicity", "primary_key", "row_order",
+            "row_content", "verifier_acceptance", "stop_clearance",
         ):
             self.assertNotIn(excluded_meaning, semantic_text)
 
-        events_site = next(iter(
-            set(events_rows["definition_site_ids"])
-            | set(events_rows["enforcement_site_ids"])
+        idempotency_site = next(iter(
+            set(idempotency_rows["definition_site_ids"])
+            | set(idempotency_rows["enforcement_site_ids"])
         ))
-        self.assertNotIn(
-            "fd2933fa143fb9fb2d6a9d6f375f1f6b1e0aae26e447e9fea4ad3b9d7c2b92a1",
-            classified_site_ids,
-        )
-        self.assertEqual(events_rows["unit"], "ITEMS")
-        self.assertEqual(events_rows["maximum"], 100_000)
+        self.assertEqual(idempotency_rows["unit"], "ITEMS")
+        self.assertEqual(idempotency_rows["maximum"], 100_000)
         self.assertEqual(
-            events_site,
-            "9138c0111059d3e29b19bcacd451fa8cedf572d56ea6f4d04fdbc405cf8b00ed",
+            idempotency_site,
+            "1a228b50f30afae33f6a23bc125a8311cbeee1eb588bfa507a176b0087fbed72",
         )
 
-    def test_v28_classification_binds_predecessor_link_records(self):
+    def test_v29_classification_binds_predecessor_link_records(self):
         attacks = (
             ("predecessor_manifest", "raw_sha256", "0" * 64),
             ("predecessor_manifest", "classification_manifest_sha256", "1" * 64),
@@ -5931,27 +6038,27 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                     caught.exception.code, "RESOURCE_CLASSIFICATION_BINDING"
                 )
 
-    def test_v28_rejects_rewritten_v27_constraint_history(self):
+    def test_v29_rejects_rewritten_v28_constraint_history(self):
         root = self.copy_inputs()
 
-        def mutate_v27(manifest):
+        def mutate_v28(manifest):
             manifest["constraints"][0]["maximum"] -= 1
 
-        hostile_v27 = self.rewrite_versioned_classification_manifest(
+        hostile_v28 = self.rewrite_versioned_classification_manifest(
             root,
             RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
-            27,
-            mutate_v27,
+            28,
+            mutate_v28,
         )
         self.rewrite_manifest(
             root,
             lambda manifest: manifest.__setitem__(
-                "predecessor_manifest", dict(hostile_v27)
+                "predecessor_manifest", dict(hostile_v28)
             ),
         )
         with mock.patch.dict(
             RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
-            hostile_v27,
+            hostile_v28,
             clear=True,
         ):
             with self.assertRaises(ReadinessError) as caught:
@@ -5960,26 +6067,26 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             caught.exception.code, "RESOURCE_CLASSIFICATION_CENSUS_REBASE"
         )
 
-    def test_v28_classification_binds_v27_v26_and_earlier_ancestor_links(self):
+    def test_v29_classification_binds_v28_v27_and_earlier_ancestor_links(self):
         for record, field in (
             ("predecessor_manifest", "raw_sha256"),
             ("predecessor_schema", "raw_sha256"),
         ):
-            with self.subTest(manifest="v27", record=record, field=field):
+            with self.subTest(manifest="v28", record=record, field=field):
                 root = self.copy_inputs()
 
-                def mutate_v27(manifest):
+                def mutate_v28(manifest):
                     manifest[record][field] = "0" * 64
 
-                v27_expected = self.rewrite_versioned_classification_manifest(
+                v28_expected = self.rewrite_versioned_classification_manifest(
                     root,
                     RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
-                    27,
-                    mutate_v27,
+                    28,
+                    mutate_v28,
                 )
                 with mock.patch.dict(
                     RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
-                    v27_expected,
+                    v28_expected,
                     clear=True,
                 ):
                     with self.assertRaises(ReadinessError) as caught:
@@ -5993,35 +6100,35 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             ("predecessor_manifest", "raw_sha256"),
             ("predecessor_schema", "raw_sha256"),
         ):
-            with self.subTest(manifest="v26", record=record, field=field):
+            with self.subTest(manifest="v27", record=record, field=field):
                 root = self.copy_inputs()
 
-                def mutate_v26(manifest):
+                def mutate_v27(manifest):
                     manifest[record][field] = "0" * 64
-
-                v26_expected = self.rewrite_versioned_classification_manifest(
-                    root,
-                    RESOURCE_CLASSIFICATION_ANCESTORS[0],
-                    26,
-                    mutate_v26,
-                )
-
-                def link_v27_to_mutated_v26(manifest):
-                    manifest["predecessor_manifest"] = dict(v26_expected)
 
                 v27_expected = self.rewrite_versioned_classification_manifest(
                     root,
-                    RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
+                    RESOURCE_CLASSIFICATION_ANCESTORS[0],
                     27,
-                    link_v27_to_mutated_v26,
+                    mutate_v27,
+                )
+
+                def link_v28_to_mutated_v27(manifest):
+                    manifest["predecessor_manifest"] = dict(v27_expected)
+
+                v28_expected = self.rewrite_versioned_classification_manifest(
+                    root,
+                    RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
+                    28,
+                    link_v28_to_mutated_v27,
                 )
                 with mock.patch.dict(
                     RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
-                    v27_expected,
+                    v28_expected,
                     clear=True,
                 ), mock.patch.dict(
                     RESOURCE_CLASSIFICATION_ANCESTORS[0],
-                    v26_expected,
+                    v27_expected,
                     clear=True,
                 ):
                     with self.assertRaises(ReadinessError) as caught:
