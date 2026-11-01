@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-135",
+  "version": 1,
+  "occurred_at": "2026-11-01T21:09:27Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_REMEDIATION_LINKS_POSITIONAL_ROW_CAP_CLASSIFIED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-153-runtime-v2-remediation-links-row-cap-classification.v1.md",
+  "previous_state": "DISCOVERY_V4_718_SITES_FIFTY_THREE_CLASSIFIED_665_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V4_718_SITES_FIFTY_FOUR_CLASSIFIED_664_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 4599b18 preserves the exact Classification V29 prefix and classifies only the composite Discovery V4 positional remediation-links inclusive 100000-row cap. The same site supplies definition and enforcement evidence and counts once by set union. Link identity, source/child existence and distinction, event linkage, digest authenticity, reciprocal lineage, successor/acyclicity rules, remediation authorization, review/routing, task heads, reducer, transition, execution, public-verifier, STOP, and capital meanings remain excluded. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": [
+    "reports/H-M0-153-runtime-v2-remediation-links-row-cap-classification.v1.md",
+    "docs/M0.3A_RUNTIME_REMEDIATION_LINKS_TABLE_ROW_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v30.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v30.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_remediation_links_table_row_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v56.json"
+  ],
+  "code_ref": "4599b18",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-153",
+  "supersedes": null
+}
