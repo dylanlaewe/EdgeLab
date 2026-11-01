@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-132",
+  "version": 1,
+  "occurred_at": "2026-11-01T18:30:50Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_BLOBS_POSITIONAL_ROW_CAP_CLASSIFIED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-150-runtime-v2-blobs-row-cap-classification.v1.md",
+  "previous_state": "DISCOVERY_V4_718_SITES_FIFTY_CLASSIFIED_668_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V4_718_SITES_FIFTY_ONE_CLASSIFIED_667_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 5b18237 preserves the exact Classification V26 prefix and classifies only the composite Discovery V4 positional blobs inclusive 300000-row cap. The same site supplies definition and enforcement evidence and counts once by set union. The equal-valued top-level blobs cardinality, digest, schema, canonical-content, byte-size, key, ordering, reachability, storage, reducer, transition, execution, public-verifier, STOP, and capital meanings remain excluded. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": [
+    "reports/H-M0-150-runtime-v2-blobs-row-cap-classification.v1.md",
+    "docs/M0.3A_RUNTIME_BLOBS_TABLE_ROW_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v27.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v27.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_blobs_table_row_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v53.json"
+  ],
+  "code_ref": "5b18237",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-150",
+  "supersedes": null
+}
