@@ -1,0 +1,75 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-149",
+  "version": 1,
+  "created_at": "2026-11-01T17:58:08Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Inventory and independently review the smallest complete remaining Discovery V4 positional row-cap slice, claims at 100000 rows, while preserving issuance, fencing, status, actor, close, recovery, governance, task/event, reducer, ordering, label, diagnostic, and public-verifier separations.",
+  "work_done": "Added Classification V26 as the exact V25 prefix plus one TABLE_CLAIMS_ROWS constraint over the single composite Discovery V4 positional binding at strict-zip index two; proved inclusive zero/99999/100000/100001 behavior, malformed boundary fall-through, a full-width contradictory claim remaining non-authorizing, supplied-label independence against the distinct blobs cap, guard order, unique-site union accounting, predecessor history, attacker-refreshed census resistance, and explicit exclusion of claim issuance, fencing, status, actor, close, lifecycle, task/event, reducer, transition, and execution semantics; retained 668 of 718 sites as unclassified with INCOMPLETE/DENY and no runtime or authority change.",
+  "evidence_refs": [
+    "reports/H-M0-149-runtime-v2-claims-row-cap-classification.v1.md",
+    "reports/audit/A-M0-131.v1.json",
+    "reports/stops/STOP-M0-3A-002.v52.json",
+    "docs/M0.3A_RUNTIME_CLAIMS_TABLE_ROW_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v26.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v26.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_claims_table_row_bound.py",
+    "tests/test_runtime_v2_release_readiness.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v4.md",
+    "docs/M0.3A_RUNTIME_CLAIMS_TABLE_ROW_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v26.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v26.schema.json",
+    "tests/test_runtime_v2_claims_table_row_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tools/run_test_tier.py",
+    "reports/H-M0-149-runtime-v2-claims-row-cap-classification.v1.md",
+    "reports/audit/A-M0-131.v1.json",
+    "reports/stops/STOP-M0-3A-002.v52.json",
+    "docs/handoffs/H-M0-149.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "55 readiness tests and eight dedicated claims row-cap tests passed normally and under optimized Python.",
+    "569 fast-tier tests passed across 44 isolated modules.",
+    "Normal and optimized readiness outputs were byte-identical and both remained exit 1 BLOCKED/DENY with four blockers and no release artifacts.",
+    "Independent inventory and Skeptic reviews selected claims and accepted the final bounded engineering evidence; neither review grants formal authority.",
+    "506 governed records and published history validated before governance publication; 509 validated after publication.",
+    "18 alpha and observatory tests passed after evidence publication."
+  ],
+  "open_questions": [
+    "Which of the seven remaining positional row caps is the smallest semantically independent next V4 classification slice?",
+    "Which lifecycle, relational, ordering, content, diagnostic, reducer, transition, and public-verifier meanings must remain separate for that table?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v52 remains OPEN.",
+    "Only fifty of 718 census sites are semantically classified; 668 remain unclassified with INCOMPLETE coverage.",
+    "Public verification remains deny-only.",
+    "Live remains LOCKED and deployable capital remains USD 0."
+  ],
+  "next_action": "Inventory and independently review the smallest complete remaining Discovery V4 positional row-cap slice among the seven unclassified table bindings, without preselecting from equal-valued siblings and while preserving lifecycle, relational, ordering, content, label, diagnostic, reducer, transition, execution, and public-verifier separations.",
+  "completion_criteria": [
+    "The selected row cap is bound to its exact V4 composite positional site with inclusive boundary, guard-order, label-independence, diagnostic, accounting, continuation, and hostile-input evidence.",
+    "Equal-valued sibling caps, lifecycle and relational constraints, helper/aggregate/comparator machinery, supplied labels, row content and ordering, reducer semantics, and public-verifier behavior remain separately classified or unclassified as evidence requires.",
+    "RESOURCE_INVENTORY_INCOMPLETE remains unconditional and no closure, carrier, verifier acceptance, STOP clearance, or capital authority is created."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-148.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-148",
+      "version": 1,
+      "sha256": "3043aada7166664b5ff093b6e1fffd2c9b1de75a13cfc6039415021972569fa5"
+    }
+  ]
+}
