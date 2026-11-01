@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-129",
+  "version": 1,
+  "occurred_at": "2026-11-01T16:48:23Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_SCHEMA_DOCUMENTS_POSITIONAL_ROW_CAP_CLASSIFIED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-147-runtime-v2-schema-documents-row-cap-classification.v1.md",
+  "previous_state": "DISCOVERY_V4_718_SITES_FORTY_SEVEN_CLASSIFIED_671_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V4_718_SITES_FORTY_EIGHT_CLASSIFIED_670_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 4f1e5f8 preserves the exact Classification V23 prefix and classifies only the composite Discovery V4 positional schema_documents inclusive nine-row cap. The same site supplies definition and enforcement evidence and counts once by set union. Top-level exact-nine cardinality, retained inventory, document bytes, registry equality, descriptor, reducer, label, diagnostic, public-verifier, STOP, execution, and capital meanings remain excluded. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": [
+    "reports/H-M0-147-runtime-v2-schema-documents-row-cap-classification.v1.md",
+    "docs/M0.3A_RUNTIME_SCHEMA_DOCUMENTS_TABLE_ROW_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v24.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v24.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_schema_documents_table_row_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v50.json"
+  ],
+  "code_ref": "4f1e5f8",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-147",
+  "supersedes": null
+}
