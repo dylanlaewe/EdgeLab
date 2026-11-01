@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-133",
+  "version": 1,
+  "occurred_at": "2026-11-01T19:32:40Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_EVENTS_POSITIONAL_ROW_CAP_CLASSIFIED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-151-runtime-v2-events-row-cap-classification.v1.md",
+  "previous_state": "DISCOVERY_V4_718_SITES_FIFTY_ONE_CLASSIFIED_667_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V4_718_SITES_FIFTY_TWO_CLASSIFIED_666_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit d9365c1 preserves the exact Classification V27 prefix and classifies only the composite Discovery V4 positional events inclusive 100000-row cap. The same site supplies definition and enforcement evidence and counts once by set union. The equal-valued top-level events cardinality, sequence, identity, digest, canonical-content, envelope, payload, schema, chain, head, ordering, byte-size, reachability, reducer, transition, execution, public-verifier, STOP, and capital meanings remain excluded. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": [
+    "reports/H-M0-151-runtime-v2-events-row-cap-classification.v1.md",
+    "docs/M0.3A_RUNTIME_EVENTS_TABLE_ROW_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v28.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v28.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_events_table_row_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v54.json"
+  ],
+  "code_ref": "d9365c1",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-151",
+  "supersedes": null
+}
