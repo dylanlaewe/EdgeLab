@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-130",
+  "version": 1,
+  "occurred_at": "2026-11-01T17:22:25Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_ATTEMPTS_POSITIONAL_ROW_CAP_CLASSIFIED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-148-runtime-v2-attempts-row-cap-classification.v1.md",
+  "previous_state": "DISCOVERY_V4_718_SITES_FORTY_EIGHT_CLASSIFIED_670_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V4_718_SITES_FORTY_NINE_CLASSIFIED_669_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 1534eef preserves the exact Classification V24 prefix and classifies only the composite Discovery V4 positional attempts inclusive 100000-row cap. The same site supplies definition and enforcement evidence and counts once by set union. Attempt ordinal, retry, predecessor, origin, head, row-content, ordering, descriptor, reducer, transition, execution, public-verifier, STOP, and capital meanings remain excluded. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": [
+    "reports/H-M0-148-runtime-v2-attempts-row-cap-classification.v1.md",
+    "docs/M0.3A_RUNTIME_ATTEMPTS_TABLE_ROW_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v25.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v25.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_attempts_table_row_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v51.json"
+  ],
+  "code_ref": "1534eef",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-148",
+  "supersedes": null
+}
