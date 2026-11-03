@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:m0-3a-runtime-v2-resource-discovery:5",
+  "title": "EdgeLab runtime-v2 resource discovery V5 evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "manifest_id",
+    "profile_id",
+    "coverage_status",
+    "classification_status",
+    "generation_disposition",
+    "discovery_schema_raw_sha256",
+    "predecessor_discovery",
+    "predecessor_manifest",
+    "predecessor_schema",
+    "source_input_count",
+    "source_inputs_sha256",
+    "legacy_source_bound_site_count",
+    "cumulative_derived_binding_site_count",
+    "derived_binding_site_count",
+    "source_bound_site_count",
+    "source_bound_sites_sha256",
+    "schema_input_count",
+    "schema_inputs_sha256",
+    "schema_bound_site_count",
+    "schema_bound_sites_sha256",
+    "discovered_site_count",
+    "derived_binding_site_ids",
+    "derived_binding_sites",
+    "discovery_manifest_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 5
+    },
+    "manifest_id": {
+      "const": "urn:edgelab:m0-3a-runtime-v2-resource-discovery:5"
+    },
+    "profile_id": {
+      "const": "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V5"
+    },
+    "coverage_status": {
+      "const": "INCOMPLETE"
+    },
+    "classification_status": {
+      "const": "UNCLASSIFIED"
+    },
+    "generation_disposition": {
+      "const": "DENY"
+    },
+    "discovery_schema_raw_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "predecessor_discovery": {
+      "const": {
+        "profile_id": "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V4",
+        "source_input_count": 10,
+        "source_inputs_sha256": "b22a453f6b2f5f44281054752bf9bce5e259d6a60ae22fe7b190383292e4ba2a",
+        "source_bound_site_count": 422,
+        "source_bound_sites_sha256": "5918304896b54b757e26d94367227c9f36db56e367964133d793c3539f47ab2f",
+        "schema_input_count": 15,
+        "schema_inputs_sha256": "14ccff50a49f337336f01b5a40b845e5011218063d2cdfa68f0b73b1a3c94239",
+        "schema_bound_site_count": 296,
+        "schema_bound_sites_sha256": "00b27a32303836f9d9910663e6bd2f76a7ca6d8c7cd614e5f22346b53cd104de"
+      }
+    },
+    "source_input_count": {
+      "const": 10
+    },
+    "source_inputs_sha256": {
+      "const": "b22a453f6b2f5f44281054752bf9bce5e259d6a60ae22fe7b190383292e4ba2a"
+    },
+    "legacy_source_bound_site_count": {
+      "const": 422
+    },
+    "derived_binding_site_count": {
+      "const": 1
+    },
+    "source_bound_site_count": {
+      "const": 423
+    },
+    "source_bound_sites_sha256": {
+      "const": "62217a83c01eb5151c51777181f44c8b87b39a9c51fe68d8fe7ab423587fd7bf"
+    },
+    "schema_input_count": {
+      "const": 15
+    },
+    "schema_inputs_sha256": {
+      "const": "14ccff50a49f337336f01b5a40b845e5011218063d2cdfa68f0b73b1a3c94239"
+    },
+    "schema_bound_site_count": {
+      "const": 296
+    },
+    "schema_bound_sites_sha256": {
+      "const": "00b27a32303836f9d9910663e6bd2f76a7ca6d8c7cd614e5f22346b53cd104de"
+    },
+    "discovered_site_count": {
+      "const": 719
+    },
+    "derived_binding_site_ids": {
+      "const": [
+        "0788e261996efdb32e9fdca233db8d5e809fdb533da89d835357ab1f2c9f1fa4"
+      ]
+    },
+    "derived_binding_sites": {
+      "const": [
+        {
+          "binding": "cardinality_maxima:events",
+          "branch_cardinality_site_id": "fd2933fa143fb9fb2d6a9d6f375f1f6b1e0aae26e447e9fea4ad3b9d7c2b92a1",
+          "classification": "UNCLASSIFIED",
+          "definition_ast_sha256": "36776d47d1ea9414c879865979d7d76c23429d7c4cf858cfbb07704214384104",
+          "definition_site_id": "2dcbb43b767e41adb2cb59c64d6b3bfab8e9dbb8e583eebc5801d93668b7b43f",
+          "excluded_semantics": [
+            "INITIAL_REDUCER_EVENT_CARDINALITY",
+            "TRANSITION_COLLECTION_CARDINALITY",
+            "EVENTS_TABLE_ROW_CARDINALITY",
+            "EVENT_ITEM_BYTE_CARDINALITY",
+            "PUBLIC_VERIFIER_OR_AUTHORITY"
+          ],
+          "expression": "0 <= len(captured['events']) <= MAX_EVENTS",
+          "kind": "BOUND_TOP_LEVEL_CARDINALITY_MAXIMUM_BINDING",
+          "maximum": 100000,
+          "maximum_expression": "MAX_EVENTS",
+          "path": "src/edgelab/runtime_v2_image.py",
+          "qualname": "<module>.inspect_runtime_image_host",
+          "selection_semantics": "HOST_PREFLIGHT_TOP_LEVEL_EVENTS_MAXIMUM_ONLY",
+          "semantic_function_ast_sha256": "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f",
+          "semantic_module_ast_sha256": "89d50071bdb9b49f32c631fb6f9ffece243d8a7b97280c3065ca85eea4df9857",
+          "subject_binding": "captured['events']",
+          "unit": "ITEMS",
+          "tuple_loop_ast_sha256": "9e3c2a4b8b7a01aefe2d991cbd889eb3e438c2849d75e31b89ed89afd9265b41",
+          "cardinality_loop_ast_sha256": "240c758d427bfefb4cd9ae2f020a6c8d8212178637c304811e1751dea8b98e2f",
+          "member_loop_ast_sha256": "9562db8f41443d06b883ea52b0d1be726a772b412740d6e1732e9031486e5be6",
+          "sanitized_image_gate_ast_sha256": "96643ddc4991990f0f04524e6e3f44d13fe7ac8938e9818460dc7054d715a7e2",
+          "tuple_guard_ast_sha256": "48c990518a6d97c4e3c5d6c976111eb55261d758f76466970d2ee40d2c9d3f98",
+          "tuple_result_ast_sha256": "b307f58801ce8e78a43696d5953c22e0b2c93a79418f4a3f941f608644979fbb",
+          "tuple_invalid_ast_sha256": "ebaece4655128040d4ecf6fafb8970b1f4b75d2d2199836efba5b4611fa71aad",
+          "validity_gate_ast_sha256": "80f43e2757b87785145812c7bbdd11dd7f2b75ca7983a0e20657f51bf0493557",
+          "comparison_assignment_ast_sha256": "0ac4a3c116faf2d3b271a709a0b15171fa566779bb8e03797b6271aaaec94018",
+          "comparison_result_ast_sha256": "f7babf5f583439c6651955a1f94cd7ded828a872da0550f437198585bcdfc6e6",
+          "invalid_branch_ast_sha256": "10f692935ade01e94f5748199c52cdc242aa0260a5c88603a03dd3710c13accb",
+          "member_gate_ast_sha256": "e6cb8d515794956552ebab7d5e2932e76e217cb0944ac82a8bfc7139d1cd36ae",
+          "site_id": "0788e261996efdb32e9fdca233db8d5e809fdb533da89d835357ab1f2c9f1fa4"
+        }
+      ]
+    },
+    "discovery_manifest_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "predecessor_manifest": {
+      "const": {
+        "byte_length": 51379,
+        "discovery_manifest_sha256": "2f34479e4597041b122a61c4aea29ae051446285ec51518d965bfd0e8b8e09d6",
+        "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v4.json",
+        "raw_sha256": "9d4c0630a802ef849e3ccb2cd6993cc58b8b2c8fa694888bff8ef96a52384681"
+      }
+    },
+    "predecessor_schema": {
+      "const": {
+        "byte_length": 55372,
+        "path": "schemas/m0-3a-runtime-v2-resource-discovery.v4.schema.json",
+        "raw_sha256": "558baf8aa2e1da502e4c19a733bfe0a73d42bcd1d0c1d5e1ad3b948fd12d9bd4"
+      }
+    },
+    "cumulative_derived_binding_site_count": {
+      "const": 29
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}
+
