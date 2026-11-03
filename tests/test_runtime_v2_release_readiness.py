@@ -36,6 +36,7 @@ from tools.check_runtime_v2_release_readiness import (
     PORTABLE_PATH_RESOURCE_EVIDENCE,
     REMEDIATION_LINKS_TABLE_ROW_RESOURCE_EVIDENCE,
     REVIEWS_TABLE_ROW_RESOURCE_EVIDENCE,
+    TASKS_TABLE_ROW_RESOURCE_EVIDENCE,
     SNAPSHOTS_TABLE_ROW_RESOURCE_EVIDENCE,
     RESOURCE_CLASSIFICATION_DOMAIN,
     RESOURCE_CLASSIFICATION_ANCESTORS,
@@ -505,9 +506,9 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(len(discovery["schema_inputs"]), 15)
         self.assertEqual(len(discovery["source_inputs"]), 10)
         classification = inventory["resource_inventory_classification"]
-        self.assertEqual(classification["classified_constraint_count"], 29)
-        self.assertEqual(classification["classified_site_count"], 56)
-        self.assertEqual(classification["unclassified_site_count"], 662)
+        self.assertEqual(classification["classified_constraint_count"], 30)
+        self.assertEqual(classification["classified_site_count"], 57)
+        self.assertEqual(classification["unclassified_site_count"], 661)
         self.assertEqual(classification["coverage_status"], "INCOMPLETE")
         self.assertEqual(classification["generation_disposition"], "DENY")
         expected_schema_paths = {
@@ -1005,12 +1006,15 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             sorted(ordinary + v2 + v3, key=lambda x: (x["path"], x["site_id"])),
         )
         forged = [dict(item) for item in row_caps]
-        unclassified_index = next(
+        tasks_index = next(
             index for index, item in enumerate(forged)
             if item["table_name"] == "tasks"
         )
-        forged[unclassified_index]["maximum"] = 99_999
-        forged[unclassified_index]["site_id"] = "0" * 64
+        # V33 classifies every positional row-cap composite.  Keep this
+        # attacker aimed at the real tasks discovery binding rather than
+        # inventing a fictional unclassified sibling.
+        forged[tasks_index]["maximum"] = 99_999
+        forged[tasks_index]["site_id"] = "0" * 64
         all_sites = sorted(
             ordinary + v2 + v3 + forged,
             key=lambda item: (item["path"], item["site_id"]),
@@ -1042,7 +1046,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             with self.assertRaises(ReadinessError) as caught:
                 build_report(root)
         self.assertEqual(
-            caught.exception.code, "RESOURCE_DISCOVERY_MANIFEST_BINDING"
+            caught.exception.code, "RESOURCE_CLASSIFICATION_SITE_MISSING"
         )
 
     def test_resource_discovery_v4_binds_v3_predecessor_evidence(self):
@@ -1582,25 +1586,25 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(claimed, expected)
         self.assertEqual(
             claimed,
-            "ad931b58ba062a97e2b94e68f2c00bce57e4eb26a5bf4e56989eb0e730b5b612",
+            "c44eb57db828fb99af908da0945a70952f63ded016b897ee344ea7458ebfe7be",
         )
         self.assertEqual(
             hashlib.sha256((ROOT / RESOURCE_CLASSIFICATION_SCHEMA[1]).read_bytes()).hexdigest(),
-            "4d76b86e196ebe7a83a732e2012049197a24d253424f16067617423645f8d29c",
+            "d5ade9fcb04db8028c5ad5eb0e3df3b45136ffe392630b68b7dafe68e0f260bb",
         )
         self.assertEqual(
             hashlib.sha256((ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_bytes()).hexdigest(),
-            "b4c1826bf559bcaf9dbf8461ab6fbaabed8cbad44b677de73012092b8133132a",
+            "64c07727fa802d875d8c189630b5a0538aa423e395e33f5cb8442e4d3648fde7",
         )
         self.assertEqual(manifest["coverage_status"], "INCOMPLETE")
         self.assertEqual(manifest["generation_disposition"], "DENY")
-        self.assertEqual(manifest["schema_version"], 32)
+        self.assertEqual(manifest["schema_version"], 33)
         self.assertEqual(
             manifest["profile_id"],
-            "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V32",
+            "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V33",
         )
-        self.assertEqual(manifest["classified_site_count"], 56)
-        self.assertEqual(manifest["unclassified_site_count"], 662)
+        self.assertEqual(manifest["classified_site_count"], 57)
+        self.assertEqual(manifest["unclassified_site_count"], 661)
         self.assertEqual(
             [item["constraint_id"] for item in manifest["constraints"]],
             [
@@ -1633,6 +1637,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                 "TABLE_REMEDIATION_LINKS_ROWS",
                 "TABLE_SNAPSHOTS_ROWS",
                 "TABLE_REVIEWS_ROWS",
+                "TABLE_TASKS_ROWS",
             ],
         )
         event_constraint = manifest["constraints"][2]
@@ -2434,17 +2439,42 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             schema["properties"]["constraints"]["const"][28],
             reviews_table_constraint,
         )
+        tasks_table_constraint = manifest["constraints"][29]
+        tasks_table_site = (
+            "d6a859d8b9df13389c46ea59c62011e44c95085620ace3af223c97a74faf485b"
+        )
+        self.assertEqual(
+            tasks_table_constraint["constraint_id"], "TABLE_TASKS_ROWS"
+        )
+        self.assertEqual(tasks_table_constraint["unit"], "ITEMS")
+        self.assertEqual(tasks_table_constraint["maximum"], 100_000)
+        self.assertEqual(
+            tasks_table_constraint["definition_site_ids"], [tasks_table_site]
+        )
+        self.assertEqual(
+            tasks_table_constraint["enforcement_site_ids"], [tasks_table_site]
+        )
+        self.assertEqual(
+            tasks_table_constraint["evidence_inputs"],
+            [dict(item) for item in TASKS_TABLE_ROW_RESOURCE_EVIDENCE],
+        )
+        self.assertEqual(
+            schema["properties"]["constraints"]["const"][29],
+            tasks_table_constraint,
+        )
         self.assertEqual(
             manifest["predecessor_manifest"]["path"],
-            "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v31.json",
+            "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v32.json",
         )
         self.assertEqual(
             manifest["predecessor_schema"]["path"],
-            "schemas/m0-3a-runtime-v2-resource-classification.v31.schema.json",
+            "schemas/m0-3a-runtime-v2-resource-classification.v32.schema.json",
         )
         self.assertEqual(
             [item["path"] for item in RESOURCE_CLASSIFICATION_ANCESTORS],
             [
+                "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v31.json",
+                "schemas/m0-3a-runtime-v2-resource-classification.v31.schema.json",
                 "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v30.json",
                 "schemas/m0-3a-runtime-v2-resource-classification.v30.schema.json",
                 "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v29.json",
@@ -2532,7 +2562,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         root = self.copy_inputs()
         path = root / RESOURCE_CLASSIFICATION_MANIFEST[1]
         raw = path.read_bytes().replace(
-            b'"schema_version": 32', b'"schema_version": 32, "schema_version": 32'
+            b'"schema_version": 33', b'"schema_version": 33, "schema_version": 33'
         )
         path.write_bytes(raw)
         with self.assertRaises(ReadinessError) as caught:
@@ -6207,9 +6237,97 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                         build_report(root)
                 self.assertEqual(caught.exception.code, expected_code)
 
+    def test_tasks_table_row_classification_survives_census_refresh(self):
+        baseline = build_report(ROOT)["inventory"]["resource_inventory_discovery"]
+        v4_bindings = [
+            dict(item) for item in baseline["source_bound_sites"]
+            if item["kind"] == "BOUND_TABLE_ROW_CAP_COMPARISON_BINDING"
+        ]
+        target_index = next(
+            index for index, item in enumerate(v4_bindings)
+            if item["table_name"] == "tasks"
+        )
+        reviews_site = next(
+            item["site_id"] for item in v4_bindings
+            if item["table_name"] == "reviews"
+        )
+        predecessor_sites = [
+            item for item in baseline["source_bound_sites"]
+            if item["kind"] != "BOUND_TABLE_ROW_CAP_COMPARISON_BINDING"
+        ]
+        for field, hostile_value, expected_code in (
+            ("maximum", 99_999, "RESOURCE_CLASSIFICATION_SITE_SHAPE"),
+            ("row_index", 13, "RESOURCE_CLASSIFICATION_SITE_SHAPE"),
+            (
+                "selection_semantics",
+                "SUPPLIED_LABEL",
+                "RESOURCE_CLASSIFICATION_SITE_SHAPE",
+            ),
+            ("site_id", reviews_site, "RESOURCE_SITE_ID_DUPLICATE"),
+            ("site_id", "0" * 64, "RESOURCE_CLASSIFICATION_SITE_MISSING"),
+        ):
+            with self.subTest(field=field, hostile_value=hostile_value):
+                root = self.copy_inputs()
+                hostile = [dict(item) for item in v4_bindings]
+                hostile[target_index][field] = hostile_value
+                source_sites = sorted(
+                    predecessor_sites + hostile,
+                    key=lambda item: (item["path"], item["site_id"]),
+                )
+                digest = _domain_digest(
+                    RESOURCE_SOURCE_BOUND_SITES_V4_DOMAIN,
+                    [
+                        {
+                            key: value for key, value in item.items()
+                            if key != "line"
+                        }
+                        for item in source_sites
+                    ],
+                )
+                self.rewrite_manifest(
+                    root,
+                    lambda manifest: manifest.__setitem__(
+                        "source_bound_sites_sha256", digest
+                    ),
+                )
+                discovery_path = root / RESOURCE_DISCOVERY_MANIFEST[1]
+                discovery_manifest = json.loads(
+                    discovery_path.read_text(encoding="ascii")
+                )
+                discovery_manifest["source_bound_sites_sha256"] = digest
+                discovery_manifest["derived_binding_site_ids"] = sorted(
+                    item["site_id"] for item in hostile
+                )
+                discovery_manifest["derived_binding_sites"] = sorted(
+                    hostile, key=lambda item: (item["path"], item["site_id"])
+                )
+                discovery_digest_value = dict(discovery_manifest)
+                discovery_digest_value.pop("discovery_manifest_sha256")
+                discovery_manifest["discovery_manifest_sha256"] = _domain_digest(
+                    RESOURCE_DISCOVERY_DOMAIN, discovery_digest_value
+                )
+                discovery_path.write_text(
+                    json.dumps(discovery_manifest), encoding="ascii"
+                )
+                with (
+                    mock.patch.object(
+                        readiness_checker,
+                        "_source_bound_table_row_cap_binding_inventory",
+                        return_value=hostile,
+                    ),
+                    mock.patch.object(
+                        readiness_checker,
+                        "RESOURCE_SOURCE_BOUND_SITES_V4_SHA256",
+                        digest,
+                    ),
+                ):
+                    with self.assertRaises(ReadinessError) as caught:
+                        build_report(root)
+                self.assertEqual(caught.exception.code, expected_code)
+
     def test_reviews_table_row_classification_rejects_scope_expansion(self):
         discovery = build_report(ROOT)["inventory"]["resource_inventory_discovery"]
-        sibling = next(
+        tasks_site = next(
             item["site_id"] for item in discovery["source_bound_sites"]
             if item["kind"] == "BOUND_TABLE_ROW_CAP_COMPARISON_BINDING"
             and item["table_name"] == "tasks"
@@ -6217,9 +6335,9 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         root = self.copy_inputs()
 
         def expand(manifest):
-            manifest["constraints"][-1]["enforcement_site_ids"].append(sibling)
-            manifest["classified_site_count"] = 57
-            manifest["unclassified_site_count"] = 661
+            manifest["constraints"][28]["enforcement_site_ids"].append(
+                tasks_site
+            )
 
         self.rewrite_manifest(root, expand)
         with self.assertRaises(ReadinessError) as caught:
@@ -6229,7 +6347,32 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             {"RESOURCE_CLASSIFICATION_BINDING", "RESOURCE_CLASSIFICATION_CONSTRAINT"},
         )
 
-    def test_v32_classification_extends_v31_with_only_reviews_table_row_cap(self):
+    def test_tasks_table_row_classification_rejects_scope_expansion(self):
+        discovery = build_report(ROOT)["inventory"]["resource_inventory_discovery"]
+        tasks_helper = next(
+            item["site_id"] for item in discovery["source_bound_sites"]
+            if item["kind"] == "BOUND_HELPER_CALL"
+            and item["site_id"]
+            == "aefbf071d2ded5d8cc71b0120cae99b970ab4506f5fd6d5b5eb2437b6a025d2a"
+        )
+        root = self.copy_inputs()
+
+        def expand(manifest):
+            manifest["constraints"][-1]["enforcement_site_ids"].append(
+                tasks_helper
+            )
+            manifest["classified_site_count"] = 58
+            manifest["unclassified_site_count"] = 660
+
+        self.rewrite_manifest(root, expand)
+        with self.assertRaises(ReadinessError) as caught:
+            build_report(root)
+        self.assertIn(
+            caught.exception.code,
+            {"RESOURCE_CLASSIFICATION_BINDING", "RESOURCE_CLASSIFICATION_CONSTRAINT"},
+        )
+
+    def test_v33_classification_extends_v32_with_only_tasks_table_row_cap(self):
         current = json.loads(
             (ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_text(
                 encoding="ascii"
@@ -6237,29 +6380,29 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         )
         predecessor = json.loads(
             (
-                ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v31.json"
+                ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v32.json"
             ).read_text(encoding="ascii")
         )
         self.assertEqual(current["constraints"][:-1], predecessor["constraints"])
-        self.assertEqual(len(current["constraints"]), 29)
-        self.assertEqual(current["classified_site_count"], 56)
+        self.assertEqual(len(current["constraints"]), 30)
+        self.assertEqual(current["classified_site_count"], 57)
         self.assertEqual(current["source_bound_site_count"], 422)
         self.assertEqual(current["schema_bound_site_count"], 296)
-        self.assertEqual(current["unclassified_site_count"], 662)
+        self.assertEqual(current["unclassified_site_count"], 661)
         self.assertEqual(current["coverage_status"], "INCOMPLETE")
         self.assertEqual(current["generation_disposition"], "DENY")
         self.assertEqual(
             current["predecessor_manifest"],
             {
-                "byte_length": 66952,
+                "byte_length": 69229,
                 "classification_manifest_sha256": (
-                    "7f966303fe66e1e0ba7f4a73e5c2d249ed7bf6b835ffc1bb9cda0d901180f28d"
+                    "ad931b58ba062a97e2b94e68f2c00bce57e4eb26a5bf4e56989eb0e730b5b612"
                 ),
                 "path": (
-                    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v31.json"
+                    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v32.json"
                 ),
                 "raw_sha256": (
-                    "40b94ef888a9f0a0cf3088d8bba72c8c5dbe7868cd7c110dbb4942f64e94ab56"
+                    "b4c1826bf559bcaf9dbf8461ab6fbaabed8cbad44b677de73012092b8133132a"
                 ),
             },
         )
@@ -6307,14 +6450,10 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                 "6eb1e8475a75168cb60283d4b97c37c5a037e377b6f06c30c386678136d1d03a",
                 "ff2bb0a8c4e48b59f86fea74496f463a5dfbbb06cb62db33ea473cff4f8f627b",
                 "8f1e936be695ee430acb2d111c3ddbf7da8b2a5cce958f5dd34896730b20c2c0",
-            },
-        )
-        self.assertEqual(
-            row_cap_site_ids - classified_site_ids,
-            {
                 "d6a859d8b9df13389c46ea59c62011e44c95085620ace3af223c97a74faf485b",
             },
         )
+        self.assertEqual(row_cap_site_ids - classified_site_ids, set())
         self.assertTrue({
             "b6227ea04426526d2328d17483f16b30c61ec141d6e904878016ee72cf70b07c",
             "8b93a8c07c34c56e41f154e9c01c69802103c63fbd09b1d6858262c5b70aef2d",
@@ -6329,15 +6468,16 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             "1fe1ad94e3df90de6fc3f042d37d286292914522b4bc22ec9e7f3e253dd02366",
             "7bd9884cddd766196a998045684c0f28a920f0a50891a6e168d7d9ac9bbda745",
             "4e45ce6231fd6af84a513f6c401a988bbba7b965c12c95576203c41c3de69e04",
+            "aefbf071d2ded5d8cc71b0120cae99b970ab4506f5fd6d5b5eb2437b6a025d2a",
         }.isdisjoint(classified_site_ids))
-        reviews_rows = current["constraints"][-1]
+        tasks_rows = current["constraints"][-1]
         self.assertEqual(
-            set(reviews_rows["definition_site_ids"])
-            | set(reviews_rows["enforcement_site_ids"]),
-            {"8f1e936be695ee430acb2d111c3ddbf7da8b2a5cce958f5dd34896730b20c2c0"},
+            set(tasks_rows["definition_site_ids"])
+            | set(tasks_rows["enforcement_site_ids"]),
+            {"d6a859d8b9df13389c46ea59c62011e44c95085620ace3af223c97a74faf485b"},
         )
         semantic_text = json.dumps({
-            key: value for key, value in reviews_rows.items()
+            key: value for key, value in tasks_rows.items()
             if key not in {"evidence_inputs", "constraint_id"}
         }).lower()
         for excluded_meaning in (
@@ -6352,22 +6492,29 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             "ownership", "claims", "fencing", "receipts", "generations",
             "scheduling", "reducer", "transition", "currentness",
             "verifier_acceptance", "stop_clearance", "execution_authority",
-            "capital_authority",
+            "capital_authority", "task_identity", "attempt_validity",
+            "workflow_state", "execution_state", "review_state",
+            "scheduler_generation", "dispatch_generation",
+            "repository_generation", "claim_authority",
+            "reviewer_assignment_authority", "continuation_authority",
+            "receipt_authority", "owner_authority", "role_authority",
+            "reviewer_authority", "predecessor_lineage",
+            "successor_lineage", "lifecycle_authority",
         ):
             self.assertNotIn(excluded_meaning, semantic_text)
 
-        reviews_site = next(iter(
-            set(reviews_rows["definition_site_ids"])
-            | set(reviews_rows["enforcement_site_ids"])
+        tasks_site = next(iter(
+            set(tasks_rows["definition_site_ids"])
+            | set(tasks_rows["enforcement_site_ids"])
         ))
-        self.assertEqual(reviews_rows["unit"], "ITEMS")
-        self.assertEqual(reviews_rows["maximum"], 100_000)
+        self.assertEqual(tasks_rows["unit"], "ITEMS")
+        self.assertEqual(tasks_rows["maximum"], 100_000)
         self.assertEqual(
-            reviews_site,
-            "8f1e936be695ee430acb2d111c3ddbf7da8b2a5cce958f5dd34896730b20c2c0",
+            tasks_site,
+            "d6a859d8b9df13389c46ea59c62011e44c95085620ace3af223c97a74faf485b",
         )
 
-    def test_v32_classification_binds_predecessor_link_records(self):
+    def test_v33_classification_binds_predecessor_link_records(self):
         attacks = (
             ("predecessor_manifest", "raw_sha256", "0" * 64),
             ("predecessor_manifest", "classification_manifest_sha256", "1" * 64),
@@ -6391,27 +6538,27 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                     caught.exception.code, "RESOURCE_CLASSIFICATION_BINDING"
                 )
 
-    def test_v32_rejects_rewritten_v31_constraint_history(self):
+    def test_v33_rejects_rewritten_v32_constraint_history(self):
         root = self.copy_inputs()
 
-        def mutate_v31(manifest):
+        def mutate_v32(manifest):
             manifest["constraints"][0]["maximum"] -= 1
 
-        hostile_v31 = self.rewrite_versioned_classification_manifest(
+        hostile_v32 = self.rewrite_versioned_classification_manifest(
             root,
             RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
-            31,
-            mutate_v31,
+            32,
+            mutate_v32,
         )
         self.rewrite_manifest(
             root,
             lambda manifest: manifest.__setitem__(
-                "predecessor_manifest", dict(hostile_v31)
+                "predecessor_manifest", dict(hostile_v32)
             ),
         )
         with mock.patch.dict(
             RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
-            hostile_v31,
+            hostile_v32,
             clear=True,
         ):
             with self.assertRaises(ReadinessError) as caught:
@@ -6420,26 +6567,26 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             caught.exception.code, "RESOURCE_CLASSIFICATION_CENSUS_REBASE"
         )
 
-    def test_v32_classification_binds_v31_v30_and_earlier_ancestor_links(self):
+    def test_v33_classification_binds_v32_v31_and_earlier_ancestor_links(self):
         for record, field in (
             ("predecessor_manifest", "raw_sha256"),
             ("predecessor_schema", "raw_sha256"),
         ):
-            with self.subTest(manifest="v31", record=record, field=field):
+            with self.subTest(manifest="v32", record=record, field=field):
                 root = self.copy_inputs()
 
-                def mutate_v31(manifest):
+                def mutate_v32(manifest):
                     manifest[record][field] = "0" * 64
 
-                v31_expected = self.rewrite_versioned_classification_manifest(
+                v32_expected = self.rewrite_versioned_classification_manifest(
                     root,
                     RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
-                    31,
-                    mutate_v31,
+                    32,
+                    mutate_v32,
                 )
                 with mock.patch.dict(
                     RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
-                    v31_expected,
+                    v32_expected,
                     clear=True,
                 ):
                     with self.assertRaises(ReadinessError) as caught:
@@ -6453,35 +6600,35 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             ("predecessor_manifest", "raw_sha256"),
             ("predecessor_schema", "raw_sha256"),
         ):
-            with self.subTest(manifest="v30", record=record, field=field):
+            with self.subTest(manifest="v31", record=record, field=field):
                 root = self.copy_inputs()
 
-                def mutate_v30(manifest):
+                def mutate_v31(manifest):
                     manifest[record][field] = "0" * 64
-
-                v30_expected = self.rewrite_versioned_classification_manifest(
-                    root,
-                    RESOURCE_CLASSIFICATION_ANCESTORS[0],
-                    30,
-                    mutate_v30,
-                )
-
-                def link_v31_to_mutated_v30(manifest):
-                    manifest["predecessor_manifest"] = dict(v30_expected)
 
                 v31_expected = self.rewrite_versioned_classification_manifest(
                     root,
-                    RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
+                    RESOURCE_CLASSIFICATION_ANCESTORS[0],
                     31,
-                    link_v31_to_mutated_v30,
+                    mutate_v31,
+                )
+
+                def link_v32_to_mutated_v31(manifest):
+                    manifest["predecessor_manifest"] = dict(v31_expected)
+
+                v32_expected = self.rewrite_versioned_classification_manifest(
+                    root,
+                    RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
+                    32,
+                    link_v32_to_mutated_v31,
                 )
                 with mock.patch.dict(
                     RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
-                    v31_expected,
+                    v32_expected,
                     clear=True,
                 ), mock.patch.dict(
                     RESOURCE_CLASSIFICATION_ANCESTORS[0],
-                    v30_expected,
+                    v31_expected,
                     clear=True,
                 ):
                     with self.assertRaises(ReadinessError) as caught:
