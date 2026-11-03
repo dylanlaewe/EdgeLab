@@ -1,0 +1,75 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-156",
+  "version": 1,
+  "created_at": "2026-11-03T20:49:24Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Inventory and independently review the final Discovery V4 tasks positional row-cap slice while preserving task identity, state, lifecycle, scheduling, transition, execution, relational, ordering, content, label, diagnostic, reducer, authority, and public-verifier separations.",
+  "work_done": "Added Classification V33 as the exact V32 prefix plus one TABLE_TASKS_ROWS constraint over the single composite Discovery V4 positional binding at strict-zip index fourteen; proved inclusive zero/99999/100000/100001 behavior, malformed boundary fall-through, duplicated full-width semantically impossible task rows remaining non-authorizing, supplied-label independence against the higher blobs cap, guard order, unique-site union accounting, exact predecessor history, and tasks-specific attacker-refreshed census resistance; preserved the generic V4 discovery-binding attack and predecessor reviews scope-expansion coverage; retained 661 of 718 sites as unclassified with INCOMPLETE/DENY and no runtime or authority change. All fifteen positional row-cap composites are classified, but the overall resource inventory remains incomplete.",
+  "evidence_refs": [
+    "reports/H-M0-156-runtime-v2-tasks-row-cap-classification.v1.md",
+    "reports/audit/A-M0-138.v1.json",
+    "reports/stops/STOP-M0-3A-002.v59.json",
+    "docs/M0.3A_RUNTIME_TASKS_TABLE_ROW_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v33.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v33.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_tasks_table_row_bound.py",
+    "tests/test_runtime_v2_release_readiness.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v4.md",
+    "docs/M0.3A_RUNTIME_TASKS_TABLE_ROW_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v33.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v33.schema.json",
+    "tests/test_runtime_v2_tasks_table_row_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tools/run_test_tier.py",
+    "reports/H-M0-156-runtime-v2-tasks-row-cap-classification.v1.md",
+    "reports/audit/A-M0-138.v1.json",
+    "reports/stops/STOP-M0-3A-002.v59.json",
+    "docs/handoffs/H-M0-156.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "67 readiness tests and eight dedicated tasks row-cap tests passed normally and under optimized Python after correcting the outer-cardinality fixture IndexError and generic V4 attacker expectation and restoring predecessor reviews scope-expansion coverage.",
+    "639 fast-tier tests passed across 51 isolated modules.",
+    "Normal and optimized readiness outputs were byte-identical with SHA-256 e920ec26ee6982c6a78eb05ee217c34a25461f90164537ae8ef2ec5aff8e8e46; both remained exit 1 BLOCKED/DENY with four blockers and no release artifacts.",
+    "Independent Skeptic review returned ACCEPT for the bounded tasks-row-cap engineering slice. That review grants no formal project, release, execution, STOP-clearance, or capital authority.",
+    "527 governed records and published history validated before governance publication; 530 validated after publication.",
+    "18 alpha and observatory tests passed after evidence publication."
+  ],
+  "open_questions": [
+    "What is the smallest complete remaining unclassified resource semantic slice after an independent inventory beyond positional row caps?",
+    "Which definition, enforcement, comparator, helper, descriptor, contract, relational, or schema-bound meanings must remain separate for that independently selected slice?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v59 remains OPEN.",
+    "Only fifty-seven of 718 census sites are semantically classified; 661 remain unclassified with INCOMPLETE coverage.",
+    "Public verification remains deny-only.",
+    "Live remains LOCKED, live_enabled remains false, the kill switch remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Independently inventory and select the smallest complete remaining unclassified resource semantic slice beyond positional row caps. Do not preselect a target, claim the inventory is nearly complete, or infer authority from all fifteen positional composites being classified.",
+  "completion_criteria": [
+    "The selected slice follows an independent census of the 661 remaining unclassified sites and is the smallest complete semantic unit supported by exact source/schema evidence rather than a preselected target.",
+    "Its definitions, enforcement sites, shared machinery, equations, units, boundary conditions, siblings, equal-valued subjects, and explicit nonclaims are bound bidirectionally without reclassifying unrelated meanings.",
+    "RESOURCE_INVENTORY_INCOMPLETE remains unconditional until all 718 sites are classified, and no closure, carrier, verifier acceptance, STOP clearance, task/reviewer/decision authority, execution authority, or capital authority is created."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-155.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-155",
+      "version": 1,
+      "sha256": "0a35b74ce68a9c434d8669f4c2deee10fc5f7e198c1a032d76af4e9af59d3284"
+    }
+  ]
+}

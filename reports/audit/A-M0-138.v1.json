@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-138",
+  "version": 1,
+  "occurred_at": "2026-11-03T20:49:24Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_TASKS_POSITIONAL_ROW_CAP_CLASSIFIED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-156-runtime-v2-tasks-row-cap-classification.v1.md",
+  "previous_state": "DISCOVERY_V4_718_SITES_FIFTY_SIX_CLASSIFIED_662_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V4_718_SITES_FIFTY_SEVEN_CLASSIFIED_661_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 9e939fa preserves the exact Classification V32 prefix and classifies only the composite Discovery V4 positional tasks inclusive 100000-row cap. The same site supplies definition and enforcement evidence and counts once by set union. All fifteen positional row-cap composites are now classified, but 661 other sites remain unclassified. Task identity, attempt validity, workflow/execution/review state, generations, fencing, claims, assignments, continuation, receipts, scheduling, ownership, roles, reviewer independence, lineage, row content, reducer, transition, lifecycle, execution, public-verifier, STOP, and capital meanings remain excluded. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": [
+    "reports/H-M0-156-runtime-v2-tasks-row-cap-classification.v1.md",
+    "docs/M0.3A_RUNTIME_TASKS_TABLE_ROW_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v33.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v33.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_tasks_table_row_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v59.json"
+  ],
+  "code_ref": "9e939fa",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-156",
+  "supersedes": null
+}

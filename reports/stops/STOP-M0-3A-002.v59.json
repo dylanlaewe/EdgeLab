@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-002",
+  "version": 59,
+  "issued_at": "2026-11-03T20:49:24Z",
+  "issuer": "00 Director",
+  "reason": "Classification V33 now binds the positional tasks inclusive 100000-row host-preflight maximum while preserving all twenty-nine V32 constraints. All fifteen positional table-row composites are classified, but of 718 census sites only fifty-seven are classified and 661 remain unclassified, so overall coverage is explicitly incomplete. Exact resource-manifest completion, public-entrypoint integration, conservative V1 bridge disposition, and the independently accepted A-J evidence manifest remain unresolved. Release generation is blocked and no positive local-consistency result is supportable.",
+  "affected_components": [
+    "exact generated verifier closure",
+    "semantic resource-limit classification and coverage proof",
+    "legacy bridge disposition",
+    "complete whole-image acceptance matrix",
+    "public result vocabulary"
+  ],
+  "evidence_refs": [
+    "reports/H-M0-156-runtime-v2-tasks-row-cap-classification.v1.md",
+    "docs/M0.3A_RUNTIME_TASKS_TABLE_ROW_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v4.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v33.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v33.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_tasks_table_row_bound.py",
+    "tests/test_runtime_v2_release_readiness.py"
+  ],
+  "severity": "HIGH",
+  "remediation_required": [
+    "Independently inventory and select the smallest complete remaining unclassified resource semantic slice beyond positional row caps; do not preselect a target or treat the inventory as nearly complete.",
+    "Classify every remaining discovered source/schema site and prove bidirectional coverage of all remaining enforcement mechanisms and descriptor/contract constraints.",
+    "Bind every accepted resource maximum to all definitions, enforcement sites, branch-specific and positional bindings, source-level semantic dependencies, contract equations, units, and boundary evidence without misclassifying labels, minima, exact values, diagnostic bounds, representation limits, relational constraints, or equal-valued limits on different subjects.",
+    "Conservatively disposition the unsupported V1 migration bridge under the retained legacy amendment without inventing unavailable preimages.",
+    "Connect the sole public entrypoint and bind independently accepted A-J evidence before generating any closure or carrier."
+  ],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}
