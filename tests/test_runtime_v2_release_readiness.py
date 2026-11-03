@@ -1005,15 +1005,15 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         manifest = json.loads(manifest_bytes)
         self.assertEqual(
             manifest["discovery_manifest_sha256"],
-            "421ca596d17a0ffe6caaea6a0521fa80fb48a1f93c24902331de76b01e7458ce",
+            "cf50f95495e52a2171e895e40be1dd6b8cb9877a6a8a03aafb06ef2e5467dd42",
         )
         self.assertEqual(
             hashlib.sha256(manifest_bytes).hexdigest(),
-            "3a248d063616df43373fe0c511c00d586750d8693865485db51da0c253007349",
+            "639ed7839ed7d8086ff21acb53ec41950f5ee35812fb97cee503d138fa6ce929",
         )
         self.assertEqual(
             hashlib.sha256((ROOT / RESOURCE_DISCOVERY_SCHEMA[1]).read_bytes()).hexdigest(),
-            "36140dd0b740d281526c85a1c0375197f26d35e4c0d7d456bf2cd43e8ab0bd3b",
+            "07032fb401b40546ca77e7828c26652c3b9daade077283cf520dbbaf5b240a42",
         )
 
     def test_v5_evidence_rejects_attacker_refreshed_composite_census(self):
@@ -1860,15 +1860,15 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(claimed, expected)
         self.assertEqual(
             claimed,
-            "a8df96d33bcaba0c0de50d2cb3d6eaaa13d8ba02d7e3afe89610a9a166d8b3d6",
+            "7c9b02db527a7ec0b87d932e1fa3957d4d75e7f41b41d23af9ab5d1515f6beaa",
         )
         self.assertEqual(
             hashlib.sha256((ROOT / RESOURCE_CLASSIFICATION_SCHEMA[1]).read_bytes()).hexdigest(),
-            "63bd497ec8c86e1e1c2d0e91712188793a3ab184c9b95a6ffca72825e2928ec8",
+            "4dc2df18649076c37284200259bae9900018ebe03eae634a753f1c18e7ed5b28",
         )
         self.assertEqual(
             hashlib.sha256((ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_bytes()).hexdigest(),
-            "5ae702ea89351e9e89b0954bbd31e3e5b1b79376ec59f545c5a6b23be864b0ef",
+            "d4c89f461a1cc0f17f18af331529b6f8becd05b219e499586695f6bdaf0394c2",
         )
         self.assertEqual(manifest["coverage_status"], "INCOMPLETE")
         self.assertEqual(manifest["generation_disposition"], "DENY")

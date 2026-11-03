@@ -5,7 +5,7 @@
   "discovery_profile_id": "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V5",
   "coverage_status": "INCOMPLETE",
   "generation_disposition": "DENY",
-  "classification_schema_raw_sha256": "63bd497ec8c86e1e1c2d0e91712188793a3ab184c9b95a6ffca72825e2928ec8",
+  "classification_schema_raw_sha256": "4dc2df18649076c37284200259bae9900018ebe03eae634a753f1c18e7ed5b28",
   "predecessor_manifest": {
     "byte_length": 71504,
     "classification_manifest_sha256": "c44eb57db828fb99af908da0945a70952f63ded016b897ee344ea7458ebfe7be",
@@ -1187,6 +1187,5 @@
       ]
     }
   ],
-  "classification_manifest_sha256": "a8df96d33bcaba0c0de50d2cb3d6eaaa13d8ba02d7e3afe89610a9a166d8b3d6"
+  "classification_manifest_sha256": "7c9b02db527a7ec0b87d932e1fa3957d4d75e7f41b41d23af9ab5d1515f6beaa"
 }
-

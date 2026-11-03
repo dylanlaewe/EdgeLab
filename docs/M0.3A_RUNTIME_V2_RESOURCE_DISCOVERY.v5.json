@@ -5,7 +5,7 @@
   "coverage_status": "INCOMPLETE",
   "classification_status": "UNCLASSIFIED",
   "generation_disposition": "DENY",
-  "discovery_schema_raw_sha256": "36140dd0b740d281526c85a1c0375197f26d35e4c0d7d456bf2cd43e8ab0bd3b",
+  "discovery_schema_raw_sha256": "07032fb401b40546ca77e7828c26652c3b9daade077283cf520dbbaf5b240a42",
   "predecessor_discovery": {
     "profile_id": "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V4",
     "source_input_count": 10,
@@ -83,6 +83,5 @@
       "site_id": "0788e261996efdb32e9fdca233db8d5e809fdb533da89d835357ab1f2c9f1fa4"
     }
   ],
-  "discovery_manifest_sha256": "421ca596d17a0ffe6caaea6a0521fa80fb48a1f93c24902331de76b01e7458ce"
+  "discovery_manifest_sha256": "cf50f95495e52a2171e895e40be1dd6b8cb9877a6a8a03aafb06ef2e5467dd42"
 }
-
