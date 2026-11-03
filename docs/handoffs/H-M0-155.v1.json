@@ -1,0 +1,75 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-155",
+  "version": 1,
+  "created_at": "2026-11-03T19:35:41Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Inventory and independently review the smallest complete remaining Discovery V4 positional row-cap slice among reviews and tasks while preserving reviewer identity and independence, assignment and decision authority, decision ancestry, task lifecycle, relational, ordering, content, reducer, transition, execution, and public-verifier separations.",
+  "work_done": "Added Classification V32 as the exact V31 prefix plus one TABLE_REVIEWS_ROWS constraint over the single composite Discovery V4 positional binding at strict-zip index nine; proved inclusive zero/99999/100000/100001 behavior, malformed boundary fall-through, duplicated full-width semantically false review rows remaining non-authorizing, supplied-label independence against the higher blobs cap, guard order, unique-site union accounting, exact predecessor history, and reviews-specific attacker-refreshed census resistance; retained 662 of 718 sites as unclassified with INCOMPLETE/DENY and no runtime or authority change.",
+  "evidence_refs": [
+    "reports/H-M0-155-runtime-v2-reviews-row-cap-classification.v1.md",
+    "reports/audit/A-M0-137.v1.json",
+    "reports/stops/STOP-M0-3A-002.v58.json",
+    "docs/M0.3A_RUNTIME_REVIEWS_TABLE_ROW_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v32.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v32.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_reviews_table_row_bound.py",
+    "tests/test_runtime_v2_release_readiness.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v4.md",
+    "docs/M0.3A_RUNTIME_REVIEWS_TABLE_ROW_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v32.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v32.schema.json",
+    "tests/test_runtime_v2_reviews_table_row_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tools/run_test_tier.py",
+    "reports/H-M0-155-runtime-v2-reviews-row-cap-classification.v1.md",
+    "reports/audit/A-M0-137.v1.json",
+    "reports/stops/STOP-M0-3A-002.v58.json",
+    "docs/handoffs/H-M0-155.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "65 readiness tests and eight dedicated reviews row-cap tests passed normally and under optimized Python after the generic attacker-refreshed census fixture was retargeted to the sole remaining unclassified tasks site.",
+    "629 fast-tier tests passed across 50 isolated modules.",
+    "Normal and optimized readiness outputs were byte-identical with SHA-256 489b4dfff39712d17f8a682175124958a4132c9f892de55bede2aa947a7c27f0; both remained exit 1 BLOCKED/DENY with four blockers and no release artifacts.",
+    "Independent inventory and Skeptic reviews selected reviews; Skeptic required a reviews-specific refreshed-census matrix and accepted the corrected bounded engineering evidence. Neither review grants formal authority.",
+    "524 governed records and published history validated before governance publication; 527 validated after publication.",
+    "18 alpha and observatory tests passed after evidence publication."
+  ],
+  "open_questions": [
+    "Can the final tasks positional row cap be classified without implying task identity, state, lifecycle, scheduling, transition, execution, or authority semantics?",
+    "Which task relational, ordering, content, and public-verifier meanings must remain separate from that positional row ceiling?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v58 remains OPEN.",
+    "Only fifty-six of 718 census sites are semantically classified; 662 remain unclassified with INCOMPLETE coverage.",
+    "Public verification remains deny-only.",
+    "Live remains LOCKED and deployable capital remains USD 0."
+  ],
+  "next_action": "Inventory and independently review the final Discovery V4 tasks positional row-cap slice while preserving task identity, state, lifecycle, scheduling, transition, execution, relational, ordering, content, label, diagnostic, reducer, authority, and public-verifier separations.",
+  "completion_criteria": [
+    "The tasks row cap is bound to its exact V4 composite positional site with inclusive boundary, guard-order, label-independence, diagnostic, accounting, continuation, and hostile-input evidence.",
+    "Task identity, state, lifecycle, scheduling, transition and execution semantics, relational constraints, helper/aggregate/comparator machinery, supplied labels, row content and ordering, reducer semantics, and public-verifier behavior remain separately classified or unclassified as evidence requires.",
+    "RESOURCE_INVENTORY_INCOMPLETE remains unconditional and no closure, carrier, verifier acceptance, STOP clearance, task/reviewer/decision authority, or capital authority is created."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-154.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-154",
+      "version": 1,
+      "sha256": "bd002020a93f2af337477c86e41d83dd026611d1bd9c3b82a669490daa760416"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-137",
+  "version": 1,
+  "occurred_at": "2026-11-03T19:35:41Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_REVIEWS_POSITIONAL_ROW_CAP_CLASSIFIED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-155-runtime-v2-reviews-row-cap-classification.v1.md",
+  "previous_state": "DISCOVERY_V4_718_SITES_FIFTY_FIVE_CLASSIFIED_663_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V4_718_SITES_FIFTY_SIX_CLASSIFIED_662_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 997dc95 preserves the exact Classification V31 prefix and classifies only the composite Discovery V4 positional reviews inclusive 100000-row cap. The same site supplies definition and enforcement evidence and counts once by set union. Reviewer identity and independence, assignment authority, status and decision meaning, ancestry, source-task and attempt existence, uniqueness, ordering, routing, remediation, task lifecycle, reducer, transition, execution, public-verifier, STOP, and capital meanings remain excluded. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": [
+    "reports/H-M0-155-runtime-v2-reviews-row-cap-classification.v1.md",
+    "docs/M0.3A_RUNTIME_REVIEWS_TABLE_ROW_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v32.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v32.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_reviews_table_row_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v58.json"
+  ],
+  "code_ref": "997dc95",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-155",
+  "supersedes": null
+}
