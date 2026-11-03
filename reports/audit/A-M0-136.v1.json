@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-136",
+  "version": 1,
+  "occurred_at": "2026-11-03T18:11:32Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_SNAPSHOTS_POSITIONAL_ROW_CAP_CLASSIFIED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-154-runtime-v2-snapshots-row-cap-classification.v1.md",
+  "previous_state": "DISCOVERY_V4_718_SITES_FIFTY_FOUR_CLASSIFIED_664_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V4_718_SITES_FIFTY_FIVE_CLASSIFIED_663_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit b281d0e preserves the exact Classification V30 prefix and classifies only the composite Discovery V4 positional snapshots inclusive 100000-row cap. The same site supplies definition and enforcement evidence and counts once by set union. Snapshot identity, kind, sequence, ordering, referenced-record existence, cut and digest correctness, prior lineage, timestamps, state reconstruction, review independence, task lifecycle, reducer, transition, execution, public-verifier, STOP, and capital meanings remain excluded. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": [
+    "reports/H-M0-154-runtime-v2-snapshots-row-cap-classification.v1.md",
+    "docs/M0.3A_RUNTIME_SNAPSHOTS_TABLE_ROW_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v31.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v31.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_snapshots_table_row_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v57.json"
+  ],
+  "code_ref": "b281d0e",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-154",
+  "supersedes": null
+}
