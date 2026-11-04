@@ -1,0 +1,80 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-161",
+  "version": 1,
+  "created_at": "2026-11-04T20:34:39Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Independently inventory the 657 remaining unclassified Discovery V7 sites and implement the smallest complete, low-authority semantic slice under bounded Skeptic review.",
+  "work_done": "Independent inventory proposed a three-subject diagnostic family, while the bounded Skeptic selected the smaller dependency-closure integer-token lexical digit ceiling. Classification V38 appends exactly one constraint over the leading-minus slice and nineteen-digit enforcement sites, with exact parser/caller/module evidence and explicit nonclaims. No Discovery V8 or runtime change was required. Exactly three V37 constraints receive byte-pinned evidence-only refreshes caused by successor census assertions; all semantic fields and site sets remain exact and any broader rewrite denies. The 721-site census has 66 classified and 655 unclassified sites with INCOMPLETE/DENY and no authority change.",
+  "evidence_refs": [
+    "reports/H-M0-161-closure-integer-token-digit-bound-v38.v1.md",
+    "reports/audit/A-M0-143.v1.json",
+    "reports/stops/STOP-M0-3A-002.v64.json",
+    "docs/M0.3A_CLOSURE_INTEGER_TOKEN_DIGIT_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v7.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v7.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v38.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v38.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_closure_integer_token_digit_bound.py",
+    "tests/test_runtime_v2_release_readiness.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_CLOSURE_INTEGER_TOKEN_DIGIT_LIMIT.v1.md",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v38.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v38.schema.json",
+    "tests/test_runtime_v2_closure_integer_token_digit_bound.py",
+    "tests/test_runtime_v2_finding_artifact_character_discovery.py",
+    "tests/test_runtime_v2_finding_string_bounds_classification.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_top_level_events_maximum_classification.py",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tools/run_test_tier.py",
+    "reports/H-M0-161-closure-integer-token-digit-bound-v38.v1.md",
+    "reports/audit/A-M0-143.v1.json",
+    "reports/stops/STOP-M0-3A-002.v64.json",
+    "docs/handoffs/H-M0-161.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "The final complete fast tier passed 676 tests across 56 isolated modules in 953.686 seconds.",
+    "The fast tier's full release-readiness module passed 73 tests in 886.878 seconds.",
+    "Dedicated V38 tests passed normally and under optimized Python; related successor-aware tests also passed.",
+    "Normal and optimized readiness outputs were byte-identical with current-tree SHA-256 0903836ee469e18b7e3a9ea70256df6f1921b674ac89ba31a712de4eba14ccf2; both remained exit 1 BLOCKED/DENY with four blockers and no release artifacts.",
+    "Fresh bounded post-implementation Skeptic review returned ACCEPT WITH EVIDENCE CORRECTION and confirmed no semantic or authority expansion.",
+    "542 governed records and published history validated before governance publication; 545 are expected after publication.",
+    "Eighteen alpha and observatory tests are expected to pass after evidence publication."
+  ],
+  "open_questions": [
+    "What is the next smallest complete semantic slice among the 655 remaining unclassified sites?",
+    "Which lexical, field-range, helper, minimum, maximum, exact-cardinality, relational, diagnostic, representation, descriptor, contract, or schema meanings must remain separate for that slice?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v64 remains OPEN.",
+    "Only 66 of 721 census sites are semantically classified; 655 remain unclassified with INCOMPLETE coverage.",
+    "Public verification remains deny-only and disconnected.",
+    "Live remains LOCKED, live_enabled remains false, the kill switch remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Independently inventory the 655 remaining unclassified sites and select the next smallest complete semantic slice. Do not preapprove classification, claim the inventory is nearly complete, or infer authority from Discovery V7 or Classification V38.",
+  "completion_criteria": [
+    "The selected slice follows an independent inventory of the 655 remaining unclassified sites and is the smallest complete semantic unit supported by exact source/schema evidence rather than a preselected target.",
+    "Its definitions, enforcement sites, shared machinery, equations, units, boundary conditions, siblings, equal-valued subjects, and explicit nonclaims are bound bidirectionally without reclassifying unrelated meanings.",
+    "RESOURCE_INVENTORY_INCOMPLETE remains unconditional until all 721 sites are classified, and no closure, carrier, verifier acceptance, STOP clearance, task/reviewer/decision authority, execution authority, or capital authority is created."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-160.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-160",
+      "version": 1,
+      "sha256": "53b9ff9c4960c86570eca40e7a31d3a782dba5733075e543500cee89c39cf6b0"
+    }
+  ]
+}

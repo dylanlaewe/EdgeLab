@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-143",
+  "version": 1,
+  "occurred_at": "2026-11-04T20:34:39Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_CLOSURE_INTEGER_TOKEN_DIGIT_BOUND_V38_DENY_ONLY",
+  "subject_ref": "reports/H-M0-161-closure-integer-token-digit-bound-v38.v1.md",
+  "previous_state": "DISCOVERY_V7_721_SITES_SIXTY_FOUR_CLASSIFIED_657_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V7_721_SITES_SIXTY_SIX_CLASSIFIED_655_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 4182e37 classifies only the dependency-closure integer-token lexical digit ceiling over two exact sites. Classification V38 retains 655 unclassified sites, coverage remains INCOMPLETE, and generation remains DENY.",
+  "evidence_refs": [
+    "reports/H-M0-161-closure-integer-token-digit-bound-v38.v1.md",
+    "docs/M0.3A_CLOSURE_INTEGER_TOKEN_DIGIT_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v7.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v7.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v38.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v38.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_closure_integer_token_digit_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v64.json"
+  ],
+  "code_ref": "4182e37",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-161",
+  "supersedes": null
+}

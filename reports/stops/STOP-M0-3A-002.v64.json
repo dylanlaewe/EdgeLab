@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-002",
+  "version": 64,
+  "issued_at": "2026-11-04T20:34:39Z",
+  "issuer": "00 Director",
+  "reason": "Classification V38 adds only the dependency-closure integer-token lexical digit ceiling, excluding one leading ASCII minus, over two exact sites. It preserves every V37 semantic field and site set with exactly three enumerated, byte-pinned evidence-only refreshes required by successor census assertions. Of 721 census sites, 66 are classified and 655 remain unclassified, so coverage is explicitly incomplete. Exact resource-manifest completion, public-entrypoint integration, conservative V1 bridge disposition, and the independently accepted A-J evidence manifest remain unresolved. Release generation is blocked and no positive local-consistency result is supportable.",
+  "affected_components": [
+    "exact generated verifier closure",
+    "semantic resource-limit classification and coverage proof",
+    "legacy bridge disposition",
+    "complete whole-image acceptance matrix",
+    "public result vocabulary"
+  ],
+  "evidence_refs": [
+    "reports/H-M0-161-closure-integer-token-digit-bound-v38.v1.md",
+    "docs/M0.3A_CLOSURE_INTEGER_TOKEN_DIGIT_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v7.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v7.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v38.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v38.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_closure_integer_token_digit_bound.py",
+    "tests/test_runtime_v2_release_readiness.py"
+  ],
+  "severity": "HIGH",
+  "remediation_required": [
+    "Independently inventory the 655 remaining unclassified sites and select the next smallest complete semantic slice without preapproval, near-completion claims, or inference of authority from the completed lexical digit-bound classification.",
+    "Classify every remaining discovered source/schema site and prove bidirectional coverage of all remaining enforcement mechanisms and descriptor/contract constraints.",
+    "Bind every accepted resource constraint to all definitions, enforcement sites, branch-specific and positional bindings, source-level semantic dependencies, contract equations, units, and boundary evidence without conflating lexical ceilings, integer ranges, minima, maxima, exact values, relational constraints, diagnostics, representation limits, helper components, or equal-valued limits on different subjects.",
+    "Conservatively disposition the unsupported V1 migration bridge under the retained legacy amendment without inventing unavailable preimages.",
+    "Connect the sole public entrypoint and bind independently accepted A-J evidence before generating any closure or carrier."
+  ],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}
