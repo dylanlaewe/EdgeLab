@@ -57,6 +57,7 @@ FAST_MODULES = (
     "tests.test_runtime_v2_tasks_table_row_bound",
     "tests.test_runtime_v2_top_level_event_cardinality_discovery",
     "tests.test_runtime_v2_finding_artifact_character_discovery",
+    "tests.test_runtime_v2_finding_string_bounds_classification",
     "tests.test_runtime_v2_top_level_events_maximum_classification",
     "tests.test_runtime_v2_snapshot",
     "tests.test_runtime_v2_legacy_amendment",

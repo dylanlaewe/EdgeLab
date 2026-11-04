@@ -1,0 +1,82 @@
+{
+  "schema_version": 7,
+  "manifest_id": "urn:edgelab:m0-3a-runtime-v2-resource-discovery:7",
+  "profile_id": "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V7",
+  "coverage_status": "INCOMPLETE",
+  "classification_status": "UNCLASSIFIED",
+  "generation_disposition": "DENY",
+  "discovery_schema_raw_sha256": "54f0b91eafffd5db8e6f2ee7c0091ccdb946c12ef039a753eb7f626c9aa4a8d3",
+  "predecessor_discovery": {
+    "profile_id": "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V6",
+    "source_input_count": 10,
+    "source_inputs_sha256": "b22a453f6b2f5f44281054752bf9bce5e259d6a60ae22fe7b190383292e4ba2a",
+    "source_bound_site_count": 424,
+    "source_bound_sites_sha256": "2a9e13767fb8003e3395d712e369719cb53249f8eeaf6b04091eff256e6cf064",
+    "schema_input_count": 15,
+    "schema_inputs_sha256": "14ccff50a49f337336f01b5a40b845e5011218063d2cdfa68f0b73b1a3c94239",
+    "schema_bound_site_count": 296,
+    "schema_bound_sites_sha256": "00b27a32303836f9d9910663e6bd2f76a7ca6d8c7cd614e5f22346b53cd104de"
+  },
+  "predecessor_manifest": {
+    "byte_length": 4611,
+    "discovery_manifest_sha256": "9df58a944adcb004a4b5eb3add0910f8e356573cff2636d7053d66ff0ab1456b",
+    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v6.json",
+    "raw_sha256": "6830ac8083e46bce74f535423aafba2fc82c40732c7544e71d301e3fe63aa6e5"
+  },
+  "predecessor_schema": {
+    "byte_length": 6469,
+    "path": "schemas/m0-3a-runtime-v2-resource-discovery.v6.schema.json",
+    "raw_sha256": "fa748f5ed12cde22aa0a23e1c4261a27954abb05fc87169c5385838aebfac9e9"
+  },
+  "source_input_count": 10,
+  "source_inputs_sha256": "b22a453f6b2f5f44281054752bf9bce5e259d6a60ae22fe7b190383292e4ba2a",
+  "legacy_source_bound_site_count": 424,
+  "cumulative_derived_binding_site_count": 31,
+  "derived_binding_site_count": 1,
+  "source_bound_site_count": 425,
+  "source_bound_sites_sha256": "5cb9a07b9c564cae30ad3c3043be7ab8adcb7f9c9bece0918ead5bdbf537dcfa",
+  "schema_input_count": 15,
+  "schema_inputs_sha256": "14ccff50a49f337336f01b5a40b845e5011218063d2cdfa68f0b73b1a3c94239",
+  "schema_bound_site_count": 296,
+  "schema_bound_sites_sha256": "00b27a32303836f9d9910663e6bd2f76a7ca6d8c7cd614e5f22346b53cd104de",
+  "discovered_site_count": 721,
+  "derived_binding_site_ids": [
+    "fc21db21b5ee39513518b3732d554f1d231c93841cefebfed39d33846f3355a8"
+  ],
+  "derived_binding_sites": [
+    {
+      "binding": "verification_finding:coordinate",
+      "caller_site_id": "c175d69d2d2d8aeb1553da097a3eb63cf94c9cfa44a2ddcfe65805541824544c",
+      "classification": "UNCLASSIFIED",
+      "comparison_site_id": "00a9f454f52ac495ec96178fb37d0d0c0f588c674afe2556d093d3e64ad7fb3b",
+      "definition_ast_sha256": "3abd7812682ddf40aa0dcdb0e07f0f3ec920e5e58441882567c4254006d1da7b",
+      "definition_site_id": "e72a56bc586b85f62a090240bd85f1eeb78ca6b06413c0abb766ed1e96de82ed",
+      "excluded_semantics": [
+        "VERIFICATION_FINDING_ARTIFACT_CHARACTER_MAXIMUM",
+        "GENERIC_BOUNDED_HELPER_COMPARISON_OR_SLICE",
+        "FINDING_COUNT_MAXIMUM",
+        "DIAGNOSTIC_CORRECTNESS",
+        "PUBLIC_VERIFIER_ACCEPTANCE_OR_AUTHORITY"
+      ],
+      "expression": "len(coordinate) <= 512 else coordinate[:440] + '#sha256=' + sha256(coordinate.encode('utf-8')).hexdigest()",
+      "finding_function_ast_sha256": "663fd397aaff36b7871917a15c97890377e797b42141cb533e1e3b7f6bb9e781",
+      "kind": "BOUND_FINDING_COORDINATE_CHARACTER_MAXIMUM_BINDING",
+      "maximum": 512,
+      "maximum_expression": "MAX_FINDING_COORDINATE_CHARS",
+      "nested_bounded_ast_sha256": "592e2f700af27699e0fe9eade5fd0f357d5bf7949ae370face4a34efd0ab6f9c",
+      "path": "src/edgelab/runtime_v2_verifier.py",
+      "qualname": "<module>._finding",
+      "selection_semantics": "VERIFICATION_FINDING_COORDINATE_CHARACTER_MAXIMUM_ONLY",
+      "semantic_module_ast_sha256": "4cf60eb1416f7cfe080bd68653d748431084e04a17790a4244317834158acdfc",
+      "slice_site_id": "642f873b6a2bf9d504396cdf89289a30df71deba2bd4bfc095f19bf7e70983ac",
+      "subject_binding": "VerificationFinding.coordinate",
+      "unit": "CHARACTERS",
+      "comparison_ast_sha256": "159e23864d588432b924de55a370594d8789e3ddbb8a9768388ec472f0cb6ce4",
+      "suffix_assignment_ast_sha256": "955195bbb5a430a35b8a25506710d4ae29dd97dfb851080af22ddbd3af035f94",
+      "truncating_return_ast_sha256": "6fd09e200f846e9e544f8cbd866d35baf4b58e110aea81a6c2919139f03bdedb",
+      "truncating_slice_ast_sha256": "74117ea7f02d52d57cdd5cfd500f420236efd5451e9c19f9fe00afae164cd152",
+      "site_id": "fc21db21b5ee39513518b3732d554f1d231c93841cefebfed39d33846f3355a8"
+    }
+  ],
+  "discovery_manifest_sha256": "2169d9099446298aa19251790686ece93cc58faab6c3d2c733933c9e711077a3"
+}

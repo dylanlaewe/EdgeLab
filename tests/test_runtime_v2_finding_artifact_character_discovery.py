@@ -38,7 +38,7 @@ class FindingArtifactCharacterDiscoveryTests(unittest.TestCase):
             for item in cls.report["inventory"]["source_closure"]["local_artifacts"]
         }
 
-    def test_v6_adds_one_exact_unclassified_composite(self):
+    def test_v7_preserves_one_exact_artifact_composite(self):
         records = [
             item for item in self.sites
             if item["kind"] == "BOUND_FINDING_ARTIFACT_CHARACTER_MAXIMUM_BINDING"
@@ -57,11 +57,11 @@ class FindingArtifactCharacterDiscoveryTests(unittest.TestCase):
         self.assertEqual(record["caller_site_id"], CALLER_ID)
         self.assertEqual(record["comparison_site_id"], COMPARISON_ID)
         self.assertEqual(record["slice_site_id"], SLICE_ID)
-        self.assertEqual(len(self.sites), 424)
+        self.assertEqual(len(self.sites), 425)
         classification = self.report["inventory"]["resource_inventory_classification"]
-        self.assertEqual(classification["classified_constraint_count"], 31)
-        self.assertEqual(classification["classified_site_count"], 58)
-        self.assertEqual(classification["unclassified_site_count"], 662)
+        self.assertEqual(classification["classified_constraint_count"], 33)
+        self.assertEqual(classification["classified_site_count"], 64)
+        self.assertEqual(classification["unclassified_site_count"], 657)
         self.assertEqual(classification["coverage_status"], "INCOMPLETE")
         self.assertEqual(classification["generation_disposition"], "DENY")
 
