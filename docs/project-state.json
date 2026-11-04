@@ -82,7 +82,8 @@
     "Deterministic isolated fast, domain, and historical test tiers implemented; the complete 484-test historical audit has an exact reviewed non-green outcome fingerprint",
     "Runtime-v2 resource discovery v5 now preserves all 422 Discovery v4 source sites and adds one unclassified host-preflight top-level events maximum composite with exact raw-definition occurrence, captured-subject flow, and reducer/transition/table/byte/verifier-authority exclusions; classification v34 is a census-only rebase preserving all thirty v33 constraints and fifty-seven classified sites, 662 of 719 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked",
     "The cumulative deny-only runtime-v2 semantic resource-classification v35 now byte-binds its v34 predecessor and classifies only the Discovery v5 host-preflight captured-events inclusive 100000-item maximum composite under exact tuple guards, boundary/member/accounting/image-withholding behavior, source semantic pins, refreshed-evidence resistance, and explicit reducer/transition/table/byte/verifier-authority separation; 661 of 719 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked",
-    "Runtime-v2 resource discovery v6 now preserves all 423 Discovery v5 source sites and adds one exact unclassified verifier finding-artifact character-bound composite with the 256-character definition, artifact caller, full-original UTF-8 SHA-256 suffix flow, coordinate/shared-helper exclusions, and adversarial predecessor/census resistance; classification v36 preserves all thirty-one v35 constraint semantics and fifty-eight classified sites with only a successor-aware H158 evidence-test identity refresh, 662 of 720 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked"
+    "Runtime-v2 resource discovery v6 now preserves all 423 Discovery v5 source sites and adds one exact unclassified verifier finding-artifact character-bound composite with the 256-character definition, artifact caller, full-original UTF-8 SHA-256 suffix flow, coordinate/shared-helper exclusions, and adversarial predecessor/census resistance; classification v36 preserves all thirty-one v35 constraint semantics and fifty-eight classified sites with only a successor-aware H158 evidence-test identity refresh, 662 of 720 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked",
+    "Runtime-v2 resource discovery v7 now preserves all 424 Discovery v6 source sites and adds one exact coordinate finding-string composite; classification v37 appends the complete artifact and coordinate finding-string family as two subject-specific constraints covering six disjoint sites while shared helpers and MAX_FINDINGS remain unclassified, 657 of 721 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked"
   ],
   "remaining_m0": [
     "Obtain a genuinely distinct trusted 05 Skeptic review and formal disposition of H-M0-080 under H-M0-086",
@@ -93,18 +94,18 @@
     "Resolve statistical, freshness, paper-capital, exposure, correlation, drawdown, and live-gate thresholds before M0 exit"
   ],
   "blockers": [
-    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002.v62 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
+    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002.v63 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
     "H-M0-086 is BLOCKED because no genuinely distinct trusted 05 Skeptic authority is provisioned",
     "H-M0-041.v23 remains BLOCKED pending formal Skeptic acceptance and separate Director release",
     "The locked authority and historical binding substrates are diagnostic and DENY-only; positive authoritative currentness and authenticated receipt/R-gate integration remain unresolved",
     "M0.3A engineering completion does not constitute formal acceptance or operational authority"
   ],
-  "next_assignment": "Independently inventory the 662 remaining unclassified sites and select the next smallest complete semantic slice; do not preapprove classification, claim the inventory is nearly complete, or infer authority from Discovery V6 or Classification V36",
-  "updated_at": "2026-11-04T02:34:24Z",
+  "next_assignment": "Independently inventory the 657 remaining unclassified sites and select the next smallest complete semantic slice; do not preapprove classification, claim the inventory is nearly complete, or infer authority from Discovery V7 or Classification V37",
+  "updated_at": "2026-11-04T18:53:07Z",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json",
     "reports/stops/STOP-M0-3A-001.v1.json",
-    "reports/stops/STOP-M0-3A-002.v62.json"
+    "reports/stops/STOP-M0-3A-002.v63.json"
   ],
   "review_ref": "reports/reviews/M0.2-M0.3-final-evidence-plan-rereview.v1.md",
   "open_findings": [

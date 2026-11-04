@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-142",
+  "version": 1,
+  "occurred_at": "2026-11-04T18:53:07Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_FINDING_STRING_BOUNDS_CLASSIFICATION_V37_DENY_ONLY",
+  "subject_ref": "reports/H-M0-160-runtime-v2-finding-string-bounds-v37.v1.md",
+  "previous_state": "DISCOVERY_V6_720_SITES_FIFTY_EIGHT_CLASSIFIED_662_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V7_721_SITES_SIXTY_FOUR_CLASSIFIED_657_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 76a4b67 adds one exact coordinate finding-string composite and classifies the complete artifact/coordinate subject family as two constraints. Classification V37 retains 657 unclassified sites, coverage remains INCOMPLETE, and generation remains DENY.",
+  "evidence_refs": [
+    "reports/H-M0-160-runtime-v2-finding-string-bounds-v37.v1.md",
+    "docs/M0.3A_RUNTIME_V2_FINDING_STRING_BOUNDS.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v7.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v7.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v7.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v37.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v37.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_finding_string_bounds_classification.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v63.json"
+  ],
+  "code_ref": "76a4b67",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-160",
+  "supersedes": null
+}
