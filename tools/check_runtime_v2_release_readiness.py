@@ -171,15 +171,15 @@ CLOSURE_SCHEMA = (
     "schemas/m0-3a-verifier-dependency-closure.v1.schema.json",
 )
 RESOURCE_CLASSIFICATION_SCHEMA = (
-    "urn:edgelab:m0-3a-runtime-v2-resource-classification:38",
-    "schemas/m0-3a-runtime-v2-resource-classification.v38.schema.json",
+    "urn:edgelab:m0-3a-runtime-v2-resource-classification:39",
+    "schemas/m0-3a-runtime-v2-resource-classification.v39.schema.json",
 )
 RESOURCE_CLASSIFICATION_MANIFEST = (
-    "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V38",
-    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v38.json",
+    "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V39",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v39.json",
 )
 RESOURCE_CLASSIFICATION_DOMAIN = (
-    "EDGELAB\0RUNTIME_V2_RESOURCE_CLASSIFICATION\0V38\0"
+    "EDGELAB\0RUNTIME_V2_RESOURCE_CLASSIFICATION\0V39\0"
 )
 RESOURCE_SOURCE_INPUT_DOMAIN = (
     "EDGELAB\0RUNTIME_V2_RESOURCE_SOURCE_INPUTS\0V1\0"
@@ -284,22 +284,35 @@ RESOURCE_SOURCE_BOUND_SITES_V7_SHA256 = (
     "5cb9a07b9c564cae30ad3c3043be7ab8adcb7f9c9bece0918ead5bdbf537dcfa"
 )
 RESOURCE_CLASSIFICATION_SCHEMA_RAW_SHA256 = (
-    "8877f740ffa9d71c3786dec01568d31f3104ab356da4aea6a541806bdc84989d"
+    "c0a7561ce33a645004222cd4a1b3ca8a1b49d9e019ec904726ec894d64cc540b"
 )
 RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST = {
-    "byte_length": 78621,
+    "byte_length": 80831,
     "classification_manifest_sha256": (
-        "8ad95589877784102f1bbba069ce1f73f5c59cdfe3f6787df9fb8af48cabc925"
+        "868b3408ba5b1839535dfdc87f0d6f38586f613fd918f68724f1ae4923cfbe2d"
     ),
-    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v37.json",
-    "raw_sha256": "24c17420c7457ebb795019a262ba05d52b7480bde77ce6c614e40b6cfa63be36",
+    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v38.json",
+    "raw_sha256": "29b54d7658ba6fd61607f097c0a344106ff10a249136570566e848f1f3683eda",
 }
 RESOURCE_CLASSIFICATION_PREDECESSOR_SCHEMA = {
-    "byte_length": 85021,
-    "path": "schemas/m0-3a-runtime-v2-resource-classification.v37.schema.json",
-    "raw_sha256": "50765d73330832ff4dbbfa9dcb6dc18914829570999b060bfbeafdbcf5ea58e6",
+    "byte_length": 87379,
+    "path": "schemas/m0-3a-runtime-v2-resource-classification.v38.schema.json",
+    "raw_sha256": "8877f740ffa9d71c3786dec01568d31f3104ab356da4aea6a541806bdc84989d",
 }
 RESOURCE_CLASSIFICATION_ANCESTORS = (
+    {
+        "byte_length": 78621,
+        "classification_manifest_sha256": (
+            "8ad95589877784102f1bbba069ce1f73f5c59cdfe3f6787df9fb8af48cabc925"
+        ),
+        "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v37.json",
+        "raw_sha256": "24c17420c7457ebb795019a262ba05d52b7480bde77ce6c614e40b6cfa63be36",
+    },
+    {
+        "byte_length": 85021,
+        "path": "schemas/m0-3a-runtime-v2-resource-classification.v37.schema.json",
+        "raw_sha256": "50765d73330832ff4dbbfa9dcb6dc18914829570999b060bfbeafdbcf5ea58e6",
+    },
     {
         "byte_length": 73637,
         "classification_manifest_sha256": (
@@ -1227,7 +1240,7 @@ TOP_LEVEL_EVENTS_MAXIMUM_RESOURCE_EVIDENCE = (
         "byte_length": 10354,
         "path": "tests/test_runtime_v2_top_level_events_maximum_classification.py",
         "raw_sha256": (
-            "a786bd0ded25d2d1f95bd6c6d449a6652f56a9b0615f4e1749f5fa800f5c3dde"
+            "6095a6d735d3e7964db29b39250a212af3949c4e5dd5019b59d2e8f507ff58c6"
         ),
     },
 )
@@ -1243,7 +1256,7 @@ FINDING_STRING_BOUNDS_RESOURCE_EVIDENCE = (
         "byte_length": 10906,
         "path": "tests/test_runtime_v2_finding_string_bounds_classification.py",
         "raw_sha256": (
-            "537c098077271a94393a5e201ef0d2395a988a2c2cc4775c24dc8c1a51006182"
+            "44abab97bd1399a9bd9a2b1b344396558cdfec88c8348ec6647c8ce28d628729"
         ),
     },
 )
@@ -1256,14 +1269,30 @@ CLOSURE_INTEGER_TOKEN_DIGIT_RESOURCE_EVIDENCE = (
         ),
     },
     {
-        "byte_length": 8285,
+        "byte_length": 8274,
         "path": "tests/test_runtime_v2_closure_integer_token_digit_bound.py",
         "raw_sha256": (
-            "f2e54ef9afaa755aebfd240471c8827e63b85407f725bc1b596f7da7263fa32a"
+            "f9df14ae7ef5b0511b735ea2ec64f8d3fbbaa22388781c9efe78e9ce3b8fd1c7"
         ),
     },
 )
-RESOURCE_CLASSIFICATION_V37_REBASED_EVIDENCE = {
+SCHEMA_REF_TOKEN_CHARACTER_RESOURCE_EVIDENCE = (
+    {
+        "byte_length": 2104,
+        "path": "docs/M0.3A_VERIFIER_SCHEMA_REF_TOKEN_CHARACTER_LIMIT.v1.md",
+        "raw_sha256": (
+            "88092c4ed12cd10cb09f8ae64116265b6651c5249cbb210f594f97538a7d8047"
+        ),
+    },
+    {
+        "byte_length": 8459,
+        "path": "tests/test_runtime_v2_schema_ref_token_character_bound.py",
+        "raw_sha256": (
+            "56382fad2db16c83e28fa4769336b18c48b61a4ad849139add902018898416c5"
+        ),
+    },
+)
+RESOURCE_CLASSIFICATION_V38_REBASED_EVIDENCE = {
     "HOST_PREFLIGHT_TOP_LEVEL_EVENTS_MAXIMUM": (
         {
             "byte_length": 3156,
@@ -1278,7 +1307,7 @@ RESOURCE_CLASSIFICATION_V37_REBASED_EVIDENCE = {
                 "tests/test_runtime_v2_top_level_events_maximum_classification.py"
             ),
             "raw_sha256": (
-                "373394e39f3f689f086559f44f943711689f907a3fd1fcb681479eded4472d63"
+                "a786bd0ded25d2d1f95bd6c6d449a6652f56a9b0615f4e1749f5fa800f5c3dde"
             ),
         },
     ),
@@ -1291,12 +1320,12 @@ RESOURCE_CLASSIFICATION_V37_REBASED_EVIDENCE = {
             ),
         },
         {
-            "byte_length": 10816,
+            "byte_length": 10906,
             "path": (
                 "tests/test_runtime_v2_finding_string_bounds_classification.py"
             ),
             "raw_sha256": (
-                "e6bae8a5f2105e2ee1e2a391ca60aa4aa573829dbdadd6b0ee9988818a251676"
+                "537c098077271a94393a5e201ef0d2395a988a2c2cc4775c24dc8c1a51006182"
             ),
         },
     ),
@@ -1309,12 +1338,28 @@ RESOURCE_CLASSIFICATION_V37_REBASED_EVIDENCE = {
             ),
         },
         {
-            "byte_length": 10816,
+            "byte_length": 10906,
             "path": (
                 "tests/test_runtime_v2_finding_string_bounds_classification.py"
             ),
             "raw_sha256": (
-                "e6bae8a5f2105e2ee1e2a391ca60aa4aa573829dbdadd6b0ee9988818a251676"
+                "537c098077271a94393a5e201ef0d2395a988a2c2cc4775c24dc8c1a51006182"
+            ),
+        },
+    ),
+    "CLOSURE_INTEGER_TOKEN_MAX_DIGITS": (
+        {
+            "byte_length": 2041,
+            "path": "docs/M0.3A_CLOSURE_INTEGER_TOKEN_DIGIT_LIMIT.v1.md",
+            "raw_sha256": (
+                "bc3f08c5d8b3ea8d3366cda46fb02ba7c8920dc183845116b9973dacbc753ac1"
+            ),
+        },
+        {
+            "byte_length": 8285,
+            "path": "tests/test_runtime_v2_closure_integer_token_digit_bound.py",
+            "raw_sha256": (
+                "f2e54ef9afaa755aebfd240471c8827e63b85407f725bc1b596f7da7263fa32a"
             ),
         },
     ),
@@ -1359,8 +1404,11 @@ RESOURCE_CLASSIFICATION_EVIDENCE = (
     *TOP_LEVEL_EVENTS_MAXIMUM_RESOURCE_EVIDENCE,
     *FINDING_STRING_BOUNDS_RESOURCE_EVIDENCE,
     *CLOSURE_INTEGER_TOKEN_DIGIT_RESOURCE_EVIDENCE,
+    *SCHEMA_REF_TOKEN_CHARACTER_RESOURCE_EVIDENCE,
 )
 CLASSIFIED_RESOURCE_SITE_IDS = frozenset({
+    "6e95fce4ad2ed77d84d5bfaad79566cb4276adc28054fb8bde30b0bbb5c911c5",
+    "66956e9e92ceed3f5128e1dc746a920e18ce5b51eafd243c43d0500fb9917474",
     "7b99b5408a023f557be70736b52ecf6a8de4d8594b0da6318cacb3c9680cf5fc",
     "90292d8f8df61b2ee109adf7df0d0d4e44c2cdf5a6f70c887e7e5228d4cb8657",
     "faf8073483e0d412600c34a0a24d10145d8c6e42875abd04d14b95e943fd3d7f",
@@ -4184,7 +4232,7 @@ def _resource_classification_inventory(
     if set(manifest) != expected_keys:
         raise ReadinessError("RESOURCE_CLASSIFICATION_KEYS", manifest_path)
     scalar_expected = {
-        "schema_version": 38,
+        "schema_version": 39,
         "manifest_id": schema_id,
         "profile_id": profile_id,
         "discovery_profile_id": resource_discovery["profile_id"],
@@ -4212,11 +4260,11 @@ def _resource_classification_inventory(
             "schema_bound_sites_sha256"
         ],
         "schema_inputs_sha256": resource_discovery["schema_inputs_sha256"],
-        "classified_site_count": 66,
+        "classified_site_count": 68,
         "unclassified_site_count": (
             len(resource_discovery["source_bound_sites"])
             + len(resource_discovery["schema_bound_sites"])
-            - 66
+            - 68
         ),
     }
     for key, expected in scalar_expected.items():
@@ -4224,7 +4272,7 @@ def _resource_classification_inventory(
             raise ReadinessError("RESOURCE_CLASSIFICATION_BINDING", key)
 
     constraints = manifest.get("constraints")
-    if type(constraints) is not list or len(constraints) != 34:
+    if type(constraints) is not list or len(constraints) != 35:
         raise ReadinessError("RESOURCE_CLASSIFICATION_CONSTRAINTS", manifest_path)
     single_binding_constraint_keys = {
         "accepted_equation", "classification", "constraint_id",
@@ -6142,6 +6190,84 @@ def _resource_classification_inventory(
         ),
         "unit": "CHARACTERS",
     })
+    expected_constraints.append({
+        "accepted_equation": (
+            "if type(child) is str and child starts with '#/$defs/', token = "
+            "child[8:]; within the existing compound schema-reference profile "
+            "condition len(token) <= 64 is accepted and len(token) > 64 adds "
+            "SCHEMA_REF_OUTSIDE_PROFILE at child_path"
+        ),
+        "classification": "RESOURCE_MAXIMUM",
+        "constraint_id": "VERIFIER_SCHEMA_REF_TOKEN_CHARACTER_MAXIMUM",
+        "definition_site_ids": [
+            "6e95fce4ad2ed77d84d5bfaad79566cb4276adc28054fb8bde30b0bbb5c911c5"
+        ],
+        "enforcement_site_ids": [
+            "66956e9e92ceed3f5128e1dc746a920e18ce5b51eafd243c43d0500fb9917474"
+        ],
+        "evidence_inputs": [
+            dict(item) for item in SCHEMA_REF_TOKEN_CHARACTER_RESOURCE_EVIDENCE
+        ],
+        "maximum": 64,
+        "semantic_function_ast_sha256": (
+            "e445bd1a06dfbee91a6ed8146a6524874a84dbcc0439b06e3667d31a8e49f60d"
+        ),
+        "semantic_module_ast_sha256": (
+            "4cf60eb1416f7cfe080bd68653d748431084e04a17790a4244317834158acdfc"
+        ),
+        "semantic_proof": {
+            "compound_condition_ast_sha256": (
+                "7608b9ceacbfcfdf61a12da0139e30d3fffff6edee52c4fbce53755987dcc033"
+            ),
+            "diagnostic_call_ast_sha256": (
+                "0df06f8d4f4d223d4da9df2c422b8e017ce1b3b2ca5bf2208ec318ad81c71a92"
+            ),
+            "enforcement_order": (
+                "EXACT_STRING_TYPE_AND_LOCAL_DEFS_PREFIX_GATES_THEN_EIGHT_"
+                "CHARACTER_SLICE_THEN_COMPOUND_PROFILE_CONDITION_WITH_STRICT_"
+                "GREATER_THAN_SIXTY_FOUR_CHECK_BEFORE_DIAGNOSTIC_OR_TARGET_LOOKUP"
+            ),
+            "function_coordinate": (
+                "src/edgelab/runtime_v2_verifier.py:_schema_safety_findings"
+            ),
+            "input_binding": (
+                "EXACT_CHILD_VALUE_OF_A_JSON_SCHEMA_REF_KEY_DURING_BUDGET_"
+                "GUARDED_RECURSIVE_WALK"
+            ),
+            "nested_walk_coordinate": (
+                "src/edgelab/runtime_v2_verifier.py:"
+                "_schema_safety_findings.walk"
+            ),
+            "prefix_constant_ast_sha256": (
+                "cc5d3196889a6a14f40a5802b25e1bccad4db0726ef81f864b356114bb63a56c"
+            ),
+            "rejection_action": (
+                "ADD_SCHEMA_REF_OUTSIDE_PROFILE_AT_EXACT_CHILD_PATH_SUBJECT_"
+                "TO_EXISTING_DIAGNOSTIC_BUDGET"
+            ),
+            "selection_semantics": (
+                "LOCAL_DEFS_REFERENCE_TOKEN_CHARACTER_MAXIMUM_ONLY_NOT_"
+                "DEFINITION_NAME_TARGET_EXISTENCE_GRAPH_OR_GENERIC_STRING_LIMIT"
+            ),
+            "startswith_call_ast_sha256": (
+                "f217f12d2c49fca730036d93eb9cdc63e985b98b021a62306207355c38d465b8"
+            ),
+            "token_assignment_ast_sha256": (
+                "dadccb0d8acde30915a33a88f67fcef3f04b7fc9139746aa2d0b5147d0a6f62d"
+            ),
+            "type_gate_ast_sha256": (
+                "252b73ee6debf88306997d684c5b22f599bdd9ce812f571f1e26171d950d9c9a"
+            ),
+            "walk_function_ast_sha256": (
+                "d4e1299dcda1803cce4265a600cb5f9e1fd102d7dfa6c826c0b4701a7255548d"
+            ),
+        },
+        "semantic_subject": (
+            "LOCAL_JSON_SCHEMA_DEFS_REFERENCE_TOKEN_PYTHON_STRING_CHARACTER_"
+            "COUNT_AFTER_EXACT_PREFIX_REMOVAL"
+        ),
+        "unit": "CHARACTERS",
+    })
     if constraints != expected_constraints:
         raise ReadinessError("RESOURCE_CLASSIFICATION_CONSTRAINT", manifest_path)
     predecessor_value = manifest_values.get(
@@ -6156,7 +6282,7 @@ def _resource_classification_inventory(
         predecessor_value is not None
         and type(predecessor_constraints) is list
         and len(predecessor_constraints) == len(constraints) - 1
-        and predecessor_value.get("classified_site_count") == 64
+        and predecessor_value.get("classified_site_count") == 66
     )
     if predecessor_prefix_valid:
         for historical, successor in zip(
@@ -6175,10 +6301,10 @@ def _resource_classification_inventory(
             if historical_semantics != successor_semantics:
                 predecessor_prefix_valid = False
                 break
-            if constraint_id in RESOURCE_CLASSIFICATION_V37_REBASED_EVIDENCE:
+            if constraint_id in RESOURCE_CLASSIFICATION_V38_REBASED_EVIDENCE:
                 if historical_evidence != [
                     dict(item)
-                    for item in RESOURCE_CLASSIFICATION_V37_REBASED_EVIDENCE[
+                    for item in RESOURCE_CLASSIFICATION_V38_REBASED_EVIDENCE[
                         constraint_id
                     ]
                 ]:
@@ -7677,6 +7803,18 @@ def _resource_classification_inventory(
             "occurrence": 1, "path": "src/edgelab/runtime_v2_closure.py",
             "qualname": "<module>._parse_integer_token",
         },
+        "6e95fce4ad2ed77d84d5bfaad79566cb4276adc28054fb8bde30b0bbb5c911c5": {
+            "ast_sha256": "9ab1899fa2101a4b7074105f5ac87af558a78e1760ef2872d1dcc375052e7164",
+            "expression": "child[8:]", "kind": "NUMERIC_SLICE",
+            "occurrence": 1, "path": "src/edgelab/runtime_v2_verifier.py",
+            "qualname": "<module>._schema_safety_findings.walk",
+        },
+        "66956e9e92ceed3f5128e1dc746a920e18ce5b51eafd243c43d0500fb9917474": {
+            "ast_sha256": "41bdf044e5490f0b5d7a2e86320284ecb87b687dfdbeaf1751f15b408115ea99",
+            "expression": "len(token) > 64", "kind": "BOUND_COMPARISON",
+            "occurrence": 1, "path": "src/edgelab/runtime_v2_verifier.py",
+            "qualname": "<module>._schema_safety_findings.walk",
+        },
     }
     for site_id, expected in site_shapes.items():
         record = sites.get(site_id)
@@ -7723,6 +7861,88 @@ def _resource_classification_inventory(
             raise ReadinessError(
                 "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
                 "src/edgelab/runtime_v2_closure.py",
+            )
+
+    verifier_path = "src/edgelab/runtime_v2_verifier.py"
+    verifier_tree = ast.parse(source_bytes[verifier_path], filename=verifier_path)
+    verifier_functions = [
+        node for node in verifier_tree.body
+        if isinstance(node, ast.FunctionDef)
+        and node.name == "_schema_safety_findings"
+    ]
+    if len(verifier_functions) != 1:
+        raise ReadinessError("RESOURCE_CLASSIFICATION_FUNCTION", verifier_path)
+    schema_safety_function = verifier_functions[0]
+    walk_functions = [
+        node for node in ast.walk(schema_safety_function)
+        if isinstance(node, ast.FunctionDef) and node.name == "walk"
+    ]
+    if len(walk_functions) != 1:
+        raise ReadinessError("RESOURCE_CLASSIFICATION_FUNCTION", verifier_path)
+    verifier_node_profiles = (
+        (walk_functions[0], "d4e1299dcda1803cce4265a600cb5f9e1fd102d7dfa6c826c0b4701a7255548d"),
+        (
+            next(
+                (node for node in ast.walk(walk_functions[0])
+                 if isinstance(node, ast.Assign)
+                 and getattr(node, "lineno", None) == 214),
+                None,
+            ),
+            "dadccb0d8acde30915a33a88f67fcef3f04b7fc9139746aa2d0b5147d0a6f62d",
+        ),
+        (
+            next(
+                (node for node in ast.walk(walk_functions[0])
+                 if isinstance(node, ast.Compare)
+                 and getattr(node, "lineno", None) == 214),
+                None,
+            ),
+            "252b73ee6debf88306997d684c5b22f599bdd9ce812f571f1e26171d950d9c9a",
+        ),
+        (
+            next(
+                (node for node in ast.walk(walk_functions[0])
+                 if isinstance(node, ast.Call)
+                 and getattr(node, "lineno", None) == 214
+                 and getattr(node, "col_offset", None) == 64),
+                None,
+            ),
+            "f217f12d2c49fca730036d93eb9cdc63e985b98b021a62306207355c38d465b8",
+        ),
+        (
+            next(
+                (node for node in ast.walk(walk_functions[0])
+                 if isinstance(node, ast.Constant)
+                 and node.value == "#/$defs/"),
+                None,
+            ),
+            "cc5d3196889a6a14f40a5802b25e1bccad4db0726ef81f864b356114bb63a56c",
+        ),
+        (
+            next(
+                (node for node in ast.walk(walk_functions[0])
+                 if isinstance(node, ast.BoolOp)
+                 and getattr(node, "lineno", None) == 216),
+                None,
+            ),
+            "7608b9ceacbfcfdf61a12da0139e30d3fffff6edee52c4fbce53755987dcc033",
+        ),
+        (
+            next(
+                (node for node in ast.walk(walk_functions[0])
+                 if isinstance(node, ast.Call)
+                 and getattr(node, "lineno", None) == 221),
+                None,
+            ),
+            "0df06f8d4f4d223d4da9df2c422b8e017ce1b3b2ca5bf2208ec318ad81c71a92",
+        ),
+    )
+    for node, expected_digest in verifier_node_profiles:
+        if node is None or _sha256(ast.dump(
+            node, annotate_fields=True, include_attributes=False
+        ).encode("utf-8")) != expected_digest:
+            raise ReadinessError(
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE", verifier_path
             )
 
     ast_profiles = (
@@ -7985,8 +8205,8 @@ def _resource_classification_inventory(
         raise ReadinessError("RESOURCE_CLASSIFICATION_SELF_DIGEST", manifest_path)
 
     return {
-        "classified_constraint_count": 34,
-        "classified_site_count": 66,
+        "classified_constraint_count": 35,
+        "classified_site_count": 68,
         "classification_manifest_sha256": claimed_digest,
         "coverage_status": "INCOMPLETE",
         "evidence_inputs": [
