@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-139",
+  "version": 1,
+  "occurred_at": "2026-11-03T23:56:54Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_TOP_LEVEL_EVENTS_DISCOVERY_V5_REBASED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-157-runtime-v2-top-level-events-discovery-v5.v1.md",
+  "previous_state": "DISCOVERY_V4_718_SITES_FIFTY_SEVEN_CLASSIFIED_661_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V5_719_SITES_FIFTY_SEVEN_CLASSIFIED_662_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commits ff562ae and c48c9ec add one UNCLASSIFIED host-preflight top-level events maximum composite and rebase Classification V34 without changing its exact thirty-constraint V33 prefix or fifty-seven classified sites. The new composite separates captured events cardinality from the initial reducer, transition collections, positional events table, event bytes, verifier, execution, and authority meanings. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": [
+    "reports/H-M0-157-runtime-v2-top-level-events-discovery-v5.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v5.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v5.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v5.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v34.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v34.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_top_level_event_cardinality_discovery.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v60.json"
+  ],
+  "code_ref": "c48c9ec",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-157",
+  "supersedes": null
+}

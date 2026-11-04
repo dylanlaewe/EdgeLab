@@ -1,0 +1,78 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-157",
+  "version": 1,
+  "created_at": "2026-11-03T23:56:54Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Independently inventory the 661 remaining unclassified sites and select the smallest safe next semantic unit without preselection, conflating equal-valued meanings, or implying near completion.",
+  "work_done": "Independent inventory proposed a direct diagnostic-bound classification, but Skeptic rejected direct V34 classification and required Discovery V5 first. Added one UNCLASSIFIED BOUND_TOP_LEVEL_CARDINALITY_MAXIMUM_BINDING for host-preflight captured events <=100000, with exact raw-definition occurrence, V3 branch, tuple/comparison/diagnostic/accounting/continuation/member/sanitized-image flow, function/module identity, and explicit reducer/transition/table/byte/verifier-authority exclusions. Rebased Classification V34 census-only as the exact V33 thirty-constraint/fifty-seven-site prefix. Strengthened attacker-refresh evidence after Skeptic found a permissive identity fallback, then normalized generated artifacts and repinned their immutable identities. The resulting 719-site census retains 662 unclassified sites with INCOMPLETE/DENY and no runtime or authority change.",
+  "evidence_refs": [
+    "reports/H-M0-157-runtime-v2-top-level-events-discovery-v5.v1.md",
+    "reports/audit/A-M0-139.v1.json",
+    "reports/stops/STOP-M0-3A-002.v60.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v5.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v5.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v5.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v34.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v34.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_top_level_event_cardinality_discovery.py",
+    "tests/test_runtime_v2_release_readiness.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v5.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v5.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v5.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v34.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v34.schema.json",
+    "tests/test_runtime_v2_top_level_event_cardinality_discovery.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tools/run_test_tier.py",
+    "reports/H-M0-157-runtime-v2-top-level-events-discovery-v5.v1.md",
+    "reports/audit/A-M0-139.v1.json",
+    "reports/stops/STOP-M0-3A-002.v60.json",
+    "docs/handoffs/H-M0-157.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "Seventy-five focused discovery/readiness tests passed normally and under optimized Python after the Skeptic-required attacker-refresh repair and exact raw-definition occurrence pin.",
+    "The final complete fast tier passed 647 tests across 52 isolated modules on the normalized artifacts.",
+    "Normal and optimized readiness outputs were byte-identical with SHA-256 0f0dcddd9c53ebf5c26fa8aad935ade0c0d1a4584a243f7ee2d0d65d2534562e; both remained exit 1 BLOCKED/DENY with four blockers and no release artifacts.",
+    "Independent Skeptic review returned ACCEPT after forged V5-composite evidence and exact historical attacker-refresh rejection were added. That review grants no formal project, release, execution, STOP-clearance, or capital authority.",
+    "530 governed records and published history validated before governance publication; 533 are expected after publication.",
+    "Eighteen alpha and observatory tests are expected to pass after evidence publication."
+  ],
+  "open_questions": [
+    "What is the next smallest complete unclassified semantic slice supported by the expanded V5 census?",
+    "Which minimum, maximum, exact-cardinality, relational, diagnostic, representation, helper, descriptor, contract, or schema meanings must remain separate for that independently selected slice?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v60 remains OPEN.",
+    "Only fifty-seven of 719 census sites are semantically classified; 662 remain unclassified with INCOMPLETE coverage.",
+    "Public verification remains deny-only and disconnected.",
+    "Live remains LOCKED, live_enabled remains false, the kill switch remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Independently inventory and select the next smallest complete unclassified semantic slice using Discovery V5 separation evidence. Do not preapprove classification, claim the inventory is nearly complete, or infer authority from the new composite.",
+  "completion_criteria": [
+    "The selected slice follows an independent inventory of the 662 remaining unclassified sites and is the smallest complete semantic unit supported by exact source/schema evidence rather than a preselected target.",
+    "Its definitions, enforcement sites, shared machinery, equations, units, boundary conditions, siblings, equal-valued subjects, and explicit nonclaims are bound bidirectionally without reclassifying unrelated meanings.",
+    "RESOURCE_INVENTORY_INCOMPLETE remains unconditional until all 719 sites are classified, and no closure, carrier, verifier acceptance, STOP clearance, task/reviewer/decision authority, execution authority, or capital authority is created."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-156.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-156",
+      "version": 1,
+      "sha256": "e9bf0c33c3b65c5e9962cd030a56492c4e0a2cc3b1a10904853c8ce544ca9fbe"
+    }
+  ]
+}
