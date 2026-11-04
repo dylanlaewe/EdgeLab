@@ -171,15 +171,15 @@ CLOSURE_SCHEMA = (
     "schemas/m0-3a-verifier-dependency-closure.v1.schema.json",
 )
 RESOURCE_CLASSIFICATION_SCHEMA = (
-    "urn:edgelab:m0-3a-runtime-v2-resource-classification:34",
-    "schemas/m0-3a-runtime-v2-resource-classification.v34.schema.json",
+    "urn:edgelab:m0-3a-runtime-v2-resource-classification:35",
+    "schemas/m0-3a-runtime-v2-resource-classification.v35.schema.json",
 )
 RESOURCE_CLASSIFICATION_MANIFEST = (
-    "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V34",
-    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v34.json",
+    "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V35",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v35.json",
 )
 RESOURCE_CLASSIFICATION_DOMAIN = (
-    "EDGELAB\0RUNTIME_V2_RESOURCE_CLASSIFICATION\0V34\0"
+    "EDGELAB\0RUNTIME_V2_RESOURCE_CLASSIFICATION\0V35\0"
 )
 RESOURCE_SOURCE_INPUT_DOMAIN = (
     "EDGELAB\0RUNTIME_V2_RESOURCE_SOURCE_INPUTS\0V1\0"
@@ -251,22 +251,35 @@ RESOURCE_SOURCE_BOUND_SITES_V5_SHA256 = (
     "62217a83c01eb5151c51777181f44c8b87b39a9c51fe68d8fe7ab423587fd7bf"
 )
 RESOURCE_CLASSIFICATION_SCHEMA_RAW_SHA256 = (
-    "4dc2df18649076c37284200259bae9900018ebe03eae634a753f1c18e7ed5b28"
+    "169a22f38512f75b3f62a62f63ae841692dd499c15731c009d6c0d1bcc8d507b"
 )
 RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST = {
     "byte_length": 71504,
     "classification_manifest_sha256": (
-        "c44eb57db828fb99af908da0945a70952f63ded016b897ee344ea7458ebfe7be"
+        "7c9b02db527a7ec0b87d932e1fa3957d4d75e7f41b41d23af9ab5d1515f6beaa"
     ),
-    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v33.json",
-    "raw_sha256": "64c07727fa802d875d8c189630b5a0538aa423e395e33f5cb8442e4d3648fde7",
+    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v34.json",
+    "raw_sha256": "d4c89f461a1cc0f17f18af331529b6f8becd05b219e499586695f6bdaf0394c2",
 }
 RESOURCE_CLASSIFICATION_PREDECESSOR_SCHEMA = {
-    "byte_length": 77412,
-    "path": "schemas/m0-3a-runtime-v2-resource-classification.v33.schema.json",
-    "raw_sha256": "d5ade9fcb04db8028c5ad5eb0e3df3b45136ffe392630b68b7dafe68e0f260bb",
+    "byte_length": 77415,
+    "path": "schemas/m0-3a-runtime-v2-resource-classification.v34.schema.json",
+    "raw_sha256": "4dc2df18649076c37284200259bae9900018ebe03eae634a753f1c18e7ed5b28",
 }
 RESOURCE_CLASSIFICATION_ANCESTORS = (
+    {
+        "byte_length": 71504,
+        "classification_manifest_sha256": (
+            "c44eb57db828fb99af908da0945a70952f63ded016b897ee344ea7458ebfe7be"
+        ),
+        "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v33.json",
+        "raw_sha256": "64c07727fa802d875d8c189630b5a0538aa423e395e33f5cb8442e4d3648fde7",
+    },
+    {
+        "byte_length": 77412,
+        "path": "schemas/m0-3a-runtime-v2-resource-classification.v33.schema.json",
+        "raw_sha256": "d5ade9fcb04db8028c5ad5eb0e3df3b45136ffe392630b68b7dafe68e0f260bb",
+    },
     {
         "byte_length": 69229,
         "classification_manifest_sha256": (
@@ -1130,6 +1143,22 @@ TASKS_TABLE_ROW_RESOURCE_EVIDENCE = (
         ),
     },
 )
+TOP_LEVEL_EVENTS_MAXIMUM_RESOURCE_EVIDENCE = (
+    {
+        "byte_length": 3156,
+        "path": "docs/M0.3A_RUNTIME_TOP_LEVEL_EVENTS_MAXIMUM.v1.md",
+        "raw_sha256": (
+            "10a771a7816588b461bb5ab7495c6b16928323a887520d190896ff3bba4bd27b"
+        ),
+    },
+    {
+        "byte_length": 9210,
+        "path": "tests/test_runtime_v2_top_level_events_maximum_classification.py",
+        "raw_sha256": (
+            "15ba11cac2ecab6b3c9ace47fa57bffed25c57ac8ca8105108ebe70a084d7835"
+        ),
+    },
+)
 RESOURCE_CLASSIFICATION_EVIDENCE = (
     *BLOB_RESOURCE_EVIDENCE,
     *CLOSURE_RESOURCE_EVIDENCE,
@@ -1167,8 +1196,10 @@ RESOURCE_CLASSIFICATION_EVIDENCE = (
     *SNAPSHOTS_TABLE_ROW_RESOURCE_EVIDENCE,
     *REVIEWS_TABLE_ROW_RESOURCE_EVIDENCE,
     *TASKS_TABLE_ROW_RESOURCE_EVIDENCE,
+    *TOP_LEVEL_EVENTS_MAXIMUM_RESOURCE_EVIDENCE,
 )
 CLASSIFIED_RESOURCE_SITE_IDS = frozenset({
+    "0788e261996efdb32e9fdca233db8d5e809fdb533da89d835357ab1f2c9f1fa4",
     "d6a859d8b9df13389c46ea59c62011e44c95085620ace3af223c97a74faf485b",
     "8f1e936be695ee430acb2d111c3ddbf7da8b2a5cce958f5dd34896730b20c2c0",
     "ff2bb0a8c4e48b59f86fea74496f463a5dfbbb06cb62db33ea473cff4f8f627b",
@@ -3513,7 +3544,7 @@ def _resource_classification_inventory(
     if set(manifest) != expected_keys:
         raise ReadinessError("RESOURCE_CLASSIFICATION_KEYS", manifest_path)
     scalar_expected = {
-        "schema_version": 34,
+        "schema_version": 35,
         "manifest_id": schema_id,
         "profile_id": profile_id,
         "discovery_profile_id": resource_discovery["profile_id"],
@@ -3532,24 +3563,28 @@ def _resource_classification_inventory(
         "source_inputs_sha256": _domain_digest(
             RESOURCE_SOURCE_INPUT_DOMAIN, source_inputs
         ),
-        "source_bound_site_count": 423,
+        "source_bound_site_count": len(resource_discovery["source_bound_sites"]),
         "source_bound_sites_sha256": resource_discovery[
             "source_bound_sites_sha256"
         ],
-        "schema_bound_site_count": 296,
+        "schema_bound_site_count": len(resource_discovery["schema_bound_sites"]),
         "schema_bound_sites_sha256": resource_discovery[
             "schema_bound_sites_sha256"
         ],
         "schema_inputs_sha256": resource_discovery["schema_inputs_sha256"],
-        "classified_site_count": 57,
-        "unclassified_site_count": 662,
+        "classified_site_count": 58,
+        "unclassified_site_count": (
+            len(resource_discovery["source_bound_sites"])
+            + len(resource_discovery["schema_bound_sites"])
+            - 58
+        ),
     }
     for key, expected in scalar_expected.items():
         if type(manifest.get(key)) is not type(expected) or manifest.get(key) != expected:
             raise ReadinessError("RESOURCE_CLASSIFICATION_BINDING", key)
 
     constraints = manifest.get("constraints")
-    if type(constraints) is not list or len(constraints) != 30:
+    if type(constraints) is not list or len(constraints) != 31:
         raise ReadinessError("RESOURCE_CLASSIFICATION_CONSTRAINTS", manifest_path)
     single_binding_constraint_keys = {
         "accepted_equation", "classification", "constraint_id",
@@ -5223,6 +5258,60 @@ def _resource_classification_inventory(
             ),
             "unit": "ITEMS",
         },
+        {
+            "accepted_equation": "0 <= len(captured['events']) <= 100000",
+            "classification": "RESOURCE_MAXIMUM",
+            "constraint_id": "HOST_PREFLIGHT_TOP_LEVEL_EVENTS_MAXIMUM",
+            "definition_site_ids": [
+                "0788e261996efdb32e9fdca233db8d5e809fdb533da89d835357ab1f2c9f1fa4"
+            ],
+            "enforcement_site_ids": [
+                "0788e261996efdb32e9fdca233db8d5e809fdb533da89d835357ab1f2c9f1fa4"
+            ],
+            "evidence_inputs": [
+                dict(item) for item in TOP_LEVEL_EVENTS_MAXIMUM_RESOURCE_EVIDENCE
+            ],
+            "maximum": 100_000,
+            "semantic_function_ast_sha256": (
+                "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f"
+            ),
+            "semantic_module_ast_sha256": (
+                "89d50071bdb9b49f32c631fb6f9ffece243d8a7b97280c3065ca85eea4df9857"
+            ),
+            "semantic_proof": {
+                "function_coordinate": (
+                    "src/edgelab/runtime_v2_image.py:inspect_runtime_image_host"
+                ),
+                "input_binding": (
+                    "EXACT_BUILTIN_TUPLE_CAPTURED_EVENTS_AFTER_RUNTIME_"
+                    "IMAGE_FIELD_CAPTURE"
+                ),
+                "enforcement_order": (
+                    "RUNTIME_IMAGE_FIELD_CAPTURE_THEN_EXACT_BUILTIN_TUPLE_"
+                    "GUARD_THEN_INCLUSIVE_ZERO_TO_ONE_HUNDRED_THOUSAND_"
+                    "COMPARISON_BEFORE_MEMBER_INSPECTION_OR_ACCOUNTING"
+                ),
+                "rejection_action": (
+                    "ADD_IMAGE_CARDINALITY_LIMIT_FOR_EVENTS_SET_ACCOUNTING_"
+                    "INCOMPLETE_SKIP_EVENT_MEMBERS_AND_WITHHOLD_SANITIZED_IMAGE"
+                ),
+                "selection_semantics": (
+                    "HOST_PREFLIGHT_TOP_LEVEL_EVENTS_MAXIMUM_ONLY"
+                ),
+                "raw_definition_site_id": (
+                    "2dcbb43b767e41adb2cb59c64d6b3bfab8e9dbb8e583eebc5801d93668b7b43f"
+                ),
+                "branch_cardinality_site_id": (
+                    "fd2933fa143fb9fb2d6a9d6f375f1f6b1e0aae26e447e9fea4ad3b9d7c2b92a1"
+                ),
+                "definition_occurrence": 1,
+            },
+            "semantic_subject": (
+                "EXACT_BUILTIN_TUPLE_ITEM_COUNT_OF_CAPTURED_EVENTS_AT_"
+                "HOST_PREFLIGHT"
+            ),
+            "unit": "ITEMS",
+        },
     ]
     if constraints != expected_constraints:
         raise ReadinessError("RESOURCE_CLASSIFICATION_CONSTRAINT", manifest_path)
@@ -5231,7 +5320,7 @@ def _resource_classification_inventory(
     )
     if (
         predecessor_value is None
-        or predecessor_value.get("constraints") != constraints
+        or predecessor_value.get("constraints") != constraints[:-1]
         or predecessor_value.get("classified_site_count") != 57
     ):
         raise ReadinessError(
@@ -5268,6 +5357,82 @@ def _resource_classification_inventory(
     if classified_site_ids != CLASSIFIED_RESOURCE_SITE_IDS:
         raise ReadinessError("RESOURCE_CLASSIFICATION_SITE_SET", manifest_path)
     site_shapes = {
+        "0788e261996efdb32e9fdca233db8d5e809fdb533da89d835357ab1f2c9f1fa4": {
+            "binding": "cardinality_maxima:events",
+            "branch_cardinality_site_id": (
+                "fd2933fa143fb9fb2d6a9d6f375f1f6b1e0aae26e447e9fea4ad3b9d7c2b92a1"
+            ),
+            "classification": "UNCLASSIFIED",
+            "definition_ast_sha256": (
+                "36776d47d1ea9414c879865979d7d76c23429d7c4cf858cfbb07704214384104"
+            ),
+            "definition_site_id": (
+                "2dcbb43b767e41adb2cb59c64d6b3bfab8e9dbb8e583eebc5801d93668b7b43f"
+            ),
+            "excluded_semantics": [
+                "INITIAL_REDUCER_EVENT_CARDINALITY",
+                "TRANSITION_COLLECTION_CARDINALITY",
+                "EVENTS_TABLE_ROW_CARDINALITY",
+                "EVENT_ITEM_BYTE_CARDINALITY",
+                "PUBLIC_VERIFIER_OR_AUTHORITY",
+            ],
+            "expression": "0 <= len(captured['events']) <= MAX_EVENTS",
+            "kind": "BOUND_TOP_LEVEL_CARDINALITY_MAXIMUM_BINDING",
+            "maximum": 100000,
+            "maximum_expression": "MAX_EVENTS",
+            "path": "src/edgelab/runtime_v2_image.py",
+            "qualname": "<module>.inspect_runtime_image_host",
+            "selection_semantics": (
+                "HOST_PREFLIGHT_TOP_LEVEL_EVENTS_MAXIMUM_ONLY"
+            ),
+            "semantic_function_ast_sha256": (
+                "b2950edc3a943812969a400bfa5b811dfeac9e03413f559ff89f5bfced29f56f"
+            ),
+            "semantic_module_ast_sha256": (
+                "89d50071bdb9b49f32c631fb6f9ffece243d8a7b97280c3065ca85eea4df9857"
+            ),
+            "subject_binding": "captured['events']",
+            "unit": "ITEMS",
+            "tuple_loop_ast_sha256": (
+                "9e3c2a4b8b7a01aefe2d991cbd889eb3e438c2849d75e31b89ed89afd9265b41"
+            ),
+            "cardinality_loop_ast_sha256": (
+                "240c758d427bfefb4cd9ae2f020a6c8d8212178637c304811e1751dea8b98e2f"
+            ),
+            "member_loop_ast_sha256": (
+                "9562db8f41443d06b883ea52b0d1be726a772b412740d6e1732e9031486e5be6"
+            ),
+            "sanitized_image_gate_ast_sha256": (
+                "96643ddc4991990f0f04524e6e3f44d13fe7ac8938e9818460dc7054d715a7e2"
+            ),
+            "tuple_guard_ast_sha256": (
+                "48c990518a6d97c4e3c5d6c976111eb55261d758f76466970d2ee40d2c9d3f98"
+            ),
+            "tuple_result_ast_sha256": (
+                "b307f58801ce8e78a43696d5953c22e0b2c93a79418f4a3f941f608644979fbb"
+            ),
+            "tuple_invalid_ast_sha256": (
+                "ebaece4655128040d4ecf6fafb8970b1f4b75d2d2199836efba5b4611fa71aad"
+            ),
+            "validity_gate_ast_sha256": (
+                "80f43e2757b87785145812c7bbdd11dd7f2b75ca7983a0e20657f51bf0493557"
+            ),
+            "comparison_assignment_ast_sha256": (
+                "0ac4a3c116faf2d3b271a709a0b15171fa566779bb8e03797b6271aaaec94018"
+            ),
+            "comparison_result_ast_sha256": (
+                "f7babf5f583439c6651955a1f94cd7ded828a872da0550f437198585bcdfc6e6"
+            ),
+            "invalid_branch_ast_sha256": (
+                "10f692935ade01e94f5748199c52cdc242aa0260a5c88603a03dd3710c13accb"
+            ),
+            "member_gate_ast_sha256": (
+                "e6cb8d515794956552ebab7d5e2932e76e217cb0944ac82a8bfc7139d1cd36ae"
+            ),
+            "site_id": (
+                "0788e261996efdb32e9fdca233db8d5e809fdb533da89d835357ab1f2c9f1fa4"
+            ),
+        },
         "d6a859d8b9df13389c46ea59c62011e44c95085620ace3af223c97a74faf485b": {
             "ast_sha256": "9d14812b77c13b635b9ec0f782c2075420d8158c4a1d52825c72f5938fdba59e",
             "binding": "table_row_caps:tasks",
@@ -6570,7 +6735,11 @@ def _resource_classification_inventory(
         record = sites.get(site_id)
         if record is None:
             raise ReadinessError("RESOURCE_CLASSIFICATION_SITE_MISSING", site_id)
-        if any(record.get(key) != value for key, value in expected.items()):
+        if (
+            site_id
+            == "0788e261996efdb32e9fdca233db8d5e809fdb533da89d835357ab1f2c9f1fa4"
+            and record != expected
+        ) or any(record.get(key) != value for key, value in expected.items()):
             raise ReadinessError("RESOURCE_CLASSIFICATION_SITE_SHAPE", site_id)
 
     ast_profiles = (
@@ -6817,8 +6986,8 @@ def _resource_classification_inventory(
         raise ReadinessError("RESOURCE_CLASSIFICATION_SELF_DIGEST", manifest_path)
 
     return {
-        "classified_constraint_count": 30,
-        "classified_site_count": 57,
+        "classified_constraint_count": 31,
+        "classified_site_count": 58,
         "classification_manifest_sha256": claimed_digest,
         "coverage_status": "INCOMPLETE",
         "evidence_inputs": [
