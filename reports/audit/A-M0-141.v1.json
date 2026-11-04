@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-141",
+  "version": 1,
+  "occurred_at": "2026-11-04T02:34:24Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_FINDING_ARTIFACT_DISCOVERY_V6_DENY_ONLY",
+  "subject_ref": "reports/H-M0-159-runtime-v2-finding-artifact-discovery-v6.v1.md",
+  "previous_state": "DISCOVERY_V5_719_SITES_FIFTY_EIGHT_CLASSIFIED_661_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V6_720_SITES_FIFTY_EIGHT_CLASSIFIED_662_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 45fd17f adds one exact unclassified finding-artifact character-bound composite after independent inventory rejected duplicate semantic classification. Classification V36 preserves all V35 semantics and sites with only a successor-aware H158 evidence-test identity refresh. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": [
+    "reports/H-M0-159-runtime-v2-finding-artifact-discovery-v6.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v6.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v6.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v6.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v36.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v36.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_finding_artifact_character_discovery.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v62.json"
+  ],
+  "code_ref": "45fd17f",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-159",
+  "supersedes": null
+}

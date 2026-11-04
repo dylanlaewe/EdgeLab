@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-002",
+  "version": 62,
+  "issued_at": "2026-11-04T02:34:24Z",
+  "issuer": "00 Director",
+  "reason": "Discovery V6 adds exactly one unclassified verifier finding-artifact character-bound composite and Classification V36 preserves all thirty-one V35 constraint semantics and fifty-eight classified sites with only a successor-aware H158 evidence-test identity refresh. Of 720 census sites, 58 are classified and 662 remain unclassified, so coverage is explicitly incomplete. Exact resource-manifest completion, public-entrypoint integration, conservative V1 bridge disposition, and the independently accepted A-J evidence manifest remain unresolved. Release generation is blocked and no positive local-consistency result is supportable.",
+  "affected_components": [
+    "exact generated verifier closure",
+    "semantic resource-limit classification and coverage proof",
+    "legacy bridge disposition",
+    "complete whole-image acceptance matrix",
+    "public result vocabulary"
+  ],
+  "evidence_refs": [
+    "reports/H-M0-159-runtime-v2-finding-artifact-discovery-v6.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v6.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v6.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v6.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v36.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v36.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_finding_artifact_character_discovery.py",
+    "tests/test_runtime_v2_release_readiness.py"
+  ],
+  "severity": "HIGH",
+  "remediation_required": [
+    "Independently inventory the 662 remaining unclassified sites and select the next smallest complete semantic slice without preapproval, near-completion claims, or inference of authority from the completed discovery binding.",
+    "Classify every remaining discovered source/schema site and prove bidirectional coverage of all remaining enforcement mechanisms and descriptor/contract constraints.",
+    "Bind every accepted resource constraint to all definitions, enforcement sites, branch-specific and positional bindings, source-level semantic dependencies, contract equations, units, and boundary evidence without conflating minima, maxima, exact values, relational constraints, diagnostics, representation limits, helper components, or equal-valued limits on different subjects.",
+    "Conservatively disposition the unsupported V1 migration bridge under the retained legacy amendment without inventing unavailable preimages.",
+    "Connect the sole public entrypoint and bind independently accepted A-J evidence before generating any closure or carrier."
+  ],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}
