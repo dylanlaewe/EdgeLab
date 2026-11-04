@@ -72,21 +72,46 @@ class RuntimeV2TopLevelEventsMaximumClassificationTests(unittest.TestCase):
             == "HOST_PREFLIGHT_TOP_LEVEL_EVENTS_MAXIMUM"
         )
 
-    def test_v35_is_exact_v34_prefix_plus_one_one_site_union(self):
+    def test_v36_preserves_v35_semantics_with_successor_evidence_rebase(self):
         current = json.loads(
             (ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_text(
                 encoding="ascii"
             )
+        )
+        v35 = json.loads(
+            (
+                ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v35.json"
+            ).read_text(encoding="ascii")
         )
         predecessor = json.loads(
             (
                 ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v34.json"
             ).read_text(encoding="ascii")
         )
-        self.assertEqual(current["constraints"][:-1], predecessor["constraints"])
+        self.assertEqual(current["constraints"][:-1], v35["constraints"][:-1])
+        current_last = dict(current["constraints"][-1])
+        v35_last = dict(v35["constraints"][-1])
+        current_evidence = current_last.pop("evidence_inputs")
+        v35_evidence = v35_last.pop("evidence_inputs")
+        self.assertEqual(current_last, v35_last)
+        self.assertEqual(current_evidence[:-1], v35_evidence[:-1])
+        self.assertEqual(
+            v35_evidence[-1],
+            {
+                "byte_length": 9210,
+                "path": "tests/test_runtime_v2_top_level_events_maximum_classification.py",
+                "raw_sha256": "15ba11cac2ecab6b3c9ace47fa57bffed25c57ac8ca8105108ebe70a084d7835",
+            },
+        )
+        self.assertEqual(
+            current_evidence[-1]["path"],
+            "tests/test_runtime_v2_top_level_events_maximum_classification.py",
+        )
+        self.assertEqual(v35["constraints"][:-1], predecessor["constraints"])
         self.assertEqual(len(current["constraints"]), 31)
         self.assertEqual(current["classified_site_count"], 58)
-        self.assertEqual(current["unclassified_site_count"], 661)
+        self.assertEqual(current["unclassified_site_count"], 662)
+        self.assertEqual(v35["unclassified_site_count"], 661)
         constraint = current["constraints"][-1]
         self.assertEqual(constraint, self.constraint())
         self.assertEqual(constraint["classification"], "RESOURCE_MAXIMUM")
@@ -106,7 +131,7 @@ class RuntimeV2TopLevelEventsMaximumClassificationTests(unittest.TestCase):
         report = build_report(ROOT)["inventory"]["resource_inventory_classification"]
         self.assertEqual(report["classified_constraint_count"], 31)
         self.assertEqual(report["classified_site_count"], 58)
-        self.assertEqual(report["unclassified_site_count"], 661)
+        self.assertEqual(report["unclassified_site_count"], 662)
 
     def test_exact_subject_selection_and_every_excluded_site_stays_out(self):
         constraint = self.constraint()

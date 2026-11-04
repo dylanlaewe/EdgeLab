@@ -171,15 +171,15 @@ CLOSURE_SCHEMA = (
     "schemas/m0-3a-verifier-dependency-closure.v1.schema.json",
 )
 RESOURCE_CLASSIFICATION_SCHEMA = (
-    "urn:edgelab:m0-3a-runtime-v2-resource-classification:35",
-    "schemas/m0-3a-runtime-v2-resource-classification.v35.schema.json",
+    "urn:edgelab:m0-3a-runtime-v2-resource-classification:36",
+    "schemas/m0-3a-runtime-v2-resource-classification.v36.schema.json",
 )
 RESOURCE_CLASSIFICATION_MANIFEST = (
-    "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V35",
-    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v35.json",
+    "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V36",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v36.json",
 )
 RESOURCE_CLASSIFICATION_DOMAIN = (
-    "EDGELAB\0RUNTIME_V2_RESOURCE_CLASSIFICATION\0V35\0"
+    "EDGELAB\0RUNTIME_V2_RESOURCE_CLASSIFICATION\0V36\0"
 )
 RESOURCE_SOURCE_INPUT_DOMAIN = (
     "EDGELAB\0RUNTIME_V2_RESOURCE_SOURCE_INPUTS\0V1\0"
@@ -189,30 +189,31 @@ RESOURCE_DISCOVERY_V2_ID = "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V2"
 RESOURCE_DISCOVERY_V3_ID = "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V3"
 RESOURCE_DISCOVERY_V4_ID = "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V4"
 RESOURCE_DISCOVERY_V5_ID = "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V5"
+RESOURCE_DISCOVERY_V6_ID = "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V6"
 RESOURCE_DISCOVERY_SCHEMA = (
-    "urn:edgelab:m0-3a-runtime-v2-resource-discovery:5",
-    "schemas/m0-3a-runtime-v2-resource-discovery.v5.schema.json",
+    "urn:edgelab:m0-3a-runtime-v2-resource-discovery:6",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v6.schema.json",
 )
 RESOURCE_DISCOVERY_MANIFEST = (
-    RESOURCE_DISCOVERY_V5_ID,
-    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v5.json",
+    RESOURCE_DISCOVERY_V6_ID,
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v6.json",
 )
-RESOURCE_DISCOVERY_DOMAIN = "EDGELAB\0RUNTIME_V2_RESOURCE_DISCOVERY\0V5\0"
+RESOURCE_DISCOVERY_DOMAIN = "EDGELAB\0RUNTIME_V2_RESOURCE_DISCOVERY\0V6\0"
 RESOURCE_DISCOVERY_SCHEMA_RAW_SHA256 = (
-    "07032fb401b40546ca77e7828c26652c3b9daade077283cf520dbbaf5b240a42"
+    "fa748f5ed12cde22aa0a23e1c4261a27954abb05fc87169c5385838aebfac9e9"
 )
 RESOURCE_DISCOVERY_PREDECESSOR_MANIFEST = {
-    "byte_length": 51379,
+    "byte_length": 5045,
     "discovery_manifest_sha256": (
-        "2f34479e4597041b122a61c4aea29ae051446285ec51518d965bfd0e8b8e09d6"
+        "cf50f95495e52a2171e895e40be1dd6b8cb9877a6a8a03aafb06ef2e5467dd42"
     ),
-    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v4.json",
-    "raw_sha256": "9d4c0630a802ef849e3ccb2cd6993cc58b8b2c8fa694888bff8ef96a52384681",
+    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v5.json",
+    "raw_sha256": "639ed7839ed7d8086ff21acb53ec41950f5ee35812fb97cee503d138fa6ce929",
 }
 RESOURCE_DISCOVERY_PREDECESSOR_SCHEMA = {
-    "byte_length": 55372,
-    "path": "schemas/m0-3a-runtime-v2-resource-discovery.v4.schema.json",
-    "raw_sha256": "558baf8aa2e1da502e4c19a733bfe0a73d42bcd1d0c1d5e1ad3b948fd12d9bd4",
+    "byte_length": 6923,
+    "path": "schemas/m0-3a-runtime-v2-resource-discovery.v5.schema.json",
+    "raw_sha256": "07032fb401b40546ca77e7828c26652c3b9daade077283cf520dbbaf5b240a42",
 }
 RESOURCE_BINDING_SITE_DOMAIN = (
     "EDGELAB\0RUNTIME_V2_RESOURCE_BINDING_SITE\0V2\0"
@@ -225,6 +226,9 @@ RESOURCE_TABLE_ROW_CAP_BINDING_SITE_DOMAIN = (
 )
 RESOURCE_TOP_LEVEL_CARDINALITY_MAXIMUM_BINDING_SITE_DOMAIN = (
     "EDGELAB\0RUNTIME_V2_RESOURCE_TOP_LEVEL_CARDINALITY_MAXIMUM_BINDING_SITE\0V5\0"
+)
+RESOURCE_FINDING_ARTIFACT_CHARACTER_MAXIMUM_BINDING_SITE_DOMAIN = (
+    "EDGELAB\0RUNTIME_V2_RESOURCE_FINDING_ARTIFACT_CHARACTER_MAXIMUM_BINDING_SITE\0V6\0"
 )
 RESOURCE_SOURCE_BOUND_SITES_V2_DOMAIN = (
     "EDGELAB\0RUNTIME_V2_SOURCE_BOUND_SITES\0V2\0"
@@ -250,23 +254,42 @@ RESOURCE_SOURCE_BOUND_SITES_V5_DOMAIN = (
 RESOURCE_SOURCE_BOUND_SITES_V5_SHA256 = (
     "62217a83c01eb5151c51777181f44c8b87b39a9c51fe68d8fe7ab423587fd7bf"
 )
+RESOURCE_SOURCE_BOUND_SITES_V6_DOMAIN = (
+    "EDGELAB\0RUNTIME_V2_SOURCE_BOUND_SITES\0V6\0"
+)
+RESOURCE_SOURCE_BOUND_SITES_V6_SHA256 = (
+    "2a9e13767fb8003e3395d712e369719cb53249f8eeaf6b04091eff256e6cf064"
+)
 RESOURCE_CLASSIFICATION_SCHEMA_RAW_SHA256 = (
-    "169a22f38512f75b3f62a62f63ae841692dd499c15731c009d6c0d1bcc8d507b"
+    "5ae8b3e1b2f71e5934d6a4d83529db6c0ae212e13fc0288384ad3d5ff3b66283"
 )
 RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST = {
-    "byte_length": 71504,
+    "byte_length": 73632,
     "classification_manifest_sha256": (
-        "7c9b02db527a7ec0b87d932e1fa3957d4d75e7f41b41d23af9ab5d1515f6beaa"
+        "be9ef46386ea1c170cfe4fbc004ec6495ce8784c464a8a1a12e995cbcfef95cf"
     ),
-    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v34.json",
-    "raw_sha256": "d4c89f461a1cc0f17f18af331529b6f8becd05b219e499586695f6bdaf0394c2",
+    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v35.json",
+    "raw_sha256": "d3f897173eae7b7deb3ec1aced0f6f722fbf567493791717bae68b6dd8e8dafd",
 }
 RESOURCE_CLASSIFICATION_PREDECESSOR_SCHEMA = {
-    "byte_length": 77415,
-    "path": "schemas/m0-3a-runtime-v2-resource-classification.v34.schema.json",
-    "raw_sha256": "4dc2df18649076c37284200259bae9900018ebe03eae634a753f1c18e7ed5b28",
+    "byte_length": 79695,
+    "path": "schemas/m0-3a-runtime-v2-resource-classification.v35.schema.json",
+    "raw_sha256": "169a22f38512f75b3f62a62f63ae841692dd499c15731c009d6c0d1bcc8d507b",
 }
 RESOURCE_CLASSIFICATION_ANCESTORS = (
+    {
+        "byte_length": 71504,
+        "classification_manifest_sha256": (
+            "7c9b02db527a7ec0b87d932e1fa3957d4d75e7f41b41d23af9ab5d1515f6beaa"
+        ),
+        "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v34.json",
+        "raw_sha256": "d4c89f461a1cc0f17f18af331529b6f8becd05b219e499586695f6bdaf0394c2",
+    },
+    {
+        "byte_length": 77415,
+        "path": "schemas/m0-3a-runtime-v2-resource-classification.v34.schema.json",
+        "raw_sha256": "4dc2df18649076c37284200259bae9900018ebe03eae634a753f1c18e7ed5b28",
+    },
     {
         "byte_length": 71504,
         "classification_manifest_sha256": (
@@ -1152,10 +1175,10 @@ TOP_LEVEL_EVENTS_MAXIMUM_RESOURCE_EVIDENCE = (
         ),
     },
     {
-        "byte_length": 9210,
+        "byte_length": 10348,
         "path": "tests/test_runtime_v2_top_level_events_maximum_classification.py",
         "raw_sha256": (
-            "15ba11cac2ecab6b3c9ace47fa57bffed25c57ac8ca8105108ebe70a084d7835"
+            "1d311f5d460accf3c5b24564ea53b71976fed5576ee2f378041f3902c053a87f"
         ),
     },
 )
@@ -3050,6 +3073,224 @@ def _source_bound_top_level_cardinality_maximum_inventory(
     return [record]
 
 
+def _source_bound_finding_artifact_character_maximum_inventory(
+    source_bytes: dict[str, bytes],
+    predecessor_sites: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Derive the single V6 verifier finding-artifact truncation binding.
+
+    The nested ``bounded`` helper is shared with finding coordinates.  This
+    record binds only its artifact caller to the 256-character definition and
+    exact UTF-8 digest-suffix truncation flow; it classifies no predecessor.
+    """
+    path = "src/edgelab/runtime_v2_verifier.py"
+    coordinate = f"{path}:_finding"
+    try:
+        tree = ast.parse(source_bytes[path], filename=path)
+    except KeyError as error:
+        raise ReadinessError("RESOURCE_FINDING_ARTIFACT_SOURCE", path) from error
+    except (SyntaxError, ValueError) as error:
+        raise ReadinessError("PYTHON_SOURCE", path) from error
+
+    functions = [
+        node for node in tree.body
+        if isinstance(node, ast.FunctionDef) and node.name == "_finding"
+    ]
+    if len(functions) != 1:
+        raise ReadinessError("RESOURCE_FINDING_ARTIFACT_FUNCTION", coordinate)
+    function = functions[0]
+    nested = [
+        node for node in function.body
+        if isinstance(node, ast.FunctionDef) and node.name == "bounded"
+    ]
+    if len(nested) != 1:
+        raise ReadinessError("RESOURCE_FINDING_ARTIFACT_HELPER", coordinate)
+    bounded = nested[0]
+    function_hash = _ast_sha256(function)
+    bounded_hash = _ast_sha256(bounded)
+    module_hash = _ast_sha256(tree)
+    if function_hash != (
+        "663fd397aaff36b7871917a15c97890377e797b42141cb533e1e3b7f6bb9e781"
+    ):
+        raise ReadinessError("RESOURCE_FINDING_ARTIFACT_FUNCTION_AST", coordinate)
+    if bounded_hash != (
+        "592e2f700af27699e0fe9eade5fd0f357d5bf7949ae370face4a34efd0ab6f9c"
+    ):
+        raise ReadinessError("RESOURCE_FINDING_ARTIFACT_HELPER_AST", coordinate)
+    if module_hash != (
+        "4cf60eb1416f7cfe080bd68653d748431084e04a17790a4244317834158acdfc"
+    ):
+        raise ReadinessError("RESOURCE_FINDING_ARTIFACT_MODULE_AST", path)
+
+    definitions = [
+        node for node in tree.body
+        if isinstance(node, ast.Assign)
+        and len(node.targets) == 1
+        and isinstance(node.targets[0], ast.Name)
+        and node.targets[0].id == "MAX_FINDING_ARTIFACT_CHARS"
+    ]
+    if (
+        len(definitions) != 1
+        or _integer_constant(definitions[0].value) != 256
+        or _ast_sha256(definitions[0])
+        != "ae70f40d2c066a8450ddf01e6bf0a1c75d6bc2a4dad282ed7b350729e4e1111b"
+    ):
+        raise ReadinessError("RESOURCE_FINDING_ARTIFACT_MAXIMUM_DEFINITION", path)
+    definition = definitions[0]
+
+    if len(bounded.body) != 3 or not isinstance(bounded.body[0], ast.If):
+        raise ReadinessError("RESOURCE_FINDING_ARTIFACT_HELPER_SHAPE", coordinate)
+    comparison = bounded.body[0].test
+    suffix_assignment = bounded.body[1]
+    truncating_return = bounded.body[2]
+    slices = [
+        node for node in ast.walk(truncating_return)
+        if isinstance(node, ast.Subscript)
+    ]
+    if len(slices) != 1:
+        raise ReadinessError("RESOURCE_FINDING_ARTIFACT_SLICE", coordinate)
+    truncating_slice = slices[0]
+    flow_hashes = {
+        "comparison_ast_sha256": (
+            comparison,
+            "159e23864d588432b924de55a370594d8789e3ddbb8a9768388ec472f0cb6ce4",
+        ),
+        "suffix_assignment_ast_sha256": (
+            suffix_assignment,
+            "955195bbb5a430a35b8a25506710d4ae29dd97dfb851080af22ddbd3af035f94",
+        ),
+        "truncating_return_ast_sha256": (
+            truncating_return,
+            "6fd09e200f846e9e544f8cbd866d35baf4b58e110aea81a6c2919139f03bdedb",
+        ),
+        "truncating_slice_ast_sha256": (
+            truncating_slice,
+            "74117ea7f02d52d57cdd5cfd500f420236efd5451e9c19f9fe00afae164cd152",
+        ),
+    }
+    for node, expected in flow_hashes.values():
+        if _ast_sha256(node) != expected:
+            raise ReadinessError("RESOURCE_FINDING_ARTIFACT_FLOW_AST", coordinate)
+
+    artifact_calls = [
+        node for node in ast.walk(function)
+        if isinstance(node, ast.Call)
+        and ast.unparse(node.func) == "bounded"
+        and len(node.args) == 2
+        and ast.unparse(node.args[0]) == "artifact"
+        and ast.unparse(node.args[1]) == "MAX_FINDING_ARTIFACT_CHARS"
+    ]
+    if (
+        len(artifact_calls) != 1
+        or _ast_sha256(artifact_calls[0])
+        != "c5f892612da3da02259a8933ec26ed94d91e9f834c7f7d115f15d23ff085aa73"
+    ):
+        raise ReadinessError("RESOURCE_FINDING_ARTIFACT_CALL", coordinate)
+    artifact_call = artifact_calls[0]
+
+    predecessor_by_id = {item["site_id"]: item for item in predecessor_sites}
+    if len(predecessor_by_id) != len(predecessor_sites):
+        raise ReadinessError("RESOURCE_FINDING_ARTIFACT_PREDECESSOR_DUPLICATE", path)
+    predecessor_expectations = {
+        "faf8073483e0d412600c34a0a24d10145d8c6e42875abd04d14b95e943fd3d7f": {
+            "ast_sha256": _ast_sha256(definition),
+            "classification": "UNCLASSIFIED",
+            "expression": ast.unparse(definition),
+            "kind": "MODULE_NUMERIC_ASSIGNMENT",
+            "line": definition.lineno,
+            "occurrence": 1,
+            "path": path,
+            "qualname": "<module>",
+        },
+        "836376ba8aabd7bfca299784acf6abe992e0e7f3ec71bf92b4ae53f9445dda98": {
+            "ast_sha256": _ast_sha256(artifact_call),
+            "classification": "UNCLASSIFIED",
+            "expression": ast.unparse(artifact_call),
+            "kind": "BOUND_HELPER_CALL",
+            "line": artifact_call.lineno,
+            "occurrence": 1,
+            "path": path,
+            "qualname": "<module>._finding",
+        },
+        "00a9f454f52ac495ec96178fb37d0d0c0f588c674afe2556d093d3e64ad7fb3b": {
+            "ast_sha256": _ast_sha256(comparison),
+            "classification": "UNCLASSIFIED",
+            "expression": ast.unparse(comparison),
+            "kind": "BOUND_COMPARISON",
+            "line": comparison.lineno,
+            "occurrence": 1,
+            "path": path,
+            "qualname": "<module>._finding.bounded",
+        },
+        "642f873b6a2bf9d504396cdf89289a30df71deba2bd4bfc095f19bf7e70983ac": {
+            "ast_sha256": _ast_sha256(truncating_slice),
+            "classification": "UNCLASSIFIED",
+            "expression": ast.unparse(truncating_slice),
+            "kind": "NUMERIC_SLICE",
+            "line": truncating_slice.lineno,
+            "occurrence": 1,
+            "path": path,
+            "qualname": "<module>._finding.bounded",
+        },
+    }
+    for site_id, expected in predecessor_expectations.items():
+        observed = predecessor_by_id.get(site_id)
+        if observed != {**expected, "site_id": site_id}:
+            raise ReadinessError("RESOURCE_FINDING_ARTIFACT_PREDECESSOR_SITE", site_id)
+
+    record = {
+        "binding": "verification_finding:artifact",
+        "caller_site_id": (
+            "836376ba8aabd7bfca299784acf6abe992e0e7f3ec71bf92b4ae53f9445dda98"
+        ),
+        "classification": "UNCLASSIFIED",
+        "comparison_site_id": (
+            "00a9f454f52ac495ec96178fb37d0d0c0f588c674afe2556d093d3e64ad7fb3b"
+        ),
+        "definition_ast_sha256": _ast_sha256(definition),
+        "definition_site_id": (
+            "faf8073483e0d412600c34a0a24d10145d8c6e42875abd04d14b95e943fd3d7f"
+        ),
+        "excluded_semantics": [
+            "VERIFICATION_FINDING_COORDINATE_CHARACTER_MAXIMUM",
+            "GENERIC_BOUNDED_HELPER_COMPARISON_OR_SLICE",
+            "FINDING_COUNT_MAXIMUM",
+            "DIAGNOSTIC_CORRECTNESS",
+            "PUBLIC_VERIFIER_ACCEPTANCE_OR_AUTHORITY",
+        ],
+        "expression": (
+            "len(artifact) <= 256 else artifact[:184] + "
+            "'#sha256=' + sha256(artifact.encode('utf-8')).hexdigest()"
+        ),
+        "finding_function_ast_sha256": function_hash,
+        "kind": "BOUND_FINDING_ARTIFACT_CHARACTER_MAXIMUM_BINDING",
+        "maximum": 256,
+        "maximum_expression": "MAX_FINDING_ARTIFACT_CHARS",
+        "nested_bounded_ast_sha256": bounded_hash,
+        "path": path,
+        "qualname": "<module>._finding",
+        "selection_semantics": (
+            "VERIFICATION_FINDING_ARTIFACT_CHARACTER_MAXIMUM_ONLY"
+        ),
+        "semantic_module_ast_sha256": module_hash,
+        "slice_site_id": (
+            "642f873b6a2bf9d504396cdf89289a30df71deba2bd4bfc095f19bf7e70983ac"
+        ),
+        "subject_binding": "VerificationFinding.artifact",
+        "unit": "CHARACTERS",
+        **{key: expected for key, (_, expected) in flow_hashes.items()},
+    }
+    identity = {
+        key: value for key, value in record.items()
+        if key not in {"classification", "expression"}
+    }
+    record["site_id"] = _domain_digest(
+        RESOURCE_FINDING_ARTIFACT_CHARACTER_MAXIMUM_BINDING_SITE_DOMAIN,
+        identity,
+    )
+    return [record]
+
+
 def _resource_unit(name: str) -> str:
     if "BYTE" in name:
         return "BYTES"
@@ -3304,7 +3545,7 @@ def _resource_discovery_evidence_inventory(
     identities: set[tuple[int, int]],
     resource_discovery: dict[str, Any],
 ) -> dict[str, Any]:
-    """Validate the closed, deny-only Discovery V5 evidence manifest."""
+    """Validate the closed, deny-only Discovery V6 evidence manifest."""
     predecessor_values: dict[str, dict[str, Any]] = {}
     for expected, has_self_digest in (
         (RESOURCE_DISCOVERY_PREDECESSOR_MANIFEST, True),
@@ -3337,10 +3578,10 @@ def _resource_discovery_evidence_inventory(
         RESOURCE_DISCOVERY_PREDECESSOR_MANIFEST["path"]
     ]
     if (
-        predecessor_manifest.get("profile_id") != RESOURCE_DISCOVERY_V4_ID
-        or predecessor_manifest.get("source_bound_site_count") != 422
+        predecessor_manifest.get("profile_id") != RESOURCE_DISCOVERY_V5_ID
+        or predecessor_manifest.get("source_bound_site_count") != 423
         or predecessor_manifest.get("source_bound_sites_sha256")
-        != RESOURCE_SOURCE_BOUND_SITES_V4_SHA256
+        != RESOURCE_SOURCE_BOUND_SITES_V5_SHA256
     ):
         raise ReadinessError(
             "RESOURCE_DISCOVERY_PREDECESSOR_BINDING",
@@ -3383,10 +3624,36 @@ def _resource_discovery_evidence_inventory(
     binding_sites = [
         item for item in resource_discovery["source_bound_sites"]
         if item.get("kind")
-        == "BOUND_TOP_LEVEL_CARDINALITY_MAXIMUM_BINDING"
+        == "BOUND_FINDING_ARTIFACT_CHARACTER_MAXIMUM_BINDING"
     ]
+    schema_properties = schema.get("properties")
+    if type(schema_properties) is not dict:
+        raise ReadinessError("RESOURCE_DISCOVERY_SCHEMA_BINDING", schema_path)
+    schema_bound_values = {
+        "cumulative_derived_binding_site_count": resource_discovery[
+            "cumulative_derived_binding_site_count"
+        ],
+        "derived_binding_site_count": len(binding_sites),
+        "derived_binding_site_ids": sorted(
+            item["site_id"] for item in binding_sites
+        ),
+        "derived_binding_sites": binding_sites,
+        "source_bound_site_count": len(resource_discovery["source_bound_sites"]),
+        "source_bound_sites_sha256": resource_discovery[
+            "source_bound_sites_sha256"
+        ],
+    }
+    for key, actual in schema_bound_values.items():
+        property_schema = schema_properties.get(key)
+        if (
+            type(property_schema) is not dict
+            or "const" not in property_schema
+            or type(property_schema["const"]) is not type(actual)
+            or property_schema["const"] != actual
+        ):
+            raise ReadinessError("RESOURCE_DISCOVERY_SCHEMA_BINDING", key)
     scalar_expected = {
-        "schema_version": 5,
+        "schema_version": 6,
         "manifest_id": schema_id,
         "profile_id": profile_id,
         "coverage_status": "INCOMPLETE",
@@ -3544,7 +3811,7 @@ def _resource_classification_inventory(
     if set(manifest) != expected_keys:
         raise ReadinessError("RESOURCE_CLASSIFICATION_KEYS", manifest_path)
     scalar_expected = {
-        "schema_version": 35,
+        "schema_version": 36,
         "manifest_id": schema_id,
         "profile_id": profile_id,
         "discovery_profile_id": resource_discovery["profile_id"],
@@ -5318,10 +5585,49 @@ def _resource_classification_inventory(
     predecessor_value = manifest_values.get(
         RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST["path"]
     )
+    predecessor_constraints = (
+        predecessor_value.get("constraints")
+        if type(predecessor_value) is dict
+        else None
+    )
+    predecessor_last = (
+        predecessor_constraints[-1]
+        if type(predecessor_constraints) is list and predecessor_constraints
+        else None
+    )
+    current_last = constraints[-1]
+    predecessor_last_semantics = (
+        {key: value for key, value in predecessor_last.items() if key != "evidence_inputs"}
+        if type(predecessor_last) is dict
+        else None
+    )
+    current_last_semantics = {
+        key: value for key, value in current_last.items() if key != "evidence_inputs"
+    }
     if (
         predecessor_value is None
-        or predecessor_value.get("constraints") != constraints[:-1]
-        or predecessor_value.get("classified_site_count") != 57
+        or type(predecessor_constraints) is not list
+        or predecessor_constraints[:-1] != constraints[:-1]
+        or predecessor_last_semantics != current_last_semantics
+        or predecessor_last.get("evidence_inputs") != [
+            {
+                "byte_length": 3156,
+                "path": "docs/M0.3A_RUNTIME_TOP_LEVEL_EVENTS_MAXIMUM.v1.md",
+                "raw_sha256": (
+                    "10a771a7816588b461bb5ab7495c6b16928323a887520d190896ff3bba4bd27b"
+                ),
+            },
+            {
+                "byte_length": 9210,
+                "path": (
+                    "tests/test_runtime_v2_top_level_events_maximum_classification.py"
+                ),
+                "raw_sha256": (
+                    "15ba11cac2ecab6b3c9ace47fa57bffed25c57ac8ca8105108ebe70a084d7835"
+                ),
+            },
+        ]
+        or predecessor_value.get("classified_site_count") != 58
     ):
         raise ReadinessError(
             "RESOURCE_CLASSIFICATION_CENSUS_REBASE", manifest_path
@@ -7239,24 +7545,24 @@ def build_report(root: Path = ROOT) -> dict[str, Any]:
             source_bytes, v4_source_bound_sites
         )
     )
-    source_bound_sites = sorted(
+    v5_source_bound_sites = sorted(
         v4_source_bound_sites + top_level_cardinality_maximum_sites,
         key=lambda item: (item["path"], item["site_id"]),
     )
-    if len(source_bound_sites) != 423:
+    if len(v5_source_bound_sites) != 423:
         raise ReadinessError("RESOURCE_DISCOVERY_V5_CARDINALITY", "source_bound_sites")
-    source_bound_identity = [
+    v5_source_bound_identity = [
         {key: value for key, value in item.items() if key != "line"}
-        for item in source_bound_sites
+        for item in v5_source_bound_sites
     ]
     v5_source_bound_sites_sha256 = _domain_digest(
-        RESOURCE_SOURCE_BOUND_SITES_V5_DOMAIN, source_bound_identity
+        RESOURCE_SOURCE_BOUND_SITES_V5_DOMAIN, v5_source_bound_identity
     )
     if v5_source_bound_sites_sha256 != RESOURCE_SOURCE_BOUND_SITES_V5_SHA256:
         raise ReadinessError(
             "RESOURCE_DISCOVERY_V5_IDENTITY", "source_bound_sites_sha256"
         )
-    resource_discovery = {
+    resource_discovery_v5 = {
         **resource_discovery_v4,
         "cumulative_derived_binding_site_count": (
             len(v2_binding_sites)
@@ -7268,8 +7574,61 @@ def build_report(root: Path = ROOT) -> dict[str, Any]:
         "legacy_source_bound_site_count": len(v4_source_bound_sites),
         "predecessor_discovery": predecessor_discovery_v4,
         "profile_id": RESOURCE_DISCOVERY_V5_ID,
-        "source_bound_sites": source_bound_sites,
+        "source_bound_sites": v5_source_bound_sites,
         "source_bound_sites_sha256": v5_source_bound_sites_sha256,
+    }
+    predecessor_discovery_v5 = {
+        "profile_id": resource_discovery_v5["profile_id"],
+        "schema_bound_site_count": len(schema_bound_sites),
+        "schema_bound_sites_sha256": resource_discovery_v5[
+            "schema_bound_sites_sha256"
+        ],
+        "schema_input_count": len(schema_inputs),
+        "schema_inputs_sha256": resource_discovery_v5["schema_inputs_sha256"],
+        "source_bound_site_count": len(v5_source_bound_sites),
+        "source_bound_sites_sha256": resource_discovery_v5[
+            "source_bound_sites_sha256"
+        ],
+        "source_input_count": len(source_inputs),
+        "source_inputs_sha256": resource_discovery_v5["source_inputs_sha256"],
+    }
+    finding_artifact_maximum_sites = (
+        _source_bound_finding_artifact_character_maximum_inventory(
+            source_bytes, v5_source_bound_sites
+        )
+    )
+    source_bound_sites = sorted(
+        v5_source_bound_sites + finding_artifact_maximum_sites,
+        key=lambda item: (item["path"], item["site_id"]),
+    )
+    if len(source_bound_sites) != 424:
+        raise ReadinessError("RESOURCE_DISCOVERY_V6_CARDINALITY", "source_bound_sites")
+    source_bound_identity = [
+        {key: value for key, value in item.items() if key != "line"}
+        for item in source_bound_sites
+    ]
+    v6_source_bound_sites_sha256 = _domain_digest(
+        RESOURCE_SOURCE_BOUND_SITES_V6_DOMAIN, source_bound_identity
+    )
+    if v6_source_bound_sites_sha256 != RESOURCE_SOURCE_BOUND_SITES_V6_SHA256:
+        raise ReadinessError(
+            "RESOURCE_DISCOVERY_V6_IDENTITY", "source_bound_sites_sha256"
+        )
+    resource_discovery = {
+        **resource_discovery_v5,
+        "cumulative_derived_binding_site_count": (
+            len(v2_binding_sites)
+            + len(cardinality_binding_sites)
+            + len(row_cap_binding_sites)
+            + len(top_level_cardinality_maximum_sites)
+            + len(finding_artifact_maximum_sites)
+        ),
+        "derived_binding_site_count": len(finding_artifact_maximum_sites),
+        "legacy_source_bound_site_count": len(v5_source_bound_sites),
+        "predecessor_discovery": predecessor_discovery_v5,
+        "profile_id": RESOURCE_DISCOVERY_V6_ID,
+        "source_bound_sites": source_bound_sites,
+        "source_bound_sites_sha256": v6_source_bound_sites_sha256,
     }
     resource_classification = _resource_classification_inventory(
         root, identities, source_bytes, source_inputs, resource_discovery
