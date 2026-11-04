@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-144",
+  "version": 1,
+  "occurred_at": "2026-11-04T21:30:04Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_VERIFIER_SCHEMA_REF_TOKEN_BOUND_V39_DENY_ONLY",
+  "subject_ref": "reports/H-M0-162-verifier-schema-ref-token-bound-v39.v1.md",
+  "previous_state": "DISCOVERY_V7_721_SITES_SIXTY_SIX_CLASSIFIED_655_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V7_721_SITES_SIXTY_EIGHT_CLASSIFIED_653_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 0bb5db2 classifies only the local verifier schema-reference token character ceiling over two exact sites. Classification V39 retains 653 unclassified sites, coverage remains INCOMPLETE, and generation remains DENY.",
+  "evidence_refs": [
+    "reports/H-M0-162-verifier-schema-ref-token-bound-v39.v1.md",
+    "docs/M0.3A_VERIFIER_SCHEMA_REF_TOKEN_CHARACTER_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v7.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v7.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v39.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v39.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_schema_ref_token_character_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v65.json"
+  ],
+  "code_ref": "0bb5db2",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-162",
+  "supersedes": null
+}
