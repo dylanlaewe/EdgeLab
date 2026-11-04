@@ -163,23 +163,30 @@ class FindingStringBoundsClassificationTests(unittest.TestCase):
             "RESOURCE_FINDING_COORDINATE_PREDECESSOR_DUPLICATE",
         )
 
-    def test_v37_preserves_v36_semantics_and_appends_two_subject_constraints(self):
+    def test_v38_preserves_v37_finding_string_constraints(self):
         predecessor = json.loads(
             (
-                ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v36.json"
+                ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v37.json"
             ).read_text(encoding="ascii")
         )
-        self.assertEqual(self.manifest["constraints"][:30], predecessor["constraints"][:30])
-        current_events = dict(self.manifest["constraints"][30])
-        predecessor_events = dict(predecessor["constraints"][30])
-        current_events.pop("evidence_inputs")
-        predecessor_events.pop("evidence_inputs")
-        self.assertEqual(current_events, predecessor_events)
-        self.assertEqual(len(self.manifest["constraints"]), 33)
+        for successor, historical in zip(
+            self.manifest["constraints"][:-1], predecessor["constraints"], strict=True
+        ):
+            self.assertEqual(
+                {
+                    key: value for key, value in successor.items()
+                    if key != "evidence_inputs"
+                },
+                {
+                    key: value for key, value in historical.items()
+                    if key != "evidence_inputs"
+                },
+            )
+        self.assertEqual(len(self.manifest["constraints"]), 34)
         classification = self.report["inventory"]["resource_inventory_classification"]
-        self.assertEqual(classification["classified_constraint_count"], 33)
-        self.assertEqual(classification["classified_site_count"], 64)
-        self.assertEqual(classification["unclassified_site_count"], 657)
+        self.assertEqual(classification["classified_constraint_count"], 34)
+        self.assertEqual(classification["classified_site_count"], 66)
+        self.assertEqual(classification["unclassified_site_count"], 655)
         self.assertEqual(classification["coverage_status"], "INCOMPLETE")
         self.assertEqual(classification["generation_disposition"], "DENY")
 
