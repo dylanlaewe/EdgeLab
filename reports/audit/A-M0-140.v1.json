@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-140",
+  "version": 1,
+  "occurred_at": "2026-11-04T00:49:02Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_TOP_LEVEL_EVENTS_MAXIMUM_CLASSIFIED_DENY_ONLY",
+  "subject_ref": "reports/H-M0-158-runtime-v2-top-level-events-maximum-classification.v1.md",
+  "previous_state": "DISCOVERY_V5_719_SITES_FIFTY_SEVEN_CLASSIFIED_662_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V5_719_SITES_FIFTY_EIGHT_CLASSIFIED_661_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 0461a57 preserves the exact thirty-constraint Classification V34 prefix and appends one bounded host-preflight top-level events maximum constraint for the sole Discovery V5 composite. Raw, reducer, transition, table, byte, verifier, execution, and authority meanings remain separate. Coverage remains INCOMPLETE and generation remains DENY.",
+  "evidence_refs": [
+    "reports/H-M0-158-runtime-v2-top-level-events-maximum-classification.v1.md",
+    "docs/M0.3A_RUNTIME_TOP_LEVEL_EVENTS_MAXIMUM.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v5.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v35.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v35.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_top_level_events_maximum_classification.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v61.json"
+  ],
+  "code_ref": "0461a57",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-158",
+  "supersedes": null
+}

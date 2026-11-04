@@ -1,0 +1,74 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-158",
+  "version": 1,
+  "created_at": "2026-11-04T00:49:02Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Independently inventory the 662 remaining unclassified Discovery V5 sites and select the smallest complete semantic slice without preselection, semantic conflation, or authority implication.",
+  "work_done": "Independent inventory selected the sole Discovery V5 host-preflight top-level events maximum composite. Classification V35 preserves the exact thirty-constraint V34 prefix and appends HOST_PREFLIGHT_TOP_LEVEL_EVENTS_MAXIMUM for only that one composite, with exact tuple subject, inclusive 100000-item equation, guard/comparison/member/accounting/image-withholding flow, set-union accounting, source semantic pins, and adversarial refreshed-evidence resistance. The raw definition, V3 branch, reducer and transition sites remain unclassified; independent table and event-byte constraints remain outside V35. The 719-site census now has 58 classified and 661 unclassified sites with INCOMPLETE/DENY and no runtime or authority change.",
+  "evidence_refs": [
+    "reports/H-M0-158-runtime-v2-top-level-events-maximum-classification.v1.md",
+    "reports/audit/A-M0-140.v1.json",
+    "reports/stops/STOP-M0-3A-002.v61.json",
+    "docs/M0.3A_RUNTIME_TOP_LEVEL_EVENTS_MAXIMUM.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v5.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v35.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v35.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_top_level_events_maximum_classification.py",
+    "tests/test_runtime_v2_release_readiness.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "docs/M0.3A_RUNTIME_TOP_LEVEL_EVENTS_MAXIMUM.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v35.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v35.schema.json",
+    "tests/test_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_top_level_events_maximum_classification.py",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tools/run_test_tier.py",
+    "reports/H-M0-158-runtime-v2-top-level-events-maximum-classification.v1.md",
+    "reports/audit/A-M0-140.v1.json",
+    "reports/stops/STOP-M0-3A-002.v61.json",
+    "docs/handoffs/H-M0-158.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "The final complete fast tier passed 654 tests across 53 isolated modules.",
+    "Normal and optimized readiness outputs were byte-identical with SHA-256 344da2f90393134467da49f6d14bcdf34fd2b057472b902ea376e305f89a1e32; both remained exit 1 BLOCKED/DENY with four blockers and no release artifacts.",
+    "Independent Skeptic review returned ACCEPT for the bounded classification after confirming the exact V34 prefix, one-site set-union accounting, 31/58/661/719 census arithmetic, exact exclusions, and absence of runtime or authority expansion.",
+    "533 governed records and published history validated before governance publication; 536 are expected after publication.",
+    "Eighteen alpha and observatory tests are expected to pass after evidence publication."
+  ],
+  "open_questions": [
+    "What is the next smallest complete semantic slice among the 661 remaining unclassified sites?",
+    "Which minimum, maximum, exact-cardinality, relational, diagnostic, representation, helper, descriptor, contract, or schema meanings must remain separate for that independently selected slice?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v61 remains OPEN.",
+    "Only 58 of 719 census sites are semantically classified; 661 remain unclassified with INCOMPLETE coverage.",
+    "Public verification remains deny-only and disconnected.",
+    "Live remains LOCKED, live_enabled remains false, the kill switch remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Independently inventory the 661 remaining unclassified sites and select the next smallest complete semantic slice. Do not preapprove classification, claim the inventory is nearly complete, or infer authority from V35.",
+  "completion_criteria": [
+    "The selected slice follows an independent inventory of the 661 remaining unclassified sites and is the smallest complete semantic unit supported by exact source/schema evidence rather than a preselected target.",
+    "Its definitions, enforcement sites, shared machinery, equations, units, boundary conditions, siblings, equal-valued subjects, and explicit nonclaims are bound bidirectionally without reclassifying unrelated meanings.",
+    "RESOURCE_INVENTORY_INCOMPLETE remains unconditional until all 719 sites are classified, and no closure, carrier, verifier acceptance, STOP clearance, task/reviewer/decision authority, execution authority, or capital authority is created."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-157.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-157",
+      "version": 1,
+      "sha256": "2f134b118ad9e7ce34b48f0be8c6b6cf2ebf7e703c9e05754e840cd5aa8ca66f"
+    }
+  ]
+}
