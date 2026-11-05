@@ -46,7 +46,7 @@ from tools.check_runtime_v2_release_readiness import (
     RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
     RESOURCE_CLASSIFICATION_PREDECESSOR_SCHEMA,
     RESOURCE_CLASSIFICATION_SCHEMA,
-    RESOURCE_CLASSIFICATION_V38_REBASED_EVIDENCE,
+    RESOURCE_CLASSIFICATION_V39_REBASED_EVIDENCE,
     RESOURCE_DISCOVERY_DOMAIN,
     RESOURCE_DISCOVERY_MANIFEST,
     RESOURCE_DISCOVERY_PREDECESSOR_MANIFEST,
@@ -1006,9 +1006,9 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(len(discovery["schema_inputs"]), 15)
         self.assertEqual(len(discovery["source_inputs"]), 10)
         classification = inventory["resource_inventory_classification"]
-        self.assertEqual(classification["classified_constraint_count"], 35)
-        self.assertEqual(classification["classified_site_count"], 68)
-        self.assertEqual(classification["unclassified_site_count"], 653)
+        self.assertEqual(classification["classified_constraint_count"], 36)
+        self.assertEqual(classification["classified_site_count"], 69)
+        self.assertEqual(classification["unclassified_site_count"], 652)
         self.assertEqual(classification["coverage_status"], "INCOMPLETE")
         self.assertEqual(classification["generation_disposition"], "DENY")
         expected_schema_paths = {
@@ -2399,25 +2399,25 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(claimed, expected)
         self.assertEqual(
             claimed,
-            "667125ba3f0d85eb7729364699f89a74e3b7b079d31dc5da649a51e9058b3972",
+            "00458554e1598a29969ac0fe3bfe94a4dc32e999bab3542eb6cc26c7f1aedf96",
         )
         self.assertEqual(
             hashlib.sha256((ROOT / RESOURCE_CLASSIFICATION_SCHEMA[1]).read_bytes()).hexdigest(),
-            "c0a7561ce33a645004222cd4a1b3ca8a1b49d9e019ec904726ec894d64cc540b",
+            "1f59c2f654ff27a4a4e967b07d47b7611207e4922fb36a72516b3a8eaf63762e",
         )
         self.assertEqual(
             hashlib.sha256((ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_bytes()).hexdigest(),
-            "3486368af963e822b6789888b43cd54403433d062f2c1f433e310178b1d1b6cb",
+            "84af0451a3d4c5674a0147290e717d25142807fd833baa639444ee42550b2992",
         )
         self.assertEqual(manifest["coverage_status"], "INCOMPLETE")
         self.assertEqual(manifest["generation_disposition"], "DENY")
-        self.assertEqual(manifest["schema_version"], 39)
+        self.assertEqual(manifest["schema_version"], 40)
         self.assertEqual(
             manifest["profile_id"],
-            "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V39",
+            "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V40",
         )
-        self.assertEqual(manifest["classified_site_count"], 68)
-        self.assertEqual(manifest["unclassified_site_count"], 653)
+        self.assertEqual(manifest["classified_site_count"], 69)
+        self.assertEqual(manifest["unclassified_site_count"], 652)
         self.assertEqual(
             [item["constraint_id"] for item in manifest["constraints"]],
             [
@@ -2456,6 +2456,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                 "VERIFIER_FINDING_COORDINATE_CHARACTER_MAXIMUM",
                 "CLOSURE_INTEGER_TOKEN_MAX_DIGITS",
                 "VERIFIER_SCHEMA_REF_TOKEN_CHARACTER_MAXIMUM",
+                "VERIFIER_SCHEMA_DEFINITION_NAME_CHARACTER_MAXIMUM",
             ],
         )
         event_constraint = manifest["constraints"][2]
@@ -3308,15 +3309,17 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         )
         self.assertEqual(
             manifest["predecessor_manifest"]["path"],
-            "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v38.json",
+            "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v39.json",
         )
         self.assertEqual(
             manifest["predecessor_schema"]["path"],
-            "schemas/m0-3a-runtime-v2-resource-classification.v38.schema.json",
+            "schemas/m0-3a-runtime-v2-resource-classification.v39.schema.json",
         )
         self.assertEqual(
             [item["path"] for item in RESOURCE_CLASSIFICATION_ANCESTORS],
             [
+                "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v38.json",
+                "schemas/m0-3a-runtime-v2-resource-classification.v38.schema.json",
                 "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v37.json",
                 "schemas/m0-3a-runtime-v2-resource-classification.v37.schema.json",
                 "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v36.json",
@@ -3418,7 +3421,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         root = self.copy_inputs()
         path = root / RESOURCE_CLASSIFICATION_MANIFEST[1]
         raw = path.read_bytes().replace(
-            b'"schema_version": 39', b'"schema_version": 39, "schema_version": 39'
+            b'"schema_version": 40', b'"schema_version": 40, "schema_version": 40'
         )
         path.write_bytes(raw)
         with self.assertRaises(ReadinessError) as caught:
@@ -6976,7 +6979,78 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                     build_report(root)
                 self.assertEqual(caught.exception.code, expected_code)
 
-    def test_v39_classification_preserves_v38_and_appends_one(self):
+    def test_schema_definition_name_bound_rejects_site_and_semantic_attacks(self):
+        attacks = (
+            (
+                b"len(name) > 64",
+                b"len(name) >= 64",
+                "RESOURCE_CLASSIFICATION_SITE_MISSING",
+            ),
+            (
+                b'value.get("$defs", {})',
+                b'value.get("definitions", {})',
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+            ),
+            (
+                b"definitions = {}",
+                b"definitions = dict()",
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+            ),
+            (
+                b"for name, definition in definitions.items():",
+                b"for name, definition in sorted(definitions.items()):",
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+            ),
+            (
+                b"type(name) is not str",
+                b"not isinstance(name, str)",
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+            ),
+            (
+                b"or not name",
+                b"or name == ''",
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+            ),
+            (
+                b"or not name\n            or len(name) > 64",
+                b"or len(name) > 64\n            or not name",
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+            ),
+            (
+                b'add("SCHEMA_DEF_NAME", "/$defs")',
+                b'add("SCHEMA_DEF_NAME", "/")',
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+            ),
+            (
+                b'add("SCHEMA_DEF_NAME", "/$defs")\n            continue',
+                b'add("SCHEMA_DEF_NAME", "/$defs")\n            pass',
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+            ),
+            (
+                b"edges.setdefault(name, set())",
+                b"edges[name] = set()",
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+            ),
+            (
+                b'walk(definition, f"/$defs/{name}", name)',
+                b"walk(definition, name, name)",
+                "RESOURCE_CLASSIFICATION_FUNCTION_SHAPE",
+            ),
+        )
+        for old, new, expected_code in attacks:
+            with self.subTest(old=old, new=new):
+                root = self.copy_inputs()
+                source = root / "src/edgelab/runtime_v2_verifier.py"
+                original = source.read_bytes()
+                mutated = original.replace(old, new, 1)
+                self.assertNotEqual(mutated, original)
+                source.write_bytes(mutated)
+                self.refresh_source_bindings(root)
+                with self.assertRaises(ReadinessError) as caught:
+                    build_report(root)
+                self.assertEqual(caught.exception.code, expected_code)
+
+    def test_v40_classification_preserves_v39_and_appends_one(self):
         current = json.loads(
             (ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_text(
                 encoding="ascii"
@@ -6984,7 +7058,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         )
         predecessor = json.loads(
             (
-                ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v38.json"
+                ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v39.json"
             ).read_text(encoding="ascii")
         )
         for successor, historical in zip(
@@ -7000,25 +7074,25 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                     if key != "evidence_inputs"
                 },
             )
-        self.assertEqual(len(current["constraints"]), 35)
-        self.assertEqual(current["classified_site_count"], 68)
+        self.assertEqual(len(current["constraints"]), 36)
+        self.assertEqual(current["classified_site_count"], 69)
         self.assertEqual(current["source_bound_site_count"], 425)
         self.assertEqual(current["schema_bound_site_count"], 296)
-        self.assertEqual(current["unclassified_site_count"], 653)
+        self.assertEqual(current["unclassified_site_count"], 652)
         self.assertEqual(current["coverage_status"], "INCOMPLETE")
         self.assertEqual(current["generation_disposition"], "DENY")
         self.assertEqual(
             current["predecessor_manifest"],
             {
-                "byte_length": 80831,
+                "byte_length": 83875,
                 "classification_manifest_sha256": (
-                    "868b3408ba5b1839535dfdc87f0d6f38586f613fd918f68724f1ae4923cfbe2d"
+                    "667125ba3f0d85eb7729364699f89a74e3b7b079d31dc5da649a51e9058b3972"
                 ),
                 "path": (
-                    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v38.json"
+                    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v39.json"
                 ),
                 "raw_sha256": (
-                    "29b54d7658ba6fd61607f097c0a344106ff10a249136570566e848f1f3683eda"
+                    "3486368af963e822b6789888b43cd54403433d062f2c1f433e310178b1d1b6cb"
                 ),
             },
         )
@@ -7130,7 +7204,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             "d6a859d8b9df13389c46ea59c62011e44c95085620ace3af223c97a74faf485b",
         )
 
-    def test_v39_predecessor_rebase_is_exactly_four_evidence_records(self):
+    def test_v40_predecessor_rebase_is_exactly_five_evidence_records(self):
         current = json.loads(
             (ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_text(
                 encoding="ascii"
@@ -7138,7 +7212,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         )["constraints"][:-1]
         historical = json.loads(
             (
-                ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v38.json"
+                ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v39.json"
             ).read_text(encoding="ascii")
         )["constraints"]
         differences = [
@@ -7148,7 +7222,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         ]
         self.assertEqual(
             {item[0]["constraint_id"] for item in differences},
-            set(RESOURCE_CLASSIFICATION_V38_REBASED_EVIDENCE),
+            set(RESOURCE_CLASSIFICATION_V39_REBASED_EVIDENCE),
         )
         for successor, predecessor in differences:
             constraint_id = predecessor["constraint_id"]
@@ -7156,7 +7230,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                 predecessor["evidence_inputs"],
                 [
                     dict(item)
-                    for item in RESOURCE_CLASSIFICATION_V38_REBASED_EVIDENCE[
+                    for item in RESOURCE_CLASSIFICATION_V39_REBASED_EVIDENCE[
                         constraint_id
                     ]
                 ],
@@ -7172,7 +7246,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                 },
             )
 
-    def test_v39_classification_binds_predecessor_link_records(self):
+    def test_v40_classification_binds_predecessor_link_records(self):
         attacks = (
             ("predecessor_manifest", "raw_sha256", "0" * 64),
             ("predecessor_manifest", "classification_manifest_sha256", "1" * 64),
@@ -7196,7 +7270,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                     caught.exception.code, "RESOURCE_CLASSIFICATION_BINDING"
                 )
 
-    def test_v39_rejects_rewritten_v38_constraint_history(self):
+    def test_v40_rejects_rewritten_v39_constraint_history(self):
         attacks = (
             lambda manifest: manifest["constraints"][0].__setitem__(
                 "maximum", manifest["constraints"][0]["maximum"] - 1
@@ -7209,21 +7283,21 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         for attack in attacks:
             with self.subTest(attack=attack):
                 root = self.copy_inputs()
-                hostile_v38 = self.rewrite_versioned_classification_manifest(
+                hostile_v39 = self.rewrite_versioned_classification_manifest(
                     root,
                     RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
-                    38,
+                    39,
                     attack,
                 )
                 self.rewrite_manifest(
                     root,
                     lambda manifest: manifest.__setitem__(
-                        "predecessor_manifest", dict(hostile_v38)
+                        "predecessor_manifest", dict(hostile_v39)
                     ),
                 )
                 with mock.patch.dict(
                     RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
-                    hostile_v38,
+                    hostile_v39,
                     clear=True,
                 ):
                     with self.assertRaises(ReadinessError) as caught:
@@ -7232,32 +7306,32 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                     caught.exception.code, "RESOURCE_CLASSIFICATION_PREDECESSOR_PREFIX"
                 )
 
-    def test_v39_classification_binds_v38_v37_and_earlier_ancestor_links(self):
+    def test_v40_classification_binds_v39_v38_and_earlier_ancestor_links(self):
         for record, field in (
             ("predecessor_manifest", "raw_sha256"),
             ("predecessor_schema", "raw_sha256"),
         ):
-            with self.subTest(manifest="v38", record=record, field=field):
+            with self.subTest(manifest="v39", record=record, field=field):
                 root = self.copy_inputs()
 
-                def mutate_v38(manifest):
+                def mutate_v39(manifest):
                     manifest[record][field] = "0" * 64
 
-                v38_expected = self.rewrite_versioned_classification_manifest(
+                v39_expected = self.rewrite_versioned_classification_manifest(
                     root,
                     RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
-                    38,
-                    mutate_v38,
+                    39,
+                    mutate_v39,
                 )
                 self.rewrite_manifest(
                     root,
                     lambda manifest: manifest.__setitem__(
-                        "predecessor_manifest", dict(v38_expected)
+                        "predecessor_manifest", dict(v39_expected)
                     ),
                 )
                 with mock.patch.dict(
                     RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
-                    v38_expected,
+                    v39_expected,
                     clear=True,
                 ):
                     with self.assertRaises(ReadinessError) as caught:

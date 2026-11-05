@@ -145,10 +145,10 @@ class SchemaRefTokenCharacterBoundTests(unittest.TestCase):
                     {TOKEN_SLICE_SITE, TOKEN_COMPARISON_SITE}.issubset(site_ids)
                 )
 
-    def test_v39_is_v38_semantic_prefix_plus_one_deny_only_constraint(self):
+    def test_v40_preserves_v39_schema_ref_token_constraint(self):
         predecessor = json.loads(
             (
-                ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v38.json"
+                ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v39.json"
             ).read_text(encoding="ascii")
         )
         for successor, historical in zip(
@@ -159,7 +159,7 @@ class SchemaRefTokenCharacterBoundTests(unittest.TestCase):
                 {key: value for key, value in historical.items() if key != "evidence_inputs"},
             )
         constraint = self.constraint()
-        self.assertEqual(len(self.manifest["constraints"]), 35)
+        self.assertEqual(len(self.manifest["constraints"]), 36)
         self.assertEqual(constraint["maximum"], 64)
         self.assertEqual(constraint["unit"], "CHARACTERS")
         self.assertEqual(constraint["definition_site_ids"], [TOKEN_SLICE_SITE])
@@ -167,9 +167,9 @@ class SchemaRefTokenCharacterBoundTests(unittest.TestCase):
             constraint["enforcement_site_ids"], [TOKEN_COMPARISON_SITE]
         )
         classification = self.report["inventory"]["resource_inventory_classification"]
-        self.assertEqual(classification["classified_constraint_count"], 35)
-        self.assertEqual(classification["classified_site_count"], 68)
-        self.assertEqual(classification["unclassified_site_count"], 653)
+        self.assertEqual(classification["classified_constraint_count"], 36)
+        self.assertEqual(classification["classified_site_count"], 69)
+        self.assertEqual(classification["unclassified_site_count"], 652)
         self.assertEqual(classification["coverage_status"], "INCOMPLETE")
         self.assertEqual(classification["generation_disposition"], "DENY")
         self.assertEqual(
@@ -190,14 +190,18 @@ class SchemaRefTokenCharacterBoundTests(unittest.TestCase):
             for field in ("definition_site_ids", "enforcement_site_ids")
             for site_id in item[field]
         }
-        self.assertNotIn(DEFINITION_NAME_COMPARISON_SITE, classified)
+        constraint_sites = set(constraint["definition_site_ids"]) | set(
+            constraint["enforcement_site_ids"]
+        )
+        self.assertNotIn(DEFINITION_NAME_COMPARISON_SITE, constraint_sites)
+        self.assertIn(DEFINITION_NAME_COMPARISON_SITE, classified)
         discovery = self.report["inventory"]["resource_inventory_discovery"]
         sixty_four_comparisons = {
             item["site_id"] for item in discovery["source_bound_sites"]
             if item.get("expression") in {"len(token) > 64", "len(name) > 64"}
         }
         self.assertEqual(
-            sixty_four_comparisons & classified, {TOKEN_COMPARISON_SITE}
+            sixty_four_comparisons & constraint_sites, {TOKEN_COMPARISON_SITE}
         )
         self.assertEqual(
             constraint["semantic_proof"]["selection_semantics"],

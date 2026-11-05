@@ -126,10 +126,10 @@ class ClosureIntegerTokenDigitBoundTests(unittest.TestCase):
                 self.assertNotEqual(mutated, source)
                 self.assertEqual(mutated.count(new), 1)
 
-    def test_v39_preserves_v38_integer_token_constraint(self):
+    def test_v40_preserves_v39_integer_token_constraint(self):
         predecessor = json.loads(
             (
-                ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v38.json"
+                ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v39.json"
             ).read_text(encoding="ascii")
         )
         for current, historical in zip(
@@ -139,7 +139,7 @@ class ClosureIntegerTokenDigitBoundTests(unittest.TestCase):
                 {key: value for key, value in current.items() if key != "evidence_inputs"},
                 {key: value for key, value in historical.items() if key != "evidence_inputs"},
             )
-        self.assertEqual(len(self.manifest["constraints"]), 35)
+        self.assertEqual(len(self.manifest["constraints"]), 36)
 
         constraint = self.constraint()
         self.assertEqual(constraint["classification"], "RESOURCE_MAXIMUM")
@@ -152,9 +152,9 @@ class ClosureIntegerTokenDigitBoundTests(unittest.TestCase):
         self.assertIn("one leading minus sign", constraint["accepted_equation"])
 
         classification = self.report["inventory"]["resource_inventory_classification"]
-        self.assertEqual(classification["classified_constraint_count"], 35)
-        self.assertEqual(classification["classified_site_count"], 68)
-        self.assertEqual(classification["unclassified_site_count"], 653)
+        self.assertEqual(classification["classified_constraint_count"], 36)
+        self.assertEqual(classification["classified_site_count"], 69)
+        self.assertEqual(classification["unclassified_site_count"], 652)
         self.assertEqual(classification["coverage_status"], "INCOMPLETE")
         self.assertEqual(classification["generation_disposition"], "DENY")
         self.assertEqual(
