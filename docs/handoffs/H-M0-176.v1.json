@@ -1,0 +1,73 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-176",
+  "version": 1,
+  "created_at": "2026-11-05T16:17:58Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Classify the next lowest-risk exact schema meaning using maximally discriminating local-keyword evidence.",
+  "work_done": "Classification V53 preserves the exact V52 prefix with zero rebases and appends one exact generator_identity.invocation maxLength proof. It now has 51 constraints and 84 classified sites; 637 remain unclassified, coverage remains INCOMPLETE, generation remains DENY, and no authority changed.",
+  "evidence_refs": [
+    "reports/H-M0-176-generator-invocation-max-length-v53.v1.md",
+    "reports/audit/A-M0-158.v1.json",
+    "reports/stops/STOP-M0-3A-002.v79.json",
+    "docs/M0.3A_GENERATOR_INVOCATION_MAX_LENGTH_SCHEMA_PROOF.v1.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v53.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v53.schema.json",
+    "tests/test_runtime_v2_generator_invocation_max_length_schema_proof.py",
+    "tools/check_runtime_v2_release_readiness.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_GENERATOR_INVOCATION_MAX_LENGTH_SCHEMA_PROOF.v1.json",
+    "docs/M0.3A_GENERATOR_INVOCATION_MAX_LENGTH_SCHEMA_PROOF.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v53.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v53.schema.json",
+    "tests/test_runtime_v2_generator_invocation_max_length_schema_proof.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_resource_classification_current.py",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tools/run_test_tier.py",
+    "reports/H-M0-176-generator-invocation-max-length-v53.v1.md",
+    "reports/audit/A-M0-158.v1.json",
+    "reports/stops/STOP-M0-3A-002.v79.json",
+    "docs/handoffs/H-M0-176.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "Final fast tier passed all 79 isolated modules in 1307.575 seconds.",
+    "Fast log /tmp/h176-fast-final.log has 176487 bytes and SHA-256 bfd1aae76cd15cf14aefb2199c0376d82a2da9dc17a9d9e64fef3112c9b0e0d8.",
+    "Focused proof/current tests passed 19 tests normally and under optimized Python.",
+    "Normal and optimized readiness outputs were byte-identical, 362403 bytes, with SHA-256 878c8a01c8d385f13bd9e69698e95c27cb4a60e0e00de96395dc173f3254b3aa and remained exit 1 BLOCKED/DENY.",
+    "Two bounded independent engineering reviews returned PASS/ACCEPT.",
+    "587 governed records and published history validated before governance publication.",
+    "590 governed records and published history validated after governance publication.",
+    "18 focused alpha and web observatory tests passed after governance publication."
+  ],
+  "open_questions": [
+    "Which remaining exact schema meaning or family should follow V53?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v79 remains OPEN.",
+    "Only 84 of 721 census sites are classified; 637 remain unclassified (354 source-bound and 283 schema-bound).",
+    "Public verification remains disconnected and V1 migration remains unsupported.",
+    "Live remains LOCKED with USD 0 deployable and the kill switch ENGAGED."
+  ],
+  "next_action": "Select the next smallest rigorously homogeneous schema family or exact per-site meaning while preserving frozen history and explicit predecessor lanes.",
+  "completion_criteria": [
+    "Future proofs preserve every historical artifact byte-for-byte and retain exact location-specific evidence.",
+    "Coverage remains INCOMPLETE and authority remains DENY until all required closure evidence is independently accepted."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-175.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-175",
+      "version": 1,
+      "sha256": "f1355c39c19a11068237ca57d0b03b36a7f4607cc2c9aa7c3e1b700d03d161b1"
+    }
+  ]
+}
