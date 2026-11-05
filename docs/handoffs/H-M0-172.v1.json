@@ -1,0 +1,81 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-172",
+  "version": 1,
+  "created_at": "2026-11-05T12:55:13Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Demonstrate that a rigorously closed homogeneous schema-proof family can safely preserve the same truthfulness and immutability as one-site milestones.",
+  "work_done": "Classification V49 preserves the exact V48 constraint prefix with zero evidence rebases and appends two independently owned direct-root operation-key maxLength proofs under a closed, pinned, non-dynamic family. It now has 43 constraints and 76 classified sites; 645 remain unclassified, coverage remains INCOMPLETE, generation remains DENY, and no authority changed.",
+  "evidence_refs": [
+    "reports/H-M0-172-operation-key-max-length-family-v49.v1.md",
+    "reports/audit/A-M0-154.v1.json",
+    "reports/stops/STOP-M0-3A-002.v75.json",
+    "docs/M0.3A_COMMAND_REQUEST_OPERATION_KEY_MAX_LENGTH_SCHEMA_PROOF.v1.json",
+    "docs/M0.3A_RESPONSE_PROJECTION_OPERATION_KEY_MAX_LENGTH_SCHEMA_PROOF.v1.json",
+    "docs/M0.3A_OPERATION_KEY_MAX_LENGTH_SCHEMA_PROOF_FAMILY.v1.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v49.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v49.schema.json",
+    "tests/test_runtime_v2_operation_key_max_length_schema_proof_family.py",
+    "tools/check_runtime_v2_release_readiness.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_COMMAND_REQUEST_OPERATION_KEY_MAX_LENGTH_SCHEMA_PROOF.v1.json",
+    "docs/M0.3A_COMMAND_REQUEST_OPERATION_KEY_MAX_LENGTH_SCHEMA_PROOF.v1.md",
+    "docs/M0.3A_OPERATION_KEY_MAX_LENGTH_SCHEMA_PROOF_FAMILY.v1.json",
+    "docs/M0.3A_OPERATION_KEY_MAX_LENGTH_SCHEMA_PROOF_FAMILY.v1.md",
+    "docs/M0.3A_RESPONSE_PROJECTION_OPERATION_KEY_MAX_LENGTH_SCHEMA_PROOF.v1.json",
+    "docs/M0.3A_RESPONSE_PROJECTION_OPERATION_KEY_MAX_LENGTH_SCHEMA_PROOF.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v49.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v49.schema.json",
+    "tests/test_runtime_v2_command_request_operation_key_max_length_schema_proof.py",
+    "tests/test_runtime_v2_operation_key_max_length_schema_proof_family.py",
+    "tests/test_runtime_v2_response_projection_operation_key_max_length_schema_proof.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_resource_classification_current.py",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tools/run_test_tier.py",
+    "reports/H-M0-172-operation-key-max-length-family-v49.v1.md",
+    "reports/audit/A-M0-154.v1.json",
+    "reports/stops/STOP-M0-3A-002.v75.json",
+    "docs/handoffs/H-M0-172.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "Final fast tier passed all 69 isolated modules in 1142.262 seconds.",
+    "Fast log /tmp/h172-fast-final.log has 161670 bytes and SHA-256 353a722deb80a73e2b8bb90c22c30880f4ef98b84dcdd5ec91d2d870fe678498.",
+    "Dedicated family and member tests passed 23 tests normally and under optimized Python.",
+    "Normal and optimized readiness outputs were byte-identical, 362402 bytes, with SHA-256 543a045609bfc0c2393b37dda4afec0a3aed95df4bcb534bbbea01fabe14dbdd and remained exit 1 BLOCKED/DENY.",
+    "Bounded Skeptic review returned ACCEPT/PASS.",
+    "575 governed records and published history validated before governance publication.",
+    "578 governed records and published history validated after governance publication.",
+    "18 focused alpha and web observatory tests passed after governance publication."
+  ],
+  "open_questions": [
+    "Which next small exact family can safely reuse the closed batching pattern without widening semantics?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v75 remains OPEN.",
+    "Only 76 of 721 census sites are classified; 645 remain unclassified (354 source-bound and 291 schema-bound).",
+    "Public verification remains disconnected and V1 migration remains unsupported.",
+    "Live remains LOCKED with USD 0 deployable and the kill switch ENGAGED."
+  ],
+  "next_action": "Select the next smallest rigorously homogeneous closed family or exact per-site meaning while preserving individual proof ownership and frozen historical evidence.",
+  "completion_criteria": [
+    "Future family appends retain separate one-site proofs and preserve every historical manifest, schema, proof, family artifact, and evidence input byte-for-byte.",
+    "Coverage remains INCOMPLETE and authority remains DENY until all required closure evidence is independently accepted."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-171.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-171",
+      "version": 1,
+      "sha256": "33094c6fd791260697ceb0b05b3c1ffde3cd09baed12701853449db607ef34ed"
+    }
+  ]
+}
