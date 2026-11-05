@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-150",
+  "version": 1,
+  "occurred_at": "2026-11-05T07:21:26Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_FIRST_SCHEMA_DECLARATIVE_BOUND_V45_DENY_ONLY",
+  "subject_ref": "reports/H-M0-168-first-schema-declarative-bound-v45.v1.md",
+  "previous_state": "DISCOVERY_V8_CLASSIFICATION_V44_SCHEMA_PROOF_CONTRACT_ZERO_SCHEMA_CLASSIFIED_650_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V8_CLASSIFICATION_V45_ONE_SCHEMA_SITE_CLASSIFIED_649_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit dd73b58 adds one exact location-scoped minLength schema proof, yielding 39 constraints, 72 classified sites, and 649 unclassified sites while retaining INCOMPLETE/DENY and all four blockers.",
+  "evidence_refs": [
+    "reports/H-M0-168-first-schema-declarative-bound-v45.v1.md",
+    "docs/M0.3A_ACTIVE_RUNTIME_ID_MIN_LENGTH_SCHEMA_PROOF.v1.json",
+    "docs/M0.3A_ACTIVE_RUNTIME_ID_MIN_LENGTH_SCHEMA_PROOF.v1.md",
+    "docs/M0.3A_RUNTIME_V2_SCHEMA_DECLARATIVE_KEYWORD_PROOF.v1.json",
+    "schemas/m0-3a-runtime-v2-schema-declarative-keyword-proof.v1.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v8.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v45.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v45.schema.json",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_active_runtime_id_min_length_schema_proof.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v71.json"
+  ],
+  "code_ref": "dd73b58",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-168",
+  "supersedes": null
+}

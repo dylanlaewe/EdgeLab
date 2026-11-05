@@ -1,0 +1,87 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-168",
+  "version": 1,
+  "created_at": "2026-11-05T07:21:26Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Select, implement, and independently review the smallest complete low-authority real schema-site proof under the V44 contract.",
+  "work_done": "Classification V45 appends one exact location-scoped proof for active_runtime_id minLength=1. It preserves every V44 semantic field and source-site set while allowing exactly eight evidence-only constraint-record refreshes across seven historical test paths plus one separately identified non-constraint schema-identity test refresh. Adversarial tests bind the exact schema site, document, parent, ancestor sequence, equation, unit, evidence identities, source/schema partition, and nonclaims. V45 reports 39 constraints, 72 classified sites, and 649 unclassified sites with INCOMPLETE/DENY, four unchanged blockers, and no runtime or authority expansion.",
+  "evidence_refs": [
+    "reports/H-M0-168-first-schema-declarative-bound-v45.v1.md",
+    "reports/audit/A-M0-150.v1.json",
+    "reports/stops/STOP-M0-3A-002.v71.json",
+    "docs/M0.3A_ACTIVE_RUNTIME_ID_MIN_LENGTH_SCHEMA_PROOF.v1.json",
+    "docs/M0.3A_ACTIVE_RUNTIME_ID_MIN_LENGTH_SCHEMA_PROOF.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v8.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v45.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v45.schema.json",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_active_runtime_id_min_length_schema_proof.py",
+    "tests/test_runtime_v2_release_readiness.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_ACTIVE_RUNTIME_ID_MIN_LENGTH_SCHEMA_PROOF.v1.json",
+    "docs/M0.3A_ACTIVE_RUNTIME_ID_MIN_LENGTH_SCHEMA_PROOF.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v45.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v8.md",
+    "schemas/m0-3a-runtime-v2-resource-classification.v45.schema.json",
+    "tests/test_runtime_v2_active_runtime_id_min_length_schema_proof.py",
+    "tests/test_runtime_v2_closure_integer_token_digit_bound.py",
+    "tests/test_runtime_v2_codec_private_validate_depth_bound.py",
+    "tests/test_runtime_v2_finding_artifact_character_discovery.py",
+    "tests/test_runtime_v2_finding_string_bounds_classification.py",
+    "tests/test_runtime_v2_initial_reducer_finding_code_character_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_schema_declarative_keyword_proof.py",
+    "tests/test_runtime_v2_schema_definition_name_character_bound.py",
+    "tests/test_runtime_v2_schema_ref_token_character_bound.py",
+    "tests/test_runtime_v2_schema_resource_site_identity_discovery.py",
+    "tests/test_runtime_v2_top_level_events_maximum_classification.py",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tools/run_test_tier.py",
+    "reports/H-M0-168-first-schema-declarative-bound-v45.v1.md",
+    "reports/audit/A-M0-150.v1.json",
+    "reports/stops/STOP-M0-3A-002.v71.json",
+    "docs/handoffs/H-M0-168.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "The complete fast tier passed 737 tests across 63 isolated modules in 1078.921 seconds.",
+    "The fast tier release-readiness module passed 80 tests in 1007.533 seconds.",
+    "Fifteen selected-proof and proof-contract tests passed after the final audit-wording correction.",
+    "Normal and optimized readiness outputs were byte-identical with SHA-256 22a0587aa67f8f235acb3774855acb6c1d52a3732b05648981ce9576bd5a5306; both remained exit 1 BLOCKED/DENY with four blockers and no release artifacts.",
+    "Independent bounded inventory and Skeptic reviews returned PASS after the exact evidence-rebase and audit-wording remediations.",
+    "566 governed records and published history validated after governance publication.",
+    "18 focused alpha and web observatory tests passed after governance publication."
+  ],
+  "open_questions": [
+    "Which next direct, no-applicator schema site is the safest complete proof instance under V45?",
+    "Which schema families can be batched without weakening per-site identity and applicability boundaries?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v71 remains OPEN.",
+    "Only 72 of 721 census sites are semantically classified; 649 remain unclassified with INCOMPLETE coverage.",
+    "Public verification remains deny-only and disconnected, and the V1 bridge remains unsupported.",
+    "Live remains LOCKED, live_enabled remains false, the kill switch remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Independently select the next smallest complete no-applicator schema meaning and append a per-site proof without widening root applicability, runtime behavior, public acceptance, STOP, or authority claims.",
+  "completion_criteria": [
+    "The next proof binds one exact addressed site and complete local context with distinct evidence and fixed nonclaims.",
+    "Coverage accounting adds only the exact new schema site once and preserves disjoint source/schema ownership.",
+    "RESOURCE_INVENTORY_INCOMPLETE remains unconditional until all 721 sites are classified, with no authority expansion."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-167.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-167",
+      "version": 1,
+      "sha256": "99bd25f938f8ab6340e07981c0fb96eaa23ebb0d5d3144320a5f644fc95df994"
+    }
+  ]
+}
