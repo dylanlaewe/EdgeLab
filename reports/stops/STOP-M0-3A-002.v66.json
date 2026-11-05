@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-002",
+  "version": 66,
+  "issued_at": "2026-11-05T00:25:09Z",
+  "issuer": "00 Director",
+  "reason": "Classification V40 adds only the root verifier schema-definition name 64-character ceiling at one overlapping definition/enforcement site. It preserves every V39 semantic field and site set with exactly five enumerated, byte-pinned evidence-only refreshes required by successor census assertions. Of 721 census sites, 69 are classified and 652 remain unclassified, so coverage is explicitly incomplete. Exact resource-manifest completion, public-entrypoint integration, conservative V1 bridge disposition, and the independently accepted A-J evidence manifest remain unresolved. Release generation is blocked and no positive local-consistency result is supportable.",
+  "affected_components": [
+    "exact generated verifier closure",
+    "semantic resource-limit classification and coverage proof",
+    "legacy bridge disposition",
+    "complete whole-image acceptance matrix",
+    "public result vocabulary"
+  ],
+  "evidence_refs": [
+    "reports/H-M0-163-verifier-schema-definition-name-bound-v40.v1.md",
+    "docs/M0.3A_VERIFIER_SCHEMA_DEFINITION_NAME_CHARACTER_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v7.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v7.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v40.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v40.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_schema_definition_name_character_bound.py",
+    "tests/test_runtime_v2_release_readiness.py"
+  ],
+  "severity": "HIGH",
+  "remediation_required": [
+    "Independently inventory the 652 remaining unclassified sites and select the next smallest complete semantic slice without preapproval, near-completion claims, or inference of authority from the completed schema-definition name classification.",
+    "Classify every remaining discovered source/schema site and prove bidirectional coverage of all remaining enforcement mechanisms and descriptor/contract constraints.",
+    "Bind every accepted resource constraint to all definitions, enforcement sites, branch-specific and positional bindings, source-level semantic dependencies, contract equations, units, and boundary evidence without conflating name length, reference-token semantics, target existence, graph semantics, minima, maxima, exact values, relational constraints, diagnostics, representation limits, helper components, or equal-valued limits on different subjects.",
+    "Conservatively disposition the unsupported V1 migration bridge under the retained legacy amendment without inventing unavailable preimages.",
+    "Connect the sole public entrypoint and bind independently accepted A-J evidence before generating any closure or carrier."
+  ],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}
