@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-155",
+  "version": 1,
+  "occurred_at": "2026-11-05T13:57:23Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_OPERATION_KEY_MIN_LENGTH_PROOF_FAMILY_V50_DENY_ONLY",
+  "subject_ref": "reports/H-M0-173-operation-key-min-length-family-v50.v1.md",
+  "previous_state": "CLASSIFICATION_V49_76_CLASSIFIED_645_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "CLASSIFICATION_V50_78_CLASSIFIED_643_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 2725cd7 appends two independently owned operation-key minimum-length proofs under a closed exact family while preserving V49 byte-for-byte with zero evidence rebases and no authority change.",
+  "evidence_refs": [
+    "reports/H-M0-173-operation-key-min-length-family-v50.v1.md",
+    "docs/M0.3A_COMMAND_REQUEST_OPERATION_KEY_MIN_LENGTH_SCHEMA_PROOF.v1.json",
+    "docs/M0.3A_RESPONSE_PROJECTION_OPERATION_KEY_MIN_LENGTH_SCHEMA_PROOF.v1.json",
+    "docs/M0.3A_OPERATION_KEY_MIN_LENGTH_SCHEMA_PROOF_FAMILY.v1.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v50.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v50.schema.json",
+    "tools/check_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v76.json"
+  ],
+  "code_ref": "2725cd7",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-173",
+  "supersedes": null
+}
