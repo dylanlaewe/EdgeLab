@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-153",
+  "version": 1,
+  "occurred_at": "2026-11-05T11:27:21Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_GIT_COMMON_DIR_MAX_LENGTH_SCHEMA_PROOF_V48_DENY_ONLY",
+  "subject_ref": "reports/H-M0-171-git-common-dir-max-length-schema-proof-v48.v1.md",
+  "previous_state": "CLASSIFICATION_V47_73_CLASSIFIED_648_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "CLASSIFICATION_V48_74_CLASSIFIED_647_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 6675db2 appends one exact git-common-directory identity maximum-length schema proof while preserving V47 byte-for-byte with zero evidence rebases and no authority change.",
+  "evidence_refs": [
+    "reports/H-M0-171-git-common-dir-max-length-schema-proof-v48.v1.md",
+    "docs/M0.3A_GIT_COMMON_DIR_IDENTITY_MAX_LENGTH_SCHEMA_PROOF.v1.json",
+    "docs/M0.3A_GIT_COMMON_DIR_IDENTITY_MAX_LENGTH_SCHEMA_PROOF.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v48.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v48.schema.json",
+    "tests/test_runtime_v2_git_common_dir_identity_max_length_schema_proof.py",
+    "tools/check_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v74.json"
+  ],
+  "code_ref": "6675db2",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-171",
+  "supersedes": null
+}

@@ -1,0 +1,74 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-171",
+  "version": 1,
+  "created_at": "2026-11-05T11:27:21Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Append the safest exact local string-bound schema meaning under V47 without modifying frozen historical evidence lanes.",
+  "work_done": "Classification V48 preserves the exact V47 constraint prefix with zero evidence rebases and appends one exact local Draft 2020-12 STRING-domain maxLength proof at the pinned git-common-directory identity site. It now has 41 constraints and 74 classified sites; 647 remain unclassified, coverage remains INCOMPLETE, generation remains DENY, and no authority changed.",
+  "evidence_refs": [
+    "reports/H-M0-171-git-common-dir-max-length-schema-proof-v48.v1.md",
+    "reports/audit/A-M0-153.v1.json",
+    "reports/stops/STOP-M0-3A-002.v74.json",
+    "docs/M0.3A_GIT_COMMON_DIR_IDENTITY_MAX_LENGTH_SCHEMA_PROOF.v1.json",
+    "docs/M0.3A_GIT_COMMON_DIR_IDENTITY_MAX_LENGTH_SCHEMA_PROOF.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v48.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v48.schema.json",
+    "tests/test_runtime_v2_git_common_dir_identity_max_length_schema_proof.py",
+    "tools/check_runtime_v2_release_readiness.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_GIT_COMMON_DIR_IDENTITY_MAX_LENGTH_SCHEMA_PROOF.v1.json",
+    "docs/M0.3A_GIT_COMMON_DIR_IDENTITY_MAX_LENGTH_SCHEMA_PROOF.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v48.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v48.schema.json",
+    "tests/test_runtime_v2_git_common_dir_identity_max_length_schema_proof.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_resource_classification_current.py",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tools/run_test_tier.py",
+    "reports/H-M0-171-git-common-dir-max-length-schema-proof-v48.v1.md",
+    "reports/audit/A-M0-153.v1.json",
+    "reports/stops/STOP-M0-3A-002.v74.json",
+    "docs/handoffs/H-M0-171.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "Final fast tier passed all 66 isolated modules in 1100.574 seconds.",
+    "Fast log /tmp/h171-fast-final.log has 156966 bytes and SHA-256 961f8c3bc7cf2c85e1921dfa38238d01336e412d0439edab0e8125e3f2830ad7.",
+    "Focused final audit passed 18 tests.",
+    "Normal and optimized readiness outputs were byte-identical with SHA-256 ce8fe1841572970a575325c9431ac551e240b32068e24340924fadc689529a93 and remained exit 1 BLOCKED/DENY.",
+    "Independent inventory and bounded Skeptic reviews returned PASS.",
+    "572 governed records and published history validated before governance publication.",
+    "575 governed records and published history validated after governance publication.",
+    "18 focused alpha and web observatory tests passed after governance publication."
+  ],
+  "open_questions": [
+    "Which next edge-none schema site or closed semantic family can be safely classified under V48?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v74 remains OPEN.",
+    "Only 74 of 721 census sites are classified; 647 remain unclassified.",
+    "Public verification remains disconnected and V1 migration remains unsupported.",
+    "Live remains LOCKED with USD 0 deployable and the kill switch ENGAGED."
+  ],
+  "next_action": "Select the next smallest complete edge-none schema meaning or rigorously closed semantic family while leaving frozen historical evidence lanes immutable.",
+  "completion_criteria": [
+    "Future schema-proof appends preserve every historical manifest, schema, proof, and evidence input byte-for-byte.",
+    "Coverage remains INCOMPLETE and authority remains DENY until all required closure evidence is independently accepted."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-170.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-170",
+      "version": 1,
+      "sha256": "4f798cb37bdc7ce36498a855c87deae7ba396c11ff4d46613e66a7f022290efa"
+    }
+  ]
+}
