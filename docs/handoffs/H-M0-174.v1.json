@@ -1,0 +1,73 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-174",
+  "version": 1,
+  "created_at": "2026-11-05T14:44:44Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Classify the smallest safe exact schema meaning after V50 without widening path, runtime, or authority claims.",
+  "work_done": "Classification V51 preserves the exact V50 constraint prefix with zero evidence rebases and appends one exact location-scoped repository_root_realpath maxLength proof. It now has 46 constraints and 79 classified sites; 642 remain unclassified, coverage remains INCOMPLETE, generation remains DENY, and no authority changed.",
+  "evidence_refs": [
+    "reports/H-M0-174-repository-root-max-length-v51.v1.md",
+    "reports/audit/A-M0-156.v1.json",
+    "reports/stops/STOP-M0-3A-002.v77.json",
+    "docs/M0.3A_REPOSITORY_ROOT_REALPATH_MAX_LENGTH_SCHEMA_PROOF.v1.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v51.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v51.schema.json",
+    "tests/test_runtime_v2_repository_root_realpath_max_length_schema_proof.py",
+    "tools/check_runtime_v2_release_readiness.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_REPOSITORY_ROOT_REALPATH_MAX_LENGTH_SCHEMA_PROOF.v1.json",
+    "docs/M0.3A_REPOSITORY_ROOT_REALPATH_MAX_LENGTH_SCHEMA_PROOF.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v51.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v51.schema.json",
+    "tests/test_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_repository_root_realpath_max_length_schema_proof.py",
+    "tests/test_runtime_v2_resource_classification_current.py",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tools/run_test_tier.py",
+    "reports/H-M0-174-repository-root-max-length-v51.v1.md",
+    "reports/audit/A-M0-156.v1.json",
+    "reports/stops/STOP-M0-3A-002.v77.json",
+    "docs/handoffs/H-M0-174.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "Final fast tier passed all 73 isolated modules in 1183.508 seconds.",
+    "Fast log /tmp/h174-fast-final.log has 168392 bytes and SHA-256 5a831b31c0117f0ec90c33fd7c15dd31f8e5314c730d2079210c63c5e520120d.",
+    "Dedicated and current-integration tests passed 16 tests normally and under optimized Python.",
+    "Normal and optimized readiness outputs were byte-identical, 362402 bytes, with SHA-256 266964fb0ad070ef67dfc8198a15a8947d60d79c8646d50684e97d6919b361e0 and remained exit 1 BLOCKED/DENY.",
+    "Bounded independent engineering review returned PASS/ACCEPT.",
+    "581 governed records and published history validated before governance publication.",
+    "584 governed records and published history validated after governance publication.",
+    "18 focused alpha and web observatory tests passed after governance publication."
+  ],
+  "open_questions": [
+    "Can the four exact taskId minimum-length sites be batched next without weakening independent evidence ownership?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v77 remains OPEN.",
+    "Only 79 of 721 census sites are classified; 642 remain unclassified (354 source-bound and 288 schema-bound).",
+    "Public verification remains disconnected and V1 migration remains unsupported.",
+    "Live remains LOCKED with USD 0 deployable and the kill switch ENGAGED."
+  ],
+  "next_action": "Implement the independently bounded four-member taskId minimum-length family only with separate per-member proof ownership and exact lookalike exclusion.",
+  "completion_criteria": [
+    "Any family preserves every historical artifact and retains separate location-specific proof ownership.",
+    "Coverage remains INCOMPLETE and authority remains DENY until all required closure evidence is independently accepted."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-173.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-173",
+      "version": 1,
+      "sha256": "64a03ed8d8565e9ad6720d47ce909317d1afe0bc6c2b48222afefca69e95a9b5"
+    }
+  ]
+}
