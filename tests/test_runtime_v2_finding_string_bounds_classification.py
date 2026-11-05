@@ -183,12 +183,10 @@ class FindingStringBoundsClassificationTests(unittest.TestCase):
                 },
             )
         self.assertEqual(len(self.manifest["constraints"]), 38)
-        classification = self.report["inventory"]["resource_inventory_classification"]
-        self.assertEqual(classification["classified_constraint_count"], 39)
-        self.assertEqual(classification["classified_site_count"], 72)
-        self.assertEqual(classification["unclassified_site_count"], 649)
-        self.assertEqual(classification["coverage_status"], "INCOMPLETE")
-        self.assertEqual(classification["generation_disposition"], "DENY")
+        self.assertEqual(self.manifest["classified_site_count"], 71)
+        self.assertEqual(self.manifest["unclassified_site_count"], 650)
+        self.assertEqual(self.manifest["coverage_status"], "INCOMPLETE")
+        self.assertEqual(self.manifest["generation_disposition"], "DENY")
 
         artifact = self.constraint("VERIFIER_FINDING_ARTIFACT_CHARACTER_MAXIMUM")
         coordinate = self.constraint("VERIFIER_FINDING_COORDINATE_CHARACTER_MAXIMUM")

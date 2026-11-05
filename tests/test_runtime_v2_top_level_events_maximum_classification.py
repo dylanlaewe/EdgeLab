@@ -5,7 +5,7 @@ import json
 import unittest
 
 import src.edgelab.runtime_v2_image as host
-from tools.check_runtime_v2_release_readiness import ROOT, build_report
+from tools.check_runtime_v2_release_readiness import ROOT
 
 
 V42_MANIFEST = "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v42.json"
@@ -123,11 +123,6 @@ class RuntimeV2TopLevelEventsMaximumClassificationTests(unittest.TestCase):
             | set(constraint["enforcement_site_ids"]),
             {self.SITE},
         )
-        report = build_report(ROOT)["inventory"]["resource_inventory_classification"]
-        self.assertEqual(report["classified_constraint_count"], 39)
-        self.assertEqual(report["classified_site_count"], 72)
-        self.assertEqual(report["unclassified_site_count"], 649)
-
     def test_exact_subject_selection_and_every_excluded_site_stays_out(self):
         constraint = self.constraint()
         self.assertEqual(

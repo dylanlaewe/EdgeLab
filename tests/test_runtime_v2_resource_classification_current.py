@@ -1,0 +1,138 @@
+"""Current-only integration accounting for runtime-v2 resource classification."""
+from __future__ import annotations
+
+import json
+import unittest
+
+from src.edgelab.validate import ROOT
+from tools.check_runtime_v2_release_readiness import (
+    RESOURCE_CLASSIFICATION_CURRENT_TEST_PATH,
+    RESOURCE_CLASSIFICATION_V46_EVIDENCE_REBASES,
+    RESOURCE_CLASSIFICATION_V46_MANIFEST,
+    build_report,
+)
+
+
+class RuntimeV2ResourceClassificationCurrentTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.report = build_report(ROOT)
+        cls.classification = cls.report["inventory"][
+            "resource_inventory_classification"
+        ]
+        cls.manifest = json.loads(
+            (ROOT / RESOURCE_CLASSIFICATION_V46_MANIFEST[1]).read_text(
+                encoding="ascii"
+            )
+        )
+        cls.predecessor = json.loads(
+            (
+                ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v45.json"
+            ).read_text(encoding="ascii")
+        )
+
+    def test_current_manifest_report_and_partition_are_exact(self):
+        self.assertEqual(self.manifest["schema_version"], 46)
+        self.assertEqual(len(self.manifest["constraints"]), 39)
+        source_ids = {
+            site_id
+            for constraint in self.manifest["constraints"]
+            if constraint["classification"] != "SCHEMA_DECLARATIVE_BOUND"
+            for field in ("definition_site_ids", "enforcement_site_ids")
+            for site_id in constraint[field]
+        }
+        schema_ids = {
+            constraint["schema_site_id"]
+            for constraint in self.manifest["constraints"]
+            if constraint["classification"] == "SCHEMA_DECLARATIVE_BOUND"
+        }
+        self.assertEqual(len(source_ids), 71)
+        self.assertEqual(len(schema_ids), 1)
+        self.assertTrue(source_ids.isdisjoint(schema_ids))
+        self.assertEqual(self.manifest["classified_site_count"], 72)
+        self.assertEqual(self.manifest["unclassified_site_count"], 649)
+        self.assertEqual(self.classification["classified_constraint_count"], 39)
+        self.assertEqual(self.classification["classified_site_count"], 72)
+        self.assertEqual(self.classification["unclassified_site_count"], 649)
+        self.assertEqual(self.classification["coverage_status"], "INCOMPLETE")
+        self.assertEqual(self.classification["generation_disposition"], "DENY")
+
+    def test_v46_changes_only_the_exact_nine_evidence_coordinates(self):
+        observed = set()
+        for successor, historical in zip(
+            self.manifest["constraints"],
+            self.predecessor["constraints"],
+            strict=True,
+        ):
+            self.assertEqual(
+                {
+                    key: value for key, value in successor.items()
+                    if key != "evidence_inputs"
+                },
+                {
+                    key: value for key, value in historical.items()
+                    if key != "evidence_inputs"
+                },
+            )
+            for current, previous in zip(
+                successor["evidence_inputs"],
+                historical["evidence_inputs"],
+                strict=True,
+            ):
+                if current == previous:
+                    continue
+                coordinate = (successor["constraint_id"], current["path"])
+                observed.add(coordinate)
+                allowed = RESOURCE_CLASSIFICATION_V46_EVIDENCE_REBASES[
+                    coordinate
+                ]
+                self.assertEqual(
+                    previous,
+                    {"path": current["path"], **allowed["historical"]},
+                )
+                self.assertEqual(
+                    current,
+                    {"path": current["path"], **allowed["current"]},
+                )
+        self.assertEqual(
+            observed, set(RESOURCE_CLASSIFICATION_V46_EVIDENCE_REBASES)
+        )
+        self.assertEqual(len(observed), 9)
+        self.assertEqual(len({path for _, path in observed}), 8)
+
+    def test_historical_evidence_is_decoupled_from_live_accounting(self):
+        evidence_paths = {
+            evidence["path"]
+            for constraint in self.manifest["constraints"]
+            for evidence in constraint["evidence_inputs"]
+        }
+        self.assertNotIn(RESOURCE_CLASSIFICATION_CURRENT_TEST_PATH, evidence_paths)
+        migrated_paths = {
+            path for _, path in RESOURCE_CLASSIFICATION_V46_EVIDENCE_REBASES
+        }
+        forbidden = (
+            "CURRENT_RESOURCE_CLASSIFICATION_MANIFEST",
+            "resource_inventory_classification",
+            'self.report["blockers"]',
+        )
+        for path in migrated_paths:
+            with self.subTest(path=path):
+                source = (ROOT / path).read_text(encoding="utf-8")
+                for token in forbidden:
+                    self.assertNotIn(token, source)
+
+    def test_current_disposition_retains_the_four_blockers(self):
+        self.assertEqual(self.report["authorizing_use"], "DENY")
+        self.assertEqual(
+            [item["code"] for item in self.report["blockers"]],
+            [
+                "ACCEPTANCE_MATRIX_INCOMPLETE",
+                "PUBLIC_ENTRYPOINT_DISCONNECTED",
+                "RESOURCE_INVENTORY_INCOMPLETE",
+                "V1_BRIDGE_UNSUPPORTED",
+            ],
+        )
+
+
+if __name__ == "__main__":
+    unittest.main()

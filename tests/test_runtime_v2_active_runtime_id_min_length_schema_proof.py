@@ -11,12 +11,8 @@ from jsonschema import Draft202012Validator
 
 from src.edgelab.validate import ROOT
 from tools.check_runtime_v2_release_readiness import (
-    CLASSIFIED_RESOURCE_SITE_IDS,
-    CLASSIFIED_SCHEMA_RESOURCE_SITE_IDS,
-    CURRENT_RESOURCE_CLASSIFICATION_MANIFEST,
-    RESOURCE_CLASSIFICATION_SCHEMA,
+    RESOURCE_CLASSIFICATION_V46_SCHEMA_PROOF,
     SCHEMA_DECLARATIVE_KEYWORD_PROOF_SCHEMA,
-    SCHEMA_DECLARATIVE_SELECTED_PROOF,
     ReadinessError,
     _resource_site_maps,
     _validate_schema_declarative_keyword_proof,
@@ -27,6 +23,9 @@ from tools.check_runtime_v2_release_readiness import (
 SELECTED_SITE_ID = (
     "685812b87027cea3e8fc9ce370fd21377b11fc6459c06bf2151261260cd178ea"
 )
+V45_MANIFEST_PATH = "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v45.json"
+V45_SCHEMA_PATH = "schemas/m0-3a-runtime-v2-resource-classification.v45.schema.json"
+V45_PROOF_PATH = "docs/M0.3A_ACTIVE_RUNTIME_ID_MIN_LENGTH_SCHEMA_PROOF.v1.json"
 
 
 class ActiveRuntimeIdMinLengthSchemaProofTests(unittest.TestCase):
@@ -34,21 +33,19 @@ class ActiveRuntimeIdMinLengthSchemaProofTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.report = build_report(ROOT)
         cls.discovery = cls.report["inventory"]["resource_inventory_discovery"]
-        cls.classification = cls.report["inventory"][
-            "resource_inventory_classification"
-        ]
         cls.proof = json.loads(
-            (ROOT / SCHEMA_DECLARATIVE_SELECTED_PROOF["path"]).read_text(
+            (ROOT / RESOURCE_CLASSIFICATION_V46_SCHEMA_PROOF["path"]).read_text(
                 encoding="ascii"
             )
+        )
+        cls.v45_proof = json.loads(
+            (ROOT / V45_PROOF_PATH).read_text(encoding="ascii")
         )
         cls.manifest = json.loads(
-            (ROOT / CURRENT_RESOURCE_CLASSIFICATION_MANIFEST[1]).read_text(
-                encoding="ascii"
-            )
+            (ROOT / V45_MANIFEST_PATH).read_text(encoding="ascii")
         )
         cls.schema = json.loads(
-            (ROOT / RESOURCE_CLASSIFICATION_SCHEMA[1]).read_text(encoding="ascii")
+            (ROOT / V45_SCHEMA_PATH).read_text(encoding="ascii")
         )
         cls.source_sites, cls.schema_sites = _resource_site_maps(cls.discovery)
 
@@ -121,24 +118,29 @@ class ActiveRuntimeIdMinLengthSchemaProofTests(unittest.TestCase):
                 {key: value for key, value in successor.items() if key != "evidence_inputs"},
                 {key: value for key, value in historical.items() if key != "evidence_inputs"},
             )
-        self.assertEqual(self.manifest["constraints"][-1], self.proof)
+        self.assertEqual(self.manifest["constraints"][-1], self.v45_proof)
+        self.assertEqual(
+            {
+                key: value for key, value in self.proof.items()
+                if key != "evidence_inputs"
+            },
+            {
+                key: value for key, value in self.v45_proof.items()
+                if key != "evidence_inputs"
+            },
+        )
         self.assertEqual(len(self.manifest["constraints"]), 39)
         self.assertEqual(self.manifest["classified_site_count"], 72)
         self.assertEqual(self.manifest["unclassified_site_count"], 649)
         self.assertEqual(self.schema["properties"]["constraints"]["const"], self.manifest["constraints"])
-        self.assertEqual(CLASSIFIED_SCHEMA_RESOURCE_SITE_IDS, frozenset({SELECTED_SITE_ID}))
-        self.assertEqual(len(CLASSIFIED_RESOURCE_SITE_IDS), 71)
         classified_source_ids = {
             site_id
             for constraint in self.manifest["constraints"][:-1]
             for field in ("definition_site_ids", "enforcement_site_ids")
             for site_id in constraint[field]
         }
-        self.assertEqual(classified_source_ids, set(CLASSIFIED_RESOURCE_SITE_IDS))
+        self.assertEqual(len(classified_source_ids), 71)
         self.assertTrue(classified_source_ids.isdisjoint({SELECTED_SITE_ID}))
-        self.assertEqual(self.classification["classified_constraint_count"], 39)
-        self.assertEqual(self.classification["classified_site_count"], 72)
-        self.assertEqual(self.classification["unclassified_site_count"], 649)
 
     def test_site_identity_other_schema_site_and_source_cross_kind_attacks_deny(self):
         attacks = []
@@ -227,16 +229,6 @@ class ActiveRuntimeIdMinLengthSchemaProofTests(unittest.TestCase):
         classified_schema_ids = {self.manifest["constraints"][-1]["schema_site_id"]}
         self.assertEqual(classified_schema_ids, {SELECTED_SITE_ID})
         self.assertEqual(len(self.schema_sites) - len(classified_schema_ids), 295)
-        self.assertEqual(self.report["authorizing_use"], "DENY")
-        self.assertEqual(
-            [item["code"] for item in self.report["blockers"]],
-            [
-                "ACCEPTANCE_MATRIX_INCOMPLETE",
-                "PUBLIC_ENTRYPOINT_DISCONNECTED",
-                "RESOURCE_INVENTORY_INCOMPLETE",
-                "V1_BRIDGE_UNSUPPORTED",
-            ],
-        )
         proof_text = json.dumps(self.proof).lower()
         for forbidden in (
             "stop_clearance", "release_authority", "execution_authority",
@@ -246,13 +238,18 @@ class ActiveRuntimeIdMinLengthSchemaProofTests(unittest.TestCase):
             self.assertNotIn(forbidden, proof_text)
 
     def test_selected_proof_artifact_bytes_are_exactly_pinned(self):
-        raw = (ROOT / SCHEMA_DECLARATIVE_SELECTED_PROOF["path"]).read_bytes()
-        self.assertEqual(len(raw), SCHEMA_DECLARATIVE_SELECTED_PROOF["byte_length"])
+        raw = (ROOT / RESOURCE_CLASSIFICATION_V46_SCHEMA_PROOF["path"]).read_bytes()
+        self.assertEqual(
+            len(raw), RESOURCE_CLASSIFICATION_V46_SCHEMA_PROOF["byte_length"]
+        )
         self.assertEqual(
             hashlib.sha256(raw).hexdigest(),
-            SCHEMA_DECLARATIVE_SELECTED_PROOF["raw_sha256"],
+            RESOURCE_CLASSIFICATION_V46_SCHEMA_PROOF["raw_sha256"],
         )
-        self.assertEqual(Path(SCHEMA_DECLARATIVE_SELECTED_PROOF["path"]).suffix, ".json")
+        self.assertEqual(
+            Path(RESOURCE_CLASSIFICATION_V46_SCHEMA_PROOF["path"]).suffix,
+            ".json",
+        )
 
 
 if __name__ == "__main__":

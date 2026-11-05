@@ -113,21 +113,10 @@ class CodecPrivateValidateDepthBoundTests(unittest.TestCase):
         self.assertEqual(constraint["unit"], "LEVELS")
         self.assertEqual(constraint["definition_site_ids"], [DEPTH_COMPARISON_SITE])
         self.assertEqual(constraint["enforcement_site_ids"], [DEPTH_COMPARISON_SITE])
-        classification = self.report["inventory"]["resource_inventory_classification"]
-        self.assertEqual(classification["classified_constraint_count"], 39)
-        self.assertEqual(classification["classified_site_count"], 72)
-        self.assertEqual(classification["unclassified_site_count"], 649)
-        self.assertEqual(classification["coverage_status"], "INCOMPLETE")
-        self.assertEqual(classification["generation_disposition"], "DENY")
-        self.assertEqual(
-            [item["code"] for item in self.report["blockers"]],
-            [
-                "ACCEPTANCE_MATRIX_INCOMPLETE",
-                "PUBLIC_ENTRYPOINT_DISCONNECTED",
-                "RESOURCE_INVENTORY_INCOMPLETE",
-                "V1_BRIDGE_UNSUPPORTED",
-            ],
-        )
+        self.assertEqual(self.manifest["classified_site_count"], 71)
+        self.assertEqual(self.manifest["unclassified_site_count"], 650)
+        self.assertEqual(self.manifest["coverage_status"], "INCOMPLETE")
+        self.assertEqual(self.manifest["generation_disposition"], "DENY")
 
     def test_default_depth_and_broader_authority_remain_unclassified(self):
         classified = {

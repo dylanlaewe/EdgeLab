@@ -40,13 +40,16 @@ from tools.check_runtime_v2_release_readiness import (
     TASKS_TABLE_ROW_RESOURCE_EVIDENCE,
     TOP_LEVEL_EVENTS_MAXIMUM_RESOURCE_EVIDENCE,
     SNAPSHOTS_TABLE_ROW_RESOURCE_EVIDENCE,
-    RESOURCE_CLASSIFICATION_DOMAIN,
+    RESOURCE_CLASSIFICATION_V46_DOMAIN,
     RESOURCE_CLASSIFICATION_ANCESTORS,
     RESOURCE_CLASSIFICATION_EVIDENCE,
-    CURRENT_RESOURCE_CLASSIFICATION_MANIFEST as RESOURCE_CLASSIFICATION_MANIFEST,
-    RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
-    RESOURCE_CLASSIFICATION_PREDECESSOR_SCHEMA,
-    RESOURCE_CLASSIFICATION_SCHEMA,
+    RESOURCE_CLASSIFICATION_V46_MANIFEST,
+    RESOURCE_CLASSIFICATION_V46_PREDECESSOR_MANIFEST,
+    RESOURCE_CLASSIFICATION_V46_PREDECESSOR_SCHEMA,
+    RESOURCE_CLASSIFICATION_V46_SCHEMA,
+    RESOURCE_CLASSIFICATION_V46_SCHEMA_PROOF,
+    RESOURCE_CLASSIFICATION_V46_EVIDENCE_REBASES,
+    RESOURCE_CLASSIFICATION_CURRENT_TEST_PATH,
     RESOURCE_CLASSIFICATION_V45_EVIDENCE_REBASES,
     RESOURCE_CLASSIFICATION_V42_REBASED_EVIDENCE,
     RESOURCE_DISCOVERY_DOMAIN,
@@ -84,7 +87,6 @@ from tools.check_runtime_v2_release_readiness import (
     SCHEMA_DOCUMENTS_TABLE_ROW_RESOURCE_EVIDENCE,
     SCHEMA_DECLARATIVE_KEYWORD_PROOF_PROFILE,
     SCHEMA_DECLARATIVE_KEYWORD_PROOF_SCHEMA,
-    SCHEMA_DECLARATIVE_SELECTED_PROOF,
     TRANSITION_ARGUMENT_RESOURCE_EVIDENCE,
     TRANSITION_SEMANTIC_EVENT_RESOURCE_EVIDENCE,
     TRANSITION_TASK_RESOURCE_EVIDENCE,
@@ -135,8 +137,8 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         paths = {
             path for _, _, path in BOOTSTRAP_SCHEMAS + RETAINED_SCHEMAS
         } | {path for _, _, path in CONTENT_ASSETS} | {
-            CLOSURE_SCHEMA[1], RESOURCE_CLASSIFICATION_SCHEMA[1],
-            RESOURCE_CLASSIFICATION_MANIFEST[1],
+            CLOSURE_SCHEMA[1], RESOURCE_CLASSIFICATION_V46_SCHEMA[1],
+            RESOURCE_CLASSIFICATION_V46_MANIFEST[1],
             RESOURCE_DISCOVERY_SCHEMA[1], RESOURCE_DISCOVERY_MANIFEST[1],
             RESOURCE_DISCOVERY_PREDECESSOR_MANIFEST["path"],
             RESOURCE_DISCOVERY_PREDECESSOR_SCHEMA["path"],
@@ -144,7 +146,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             RESOURCE_DISCOVERY_ANCESTOR_SCHEMA["path"],
             SCHEMA_DECLARATIVE_KEYWORD_PROOF_PROFILE["path"],
             SCHEMA_DECLARATIVE_KEYWORD_PROOF_SCHEMA["path"],
-            SCHEMA_DECLARATIVE_SELECTED_PROOF["path"],
+            RESOURCE_CLASSIFICATION_V46_SCHEMA_PROOF["path"],
             "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v2.json",
             "schemas/m0-3a-runtime-v2-resource-discovery.v2.schema.json",
             "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v3.json",
@@ -153,8 +155,8 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
             "schemas/m0-3a-runtime-v2-resource-discovery.v4.schema.json",
             "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v5.json",
             "schemas/m0-3a-runtime-v2-resource-discovery.v5.schema.json",
-            RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST["path"],
-            RESOURCE_CLASSIFICATION_PREDECESSOR_SCHEMA["path"],
+            RESOURCE_CLASSIFICATION_V46_PREDECESSOR_MANIFEST["path"],
+            RESOURCE_CLASSIFICATION_V46_PREDECESSOR_SCHEMA["path"],
             *(item["path"] for item in RESOURCE_CLASSIFICATION_ANCESTORS),
             *(item["path"] for item in RESOURCE_CLASSIFICATION_EVIDENCE),
             *RESOURCE_CLASSIFICATION_V45_EVIDENCE_REBASES,
@@ -167,13 +169,13 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         return temporary
 
     def rewrite_manifest(self, root: Path, mutate) -> None:
-        path = root / RESOURCE_CLASSIFICATION_MANIFEST[1]
+        path = root / RESOURCE_CLASSIFICATION_V46_MANIFEST[1]
         manifest = json.loads(path.read_text(encoding="ascii"))
         mutate(manifest)
         digest_value = dict(manifest)
         digest_value.pop("classification_manifest_sha256")
         manifest["classification_manifest_sha256"] = hashlib.sha256(
-            RESOURCE_CLASSIFICATION_DOMAIN.encode("ascii")
+            RESOURCE_CLASSIFICATION_V46_DOMAIN.encode("ascii")
             + json.dumps(
                 digest_value, sort_keys=True, separators=(",", ":"),
                 ensure_ascii=True,
@@ -2404,14 +2406,14 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
     def test_partial_classification_schema_manifest_and_self_digest_are_exact(self):
         from jsonschema import Draft202012Validator
 
-        schema = json.loads((ROOT / RESOURCE_CLASSIFICATION_SCHEMA[1]).read_text())
-        manifest = json.loads((ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_text())
+        schema = json.loads((ROOT / RESOURCE_CLASSIFICATION_V46_SCHEMA[1]).read_text())
+        manifest = json.loads((ROOT / RESOURCE_CLASSIFICATION_V46_MANIFEST[1]).read_text())
         Draft202012Validator.check_schema(schema)
         self.assertEqual(list(Draft202012Validator(schema).iter_errors(manifest)), [])
         digest_value = dict(manifest)
         claimed = digest_value.pop("classification_manifest_sha256")
         expected = hashlib.sha256(
-            RESOURCE_CLASSIFICATION_DOMAIN.encode("ascii")
+            RESOURCE_CLASSIFICATION_V46_DOMAIN.encode("ascii")
             + json.dumps(
                 digest_value, sort_keys=True, separators=(",", ":"),
                 ensure_ascii=True,
@@ -2420,22 +2422,22 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(claimed, expected)
         self.assertEqual(
             claimed,
-            "e9983c8d5531ad786b4a97a0792f9662503b2e2f1fe4dc3d4cfe601bf0cf21c5",
+            "d84fb6db5c982c69483d968d082fca3c028d326354aced767ba78a70036cb718",
         )
         self.assertEqual(
-            hashlib.sha256((ROOT / RESOURCE_CLASSIFICATION_SCHEMA[1]).read_bytes()).hexdigest(),
-            "2201776e26829ddd1702d01731a467fc6f5621a45cf7330c9324047bdc9f60b9",
+            hashlib.sha256((ROOT / RESOURCE_CLASSIFICATION_V46_SCHEMA[1]).read_bytes()).hexdigest(),
+            "5ed13467897f95967fb278674063ee598d3da4f7f15353f997430f2fc79e9968",
         )
         self.assertEqual(
-            hashlib.sha256((ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_bytes()).hexdigest(),
-            "85945a0ffc253ce53f39bd12c2ebb7c5c1029f62ca5dabbd3ebd9d1b3663b57e",
+            hashlib.sha256((ROOT / RESOURCE_CLASSIFICATION_V46_MANIFEST[1]).read_bytes()).hexdigest(),
+            "7a501d128c026e68c6ae3faa857f7d8d1b8e78d1a1a94f08775a90e92560d1b9",
         )
         self.assertEqual(manifest["coverage_status"], "INCOMPLETE")
         self.assertEqual(manifest["generation_disposition"], "DENY")
-        self.assertEqual(manifest["schema_version"], 45)
+        self.assertEqual(manifest["schema_version"], 46)
         self.assertEqual(
             manifest["profile_id"],
-            "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V45",
+            "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V46",
         )
         self.assertEqual(manifest["classified_site_count"], 72)
         self.assertEqual(manifest["unclassified_site_count"], 649)
@@ -3336,15 +3338,17 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         )
         self.assertEqual(
             manifest["predecessor_manifest"]["path"],
-            "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v44.json",
+            "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v45.json",
         )
         self.assertEqual(
             manifest["predecessor_schema"]["path"],
-            "schemas/m0-3a-runtime-v2-resource-classification.v44.schema.json",
+            "schemas/m0-3a-runtime-v2-resource-classification.v45.schema.json",
         )
         self.assertEqual(
             [item["path"] for item in RESOURCE_CLASSIFICATION_ANCESTORS],
             [
+                "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v44.json",
+                "schemas/m0-3a-runtime-v2-resource-classification.v44.schema.json",
                 "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v43.json",
                 "schemas/m0-3a-runtime-v2-resource-classification.v43.schema.json",
                 "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v42.json",
@@ -3445,7 +3449,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         for key, value in mutations:
             with self.subTest(key=key):
                 root = self.copy_inputs()
-                path = root / RESOURCE_CLASSIFICATION_MANIFEST[1]
+                path = root / RESOURCE_CLASSIFICATION_V46_MANIFEST[1]
                 self.rewrite_manifest(
                     root, lambda manifest: manifest.__setitem__(key, value)
                 )
@@ -3456,9 +3460,9 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                 )
 
         root = self.copy_inputs()
-        path = root / RESOURCE_CLASSIFICATION_MANIFEST[1]
+        path = root / RESOURCE_CLASSIFICATION_V46_MANIFEST[1]
         raw = path.read_bytes().replace(
-            b'"schema_version": 45', b'"schema_version": 45, "schema_version": 45'
+            b'"schema_version": 46', b'"schema_version": 46, "schema_version": 46'
         )
         path.write_bytes(raw)
         with self.assertRaises(ReadinessError) as caught:
@@ -3466,7 +3470,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(caught.exception.code, "DUPLICATE_JSON_KEY")
 
         root = self.copy_inputs()
-        path = root / RESOURCE_CLASSIFICATION_MANIFEST[1]
+        path = root / RESOURCE_CLASSIFICATION_V46_MANIFEST[1]
         manifest = json.loads(path.read_text(encoding="ascii"))
         manifest["classification_manifest_sha256"] = "0" * 64
         path.write_text(json.dumps(manifest), encoding="ascii")
@@ -3637,7 +3641,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
 
     def test_partial_classification_binds_schema_and_evidence_bytes(self):
         root = self.copy_inputs()
-        schema = root / RESOURCE_CLASSIFICATION_SCHEMA[1]
+        schema = root / RESOURCE_CLASSIFICATION_V46_SCHEMA[1]
         schema.write_bytes(schema.read_bytes().replace(
             b'"const": "INCOMPLETE"',
             b'"const": "COMPLETE"',
@@ -3678,8 +3682,8 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(caught.exception.code, "SYMLINK_INPUT")
 
         for predecessor in (
-            RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
-            RESOURCE_CLASSIFICATION_PREDECESSOR_SCHEMA,
+            RESOURCE_CLASSIFICATION_V46_PREDECESSOR_MANIFEST,
+            RESOURCE_CLASSIFICATION_V46_PREDECESSOR_SCHEMA,
             *RESOURCE_CLASSIFICATION_ANCESTORS,
         ):
             with self.subTest(predecessor=predecessor["path"]):
@@ -7228,7 +7232,9 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
 
     def test_v45_appends_exactly_one_schema_proof_and_rejects_scope_drift(self):
         current = json.loads(
-            (ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_text(encoding="ascii")
+            (
+                ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v45.json"
+            ).read_text(encoding="ascii")
         )
         predecessor = json.loads(
             (ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v44.json")
@@ -7246,47 +7252,14 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(current["unclassified_site_count"], 649)
         self.assertEqual(
             current["constraints"][-1]["schema_site_id"],
-            SCHEMA_DECLARATIVE_SELECTED_PROOF["schema_site_id"],
-        )
-
-        def delete_selected(manifest):
-            manifest["constraints"].pop()
-
-        def duplicate_selected(manifest):
-            manifest["constraints"].append(copy.deepcopy(manifest["constraints"][-1]))
-
-        def move_selected(manifest):
-            manifest["constraints"].insert(0, manifest["constraints"].pop())
-
-        def cross_kind(manifest):
-            manifest["constraints"][-1]["schema_site_id"] = (
-                manifest["constraints"][0]["definition_site_ids"][0]
-            )
-
-        for name, mutate in (
-            ("deleted", delete_selected),
-            ("duplicated", duplicate_selected),
-            ("moved", move_selected),
-            ("cross_kind", cross_kind),
-        ):
-            with self.subTest(name=name):
-                root = self.copy_inputs()
-                self.rewrite_manifest(root, mutate)
-                with self.assertRaises(ReadinessError):
-                    build_report(root)
-
-        root = self.copy_inputs()
-        proof_path = root / SCHEMA_DECLARATIVE_SELECTED_PROOF["path"]
-        proof_path.write_bytes(proof_path.read_bytes() + b" ")
-        with self.assertRaises(ReadinessError) as caught:
-            build_report(root)
-        self.assertEqual(
-            caught.exception.code, "SCHEMA_DECLARATIVE_SELECTED_PROOF_IDENTITY"
+            "685812b87027cea3e8fc9ce370fd21377b11fc6459c06bf2151261260cd178ea",
         )
 
     def test_v45_evidence_rebase_is_exactly_the_enumerated_test_set(self):
         current = json.loads(
-            (ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_text(encoding="ascii")
+            (
+                ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v45.json"
+            ).read_text(encoding="ascii")
         )
         predecessor = json.loads(
             (ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v44.json")
@@ -7314,10 +7287,49 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
         }
         self.assertEqual(observed, expected)
         self.assertEqual(len(RESOURCE_CLASSIFICATION_V45_EVIDENCE_REBASES), 8)
-        for path, value in RESOURCE_CLASSIFICATION_V45_EVIDENCE_REBASES.items():
-            raw = (ROOT / path).read_bytes()
-            self.assertEqual(len(raw), value["current"]["byte_length"])
-            self.assertEqual(hashlib.sha256(raw).hexdigest(), value["current"]["raw_sha256"])
+
+    def test_v46_decoupling_rejects_scope_and_coordinate_drift(self):
+        def semantic_drift(manifest):
+            manifest["constraints"][0]["maximum"] += 1
+
+        def ninth_rebase(manifest):
+            manifest["constraints"][0]["evidence_inputs"][0][
+                "raw_sha256"
+            ] = "0" * 64
+
+        def wrong_coordinate(manifest):
+            record = copy.deepcopy(
+                manifest["constraints"][30]["evidence_inputs"][-1]
+            )
+            manifest["constraints"][0]["evidence_inputs"][-1] = record
+
+        def current_test_as_evidence(manifest):
+            manifest["constraints"][0]["evidence_inputs"].append({
+                "byte_length": 1,
+                "path": RESOURCE_CLASSIFICATION_CURRENT_TEST_PATH,
+                "raw_sha256": "0" * 64,
+            })
+
+        for name, mutate in (
+            ("semantic_drift", semantic_drift),
+            ("ninth_rebase", ninth_rebase),
+            ("wrong_coordinate", wrong_coordinate),
+            ("current_test_as_evidence", current_test_as_evidence),
+        ):
+            with self.subTest(name=name):
+                root = self.copy_inputs()
+                self.rewrite_manifest(root, mutate)
+                with self.assertRaises(ReadinessError):
+                    build_report(root)
+
+        root = self.copy_inputs()
+        proof_path = root / RESOURCE_CLASSIFICATION_V46_SCHEMA_PROOF["path"]
+        proof_path.write_bytes(proof_path.read_bytes() + b" ")
+        with self.assertRaises(ReadinessError) as caught:
+            build_report(root)
+        self.assertEqual(
+            caught.exception.code, "SCHEMA_DECLARATIVE_SELECTED_PROOF_IDENTITY"
+        )
 
     def test_v43_classification_preserves_v42_as_census_only_rebase(self):
         current = json.loads(
@@ -7561,7 +7573,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                 root = self.copy_inputs()
                 hostile_v43 = self.rewrite_versioned_classification_manifest(
                     root,
-                    RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
+                    RESOURCE_CLASSIFICATION_V46_PREDECESSOR_MANIFEST,
                     43,
                     attack,
                 )
@@ -7572,7 +7584,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                     ),
                 )
                 with mock.patch.dict(
-                    RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
+                    RESOURCE_CLASSIFICATION_V46_PREDECESSOR_MANIFEST,
                     hostile_v43,
                     clear=True,
                 ):
@@ -7593,7 +7605,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
 
                 v43_expected = self.rewrite_versioned_classification_manifest(
                     root,
-                    RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
+                    RESOURCE_CLASSIFICATION_V46_PREDECESSOR_MANIFEST,
                     43,
                     mutate_v43,
                 )
@@ -7604,7 +7616,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                     ),
                 )
                 with mock.patch.dict(
-                    RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
+                    RESOURCE_CLASSIFICATION_V46_PREDECESSOR_MANIFEST,
                     v43_expected,
                     clear=True,
                 ):
@@ -7637,7 +7649,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
 
                 v43_expected = self.rewrite_versioned_classification_manifest(
                     root,
-                    RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
+                    RESOURCE_CLASSIFICATION_V46_PREDECESSOR_MANIFEST,
                     43,
                     link_v43_to_mutated_v42,
                 )
@@ -7648,7 +7660,7 @@ class RuntimeV2ReleaseReadinessTests(unittest.TestCase):
                     ),
                 )
                 with mock.patch.dict(
-                    RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST,
+                    RESOURCE_CLASSIFICATION_V46_PREDECESSOR_MANIFEST,
                     v43_expected,
                     clear=True,
                 ), mock.patch.dict(

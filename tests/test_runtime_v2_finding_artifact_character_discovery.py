@@ -58,13 +58,6 @@ class FindingArtifactCharacterDiscoveryTests(unittest.TestCase):
         self.assertEqual(record["comparison_site_id"], COMPARISON_ID)
         self.assertEqual(record["slice_site_id"], SLICE_ID)
         self.assertEqual(len(self.sites), 425)
-        classification = self.report["inventory"]["resource_inventory_classification"]
-        self.assertEqual(classification["classified_constraint_count"], 39)
-        self.assertEqual(classification["classified_site_count"], 72)
-        self.assertEqual(classification["unclassified_site_count"], 649)
-        self.assertEqual(classification["coverage_status"], "INCOMPLETE")
-        self.assertEqual(classification["generation_disposition"], "DENY")
-
     def test_runtime_boundaries_and_utf8_digest_are_exact(self):
         for length in (0, 255, 256):
             value = "a" * length
