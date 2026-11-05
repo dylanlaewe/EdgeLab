@@ -36,7 +36,8 @@ class SchemaResourceSiteIdentityDiscoveryTests(unittest.TestCase):
             "resource_inventory_classification"
         ]
         cls.manifest = json.loads(
-            (ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_text(encoding="ascii")
+            (ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v43.json")
+            .read_text(encoding="ascii")
         )
 
     @staticmethod

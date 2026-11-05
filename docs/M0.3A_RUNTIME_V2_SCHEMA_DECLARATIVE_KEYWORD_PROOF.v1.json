@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "profile_id": "EDGELAB_RUNTIME_V2_SCHEMA_DECLARATIVE_KEYWORD_PROOF_V1",
+  "proof_kind": "SCHEMA_DECLARATIVE_KEYWORD_V1",
+  "classification": "SCHEMA_DECLARATIVE_BOUND",
+  "contract_schema": {
+    "byte_length": 6245,
+    "path": "schemas/m0-3a-runtime-v2-schema-declarative-keyword-proof.v1.schema.json",
+    "raw_sha256": "f7afccfeee300b294b4e498dd6cf243e4c8167c24def540846d8170b5047eefa",
+    "schema_id": "urn:edgelab:m0-3a-runtime-v2-schema-declarative-keyword-proof:1"
+  },
+  "containing_subschema_digest_domain": "EDGELAB\u0000RUNTIME_V2_SCHEMA_CONTAINING_SUBSCHEMA\u0000V1\u0000",
+  "dialect": "https://json-schema.org/draft/2020-12/schema",
+  "applicability": "EXACT_PINNED_SCHEMA_LOCATION_ONLY",
+  "ancestor_context": "FULL_SCHEMA_DOCUMENT_RAW_SHA256",
+  "reference_semantics": "LOCAL_DOCUMENT_RAW_RFC6901_POINTER_ONLY_NO_PERCENT_ENCODING_ALL_RESOLVE_NO_DYNAMIC_OR_RECURSIVE_REFERENCE",
+  "nested_dialect_or_id": "DENY",
+  "non_domain_behavior": "NO_ASSERTION_FROM_THIS_KEYWORD",
+  "keyword_semantics": [
+    {
+      "keyword": "exclusiveMaximum",
+      "semantic_subject": "SCHEMA_DECLARATIVE_EXCLUSIVE_MAXIMUM_AT_EXACT_PINNED_LOCATION",
+      "instance_domain": "NUMBER",
+      "metric": "JSON_NUMBER_VALUE",
+      "operator": "<",
+      "unit": "JSON_NUMBER"
+    },
+    {
+      "keyword": "exclusiveMinimum",
+      "semantic_subject": "SCHEMA_DECLARATIVE_EXCLUSIVE_MINIMUM_AT_EXACT_PINNED_LOCATION",
+      "instance_domain": "NUMBER",
+      "metric": "JSON_NUMBER_VALUE",
+      "operator": ">",
+      "unit": "JSON_NUMBER"
+    },
+    {
+      "keyword": "maxContains",
+      "semantic_subject": "SCHEMA_DECLARATIVE_MAX_CONTAINS_AT_EXACT_PINNED_LOCATION",
+      "instance_domain": "ARRAY",
+      "metric": "CONTAINS_MATCH_COUNT",
+      "operator": "<=",
+      "unit": "CONTAINS_MATCHES"
+    },
+    {
+      "keyword": "maxItems",
+      "semantic_subject": "SCHEMA_DECLARATIVE_MAX_ITEMS_AT_EXACT_PINNED_LOCATION",
+      "instance_domain": "ARRAY",
+      "metric": "ARRAY_ITEM_COUNT",
+      "operator": "<=",
+      "unit": "ARRAY_ITEMS"
+    },
+    {
+      "keyword": "maxLength",
+      "semantic_subject": "SCHEMA_DECLARATIVE_MAX_LENGTH_AT_EXACT_PINNED_LOCATION",
+      "instance_domain": "STRING",
+      "metric": "UNICODE_CODE_POINT_COUNT",
+      "operator": "<=",
+      "unit": "UNICODE_CODE_POINTS"
+    },
+    {
+      "keyword": "maxProperties",
+      "semantic_subject": "SCHEMA_DECLARATIVE_MAX_PROPERTIES_AT_EXACT_PINNED_LOCATION",
+      "instance_domain": "OBJECT",
+      "metric": "OBJECT_PROPERTY_COUNT",
+      "operator": "<=",
+      "unit": "OBJECT_PROPERTIES"
+    },
+    {
+      "keyword": "maximum",
+      "semantic_subject": "SCHEMA_DECLARATIVE_MAXIMUM_AT_EXACT_PINNED_LOCATION",
+      "instance_domain": "NUMBER",
+      "metric": "JSON_NUMBER_VALUE",
+      "operator": "<=",
+      "unit": "JSON_NUMBER"
+    },
+    {
+      "keyword": "minContains",
+      "semantic_subject": "SCHEMA_DECLARATIVE_MIN_CONTAINS_AT_EXACT_PINNED_LOCATION",
+      "instance_domain": "ARRAY",
+      "metric": "CONTAINS_MATCH_COUNT",
+      "operator": ">=",
+      "unit": "CONTAINS_MATCHES"
+    },
+    {
+      "keyword": "minItems",
+      "semantic_subject": "SCHEMA_DECLARATIVE_MIN_ITEMS_AT_EXACT_PINNED_LOCATION",
+      "instance_domain": "ARRAY",
+      "metric": "ARRAY_ITEM_COUNT",
+      "operator": ">=",
+      "unit": "ARRAY_ITEMS"
+    },
+    {
+      "keyword": "minLength",
+      "semantic_subject": "SCHEMA_DECLARATIVE_MIN_LENGTH_AT_EXACT_PINNED_LOCATION",
+      "instance_domain": "STRING",
+      "metric": "UNICODE_CODE_POINT_COUNT",
+      "operator": ">=",
+      "unit": "UNICODE_CODE_POINTS"
+    },
+    {
+      "keyword": "minProperties",
+      "semantic_subject": "SCHEMA_DECLARATIVE_MIN_PROPERTIES_AT_EXACT_PINNED_LOCATION",
+      "instance_domain": "OBJECT",
+      "metric": "OBJECT_PROPERTY_COUNT",
+      "operator": ">=",
+      "unit": "OBJECT_PROPERTIES"
+    },
+    {
+      "keyword": "minimum",
+      "semantic_subject": "SCHEMA_DECLARATIVE_MINIMUM_AT_EXACT_PINNED_LOCATION",
+      "instance_domain": "NUMBER",
+      "metric": "JSON_NUMBER_VALUE",
+      "operator": ">=",
+      "unit": "JSON_NUMBER"
+    }
+  ],
+  "declarative_roles": [
+    "ADDRESSED_SCHEMA_KEYWORD",
+    "BOUND_DEFINITION",
+    "CONTAINING_SUBSCHEMA_CONTEXT",
+    "FULL_DOCUMENT_ANCESTOR_CONTEXT",
+    "KEYWORD_APPLICABILITY",
+    "REQUIRED_CONTAINS_SIBLING"
+  ],
+  "runtime_enforcement_roles": [],
+  "evidence_input_minimum": 2,
+  "evidence_input_requirements": [
+    "EXACT_BYTE_LENGTH_AND_RAW_SHA256",
+    "PAIRWISE_DISTINCT_PATH_AND_FILE_IDENTITY",
+    "NOT_THE_BOUND_SCHEMA_DOCUMENT"
+  ],
+  "nonclaims": [
+    "NO_RUNTIME_VALIDATOR_BEHAVIOR",
+    "NO_PUBLIC_REACHABILITY",
+    "NO_ROOT_APPLICABILITY_BEYOND_EXACT_LOCAL_CONTEXT",
+    "NO_FULL_SCHEMA_VALIDITY",
+    "NO_DEPLOYED_VALIDATOR_CONFORMANCE",
+    "NO_ACCEPTANCE_AUTHORITY",
+    "NO_STOP_CLEARANCE",
+    "NO_RELEASE_AUTHORITY",
+    "NO_EXECUTION_AUTHORITY",
+    "NO_CAPITAL_AUTHORITY"
+  ],
+  "profile_sha256": "bb0a64e1b331bbe4df6ba78411b44fc3af9da3cf542b41371f5a5556ee2b2369"
+}

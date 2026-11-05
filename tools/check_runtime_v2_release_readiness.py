@@ -171,15 +171,15 @@ CLOSURE_SCHEMA = (
     "schemas/m0-3a-verifier-dependency-closure.v1.schema.json",
 )
 RESOURCE_CLASSIFICATION_SCHEMA = (
-    "urn:edgelab:m0-3a-runtime-v2-resource-classification:43",
-    "schemas/m0-3a-runtime-v2-resource-classification.v43.schema.json",
+    "urn:edgelab:m0-3a-runtime-v2-resource-classification:44",
+    "schemas/m0-3a-runtime-v2-resource-classification.v44.schema.json",
 )
 RESOURCE_CLASSIFICATION_MANIFEST = (
-    "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V43",
-    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v43.json",
+    "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V44",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v44.json",
 )
 RESOURCE_CLASSIFICATION_DOMAIN = (
-    "EDGELAB\0RUNTIME_V2_RESOURCE_CLASSIFICATION\0V43\0"
+    "EDGELAB\0RUNTIME_V2_RESOURCE_CLASSIFICATION\0V44\0"
 )
 RESOURCE_SOURCE_INPUT_DOMAIN = (
     "EDGELAB\0RUNTIME_V2_RESOURCE_SOURCE_INPUTS\0V1\0"
@@ -239,6 +239,61 @@ RESOURCE_SCHEMA_BOUND_SITES_V2_DOMAIN = (
 RESOURCE_SCHEMA_BOUND_SITES_V2_SHA256 = (
     "2ca911e85141b79c5ae6be653bf6a8b038ca90873a731764b27ac2bf0cae3fcf"
 )
+SCHEMA_DECLARATIVE_KEYWORD_PROOF_SCHEMA = {
+    "byte_length": 6245,
+    "path": (
+        "schemas/m0-3a-runtime-v2-schema-declarative-keyword-proof.v1.schema.json"
+    ),
+    "raw_sha256": (
+        "f7afccfeee300b294b4e498dd6cf243e4c8167c24def540846d8170b5047eefa"
+    ),
+    "schema_id": (
+        "urn:edgelab:m0-3a-runtime-v2-schema-declarative-keyword-proof:1"
+    ),
+}
+SCHEMA_DECLARATIVE_KEYWORD_PROOF_PROFILE = {
+    "byte_length": 5051,
+    "path": "docs/M0.3A_RUNTIME_V2_SCHEMA_DECLARATIVE_KEYWORD_PROOF.v1.json",
+    "profile_id": "EDGELAB_RUNTIME_V2_SCHEMA_DECLARATIVE_KEYWORD_PROOF_V1",
+    "profile_sha256": (
+        "bb0a64e1b331bbe4df6ba78411b44fc3af9da3cf542b41371f5a5556ee2b2369"
+    ),
+    "raw_sha256": (
+        "de4f676df1d89ecbfcf3de10ae8015a9c1508e053d7bdc9cf7a62ee2a685f921"
+    ),
+}
+SCHEMA_CONTAINING_SUBSCHEMA_DOMAIN = (
+    "EDGELAB\0RUNTIME_V2_SCHEMA_CONTAINING_SUBSCHEMA\0V1\0"
+)
+SCHEMA_DECLARATIVE_PROOF_PROFILE_DOMAIN = (
+    "EDGELAB\0RUNTIME_V2_SCHEMA_DECLARATIVE_PROOF_PROFILE\0V1\0"
+)
+SCHEMA_DECLARATIVE_KEYWORD_SEMANTICS = (
+    ("exclusiveMaximum", "EXCLUSIVE_MAXIMUM", "NUMBER", "JSON_NUMBER_VALUE", "<", "JSON_NUMBER"),
+    ("exclusiveMinimum", "EXCLUSIVE_MINIMUM", "NUMBER", "JSON_NUMBER_VALUE", ">", "JSON_NUMBER"),
+    ("maxContains", "MAX_CONTAINS", "ARRAY", "CONTAINS_MATCH_COUNT", "<=", "CONTAINS_MATCHES"),
+    ("maxItems", "MAX_ITEMS", "ARRAY", "ARRAY_ITEM_COUNT", "<=", "ARRAY_ITEMS"),
+    ("maxLength", "MAX_LENGTH", "STRING", "UNICODE_CODE_POINT_COUNT", "<=", "UNICODE_CODE_POINTS"),
+    ("maxProperties", "MAX_PROPERTIES", "OBJECT", "OBJECT_PROPERTY_COUNT", "<=", "OBJECT_PROPERTIES"),
+    ("maximum", "MAXIMUM", "NUMBER", "JSON_NUMBER_VALUE", "<=", "JSON_NUMBER"),
+    ("minContains", "MIN_CONTAINS", "ARRAY", "CONTAINS_MATCH_COUNT", ">=", "CONTAINS_MATCHES"),
+    ("minItems", "MIN_ITEMS", "ARRAY", "ARRAY_ITEM_COUNT", ">=", "ARRAY_ITEMS"),
+    ("minLength", "MIN_LENGTH", "STRING", "UNICODE_CODE_POINT_COUNT", ">=", "UNICODE_CODE_POINTS"),
+    ("minProperties", "MIN_PROPERTIES", "OBJECT", "OBJECT_PROPERTY_COUNT", ">=", "OBJECT_PROPERTIES"),
+    ("minimum", "MINIMUM", "NUMBER", "JSON_NUMBER_VALUE", ">=", "JSON_NUMBER"),
+)
+SCHEMA_DECLARATIVE_PROOF_NONCLAIMS = (
+    "NO_RUNTIME_VALIDATOR_BEHAVIOR",
+    "NO_PUBLIC_REACHABILITY",
+    "NO_ROOT_APPLICABILITY_BEYOND_EXACT_LOCAL_CONTEXT",
+    "NO_FULL_SCHEMA_VALIDITY",
+    "NO_DEPLOYED_VALIDATOR_CONFORMANCE",
+    "NO_ACCEPTANCE_AUTHORITY",
+    "NO_STOP_CLEARANCE",
+    "NO_RELEASE_AUTHORITY",
+    "NO_EXECUTION_AUTHORITY",
+    "NO_CAPITAL_AUTHORITY",
+)
 RESOURCE_BINDING_SITE_DOMAIN = (
     "EDGELAB\0RUNTIME_V2_RESOURCE_BINDING_SITE\0V2\0"
 )
@@ -294,22 +349,35 @@ RESOURCE_SOURCE_BOUND_SITES_V7_SHA256 = (
     "5cb9a07b9c564cae30ad3c3043be7ab8adcb7f9c9bece0918ead5bdbf537dcfa"
 )
 RESOURCE_CLASSIFICATION_SCHEMA_RAW_SHA256 = (
-    "92d649b4e32417a6004d3efaf1a253c096aaa798da6aaabf874c9fd3acc97142"
+    "fbb495f28cb07a2d50fccc5baa3bf26430ccc48f58bc3eedddf817032eb071c1"
 )
 RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST = {
-    "byte_length": 93784,
+    "byte_length": 93785,
     "classification_manifest_sha256": (
-        "dc855a01cd87e9e4eb3c81739d29451c373a1226ecd4347e80b7a97a8544ed51"
+        "3e124430a983d305402980cd966f057bad5f9dcedf97c854acf6374ad610da07"
     ),
-    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v42.json",
-    "raw_sha256": "9fda39bf5f1227d99ce2018411b78481a273d56dd18f28cde193d001fe295c3e",
+    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v43.json",
+    "raw_sha256": "4d0c85a2faafc5079989c44a981b4d1356ce3eb4f213abd5729637ee74bbf824",
 }
 RESOURCE_CLASSIFICATION_PREDECESSOR_SCHEMA = {
-    "byte_length": 101032,
-    "path": "schemas/m0-3a-runtime-v2-resource-classification.v42.schema.json",
-    "raw_sha256": "b2cdb38ef8bfab74dcaf6bfa55d9e70170680a1d214dc15a3044f3a3e176187d",
+    "byte_length": 101057,
+    "path": "schemas/m0-3a-runtime-v2-resource-classification.v43.schema.json",
+    "raw_sha256": "92d649b4e32417a6004d3efaf1a253c096aaa798da6aaabf874c9fd3acc97142",
 }
 RESOURCE_CLASSIFICATION_ANCESTORS = (
+    {
+        "byte_length": 93784,
+        "classification_manifest_sha256": (
+            "dc855a01cd87e9e4eb3c81739d29451c373a1226ecd4347e80b7a97a8544ed51"
+        ),
+        "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v42.json",
+        "raw_sha256": "9fda39bf5f1227d99ce2018411b78481a273d56dd18f28cde193d001fe295c3e",
+    },
+    {
+        "byte_length": 101032,
+        "path": "schemas/m0-3a-runtime-v2-resource-classification.v42.schema.json",
+        "raw_sha256": "b2cdb38ef8bfab74dcaf6bfa55d9e70170680a1d214dc15a3044f3a3e176187d",
+    },
     {
         "byte_length": 90265,
         "classification_manifest_sha256": (
@@ -2009,6 +2077,429 @@ def _address_schema_bound_inventory(
         site_ids.add(site_id)
         result.append({**record, "site_id": site_id})
     return result
+
+
+def _schema_declarative_keyword_semantics() -> list[dict[str, str]]:
+    return [
+        {
+            "keyword": keyword,
+            "semantic_subject": (
+                f"SCHEMA_DECLARATIVE_{subject}_AT_EXACT_PINNED_LOCATION"
+            ),
+            "instance_domain": instance_domain,
+            "metric": metric,
+            "operator": operator,
+            "unit": unit,
+        }
+        for keyword, subject, instance_domain, metric, operator, unit
+        in SCHEMA_DECLARATIVE_KEYWORD_SEMANTICS
+    ]
+
+
+def _json_pointer_tokens(pointer: str, coordinate: str) -> list[str]:
+    if pointer == "":
+        return []
+    if not pointer.startswith("/"):
+        raise ReadinessError("SCHEMA_DECLARATIVE_POINTER", coordinate)
+    tokens: list[str] = []
+    for encoded in pointer[1:].split("/"):
+        decoded: list[str] = []
+        index = 0
+        while index < len(encoded):
+            character = encoded[index]
+            if character != "~":
+                decoded.append(character)
+                index += 1
+                continue
+            if index + 1 == len(encoded) or encoded[index + 1] not in "01":
+                raise ReadinessError("SCHEMA_DECLARATIVE_POINTER", coordinate)
+            decoded.append("~" if encoded[index + 1] == "0" else "/")
+            index += 2
+        tokens.append("".join(decoded))
+    return tokens
+
+
+def _encode_json_pointer_token(token: str) -> str:
+    encoded: list[str] = []
+    for character in token:
+        if character == "~":
+            encoded.append("~0")
+        elif character == "/":
+            encoded.append("~1")
+        else:
+            encoded.append(character)
+    return "".join(encoded)
+
+
+def _resolve_json_pointer(document: Any, pointer: str, coordinate: str) -> Any:
+    value = document
+    for token in _json_pointer_tokens(pointer, coordinate):
+        if type(value) is dict:
+            if token not in value:
+                raise ReadinessError("SCHEMA_DECLARATIVE_POINTER_MISSING", coordinate)
+            value = value[token]
+        elif type(value) is list:
+            if not token.isascii() or not token.isdigit() or (
+                len(token) > 1 and token.startswith("0")
+            ):
+                raise ReadinessError("SCHEMA_DECLARATIVE_POINTER_INDEX", coordinate)
+            index = int(token)
+            if index >= len(value):
+                raise ReadinessError("SCHEMA_DECLARATIVE_POINTER_MISSING", coordinate)
+            value = value[index]
+        else:
+            raise ReadinessError("SCHEMA_DECLARATIVE_POINTER_MISSING", coordinate)
+    return value
+
+
+def _schema_ancestor_context(
+    document: Any,
+    containing_pointer: str,
+    coordinate: str,
+) -> dict[str, Any]:
+    encoded_tokens = [] if containing_pointer == "" else containing_pointer[1:].split("/")
+    pointers = [""]
+    for encoded in encoded_tokens:
+        pointers.append(f"{pointers[-1]}/{encoded}")
+    sequence = []
+    for index, pointer in enumerate(pointers):
+        _resolve_json_pointer(document, pointer, coordinate)
+        sequence.append({"index": index, "pointer": pointer})
+    return {
+        "binding": "FULL_SCHEMA_DOCUMENT_RAW_SHA256",
+        "ordered_pointer_sequence": sequence,
+    }
+
+
+def _validate_local_schema_semantics(document: dict[str, Any], coordinate: str) -> None:
+    def walk(value: Any, pointer: str) -> None:
+        if type(value) is dict:
+            if pointer and ("$id" in value or "$schema" in value):
+                raise ReadinessError("SCHEMA_DECLARATIVE_NESTED_DIALECT", pointer)
+            if "$dynamicRef" in value or "$recursiveRef" in value:
+                raise ReadinessError(
+                    "SCHEMA_DECLARATIVE_UNSUPPORTED_REFERENCE", pointer
+                )
+            reference = value.get("$ref")
+            if reference is not None:
+                if type(reference) is not str or not (
+                    reference == "#" or reference.startswith("#/")
+                ):
+                    raise ReadinessError("SCHEMA_DECLARATIVE_REFERENCE", pointer)
+                if "%" in reference:
+                    raise ReadinessError(
+                        "SCHEMA_DECLARATIVE_REFERENCE_ENCODING", pointer
+                    )
+                _resolve_json_pointer(document, reference[1:], coordinate)
+            for key, child in value.items():
+                escaped = _encode_json_pointer_token(key)
+                walk(child, f"{pointer}/{escaped}")
+        elif type(value) is list:
+            for index, child in enumerate(value):
+                walk(child, f"{pointer}/{index}")
+
+    walk(document, "")
+
+
+def _validate_schema_declarative_keyword_proof(
+    root: Path,
+    proof: dict[str, Any],
+    source_sites: dict[str, dict[str, Any]],
+    schema_sites: dict[str, dict[str, Any]],
+    schema_inputs: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Validate one location-scoped declarative schema-keyword proof."""
+    expected_keys = {
+        "addressed_site", "classification", "constraint_id",
+        "declarative_equation", "evidence_inputs", "proof_kind",
+        "schema_context", "schema_site_id", "semantic_subject", "unit",
+    }
+    if type(proof) is not dict or set(proof) != expected_keys:
+        raise ReadinessError("SCHEMA_DECLARATIVE_PROOF_KEYS", "/")
+    if (
+        proof.get("proof_kind") != "SCHEMA_DECLARATIVE_KEYWORD_V1"
+        or proof.get("classification") != "SCHEMA_DECLARATIVE_BOUND"
+        or type(proof.get("constraint_id")) is not str
+        or not proof["constraint_id"].startswith("SCHEMA_DECLARATIVE_")
+        or type(proof.get("semantic_subject")) is not str
+        or type(proof.get("schema_site_id")) is not str
+    ):
+        raise ReadinessError("SCHEMA_DECLARATIVE_PROOF_TYPE", "/")
+    schema_site_id = proof["schema_site_id"]
+    if schema_site_id in source_sites:
+        raise ReadinessError("SCHEMA_DECLARATIVE_SOURCE_SITE", schema_site_id)
+    addressed_site = schema_sites.get(schema_site_id)
+    if addressed_site is None:
+        raise ReadinessError("SCHEMA_DECLARATIVE_SCHEMA_SITE", schema_site_id)
+    if proof.get("addressed_site") != addressed_site:
+        raise ReadinessError("SCHEMA_DECLARATIVE_ADDRESSED_SITE", schema_site_id)
+    identity_value = {
+        key: addressed_site[key]
+        for key in ("json_pointer", "keyword", "path", "schema_id", "value")
+    }
+    if _domain_digest(
+        SCHEMA_RESOURCE_SITE_IDENTITY_DOMAIN, identity_value
+    ) != schema_site_id:
+        raise ReadinessError("SCHEMA_DECLARATIVE_SITE_IDENTITY", schema_site_id)
+
+    semantics_by_keyword = {
+        item["keyword"]: item for item in _schema_declarative_keyword_semantics()
+    }
+    semantics = semantics_by_keyword.get(addressed_site["keyword"])
+    if semantics is None:
+        raise ReadinessError(
+            "SCHEMA_DECLARATIVE_KEYWORD", addressed_site["json_pointer"]
+        )
+    expected_constraint_id = (
+        "SCHEMA_DECLARATIVE_"
+        + addressed_site["keyword"].upper()
+        + "_"
+        + schema_site_id.upper()
+    )
+    if proof["constraint_id"] != expected_constraint_id:
+        raise ReadinessError(
+            "SCHEMA_DECLARATIVE_CONSTRAINT_ID", addressed_site["json_pointer"]
+        )
+    if proof["semantic_subject"] != semantics["semantic_subject"]:
+        raise ReadinessError(
+            "SCHEMA_DECLARATIVE_SUBJECT", addressed_site["json_pointer"]
+        )
+    expected_equation = {
+        "metric": semantics["metric"],
+        "operator": semantics["operator"],
+        "bound": addressed_site["value"],
+    }
+    if proof.get("declarative_equation") != expected_equation:
+        raise ReadinessError(
+            "SCHEMA_DECLARATIVE_EQUATION", addressed_site["json_pointer"]
+        )
+    if proof.get("unit") != semantics["unit"]:
+        raise ReadinessError(
+            "SCHEMA_DECLARATIVE_UNIT", addressed_site["json_pointer"]
+        )
+    if addressed_site["keyword"] not in {
+        "minimum", "maximum", "exclusiveMinimum", "exclusiveMaximum",
+    } and addressed_site["value"] < 0:
+        raise ReadinessError(
+            "SCHEMA_DECLARATIVE_NONNEGATIVE_BOUND",
+            addressed_site["json_pointer"],
+        )
+
+    input_by_path: dict[str, dict[str, Any]] = {}
+    for item in schema_inputs:
+        if type(item) is not dict or set(item) != {
+            "byte_length", "path", "raw_sha256",
+        } or type(item.get("path")) is not str or item["path"] in input_by_path:
+            raise ReadinessError("SCHEMA_DECLARATIVE_SCHEMA_INPUT", "/")
+        input_by_path[item["path"]] = item
+    schema_input = input_by_path.get(addressed_site["path"])
+    if schema_input is None:
+        raise ReadinessError(
+            "SCHEMA_DECLARATIVE_SCHEMA_INPUT", addressed_site["path"]
+        )
+    schema_raw, schema_identity = _audit_path(root, addressed_site["path"])
+    if len(schema_raw) != schema_input["byte_length"] or _sha256(
+        schema_raw
+    ) != schema_input["raw_sha256"]:
+        raise ReadinessError(
+            "SCHEMA_DECLARATIVE_SCHEMA_BYTES", addressed_site["path"]
+        )
+    schema_document = _parse_json(schema_raw, addressed_site["path"])
+    if type(schema_document) is not dict or (
+        schema_document.get("$schema")
+        != "https://json-schema.org/draft/2020-12/schema"
+        or schema_document.get("$id") != addressed_site["schema_id"]
+    ):
+        raise ReadinessError(
+            "SCHEMA_DECLARATIVE_SCHEMA_ROOT", addressed_site["path"]
+        )
+    _validate_local_schema_semantics(schema_document, addressed_site["path"])
+    pointer = addressed_site["json_pointer"]
+    pointer_tokens = _json_pointer_tokens(pointer, addressed_site["path"])
+    if not pointer_tokens or pointer_tokens[-1] != addressed_site["keyword"]:
+        raise ReadinessError(
+            "SCHEMA_DECLARATIVE_KEYWORD_POINTER", addressed_site["json_pointer"]
+        )
+    if _resolve_json_pointer(
+        schema_document, pointer, addressed_site["path"]
+    ) != addressed_site["value"]:
+        raise ReadinessError(
+            "SCHEMA_DECLARATIVE_BOUND", addressed_site["json_pointer"]
+        )
+    containing_pointer = pointer.rsplit("/", 1)[0]
+    containing_subschema = _resolve_json_pointer(
+        schema_document, containing_pointer, addressed_site["path"]
+    )
+    if type(containing_subschema) is not dict:
+        raise ReadinessError(
+            "SCHEMA_DECLARATIVE_CONTAINER", addressed_site["json_pointer"]
+        )
+    containing_digest = _domain_digest(
+        SCHEMA_CONTAINING_SUBSCHEMA_DOMAIN, containing_subschema
+    )
+    contains_pointer = f"{containing_pointer}/contains"
+    required_siblings = (
+        [contains_pointer]
+        if addressed_site["keyword"] in {"minContains", "maxContains"}
+        else []
+    )
+    if required_siblings:
+        contains_schema = _resolve_json_pointer(
+            schema_document, contains_pointer, addressed_site["path"]
+        )
+        if "contains" not in containing_subschema or type(
+            contains_schema
+        ) not in {bool, dict}:
+            raise ReadinessError(
+                "SCHEMA_DECLARATIVE_CONTAINS_SIBLING", contains_pointer
+            )
+    expected_context = {
+        "dialect": "https://json-schema.org/draft/2020-12/schema",
+        "schema_document_byte_length": len(schema_raw),
+        "schema_document_raw_sha256": _sha256(schema_raw),
+        "schema_document_root_id": addressed_site["schema_id"],
+        "containing_subschema_pointer": containing_pointer,
+        "containing_subschema_digest": containing_digest,
+        "applicability": "EXACT_PINNED_SCHEMA_LOCATION_ONLY",
+        "instance_domain": semantics["instance_domain"],
+        "ancestor_context": _schema_ancestor_context(
+            schema_document, containing_pointer, addressed_site["path"]
+        ),
+        "required_sibling_pointers": required_siblings,
+        "non_domain_behavior": "NO_ASSERTION_FROM_THIS_KEYWORD",
+    }
+    if proof.get("schema_context") != expected_context:
+        raise ReadinessError(
+            "SCHEMA_DECLARATIVE_CONTEXT", addressed_site["json_pointer"]
+        )
+
+    evidence_inputs = proof.get("evidence_inputs")
+    if type(evidence_inputs) is not list or len(evidence_inputs) < 2:
+        raise ReadinessError("SCHEMA_DECLARATIVE_EVIDENCE", "/")
+    evidence_paths: set[str] = set()
+    evidence_identities = {schema_identity}
+    for index, item in enumerate(evidence_inputs):
+        if type(item) is not dict or set(item) != {
+            "byte_length", "path", "raw_sha256",
+        } or (
+            type(item.get("byte_length")) is not int
+            or type(item.get("path")) is not str
+            or not item["path"]
+            or type(item.get("raw_sha256")) is not str
+        ):
+            raise ReadinessError("SCHEMA_DECLARATIVE_EVIDENCE", f"/{index}")
+        if item["path"] == addressed_site["path"] or item["path"] in evidence_paths:
+            raise ReadinessError(
+                "SCHEMA_DECLARATIVE_EVIDENCE_DUPLICATE", item["path"]
+            )
+        evidence_paths.add(item["path"])
+        evidence_raw, evidence_identity = _audit_path(root, item["path"])
+        if evidence_identity in evidence_identities:
+            raise ReadinessError(
+                "SCHEMA_DECLARATIVE_EVIDENCE_ALIAS", item["path"]
+            )
+        evidence_identities.add(evidence_identity)
+        if len(evidence_raw) != item["byte_length"] or _sha256(
+            evidence_raw
+        ) != item["raw_sha256"]:
+            raise ReadinessError(
+                "SCHEMA_DECLARATIVE_EVIDENCE_IDENTITY", item["path"]
+            )
+    return {
+        "constraint_id": proof["constraint_id"],
+        "proof_kind": proof["proof_kind"],
+        "schema_site_id": schema_site_id,
+        "validated_evidence_input_count": len(evidence_inputs),
+    }
+
+
+def _schema_declarative_proof_profile_inventory(
+    root: Path,
+    identities: set[tuple[int, int]],
+) -> dict[str, Any]:
+    schema_expected = SCHEMA_DECLARATIVE_KEYWORD_PROOF_SCHEMA
+    schema_raw, schema_identity = _audit_path(root, schema_expected["path"])
+    if schema_identity in identities:
+        raise ReadinessError("HARDLINK_INPUT_ALIAS", schema_expected["path"])
+    identities.add(schema_identity)
+    schema = _parse_json(schema_raw, schema_expected["path"])
+    if (
+        len(schema_raw) != schema_expected["byte_length"]
+        or _sha256(schema_raw) != schema_expected["raw_sha256"]
+        or type(schema) is not dict
+        or schema.get("$id") != schema_expected["schema_id"]
+        or schema.get("$schema")
+        != "https://json-schema.org/draft/2020-12/schema"
+    ):
+        raise ReadinessError(
+            "SCHEMA_DECLARATIVE_PROOF_SCHEMA", schema_expected["path"]
+        )
+    profile_expected = SCHEMA_DECLARATIVE_KEYWORD_PROOF_PROFILE
+    profile_raw, profile_identity = _audit_path(root, profile_expected["path"])
+    if profile_identity in identities:
+        raise ReadinessError("HARDLINK_INPUT_ALIAS", profile_expected["path"])
+    identities.add(profile_identity)
+    profile = _parse_json(profile_raw, profile_expected["path"])
+    if (
+        len(profile_raw) != profile_expected["byte_length"]
+        or _sha256(profile_raw) != profile_expected["raw_sha256"]
+        or type(profile) is not dict
+        or profile.get("profile_id") != profile_expected["profile_id"]
+        or profile.get("profile_sha256") != profile_expected["profile_sha256"]
+    ):
+        raise ReadinessError(
+            "SCHEMA_DECLARATIVE_PROOF_PROFILE", profile_expected["path"]
+        )
+    expected_profile = {
+        "schema_version": 1,
+        "profile_id": profile_expected["profile_id"],
+        "proof_kind": "SCHEMA_DECLARATIVE_KEYWORD_V1",
+        "classification": "SCHEMA_DECLARATIVE_BOUND",
+        "contract_schema": dict(schema_expected),
+        "containing_subschema_digest_domain": SCHEMA_CONTAINING_SUBSCHEMA_DOMAIN,
+        "dialect": "https://json-schema.org/draft/2020-12/schema",
+        "applicability": "EXACT_PINNED_SCHEMA_LOCATION_ONLY",
+        "ancestor_context": "FULL_SCHEMA_DOCUMENT_RAW_SHA256",
+        "reference_semantics": (
+            "LOCAL_DOCUMENT_RAW_RFC6901_POINTER_ONLY_NO_PERCENT_ENCODING_"
+            "ALL_RESOLVE_NO_DYNAMIC_OR_RECURSIVE_REFERENCE"
+        ),
+        "nested_dialect_or_id": "DENY",
+        "non_domain_behavior": "NO_ASSERTION_FROM_THIS_KEYWORD",
+        "keyword_semantics": _schema_declarative_keyword_semantics(),
+        "declarative_roles": [
+            "ADDRESSED_SCHEMA_KEYWORD",
+            "BOUND_DEFINITION",
+            "CONTAINING_SUBSCHEMA_CONTEXT",
+            "FULL_DOCUMENT_ANCESTOR_CONTEXT",
+            "KEYWORD_APPLICABILITY",
+            "REQUIRED_CONTAINS_SIBLING",
+        ],
+        "runtime_enforcement_roles": [],
+        "evidence_input_minimum": 2,
+        "evidence_input_requirements": [
+            "EXACT_BYTE_LENGTH_AND_RAW_SHA256",
+            "PAIRWISE_DISTINCT_PATH_AND_FILE_IDENTITY",
+            "NOT_THE_BOUND_SCHEMA_DOCUMENT",
+        ],
+        "nonclaims": list(SCHEMA_DECLARATIVE_PROOF_NONCLAIMS),
+    }
+    digest_value = dict(profile)
+    claimed_digest = digest_value.pop("profile_sha256", None)
+    if profile != {**expected_profile, "profile_sha256": claimed_digest} or (
+        _domain_digest(SCHEMA_DECLARATIVE_PROOF_PROFILE_DOMAIN, digest_value)
+        != claimed_digest
+    ):
+        raise ReadinessError(
+            "SCHEMA_DECLARATIVE_PROOF_PROFILE_BINDING", profile_expected["path"]
+        )
+    return {
+        "classification": profile["classification"],
+        "keyword_count": len(profile["keyword_semantics"]),
+        "profile_id": profile["profile_id"],
+        "proof_kind": profile["proof_kind"],
+        "runtime_enforcement_roles": [],
+    }
 
 
 def _integer_constant(node: ast.AST) -> int | None:
@@ -4439,7 +4930,7 @@ def _resource_classification_inventory(
     if set(manifest) != expected_keys:
         raise ReadinessError("RESOURCE_CLASSIFICATION_KEYS", manifest_path)
     scalar_expected = {
-        "schema_version": 43,
+        "schema_version": 44,
         "manifest_id": schema_id,
         "profile_id": profile_id,
         "discovery_profile_id": resource_discovery["profile_id"],
@@ -6735,36 +7226,8 @@ def _resource_classification_inventory(
         and type(predecessor_constraints) is list
         and len(predecessor_constraints) == len(constraints)
         and predecessor_value.get("classified_site_count") == 71
+        and predecessor_constraints == constraints
     )
-    if predecessor_prefix_valid:
-        for historical, successor in zip(
-            predecessor_constraints, constraints, strict=True
-        ):
-            constraint_id = historical.get("constraint_id")
-            historical_semantics = {
-                key: value for key, value in historical.items()
-                if key != "evidence_inputs"
-            }
-            successor_semantics = {
-                key: value for key, value in successor.items()
-                if key != "evidence_inputs"
-            }
-            historical_evidence = historical.get("evidence_inputs")
-            if historical_semantics != successor_semantics:
-                predecessor_prefix_valid = False
-                break
-            if constraint_id in RESOURCE_CLASSIFICATION_V42_REBASED_EVIDENCE:
-                if historical_evidence != [
-                    dict(item)
-                    for item in RESOURCE_CLASSIFICATION_V42_REBASED_EVIDENCE[
-                        constraint_id
-                    ]
-                ]:
-                    predecessor_prefix_valid = False
-                    break
-            elif historical_evidence != successor.get("evidence_inputs"):
-                predecessor_prefix_valid = False
-                break
     if not predecessor_prefix_valid:
         raise ReadinessError(
             "RESOURCE_CLASSIFICATION_PREDECESSOR_PREFIX", manifest_path
@@ -8976,6 +9439,9 @@ def build_report(root: Path = ROOT) -> dict[str, Any]:
     schema_bound_sites = _address_schema_bound_inventory(
         legacy_schema_bound_sites
     )
+    schema_declarative_proof_profile = (
+        _schema_declarative_proof_profile_inventory(root, identities)
+    )
     content = _content_inventory(root, identities)
     digest_domains = _digest_domains(source, source_bytes)
     resource_limits = _resource_limits(source, source_bytes)
@@ -9413,6 +9879,9 @@ def build_report(root: Path = ROOT) -> dict[str, Any]:
             "resource_inventory_discovery": resource_discovery,
             "resource_inventory_discovery_evidence": resource_discovery_evidence,
             "retained_schema_documents": retained,
+            "schema_declarative_keyword_proof_profile": (
+                schema_declarative_proof_profile
+            ),
             "source_closure": source,
             "tested_runtime_assumptions": [
                 dict(item) for item in TESTED_RUNTIME_ASSUMPTIONS

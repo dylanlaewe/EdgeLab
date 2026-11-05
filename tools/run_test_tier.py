@@ -44,6 +44,7 @@ FAST_MODULES = (
     "tests.test_runtime_v2_checkpoint_copy_cardinality_bound",
     "tests.test_runtime_v2_schema_document_bound",
     "tests.test_runtime_v2_schema_bundle_byte_bound",
+    "tests.test_runtime_v2_schema_declarative_keyword_proof",
     "tests.test_runtime_v2_schema_ref_node_bound",
     "tests.test_runtime_v2_schema_ref_token_character_bound",
     "tests.test_runtime_v2_schema_resource_site_identity_discovery",
