@@ -97,7 +97,8 @@
     "The cumulative deny-only runtime-v2 semantic resource-classification v48 preserves V47 byte-for-byte with zero rebases and appends one exact local STRING-domain Unicode-code-point maxLength proof at the pinned git-common-directory identity schema site; 74 of 721 sites are classified, 647 remain unclassified, coverage remains INCOMPLETE, and generation remains DENY",
     "The cumulative deny-only runtime-v2 semantic resource-classification v49 preserves V48 byte-for-byte with zero rebases and appends two independently owned direct-root operation-key maxLength proofs under a closed non-dynamic family; 76 of 721 sites are classified, 645 remain unclassified (354 source-bound and 291 schema-bound), coverage remains INCOMPLETE, and generation remains DENY",
     "The cumulative deny-only runtime-v2 semantic resource-classification v50 preserves V49 byte-for-byte with zero rebases and appends two independently owned direct-root operation-key minLength proofs under a closed non-dynamic family with fourteen exact excluded-candidate records; 78 of 721 sites are classified, 643 remain unclassified (354 source-bound and 289 schema-bound), coverage remains INCOMPLETE, and generation remains DENY",
-    "The cumulative deny-only runtime-v2 semantic resource-classification v51 preserves V50 byte-for-byte with zero rebases and appends one exact local STRING-domain Unicode-code-point maxLength proof at the pinned repository_root_realpath schema site; 79 of 721 sites are classified, 642 remain unclassified (354 source-bound and 288 schema-bound), coverage remains INCOMPLETE, and generation remains DENY"
+    "The cumulative deny-only runtime-v2 semantic resource-classification v51 preserves V50 byte-for-byte with zero rebases and appends one exact local STRING-domain Unicode-code-point maxLength proof at the pinned repository_root_realpath schema site; 79 of 721 sites are classified, 642 remain unclassified (354 source-bound and 288 schema-bound), coverage remains INCOMPLETE, and generation remains DENY",
+    "The cumulative deny-only runtime-v2 semantic resource-classification v52 preserves V51 byte-for-byte with zero rebases and appends four separately owned exact taskId minLength proofs under a closed family with the nested response-projection lookalike fully excluded; 83 of 721 sites are classified, 638 remain unclassified (354 source-bound and 284 schema-bound), coverage remains INCOMPLETE, and generation remains DENY"
   ],
   "remaining_m0": [
     "Obtain a genuinely distinct trusted 05 Skeptic review and formal disposition of H-M0-080 under H-M0-086",
@@ -108,18 +109,18 @@
     "Resolve statistical, freshness, paper-capital, exposure, correlation, drawdown, and live-gate thresholds before M0 exit"
   ],
   "blockers": [
-    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002.v77 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
+    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002.v78 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
     "H-M0-086 is BLOCKED because no genuinely distinct trusted 05 Skeptic authority is provisioned",
     "H-M0-041.v23 remains BLOCKED pending formal Skeptic acceptance and separate Director release",
     "The locked authority and historical binding substrates are diagnostic and DENY-only; positive authoritative currentness and authenticated receipt/R-gate integration remain unresolved",
     "M0.3A engineering completion does not constitute formal acceptance or operational authority"
   ],
-  "next_assignment": "Implement the independently bounded four-member taskId minimum-length family under V51 with separate per-member proof ownership and exact lookalike exclusion",
-  "updated_at": "2026-11-05T14:44:44Z",
+  "next_assignment": "Independently select the next smallest rigorously homogeneous schema family or exact per-site meaning under V52 while preserving independent proof ownership and frozen history",
+  "updated_at": "2026-11-05T15:31:56Z",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json",
     "reports/stops/STOP-M0-3A-001.v1.json",
-    "reports/stops/STOP-M0-3A-002.v77.json"
+    "reports/stops/STOP-M0-3A-002.v78.json"
   ],
   "review_ref": "reports/reviews/M0.2-M0.3-final-evidence-plan-rereview.v1.md",
   "open_findings": [

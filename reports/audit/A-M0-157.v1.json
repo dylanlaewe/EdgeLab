@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-157",
+  "version": 1,
+  "occurred_at": "2026-11-05T15:31:56Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_TASK_ID_MIN_LENGTH_PROOF_FAMILY_V52_DENY_ONLY",
+  "subject_ref": "reports/H-M0-175-task-id-min-length-family-v52.v1.md",
+  "previous_state": "CLASSIFICATION_V51_79_CLASSIFIED_642_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "CLASSIFICATION_V52_83_CLASSIFIED_638_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 1cd9b40 appends four separately owned task-ID minimum-length proofs under a closed exact family while preserving V51 byte-for-byte with zero evidence rebases and no authority change.",
+  "evidence_refs": [
+    "reports/H-M0-175-task-id-min-length-family-v52.v1.md",
+    "docs/M0.3A_TASK_ID_MIN_LENGTH_SCHEMA_PROOF_FAMILY.v1.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v52.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v52.schema.json",
+    "tools/check_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v78.json"
+  ],
+  "code_ref": "1cd9b40",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-175",
+  "supersedes": null
+}
