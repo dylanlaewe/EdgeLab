@@ -1,0 +1,54 @@
+{
+  "proof_kind": "SCHEMA_DECLARATIVE_KEYWORD_V1",
+  "constraint_id": "SCHEMA_DECLARATIVE_MINLENGTH_B2840FBFBA98B7107E46EEE42F8D818A2E8D60582F9FBD4E394993A686BDA437",
+  "classification": "SCHEMA_DECLARATIVE_BOUND",
+  "semantic_subject": "SCHEMA_DECLARATIVE_MIN_LENGTH_AT_EXACT_PINNED_LOCATION",
+  "schema_site_id": "b2840fbfba98b7107e46eee42f8d818a2e8d60582f9fbd4e394993a686bda437",
+  "addressed_site": {
+    "classification": "UNCLASSIFIED",
+    "json_pointer": "/properties/operation_key/minLength",
+    "keyword": "minLength",
+    "path": "schemas/m0-3a-command-request.v2.schema.json",
+    "schema_id": "urn:edgelab:m0-3a-command-request:2",
+    "site_id": "b2840fbfba98b7107e46eee42f8d818a2e8d60582f9fbd4e394993a686bda437",
+    "value": 1
+  },
+  "schema_context": {
+    "dialect": "https://json-schema.org/draft/2020-12/schema",
+    "schema_document_byte_length": 14939,
+    "schema_document_raw_sha256": "520cdbc148f6b3942b47d53708899ab8a8135e7a82850166fd360b26fa39cdbe",
+    "schema_document_root_id": "urn:edgelab:m0-3a-command-request:2",
+    "containing_subschema_pointer": "/properties/operation_key",
+    "containing_subschema_digest": "1018889ae7b09b8e99363ab04e7d8637e3bfda0ae1aabed405c2aae2e9c78a26",
+    "applicability": "EXACT_PINNED_SCHEMA_LOCATION_ONLY",
+    "instance_domain": "STRING",
+    "ancestor_context": {
+      "binding": "FULL_SCHEMA_DOCUMENT_RAW_SHA256",
+      "ordered_pointer_sequence": [
+        {"index": 0, "pointer": ""},
+        {"index": 1, "pointer": "/properties"},
+        {"index": 2, "pointer": "/properties/operation_key"}
+      ]
+    },
+    "required_sibling_pointers": [],
+    "non_domain_behavior": "NO_ASSERTION_FROM_THIS_KEYWORD"
+  },
+  "declarative_equation": {
+    "metric": "UNICODE_CODE_POINT_COUNT",
+    "operator": ">=",
+    "bound": 1
+  },
+  "unit": "UNICODE_CODE_POINTS",
+  "evidence_inputs": [
+    {
+      "byte_length": 1573,
+      "path": "docs/M0.3A_COMMAND_REQUEST_OPERATION_KEY_MIN_LENGTH_SCHEMA_PROOF.v1.md",
+      "raw_sha256": "8eb608e88ac56ed444ad47ce214d17ddf4e070795d109b82f188fb575f723457"
+    },
+    {
+      "byte_length": 6382,
+      "path": "tests/test_runtime_v2_command_request_operation_key_min_length_schema_proof.py",
+      "raw_sha256": "e7c6cf9225c583d78252292d554ea873c50dc95e6fdbecb4d350461098fda76a"
+    }
+  ]
+}

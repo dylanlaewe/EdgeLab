@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "family_id": "EDGELAB_RUNTIME_V2_OPERATION_KEY_MIN_LENGTH_SCHEMA_PROOF_FAMILY_V1",
+  "family_kind": "CLOSED_SCHEMA_DECLARATIVE_KEYWORD_FAMILY_V1",
+  "discovery": {
+    "profile_id": "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V8",
+    "manifest_byte_length": 2344,
+    "manifest_raw_sha256": "9914da2984589f7ded860656be4cbfdb88cf7d106ce52856860ed756dfe8725f",
+    "manifest_self_sha256": "78aed7fd37b6b07204c3462ec12855c21c0cb6da5268744d6957068973d72413",
+    "schema_byte_length": 4086,
+    "schema_raw_sha256": "e10ca59c1bf90a0ebaee0647eb6c49a4e573295ee923411e337dc6e90ced50d1",
+    "schema_bound_sites_sha256": "2ca911e85141b79c5ae6be653bf6a8b038ca90873a731764b27ac2bf0cae3fcf"
+  },
+  "predecessor": {
+    "manifest_byte_length": 107369,
+    "manifest_raw_sha256": "d3730cfd44abb28ec17368e364ab0bfa5ce6b6e9c6176d4f3f148ce833e90b04",
+    "manifest_self_sha256": "7c468e8785b07b23b50f78a9f1bbba4595890342f8d5efce5fcc4c4ca24ab62a",
+    "schema_byte_length": 115937,
+    "schema_raw_sha256": "eaa0d5ea38c0227474e3130e2e21f420460db19850b5ecad847f75130f15cf9a"
+  },
+  "predicate": {
+    "keyword": "minLength",
+    "value": 1,
+    "json_pointer": "/properties/operation_key/minLength",
+    "ordered_ancestor_pointers": [
+      "",
+      "/properties",
+      "/properties/operation_key"
+    ],
+    "containing_subschema": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^(?:system:v2:(?:genesis|legacy-bridge)|v2:[0-9a-f]{64}:[\\x21-\\x7e]{1,180})$"
+    },
+    "containing_subschema_digest": "1018889ae7b09b8e99363ab04e7d8637e3bfda0ae1aabed405c2aae2e9c78a26",
+    "allowed_schema_locations": [
+      {
+        "path": "schemas/m0-3a-command-request.v2.schema.json",
+        "schema_id": "urn:edgelab:m0-3a-command-request:2",
+        "site_id": "b2840fbfba98b7107e46eee42f8d818a2e8d60582f9fbd4e394993a686bda437"
+      },
+      {
+        "path": "schemas/m0-3a-response-projection.v2.schema.json",
+        "schema_id": "urn:edgelab:m0-3a-response-projection:2",
+        "site_id": "5dce821ee45f15010f24959f58819323b0112024635aeb4ede5380e3e47c69d4"
+      }
+    ]
+  },
+  "member_count": 2,
+  "ordered_members": [
+    {
+      "schema_site_id": "b2840fbfba98b7107e46eee42f8d818a2e8d60582f9fbd4e394993a686bda437",
+      "constraint_id": "SCHEMA_DECLARATIVE_MINLENGTH_B2840FBFBA98B7107E46EEE42F8D818A2E8D60582F9FBD4E394993A686BDA437",
+      "proof": {
+        "byte_length": 2295,
+        "path": "docs/M0.3A_COMMAND_REQUEST_OPERATION_KEY_MIN_LENGTH_SCHEMA_PROOF.v1.json",
+        "raw_sha256": "48b71b7f3e20f4e74272174cab84be8c74c75270c93e45722c8dc9fbd39fc27b",
+        "schema_site_id": "b2840fbfba98b7107e46eee42f8d818a2e8d60582f9fbd4e394993a686bda437"
+      }
+    },
+    {
+      "schema_site_id": "5dce821ee45f15010f24959f58819323b0112024635aeb4ede5380e3e47c69d4",
+      "constraint_id": "SCHEMA_DECLARATIVE_MINLENGTH_5DCE821EE45F15010F24959F58819323B0112024635AEB4EDE5380E3E47C69D4",
+      "proof": {
+        "byte_length": 2314,
+        "path": "docs/M0.3A_RESPONSE_PROJECTION_OPERATION_KEY_MIN_LENGTH_SCHEMA_PROOF.v1.json",
+        "raw_sha256": "dbb0971ca2e3ab613d5674bc4f1d6bf6e9863423655965c5fe9e903382694516",
+        "schema_site_id": "5dce821ee45f15010f24959f58819323b0112024635aeb4ede5380e3e47c69d4"
+      }
+    }
+  ],
+  "excluded_candidates": [
+    {
+      "reason": "NESTED_OPERATION_KEY_LOOKALIKE",
+      "site": {"classification": "UNCLASSIFIED", "json_pointer": "/properties/transaction/properties/operation_key/minLength", "keyword": "minLength", "path": "schemas/m0-3a-event-envelope.v2.schema.json", "schema_id": "urn:edgelab:m0-3a-event-envelope:2", "site_id": "9b3ca1986a596bd1fadb7cf6559bd1a3e866025dbf8b13c740b7066a144ea6cf", "value": 1}
+    },
+    {
+      "reason": "NESTED_OPERATION_KEY_LOOKALIKE",
+      "site": {"classification": "UNCLASSIFIED", "json_pointer": "/$defs/commit/properties/operation_key/minLength", "keyword": "minLength", "path": "schemas/m0-3a-event-payload.v2.schema.json", "schema_id": "urn:edgelab:m0-3a-event-payload:2", "site_id": "9836fab2fe041176198024df5b8f7dc1f53079e2ae0e7476d64234d419b320a3", "value": 1}
+    },
+    {
+      "reason": "NON_MEMBER_MIN_LENGTH_CANDIDATE",
+      "site": {"classification": "UNCLASSIFIED", "json_pointer": "/properties/global_head_id/minLength", "keyword": "minLength", "path": "schemas/m0-3a-legacy-v1-projection.v1.schema.json", "schema_id": "urn:edgelab:m0-3a-legacy-v1-projection:1", "site_id": "11aad2118d8aa3770406f102d8352ab1c53768ca67f00e89a27e805a277a0d44", "value": 1}
+    },
+    {
+      "reason": "NON_MEMBER_MIN_LENGTH_CANDIDATE",
+      "site": {"classification": "UNCLASSIFIED", "json_pointer": "/properties/source_runtime_id/minLength", "keyword": "minLength", "path": "schemas/m0-3a-legacy-v1-projection.v1.schema.json", "schema_id": "urn:edgelab:m0-3a-legacy-v1-projection:1", "site_id": "98b8b606f34e83fc7d09db7812895974a0fc51620342cc4369f3d4f1d152649f", "value": 1}
+    },
+    {
+      "reason": "NON_MEMBER_MIN_LENGTH_CANDIDATE",
+      "site": {"classification": "UNCLASSIFIED", "json_pointer": "/properties/affected_states/items/properties/task_id/minLength", "keyword": "minLength", "path": "schemas/m0-3a-response-projection.v2.schema.json", "schema_id": "urn:edgelab:m0-3a-response-projection:2", "site_id": "17390c9d39424cc68c740b2b293fffc51389f9a079064a592c3bc1618bd18b4e", "value": 1}
+    },
+    {
+      "reason": "NON_MEMBER_MIN_LENGTH_CANDIDATE",
+      "site": {"classification": "UNCLASSIFIED", "json_pointer": "/properties/git_common_dir_identity/minLength", "keyword": "minLength", "path": "schemas/m0-3a-runtime-attachment.v2.schema.json", "schema_id": "urn:edgelab:m0-3a-runtime-attachment:2", "site_id": "91ac8b306ad7aaabaccc9f87de0460ce6ae4aa41d7edc09ca870364eaa9ecf38", "value": 1}
+    },
+    {
+      "reason": "NON_MEMBER_MIN_LENGTH_CANDIDATE",
+      "site": {"classification": "UNCLASSIFIED", "json_pointer": "/properties/repository_root_realpath/minLength", "keyword": "minLength", "path": "schemas/m0-3a-runtime-attachment.v2.schema.json", "schema_id": "urn:edgelab:m0-3a-runtime-attachment:2", "site_id": "b9d97c6663e8bf814f90b1e69ba3a8ea30573b0ef575709552fe9c5e20ca06ca", "value": 1}
+    },
+    {
+      "reason": "NON_MEMBER_MIN_LENGTH_CANDIDATE",
+      "site": {"classification": "UNCLASSIFIED", "json_pointer": "/properties/documents/items/properties/schema_id/minLength", "keyword": "minLength", "path": "schemas/m0-3a-schema-registry.v2.schema.json", "schema_id": "urn:edgelab:m0-3a-schema-registry:2", "site_id": "5ecdd89c144526d940c1014e6bc6978dba8c91385f5a638f90c08d797957fc9f", "value": 1}
+    },
+    {
+      "reason": "NON_MEMBER_MIN_LENGTH_CANDIDATE",
+      "site": {"classification": "UNCLASSIFIED", "json_pointer": "/properties/event_bindings/items/properties/payload_schema_id/minLength", "keyword": "minLength", "path": "schemas/m0-3a-schema-registry.v2.schema.json", "schema_id": "urn:edgelab:m0-3a-schema-registry:2", "site_id": "283b853e73f8a1a8f37eb152fd5e8d16f4471f69eb3e1949c89bdcdf2c81cf58", "value": 1}
+    },
+    {
+      "reason": "NON_MEMBER_MIN_LENGTH_CANDIDATE",
+      "site": {"classification": "UNCLASSIFIED", "json_pointer": "/properties/event_bindings/items/properties/request_schema_id/minLength", "keyword": "minLength", "path": "schemas/m0-3a-schema-registry.v2.schema.json", "schema_id": "urn:edgelab:m0-3a-schema-registry:2", "site_id": "abf041254a94aa485d41185f38601e013776a07ea7c18a6d5752cf12ade18568", "value": 1}
+    },
+    {
+      "reason": "NON_MEMBER_MIN_LENGTH_CANDIDATE",
+      "site": {"classification": "UNCLASSIFIED", "json_pointer": "/properties/event_bindings/items/properties/response_projection_schema_id/minLength", "keyword": "minLength", "path": "schemas/m0-3a-schema-registry.v2.schema.json", "schema_id": "urn:edgelab:m0-3a-schema-registry:2", "site_id": "61d74daa869567fffcb684c270d1a932b1fd394ff00f9c1f42aa7a1db021591e", "value": 1}
+    },
+    {
+      "reason": "NON_MEMBER_MIN_LENGTH_CANDIDATE",
+      "site": {"classification": "UNCLASSIFIED", "json_pointer": "/properties/generator_identity/properties/invocation/minLength", "keyword": "minLength", "path": "schemas/m0-3a-verifier-dependency-closure.v1.schema.json", "schema_id": "urn:edgelab:m0-3a-verifier-dependency-closure:1", "site_id": "85e3025e297b6d908712678e0358a97de2d8d04f2ce9af152e2ea3f566185a0a", "value": 1}
+    },
+    {
+      "reason": "NON_MEMBER_MIN_LENGTH_CANDIDATE",
+      "site": {"classification": "UNCLASSIFIED", "json_pointer": "/properties/pin_elision_profile/properties/begin_marker/minLength", "keyword": "minLength", "path": "schemas/m0-3a-verifier-dependency-closure.v1.schema.json", "schema_id": "urn:edgelab:m0-3a-verifier-dependency-closure:1", "site_id": "efe3d459a742b92d49ba6951b37702e45fe4ca0d5647246ffed0d54d6021419f", "value": 1}
+    },
+    {
+      "reason": "NON_MEMBER_MIN_LENGTH_CANDIDATE",
+      "site": {"classification": "UNCLASSIFIED", "json_pointer": "/properties/pin_elision_profile/properties/end_marker/minLength", "keyword": "minLength", "path": "schemas/m0-3a-verifier-dependency-closure.v1.schema.json", "schema_id": "urn:edgelab:m0-3a-verifier-dependency-closure:1", "site_id": "ccab1adbac540b97ae382559e66a6c612395613e35a558e9d47a845f4db67c8b", "value": 1}
+    }
+  ],
+  "family_evidence_inputs": [
+    {
+      "byte_length": 1791,
+      "path": "docs/M0.3A_OPERATION_KEY_MIN_LENGTH_SCHEMA_PROOF_FAMILY.v1.md",
+      "raw_sha256": "ab2dbd41e245f239d51c71b0068b66b3d2741ffe09fdebaeb8fb89aed697e457"
+    },
+    {
+      "byte_length": 9890,
+      "path": "tests/test_runtime_v2_operation_key_min_length_schema_proof_family.py",
+      "raw_sha256": "6b40f010ea316335e4465744c9508730293947d4f2f64e08eeea07ada670fe5c"
+    }
+  ],
+  "nonclaims": [
+    "NO_SIBLING_TYPE_MAXLENGTH_OR_PATTERN_MEANING",
+    "NO_OPERATION_KEY_GRAMMAR_SYSTEM_V2_OR_FULL_NONEMPTY_STRING_VALIDITY",
+    "NO_ROOT_REQUIRED_ADDITIONAL_PROPERTIES_ALLOF_IF_OR_THEN_MEANING",
+    "NO_REACHABILITY",
+    "NO_REQUEST_PROJECTION_CORRESPONDENCE",
+    "NO_EVENT_TRANSACTION_OR_PAYLOAD_SITE_MEANING",
+    "NO_UNIQUENESS_IDEMPOTENCY_CHAIN_OR_TASK_MEANING",
+    "NO_RUNTIME_OPERATION_KEY_BEHAVIOR",
+    "NO_FULL_SCHEMA_OR_DEPLOYED_VALIDATOR_CONFORMANCE",
+    "NO_PUBLIC_VALIDITY_OR_INDEPENDENT_ACCEPTANCE",
+    "NO_STOP_OR_RELEASE_CLEARANCE",
+    "NO_EXECUTION_WAGERING_OR_CAPITAL_AUTHORITY",
+    "NO_RUNTIME_CHANGE"
+  ],
+  "family_sha256": "f18cc1f2951e23423fc98b21add126ae7c50bcd38fd8cc9bee2f7a983d7e3dda"
+}
