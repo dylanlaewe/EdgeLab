@@ -108,9 +108,9 @@ class RuntimeV2TopLevelEventsMaximumClassificationTests(unittest.TestCase):
             "tests/test_runtime_v2_top_level_events_maximum_classification.py",
         )
         self.assertEqual(v35["constraints"][:-1], predecessor["constraints"])
-        self.assertEqual(len(current["constraints"]), 36)
-        self.assertEqual(current["classified_site_count"], 69)
-        self.assertEqual(current["unclassified_site_count"], 652)
+        self.assertEqual(len(current["constraints"]), 37)
+        self.assertEqual(current["classified_site_count"], 70)
+        self.assertEqual(current["unclassified_site_count"], 651)
         self.assertEqual(v35["unclassified_site_count"], 661)
         constraint = current["constraints"][30]
         self.assertEqual(constraint, self.constraint())
@@ -129,9 +129,9 @@ class RuntimeV2TopLevelEventsMaximumClassificationTests(unittest.TestCase):
             {self.SITE},
         )
         report = build_report(ROOT)["inventory"]["resource_inventory_classification"]
-        self.assertEqual(report["classified_constraint_count"], 36)
-        self.assertEqual(report["classified_site_count"], 69)
-        self.assertEqual(report["unclassified_site_count"], 652)
+        self.assertEqual(report["classified_constraint_count"], 37)
+        self.assertEqual(report["classified_site_count"], 70)
+        self.assertEqual(report["unclassified_site_count"], 651)
 
     def test_exact_subject_selection_and_every_excluded_site_stays_out(self):
         constraint = self.constraint()
