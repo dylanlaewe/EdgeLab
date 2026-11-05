@@ -10,6 +10,7 @@ from tools.check_runtime_v2_release_readiness import (
     RESOURCE_CLASSIFICATION_V46_EVIDENCE_REBASES,
     RESOURCE_CLASSIFICATION_V46_MANIFEST,
     RESOURCE_CLASSIFICATION_V47_MANIFEST,
+    RESOURCE_CLASSIFICATION_V48_MANIFEST,
     build_report,
 )
 
@@ -22,14 +23,19 @@ class RuntimeV2ResourceClassificationCurrentTests(unittest.TestCase):
             "resource_inventory_classification"
         ]
         cls.manifest = json.loads(
-            (ROOT / RESOURCE_CLASSIFICATION_V47_MANIFEST[1]).read_text(
+            (ROOT / RESOURCE_CLASSIFICATION_V48_MANIFEST[1]).read_text(
                 encoding="ascii"
             )
         )
         cls.predecessor = json.loads(
             (
-                ROOT / RESOURCE_CLASSIFICATION_V46_MANIFEST[1]
+                ROOT / RESOURCE_CLASSIFICATION_V47_MANIFEST[1]
             ).read_text(encoding="ascii")
+        )
+        cls.v46 = json.loads(
+            (ROOT / RESOURCE_CLASSIFICATION_V46_MANIFEST[1]).read_text(
+                encoding="ascii"
+            )
         )
         cls.v45 = json.loads(
             (ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v45.json")
@@ -37,8 +43,8 @@ class RuntimeV2ResourceClassificationCurrentTests(unittest.TestCase):
         )
 
     def test_current_manifest_report_and_partition_are_exact(self):
-        self.assertEqual(self.manifest["schema_version"], 47)
-        self.assertEqual(len(self.manifest["constraints"]), 40)
+        self.assertEqual(self.manifest["schema_version"], 48)
+        self.assertEqual(len(self.manifest["constraints"]), 41)
         source_ids = {
             site_id
             for constraint in self.manifest["constraints"]
@@ -52,29 +58,38 @@ class RuntimeV2ResourceClassificationCurrentTests(unittest.TestCase):
             if constraint["classification"] == "SCHEMA_DECLARATIVE_BOUND"
         }
         self.assertEqual(len(source_ids), 71)
-        self.assertEqual(len(schema_ids), 2)
+        self.assertEqual(len(schema_ids), 3)
         self.assertTrue(source_ids.isdisjoint(schema_ids))
-        self.assertEqual(self.manifest["classified_site_count"], 73)
-        self.assertEqual(self.manifest["unclassified_site_count"], 648)
-        self.assertEqual(self.classification["classified_constraint_count"], 40)
-        self.assertEqual(self.classification["classified_site_count"], 73)
-        self.assertEqual(self.classification["unclassified_site_count"], 648)
+        self.assertEqual(self.manifest["classified_site_count"], 74)
+        self.assertEqual(self.manifest["unclassified_site_count"], 647)
+        self.assertEqual(self.classification["classified_constraint_count"], 41)
+        self.assertEqual(self.classification["classified_site_count"], 74)
+        self.assertEqual(self.classification["unclassified_site_count"], 647)
         self.assertEqual(self.classification["coverage_status"], "INCOMPLETE")
         self.assertEqual(self.classification["generation_disposition"], "DENY")
 
-    def test_v47_is_exact_v46_prefix_plus_one_schema_proof(self):
+    def test_v48_is_exact_v47_prefix_plus_one_schema_proof(self):
         self.assertEqual(
             self.manifest["constraints"][:-1], self.predecessor["constraints"]
         )
         self.assertEqual(
             self.manifest["constraints"][-1]["schema_site_id"],
+            "d35901dd714a95a4a2aa09a3ce17cbcc45dd1634b681cca5aca40be61d479574",
+        )
+
+    def test_v47_is_exact_v46_prefix_plus_one_schema_proof(self):
+        self.assertEqual(
+            self.predecessor["constraints"][:-1], self.v46["constraints"]
+        )
+        self.assertEqual(
+            self.predecessor["constraints"][-1]["schema_site_id"],
             "55fed7617dc5fedbe4f113493ae8096cf62078a2a6dc7803fd4417fb6d60e44b",
         )
 
     def test_v46_changes_only_the_exact_nine_evidence_coordinates(self):
         observed = set()
         for successor, historical in zip(
-            self.predecessor["constraints"],
+            self.v46["constraints"],
             self.v45["constraints"],
             strict=True,
         ):
@@ -117,7 +132,7 @@ class RuntimeV2ResourceClassificationCurrentTests(unittest.TestCase):
     def test_historical_evidence_is_decoupled_from_live_accounting(self):
         evidence_paths = {
             evidence["path"]
-            for constraint in self.predecessor["constraints"]
+            for constraint in self.v46["constraints"]
             for evidence in constraint["evidence_inputs"]
         }
         self.assertNotIn(RESOURCE_CLASSIFICATION_CURRENT_TEST_PATH, evidence_paths)

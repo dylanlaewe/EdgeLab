@@ -1,0 +1,63 @@
+{
+  "proof_kind": "SCHEMA_DECLARATIVE_KEYWORD_V1",
+  "constraint_id": "SCHEMA_DECLARATIVE_MAXLENGTH_D35901DD714A95A4A2AA09A3CE17CBCC45DD1634B681CCA5ACA40BE61D479574",
+  "classification": "SCHEMA_DECLARATIVE_BOUND",
+  "semantic_subject": "SCHEMA_DECLARATIVE_MAX_LENGTH_AT_EXACT_PINNED_LOCATION",
+  "schema_site_id": "d35901dd714a95a4a2aa09a3ce17cbcc45dd1634b681cca5aca40be61d479574",
+  "addressed_site": {
+    "classification": "UNCLASSIFIED",
+    "json_pointer": "/properties/git_common_dir_identity/maxLength",
+    "keyword": "maxLength",
+    "path": "schemas/m0-3a-runtime-attachment.v2.schema.json",
+    "schema_id": "urn:edgelab:m0-3a-runtime-attachment:2",
+    "site_id": "d35901dd714a95a4a2aa09a3ce17cbcc45dd1634b681cca5aca40be61d479574",
+    "value": 4096
+  },
+  "schema_context": {
+    "dialect": "https://json-schema.org/draft/2020-12/schema",
+    "schema_document_byte_length": 1527,
+    "schema_document_raw_sha256": "0623e1706d3a18a2b06043c72f444bd8bad9d798248ff62c83a901a36c1dbb9c",
+    "schema_document_root_id": "urn:edgelab:m0-3a-runtime-attachment:2",
+    "containing_subschema_pointer": "/properties/git_common_dir_identity",
+    "containing_subschema_digest": "1cb0f2473cb55b110447de322170e5050e56184fc26d1d544cb298ff202d9ac5",
+    "applicability": "EXACT_PINNED_SCHEMA_LOCATION_ONLY",
+    "instance_domain": "STRING",
+    "ancestor_context": {
+      "binding": "FULL_SCHEMA_DOCUMENT_RAW_SHA256",
+      "ordered_pointer_sequence": [
+        {
+          "index": 0,
+          "pointer": ""
+        },
+        {
+          "index": 1,
+          "pointer": "/properties"
+        },
+        {
+          "index": 2,
+          "pointer": "/properties/git_common_dir_identity"
+        }
+      ]
+    },
+    "required_sibling_pointers": [],
+    "non_domain_behavior": "NO_ASSERTION_FROM_THIS_KEYWORD"
+  },
+  "declarative_equation": {
+    "metric": "UNICODE_CODE_POINT_COUNT",
+    "operator": "<=",
+    "bound": 4096
+  },
+  "unit": "UNICODE_CODE_POINTS",
+  "evidence_inputs": [
+    {
+      "byte_length": 2166,
+      "path": "docs/M0.3A_GIT_COMMON_DIR_IDENTITY_MAX_LENGTH_SCHEMA_PROOF.v1.md",
+      "raw_sha256": "6313620c0717d030befbc811f583c3556e4e83f8d10ffab20315dbc8642f2b1a"
+    },
+    {
+      "byte_length": 12882,
+      "path": "tests/test_runtime_v2_git_common_dir_identity_max_length_schema_proof.py",
+      "raw_sha256": "54524c3c4a83a000863539135b4fe951b125a101ea16b4dab8663026bf9b497f"
+    }
+  ]
+}
