@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-146",
+  "version": 1,
+  "occurred_at": "2026-11-05T01:46:31Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_PRIVATE_CODEC_VALIDATION_DEPTH_BOUND_V41_DENY_ONLY",
+  "subject_ref": "reports/H-M0-164-private-codec-validation-depth-bound-v41.v1.md",
+  "previous_state": "DISCOVERY_V7_721_SITES_SIXTY_NINE_CLASSIFIED_652_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V7_721_SITES_SEVENTY_CLASSIFIED_651_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 7e3dd9e classifies only the private codec _validate depth-argument maximum at one overlapping definition/enforcement site. Classification V41 retains 651 unclassified sites, coverage remains INCOMPLETE, and generation remains DENY.",
+  "evidence_refs": [
+    "reports/H-M0-164-private-codec-validation-depth-bound-v41.v1.md",
+    "docs/M0.3A_CODEC_PRIVATE_VALIDATE_DEPTH_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v7.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v7.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v41.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v41.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_codec_private_validate_depth_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v67.json"
+  ],
+  "code_ref": "7e3dd9e",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-164",
+  "supersedes": null
+}

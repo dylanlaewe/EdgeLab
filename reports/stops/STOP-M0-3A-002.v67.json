@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-002",
+  "version": 67,
+  "issued_at": "2026-11-05T01:46:31Z",
+  "issuer": "00 Director",
+  "reason": "Classification V41 adds only the private codec _validate depth-argument maximum at one overlapping definition/enforcement site while leaving the default-depth site unclassified. It preserves every V40 semantic field and site set with exactly six enumerated, byte-pinned evidence-only refreshes required by successor census assertions. Of 721 census sites, 70 are classified and 651 remain unclassified, so coverage is explicitly incomplete. Exact resource-manifest completion, public-entrypoint integration, conservative V1 bridge disposition, and the independently accepted A-J evidence manifest remain unresolved. Release generation is blocked and no positive local-consistency result is supportable.",
+  "affected_components": [
+    "exact generated verifier closure",
+    "semantic resource-limit classification and coverage proof",
+    "legacy bridge disposition",
+    "complete whole-image acceptance matrix",
+    "public result vocabulary"
+  ],
+  "evidence_refs": [
+    "reports/H-M0-164-private-codec-validation-depth-bound-v41.v1.md",
+    "docs/M0.3A_CODEC_PRIVATE_VALIDATE_DEPTH_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v7.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v7.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v41.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v41.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_codec_private_validate_depth_bound.py",
+    "tests/test_runtime_v2_release_readiness.py"
+  ],
+  "severity": "HIGH",
+  "remediation_required": [
+    "Independently inventory the 651 remaining unclassified sites and select the next smallest complete semantic slice without preapproval, near-completion claims, or inference of authority from the completed private depth-guard classification.",
+    "Classify every remaining discovered source/schema site and prove bidirectional coverage of all remaining enforcement mechanisms and descriptor/contract constraints.",
+    "Bind every accepted resource constraint to all definitions, enforcement sites, branch-specific and positional bindings, source-level semantic dependencies, contract equations, units, and boundary evidence without conflating private arguments, starting defaults, public nesting semantics, minima, maxima, exact values, relational constraints, diagnostics, representation limits, helper components, or equal-valued limits on different subjects.",
+    "Conservatively disposition the unsupported V1 migration bridge under the retained legacy amendment without inventing unavailable preimages.",
+    "Connect the sole public entrypoint and bind independently accepted A-J evidence before generating any closure or carrier."
+  ],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}

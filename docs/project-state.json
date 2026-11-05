@@ -86,7 +86,8 @@
     "Runtime-v2 resource discovery v7 now preserves all 424 Discovery v6 source sites and adds one exact coordinate finding-string composite; classification v37 appends the complete artifact and coordinate finding-string family as two subject-specific constraints covering six disjoint sites while shared helpers and MAX_FINDINGS remain unclassified, 657 of 721 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked",
     "The cumulative deny-only runtime-v2 semantic resource-classification v38 now classifies only the dependency-closure JSON integer-token nineteen-digit lexical ceiling after excluding one leading ASCII minus, with exact parser/caller/module evidence, rejection-before-conversion tests, and explicit separation from int64, field-range, general JSON, closure, verifier, STOP, execution, and capital meanings; 655 of 721 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked",
     "The cumulative deny-only runtime-v2 semantic resource-classification v39 now classifies only the verifier local schema-reference token 64-character ceiling through the exact prefix slice and comparison sites, with type/prefix/compound-condition/diagnostic/walk evidence, budget-short-circuit coverage, and explicit separation from target existence, graph safety, schema acceptance, parser rejection, public-verifier acceptance, STOP, execution, and capital meanings; 653 of 721 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked",
-    "The cumulative deny-only runtime-v2 semantic resource-classification v40 now classifies only the verifier root schema-definition name 64-character ceiling at one overlapping definition/enforcement site, with exact extraction, fallback, iteration, compound-profile, diagnostic, control-flow, graph, and walk evidence plus explicit separation from the other name-profile terms, reference-token semantics, target existence, graph validity, body validity, public-verifier acceptance, STOP, execution, and capital meanings; 652 of 721 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked"
+    "The cumulative deny-only runtime-v2 semantic resource-classification v40 now classifies only the verifier root schema-definition name 64-character ceiling at one overlapping definition/enforcement site, with exact extraction, fallback, iteration, compound-profile, diagnostic, control-flow, graph, and walk evidence plus explicit separation from the other name-profile terms, reference-token semantics, target existence, graph validity, body validity, public-verifier acceptance, STOP, execution, and capital meanings; 652 of 721 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked",
+    "The cumulative deny-only runtime-v2 semantic resource-classification v41 now classifies only the private codec _validate internal depth-argument inclusive maximum through its exact entry comparison, guard, error, function, module, root-caller, and recursive-call context while leaving the default-depth site unclassified and explicitly refusing public/canonical-JSON nesting, parser, traversal, verifier, STOP, execution, and capital meanings; 651 of 721 sites remain unclassified, coverage remains INCOMPLETE, and generation remains blocked"
   ],
   "remaining_m0": [
     "Obtain a genuinely distinct trusted 05 Skeptic review and formal disposition of H-M0-080 under H-M0-086",
@@ -97,18 +98,18 @@
     "Resolve statistical, freshness, paper-capital, exposure, correlation, drawdown, and live-gate thresholds before M0 exit"
   ],
   "blockers": [
-    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002.v66 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
+    "STOP-M0-001, STOP-M0-3A-001, and STOP-M0-3A-002.v67 are OPEN; M0 exit, M1, Scout, operational research, paper/live activity, and capital deployment remain unauthorized",
     "H-M0-086 is BLOCKED because no genuinely distinct trusted 05 Skeptic authority is provisioned",
     "H-M0-041.v23 remains BLOCKED pending formal Skeptic acceptance and separate Director release",
     "The locked authority and historical binding substrates are diagnostic and DENY-only; positive authoritative currentness and authenticated receipt/R-gate integration remain unresolved",
     "M0.3A engineering completion does not constitute formal acceptance or operational authority"
   ],
-  "next_assignment": "Independently inventory the 652 remaining unclassified sites and select the next smallest complete semantic slice; do not preapprove classification, claim the inventory is nearly complete, or infer authority from Discovery V7 or Classification V40",
-  "updated_at": "2026-11-05T00:25:09Z",
+  "next_assignment": "Independently inventory the 651 remaining unclassified sites and select the next smallest complete semantic slice; do not preapprove classification, claim the inventory is nearly complete, or infer authority from Discovery V7 or Classification V41",
+  "updated_at": "2026-11-05T01:46:31Z",
   "active_stop_refs": [
     "reports/stops/STOP-M0-001.v1.json",
     "reports/stops/STOP-M0-3A-001.v1.json",
-    "reports/stops/STOP-M0-3A-002.v66.json"
+    "reports/stops/STOP-M0-3A-002.v67.json"
   ],
   "review_ref": "reports/reviews/M0.2-M0.3-final-evidence-plan-rereview.v1.md",
   "open_findings": [
