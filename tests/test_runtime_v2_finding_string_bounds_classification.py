@@ -8,7 +8,6 @@ import unittest
 from src.edgelab.runtime_v2_verifier import _finding
 from src.edgelab.validate import ROOT
 from tools.check_runtime_v2_release_readiness import (
-    RESOURCE_CLASSIFICATION_MANIFEST,
     ReadinessError,
     _source_bound_finding_coordinate_character_maximum_inventory,
     build_report,
@@ -36,7 +35,8 @@ class FindingStringBoundsClassificationTests(unittest.TestCase):
             for item in cls.report["inventory"]["source_closure"]["local_artifacts"]
         }
         cls.manifest = json.loads(
-            (ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_text(encoding="ascii")
+            (ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v42.json")
+            .read_text(encoding="ascii")
         )
 
     def constraint(self, constraint_id: str) -> dict[str, object]:
@@ -184,9 +184,9 @@ class FindingStringBoundsClassificationTests(unittest.TestCase):
             )
         self.assertEqual(len(self.manifest["constraints"]), 38)
         classification = self.report["inventory"]["resource_inventory_classification"]
-        self.assertEqual(classification["classified_constraint_count"], 38)
-        self.assertEqual(classification["classified_site_count"], 71)
-        self.assertEqual(classification["unclassified_site_count"], 650)
+        self.assertEqual(classification["classified_constraint_count"], 39)
+        self.assertEqual(classification["classified_site_count"], 72)
+        self.assertEqual(classification["unclassified_site_count"], 649)
         self.assertEqual(classification["coverage_status"], "INCOMPLETE")
         self.assertEqual(classification["generation_disposition"], "DENY")
 

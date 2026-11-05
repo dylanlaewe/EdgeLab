@@ -1,0 +1,63 @@
+{
+  "proof_kind": "SCHEMA_DECLARATIVE_KEYWORD_V1",
+  "constraint_id": "SCHEMA_DECLARATIVE_MINLENGTH_685812B87027CEA3E8FC9CE370FD21377B11FC6459C06BF2151261260CD178EA",
+  "classification": "SCHEMA_DECLARATIVE_BOUND",
+  "semantic_subject": "SCHEMA_DECLARATIVE_MIN_LENGTH_AT_EXACT_PINNED_LOCATION",
+  "schema_site_id": "685812b87027cea3e8fc9ce370fd21377b11fc6459c06bf2151261260cd178ea",
+  "addressed_site": {
+    "classification": "UNCLASSIFIED",
+    "json_pointer": "/properties/active_runtime_id/minLength",
+    "keyword": "minLength",
+    "path": "schemas/m0-3a-active-runtime-selector.v2.schema.json",
+    "schema_id": "urn:edgelab:m0-3a-active-runtime-selector:2",
+    "site_id": "685812b87027cea3e8fc9ce370fd21377b11fc6459c06bf2151261260cd178ea",
+    "value": 1
+  },
+  "schema_context": {
+    "dialect": "https://json-schema.org/draft/2020-12/schema",
+    "schema_document_byte_length": 4708,
+    "schema_document_raw_sha256": "5398ccf55ce90159d9da34f9a29863a856f1e6e38fdb9ab498b8bd71bb5badf9",
+    "schema_document_root_id": "urn:edgelab:m0-3a-active-runtime-selector:2",
+    "containing_subschema_pointer": "/properties/active_runtime_id",
+    "containing_subschema_digest": "b7a6b72a800efef8bdffac78cdac9fec371555f5f8dbaf7fbffa022c35b8a2f5",
+    "applicability": "EXACT_PINNED_SCHEMA_LOCATION_ONLY",
+    "instance_domain": "STRING",
+    "ancestor_context": {
+      "binding": "FULL_SCHEMA_DOCUMENT_RAW_SHA256",
+      "ordered_pointer_sequence": [
+        {
+          "index": 0,
+          "pointer": ""
+        },
+        {
+          "index": 1,
+          "pointer": "/properties"
+        },
+        {
+          "index": 2,
+          "pointer": "/properties/active_runtime_id"
+        }
+      ]
+    },
+    "required_sibling_pointers": [],
+    "non_domain_behavior": "NO_ASSERTION_FROM_THIS_KEYWORD"
+  },
+  "declarative_equation": {
+    "metric": "UNICODE_CODE_POINT_COUNT",
+    "operator": ">=",
+    "bound": 1
+  },
+  "unit": "UNICODE_CODE_POINTS",
+  "evidence_inputs": [
+    {
+      "byte_length": 1983,
+      "path": "docs/M0.3A_ACTIVE_RUNTIME_ID_MIN_LENGTH_SCHEMA_PROOF.v1.md",
+      "raw_sha256": "b5b900ea23e8c54b5667510f21900ea81592f9ea893e169716593937457eb593"
+    },
+    {
+      "byte_length": 11009,
+      "path": "tests/test_runtime_v2_active_runtime_id_min_length_schema_proof.py",
+      "raw_sha256": "911aceadc6b1cd28b9120c21ec77a173ff0348cc06a71de0bcbfe9a973690708"
+    }
+  ]
+}

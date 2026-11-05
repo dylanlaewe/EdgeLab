@@ -228,8 +228,8 @@ class SchemaResourceSiteIdentityDiscoveryTests(unittest.TestCase):
             set(RESOURCE_CLASSIFICATION_V42_REBASED_EVIDENCE),
         )
         self.assertEqual(len(self.manifest["constraints"]), 38)
-        self.assertEqual(self.classification["classified_site_count"], 71)
-        self.assertEqual(self.classification["unclassified_site_count"], 650)
+        self.assertEqual(self.manifest["classified_site_count"], 71)
+        self.assertEqual(self.manifest["unclassified_site_count"], 650)
         schema_ids = {item["site_id"] for item in self.discovery["schema_bound_sites"]}
         self.assertTrue(CLASSIFIED_RESOURCE_SITE_IDS.isdisjoint(schema_ids))
 
@@ -250,9 +250,15 @@ class SchemaResourceSiteIdentityDiscoveryTests(unittest.TestCase):
         schema_id = next(iter(schema_sites))
         with self.assertRaises(ReadinessError) as caught:
             _validate_classified_resource_site_ids(
-                {schema_id}, frozenset({schema_id}), source_sites, schema_sites, "/test"
+                {schema_id},
+                set(),
+                frozenset({schema_id}),
+                frozenset(),
+                source_sites,
+                schema_sites,
+                "/test",
             )
-        self.assertEqual(caught.exception.code, "RESOURCE_SCHEMA_SITE_CLASSIFIED")
+        self.assertEqual(caught.exception.code, "RESOURCE_SOURCE_SCHEMA_CROSS_KIND")
 
     def test_v8_schema_manifest_and_blocked_disposition_are_exact(self):
         from jsonschema import Draft202012Validator

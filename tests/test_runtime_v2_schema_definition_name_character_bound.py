@@ -7,11 +7,7 @@ import unittest
 from src.edgelab.validate import ROOT
 import src.edgelab.runtime_v2_verifier as verifier
 from src.edgelab.runtime_v2_verifier import VerificationFinding
-from tools.check_runtime_v2_release_readiness import (
-    RESOURCE_CLASSIFICATION_MANIFEST,
-    _source_bound_inventory,
-    build_report,
-)
+from tools.check_runtime_v2_release_readiness import _source_bound_inventory, build_report
 
 
 NAME_COMPARISON_SITE = "7c91639838faea15e6de8b51227a0b9bc0044c0c66b6a98cc4b5b4897a0f63fd"
@@ -25,7 +21,8 @@ class SchemaDefinitionNameCharacterBoundTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.report = build_report(ROOT)
         cls.manifest = json.loads(
-            (ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_text(encoding="ascii")
+            (ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v42.json")
+            .read_text(encoding="ascii")
         )
         cls.source = (ROOT / "src/edgelab/runtime_v2_verifier.py").read_bytes()
 
@@ -153,9 +150,9 @@ class SchemaDefinitionNameCharacterBoundTests(unittest.TestCase):
         self.assertEqual(constraint["definition_site_ids"], [NAME_COMPARISON_SITE])
         self.assertEqual(constraint["enforcement_site_ids"], [NAME_COMPARISON_SITE])
         classification = self.report["inventory"]["resource_inventory_classification"]
-        self.assertEqual(classification["classified_constraint_count"], 38)
-        self.assertEqual(classification["classified_site_count"], 71)
-        self.assertEqual(classification["unclassified_site_count"], 650)
+        self.assertEqual(classification["classified_constraint_count"], 39)
+        self.assertEqual(classification["classified_site_count"], 72)
+        self.assertEqual(classification["unclassified_site_count"], 649)
         self.assertEqual(classification["coverage_status"], "INCOMPLETE")
         self.assertEqual(classification["generation_disposition"], "DENY")
         self.assertEqual(

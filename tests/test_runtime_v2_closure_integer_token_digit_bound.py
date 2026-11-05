@@ -8,11 +8,7 @@ from unittest import mock
 import src.edgelab.runtime_v2_closure as closure
 from src.edgelab.runtime_v2_codec import CanonicalJsonError
 from src.edgelab.validate import ROOT
-from tools.check_runtime_v2_release_readiness import (
-    RESOURCE_CLASSIFICATION_MANIFEST,
-    _source_bound_inventory,
-    build_report,
-)
+from tools.check_runtime_v2_release_readiness import _source_bound_inventory, build_report
 
 
 SIGN_SLICE_SITE = "7b99b5408a023f557be70736b52ecf6a8de4d8594b0da6318cacb3c9680cf5fc"
@@ -24,7 +20,8 @@ class ClosureIntegerTokenDigitBoundTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.report = build_report(ROOT)
         cls.manifest = json.loads(
-            (ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_text(encoding="ascii")
+            (ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v42.json")
+            .read_text(encoding="ascii")
         )
         cls.source_bytes = {
             item["path"]: (ROOT / item["path"]).read_bytes()
@@ -152,9 +149,9 @@ class ClosureIntegerTokenDigitBoundTests(unittest.TestCase):
         self.assertIn("one leading minus sign", constraint["accepted_equation"])
 
         classification = self.report["inventory"]["resource_inventory_classification"]
-        self.assertEqual(classification["classified_constraint_count"], 38)
-        self.assertEqual(classification["classified_site_count"], 71)
-        self.assertEqual(classification["unclassified_site_count"], 650)
+        self.assertEqual(classification["classified_constraint_count"], 39)
+        self.assertEqual(classification["classified_site_count"], 72)
+        self.assertEqual(classification["unclassified_site_count"], 649)
         self.assertEqual(classification["coverage_status"], "INCOMPLETE")
         self.assertEqual(classification["generation_disposition"], "DENY")
         self.assertEqual(

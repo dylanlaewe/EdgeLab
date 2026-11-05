@@ -5,11 +5,10 @@ import json
 import unittest
 
 import src.edgelab.runtime_v2_image as host
-from tools.check_runtime_v2_release_readiness import (
-    RESOURCE_CLASSIFICATION_MANIFEST,
-    ROOT,
-    build_report,
-)
+from tools.check_runtime_v2_release_readiness import ROOT, build_report
+
+
+V42_MANIFEST = "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v42.json"
 
 
 class _TupleSubclass(tuple):
@@ -62,9 +61,7 @@ class RuntimeV2TopLevelEventsMaximumClassificationTests(unittest.TestCase):
     @classmethod
     def constraint(cls) -> dict[str, object]:
         manifest = json.loads(
-            (ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_text(
-                encoding="ascii"
-            )
+            (ROOT / V42_MANIFEST).read_text(encoding="ascii")
         )
         return next(
             item for item in manifest["constraints"]
@@ -74,9 +71,7 @@ class RuntimeV2TopLevelEventsMaximumClassificationTests(unittest.TestCase):
 
     def test_v37_preserves_v35_event_semantics_with_successor_evidence_rebase(self):
         current = json.loads(
-            (ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_text(
-                encoding="ascii"
-            )
+            (ROOT / V42_MANIFEST).read_text(encoding="ascii")
         )
         v35 = json.loads(
             (
@@ -129,9 +124,9 @@ class RuntimeV2TopLevelEventsMaximumClassificationTests(unittest.TestCase):
             {self.SITE},
         )
         report = build_report(ROOT)["inventory"]["resource_inventory_classification"]
-        self.assertEqual(report["classified_constraint_count"], 38)
-        self.assertEqual(report["classified_site_count"], 71)
-        self.assertEqual(report["unclassified_site_count"], 650)
+        self.assertEqual(report["classified_constraint_count"], 39)
+        self.assertEqual(report["classified_site_count"], 72)
+        self.assertEqual(report["unclassified_site_count"], 649)
 
     def test_exact_subject_selection_and_every_excluded_site_stays_out(self):
         constraint = self.constraint()
@@ -144,9 +139,7 @@ class RuntimeV2TopLevelEventsMaximumClassificationTests(unittest.TestCase):
             "HOST_PREFLIGHT_TOP_LEVEL_EVENTS_MAXIMUM_ONLY",
         )
         manifest = json.loads(
-            (ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_text(
-                encoding="ascii"
-            )
+            (ROOT / V42_MANIFEST).read_text(encoding="ascii")
         )
         classified = {
             site_id

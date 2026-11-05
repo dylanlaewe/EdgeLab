@@ -14,7 +14,6 @@ from jsonschema import Draft202012Validator
 from src.edgelab.validate import ROOT
 from tools.check_runtime_v2_release_readiness import (
     CLASSIFIED_RESOURCE_SITE_IDS,
-    RESOURCE_CLASSIFICATION_MANIFEST,
     SCHEMA_CONTAINING_SUBSCHEMA_DOMAIN,
     SCHEMA_DECLARATIVE_KEYWORD_PROOF_PROFILE,
     SCHEMA_DECLARATIVE_KEYWORD_PROOF_SCHEMA,
@@ -252,7 +251,8 @@ class SchemaDeclarativeKeywordProofTests(unittest.TestCase):
             summary,
         )
         current = json.loads(
-            (ROOT / RESOURCE_CLASSIFICATION_MANIFEST[1]).read_text(encoding="ascii")
+            (ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v44.json")
+            .read_text(encoding="ascii")
         )
         predecessor = json.loads(
             (ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v43.json")
