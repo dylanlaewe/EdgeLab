@@ -1,0 +1,56 @@
+{
+  "proof_kind": "SCHEMA_DECLARATIVE_KEYWORD_V1",
+  "constraint_id": "SCHEMA_DECLARATIVE_MINLENGTH_85E3025E297B6D908712678E0358A97DE2D8D04F2CE9AF152E2EA3F566185A0A",
+  "classification": "SCHEMA_DECLARATIVE_BOUND",
+  "semantic_subject": "SCHEMA_DECLARATIVE_MIN_LENGTH_AT_EXACT_PINNED_LOCATION",
+  "schema_site_id": "85e3025e297b6d908712678e0358a97de2d8d04f2ce9af152e2ea3f566185a0a",
+  "addressed_site": {
+    "classification": "UNCLASSIFIED",
+    "json_pointer": "/properties/generator_identity/properties/invocation/minLength",
+    "keyword": "minLength",
+    "path": "schemas/m0-3a-verifier-dependency-closure.v1.schema.json",
+    "schema_id": "urn:edgelab:m0-3a-verifier-dependency-closure:1",
+    "site_id": "85e3025e297b6d908712678e0358a97de2d8d04f2ce9af152e2ea3f566185a0a",
+    "value": 1
+  },
+  "schema_context": {
+    "dialect": "https://json-schema.org/draft/2020-12/schema",
+    "schema_document_byte_length": 15938,
+    "schema_document_raw_sha256": "f0516f087b3a97fcfe1266a79d6fc65ed8c9c6480998490fadf53807dfb23aff",
+    "schema_document_root_id": "urn:edgelab:m0-3a-verifier-dependency-closure:1",
+    "containing_subschema_pointer": "/properties/generator_identity/properties/invocation",
+    "containing_subschema_digest": "5789bce9561e2fea80886b8fe5436a7a73d413ac9c49dd3a6628a7a2b575d83c",
+    "applicability": "EXACT_PINNED_SCHEMA_LOCATION_ONLY",
+    "instance_domain": "STRING",
+    "ancestor_context": {
+      "binding": "FULL_SCHEMA_DOCUMENT_RAW_SHA256",
+      "ordered_pointer_sequence": [
+        {"index": 0, "pointer": ""},
+        {"index": 1, "pointer": "/properties"},
+        {"index": 2, "pointer": "/properties/generator_identity"},
+        {"index": 3, "pointer": "/properties/generator_identity/properties"},
+        {"index": 4, "pointer": "/properties/generator_identity/properties/invocation"}
+      ]
+    },
+    "required_sibling_pointers": [],
+    "non_domain_behavior": "NO_ASSERTION_FROM_THIS_KEYWORD"
+  },
+  "declarative_equation": {
+    "metric": "UNICODE_CODE_POINT_COUNT",
+    "operator": ">=",
+    "bound": 1
+  },
+  "unit": "UNICODE_CODE_POINTS",
+  "evidence_inputs": [
+    {
+      "byte_length": 2354,
+      "path": "docs/M0.3A_GENERATOR_INVOCATION_MIN_LENGTH_SCHEMA_PROOF.v1.md",
+      "raw_sha256": "68c90a8c0de54dc152c3c69da687e4b1624bbb1e6467937e9b6a81fee88594c7"
+    },
+    {
+      "byte_length": 16137,
+      "path": "tests/test_runtime_v2_generator_invocation_min_length_schema_proof.py",
+      "raw_sha256": "dec5593c3042bcafab4c5dfa1882ca80f4f97c0f14c446ce2580d3e515fdd89a"
+    }
+  ]
+}
