@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-147",
+  "version": 1,
+  "occurred_at": "2026-11-05T02:26:30Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_INITIAL_REDUCER_FINDING_CODE_BOUND_V42_DENY_ONLY",
+  "subject_ref": "reports/H-M0-165-initial-reducer-finding-code-bound-v42.v1.md",
+  "previous_state": "DISCOVERY_V7_721_SITES_SEVENTY_CLASSIFIED_651_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V7_721_SITES_SEVENTY_ONE_CLASSIFIED_650_UNCLASSIFIED_SCHEMA_IDENTITY_BLOCKER_STOP_OPEN",
+  "reason": "Commit 7af6d55 classifies only the private initial-reducer ordinary-finding code transformation at one subject-bound call. Classification V42 retains 650 unclassified sites, coverage remains INCOMPLETE, generation remains DENY, and a read-only completion audit identifies missing stable schema-site identities as a prerequisite to complete classification.",
+  "evidence_refs": [
+    "reports/H-M0-165-initial-reducer-finding-code-bound-v42.v1.md",
+    "docs/M0.3A_INITIAL_REDUCER_FINDING_CODE_CHARACTER_LIMIT.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v7.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v7.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v42.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v42.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_initial_reducer_finding_code_character_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v68.json"
+  ],
+  "code_ref": "7af6d55",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-165",
+  "supersedes": null
+}
