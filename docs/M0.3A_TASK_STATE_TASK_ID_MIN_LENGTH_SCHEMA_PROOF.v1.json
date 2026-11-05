@@ -1,0 +1,13 @@
+{
+  "proof_kind": "SCHEMA_DECLARATIVE_KEYWORD_V1",
+  "constraint_id": "SCHEMA_DECLARATIVE_MINLENGTH_CF92955F6103875D6751AEC4C72558D0E79C752A7BFF2BB15CBCDCEBF676127B",
+  "classification": "SCHEMA_DECLARATIVE_BOUND", "semantic_subject": "SCHEMA_DECLARATIVE_MIN_LENGTH_AT_EXACT_PINNED_LOCATION",
+  "schema_site_id": "cf92955f6103875d6751aec4c72558d0e79c752a7bff2bb15cbcdcebf676127b",
+  "addressed_site": {"classification": "UNCLASSIFIED", "json_pointer": "/$defs/taskId/minLength", "keyword": "minLength", "path": "schemas/m0-3a-task-state.v2.schema.json", "schema_id": "urn:edgelab:m0-3a-task-state:2", "site_id": "cf92955f6103875d6751aec4c72558d0e79c752a7bff2bb15cbcdcebf676127b", "value": 1},
+  "schema_context": {"dialect": "https://json-schema.org/draft/2020-12/schema", "schema_document_byte_length": 5328, "schema_document_raw_sha256": "dc581b64f60c035d5be1fe98a89d105d3ba88af30db42dbbb0e0eee700c937e7", "schema_document_root_id": "urn:edgelab:m0-3a-task-state:2", "containing_subschema_pointer": "/$defs/taskId", "containing_subschema_digest": "508f4e9c702082b8fcc8420d76e459159cb9103585311b30b2e0dc6f51416644", "applicability": "EXACT_PINNED_SCHEMA_LOCATION_ONLY", "instance_domain": "STRING", "ancestor_context": {"binding": "FULL_SCHEMA_DOCUMENT_RAW_SHA256", "ordered_pointer_sequence": [{"index": 0, "pointer": ""}, {"index": 1, "pointer": "/$defs"}, {"index": 2, "pointer": "/$defs/taskId"}]}, "required_sibling_pointers": [], "non_domain_behavior": "NO_ASSERTION_FROM_THIS_KEYWORD"},
+  "declarative_equation": {"metric": "UNICODE_CODE_POINT_COUNT", "operator": ">=", "bound": 1}, "unit": "UNICODE_CODE_POINTS",
+  "evidence_inputs": [
+    {"byte_length": 1089, "path": "docs/M0.3A_TASK_STATE_TASK_ID_MIN_LENGTH_SCHEMA_PROOF.v1.md", "raw_sha256": "9a5444ac71c36777f645b8e080ad680dfd52ec34a9f8ecb902923718994c9fdb"},
+    {"byte_length": 3373, "path": "tests/test_runtime_v2_task_state_task_id_min_length_schema_proof.py", "raw_sha256": "8bca0a94275915c84ca89ff016e932f5901cadd420fef805de85890a1ef018a1"}
+  ]
+}

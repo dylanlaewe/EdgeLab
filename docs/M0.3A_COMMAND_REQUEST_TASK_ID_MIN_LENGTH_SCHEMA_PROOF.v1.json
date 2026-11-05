@@ -1,0 +1,19 @@
+{
+  "proof_kind": "SCHEMA_DECLARATIVE_KEYWORD_V1",
+  "constraint_id": "SCHEMA_DECLARATIVE_MINLENGTH_05539C8DD1CBFD983353C118532290202301B967E2AC7FB48C308003F1C9FB0B",
+  "classification": "SCHEMA_DECLARATIVE_BOUND",
+  "semantic_subject": "SCHEMA_DECLARATIVE_MIN_LENGTH_AT_EXACT_PINNED_LOCATION",
+  "schema_site_id": "05539c8dd1cbfd983353c118532290202301b967e2ac7fb48c308003f1c9fb0b",
+  "addressed_site": {"classification": "UNCLASSIFIED", "json_pointer": "/$defs/taskId/minLength", "keyword": "minLength", "path": "schemas/m0-3a-command-request.v2.schema.json", "schema_id": "urn:edgelab:m0-3a-command-request:2", "site_id": "05539c8dd1cbfd983353c118532290202301b967e2ac7fb48c308003f1c9fb0b", "value": 1},
+  "schema_context": {
+    "dialect": "https://json-schema.org/draft/2020-12/schema", "schema_document_byte_length": 14939, "schema_document_raw_sha256": "520cdbc148f6b3942b47d53708899ab8a8135e7a82850166fd360b26fa39cdbe", "schema_document_root_id": "urn:edgelab:m0-3a-command-request:2", "containing_subschema_pointer": "/$defs/taskId", "containing_subschema_digest": "508f4e9c702082b8fcc8420d76e459159cb9103585311b30b2e0dc6f51416644", "applicability": "EXACT_PINNED_SCHEMA_LOCATION_ONLY", "instance_domain": "STRING",
+    "ancestor_context": {"binding": "FULL_SCHEMA_DOCUMENT_RAW_SHA256", "ordered_pointer_sequence": [{"index": 0, "pointer": ""}, {"index": 1, "pointer": "/$defs"}, {"index": 2, "pointer": "/$defs/taskId"}]},
+    "required_sibling_pointers": [], "non_domain_behavior": "NO_ASSERTION_FROM_THIS_KEYWORD"
+  },
+  "declarative_equation": {"metric": "UNICODE_CODE_POINT_COUNT", "operator": ">=", "bound": 1},
+  "unit": "UNICODE_CODE_POINTS",
+  "evidence_inputs": [
+    {"byte_length": 1099, "path": "docs/M0.3A_COMMAND_REQUEST_TASK_ID_MIN_LENGTH_SCHEMA_PROOF.v1.md", "raw_sha256": "8212326a49014c459c014cb19b3763ab79ed27024326e1b55be2d39bae79f3b1"},
+    {"byte_length": 3457, "path": "tests/test_runtime_v2_command_request_task_id_min_length_schema_proof.py", "raw_sha256": "6606c6adffc46b7e9e40bed572fe6489ec1775f916d4b380ae4d187bb4d9478f"}
+  ]
+}

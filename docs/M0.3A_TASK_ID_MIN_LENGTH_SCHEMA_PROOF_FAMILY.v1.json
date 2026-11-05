@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "family_id": "EDGELAB_RUNTIME_V2_TASK_ID_MIN_LENGTH_SCHEMA_PROOF_FAMILY_V1",
+  "family_kind": "CLOSED_SCHEMA_DECLARATIVE_KEYWORD_FAMILY_V1",
+  "discovery": {
+    "profile_id": "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V8",
+    "manifest_byte_length": 2344,
+    "manifest_raw_sha256": "9914da2984589f7ded860656be4cbfdb88cf7d106ce52856860ed756dfe8725f",
+    "manifest_self_sha256": "78aed7fd37b6b07204c3462ec12855c21c0cb6da5268744d6957068973d72413",
+    "schema_byte_length": 4086,
+    "schema_raw_sha256": "e10ca59c1bf90a0ebaee0647eb6c49a4e573295ee923411e337dc6e90ced50d1",
+    "schema_bound_sites_sha256": "2ca911e85141b79c5ae6be653bf6a8b038ca90873a731764b27ac2bf0cae3fcf"
+  },
+  "predecessor": {
+    "manifest_byte_length": 115339,
+    "manifest_raw_sha256": "e867326b807795e83bbcef14b5dfacad268de6a88e0c80bd60f4adfb03585d19",
+    "manifest_self_sha256": "a5e22f919f2058415df9534f6e014d67d22335c1fb4cdf75602f7f30187f12fd",
+    "schema_byte_length": 124664,
+    "schema_raw_sha256": "97630c1ecf3d4c7a5412b5c481b6ecaa2ebe9ad8fd773a3875b927d9429effd8"
+  },
+  "predicate": {
+    "keyword": "minLength",
+    "value": 1,
+    "json_pointer": "/$defs/taskId/minLength",
+    "ordered_ancestor_pointers": [
+      "",
+      "/$defs",
+      "/$defs/taskId"
+    ],
+    "containing_subschema": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "containing_subschema_digest": "508f4e9c702082b8fcc8420d76e459159cb9103585311b30b2e0dc6f51416644",
+    "allowed_schema_locations": [
+      {
+        "path": "schemas/m0-3a-command-request.v2.schema.json",
+        "schema_id": "urn:edgelab:m0-3a-command-request:2",
+        "site_id": "05539c8dd1cbfd983353c118532290202301b967e2ac7fb48c308003f1c9fb0b"
+      },
+      {
+        "path": "schemas/m0-3a-event-envelope.v2.schema.json",
+        "schema_id": "urn:edgelab:m0-3a-event-envelope:2",
+        "site_id": "54cb7f4b6dcfc8579c6d43d5ad4b41a1fd2f90aff99b6cb9ae0b3369723e21a5"
+      },
+      {
+        "path": "schemas/m0-3a-event-payload.v2.schema.json",
+        "schema_id": "urn:edgelab:m0-3a-event-payload:2",
+        "site_id": "237e413d823580d4e5e98825887c2296349718843b5b6de092aec94ff20112da"
+      },
+      {
+        "path": "schemas/m0-3a-task-state.v2.schema.json",
+        "schema_id": "urn:edgelab:m0-3a-task-state:2",
+        "site_id": "cf92955f6103875d6751aec4c72558d0e79c752a7bff2bb15cbcdcebf676127b"
+      }
+    ]
+  },
+  "member_count": 4,
+  "ordered_members": [
+    {
+      "schema_site_id": "05539c8dd1cbfd983353c118532290202301b967e2ac7fb48c308003f1c9fb0b",
+      "constraint_id": "SCHEMA_DECLARATIVE_MINLENGTH_05539C8DD1CBFD983353C118532290202301B967E2AC7FB48C308003F1C9FB0B",
+      "proof": {
+        "byte_length": 2064,
+        "path": "docs/M0.3A_COMMAND_REQUEST_TASK_ID_MIN_LENGTH_SCHEMA_PROOF.v1.json",
+        "raw_sha256": "a0a7964577fca3c9b52243c00a04984a52bff70b3cedd39b4e309c935ef38b41",
+        "schema_site_id": "05539c8dd1cbfd983353c118532290202301b967e2ac7fb48c308003f1c9fb0b"
+      }
+    },
+    {
+      "schema_site_id": "54cb7f4b6dcfc8579c6d43d5ad4b41a1fd2f90aff99b6cb9ae0b3369723e21a5",
+      "constraint_id": "SCHEMA_DECLARATIVE_MINLENGTH_54CB7F4B6DCFC8579C6D43D5AD4B41A1FD2F90AFF99B6CB9AE0B3369723E21A5",
+      "proof": {
+        "byte_length": 2038,
+        "path": "docs/M0.3A_EVENT_ENVELOPE_TASK_ID_MIN_LENGTH_SCHEMA_PROOF.v1.json",
+        "raw_sha256": "cb9dd48199fbae9269065a3649cf64e653522fb2ece3467c71079158bcde35a9",
+        "schema_site_id": "54cb7f4b6dcfc8579c6d43d5ad4b41a1fd2f90aff99b6cb9ae0b3369723e21a5"
+      }
+    },
+    {
+      "schema_site_id": "237e413d823580d4e5e98825887c2296349718843b5b6de092aec94ff20112da",
+      "constraint_id": "SCHEMA_DECLARATIVE_MINLENGTH_237E413D823580D4E5E98825887C2296349718843B5B6DE092AEC94FF20112DA",
+      "proof": {
+        "byte_length": 2034,
+        "path": "docs/M0.3A_EVENT_PAYLOAD_TASK_ID_MIN_LENGTH_SCHEMA_PROOF.v1.json",
+        "raw_sha256": "77a891aba0afcc7eb06b99cba35f84f5ffe61a1ed6b7ea75b87f760ede1c3822",
+        "schema_site_id": "237e413d823580d4e5e98825887c2296349718843b5b6de092aec94ff20112da"
+      }
+    },
+    {
+      "schema_site_id": "cf92955f6103875d6751aec4c72558d0e79c752a7bff2bb15cbcdcebf676127b",
+      "constraint_id": "SCHEMA_DECLARATIVE_MINLENGTH_CF92955F6103875D6751AEC4C72558D0E79C752A7BFF2BB15CBCDCEBF676127B",
+      "proof": {
+        "byte_length": 2018,
+        "path": "docs/M0.3A_TASK_STATE_TASK_ID_MIN_LENGTH_SCHEMA_PROOF.v1.json",
+        "raw_sha256": "3090b65ad00d66a7a3307ffbd6d91163a483a39fefa102a29417c1bd9651910d",
+        "schema_site_id": "cf92955f6103875d6751aec4c72558d0e79c752a7bff2bb15cbcdcebf676127b"
+      }
+    }
+  ],
+  "excluded_candidate": {
+    "reason": "NESTED_RESPONSE_PROJECTION_TASK_ID_LOOKALIKE",
+    "site": {
+      "classification": "UNCLASSIFIED",
+      "json_pointer": "/properties/affected_states/items/properties/task_id/minLength",
+      "keyword": "minLength",
+      "path": "schemas/m0-3a-response-projection.v2.schema.json",
+      "schema_id": "urn:edgelab:m0-3a-response-projection:2",
+      "site_id": "17390c9d39424cc68c740b2b293fffc51389f9a079064a592c3bc1618bd18b4e",
+      "value": 1
+    }
+  },
+  "family_evidence_inputs": [
+    {
+      "byte_length": 1315,
+      "path": "docs/M0.3A_TASK_ID_MIN_LENGTH_SCHEMA_PROOF_FAMILY.v1.md",
+      "raw_sha256": "5deaa7c89ec36aaadbe2336724c5a5fc20226d6059cc8c656046d1530dfcf082"
+    },
+    {
+      "byte_length": 7089,
+      "path": "tests/test_runtime_v2_task_id_min_length_schema_proof_family.py",
+      "raw_sha256": "5f355f8692eaec2c2f7c34634e26decab1cda890e9cf7b66d959c7f3ee30df25"
+    }
+  ],
+  "nonclaims": [
+    "NO_SIBLING_TYPE_MAXLENGTH_OR_PATTERN_MEANING",
+    "NO_TASK_ID_GRAMMAR_IDENTITY_OR_UNIQUENESS",
+    "NO_REF_REACHABILITY_OR_USE",
+    "NO_CROSS_ROLE_EQUIVALENCE",
+    "NO_CROSS_DOCUMENT_SCHEMA_OR_EVIDENCE_INDEPENDENCE_OR_SEMANTIC_EQUIVALENCE",
+    "NO_NESTED_RESPONSE_PROJECTION_SITE_MEANING",
+    "NO_ROOT_REQUIREDNESS_OR_FULL_SCHEMA_VALIDITY",
+    "NO_DEPLOYED_VALIDATOR_OR_PUBLIC_VALIDITY",
+    "NO_RUNTIME_TASK_BEHAVIOR",
+    "NO_INDEPENDENT_ACCEPTANCE",
+    "NO_STOP_OR_RELEASE_CLEARANCE",
+    "NO_EXECUTION_WAGERING_OR_CAPITAL_AUTHORITY",
+    "NO_RUNTIME_CHANGE"
+  ],
+  "family_sha256": "05af01779300eff526f72e7b1c20b52a997708ff1a29331ef103c93b3cdfb74c"
+}
