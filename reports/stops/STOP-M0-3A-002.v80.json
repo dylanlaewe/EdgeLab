@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-002",
+  "version": 80,
+  "issued_at": "2026-11-05T17:15:31Z",
+  "issuer": "00 Director",
+  "reason": "Classification V54 appends one exact local-declarative generator-invocation minimum-length proof while preserving V53 byte-for-byte with zero rebases. Of 721 census sites, 85 are classified and 636 remain unclassified: 354 source-bound and 282 schema-bound. The proof intentionally does not establish sibling or combined validity, invocation or generator semantics, runtime enforcement, full-schema validity, or deployed-validator conformance. Complete semantic classification, public-entrypoint integration, conservative V1 bridge disposition, and independently accepted A-J evidence remain unresolved. Release generation is blocked and no positive local-consistency result is supportable.",
+  "affected_components": [
+    "exact generated verifier closure",
+    "semantic resource-limit classification and coverage proof",
+    "remaining source-bound and schema-bound semantic proof instances",
+    "legacy bridge disposition",
+    "complete whole-image acceptance matrix",
+    "public result vocabulary"
+  ],
+  "evidence_refs": [
+    "reports/H-M0-177-generator-invocation-min-length-v54.v1.md",
+    "docs/M0.3A_GENERATOR_INVOCATION_MIN_LENGTH_SCHEMA_PROOF.v1.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v54.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v54.schema.json",
+    "tools/check_runtime_v2_release_readiness.py"
+  ],
+  "severity": "HIGH",
+  "remediation_required": [
+    "Continue exact per-site or rigorously closed family classification without modifying frozen evidence lanes.",
+    "Classify every remaining source/schema site and prove bidirectional coverage.",
+    "Conservatively disposition the unsupported V1 migration bridge without inventing unavailable preimages.",
+    "Connect the sole public entrypoint and bind independently accepted A-J evidence before generating any closure or carrier."
+  ],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}

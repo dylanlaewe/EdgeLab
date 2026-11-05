@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-159",
+  "version": 1,
+  "occurred_at": "2026-11-05T17:15:31Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_GENERATOR_INVOCATION_MIN_LENGTH_SCHEMA_PROOF_V54_DENY_ONLY",
+  "subject_ref": "reports/H-M0-177-generator-invocation-min-length-v54.v1.md",
+  "previous_state": "CLASSIFICATION_V53_84_CLASSIFIED_637_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "CLASSIFICATION_V54_85_CLASSIFIED_636_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 107d1fd appends one exact generator-invocation minimum-length proof while preserving V53 byte-for-byte with zero evidence rebases and no authority change.",
+  "evidence_refs": [
+    "reports/H-M0-177-generator-invocation-min-length-v54.v1.md",
+    "docs/M0.3A_GENERATOR_INVOCATION_MIN_LENGTH_SCHEMA_PROOF.v1.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v54.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v54.schema.json",
+    "tools/check_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v80.json"
+  ],
+  "code_ref": "107d1fd",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-177",
+  "supersedes": null
+}
