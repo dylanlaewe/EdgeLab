@@ -46,6 +46,7 @@ FAST_MODULES = (
     "tests.test_runtime_v2_schema_bundle_byte_bound",
     "tests.test_runtime_v2_schema_ref_node_bound",
     "tests.test_runtime_v2_schema_ref_token_character_bound",
+    "tests.test_runtime_v2_schema_resource_site_identity_discovery",
     "tests.test_runtime_v2_schema_definition_name_character_bound",
     "tests.test_runtime_v2_schema_registry_byte_bound",
     "tests.test_runtime_v2_schema_registry_table_row_bound",

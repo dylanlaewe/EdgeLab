@@ -45,7 +45,7 @@ class FindingStringBoundsClassificationTests(unittest.TestCase):
             if item["constraint_id"] == constraint_id
         )
 
-    def test_discovery_v7_adds_exact_coordinate_composite(self):
+    def test_discovery_v8_preserves_exact_coordinate_composite(self):
         records = [
             item for item in self.sites
             if item["kind"]
@@ -61,7 +61,7 @@ class FindingStringBoundsClassificationTests(unittest.TestCase):
         self.assertEqual(record["caller_site_id"], COORDINATE_CALLER)
         self.assertEqual(record["comparison_site_id"], SHARED_COMPARISON)
         self.assertEqual(record["slice_site_id"], SHARED_SLICE)
-        self.assertEqual(self.discovery["profile_id"], "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V7")
+        self.assertEqual(self.discovery["profile_id"], "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V8")
         self.assertEqual(len(self.sites), 425)
 
     def test_runtime_boundary_and_full_utf8_digest_matrices(self):

@@ -1,0 +1,46 @@
+{
+  "schema_version": 8,
+  "manifest_id": "urn:edgelab:m0-3a-runtime-v2-resource-discovery:8",
+  "profile_id": "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V8",
+  "coverage_status": "INCOMPLETE",
+  "classification_status": "UNCLASSIFIED",
+  "generation_disposition": "DENY",
+  "discovery_schema_raw_sha256": "e10ca59c1bf90a0ebaee0647eb6c49a4e573295ee923411e337dc6e90ced50d1",
+  "predecessor_discovery": {
+    "profile_id": "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V7",
+    "source_input_count": 10,
+    "source_inputs_sha256": "b22a453f6b2f5f44281054752bf9bce5e259d6a60ae22fe7b190383292e4ba2a",
+    "source_bound_site_count": 425,
+    "source_bound_sites_sha256": "5cb9a07b9c564cae30ad3c3043be7ab8adcb7f9c9bece0918ead5bdbf537dcfa",
+    "schema_input_count": 15,
+    "schema_inputs_sha256": "14ccff50a49f337336f01b5a40b845e5011218063d2cdfa68f0b73b1a3c94239",
+    "schema_bound_site_count": 296,
+    "schema_bound_sites_sha256": "00b27a32303836f9d9910663e6bd2f76a7ca6d8c7cd614e5f22346b53cd104de"
+  },
+  "predecessor_manifest": {
+    "byte_length": 4625,
+    "discovery_manifest_sha256": "2169d9099446298aa19251790686ece93cc58faab6c3d2c733933c9e711077a3",
+    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v7.json",
+    "raw_sha256": "cdcdf26146deb7f9aa3578f62df71517410b16d74a920aff65b381ea857f2c7c"
+  },
+  "predecessor_schema": {
+    "byte_length": 6483,
+    "path": "schemas/m0-3a-runtime-v2-resource-discovery.v7.schema.json",
+    "raw_sha256": "54f0b91eafffd5db8e6f2ee7c0091ccdb946c12ef039a753eb7f626c9aa4a8d3"
+  },
+  "source_input_count": 10,
+  "source_inputs_sha256": "b22a453f6b2f5f44281054752bf9bce5e259d6a60ae22fe7b190383292e4ba2a",
+  "legacy_source_bound_site_count": 425,
+  "cumulative_derived_binding_site_count": 31,
+  "derived_binding_site_count": 0,
+  "source_bound_site_count": 425,
+  "source_bound_sites_sha256": "5cb9a07b9c564cae30ad3c3043be7ab8adcb7f9c9bece0918ead5bdbf537dcfa",
+  "schema_input_count": 15,
+  "schema_inputs_sha256": "14ccff50a49f337336f01b5a40b845e5011218063d2cdfa68f0b73b1a3c94239",
+  "schema_bound_site_count": 296,
+  "schema_bound_sites_sha256": "2ca911e85141b79c5ae6be653bf6a8b038ca90873a731764b27ac2bf0cae3fcf",
+  "discovered_site_count": 721,
+  "derived_binding_site_ids": [],
+  "derived_binding_sites": [],
+  "discovery_manifest_sha256": "78aed7fd37b6b07204c3462ec12855c21c0cb6da5268744d6957068973d72413"
+}

@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:m0-3a-runtime-v2-resource-discovery:8",
+  "title": "EdgeLab runtime-v2 resource discovery V8 stable schema-site identity evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "manifest_id",
+    "profile_id",
+    "coverage_status",
+    "classification_status",
+    "generation_disposition",
+    "discovery_schema_raw_sha256",
+    "predecessor_discovery",
+    "predecessor_manifest",
+    "predecessor_schema",
+    "source_input_count",
+    "source_inputs_sha256",
+    "legacy_source_bound_site_count",
+    "cumulative_derived_binding_site_count",
+    "derived_binding_site_count",
+    "source_bound_site_count",
+    "source_bound_sites_sha256",
+    "schema_input_count",
+    "schema_inputs_sha256",
+    "schema_bound_site_count",
+    "schema_bound_sites_sha256",
+    "discovered_site_count",
+    "derived_binding_site_ids",
+    "derived_binding_sites",
+    "discovery_manifest_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 8
+    },
+    "manifest_id": {
+      "const": "urn:edgelab:m0-3a-runtime-v2-resource-discovery:8"
+    },
+    "profile_id": {
+      "const": "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V8"
+    },
+    "coverage_status": {
+      "const": "INCOMPLETE"
+    },
+    "classification_status": {
+      "const": "UNCLASSIFIED"
+    },
+    "generation_disposition": {
+      "const": "DENY"
+    },
+    "discovery_schema_raw_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "predecessor_discovery": {
+      "const": {
+        "profile_id": "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V7",
+        "source_input_count": 10,
+        "source_inputs_sha256": "b22a453f6b2f5f44281054752bf9bce5e259d6a60ae22fe7b190383292e4ba2a",
+        "source_bound_site_count": 425,
+        "source_bound_sites_sha256": "5cb9a07b9c564cae30ad3c3043be7ab8adcb7f9c9bece0918ead5bdbf537dcfa",
+        "schema_input_count": 15,
+        "schema_inputs_sha256": "14ccff50a49f337336f01b5a40b845e5011218063d2cdfa68f0b73b1a3c94239",
+        "schema_bound_site_count": 296,
+        "schema_bound_sites_sha256": "00b27a32303836f9d9910663e6bd2f76a7ca6d8c7cd614e5f22346b53cd104de"
+      }
+    },
+    "source_input_count": {
+      "const": 10
+    },
+    "source_inputs_sha256": {
+      "const": "b22a453f6b2f5f44281054752bf9bce5e259d6a60ae22fe7b190383292e4ba2a"
+    },
+    "legacy_source_bound_site_count": {
+      "const": 425
+    },
+    "derived_binding_site_count": {
+      "const": 0
+    },
+    "source_bound_site_count": {
+      "const": 425
+    },
+    "source_bound_sites_sha256": {
+      "const": "5cb9a07b9c564cae30ad3c3043be7ab8adcb7f9c9bece0918ead5bdbf537dcfa"
+    },
+    "schema_input_count": {
+      "const": 15
+    },
+    "schema_inputs_sha256": {
+      "const": "14ccff50a49f337336f01b5a40b845e5011218063d2cdfa68f0b73b1a3c94239"
+    },
+    "schema_bound_site_count": {
+      "const": 296
+    },
+    "schema_bound_sites_sha256": {
+      "const": "2ca911e85141b79c5ae6be653bf6a8b038ca90873a731764b27ac2bf0cae3fcf"
+    },
+    "discovered_site_count": {
+      "const": 721
+    },
+    "derived_binding_site_ids": {
+      "const": []
+    },
+    "derived_binding_sites": {
+      "const": []
+    },
+    "discovery_manifest_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "predecessor_manifest": {
+      "const": {
+        "byte_length": 4625,
+        "discovery_manifest_sha256": "2169d9099446298aa19251790686ece93cc58faab6c3d2c733933c9e711077a3",
+        "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v7.json",
+        "raw_sha256": "cdcdf26146deb7f9aa3578f62df71517410b16d74a920aff65b381ea857f2c7c"
+      }
+    },
+    "predecessor_schema": {
+      "const": {
+        "byte_length": 6483,
+        "path": "schemas/m0-3a-runtime-v2-resource-discovery.v7.schema.json",
+        "raw_sha256": "54f0b91eafffd5db8e6f2ee7c0091ccdb946c12ef039a753eb7f626c9aa4a8d3"
+      }
+    },
+    "cumulative_derived_binding_site_count": {
+      "const": 31
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

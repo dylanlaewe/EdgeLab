@@ -171,15 +171,15 @@ CLOSURE_SCHEMA = (
     "schemas/m0-3a-verifier-dependency-closure.v1.schema.json",
 )
 RESOURCE_CLASSIFICATION_SCHEMA = (
-    "urn:edgelab:m0-3a-runtime-v2-resource-classification:42",
-    "schemas/m0-3a-runtime-v2-resource-classification.v42.schema.json",
+    "urn:edgelab:m0-3a-runtime-v2-resource-classification:43",
+    "schemas/m0-3a-runtime-v2-resource-classification.v43.schema.json",
 )
 RESOURCE_CLASSIFICATION_MANIFEST = (
-    "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V42",
-    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v42.json",
+    "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V43",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v43.json",
 )
 RESOURCE_CLASSIFICATION_DOMAIN = (
-    "EDGELAB\0RUNTIME_V2_RESOURCE_CLASSIFICATION\0V42\0"
+    "EDGELAB\0RUNTIME_V2_RESOURCE_CLASSIFICATION\0V43\0"
 )
 RESOURCE_SOURCE_INPUT_DOMAIN = (
     "EDGELAB\0RUNTIME_V2_RESOURCE_SOURCE_INPUTS\0V1\0"
@@ -191,19 +191,33 @@ RESOURCE_DISCOVERY_V4_ID = "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V4"
 RESOURCE_DISCOVERY_V5_ID = "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V5"
 RESOURCE_DISCOVERY_V6_ID = "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V6"
 RESOURCE_DISCOVERY_V7_ID = "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V7"
+RESOURCE_DISCOVERY_V8_ID = "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V8"
 RESOURCE_DISCOVERY_SCHEMA = (
-    "urn:edgelab:m0-3a-runtime-v2-resource-discovery:7",
-    "schemas/m0-3a-runtime-v2-resource-discovery.v7.schema.json",
+    "urn:edgelab:m0-3a-runtime-v2-resource-discovery:8",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v8.schema.json",
 )
 RESOURCE_DISCOVERY_MANIFEST = (
-    RESOURCE_DISCOVERY_V7_ID,
-    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v7.json",
+    RESOURCE_DISCOVERY_V8_ID,
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v8.json",
 )
-RESOURCE_DISCOVERY_DOMAIN = "EDGELAB\0RUNTIME_V2_RESOURCE_DISCOVERY\0V7\0"
+RESOURCE_DISCOVERY_DOMAIN = "EDGELAB\0RUNTIME_V2_RESOURCE_DISCOVERY\0V8\0"
 RESOURCE_DISCOVERY_SCHEMA_RAW_SHA256 = (
-    "54f0b91eafffd5db8e6f2ee7c0091ccdb946c12ef039a753eb7f626c9aa4a8d3"
+    "e10ca59c1bf90a0ebaee0647eb6c49a4e573295ee923411e337dc6e90ced50d1"
 )
 RESOURCE_DISCOVERY_PREDECESSOR_MANIFEST = {
+    "byte_length": 4625,
+    "discovery_manifest_sha256": (
+        "2169d9099446298aa19251790686ece93cc58faab6c3d2c733933c9e711077a3"
+    ),
+    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v7.json",
+    "raw_sha256": "cdcdf26146deb7f9aa3578f62df71517410b16d74a920aff65b381ea857f2c7c",
+}
+RESOURCE_DISCOVERY_PREDECESSOR_SCHEMA = {
+    "byte_length": 6483,
+    "path": "schemas/m0-3a-runtime-v2-resource-discovery.v7.schema.json",
+    "raw_sha256": "54f0b91eafffd5db8e6f2ee7c0091ccdb946c12ef039a753eb7f626c9aa4a8d3",
+}
+RESOURCE_DISCOVERY_ANCESTOR_MANIFEST = {
     "byte_length": 4611,
     "discovery_manifest_sha256": (
         "9df58a944adcb004a4b5eb3add0910f8e356573cff2636d7053d66ff0ab1456b"
@@ -211,24 +225,20 @@ RESOURCE_DISCOVERY_PREDECESSOR_MANIFEST = {
     "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v6.json",
     "raw_sha256": "6830ac8083e46bce74f535423aafba2fc82c40732c7544e71d301e3fe63aa6e5",
 }
-RESOURCE_DISCOVERY_PREDECESSOR_SCHEMA = {
+RESOURCE_DISCOVERY_ANCESTOR_SCHEMA = {
     "byte_length": 6469,
     "path": "schemas/m0-3a-runtime-v2-resource-discovery.v6.schema.json",
     "raw_sha256": "fa748f5ed12cde22aa0a23e1c4261a27954abb05fc87169c5385838aebfac9e9",
 }
-RESOURCE_DISCOVERY_ANCESTOR_MANIFEST = {
-    "byte_length": 5045,
-    "discovery_manifest_sha256": (
-        "cf50f95495e52a2171e895e40be1dd6b8cb9877a6a8a03aafb06ef2e5467dd42"
-    ),
-    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v5.json",
-    "raw_sha256": "639ed7839ed7d8086ff21acb53ec41950f5ee35812fb97cee503d138fa6ce929",
-}
-RESOURCE_DISCOVERY_ANCESTOR_SCHEMA = {
-    "byte_length": 6923,
-    "path": "schemas/m0-3a-runtime-v2-resource-discovery.v5.schema.json",
-    "raw_sha256": "07032fb401b40546ca77e7828c26652c3b9daade077283cf520dbbaf5b240a42",
-}
+SCHEMA_RESOURCE_SITE_IDENTITY_DOMAIN = (
+    "EDGELAB\0RUNTIME_V2_SCHEMA_RESOURCE_SITE\0V1\0"
+)
+RESOURCE_SCHEMA_BOUND_SITES_V2_DOMAIN = (
+    "EDGELAB\0RUNTIME_V2_SCHEMA_BOUND_SITES\0V2\0"
+)
+RESOURCE_SCHEMA_BOUND_SITES_V2_SHA256 = (
+    "2ca911e85141b79c5ae6be653bf6a8b038ca90873a731764b27ac2bf0cae3fcf"
+)
 RESOURCE_BINDING_SITE_DOMAIN = (
     "EDGELAB\0RUNTIME_V2_RESOURCE_BINDING_SITE\0V2\0"
 )
@@ -284,22 +294,35 @@ RESOURCE_SOURCE_BOUND_SITES_V7_SHA256 = (
     "5cb9a07b9c564cae30ad3c3043be7ab8adcb7f9c9bece0918ead5bdbf537dcfa"
 )
 RESOURCE_CLASSIFICATION_SCHEMA_RAW_SHA256 = (
-    "b2cdb38ef8bfab74dcaf6bfa55d9e70170680a1d214dc15a3044f3a3e176187d"
+    "92d649b4e32417a6004d3efaf1a253c096aaa798da6aaabf874c9fd3acc97142"
 )
 RESOURCE_CLASSIFICATION_PREDECESSOR_MANIFEST = {
-    "byte_length": 90265,
+    "byte_length": 93784,
     "classification_manifest_sha256": (
-        "23e21a2c8da989a89e578a5456c61894448f7e631c79ccfcea5bb3c09908ce1b"
+        "dc855a01cd87e9e4eb3c81739d29451c373a1226ecd4347e80b7a97a8544ed51"
     ),
-    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v41.json",
-    "raw_sha256": "50e586829d57bd7e95cf78a69ea722b2c02198ed1c680c05d7ca0831a630458e",
+    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v42.json",
+    "raw_sha256": "9fda39bf5f1227d99ce2018411b78481a273d56dd18f28cde193d001fe295c3e",
 }
 RESOURCE_CLASSIFICATION_PREDECESSOR_SCHEMA = {
-    "byte_length": 97325,
-    "path": "schemas/m0-3a-runtime-v2-resource-classification.v41.schema.json",
-    "raw_sha256": "ac34532f6f1bb13416319f7417eead72d690fb02b2944728674625a86b4cdb2a",
+    "byte_length": 101032,
+    "path": "schemas/m0-3a-runtime-v2-resource-classification.v42.schema.json",
+    "raw_sha256": "b2cdb38ef8bfab74dcaf6bfa55d9e70170680a1d214dc15a3044f3a3e176187d",
 }
 RESOURCE_CLASSIFICATION_ANCESTORS = (
+    {
+        "byte_length": 90265,
+        "classification_manifest_sha256": (
+            "23e21a2c8da989a89e578a5456c61894448f7e631c79ccfcea5bb3c09908ce1b"
+        ),
+        "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v41.json",
+        "raw_sha256": "50e586829d57bd7e95cf78a69ea722b2c02198ed1c680c05d7ca0831a630458e",
+    },
+    {
+        "byte_length": 97325,
+        "path": "schemas/m0-3a-runtime-v2-resource-classification.v41.schema.json",
+        "raw_sha256": "ac34532f6f1bb13416319f7417eead72d690fb02b2944728674625a86b4cdb2a",
+    },
     {
         "byte_length": 87249,
         "classification_manifest_sha256": (
@@ -1292,10 +1315,10 @@ FINDING_STRING_BOUNDS_RESOURCE_EVIDENCE = (
         ),
     },
     {
-        "byte_length": 10906,
+        "byte_length": 10911,
         "path": "tests/test_runtime_v2_finding_string_bounds_classification.py",
         "raw_sha256": (
-            "ead184d83fb02f94829214678231ab820e5914bced48cf91b002409f90f6d16a"
+            "785f29ea75a0e12e90f2823d1a7c4f01bd79b5d99950460f7bfd34837fb2a8bb"
         ),
     },
 )
@@ -1379,25 +1402,7 @@ INITIAL_REDUCER_FINDING_CODE_RESOURCE_EVIDENCE = (
         ),
     },
 )
-RESOURCE_CLASSIFICATION_V41_REBASED_EVIDENCE = {
-    "HOST_PREFLIGHT_TOP_LEVEL_EVENTS_MAXIMUM": (
-        {
-            "byte_length": 3156,
-            "path": "docs/M0.3A_RUNTIME_TOP_LEVEL_EVENTS_MAXIMUM.v1.md",
-            "raw_sha256": (
-                "10a771a7816588b461bb5ab7495c6b16928323a887520d190896ff3bba4bd27b"
-            ),
-        },
-        {
-            "byte_length": 10354,
-            "path": (
-                "tests/test_runtime_v2_top_level_events_maximum_classification.py"
-            ),
-            "raw_sha256": (
-                "94d5ddb088b59ab30243caf03695bbad70d9807f29593212863f4bab9becb1ff"
-            ),
-        },
-    ),
+RESOURCE_CLASSIFICATION_V42_REBASED_EVIDENCE = {
     "VERIFIER_FINDING_ARTIFACT_CHARACTER_MAXIMUM": (
         {
             "byte_length": 2763,
@@ -1412,7 +1417,7 @@ RESOURCE_CLASSIFICATION_V41_REBASED_EVIDENCE = {
                 "tests/test_runtime_v2_finding_string_bounds_classification.py"
             ),
             "raw_sha256": (
-                "6d730f185ca1f22269272906a0cb95a5e8989f1e60aba434a2c9de9813ec0320"
+                "ead184d83fb02f94829214678231ab820e5914bced48cf91b002409f90f6d16a"
             ),
         },
     ),
@@ -1430,71 +1435,7 @@ RESOURCE_CLASSIFICATION_V41_REBASED_EVIDENCE = {
                 "tests/test_runtime_v2_finding_string_bounds_classification.py"
             ),
             "raw_sha256": (
-                "6d730f185ca1f22269272906a0cb95a5e8989f1e60aba434a2c9de9813ec0320"
-            ),
-        },
-    ),
-    "CLOSURE_INTEGER_TOKEN_MAX_DIGITS": (
-        {
-            "byte_length": 2041,
-            "path": "docs/M0.3A_CLOSURE_INTEGER_TOKEN_DIGIT_LIMIT.v1.md",
-            "raw_sha256": (
-                "bc3f08c5d8b3ea8d3366cda46fb02ba7c8920dc183845116b9973dacbc753ac1"
-            ),
-        },
-        {
-            "byte_length": 8274,
-            "path": "tests/test_runtime_v2_closure_integer_token_digit_bound.py",
-            "raw_sha256": (
-                "56567f687011d277ae45a51bbc0c5ecf021708387c774285db39e8ac95052865"
-            ),
-        },
-    ),
-    "VERIFIER_SCHEMA_REF_TOKEN_CHARACTER_MAXIMUM": (
-        {
-            "byte_length": 2104,
-            "path": "docs/M0.3A_VERIFIER_SCHEMA_REF_TOKEN_CHARACTER_LIMIT.v1.md",
-            "raw_sha256": (
-                "88092c4ed12cd10cb09f8ae64116265b6651c5249cbb210f594f97538a7d8047"
-            ),
-        },
-        {
-            "byte_length": 8657,
-            "path": "tests/test_runtime_v2_schema_ref_token_character_bound.py",
-            "raw_sha256": (
-                "75e12e8f66b9869dae84cbef7e97ba2fcb27c00f66f5cfc217a077d6a0f46e32"
-            ),
-        },
-    ),
-    "VERIFIER_SCHEMA_DEFINITION_NAME_CHARACTER_MAXIMUM": (
-        {
-            "byte_length": 2461,
-            "path": "docs/M0.3A_VERIFIER_SCHEMA_DEFINITION_NAME_CHARACTER_LIMIT.v1.md",
-            "raw_sha256": (
-                "6ed7bc37b2c0e90e45a83cfdd629bc9aa1f094f57da55c53e1ce07aee0f1d48d"
-            ),
-        },
-        {
-            "byte_length": 8528,
-            "path": "tests/test_runtime_v2_schema_definition_name_character_bound.py",
-            "raw_sha256": (
-                "407f63f94f489305a986232b1f4a7b60e1008f53115483dc921597e2c5d0ab87"
-            ),
-        },
-    ),
-    "CODEC_PRIVATE_VALIDATE_DEPTH_MAXIMUM": (
-        {
-            "byte_length": 2066,
-            "path": "docs/M0.3A_CODEC_PRIVATE_VALIDATE_DEPTH_LIMIT.v1.md",
-            "raw_sha256": (
-                "a592c54cab97385d6b0d9286a52b03d4f9cd597db7e1a056af335cdeac98f6a0"
-            ),
-        },
-        {
-            "byte_length": 6650,
-            "path": "tests/test_runtime_v2_codec_private_validate_depth_bound.py",
-            "raw_sha256": (
-                "25efa7338f4df25c63361f5fb10a3dd67727957d85631d6b41c93b2d1d6e13b6"
+                "ead184d83fb02f94829214678231ab820e5914bced48cf91b002409f90f6d16a"
             ),
         },
     ),
@@ -2006,6 +1947,68 @@ def _schema_bound_inventory(
         records,
         key=lambda item: (item["path"], item["json_pointer"]),
     )
+
+
+def _address_schema_bound_inventory(
+    records: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Return stable identities for an already ordered legacy schema census."""
+    expected_keys = {
+        "classification", "json_pointer", "keyword", "path", "schema_id", "value",
+    }
+    result: list[dict[str, Any]] = []
+    identities: set[tuple[str, str, str, str, int]] = set()
+    site_ids: set[str] = set()
+    previous_order: tuple[str, str] | None = None
+    for index, record in enumerate(records):
+        if type(record) is not dict or set(record) != expected_keys:
+            raise ReadinessError("SCHEMA_RESOURCE_SITE_KEYS", f"/{index}")
+        if (
+            record.get("classification") != "UNCLASSIFIED"
+            or type(record.get("json_pointer")) is not str
+            or not record["json_pointer"].startswith("/")
+            or type(record.get("keyword")) is not str
+            or not record["keyword"]
+            or type(record.get("path")) is not str
+            or not record["path"]
+            or type(record.get("schema_id")) is not str
+            or not record["schema_id"]
+            or type(record.get("value")) is not int
+        ):
+            raise ReadinessError("SCHEMA_RESOURCE_SITE_TYPE", f"/{index}")
+        pointer = record["json_pointer"]
+        escape_index = pointer.find("~")
+        while escape_index != -1:
+            if (
+                escape_index + 1 == len(pointer)
+                or pointer[escape_index + 1] not in "01"
+            ):
+                raise ReadinessError("SCHEMA_RESOURCE_SITE_POINTER", f"/{index}")
+            escape_index = pointer.find("~", escape_index + 2)
+        identity = (
+            record["json_pointer"], record["keyword"], record["path"],
+            record["schema_id"], record["value"],
+        )
+        if identity in identities:
+            raise ReadinessError("SCHEMA_RESOURCE_SITE_DUPLICATE", f"/{index}")
+        identities.add(identity)
+        order = (record["path"], record["json_pointer"])
+        if previous_order is not None and order <= previous_order:
+            raise ReadinessError("SCHEMA_RESOURCE_SITE_ORDER", f"/{index}")
+        previous_order = order
+        identity_value = {
+            "json_pointer": record["json_pointer"],
+            "keyword": record["keyword"],
+            "path": record["path"],
+            "schema_id": record["schema_id"],
+            "value": record["value"],
+        }
+        site_id = _domain_digest(SCHEMA_RESOURCE_SITE_IDENTITY_DOMAIN, identity_value)
+        if site_id in site_ids:
+            raise ReadinessError("SCHEMA_RESOURCE_SITE_COLLISION", f"/{index}")
+        site_ids.add(site_id)
+        result.append({**record, "site_id": site_id})
+    return result
 
 
 def _integer_constant(node: ast.AST) -> int | None:
@@ -4094,7 +4097,7 @@ def _resource_discovery_evidence_inventory(
     identities: set[tuple[int, int]],
     resource_discovery: dict[str, Any],
 ) -> dict[str, Any]:
-    """Validate the closed, deny-only Discovery V7 evidence manifest."""
+    """Validate the closed, deny-only Discovery V8 evidence manifest."""
     predecessor_values: dict[str, dict[str, Any]] = {}
     for expected, has_self_digest in (
         (RESOURCE_DISCOVERY_PREDECESSOR_MANIFEST, True),
@@ -4129,10 +4132,13 @@ def _resource_discovery_evidence_inventory(
         RESOURCE_DISCOVERY_PREDECESSOR_MANIFEST["path"]
     ]
     if (
-        predecessor_manifest.get("profile_id") != RESOURCE_DISCOVERY_V6_ID
-        or predecessor_manifest.get("source_bound_site_count") != 424
+        predecessor_manifest.get("profile_id") != RESOURCE_DISCOVERY_V7_ID
+        or predecessor_manifest.get("source_bound_site_count") != 425
         or predecessor_manifest.get("source_bound_sites_sha256")
-        != RESOURCE_SOURCE_BOUND_SITES_V6_SHA256
+        != RESOURCE_SOURCE_BOUND_SITES_V7_SHA256
+        or predecessor_manifest.get("schema_bound_site_count") != 296
+        or predecessor_manifest.get("schema_bound_sites_sha256")
+        != "00b27a32303836f9d9910663e6bd2f76a7ca6d8c7cd614e5f22346b53cd104de"
     ):
         raise ReadinessError(
             "RESOURCE_DISCOVERY_PREDECESSOR_BINDING",
@@ -4183,11 +4189,26 @@ def _resource_discovery_evidence_inventory(
     if type(manifest) is not dict or set(manifest) != expected_keys:
         raise ReadinessError("RESOURCE_DISCOVERY_MANIFEST_KEYS", manifest_path)
 
-    binding_sites = [
-        item for item in resource_discovery["source_bound_sites"]
-        if item.get("kind")
-        == "BOUND_FINDING_COORDINATE_CHARACTER_MAXIMUM_BINDING"
-    ]
+    binding_sites: list[dict[str, Any]] = []
+    schema_bound_sites = resource_discovery.get("schema_bound_sites")
+    if type(schema_bound_sites) is not list or len(schema_bound_sites) != 296:
+        raise ReadinessError("SCHEMA_RESOURCE_SITE_CARDINALITY", "/")
+    legacy_records = []
+    for index, item in enumerate(schema_bound_sites):
+        if type(item) is not dict or set(item) != {
+            "classification", "json_pointer", "keyword", "path", "schema_id",
+            "site_id", "value",
+        }:
+            raise ReadinessError("SCHEMA_RESOURCE_SITE_KEYS", f"/{index}")
+        legacy_records.append({
+            key: value for key, value in item.items() if key != "site_id"
+        })
+    if _address_schema_bound_inventory(legacy_records) != schema_bound_sites:
+        raise ReadinessError("SCHEMA_RESOURCE_SITE_IDENTITY", "/")
+    if _domain_digest(
+        RESOURCE_SCHEMA_BOUND_SITES_V2_DOMAIN, schema_bound_sites
+    ) != RESOURCE_SCHEMA_BOUND_SITES_V2_SHA256:
+        raise ReadinessError("RESOURCE_DISCOVERY_V8_SCHEMA_IDENTITY", "/")
     schema_properties = schema.get("properties")
     if type(schema_properties) is not dict:
         raise ReadinessError("RESOURCE_DISCOVERY_SCHEMA_BINDING", schema_path)
@@ -4215,7 +4236,7 @@ def _resource_discovery_evidence_inventory(
         ):
             raise ReadinessError("RESOURCE_DISCOVERY_SCHEMA_BINDING", key)
     scalar_expected = {
-        "schema_version": 7,
+        "schema_version": 8,
         "manifest_id": schema_id,
         "profile_id": profile_id,
         "coverage_status": "INCOMPLETE",
@@ -4280,6 +4301,51 @@ def _resource_discovery_evidence_inventory(
         },
         "self_digest": claimed_digest,
     }
+
+
+def _resource_site_maps(
+    resource_discovery: dict[str, Any],
+) -> tuple[dict[str, dict[str, Any]], dict[str, dict[str, Any]]]:
+    """Build fail-closed source/schema identity maps before combining them."""
+    source_records = resource_discovery.get("source_bound_sites")
+    schema_records = resource_discovery.get("schema_bound_sites")
+    if type(source_records) is not list or type(schema_records) is not list:
+        raise ReadinessError("RESOURCE_SITE_RECORDS_TYPE", "/")
+    if any(
+        type(item) is not dict or type(item.get("site_id")) is not str
+        for item in source_records
+    ):
+        raise ReadinessError("RESOURCE_SOURCE_SITE_ID_TYPE", "/")
+    if any(
+        type(item) is not dict or type(item.get("site_id")) is not str
+        for item in schema_records
+    ):
+        raise ReadinessError("RESOURCE_SCHEMA_SITE_ID_TYPE", "/")
+    source_sites = {item["site_id"]: item for item in source_records}
+    schema_sites = {item["site_id"]: item for item in schema_records}
+    if len(source_sites) != len(source_records):
+        raise ReadinessError("RESOURCE_SITE_ID_DUPLICATE", "/")
+    if len(schema_sites) != len(schema_records):
+        raise ReadinessError("RESOURCE_SCHEMA_SITE_ID_DUPLICATE", "/")
+    if set(source_sites) & set(schema_sites):
+        raise ReadinessError("RESOURCE_SITE_NAMESPACE_COLLISION", "/")
+    return source_sites, schema_sites
+
+
+def _validate_classified_resource_site_ids(
+    classified_site_ids: set[str],
+    expected_site_ids: frozenset[str],
+    source_sites: dict[str, dict[str, Any]],
+    schema_sites: dict[str, dict[str, Any]],
+    coordinate: str,
+) -> None:
+    """Require this census-only slice to classify source IDs and no schema ID."""
+    if classified_site_ids != expected_site_ids:
+        raise ReadinessError("RESOURCE_CLASSIFICATION_SITE_SET", coordinate)
+    if classified_site_ids & set(schema_sites):
+        raise ReadinessError("RESOURCE_SCHEMA_SITE_CLASSIFIED", coordinate)
+    if not classified_site_ids <= set(source_sites):
+        raise ReadinessError("RESOURCE_CLASSIFICATION_SITE_MISSING", coordinate)
 
 
 def _resource_classification_inventory(
@@ -4373,7 +4439,7 @@ def _resource_classification_inventory(
     if set(manifest) != expected_keys:
         raise ReadinessError("RESOURCE_CLASSIFICATION_KEYS", manifest_path)
     scalar_expected = {
-        "schema_version": 42,
+        "schema_version": 43,
         "manifest_id": schema_id,
         "profile_id": profile_id,
         "discovery_profile_id": resource_discovery["profile_id"],
@@ -6667,12 +6733,12 @@ def _resource_classification_inventory(
     predecessor_prefix_valid = (
         predecessor_value is not None
         and type(predecessor_constraints) is list
-        and len(predecessor_constraints) == len(constraints) - 1
-        and predecessor_value.get("classified_site_count") == 70
+        and len(predecessor_constraints) == len(constraints)
+        and predecessor_value.get("classified_site_count") == 71
     )
     if predecessor_prefix_valid:
         for historical, successor in zip(
-            predecessor_constraints, constraints[:-1], strict=True
+            predecessor_constraints, constraints, strict=True
         ):
             constraint_id = historical.get("constraint_id")
             historical_semantics = {
@@ -6687,10 +6753,10 @@ def _resource_classification_inventory(
             if historical_semantics != successor_semantics:
                 predecessor_prefix_valid = False
                 break
-            if constraint_id in RESOURCE_CLASSIFICATION_V41_REBASED_EVIDENCE:
+            if constraint_id in RESOURCE_CLASSIFICATION_V42_REBASED_EVIDENCE:
                 if historical_evidence != [
                     dict(item)
-                    for item in RESOURCE_CLASSIFICATION_V41_REBASED_EVIDENCE[
+                    for item in RESOURCE_CLASSIFICATION_V42_REBASED_EVIDENCE[
                         constraint_id
                     ]
                 ]:
@@ -6719,20 +6785,21 @@ def _resource_classification_inventory(
                 "RESOURCE_CLASSIFICATION_EVIDENCE_IDENTITY", evidence["path"]
             )
 
-    sites = {
-        item["site_id"]: item
-        for item in resource_discovery["source_bound_sites"]
-    }
-    if len(sites) != len(resource_discovery["source_bound_sites"]):
-        raise ReadinessError("RESOURCE_SITE_ID_DUPLICATE", "/")
+    source_sites, schema_sites = _resource_site_maps(resource_discovery)
+    sites = {**source_sites, **schema_sites}
     classified_site_ids = {
         site_id
         for constraint in expected_constraints
         for field in ("definition_site_ids", "enforcement_site_ids")
         for site_id in constraint[field]
     }
-    if classified_site_ids != CLASSIFIED_RESOURCE_SITE_IDS:
-        raise ReadinessError("RESOURCE_CLASSIFICATION_SITE_SET", manifest_path)
+    _validate_classified_resource_site_ids(
+        classified_site_ids,
+        CLASSIFIED_RESOURCE_SITE_IDS,
+        source_sites,
+        schema_sites,
+        manifest_path,
+    )
     site_shapes = {
         "faf8073483e0d412600c34a0a24d10145d8c6e42875abd04d14b95e943fd3d7f": {
             "ast_sha256": (
@@ -8903,7 +8970,12 @@ def build_report(root: Path = ROOT) -> dict[str, Any]:
         root, RETAINED_SCHEMAS, "content_role", "document_sha256", identities,
         schema_bytes,
     )
-    schema_bound_sites = _schema_bound_inventory(root, identities, schema_bytes)
+    legacy_schema_bound_sites = _schema_bound_inventory(
+        root, identities, schema_bytes
+    )
+    schema_bound_sites = _address_schema_bound_inventory(
+        legacy_schema_bound_sites
+    )
     content = _content_inventory(root, identities)
     digest_domains = _digest_domains(source, source_bytes)
     resource_limits = _resource_limits(source, source_bytes)
@@ -8981,10 +9053,10 @@ def build_report(root: Path = ROOT) -> dict[str, Any]:
         "classification_status": "UNCLASSIFIED",
         "coverage_status": "INCOMPLETE",
         "profile_id": RESOURCE_DISCOVERY_V1_ID,
-        "schema_bound_sites": schema_bound_sites,
+        "schema_bound_sites": legacy_schema_bound_sites,
         "schema_bound_sites_sha256": _domain_digest(
             "EDGELAB\0RUNTIME_V2_SCHEMA_BOUND_SITES\0V1\0",
-            schema_bound_sites,
+            legacy_schema_bound_sites,
         ),
         "schema_inputs": schema_inputs,
         "schema_inputs_sha256": _domain_digest(
@@ -9221,7 +9293,7 @@ def build_report(root: Path = ROOT) -> dict[str, Any]:
         raise ReadinessError(
             "RESOURCE_DISCOVERY_V7_IDENTITY", "source_bound_sites_sha256"
         )
-    resource_discovery = {
+    resource_discovery_v7 = {
         **resource_discovery_v6,
         "cumulative_derived_binding_site_count": (
             resource_discovery_v6["cumulative_derived_binding_site_count"]
@@ -9233,6 +9305,39 @@ def build_report(root: Path = ROOT) -> dict[str, Any]:
         "profile_id": RESOURCE_DISCOVERY_V7_ID,
         "source_bound_sites": source_bound_sites,
         "source_bound_sites_sha256": v7_source_bound_sites_sha256,
+    }
+    predecessor_discovery_v7 = {
+        "profile_id": resource_discovery_v7["profile_id"],
+        "schema_bound_site_count": len(legacy_schema_bound_sites),
+        "schema_bound_sites_sha256": resource_discovery_v7[
+            "schema_bound_sites_sha256"
+        ],
+        "schema_input_count": len(schema_inputs),
+        "schema_inputs_sha256": resource_discovery_v7["schema_inputs_sha256"],
+        "source_bound_site_count": len(source_bound_sites),
+        "source_bound_sites_sha256": resource_discovery_v7[
+            "source_bound_sites_sha256"
+        ],
+        "source_input_count": len(source_inputs),
+        "source_inputs_sha256": resource_discovery_v7["source_inputs_sha256"],
+    }
+    schema_bound_sites_sha256 = _domain_digest(
+        RESOURCE_SCHEMA_BOUND_SITES_V2_DOMAIN, schema_bound_sites
+    )
+    if schema_bound_sites_sha256 != RESOURCE_SCHEMA_BOUND_SITES_V2_SHA256:
+        raise ReadinessError(
+            "RESOURCE_DISCOVERY_V8_SCHEMA_IDENTITY", "schema_bound_sites_sha256"
+        )
+    resource_discovery = {
+        **resource_discovery_v7,
+        "derived_binding_site_count": 0,
+        "derived_binding_site_ids": [],
+        "derived_binding_sites": [],
+        "legacy_source_bound_site_count": len(source_bound_sites),
+        "predecessor_discovery": predecessor_discovery_v7,
+        "profile_id": RESOURCE_DISCOVERY_V8_ID,
+        "schema_bound_sites": schema_bound_sites,
+        "schema_bound_sites_sha256": schema_bound_sites_sha256,
     }
     resource_classification = _resource_classification_inventory(
         root, identities, source_bytes, source_inputs, resource_discovery
