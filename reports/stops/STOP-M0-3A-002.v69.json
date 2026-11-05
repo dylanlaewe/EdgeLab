@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-002",
+  "version": 69,
+  "issued_at": "2026-11-05T04:26:32Z",
+  "issuer": "00 Director",
+  "reason": "Discovery V8 now assigns stable domain-separated identities to all 296 existing schema-bound resource records, and Classification V43 adds fail-closed source/schema membership while classifying zero schema meanings. V7 and V42 remain byte-pinned predecessors; V43 preserves every V42 semantic field and site set with exactly two enumerated evidence-only refreshes. Of 721 census sites, 71 are classified and 650 remain unclassified. Schema addressing does not prove the meaning or enforcement of any schema keyword; a closed schema-specific proof variant and complete semantic classification remain unresolved. Exact resource-manifest completion, public-entrypoint integration, conservative V1 bridge disposition, and the independently accepted A-J evidence manifest also remain unresolved. Release generation is blocked and no positive local-consistency result is supportable.",
+  "affected_components": [
+    "exact generated verifier closure",
+    "semantic resource-limit classification and coverage proof",
+    "schema-bound semantic proof representation",
+    "legacy bridge disposition",
+    "complete whole-image acceptance matrix",
+    "public result vocabulary"
+  ],
+  "evidence_refs": [
+    "reports/H-M0-166-schema-resource-site-identity-v8-v43.v1.md",
+    "docs/M0.3A_RUNTIME_V2_SCHEMA_RESOURCE_SITE_IDENTITY.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v8.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v8.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v8.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v43.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v43.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_schema_resource_site_identity_discovery.py",
+    "tests/test_runtime_v2_release_readiness.py"
+  ],
+  "severity": "HIGH",
+  "remediation_required": [
+    "Define and independently review a closed schema-specific semantic-proof variant that binds the addressed record, containing subschema, dialect, applicability conditions, accepted equation, unit, boundary witnesses, and explicit runtime-enforcement nonclaims without forcing schema meanings into source-AST proof fields.",
+    "Classify every remaining discovered source/schema site and prove bidirectional coverage of all remaining enforcement mechanisms and descriptor/contract constraints.",
+    "Keep distinct schema subjects and keywords separate even when they share values, patterns, helpers, or parent branches; bind conditional, contains, reference, and composition applicability before claiming their declarative meaning.",
+    "Conservatively disposition the unsupported V1 migration bridge under the retained legacy amendment without inventing unavailable preimages.",
+    "Connect the sole public entrypoint and bind independently accepted A-J evidence before generating any closure or carrier."
+  ],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}

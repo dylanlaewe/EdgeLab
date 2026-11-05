@@ -326,6 +326,10 @@
     {
       "path": "reports/stops/STOP-M0-3A-002.v68.json",
       "sha256": "16206ca3eb4bfc877d1dd11ec0e311cf113840fbfcc4cf30ed48a182e638dabc"
+    },
+    {
+      "path": "reports/stops/STOP-M0-3A-002.v69.json",
+      "sha256": "8204ff15b007adb180263366efcb8a638dac9af504f6991835a612c77996a92a"
     }
   ],
   "expected_controls": {

@@ -1,0 +1,83 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-166",
+  "version": 1,
+  "created_at": "2026-11-05T04:26:32Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Repair the schema-site classification architecture with versioned stable identities and schema-aware membership while preserving all predecessor semantics and deny-only boundaries.",
+  "work_done": "Discovery V8 addresses the existing 296 schema-bound records using a domain-separated five-field identity and a separate addressed-list digest while exactly reconstructing legacy V7 after site-ID stripping. Classification V43 is a census-only rebase that preserves all 38 V42 meanings and 71 classified source sites, classifies zero schema sites, and builds fail-closed separate source/schema maps before combined membership. Exactly two constraints receive byte-pinned evidence-only refreshes. A mandatory Skeptic finding for malformed RFC 6901 escapes was corrected and independently re-reviewed. The 721-site census remains 71 classified and 650 unclassified with INCOMPLETE/DENY and no authority change.",
+  "evidence_refs": [
+    "reports/H-M0-166-schema-resource-site-identity-v8-v43.v1.md",
+    "reports/audit/A-M0-148.v1.json",
+    "reports/stops/STOP-M0-3A-002.v69.json",
+    "docs/M0.3A_RUNTIME_V2_SCHEMA_RESOURCE_SITE_IDENTITY.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v8.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v8.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v8.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v43.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v43.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_schema_resource_site_identity_discovery.py",
+    "tests/test_runtime_v2_release_readiness.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v43.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v8.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v8.md",
+    "docs/M0.3A_RUNTIME_V2_SCHEMA_RESOURCE_SITE_IDENTITY.v1.md",
+    "schemas/m0-3a-runtime-v2-resource-classification.v43.schema.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v8.schema.json",
+    "tests/test_runtime_v2_finding_string_bounds_classification.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_schema_resource_site_identity_discovery.py",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tools/run_test_tier.py",
+    "reports/H-M0-166-schema-resource-site-identity-v8-v43.v1.md",
+    "reports/audit/A-M0-148.v1.json",
+    "reports/stops/STOP-M0-3A-002.v69.json",
+    "docs/handoffs/H-M0-166.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "The final complete fast tier passed 719 tests across 61 isolated modules in 1197.523 seconds.",
+    "The fast tier's full release-readiness module passed 77 tests in 1087.698 seconds.",
+    "Dedicated schema-identity tests passed normally and under optimized Python, including malformed and valid RFC 6901 vectors, exact census reconstruction, collision, duplicate, order, type, predecessor, membership, and no-classification attacks.",
+    "Normal and optimized readiness outputs were byte-identical with current-tree SHA-256 c112e8aee70faf5b12560a509443842c469d702e2fbd061144bb075ff249c6ce; both remained exit 1 BLOCKED/DENY with four blockers and no release artifacts.",
+    "Independent bounded post-fix Skeptic review returned PASS with no remaining mandatory fixes and no semantic or authority expansion.",
+    "All 560 governed records and published history validated after governance publication; M0 capital remained LOCKED with no scientific or operational approval.",
+    "All 18 alpha and observatory tests passed after evidence publication."
+  ],
+  "open_questions": [
+    "What is the smallest closed schema-specific proof variant that can represent declarative bounds without claiming validator enforcement?",
+    "Which addressed schema family is the safest first semantic batch after that proof representation is independently reviewed?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v69 remains OPEN.",
+    "Only 71 of 721 census sites are semantically classified; 650 remain unclassified with INCOMPLETE coverage.",
+    "Schema sites are stably addressable but no schema-specific proof variant or schema meaning has been accepted.",
+    "Public verification remains deny-only and disconnected.",
+    "Live remains LOCKED, live_enabled remains false, the kill switch remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Design and independently review a closed schema-specific semantic-proof variant before classifying any addressed schema meaning. Preserve Discovery V8 and Classification V43 as immutable predecessors and retain zero schema classifications until the proof representation is accepted.",
+  "completion_criteria": [
+    "The proof variant binds exact addressed schema records, containing context, dialect, applicability, equation, unit, boundary evidence, and explicit enforcement/public-authority nonclaims without source-AST placeholders.",
+    "The classification successor validates source and schema proof variants separately and rejects cross-kind substitution, missing context, and false coverage counts.",
+    "RESOURCE_INVENTORY_INCOMPLETE remains unconditional until all 721 sites are classified, and no closure, carrier, verifier acceptance, STOP clearance, task/reviewer/decision authority, execution authority, or capital authority is created."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-165.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-165",
+      "version": 1,
+      "sha256": "9d8609ae2874c35d5f7143b27ec8306e2d827de24ea2d8579f50e45b8c9c9690"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-148",
+  "version": 1,
+  "occurred_at": "2026-11-05T04:26:32Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_SCHEMA_RESOURCE_SITE_IDENTITY_V8_V43_DENY_ONLY",
+  "subject_ref": "reports/H-M0-166-schema-resource-site-identity-v8-v43.v1.md",
+  "previous_state": "DISCOVERY_V7_SCHEMA_SITES_UNADDRESSABLE_CLASSIFICATION_V42_650_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V8_SCHEMA_SITES_STABLY_ADDRESSED_CLASSIFICATION_V43_ZERO_SCHEMA_CLASSIFIED_650_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 6d64623 assigns domain-separated stable identities to the existing 296 schema-bound records and adds fail-closed schema-aware classification membership without classifying any schema meaning. Classification V43 remains 38 constraints, 71 classified, 650 unclassified, INCOMPLETE, and DENY.",
+  "evidence_refs": [
+    "reports/H-M0-166-schema-resource-site-identity-v8-v43.v1.md",
+    "docs/M0.3A_RUNTIME_V2_SCHEMA_RESOURCE_SITE_IDENTITY.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v8.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v8.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v8.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v43.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v43.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_schema_resource_site_identity_discovery.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v69.json"
+  ],
+  "code_ref": "6d64623",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-166",
+  "supersedes": null
+}
