@@ -1,0 +1,74 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-170",
+  "version": 1,
+  "created_at": "2026-11-05T10:35:58Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Append the next smallest complete no-applicator-path schema meaning under V46 without modifying frozen historical evidence lanes.",
+  "work_done": "Classification V47 preserves the exact V46 constraint prefix with zero evidence rebases and appends one exact local Draft 2020-12 NUMBER-domain minimum proof at the pinned generator-version schema site. It now has 40 constraints and 73 classified sites; 648 remain unclassified, coverage remains INCOMPLETE, generation remains DENY, and no authority changed.",
+  "evidence_refs": [
+    "reports/H-M0-170-generator-version-minimum-schema-proof-v47.v1.md",
+    "reports/audit/A-M0-152.v1.json",
+    "reports/stops/STOP-M0-3A-002.v73.json",
+    "docs/M0.3A_GENERATOR_VERSION_MINIMUM_SCHEMA_PROOF.v1.json",
+    "docs/M0.3A_GENERATOR_VERSION_MINIMUM_SCHEMA_PROOF.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v47.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v47.schema.json",
+    "tests/test_runtime_v2_generator_version_minimum_schema_proof.py",
+    "tools/check_runtime_v2_release_readiness.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_GENERATOR_VERSION_MINIMUM_SCHEMA_PROOF.v1.json",
+    "docs/M0.3A_GENERATOR_VERSION_MINIMUM_SCHEMA_PROOF.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v47.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v47.schema.json",
+    "tests/test_runtime_v2_generator_version_minimum_schema_proof.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_resource_classification_current.py",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tools/run_test_tier.py",
+    "reports/H-M0-170-generator-version-minimum-schema-proof-v47.v1.md",
+    "reports/audit/A-M0-152.v1.json",
+    "reports/stops/STOP-M0-3A-002.v73.json",
+    "docs/handoffs/H-M0-170.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "Independent persistent fast tier passed 752 tests across 65 modules in 1095.701 seconds.",
+    "Fast log /tmp/h170-final-audit.log has 1278 lines and SHA-256 224bb965a9f6f90d1b75970f7b19c950f0e44d674636a6a5948ff6af33dd6b5d.",
+    "Focused proof, current-classification, and readiness validation passed 17 tests.",
+    "Normal and optimized readiness outputs were byte-identical with SHA-256 feb1bb2ce4da122a25d68f5239d93f067c7ce7a4623aa3393bfab09200dfcfc1 and remained exit 1 BLOCKED/DENY.",
+    "Independent inventory and bounded Skeptic reviews returned PASS.",
+    "569 governed records and published history validated before governance publication.",
+    "572 governed records and published history validated after governance publication.",
+    "18 focused alpha and web observatory tests passed after governance publication."
+  ],
+  "open_questions": [
+    "Which next edge-none schema site is the safest exact local proof under V47?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v73 remains OPEN.",
+    "Only 73 of 721 census sites are classified; 648 remain unclassified.",
+    "Public verification remains disconnected and V1 migration remains unsupported.",
+    "Live remains LOCKED with USD 0 deployable and the kill switch ENGAGED."
+  ],
+  "next_action": "Select the next smallest complete edge-none schema meaning and append a per-site proof while leaving frozen historical evidence lanes immutable.",
+  "completion_criteria": [
+    "Future schema-proof appends preserve every historical manifest, schema, proof, and evidence input byte-for-byte.",
+    "Coverage remains INCOMPLETE and authority remains DENY until all required closure evidence is independently accepted."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-169.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-169",
+      "version": 1,
+      "sha256": "c517461be4f1b98e256da816b579da0075d20e1bc08494bcd1bd4a94adebee3f"
+    }
+  ]
+}

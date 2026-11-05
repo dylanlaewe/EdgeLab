@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-002",
+  "version": 73,
+  "issued_at": "2026-11-05T10:35:58Z",
+  "issuer": "00 Director",
+  "reason": "Classification V47 appends one exact local-declarative generator-version minimum proof while preserving V46 byte-for-byte with zero rebases. Of 721 census sites, 73 are classified and 648 remain unclassified. The proof intentionally does not establish sibling integer type, property requiredness or reachability, root or allOf applicability, operational generator validity, runtime enforcement, full-schema validity, or deployed-validator conformance. Complete semantic classification, public-entrypoint integration, conservative V1 bridge disposition, and independently accepted A-J evidence remain unresolved. Release generation is blocked and no positive local-consistency result is supportable.",
+  "affected_components": [
+    "exact generated verifier closure",
+    "semantic resource-limit classification and coverage proof",
+    "remaining schema-bound semantic proof instances",
+    "legacy bridge disposition",
+    "complete whole-image acceptance matrix",
+    "public result vocabulary"
+  ],
+  "evidence_refs": [
+    "reports/H-M0-170-generator-version-minimum-schema-proof-v47.v1.md",
+    "docs/M0.3A_GENERATOR_VERSION_MINIMUM_SCHEMA_PROOF.v1.json",
+    "docs/M0.3A_GENERATOR_VERSION_MINIMUM_SCHEMA_PROOF.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v47.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v47.schema.json",
+    "tests/test_runtime_v2_generator_version_minimum_schema_proof.py",
+    "tools/check_runtime_v2_release_readiness.py"
+  ],
+  "severity": "HIGH",
+  "remediation_required": [
+    "Continue exact per-site schema classification under the decoupled historical/current evidence architecture without modifying frozen evidence lanes.",
+    "Classify every remaining source/schema site and prove bidirectional coverage.",
+    "Conservatively disposition the unsupported V1 migration bridge without inventing unavailable preimages.",
+    "Connect the sole public entrypoint and bind independently accepted A-J evidence before generating any closure or carrier."
+  ],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}

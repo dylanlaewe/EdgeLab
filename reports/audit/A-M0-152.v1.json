@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-152",
+  "version": 1,
+  "occurred_at": "2026-11-05T10:35:58Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_GENERATOR_VERSION_MINIMUM_SCHEMA_PROOF_V47_DENY_ONLY",
+  "subject_ref": "reports/H-M0-170-generator-version-minimum-schema-proof-v47.v1.md",
+  "previous_state": "CLASSIFICATION_V46_72_CLASSIFIED_649_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "CLASSIFICATION_V47_73_CLASSIFIED_648_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 7ed3ac2 appends one exact generator-version minimum schema proof while preserving V46 byte-for-byte with zero evidence rebases and no authority change.",
+  "evidence_refs": [
+    "reports/H-M0-170-generator-version-minimum-schema-proof-v47.v1.md",
+    "docs/M0.3A_GENERATOR_VERSION_MINIMUM_SCHEMA_PROOF.v1.json",
+    "docs/M0.3A_GENERATOR_VERSION_MINIMUM_SCHEMA_PROOF.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v47.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v47.schema.json",
+    "tests/test_runtime_v2_generator_version_minimum_schema_proof.py",
+    "tools/check_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v73.json"
+  ],
+  "code_ref": "7ed3ac2",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-170",
+  "supersedes": null
+}
