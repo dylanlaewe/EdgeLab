@@ -1,0 +1,56 @@
+{
+  "proof_kind": "SCHEMA_DECLARATIVE_KEYWORD_V1",
+  "constraint_id": "SCHEMA_DECLARATIVE_MAXLENGTH_F193D860A83DA82DF674ACE3DA79CA2A26371F43751C4CA1776713D4D4130195",
+  "classification": "SCHEMA_DECLARATIVE_BOUND",
+  "semantic_subject": "SCHEMA_DECLARATIVE_MAX_LENGTH_AT_EXACT_PINNED_LOCATION",
+  "schema_site_id": "f193d860a83da82df674ace3da79ca2a26371f43751c4ca1776713d4d4130195",
+  "addressed_site": {
+    "classification": "UNCLASSIFIED",
+    "json_pointer": "/properties/generator_identity/properties/invocation/maxLength",
+    "keyword": "maxLength",
+    "path": "schemas/m0-3a-verifier-dependency-closure.v1.schema.json",
+    "schema_id": "urn:edgelab:m0-3a-verifier-dependency-closure:1",
+    "site_id": "f193d860a83da82df674ace3da79ca2a26371f43751c4ca1776713d4d4130195",
+    "value": 512
+  },
+  "schema_context": {
+    "dialect": "https://json-schema.org/draft/2020-12/schema",
+    "schema_document_byte_length": 15938,
+    "schema_document_raw_sha256": "f0516f087b3a97fcfe1266a79d6fc65ed8c9c6480998490fadf53807dfb23aff",
+    "schema_document_root_id": "urn:edgelab:m0-3a-verifier-dependency-closure:1",
+    "containing_subschema_pointer": "/properties/generator_identity/properties/invocation",
+    "containing_subschema_digest": "5789bce9561e2fea80886b8fe5436a7a73d413ac9c49dd3a6628a7a2b575d83c",
+    "applicability": "EXACT_PINNED_SCHEMA_LOCATION_ONLY",
+    "instance_domain": "STRING",
+    "ancestor_context": {
+      "binding": "FULL_SCHEMA_DOCUMENT_RAW_SHA256",
+      "ordered_pointer_sequence": [
+        {"index": 0, "pointer": ""},
+        {"index": 1, "pointer": "/properties"},
+        {"index": 2, "pointer": "/properties/generator_identity"},
+        {"index": 3, "pointer": "/properties/generator_identity/properties"},
+        {"index": 4, "pointer": "/properties/generator_identity/properties/invocation"}
+      ]
+    },
+    "required_sibling_pointers": [],
+    "non_domain_behavior": "NO_ASSERTION_FROM_THIS_KEYWORD"
+  },
+  "declarative_equation": {
+    "metric": "UNICODE_CODE_POINT_COUNT",
+    "operator": "<=",
+    "bound": 512
+  },
+  "unit": "UNICODE_CODE_POINTS",
+  "evidence_inputs": [
+    {
+      "byte_length": 1712,
+      "path": "docs/M0.3A_GENERATOR_INVOCATION_MAX_LENGTH_SCHEMA_PROOF.v1.md",
+      "raw_sha256": "909ec92361136a65d9afd05dc593d337631d3e6a5aa24b10b1d796a1a85206ef"
+    },
+    {
+      "byte_length": 15086,
+      "path": "tests/test_runtime_v2_generator_invocation_max_length_schema_proof.py",
+      "raw_sha256": "cef58f99fd110fe136c55d18b158bcae1e7f586b35df06c5a9ca9367d3bece37"
+    }
+  ]
+}

@@ -54,6 +54,7 @@ FAST_MODULES = (
     "tests.test_runtime_v2_event_payload_task_id_min_length_schema_proof",
     "tests.test_runtime_v2_task_state_task_id_min_length_schema_proof",
     "tests.test_runtime_v2_task_id_min_length_schema_proof_family",
+    "tests.test_runtime_v2_generator_invocation_max_length_schema_proof",
     "tests.test_runtime_v2_resource_classification_current",
     "tests.test_runtime_v2_release_readiness",
     "tests.test_runtime_v2_bootstrap_document_byte_bound",
