@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "family_id": "EDGELAB_RUNTIME_V2_RUNTIME_ATTACHMENT_MIN_LENGTH_SCHEMA_PROOF_FAMILY_V1",
+  "family_kind": "CLOSED_SCHEMA_DECLARATIVE_KEYWORD_FAMILY_V1",
+  "discovery": {
+    "profile_id": "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V8",
+    "manifest_byte_length": 2344,
+    "manifest_raw_sha256": "9914da2984589f7ded860656be4cbfdb88cf7d106ce52856860ed756dfe8725f",
+    "manifest_self_sha256": "78aed7fd37b6b07204c3462ec12855c21c0cb6da5268744d6957068973d72413",
+    "schema_byte_length": 4086,
+    "schema_raw_sha256": "e10ca59c1bf90a0ebaee0647eb6c49a4e573295ee923411e337dc6e90ced50d1",
+    "schema_bound_sites_sha256": "2ca911e85141b79c5ae6be653bf6a8b038ca90873a731764b27ac2bf0cae3fcf"
+  },
+  "predecessor": {
+    "manifest_byte_length": 131591,
+    "manifest_raw_sha256": "3713cda2668776f474dfabcf8bafb8b2f2ae9d7b44199a5f1b43fa33076b179a",
+    "manifest_self_sha256": "738bc804dad969a4059ca8ae8f71cd2560e70abf0d1131bca1556ba97919a755",
+    "schema_byte_length": 142472,
+    "schema_raw_sha256": "01bc2b8f48aeb3fd3d4a9ed0f5de0a65c4b9bd396f83a13e24d2cac66d76a0e8"
+  },
+  "predicate": {
+    "keyword": "minLength",
+    "value": 1,
+    "containing_subschema": {"type": "string", "minLength": 1, "maxLength": 4096},
+    "containing_subschema_digest": "1cb0f2473cb55b110447de322170e5050e56184fc26d1d544cb298ff202d9ac5",
+    "allowed_schema_locations": [
+      {
+        "path": "schemas/m0-3a-runtime-attachment.v2.schema.json",
+        "schema_id": "urn:edgelab:m0-3a-runtime-attachment:2",
+        "site_id": "91ac8b306ad7aaabaccc9f87de0460ce6ae4aa41d7edc09ca870364eaa9ecf38",
+        "json_pointer": "/properties/git_common_dir_identity/minLength",
+        "ordered_ancestor_pointers": ["", "/properties", "/properties/git_common_dir_identity"]
+      },
+      {
+        "path": "schemas/m0-3a-runtime-attachment.v2.schema.json",
+        "schema_id": "urn:edgelab:m0-3a-runtime-attachment:2",
+        "site_id": "b9d97c6663e8bf814f90b1e69ba3a8ea30573b0ef575709552fe9c5e20ca06ca",
+        "json_pointer": "/properties/repository_root_realpath/minLength",
+        "ordered_ancestor_pointers": ["", "/properties", "/properties/repository_root_realpath"]
+      }
+    ]
+  },
+  "member_count": 2,
+  "ordered_members": [
+    {
+      "schema_site_id": "91ac8b306ad7aaabaccc9f87de0460ce6ae4aa41d7edc09ca870364eaa9ecf38",
+      "constraint_id": "SCHEMA_DECLARATIVE_MINLENGTH_91AC8B306AD7AAABACCC9F87DE0460CE6AE4AA41D7EDC09CA870364EAA9ECF38",
+      "proof": {
+        "byte_length": 2321,
+        "path": "docs/M0.3A_GIT_COMMON_DIR_IDENTITY_MIN_LENGTH_SCHEMA_PROOF.v1.json",
+        "raw_sha256": "118185812dfc9179a291570dc4616d69ac9f9ad7485135273c905dfd1b58f426",
+        "schema_site_id": "91ac8b306ad7aaabaccc9f87de0460ce6ae4aa41d7edc09ca870364eaa9ecf38"
+      }
+    },
+    {
+      "schema_site_id": "b9d97c6663e8bf814f90b1e69ba3a8ea30573b0ef575709552fe9c5e20ca06ca",
+      "constraint_id": "SCHEMA_DECLARATIVE_MINLENGTH_B9D97C6663E8BF814F90B1E69BA3A8EA30573B0EF575709552FE9C5E20CA06CA",
+      "proof": {
+        "byte_length": 2326,
+        "path": "docs/M0.3A_REPOSITORY_ROOT_REALPATH_MIN_LENGTH_SCHEMA_PROOF.v1.json",
+        "raw_sha256": "51c6e47b7945d3cf6a2a9d668824d67e53fff0778762aed82dc9885a1976dfcf",
+        "schema_site_id": "b9d97c6663e8bf814f90b1e69ba3a8ea30573b0ef575709552fe9c5e20ca06ca"
+      }
+    }
+  ],
+  "excluded_sibling_sites": [
+    {
+      "reason": "GIT_COMMON_DIR_MAXLENGTH_SIBLING",
+      "site": {"classification": "UNCLASSIFIED", "json_pointer": "/properties/git_common_dir_identity/maxLength", "keyword": "maxLength", "path": "schemas/m0-3a-runtime-attachment.v2.schema.json", "schema_id": "urn:edgelab:m0-3a-runtime-attachment:2", "site_id": "d35901dd714a95a4a2aa09a3ce17cbcc45dd1634b681cca5aca40be61d479574", "value": 4096}
+    },
+    {
+      "reason": "REPOSITORY_ROOT_MAXLENGTH_SIBLING",
+      "site": {"classification": "UNCLASSIFIED", "json_pointer": "/properties/repository_root_realpath/maxLength", "keyword": "maxLength", "path": "schemas/m0-3a-runtime-attachment.v2.schema.json", "schema_id": "urn:edgelab:m0-3a-runtime-attachment:2", "site_id": "bd7b0ebc888973d3388c8ab0d67c0fbcf03333fa27b5b86616a924c5ee90b848", "value": 4096}
+    }
+  ],
+  "family_evidence_inputs": [
+    {
+      "byte_length": 2449,
+      "path": "docs/M0.3A_RUNTIME_ATTACHMENT_MIN_LENGTH_SCHEMA_PROOF_FAMILY.v1.md",
+      "raw_sha256": "a004ad14e68171ad37fc60a37d0569e687754a9e7e77d1ceee407261910d699f"
+    },
+    {
+      "byte_length": 8920,
+      "path": "tests/test_runtime_v2_runtime_attachment_min_length_schema_proof_family.py",
+      "raw_sha256": "985ffd681f8dbee86750829f7d2c61c46832eed9899f3710e57d815a2db0e273"
+    }
+  ],
+  "nonclaims": [
+    "NO_SIBLING_TYPE_OR_MAXLENGTH_MEANING",
+    "NO_FULL_ONE_TO_4096_STRING_VALIDITY",
+    "NO_PROPERTY_PRESENCE_OR_ROOT_REQUIRED_ADDITIONAL_PROPERTIES_MEANING",
+    "NO_PATH_REALPATH_NORMALIZATION_EXISTENCE_SYMLINK_OR_CONTAINMENT_MEANING",
+    "NO_GIT_COMMON_DIRECTORY_AUTHENTICITY_OR_IDENTITY",
+    "NO_CROSS_PROPERTY_EQUIVALENCE_OR_EVIDENCE_INDEPENDENCE",
+    "NO_RUNTIME_STRING_HELPER_BEHAVIOR",
+    "NO_FULL_SCHEMA_OR_DEPLOYED_VALIDATOR_CONFORMANCE",
+    "NO_PUBLIC_VALIDITY_OR_INDEPENDENT_ACCEPTANCE",
+    "NO_STOP_OR_RELEASE_CLEARANCE",
+    "NO_EXECUTION_WAGERING_OR_CAPITAL_AUTHORITY",
+    "NO_RUNTIME_CHANGE"
+  ],
+  "family_sha256": "e75f6a8bf084041b7882629f89fc5529d95b76b89879905dbaaf8539f0e5f616"
+}

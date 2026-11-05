@@ -1,0 +1,54 @@
+{
+  "proof_kind": "SCHEMA_DECLARATIVE_KEYWORD_V1",
+  "constraint_id": "SCHEMA_DECLARATIVE_MINLENGTH_91AC8B306AD7AAABACCC9F87DE0460CE6AE4AA41D7EDC09CA870364EAA9ECF38",
+  "classification": "SCHEMA_DECLARATIVE_BOUND",
+  "semantic_subject": "SCHEMA_DECLARATIVE_MIN_LENGTH_AT_EXACT_PINNED_LOCATION",
+  "schema_site_id": "91ac8b306ad7aaabaccc9f87de0460ce6ae4aa41d7edc09ca870364eaa9ecf38",
+  "addressed_site": {
+    "classification": "UNCLASSIFIED",
+    "json_pointer": "/properties/git_common_dir_identity/minLength",
+    "keyword": "minLength",
+    "path": "schemas/m0-3a-runtime-attachment.v2.schema.json",
+    "schema_id": "urn:edgelab:m0-3a-runtime-attachment:2",
+    "site_id": "91ac8b306ad7aaabaccc9f87de0460ce6ae4aa41d7edc09ca870364eaa9ecf38",
+    "value": 1
+  },
+  "schema_context": {
+    "dialect": "https://json-schema.org/draft/2020-12/schema",
+    "schema_document_byte_length": 1527,
+    "schema_document_raw_sha256": "0623e1706d3a18a2b06043c72f444bd8bad9d798248ff62c83a901a36c1dbb9c",
+    "schema_document_root_id": "urn:edgelab:m0-3a-runtime-attachment:2",
+    "containing_subschema_pointer": "/properties/git_common_dir_identity",
+    "containing_subschema_digest": "1cb0f2473cb55b110447de322170e5050e56184fc26d1d544cb298ff202d9ac5",
+    "applicability": "EXACT_PINNED_SCHEMA_LOCATION_ONLY",
+    "instance_domain": "STRING",
+    "ancestor_context": {
+      "binding": "FULL_SCHEMA_DOCUMENT_RAW_SHA256",
+      "ordered_pointer_sequence": [
+        {"index": 0, "pointer": ""},
+        {"index": 1, "pointer": "/properties"},
+        {"index": 2, "pointer": "/properties/git_common_dir_identity"}
+      ]
+    },
+    "required_sibling_pointers": [],
+    "non_domain_behavior": "NO_ASSERTION_FROM_THIS_KEYWORD"
+  },
+  "declarative_equation": {
+    "metric": "UNICODE_CODE_POINT_COUNT",
+    "operator": ">=",
+    "bound": 1
+  },
+  "unit": "UNICODE_CODE_POINTS",
+  "evidence_inputs": [
+    {
+      "byte_length": 2118,
+      "path": "docs/M0.3A_GIT_COMMON_DIR_IDENTITY_MIN_LENGTH_SCHEMA_PROOF.v1.md",
+      "raw_sha256": "6bf10e7cf77d63ba2ba98eb783c714306e8593b6c74c6e9a58f4db26ede92d29"
+    },
+    {
+      "byte_length": 6877,
+      "path": "tests/test_runtime_v2_git_common_dir_identity_min_length_schema_proof.py",
+      "raw_sha256": "1bab17293510468b7fbe9bd72b66469692648ea3bef8382445fffdb50df2e863"
+    }
+  ]
+}

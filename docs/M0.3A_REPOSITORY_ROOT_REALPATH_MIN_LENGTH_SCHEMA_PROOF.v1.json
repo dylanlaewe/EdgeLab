@@ -1,0 +1,54 @@
+{
+  "proof_kind": "SCHEMA_DECLARATIVE_KEYWORD_V1",
+  "constraint_id": "SCHEMA_DECLARATIVE_MINLENGTH_B9D97C6663E8BF814F90B1E69BA3A8EA30573B0EF575709552FE9C5E20CA06CA",
+  "classification": "SCHEMA_DECLARATIVE_BOUND",
+  "semantic_subject": "SCHEMA_DECLARATIVE_MIN_LENGTH_AT_EXACT_PINNED_LOCATION",
+  "schema_site_id": "b9d97c6663e8bf814f90b1e69ba3a8ea30573b0ef575709552fe9c5e20ca06ca",
+  "addressed_site": {
+    "classification": "UNCLASSIFIED",
+    "json_pointer": "/properties/repository_root_realpath/minLength",
+    "keyword": "minLength",
+    "path": "schemas/m0-3a-runtime-attachment.v2.schema.json",
+    "schema_id": "urn:edgelab:m0-3a-runtime-attachment:2",
+    "site_id": "b9d97c6663e8bf814f90b1e69ba3a8ea30573b0ef575709552fe9c5e20ca06ca",
+    "value": 1
+  },
+  "schema_context": {
+    "dialect": "https://json-schema.org/draft/2020-12/schema",
+    "schema_document_byte_length": 1527,
+    "schema_document_raw_sha256": "0623e1706d3a18a2b06043c72f444bd8bad9d798248ff62c83a901a36c1dbb9c",
+    "schema_document_root_id": "urn:edgelab:m0-3a-runtime-attachment:2",
+    "containing_subschema_pointer": "/properties/repository_root_realpath",
+    "containing_subschema_digest": "1cb0f2473cb55b110447de322170e5050e56184fc26d1d544cb298ff202d9ac5",
+    "applicability": "EXACT_PINNED_SCHEMA_LOCATION_ONLY",
+    "instance_domain": "STRING",
+    "ancestor_context": {
+      "binding": "FULL_SCHEMA_DOCUMENT_RAW_SHA256",
+      "ordered_pointer_sequence": [
+        {"index": 0, "pointer": ""},
+        {"index": 1, "pointer": "/properties"},
+        {"index": 2, "pointer": "/properties/repository_root_realpath"}
+      ]
+    },
+    "required_sibling_pointers": [],
+    "non_domain_behavior": "NO_ASSERTION_FROM_THIS_KEYWORD"
+  },
+  "declarative_equation": {
+    "metric": "UNICODE_CODE_POINT_COUNT",
+    "operator": ">=",
+    "bound": 1
+  },
+  "unit": "UNICODE_CODE_POINTS",
+  "evidence_inputs": [
+    {
+      "byte_length": 2118,
+      "path": "docs/M0.3A_REPOSITORY_ROOT_REALPATH_MIN_LENGTH_SCHEMA_PROOF.v1.md",
+      "raw_sha256": "8158ea6a162c6047c12c61ecfd7354bdeb207b41027561af0887706898ff8a32"
+    },
+    {
+      "byte_length": 6878,
+      "path": "tests/test_runtime_v2_repository_root_realpath_min_length_schema_proof.py",
+      "raw_sha256": "d0b2244610519d9611abe95e29ed40b72a5db17a82ef7646eb6191942c1fad0b"
+    }
+  ]
+}

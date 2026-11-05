@@ -17,6 +17,7 @@ from tools.check_runtime_v2_release_readiness import (
     RESOURCE_CLASSIFICATION_V52_MANIFEST,
     RESOURCE_CLASSIFICATION_V53_MANIFEST,
     RESOURCE_CLASSIFICATION_V54_MANIFEST,
+    RESOURCE_CLASSIFICATION_V55_MANIFEST,
     build_report,
 )
 
@@ -29,14 +30,19 @@ class RuntimeV2ResourceClassificationCurrentTests(unittest.TestCase):
             "resource_inventory_classification"
         ]
         cls.manifest = json.loads(
-            (ROOT / RESOURCE_CLASSIFICATION_V54_MANIFEST[1]).read_text(
+            (ROOT / RESOURCE_CLASSIFICATION_V55_MANIFEST[1]).read_text(
                 encoding="ascii"
             )
         )
         cls.predecessor = json.loads(
             (
-                ROOT / RESOURCE_CLASSIFICATION_V53_MANIFEST[1]
+                ROOT / RESOURCE_CLASSIFICATION_V54_MANIFEST[1]
             ).read_text(encoding="ascii")
+        )
+        cls.v53 = json.loads(
+            (ROOT / RESOURCE_CLASSIFICATION_V53_MANIFEST[1]).read_text(
+                encoding="ascii"
+            )
         )
         cls.v52 = json.loads(
             (ROOT / RESOURCE_CLASSIFICATION_V52_MANIFEST[1]).read_text(
@@ -79,8 +85,8 @@ class RuntimeV2ResourceClassificationCurrentTests(unittest.TestCase):
         )
 
     def test_current_manifest_report_and_partition_are_exact(self):
-        self.assertEqual(self.manifest["schema_version"], 54)
-        self.assertEqual(len(self.manifest["constraints"]), 52)
+        self.assertEqual(self.manifest["schema_version"], 55)
+        self.assertEqual(len(self.manifest["constraints"]), 54)
         source_ids = {
             site_id
             for constraint in self.manifest["constraints"]
@@ -94,31 +100,43 @@ class RuntimeV2ResourceClassificationCurrentTests(unittest.TestCase):
             if constraint["classification"] == "SCHEMA_DECLARATIVE_BOUND"
         }
         self.assertEqual(len(source_ids), 71)
-        self.assertEqual(len(schema_ids), 14)
+        self.assertEqual(len(schema_ids), 16)
         self.assertTrue(source_ids.isdisjoint(schema_ids))
-        self.assertEqual(self.manifest["classified_site_count"], 85)
-        self.assertEqual(self.manifest["unclassified_site_count"], 636)
-        self.assertEqual(self.classification["classified_constraint_count"], 52)
-        self.assertEqual(self.classification["classified_site_count"], 85)
-        self.assertEqual(self.classification["unclassified_site_count"], 636)
+        self.assertEqual(self.manifest["classified_site_count"], 87)
+        self.assertEqual(self.manifest["unclassified_site_count"], 634)
+        self.assertEqual(self.classification["classified_constraint_count"], 54)
+        self.assertEqual(self.classification["classified_site_count"], 87)
+        self.assertEqual(self.classification["unclassified_site_count"], 634)
         self.assertEqual(self.classification["coverage_status"], "INCOMPLETE")
         self.assertEqual(self.classification["generation_disposition"], "DENY")
 
-    def test_v54_is_exact_v53_prefix_plus_invocation_minimum_proof(self):
+    def test_v55_is_exact_v54_prefix_plus_runtime_attachment_family(self):
         self.assertEqual(
-            self.manifest["constraints"][:-1], self.predecessor["constraints"]
+            self.manifest["constraints"][:-2], self.predecessor["constraints"]
         )
         self.assertEqual(
-            self.manifest["constraints"][-1]["schema_site_id"],
+            [item["schema_site_id"] for item in self.manifest["constraints"][-2:]],
+            [
+                "91ac8b306ad7aaabaccc9f87de0460ce6ae4aa41d7edc09ca870364eaa9ecf38",
+                "b9d97c6663e8bf814f90b1e69ba3a8ea30573b0ef575709552fe9c5e20ca06ca",
+            ],
+        )
+
+    def test_v54_is_exact_v53_prefix_plus_invocation_minimum_proof(self):
+        self.assertEqual(
+            self.predecessor["constraints"][:-1], self.v53["constraints"]
+        )
+        self.assertEqual(
+            self.predecessor["constraints"][-1]["schema_site_id"],
             "85e3025e297b6d908712678e0358a97de2d8d04f2ce9af152e2ea3f566185a0a",
         )
 
     def test_v53_is_exact_v52_prefix_plus_invocation_proof(self):
         self.assertEqual(
-            self.predecessor["constraints"][:-1], self.v52["constraints"]
+            self.v53["constraints"][:-1], self.v52["constraints"]
         )
         self.assertEqual(
-            self.predecessor["constraints"][-1]["schema_site_id"],
+            self.v53["constraints"][-1]["schema_site_id"],
             "f193d860a83da82df674ace3da79ca2a26371f43751c4ca1776713d4d4130195",
         )
 
@@ -266,13 +284,13 @@ class RuntimeV2ResourceClassificationCurrentTests(unittest.TestCase):
             "resource_inventory_classification"
         ]
         self.assertEqual(classification["classified_source_site_count"], 71)
-        self.assertEqual(classification["classified_schema_site_count"], 14)
+        self.assertEqual(classification["classified_schema_site_count"], 16)
         blocker = next(
             item for item in self.report["blockers"]
             if item["code"] == "RESOURCE_INVENTORY_INCOMPLETE"
         )
         self.assertIn("354 unclassified source-bound sites", blocker["evidence"])
-        self.assertIn("282 unclassified schema-bound sites", blocker["evidence"])
+        self.assertIn("280 unclassified schema-bound sites", blocker["evidence"])
         self.assertNotIn("296 unclassified schema-bound sites", blocker["evidence"])
 
 
