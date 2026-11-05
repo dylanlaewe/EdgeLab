@@ -1,0 +1,71 @@
+{
+  "proof_kind": "SCHEMA_DECLARATIVE_KEYWORD_V1",
+  "constraint_id": "SCHEMA_DECLARATIVE_MINIMUM_55FED7617DC5FEDBE4F113493AE8096CF62078A2A6DC7803FD4417FB6D60E44B",
+  "classification": "SCHEMA_DECLARATIVE_BOUND",
+  "semantic_subject": "SCHEMA_DECLARATIVE_MINIMUM_AT_EXACT_PINNED_LOCATION",
+  "schema_site_id": "55fed7617dc5fedbe4f113493ae8096cf62078a2a6dc7803fd4417fb6d60e44b",
+  "addressed_site": {
+    "classification": "UNCLASSIFIED",
+    "json_pointer": "/properties/generator_identity/properties/generator_version/minimum",
+    "keyword": "minimum",
+    "path": "schemas/m0-3a-verifier-dependency-closure.v1.schema.json",
+    "schema_id": "urn:edgelab:m0-3a-verifier-dependency-closure:1",
+    "site_id": "55fed7617dc5fedbe4f113493ae8096cf62078a2a6dc7803fd4417fb6d60e44b",
+    "value": 1
+  },
+  "schema_context": {
+    "dialect": "https://json-schema.org/draft/2020-12/schema",
+    "schema_document_byte_length": 15938,
+    "schema_document_raw_sha256": "f0516f087b3a97fcfe1266a79d6fc65ed8c9c6480998490fadf53807dfb23aff",
+    "schema_document_root_id": "urn:edgelab:m0-3a-verifier-dependency-closure:1",
+    "containing_subschema_pointer": "/properties/generator_identity/properties/generator_version",
+    "containing_subschema_digest": "c0b9a5eadd4ba5794d76f6147f0bd5dbcecc2797f72d213ea03fcf803bf3b034",
+    "applicability": "EXACT_PINNED_SCHEMA_LOCATION_ONLY",
+    "instance_domain": "NUMBER",
+    "ancestor_context": {
+      "binding": "FULL_SCHEMA_DOCUMENT_RAW_SHA256",
+      "ordered_pointer_sequence": [
+        {
+          "index": 0,
+          "pointer": ""
+        },
+        {
+          "index": 1,
+          "pointer": "/properties"
+        },
+        {
+          "index": 2,
+          "pointer": "/properties/generator_identity"
+        },
+        {
+          "index": 3,
+          "pointer": "/properties/generator_identity/properties"
+        },
+        {
+          "index": 4,
+          "pointer": "/properties/generator_identity/properties/generator_version"
+        }
+      ]
+    },
+    "required_sibling_pointers": [],
+    "non_domain_behavior": "NO_ASSERTION_FROM_THIS_KEYWORD"
+  },
+  "declarative_equation": {
+    "metric": "JSON_NUMBER_VALUE",
+    "operator": ">=",
+    "bound": 1
+  },
+  "unit": "JSON_NUMBER",
+  "evidence_inputs": [
+    {
+      "byte_length": 2081,
+      "path": "docs/M0.3A_GENERATOR_VERSION_MINIMUM_SCHEMA_PROOF.v1.md",
+      "raw_sha256": "da802f3205e32aa07bf8125df22248746f01dc2dbd76968a0ff25f9c1a84b4db"
+    },
+    {
+      "byte_length": 12197,
+      "path": "tests/test_runtime_v2_generator_version_minimum_schema_proof.py",
+      "raw_sha256": "6b8865fb6b9c705f15d219b033d096931d4351f47a0da89ee9ccfb6ff08ced8f"
+    }
+  ]
+}

@@ -183,8 +183,19 @@ RESOURCE_CLASSIFICATION_V44_MANIFEST = (
     "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v44.json",
 )
 # Frozen V8 evidence imports this unused historical name. Current code uses only
-# the versioned V46 constant; retain this V44 alias solely to preserve its bytes.
+# the versioned V47 constant; retain this V44 alias solely to preserve its bytes.
 RESOURCE_CLASSIFICATION_MANIFEST = RESOURCE_CLASSIFICATION_V44_MANIFEST
+RESOURCE_CLASSIFICATION_V47_SCHEMA = (
+    "urn:edgelab:m0-3a-runtime-v2-resource-classification:47",
+    "schemas/m0-3a-runtime-v2-resource-classification.v47.schema.json",
+)
+RESOURCE_CLASSIFICATION_V47_MANIFEST = (
+    "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V47",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v47.json",
+)
+RESOURCE_CLASSIFICATION_V47_DOMAIN = (
+    "EDGELAB\0RUNTIME_V2_RESOURCE_CLASSIFICATION\0V47\0"
+)
 RESOURCE_CLASSIFICATION_V46_SCHEMA = (
     "urn:edgelab:m0-3a-runtime-v2-resource-classification:46",
     "schemas/m0-3a-runtime-v2-resource-classification.v46.schema.json",
@@ -287,6 +298,16 @@ RESOURCE_CLASSIFICATION_V46_SCHEMA_PROOF = {
         "685812b87027cea3e8fc9ce370fd21377b11fc6459c06bf2151261260cd178ea"
     ),
 }
+RESOURCE_CLASSIFICATION_V47_SCHEMA_PROOF = {
+    "byte_length": 2675,
+    "path": "docs/M0.3A_GENERATOR_VERSION_MINIMUM_SCHEMA_PROOF.v1.json",
+    "raw_sha256": (
+        "af0ef9f2cde60c7a73092132394a7d45412b9a21b8eec3256b93f40f62afaf10"
+    ),
+    "schema_site_id": (
+        "55fed7617dc5fedbe4f113493ae8096cf62078a2a6dc7803fd4417fb6d60e44b"
+    ),
+}
 SCHEMA_CONTAINING_SUBSCHEMA_DOMAIN = (
     "EDGELAB\0RUNTIME_V2_SCHEMA_CONTAINING_SUBSCHEMA\0V1\0"
 )
@@ -376,6 +397,22 @@ RESOURCE_SOURCE_BOUND_SITES_V7_SHA256 = (
 RESOURCE_CLASSIFICATION_V46_SCHEMA_RAW_SHA256 = (
     "5ed13467897f95967fb278674063ee598d3da4f7f15353f997430f2fc79e9968"
 )
+RESOURCE_CLASSIFICATION_V47_SCHEMA_RAW_SHA256 = (
+    "5641296c63b6e8ee6e3ef75d682983776f79eb6e949955edcb0b966b621658e9"
+)
+RESOURCE_CLASSIFICATION_V47_PREDECESSOR_MANIFEST = {
+    "byte_length": 96434,
+    "classification_manifest_sha256": (
+        "d84fb6db5c982c69483d968d082fca3c028d326354aced767ba78a70036cb718"
+    ),
+    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v46.json",
+    "raw_sha256": "7a501d128c026e68c6ae3faa857f7d8d1b8e78d1a1a94f08775a90e92560d1b9",
+}
+RESOURCE_CLASSIFICATION_V47_PREDECESSOR_SCHEMA = {
+    "byte_length": 103958,
+    "path": "schemas/m0-3a-runtime-v2-resource-classification.v46.schema.json",
+    "raw_sha256": "5ed13467897f95967fb278674063ee598d3da4f7f15353f997430f2fc79e9968",
+}
 RESOURCE_CLASSIFICATION_V46_PREDECESSOR_MANIFEST = {
     "byte_length": 96435,
     "classification_manifest_sha256": (
@@ -1804,6 +1841,7 @@ CLASSIFIED_RESOURCE_SITE_IDS = frozenset({
     "4ba11eee3bbe1d3fa772fabebf0edc386903f94c9862c242c7124b8bf0cf6cb6",
 })
 CLASSIFIED_SCHEMA_RESOURCE_SITE_IDS = frozenset({
+    "55fed7617dc5fedbe4f113493ae8096cf62078a2a6dc7803fd4417fb6d60e44b",
     "685812b87027cea3e8fc9ce370fd21377b11fc6459c06bf2151261260cd178ea",
 })
 SCHEMA_BOUND_KEYWORDS = frozenset({
@@ -5036,6 +5074,8 @@ def _resource_classification_inventory(
 ) -> dict[str, Any]:
     """Validate the cumulative deny-only semantic classification slices."""
     predecessor_records = (
+        (RESOURCE_CLASSIFICATION_V47_PREDECESSOR_MANIFEST, True),
+        (RESOURCE_CLASSIFICATION_V47_PREDECESSOR_SCHEMA, False),
         (RESOURCE_CLASSIFICATION_V46_PREDECESSOR_MANIFEST, True),
         (RESOURCE_CLASSIFICATION_V46_PREDECESSOR_SCHEMA, False),
         *tuple(
@@ -5074,6 +5114,14 @@ def _resource_classification_inventory(
         )
         for index in range(0, len(RESOURCE_CLASSIFICATION_ANCESTORS), 2)
     )
+    chain = (
+        (
+            RESOURCE_CLASSIFICATION_V47_PREDECESSOR_MANIFEST,
+            RESOURCE_CLASSIFICATION_V46_PREDECESSOR_MANIFEST,
+            RESOURCE_CLASSIFICATION_V46_PREDECESSOR_SCHEMA,
+        ),
+        *chain,
+    )
     for owner, predecessor_manifest, predecessor_schema in chain:
         value = manifest_values.get(owner["path"])
         if value is None or value.get(
@@ -5085,7 +5133,7 @@ def _resource_classification_inventory(
                 "RESOURCE_CLASSIFICATION_ANCESTOR_BINDING", owner["path"]
             )
 
-    schema_id, schema_path = RESOURCE_CLASSIFICATION_V46_SCHEMA
+    schema_id, schema_path = RESOURCE_CLASSIFICATION_V47_SCHEMA
     schema_raw, schema_identity = _audit_path(root, schema_path)
     if schema_identity in identities:
         raise ReadinessError("HARDLINK_INPUT_ALIAS", schema_path)
@@ -5093,10 +5141,10 @@ def _resource_classification_inventory(
     schema_value = _parse_json(schema_raw, schema_path)
     if type(schema_value) is not dict or schema_value.get("$id") != schema_id:
         raise ReadinessError("SCHEMA_ID", schema_path)
-    if _sha256(schema_raw) != RESOURCE_CLASSIFICATION_V46_SCHEMA_RAW_SHA256:
+    if _sha256(schema_raw) != RESOURCE_CLASSIFICATION_V47_SCHEMA_RAW_SHA256:
         raise ReadinessError("RESOURCE_CLASSIFICATION_SCHEMA_IDENTITY", schema_path)
 
-    profile_id, manifest_path = RESOURCE_CLASSIFICATION_V46_MANIFEST
+    profile_id, manifest_path = RESOURCE_CLASSIFICATION_V47_MANIFEST
     manifest_raw, manifest_identity = _audit_path(root, manifest_path)
     if manifest_identity in identities:
         raise ReadinessError("HARDLINK_INPUT_ALIAS", manifest_path)
@@ -5118,20 +5166,20 @@ def _resource_classification_inventory(
     if set(manifest) != expected_keys:
         raise ReadinessError("RESOURCE_CLASSIFICATION_KEYS", manifest_path)
     scalar_expected = {
-        "schema_version": 46,
+        "schema_version": 47,
         "manifest_id": schema_id,
         "profile_id": profile_id,
         "discovery_profile_id": resource_discovery["profile_id"],
         "coverage_status": "INCOMPLETE",
         "generation_disposition": "DENY",
         "classification_schema_raw_sha256": (
-            RESOURCE_CLASSIFICATION_V46_SCHEMA_RAW_SHA256
+            RESOURCE_CLASSIFICATION_V47_SCHEMA_RAW_SHA256
         ),
         "predecessor_manifest": dict(
-            RESOURCE_CLASSIFICATION_V46_PREDECESSOR_MANIFEST
+            RESOURCE_CLASSIFICATION_V47_PREDECESSOR_MANIFEST
         ),
         "predecessor_schema": dict(
-            RESOURCE_CLASSIFICATION_V46_PREDECESSOR_SCHEMA
+            RESOURCE_CLASSIFICATION_V47_PREDECESSOR_SCHEMA
         ),
         "source_input_count": 10,
         "source_inputs_sha256": _domain_digest(
@@ -5146,11 +5194,11 @@ def _resource_classification_inventory(
             "schema_bound_sites_sha256"
         ],
         "schema_inputs_sha256": resource_discovery["schema_inputs_sha256"],
-        "classified_site_count": 72,
+        "classified_site_count": 73,
         "unclassified_site_count": (
             len(resource_discovery["source_bound_sites"])
             + len(resource_discovery["schema_bound_sites"])
-            - 72
+            - 73
         ),
     }
     for key, expected in scalar_expected.items():
@@ -5158,7 +5206,7 @@ def _resource_classification_inventory(
             raise ReadinessError("RESOURCE_CLASSIFICATION_BINDING", key)
 
     constraints = manifest.get("constraints")
-    if type(constraints) is not list or len(constraints) != 39:
+    if type(constraints) is not list or len(constraints) != 40:
         raise ReadinessError("RESOURCE_CLASSIFICATION_CONSTRAINTS", manifest_path)
     single_binding_constraint_keys = {
         "accepted_equation", "classification", "constraint_id",
@@ -5181,34 +5229,33 @@ def _resource_classification_inventory(
             multi_binding_constraint_keys
             if "semantic_bindings" in item else single_binding_constraint_keys
         )
-        for item in constraints[:-1]
-    ) or set(constraints[-1]) != schema_constraint_keys:
+        for item in constraints[:-2]
+    ) or any(set(item) != schema_constraint_keys for item in constraints[-2:]):
         raise ReadinessError("RESOURCE_CLASSIFICATION_CONSTRAINT_KEYS", manifest_path)
-    selected_proof_raw, selected_proof_identity = _audit_path(
-        root, RESOURCE_CLASSIFICATION_V46_SCHEMA_PROOF["path"]
+    def load_selected_schema_proof(expected: dict[str, Any]) -> dict[str, Any]:
+        proof_raw, proof_identity = _audit_path(root, expected["path"])
+        if proof_identity in identities:
+            raise ReadinessError("HARDLINK_INPUT_ALIAS", expected["path"])
+        identities.add(proof_identity)
+        if len(proof_raw) != expected["byte_length"] or _sha256(
+            proof_raw
+        ) != expected["raw_sha256"]:
+            raise ReadinessError(
+                "SCHEMA_DECLARATIVE_SELECTED_PROOF_IDENTITY", expected["path"]
+            )
+        proof = _parse_json(proof_raw, expected["path"])
+        if type(proof) is not dict:
+            raise ReadinessError(
+                "SCHEMA_DECLARATIVE_SELECTED_PROOF_OBJECT", expected["path"]
+            )
+        return proof
+
+    predecessor_schema_proof = load_selected_schema_proof(
+        RESOURCE_CLASSIFICATION_V46_SCHEMA_PROOF
     )
-    if selected_proof_identity in identities:
-        raise ReadinessError(
-            "HARDLINK_INPUT_ALIAS", RESOURCE_CLASSIFICATION_V46_SCHEMA_PROOF["path"]
-        )
-    identities.add(selected_proof_identity)
-    if len(selected_proof_raw) != RESOURCE_CLASSIFICATION_V46_SCHEMA_PROOF[
-        "byte_length"
-    ] or _sha256(selected_proof_raw) != RESOURCE_CLASSIFICATION_V46_SCHEMA_PROOF[
-        "raw_sha256"
-    ]:
-        raise ReadinessError(
-            "SCHEMA_DECLARATIVE_SELECTED_PROOF_IDENTITY",
-            RESOURCE_CLASSIFICATION_V46_SCHEMA_PROOF["path"],
-        )
-    selected_proof = _parse_json(
-        selected_proof_raw, RESOURCE_CLASSIFICATION_V46_SCHEMA_PROOF["path"]
+    selected_proof = load_selected_schema_proof(
+        RESOURCE_CLASSIFICATION_V47_SCHEMA_PROOF
     )
-    if type(selected_proof) is not dict:
-        raise ReadinessError(
-            "SCHEMA_DECLARATIVE_SELECTED_PROOF_OBJECT",
-            RESOURCE_CLASSIFICATION_V46_SCHEMA_PROOF["path"],
-        )
     expected_constraints = [
         {
             "accepted_equation": (
@@ -7429,31 +7476,50 @@ def _resource_classification_inventory(
         ),
         "unit": "CHARACTERS",
     })
+    expected_constraints.append(predecessor_schema_proof)
     expected_constraints.append(selected_proof)
     if constraints != expected_constraints:
         raise ReadinessError("RESOURCE_CLASSIFICATION_CONSTRAINT", manifest_path)
-    predecessor_value = manifest_values.get(
-        RESOURCE_CLASSIFICATION_V46_PREDECESSOR_MANIFEST["path"]
+    current_predecessor_value = manifest_values.get(
+        RESOURCE_CLASSIFICATION_V47_PREDECESSOR_MANIFEST["path"]
     )
-    predecessor_constraints = (
-        predecessor_value.get("constraints")
-        if type(predecessor_value) is dict
+    current_predecessor_constraints = (
+        current_predecessor_value.get("constraints")
+        if type(current_predecessor_value) is dict
         else None
     )
     if not (
-        predecessor_value is not None
-        and type(predecessor_constraints) is list
-        and len(predecessor_constraints) == len(constraints)
-        and predecessor_value.get("classified_site_count") == 72
+        current_predecessor_value is not None
+        and type(current_predecessor_constraints) is list
+        and len(current_predecessor_constraints) == 39
+        and current_predecessor_value.get("classified_site_count") == 72
+        and constraints[:-1] == current_predecessor_constraints
     ):
         raise ReadinessError(
             "RESOURCE_CLASSIFICATION_PREDECESSOR_PREFIX", manifest_path
+        )
+    historical_value = manifest_values.get(
+        RESOURCE_CLASSIFICATION_V46_PREDECESSOR_MANIFEST["path"]
+    )
+    historical_constraints = (
+        historical_value.get("constraints")
+        if type(historical_value) is dict
+        else None
+    )
+    if not (
+        historical_value is not None
+        and type(historical_constraints) is list
+        and len(historical_constraints) == len(current_predecessor_constraints)
+        and historical_value.get("classified_site_count") == 72
+    ):
+        raise ReadinessError(
+            "RESOURCE_CLASSIFICATION_V46_PREDECESSOR_PREFIX", manifest_path
         )
     observed_rebases: dict[
         tuple[str, str], tuple[dict[str, Any], dict[str, Any]]
     ] = {}
     for successor, historical in zip(
-        constraints, predecessor_constraints, strict=True
+        current_predecessor_constraints, historical_constraints, strict=True
     ):
         if {
             key: value for key, value in successor.items()
@@ -7535,11 +7601,14 @@ def _resource_classification_inventory(
     sites = {**source_sites, **schema_sites}
     classified_source_site_ids = {
         site_id
-        for constraint in expected_constraints[:-1]
+        for constraint in expected_constraints[:-2]
         for field in ("definition_site_ids", "enforcement_site_ids")
         for site_id in constraint[field]
     }
-    classified_schema_site_ids = {selected_proof["schema_site_id"]}
+    classified_schema_site_ids = {
+        predecessor_schema_proof["schema_site_id"],
+        selected_proof["schema_site_id"],
+    }
     _validate_classified_resource_site_ids(
         classified_source_site_ids,
         classified_schema_site_ids,
@@ -7549,20 +7618,21 @@ def _resource_classification_inventory(
         schema_sites,
         manifest_path,
     )
-    if selected_proof["schema_site_id"] != RESOURCE_CLASSIFICATION_V46_SCHEMA_PROOF[
-        "schema_site_id"
-    ]:
-        raise ReadinessError(
-            "SCHEMA_DECLARATIVE_SELECTED_PROOF_SITE",
-            RESOURCE_CLASSIFICATION_V46_SCHEMA_PROOF["path"],
+    for proof, expected in (
+        (predecessor_schema_proof, RESOURCE_CLASSIFICATION_V46_SCHEMA_PROOF),
+        (selected_proof, RESOURCE_CLASSIFICATION_V47_SCHEMA_PROOF),
+    ):
+        if proof["schema_site_id"] != expected["schema_site_id"]:
+            raise ReadinessError(
+                "SCHEMA_DECLARATIVE_SELECTED_PROOF_SITE", expected["path"]
+            )
+        _validate_schema_declarative_keyword_proof(
+            root,
+            proof,
+            source_sites,
+            schema_sites,
+            resource_discovery["schema_inputs"],
         )
-    _validate_schema_declarative_keyword_proof(
-        root,
-        selected_proof,
-        source_sites,
-        schema_sites,
-        resource_discovery["schema_inputs"],
-    )
     site_shapes = {
         "faf8073483e0d412600c34a0a24d10145d8c6e42875abd04d14b95e943fd3d7f": {
             "ast_sha256": (
@@ -9671,13 +9741,13 @@ def _resource_classification_inventory(
     digest_value = dict(manifest)
     claimed_digest = digest_value.pop("classification_manifest_sha256")
     if type(claimed_digest) is not str or claimed_digest != _domain_digest(
-        RESOURCE_CLASSIFICATION_V46_DOMAIN, digest_value
+        RESOURCE_CLASSIFICATION_V47_DOMAIN, digest_value
     ):
         raise ReadinessError("RESOURCE_CLASSIFICATION_SELF_DIGEST", manifest_path)
 
     return {
-        "classified_constraint_count": 39,
-        "classified_site_count": 72,
+        "classified_constraint_count": 40,
+        "classified_site_count": 73,
         "classification_manifest_sha256": claimed_digest,
         "coverage_status": "INCOMPLETE",
         "evidence_inputs": [
@@ -9691,10 +9761,10 @@ def _resource_classification_inventory(
         },
         "profile_id": profile_id,
         "predecessor_manifest": dict(
-            RESOURCE_CLASSIFICATION_V46_PREDECESSOR_MANIFEST
+            RESOURCE_CLASSIFICATION_V47_PREDECESSOR_MANIFEST
         ),
         "predecessor_schema": dict(
-            RESOURCE_CLASSIFICATION_V46_PREDECESSOR_SCHEMA
+            RESOURCE_CLASSIFICATION_V47_PREDECESSOR_SCHEMA
         ),
         "schema": {
             "byte_length": len(schema_raw),
