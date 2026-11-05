@@ -59,9 +59,9 @@ class FindingArtifactCharacterDiscoveryTests(unittest.TestCase):
         self.assertEqual(record["slice_site_id"], SLICE_ID)
         self.assertEqual(len(self.sites), 425)
         classification = self.report["inventory"]["resource_inventory_classification"]
-        self.assertEqual(classification["classified_constraint_count"], 37)
-        self.assertEqual(classification["classified_site_count"], 70)
-        self.assertEqual(classification["unclassified_site_count"], 651)
+        self.assertEqual(classification["classified_constraint_count"], 38)
+        self.assertEqual(classification["classified_site_count"], 71)
+        self.assertEqual(classification["unclassified_site_count"], 650)
         self.assertEqual(classification["coverage_status"], "INCOMPLETE")
         self.assertEqual(classification["generation_disposition"], "DENY")
 

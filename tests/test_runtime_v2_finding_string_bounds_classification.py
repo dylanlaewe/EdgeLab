@@ -163,10 +163,10 @@ class FindingStringBoundsClassificationTests(unittest.TestCase):
             "RESOURCE_FINDING_COORDINATE_PREDECESSOR_DUPLICATE",
         )
 
-    def test_v41_preserves_v40_finding_string_constraints(self):
+    def test_v42_preserves_v41_finding_string_constraints(self):
         predecessor = json.loads(
             (
-                ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v40.json"
+                ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v41.json"
             ).read_text(encoding="ascii")
         )
         for successor, historical in zip(
@@ -182,11 +182,11 @@ class FindingStringBoundsClassificationTests(unittest.TestCase):
                     if key != "evidence_inputs"
                 },
             )
-        self.assertEqual(len(self.manifest["constraints"]), 37)
+        self.assertEqual(len(self.manifest["constraints"]), 38)
         classification = self.report["inventory"]["resource_inventory_classification"]
-        self.assertEqual(classification["classified_constraint_count"], 37)
-        self.assertEqual(classification["classified_site_count"], 70)
-        self.assertEqual(classification["unclassified_site_count"], 651)
+        self.assertEqual(classification["classified_constraint_count"], 38)
+        self.assertEqual(classification["classified_site_count"], 71)
+        self.assertEqual(classification["unclassified_site_count"], 650)
         self.assertEqual(classification["coverage_status"], "INCOMPLETE")
         self.assertEqual(classification["generation_disposition"], "DENY")
 

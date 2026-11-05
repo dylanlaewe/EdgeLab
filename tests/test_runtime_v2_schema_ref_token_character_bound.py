@@ -145,10 +145,10 @@ class SchemaRefTokenCharacterBoundTests(unittest.TestCase):
                     {TOKEN_SLICE_SITE, TOKEN_COMPARISON_SITE}.issubset(site_ids)
                 )
 
-    def test_v41_preserves_v40_schema_ref_token_constraint(self):
+    def test_v42_preserves_v41_schema_ref_token_constraint(self):
         predecessor = json.loads(
             (
-                ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v40.json"
+                ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v41.json"
             ).read_text(encoding="ascii")
         )
         for successor, historical in zip(
@@ -159,7 +159,7 @@ class SchemaRefTokenCharacterBoundTests(unittest.TestCase):
                 {key: value for key, value in historical.items() if key != "evidence_inputs"},
             )
         constraint = self.constraint()
-        self.assertEqual(len(self.manifest["constraints"]), 37)
+        self.assertEqual(len(self.manifest["constraints"]), 38)
         self.assertEqual(constraint["maximum"], 64)
         self.assertEqual(constraint["unit"], "CHARACTERS")
         self.assertEqual(constraint["definition_site_ids"], [TOKEN_SLICE_SITE])
@@ -167,9 +167,9 @@ class SchemaRefTokenCharacterBoundTests(unittest.TestCase):
             constraint["enforcement_site_ids"], [TOKEN_COMPARISON_SITE]
         )
         classification = self.report["inventory"]["resource_inventory_classification"]
-        self.assertEqual(classification["classified_constraint_count"], 37)
-        self.assertEqual(classification["classified_site_count"], 70)
-        self.assertEqual(classification["unclassified_site_count"], 651)
+        self.assertEqual(classification["classified_constraint_count"], 38)
+        self.assertEqual(classification["classified_site_count"], 71)
+        self.assertEqual(classification["unclassified_site_count"], 650)
         self.assertEqual(classification["coverage_status"], "INCOMPLETE")
         self.assertEqual(classification["generation_disposition"], "DENY")
         self.assertEqual(

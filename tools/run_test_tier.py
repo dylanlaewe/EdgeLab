@@ -36,6 +36,7 @@ FAST_MODULES = (
     "tests.test_runtime_v2_event_byte_bound",
     "tests.test_runtime_v2_image",
     "tests.test_runtime_v2_initial",
+    "tests.test_runtime_v2_initial_reducer_finding_code_character_bound",
     "tests.test_runtime_v2_initialize_replay",
     "tests.test_runtime_v2_post_import",
     "tests.test_runtime_v2_release_readiness",

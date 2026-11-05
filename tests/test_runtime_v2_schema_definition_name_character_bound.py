@@ -133,13 +133,13 @@ class SchemaDefinitionNameCharacterBoundTests(unittest.TestCase):
                 else:
                     self.assertNotEqual(mutated, self.source)
 
-    def test_v41_preserves_v40_schema_definition_name_constraint(self):
+    def test_v42_preserves_v41_schema_definition_name_constraint(self):
         predecessor = json.loads(
-            (ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v40.json").read_text(
+            (ROOT / "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v41.json").read_text(
                 encoding="ascii"
             )
         )
-        self.assertEqual(len(self.manifest["constraints"]), 37)
+        self.assertEqual(len(self.manifest["constraints"]), 38)
         for successor, historical in zip(
             self.manifest["constraints"][:-1], predecessor["constraints"], strict=True
         ):
@@ -153,9 +153,9 @@ class SchemaDefinitionNameCharacterBoundTests(unittest.TestCase):
         self.assertEqual(constraint["definition_site_ids"], [NAME_COMPARISON_SITE])
         self.assertEqual(constraint["enforcement_site_ids"], [NAME_COMPARISON_SITE])
         classification = self.report["inventory"]["resource_inventory_classification"]
-        self.assertEqual(classification["classified_constraint_count"], 37)
-        self.assertEqual(classification["classified_site_count"], 70)
-        self.assertEqual(classification["unclassified_site_count"], 651)
+        self.assertEqual(classification["classified_constraint_count"], 38)
+        self.assertEqual(classification["classified_site_count"], 71)
+        self.assertEqual(classification["unclassified_site_count"], 650)
         self.assertEqual(classification["coverage_status"], "INCOMPLETE")
         self.assertEqual(classification["generation_disposition"], "DENY")
         self.assertEqual(
