@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "id": "STOP-M0-3A-002",
+  "version": 72,
+  "issued_at": "2026-11-05T08:46:17Z",
+  "issuer": "00 Director",
+  "reason": "Classification V46 decouples immutable historical constraint evidence from mutable current accounting without adding a constraint or classified site. Of 721 census sites, 72 are classified and 649 remain unclassified. Complete semantic classification, public-entrypoint integration, conservative V1 bridge disposition, and independently accepted A-J evidence remain unresolved. Release generation is blocked and no positive local-consistency result is supportable.",
+  "affected_components": [
+    "exact generated verifier closure",
+    "semantic resource-limit classification and coverage proof",
+    "remaining schema-bound semantic proof instances",
+    "legacy bridge disposition",
+    "complete whole-image acceptance matrix",
+    "public result vocabulary"
+  ],
+  "evidence_refs": [
+    "reports/H-M0-169-classification-evidence-decoupling-v46.v1.md",
+    "docs/M0.3A_RUNTIME_V2_CLASSIFICATION_EVIDENCE_DECOUPLING.v1.md",
+    "docs/M0.3A_ACTIVE_RUNTIME_ID_MIN_LENGTH_SCHEMA_PROOF.v2.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v46.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v46.schema.json",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_resource_classification_current.py"
+  ],
+  "severity": "HIGH",
+  "remediation_required": [
+    "Continue per-site schema classification under the decoupled historical/current evidence architecture without modifying frozen evidence lanes.",
+    "Classify every remaining source/schema site and prove bidirectional coverage.",
+    "Conservatively disposition the unsupported V1 migration bridge without inventing unavailable preimages.",
+    "Connect the sole public entrypoint and bind independently accepted A-J evidence before generating any closure or carrier."
+  ],
+  "status": "OPEN",
+  "resolution_event_ref": null
+}

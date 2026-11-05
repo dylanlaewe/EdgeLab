@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-151",
+  "version": 1,
+  "occurred_at": "2026-11-05T08:46:17Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_CLASSIFICATION_EVIDENCE_DECOUPLING_V46_DENY_ONLY",
+  "subject_ref": "reports/H-M0-169-classification-evidence-decoupling-v46.v1.md",
+  "previous_state": "CLASSIFICATION_V45_HISTORICAL_EVIDENCE_COUPLED_TO_LIVE_CENSUS_72_CLASSIFIED_649_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "CLASSIFICATION_V46_HISTORICAL_EVIDENCE_VERSIONED_CURRENT_ACCOUNTING_SEPARATE_72_CLASSIFIED_649_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 99a4a36 separates immutable historical constraint evidence from mutable current integration accounting through an exact nine-record evidence migration, with no new constraint or site and no authority change.",
+  "evidence_refs": [
+    "reports/H-M0-169-classification-evidence-decoupling-v46.v1.md",
+    "docs/M0.3A_RUNTIME_V2_CLASSIFICATION_EVIDENCE_DECOUPLING.v1.md",
+    "docs/M0.3A_ACTIVE_RUNTIME_ID_MIN_LENGTH_SCHEMA_PROOF.v2.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v46.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v46.schema.json",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_resource_classification_current.py",
+    "reports/stops/STOP-M0-3A-002.v72.json"
+  ],
+  "code_ref": "99a4a36",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-169",
+  "supersedes": null
+}

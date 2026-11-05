@@ -1,0 +1,81 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-169",
+  "version": 1,
+  "created_at": "2026-11-05T08:46:17Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Resolve repeated historical classification fixture coupling before adding another schema proof.",
+  "work_done": "Classification V46 separates immutable versioned historical constraint evidence from mutable current integration accounting through exactly nine evidence-record identity migrations across eight coordinate-allowlisted paths. It adds no constraint or site, keeps 39 constraints and 72 classified sites, and remains INCOMPLETE/DENY with four blockers and no authority change.",
+  "evidence_refs": [
+    "reports/H-M0-169-classification-evidence-decoupling-v46.v1.md",
+    "reports/audit/A-M0-151.v1.json",
+    "reports/stops/STOP-M0-3A-002.v72.json",
+    "docs/M0.3A_RUNTIME_V2_CLASSIFICATION_EVIDENCE_DECOUPLING.v1.md",
+    "docs/M0.3A_ACTIVE_RUNTIME_ID_MIN_LENGTH_SCHEMA_PROOF.v2.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v46.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v46.schema.json",
+    "tests/test_runtime_v2_resource_classification_current.py",
+    "tools/check_runtime_v2_release_readiness.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_ACTIVE_RUNTIME_ID_MIN_LENGTH_SCHEMA_PROOF.v2.json",
+    "docs/M0.3A_RUNTIME_V2_CLASSIFICATION_EVIDENCE_DECOUPLING.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v46.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v46.schema.json",
+    "tests/test_runtime_v2_resource_classification_current.py",
+    "tests/test_runtime_v2_active_runtime_id_min_length_schema_proof.py",
+    "tests/test_runtime_v2_closure_integer_token_digit_bound.py",
+    "tests/test_runtime_v2_codec_private_validate_depth_bound.py",
+    "tests/test_runtime_v2_finding_artifact_character_discovery.py",
+    "tests/test_runtime_v2_finding_string_bounds_classification.py",
+    "tests/test_runtime_v2_initial_reducer_finding_code_character_bound.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_schema_definition_name_character_bound.py",
+    "tests/test_runtime_v2_schema_ref_token_character_bound.py",
+    "tests/test_runtime_v2_top_level_events_maximum_classification.py",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tools/run_test_tier.py",
+    "reports/H-M0-169-classification-evidence-decoupling-v46.v1.md",
+    "reports/audit/A-M0-151.v1.json",
+    "reports/stops/STOP-M0-3A-002.v72.json",
+    "docs/handoffs/H-M0-169.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "Independent fast tier passed 742 tests across 64 modules in 1087.319 seconds.",
+    "Fast log SHA-256 03158556f9341da72f13cec8d238d82a1f28f0af73ee0100254e64712fec624e.",
+    "Normal and optimized readiness outputs were byte-identical with SHA-256 8fedaf44c58aac444c3244fc000b7489fd3d5f407e5276bedcde69258db90bea and remained exit 1 BLOCKED/DENY.",
+    "Independent bounded inventory and Skeptic reviews returned PASS after the final byte-pin repair.",
+    "566 governed records and published history validated before governance publication.",
+    "569 governed records and published history validated after governance publication.",
+    "18 focused alpha and web observatory tests passed after governance publication."
+  ],
+  "open_questions": [
+    "Which next no-applicator schema site is the safest per-site proof under V46?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v72 remains OPEN.",
+    "Only 72 of 721 census sites are classified; 649 remain unclassified.",
+    "Public verification remains disconnected and V1 migration remains unsupported.",
+    "Live remains LOCKED with USD 0 deployable and the kill switch ENGAGED."
+  ],
+  "next_action": "Select the next smallest complete no-applicator schema meaning and append a per-site proof while leaving historical evidence lanes immutable.",
+  "completion_criteria": [
+    "Future schema-proof appends update only current integration accounting and new per-site evidence, not frozen historical evidence tests.",
+    "Coverage remains INCOMPLETE and authority remains DENY until all required closure evidence is independently accepted."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-168.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-168",
+      "version": 1,
+      "sha256": "b19cbca423386961191ace01aead52d918f1a32430e6ed7cbaed943c0e769d26"
+    }
+  ]
+}
