@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-149",
+  "version": 1,
+  "occurred_at": "2026-11-05T05:35:58Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_SCHEMA_DECLARATIVE_PROOF_CONTRACT_V44_DENY_ONLY",
+  "subject_ref": "reports/H-M0-167-schema-declarative-proof-contract-v44.v1.md",
+  "previous_state": "DISCOVERY_V8_CLASSIFICATION_V43_SCHEMA_SITES_ADDRESSED_NO_SCHEMA_PROOF_VARIANT_650_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "DISCOVERY_V8_CLASSIFICATION_V44_EXECUTABLE_SCHEMA_PROOF_CONTRACT_ZERO_SCHEMA_CLASSIFIED_650_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit 74340bd adds a closed executable local-declarative schema proof contract while preserving all 38 V43 constraints and classifying zero schema sites. Classification V44 remains 71 classified, 650 unclassified, INCOMPLETE, and DENY.",
+  "evidence_refs": [
+    "reports/H-M0-167-schema-declarative-proof-contract-v44.v1.md",
+    "docs/M0.3A_RUNTIME_V2_SCHEMA_DECLARATIVE_KEYWORD_PROOF.v1.md",
+    "docs/M0.3A_RUNTIME_V2_SCHEMA_DECLARATIVE_KEYWORD_PROOF.v1.json",
+    "schemas/m0-3a-runtime-v2-schema-declarative-keyword-proof.v1.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v8.json",
+    "schemas/m0-3a-runtime-v2-resource-discovery.v8.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v44.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v44.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_schema_declarative_keyword_proof.py",
+    "tests/test_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v70.json"
+  ],
+  "code_ref": "74340bd",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-167",
+  "supersedes": null
+}

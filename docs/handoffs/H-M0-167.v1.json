@@ -1,0 +1,84 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-167",
+  "version": 1,
+  "created_at": "2026-11-05T05:35:58Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Define and independently review an executable closed schema-specific semantic-proof variant before classifying any addressed schema meaning.",
+  "work_done": "Classification V44 preserves all 38 V43 constraints byte-for-byte with zero evidence rebases while binding a standalone closed SCHEMA_DECLARATIVE_KEYWORD_V1 profile, schema, and executable validator. Synthetic fixtures exercise all twelve local Draft 2020-12 bound-keyword mappings, exact addressed-site and raw-document context, ordered ancestors, containing-subschema digest, contains siblings, evidence integrity, disjoint source/schema dispatch, fixed nonclaims, and a deliberately restricted raw-local-reference subset. Mandatory findings for context shape, per-site identity, contains shape, pointer keyword, nonnegative counts, nested identities/dialects, dynamic/recursive/percent references, and prohibited .replace usage were corrected and independently re-reviewed. No real schema site is classified; the census remains 71 classified and 650 unclassified with INCOMPLETE/DENY and no authority change.",
+  "evidence_refs": [
+    "reports/H-M0-167-schema-declarative-proof-contract-v44.v1.md",
+    "reports/audit/A-M0-149.v1.json",
+    "reports/stops/STOP-M0-3A-002.v70.json",
+    "docs/M0.3A_RUNTIME_V2_SCHEMA_DECLARATIVE_KEYWORD_PROOF.v1.md",
+    "docs/M0.3A_RUNTIME_V2_SCHEMA_DECLARATIVE_KEYWORD_PROOF.v1.json",
+    "schemas/m0-3a-runtime-v2-schema-declarative-keyword-proof.v1.schema.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v8.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v44.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v44.schema.json",
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_schema_declarative_keyword_proof.py",
+    "tests/test_runtime_v2_release_readiness.py"
+  ],
+  "files_changed": [
+    "docs/M0.3A_RELEASE_GENERATION_READINESS.v1.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v8.md",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v44.json",
+    "docs/M0.3A_RUNTIME_V2_SCHEMA_DECLARATIVE_KEYWORD_PROOF.v1.json",
+    "docs/M0.3A_RUNTIME_V2_SCHEMA_DECLARATIVE_KEYWORD_PROOF.v1.md",
+    "schemas/m0-3a-runtime-v2-resource-classification.v44.schema.json",
+    "schemas/m0-3a-runtime-v2-schema-declarative-keyword-proof.v1.schema.json",
+    "tests/test_runtime_v2_release_readiness.py",
+    "tests/test_runtime_v2_schema_resource_site_identity_discovery.py",
+    "tests/test_runtime_v2_schema_declarative_keyword_proof.py",
+    "tools/check_runtime_v2_release_readiness.py",
+    "tools/run_test_tier.py",
+    "reports/H-M0-167-schema-declarative-proof-contract-v44.v1.md",
+    "reports/audit/A-M0-149.v1.json",
+    "reports/stops/STOP-M0-3A-002.v70.json",
+    "docs/handoffs/H-M0-167.v1.json",
+    "docs/project-state.json",
+    "examples/alpha/sample-workflow.v1.json",
+    "tests/test_alpha.py",
+    "tests/test_web.py"
+  ],
+  "tests_run": [
+    "The final complete fast tier passed 727 tests across 62 isolated modules in 1060.239 seconds.",
+    "The fast tier's full release-readiness module passed 78 tests.",
+    "Dedicated schema-proof tests passed normally and under optimized Python, including all twelve mappings and mandatory context, pointer, reference, evidence, dispatch, and non-authority attacks.",
+    "Normal and optimized readiness outputs were byte-identical with current-tree SHA-256 bcc910ce7836eeea1e39584a7dc9e426e2775e250a2eea7a4653957102ad7a76; both remained exit 1 BLOCKED/DENY with four blockers and no release artifacts.",
+    "Independent bounded post-fix Skeptic review returned PASS with no remaining mandatory fixes and no semantic or authority expansion.",
+    "563 governed records and published history validated after governance publication.",
+    "18 focused alpha and web observatory tests passed after governance publication.",
+    "Eighteen alpha and observatory tests are expected to pass after evidence publication."
+  ],
+  "open_questions": [
+    "Which single addressed schema site is the safest first real proof instance under V44?",
+    "Can later schema families be batched as separate per-site proofs without weakening local applicability boundaries?"
+  ],
+  "blockers": [
+    "STOP-M0-3A-002.v70 remains OPEN.",
+    "Only 71 of 721 census sites are semantically classified; 650 remain unclassified with INCOMPLETE coverage.",
+    "The proof contract is executable, but no schema meaning has been classified or independently accepted.",
+    "Public verification remains deny-only and disconnected.",
+    "Live remains LOCKED, live_enabled remains false, the kill switch remains ENGAGED, and deployable capital remains USD 0."
+  ],
+  "next_action": "Independently inventory the 296 addressed schema sites and select the smallest complete low-authority local-declarative meaning for the first V44 proof instance. Do not infer root applicability, runtime enforcement, public acceptance, STOP clearance, or authority from the proof contract.",
+  "completion_criteria": [
+    "The selected schema proof binds one exact addressed site, local parent and ordered context, raw document, dialect, equation, unit, boundary evidence, and fixed nonclaims through the V44 contract.",
+    "Coverage accounting adds only the exact schema site once, rejects source/schema substitution and duplicate ownership, and preserves all predecessor meanings and blockers.",
+    "RESOURCE_INVENTORY_INCOMPLETE remains unconditional until all 721 sites are classified, and no closure, carrier, verifier acceptance, STOP clearance, task/reviewer/decision authority, execution authority, or capital authority is created."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-166.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-166",
+      "version": 1,
+      "sha256": "313145758afebed34e72b86e5be43f3c907b0bc4f743a26d8331770d94fa17bf"
+    }
+  ]
+}
