@@ -1,0 +1,54 @@
+{
+  "proof_kind": "SCHEMA_DECLARATIVE_KEYWORD_V1",
+  "constraint_id": "SCHEMA_DECLARATIVE_MAXLENGTH_9A219D2847AF954061FE8E233E8E316F57A09E9EC256C83ED829724B9930F626",
+  "classification": "SCHEMA_DECLARATIVE_BOUND",
+  "semantic_subject": "SCHEMA_DECLARATIVE_MAX_LENGTH_AT_EXACT_PINNED_LOCATION",
+  "schema_site_id": "9a219d2847af954061fe8e233e8e316f57a09e9ec256c83ed829724b9930f626",
+  "addressed_site": {
+    "classification": "UNCLASSIFIED",
+    "json_pointer": "/properties/operation_key/maxLength",
+    "keyword": "maxLength",
+    "path": "schemas/m0-3a-command-request.v2.schema.json",
+    "schema_id": "urn:edgelab:m0-3a-command-request:2",
+    "site_id": "9a219d2847af954061fe8e233e8e316f57a09e9ec256c83ed829724b9930f626",
+    "value": 256
+  },
+  "schema_context": {
+    "dialect": "https://json-schema.org/draft/2020-12/schema",
+    "schema_document_byte_length": 14939,
+    "schema_document_raw_sha256": "520cdbc148f6b3942b47d53708899ab8a8135e7a82850166fd360b26fa39cdbe",
+    "schema_document_root_id": "urn:edgelab:m0-3a-command-request:2",
+    "containing_subschema_pointer": "/properties/operation_key",
+    "containing_subschema_digest": "1018889ae7b09b8e99363ab04e7d8637e3bfda0ae1aabed405c2aae2e9c78a26",
+    "applicability": "EXACT_PINNED_SCHEMA_LOCATION_ONLY",
+    "instance_domain": "STRING",
+    "ancestor_context": {
+      "binding": "FULL_SCHEMA_DOCUMENT_RAW_SHA256",
+      "ordered_pointer_sequence": [
+        {"index": 0, "pointer": ""},
+        {"index": 1, "pointer": "/properties"},
+        {"index": 2, "pointer": "/properties/operation_key"}
+      ]
+    },
+    "required_sibling_pointers": [],
+    "non_domain_behavior": "NO_ASSERTION_FROM_THIS_KEYWORD"
+  },
+  "declarative_equation": {
+    "metric": "UNICODE_CODE_POINT_COUNT",
+    "operator": "<=",
+    "bound": 256
+  },
+  "unit": "UNICODE_CODE_POINTS",
+  "evidence_inputs": [
+    {
+      "byte_length": 1588,
+      "path": "docs/M0.3A_COMMAND_REQUEST_OPERATION_KEY_MAX_LENGTH_SCHEMA_PROOF.v1.md",
+      "raw_sha256": "15df4986de333382a2ace5ab2fa421bd1ab1a9b039fe1b7b580fda21c25a783d"
+    },
+    {
+      "byte_length": 6248,
+      "path": "tests/test_runtime_v2_command_request_operation_key_max_length_schema_proof.py",
+      "raw_sha256": "9740046fd1acbd016bda84a0b37be489ade02bc94cd9079e5c50198ada0a8c67"
+    }
+  ]
+}

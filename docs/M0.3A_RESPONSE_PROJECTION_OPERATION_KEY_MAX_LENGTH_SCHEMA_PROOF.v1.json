@@ -1,0 +1,54 @@
+{
+  "proof_kind": "SCHEMA_DECLARATIVE_KEYWORD_V1",
+  "constraint_id": "SCHEMA_DECLARATIVE_MAXLENGTH_1D6CB316A9EDD5DFE397FC767D6E23F7C22E93C1E1292F19CBEFF98CFEA96514",
+  "classification": "SCHEMA_DECLARATIVE_BOUND",
+  "semantic_subject": "SCHEMA_DECLARATIVE_MAX_LENGTH_AT_EXACT_PINNED_LOCATION",
+  "schema_site_id": "1d6cb316a9edd5dfe397fc767d6e23f7c22e93c1e1292f19cbeff98cfea96514",
+  "addressed_site": {
+    "classification": "UNCLASSIFIED",
+    "json_pointer": "/properties/operation_key/maxLength",
+    "keyword": "maxLength",
+    "path": "schemas/m0-3a-response-projection.v2.schema.json",
+    "schema_id": "urn:edgelab:m0-3a-response-projection:2",
+    "site_id": "1d6cb316a9edd5dfe397fc767d6e23f7c22e93c1e1292f19cbeff98cfea96514",
+    "value": 256
+  },
+  "schema_context": {
+    "dialect": "https://json-schema.org/draft/2020-12/schema",
+    "schema_document_byte_length": 6479,
+    "schema_document_raw_sha256": "bed7ffc08a0c88b87f70ccfc1342c9f658de089432d3c8fbfe6f8dff006a2363",
+    "schema_document_root_id": "urn:edgelab:m0-3a-response-projection:2",
+    "containing_subschema_pointer": "/properties/operation_key",
+    "containing_subschema_digest": "1018889ae7b09b8e99363ab04e7d8637e3bfda0ae1aabed405c2aae2e9c78a26",
+    "applicability": "EXACT_PINNED_SCHEMA_LOCATION_ONLY",
+    "instance_domain": "STRING",
+    "ancestor_context": {
+      "binding": "FULL_SCHEMA_DOCUMENT_RAW_SHA256",
+      "ordered_pointer_sequence": [
+        {"index": 0, "pointer": ""},
+        {"index": 1, "pointer": "/properties"},
+        {"index": 2, "pointer": "/properties/operation_key"}
+      ]
+    },
+    "required_sibling_pointers": [],
+    "non_domain_behavior": "NO_ASSERTION_FROM_THIS_KEYWORD"
+  },
+  "declarative_equation": {
+    "metric": "UNICODE_CODE_POINT_COUNT",
+    "operator": "<=",
+    "bound": 256
+  },
+  "unit": "UNICODE_CODE_POINTS",
+  "evidence_inputs": [
+    {
+      "byte_length": 1596,
+      "path": "docs/M0.3A_RESPONSE_PROJECTION_OPERATION_KEY_MAX_LENGTH_SCHEMA_PROOF.v1.md",
+      "raw_sha256": "cdb4a336a24f12839e06fdb3148d0920b2630bbddcf8fc6b2d1e1d5b78afa999"
+    },
+    {
+      "byte_length": 6229,
+      "path": "tests/test_runtime_v2_response_projection_operation_key_max_length_schema_proof.py",
+      "raw_sha256": "93e9042c26913ccee1a609869e758baed408da6d57e234a4612584ebec143756"
+    }
+  ]
+}

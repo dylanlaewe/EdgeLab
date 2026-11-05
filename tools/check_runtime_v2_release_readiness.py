@@ -183,8 +183,19 @@ RESOURCE_CLASSIFICATION_V44_MANIFEST = (
     "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v44.json",
 )
 # Frozen V8 evidence imports this unused historical name. Current code uses only
-# the versioned V48 constant; retain this V44 alias solely to preserve its bytes.
+# the versioned V49 constant; retain this V44 alias solely to preserve its bytes.
 RESOURCE_CLASSIFICATION_MANIFEST = RESOURCE_CLASSIFICATION_V44_MANIFEST
+RESOURCE_CLASSIFICATION_V49_SCHEMA = (
+    "urn:edgelab:m0-3a-runtime-v2-resource-classification:49",
+    "schemas/m0-3a-runtime-v2-resource-classification.v49.schema.json",
+)
+RESOURCE_CLASSIFICATION_V49_MANIFEST = (
+    "EDGELAB_RUNTIME_V2_RESOURCE_CLASSIFICATION_V49",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v49.json",
+)
+RESOURCE_CLASSIFICATION_V49_DOMAIN = (
+    "EDGELAB\0RUNTIME_V2_RESOURCE_CLASSIFICATION\0V49\0"
+)
 RESOURCE_CLASSIFICATION_V48_SCHEMA = (
     "urn:edgelab:m0-3a-runtime-v2-resource-classification:48",
     "schemas/m0-3a-runtime-v2-resource-classification.v48.schema.json",
@@ -329,11 +340,52 @@ RESOURCE_CLASSIFICATION_V48_SCHEMA_PROOF = {
         "d35901dd714a95a4a2aa09a3ce17cbcc45dd1634b681cca5aca40be61d479574"
     ),
 }
+RESOURCE_CLASSIFICATION_V49_COMMAND_REQUEST_PROOF = {
+    "byte_length": 2299,
+    "path": (
+        "docs/M0.3A_COMMAND_REQUEST_OPERATION_KEY_MAX_LENGTH_"
+        "SCHEMA_PROOF.v1.json"
+    ),
+    "raw_sha256": (
+        "499129d8d113e8dcb6b7fecdecffcfeb3142c11903ec938b3b2f93fd1bb0ee8a"
+    ),
+    "schema_site_id": (
+        "9a219d2847af954061fe8e233e8e316f57a09e9ec256c83ed829724b9930f626"
+    ),
+}
+RESOURCE_CLASSIFICATION_V49_RESPONSE_PROJECTION_PROOF = {
+    "byte_length": 2318,
+    "path": (
+        "docs/M0.3A_RESPONSE_PROJECTION_OPERATION_KEY_MAX_LENGTH_"
+        "SCHEMA_PROOF.v1.json"
+    ),
+    "raw_sha256": (
+        "6d6f4219f7605a7d8f4d5977157f03b6efbc2298ee6f7e681fc717cbd9a6ca12"
+    ),
+    "schema_site_id": (
+        "1d6cb316a9edd5dfe397fc767d6e23f7c22e93c1e1292f19cbeff98cfea96514"
+    ),
+}
+RESOURCE_CLASSIFICATION_V49_SCHEMA_PROOFS = (
+    RESOURCE_CLASSIFICATION_V49_COMMAND_REQUEST_PROOF,
+    RESOURCE_CLASSIFICATION_V49_RESPONSE_PROJECTION_PROOF,
+)
 RESOURCE_CLASSIFICATION_SCHEMA_PROOFS = (
     RESOURCE_CLASSIFICATION_V46_SCHEMA_PROOF,
     RESOURCE_CLASSIFICATION_V47_SCHEMA_PROOF,
     RESOURCE_CLASSIFICATION_V48_SCHEMA_PROOF,
+    *RESOURCE_CLASSIFICATION_V49_SCHEMA_PROOFS,
 )
+OPERATION_KEY_MAX_LENGTH_FAMILY_DOMAIN = (
+    "EDGELAB\0RUNTIME_V2_OPERATION_KEY_MAX_LENGTH_SCHEMA_PROOF_FAMILY\0V1\0"
+)
+RESOURCE_CLASSIFICATION_V49_OPERATION_KEY_FAMILY = {
+    "byte_length": 5215,
+    "path": "docs/M0.3A_OPERATION_KEY_MAX_LENGTH_SCHEMA_PROOF_FAMILY.v1.json",
+    "raw_sha256": (
+        "16484b9e4f8d99dd3605b54daf481182696ec95dedebdf5f8124fd9c8386cbbc"
+    ),
+}
 SCHEMA_CONTAINING_SUBSCHEMA_DOMAIN = (
     "EDGELAB\0RUNTIME_V2_SCHEMA_CONTAINING_SUBSCHEMA\0V1\0"
 )
@@ -429,6 +481,22 @@ RESOURCE_CLASSIFICATION_V47_SCHEMA_RAW_SHA256 = (
 RESOURCE_CLASSIFICATION_V48_SCHEMA_RAW_SHA256 = (
     "51ead22568f7db1eef2fa7b71233e80a02838df8f2b1d367c70b6c67880321eb"
 )
+RESOURCE_CLASSIFICATION_V49_SCHEMA_RAW_SHA256 = (
+    "eaa0d5ea38c0227474e3130e2e21f420460db19850b5ecad847f75130f15cf9a"
+)
+RESOURCE_CLASSIFICATION_V49_PREDECESSOR_MANIFEST = {
+    "byte_length": 102065,
+    "classification_manifest_sha256": (
+        "6771fc9370c02cca61157e92dc8760dedbc8d0f34e357c32292dffbb057c6106"
+    ),
+    "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v48.json",
+    "raw_sha256": "4cc0eb031a8dcd32817fdf7b0d50b54fd1bc933c5f90dc324c826cb126973035",
+}
+RESOURCE_CLASSIFICATION_V49_PREDECESSOR_SCHEMA = {
+    "byte_length": 110129,
+    "path": "schemas/m0-3a-runtime-v2-resource-classification.v48.schema.json",
+    "raw_sha256": "51ead22568f7db1eef2fa7b71233e80a02838df8f2b1d367c70b6c67880321eb",
+}
 RESOURCE_CLASSIFICATION_V48_PREDECESSOR_MANIFEST = {
     "byte_length": 99394,
     "classification_manifest_sha256": (
@@ -1883,8 +1951,10 @@ CLASSIFIED_RESOURCE_SITE_IDS = frozenset({
     "4ba11eee3bbe1d3fa772fabebf0edc386903f94c9862c242c7124b8bf0cf6cb6",
 })
 CLASSIFIED_SCHEMA_RESOURCE_SITE_IDS = frozenset({
+    "1d6cb316a9edd5dfe397fc767d6e23f7c22e93c1e1292f19cbeff98cfea96514",
     "55fed7617dc5fedbe4f113493ae8096cf62078a2a6dc7803fd4417fb6d60e44b",
     "685812b87027cea3e8fc9ce370fd21377b11fc6459c06bf2151261260cd178ea",
+    "9a219d2847af954061fe8e233e8e316f57a09e9ec256c83ed829724b9930f626",
     "d35901dd714a95a4a2aa09a3ce17cbcc45dd1634b681cca5aca40be61d479574",
 })
 SCHEMA_BOUND_KEYWORDS = frozenset({
@@ -2671,6 +2741,280 @@ def _validate_schema_declarative_keyword_proof(
         "proof_kind": proof["proof_kind"],
         "schema_site_id": schema_site_id,
         "validated_evidence_input_count": len(evidence_inputs),
+    }
+
+
+def _validate_operation_key_max_length_family(
+    root: Path,
+    family: dict[str, Any],
+) -> dict[str, Any]:
+    """Validate the closed two-member operation-key proof family."""
+    expected_members = [
+        {
+            "schema_site_id": (
+                "9a219d2847af954061fe8e233e8e316f57a09e9ec256c83ed829724b9930f626"
+            ),
+            "constraint_id": (
+                "SCHEMA_DECLARATIVE_MAXLENGTH_"
+                "9A219D2847AF954061FE8E233E8E316F57A09E9EC256C83ED829724B9930F626"
+            ),
+            "proof": dict(RESOURCE_CLASSIFICATION_V49_COMMAND_REQUEST_PROOF),
+        },
+        {
+            "schema_site_id": (
+                "1d6cb316a9edd5dfe397fc767d6e23f7c22e93c1e1292f19cbeff98cfea96514"
+            ),
+            "constraint_id": (
+                "SCHEMA_DECLARATIVE_MAXLENGTH_"
+                "1D6CB316A9EDD5DFE397FC767D6E23F7C22E93C1E1292F19CBEFF98CFEA96514"
+            ),
+            "proof": dict(RESOURCE_CLASSIFICATION_V49_RESPONSE_PROJECTION_PROOF),
+        },
+    ]
+    expected_predicate = {
+        "keyword": "maxLength",
+        "value": 256,
+        "json_pointer": "/properties/operation_key/maxLength",
+        "ordered_ancestor_pointers": [
+            "", "/properties", "/properties/operation_key",
+        ],
+        "containing_subschema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "pattern": (
+                "^(?:system:v2:(?:genesis|legacy-bridge)|"
+                "v2:[0-9a-f]{64}:[\\x21-\\x7e]{1,180})$"
+            ),
+        },
+        "containing_subschema_digest": (
+            "1018889ae7b09b8e99363ab04e7d8637e3bfda0ae1aabed405c2aae2e9c78a26"
+        ),
+        "allowed_schema_locations": [
+            {
+                "path": "schemas/m0-3a-command-request.v2.schema.json",
+                "schema_id": "urn:edgelab:m0-3a-command-request:2",
+                "site_id": expected_members[0]["schema_site_id"],
+            },
+            {
+                "path": "schemas/m0-3a-response-projection.v2.schema.json",
+                "schema_id": "urn:edgelab:m0-3a-response-projection:2",
+                "site_id": expected_members[1]["schema_site_id"],
+            },
+        ],
+    }
+    expected_exclusions = [
+        {
+            "classification": "UNCLASSIFIED",
+            "json_pointer": (
+                "/properties/transaction/properties/operation_key/maxLength"
+            ),
+            "keyword": "maxLength",
+            "path": "schemas/m0-3a-event-envelope.v2.schema.json",
+            "schema_id": "urn:edgelab:m0-3a-event-envelope:2",
+            "site_id": (
+                "f8244837e97c8e26be37e62a9421ed1fc119d6a963d59be35a8e1e6f6aaee1b4"
+            ),
+            "value": 256,
+        },
+        {
+            "classification": "UNCLASSIFIED",
+            "json_pointer": "/$defs/commit/properties/operation_key/maxLength",
+            "keyword": "maxLength",
+            "path": "schemas/m0-3a-event-payload.v2.schema.json",
+            "schema_id": "urn:edgelab:m0-3a-event-payload:2",
+            "site_id": (
+                "a35ed77aadc69aa6cb058b3aa72dc3041f416318c992c539b051443710054f23"
+            ),
+            "value": 256,
+        },
+    ]
+    family_evidence = [
+        {
+            "byte_length": 1509,
+            "path": (
+                "docs/M0.3A_OPERATION_KEY_MAX_LENGTH_SCHEMA_"
+                "PROOF_FAMILY.v1.md"
+            ),
+            "raw_sha256": (
+                "901d0c786663fa88240c05a843a041142c2ece34f7f48bf705b7040c573991b2"
+            ),
+        },
+        {
+            "byte_length": 7671,
+            "path": (
+                "tests/test_runtime_v2_operation_key_max_length_"
+                "schema_proof_family.py"
+            ),
+            "raw_sha256": (
+                "4fd1ebf5ab60cd4c3d0ca8ed644a62f4ef9359f3e12f32bb904c8d40ef527131"
+            ),
+        },
+    ]
+    expected = {
+        "schema_version": 1,
+        "family_id": (
+            "EDGELAB_RUNTIME_V2_OPERATION_KEY_MAX_LENGTH_"
+            "SCHEMA_PROOF_FAMILY_V1"
+        ),
+        "family_kind": "CLOSED_SCHEMA_DECLARATIVE_KEYWORD_FAMILY_V1",
+        "discovery": {
+            "profile_id": RESOURCE_DISCOVERY_V8_ID,
+            "manifest_byte_length": 2344,
+            "manifest_raw_sha256": (
+                "9914da2984589f7ded860656be4cbfdb88cf7d106ce52856860ed756dfe8725f"
+            ),
+            "manifest_self_sha256": (
+                "78aed7fd37b6b07204c3462ec12855c21c0cb6da5268744d6957068973d72413"
+            ),
+            "schema_byte_length": 4086,
+            "schema_raw_sha256": RESOURCE_DISCOVERY_SCHEMA_RAW_SHA256,
+            "schema_bound_sites_sha256": RESOURCE_SCHEMA_BOUND_SITES_V2_SHA256,
+        },
+        "predecessor": {
+            "manifest_byte_length": (
+                RESOURCE_CLASSIFICATION_V49_PREDECESSOR_MANIFEST["byte_length"]
+            ),
+            "manifest_raw_sha256": (
+                RESOURCE_CLASSIFICATION_V49_PREDECESSOR_MANIFEST["raw_sha256"]
+            ),
+            "manifest_self_sha256": (
+                RESOURCE_CLASSIFICATION_V49_PREDECESSOR_MANIFEST[
+                    "classification_manifest_sha256"
+                ]
+            ),
+            "schema_byte_length": (
+                RESOURCE_CLASSIFICATION_V49_PREDECESSOR_SCHEMA["byte_length"]
+            ),
+            "schema_raw_sha256": (
+                RESOURCE_CLASSIFICATION_V49_PREDECESSOR_SCHEMA["raw_sha256"]
+            ),
+        },
+        "predicate": expected_predicate,
+        "member_count": 2,
+        "ordered_members": expected_members,
+        "excluded_lookalikes": expected_exclusions,
+        "family_evidence_inputs": family_evidence,
+        "nonclaims": [
+            "NO_SIBLING_TYPE_MINLENGTH_OR_PATTERN_MEANING",
+            "NO_OPERATION_KEY_GRAMMAR_OR_SYSTEM_V2_MEANING",
+            "NO_ROOT_REQUIRED_ADDITIONAL_PROPERTIES_OR_ALLOF_MEANING",
+            "NO_REACHABILITY",
+            "NO_REQUEST_PROJECTION_CORRESPONDENCE",
+            "NO_TRANSACTION_OR_EVENT_SITE_MEANING",
+            "NO_UNIQUENESS_IDEMPOTENCY_CHAIN_OR_TASK_MEANING",
+            "NO_RUNTIME_OPERATION_KEY_BEHAVIOR",
+            "NO_FULL_SCHEMA_OR_DEPLOYED_VALIDATOR_CONFORMANCE",
+            "NO_PUBLIC_VALIDITY_OR_ACCEPTANCE_AUTHORITY",
+            "NO_STOP_OR_RELEASE_CLEARANCE",
+            "NO_EXECUTION_WAGERING_OR_CAPITAL_AUTHORITY",
+        ],
+    }
+    if type(family) is not dict or set(family) != {*expected, "family_sha256"}:
+        raise ReadinessError("SCHEMA_PROOF_FAMILY_KEYS", "/")
+    claimed = family.get("family_sha256")
+    digest_value = dict(family)
+    digest_value.pop("family_sha256", None)
+    if digest_value != expected or claimed != _domain_digest(
+        OPERATION_KEY_MAX_LENGTH_FAMILY_DOMAIN, digest_value
+    ):
+        raise ReadinessError("SCHEMA_PROOF_FAMILY_BINDING", "/")
+
+    prior_proof_records = (
+        RESOURCE_CLASSIFICATION_V46_SCHEMA_PROOF,
+        RESOURCE_CLASSIFICATION_V47_SCHEMA_PROOF,
+        RESOURCE_CLASSIFICATION_V48_SCHEMA_PROOF,
+    )
+    prior_paths: set[str] = set()
+    prior_identities: set[tuple[int, int]] = set()
+    prior_site_ids = {item["schema_site_id"] for item in prior_proof_records}
+    for record in prior_proof_records:
+        proof_raw, proof_identity = _audit_path(root, record["path"])
+        prior_paths.add(record["path"])
+        prior_identities.add(proof_identity)
+        prior_proof = _parse_json(proof_raw, record["path"])
+        for evidence in prior_proof.get("evidence_inputs", []):
+            prior_paths.add(evidence["path"])
+            _, evidence_identity = _audit_path(root, evidence["path"])
+            prior_identities.add(evidence_identity)
+    if prior_site_ids & {
+        item["schema_site_id"] for item in expected_members
+    }:
+        raise ReadinessError("SCHEMA_PROOF_FAMILY_PRIOR_SITE", "/")
+
+    audit_records = [
+        dict(RESOURCE_CLASSIFICATION_V49_OPERATION_KEY_FAMILY),
+        *(item["proof"] for item in expected_members),
+        *family_evidence,
+    ]
+    seen_paths: set[str] = set()
+    seen_identities: set[tuple[int, int]] = set()
+    for record in audit_records:
+        path = record["path"]
+        if path in seen_paths or path in prior_paths:
+            raise ReadinessError("SCHEMA_PROOF_FAMILY_DUPLICATE_PATH", path)
+        seen_paths.add(path)
+        raw, identity = _audit_path(root, path)
+        if identity in seen_identities or identity in prior_identities:
+            raise ReadinessError("SCHEMA_PROOF_FAMILY_ALIAS", path)
+        seen_identities.add(identity)
+        if len(raw) != record["byte_length"] or _sha256(raw) != record["raw_sha256"]:
+            raise ReadinessError("SCHEMA_PROOF_FAMILY_IDENTITY", path)
+
+    proof_evidence_paths: list[set[str]] = []
+    for member in expected_members:
+        proof_raw, _ = _audit_path(root, member["proof"]["path"])
+        proof = _parse_json(proof_raw, member["proof"]["path"])
+        if proof.get("schema_site_id") != member["schema_site_id"] or (
+            proof.get("constraint_id") != member["constraint_id"]
+        ):
+            raise ReadinessError("SCHEMA_PROOF_FAMILY_MEMBER", member["proof"]["path"])
+        evidence_paths = {item["path"] for item in proof.get("evidence_inputs", [])}
+        if len(evidence_paths) != 2 or evidence_paths & prior_paths:
+            raise ReadinessError("SCHEMA_PROOF_FAMILY_MEMBER_EVIDENCE", member["proof"]["path"])
+        proof_evidence_paths.append(evidence_paths)
+        for item in proof["evidence_inputs"]:
+            path = item["path"]
+            if path in seen_paths or path in prior_paths:
+                raise ReadinessError("SCHEMA_PROOF_FAMILY_DUPLICATE_PATH", path)
+            seen_paths.add(path)
+            raw, identity = _audit_path(root, path)
+            if identity in seen_identities or identity in prior_identities:
+                raise ReadinessError("SCHEMA_PROOF_FAMILY_ALIAS", path)
+            seen_identities.add(identity)
+            if len(raw) != item["byte_length"] or _sha256(raw) != item["raw_sha256"]:
+                raise ReadinessError("SCHEMA_PROOF_FAMILY_IDENTITY", path)
+            if path.endswith(".py"):
+                tree = ast.parse(raw, filename=path)
+                forbidden = "RESOURCE_CLASSIFICATION_SCHEMA_PROOFS"
+                if any(
+                    isinstance(node, ast.Name) and node.id == forbidden
+                    or isinstance(node, ast.alias) and node.name == forbidden
+                    for node in ast.walk(tree)
+                ):
+                    raise ReadinessError("SCHEMA_PROOF_FAMILY_LIVE_AGGREGATE", path)
+    if not proof_evidence_paths[0].isdisjoint(proof_evidence_paths[1]):
+        raise ReadinessError("SCHEMA_PROOF_FAMILY_EVIDENCE_OVERLAP", "/")
+
+    for path, byte_length, raw_sha256 in (
+        (
+            RESOURCE_CLASSIFICATION_V48_MANIFEST[1],
+            expected["predecessor"]["manifest_byte_length"],
+            expected["predecessor"]["manifest_raw_sha256"],
+        ),
+        (
+            RESOURCE_CLASSIFICATION_V48_SCHEMA[1],
+            expected["predecessor"]["schema_byte_length"],
+            expected["predecessor"]["schema_raw_sha256"],
+        ),
+    ):
+        raw, _ = _audit_path(root, path)
+        if len(raw) != byte_length or _sha256(raw) != raw_sha256:
+            raise ReadinessError("SCHEMA_PROOF_FAMILY_HISTORY", path)
+    return {
+        "family_id": expected["family_id"],
+        "member_count": 2,
+        "ordered_site_ids": [item["schema_site_id"] for item in expected_members],
     }
 
 
@@ -5117,6 +5461,8 @@ def _resource_classification_inventory(
 ) -> dict[str, Any]:
     """Validate the cumulative deny-only semantic classification slices."""
     predecessor_records = (
+        (RESOURCE_CLASSIFICATION_V49_PREDECESSOR_MANIFEST, True),
+        (RESOURCE_CLASSIFICATION_V49_PREDECESSOR_SCHEMA, False),
         (RESOURCE_CLASSIFICATION_V48_PREDECESSOR_MANIFEST, True),
         (RESOURCE_CLASSIFICATION_V48_PREDECESSOR_SCHEMA, False),
         (RESOURCE_CLASSIFICATION_V47_PREDECESSOR_MANIFEST, True),
@@ -5161,6 +5507,11 @@ def _resource_classification_inventory(
     )
     chain = (
         (
+            RESOURCE_CLASSIFICATION_V49_PREDECESSOR_MANIFEST,
+            RESOURCE_CLASSIFICATION_V48_PREDECESSOR_MANIFEST,
+            RESOURCE_CLASSIFICATION_V48_PREDECESSOR_SCHEMA,
+        ),
+        (
             RESOURCE_CLASSIFICATION_V48_PREDECESSOR_MANIFEST,
             RESOURCE_CLASSIFICATION_V47_PREDECESSOR_MANIFEST,
             RESOURCE_CLASSIFICATION_V47_PREDECESSOR_SCHEMA,
@@ -5183,7 +5534,7 @@ def _resource_classification_inventory(
                 "RESOURCE_CLASSIFICATION_ANCESTOR_BINDING", owner["path"]
             )
 
-    schema_id, schema_path = RESOURCE_CLASSIFICATION_V48_SCHEMA
+    schema_id, schema_path = RESOURCE_CLASSIFICATION_V49_SCHEMA
     schema_raw, schema_identity = _audit_path(root, schema_path)
     if schema_identity in identities:
         raise ReadinessError("HARDLINK_INPUT_ALIAS", schema_path)
@@ -5191,10 +5542,10 @@ def _resource_classification_inventory(
     schema_value = _parse_json(schema_raw, schema_path)
     if type(schema_value) is not dict or schema_value.get("$id") != schema_id:
         raise ReadinessError("SCHEMA_ID", schema_path)
-    if _sha256(schema_raw) != RESOURCE_CLASSIFICATION_V48_SCHEMA_RAW_SHA256:
+    if _sha256(schema_raw) != RESOURCE_CLASSIFICATION_V49_SCHEMA_RAW_SHA256:
         raise ReadinessError("RESOURCE_CLASSIFICATION_SCHEMA_IDENTITY", schema_path)
 
-    profile_id, manifest_path = RESOURCE_CLASSIFICATION_V48_MANIFEST
+    profile_id, manifest_path = RESOURCE_CLASSIFICATION_V49_MANIFEST
     manifest_raw, manifest_identity = _audit_path(root, manifest_path)
     if manifest_identity in identities:
         raise ReadinessError("HARDLINK_INPUT_ALIAS", manifest_path)
@@ -5216,20 +5567,20 @@ def _resource_classification_inventory(
     if set(manifest) != expected_keys:
         raise ReadinessError("RESOURCE_CLASSIFICATION_KEYS", manifest_path)
     scalar_expected = {
-        "schema_version": 48,
+        "schema_version": 49,
         "manifest_id": schema_id,
         "profile_id": profile_id,
         "discovery_profile_id": resource_discovery["profile_id"],
         "coverage_status": "INCOMPLETE",
         "generation_disposition": "DENY",
         "classification_schema_raw_sha256": (
-            RESOURCE_CLASSIFICATION_V48_SCHEMA_RAW_SHA256
+            RESOURCE_CLASSIFICATION_V49_SCHEMA_RAW_SHA256
         ),
         "predecessor_manifest": dict(
-            RESOURCE_CLASSIFICATION_V48_PREDECESSOR_MANIFEST
+            RESOURCE_CLASSIFICATION_V49_PREDECESSOR_MANIFEST
         ),
         "predecessor_schema": dict(
-            RESOURCE_CLASSIFICATION_V48_PREDECESSOR_SCHEMA
+            RESOURCE_CLASSIFICATION_V49_PREDECESSOR_SCHEMA
         ),
         "source_input_count": 10,
         "source_inputs_sha256": _domain_digest(
@@ -5244,11 +5595,11 @@ def _resource_classification_inventory(
             "schema_bound_sites_sha256"
         ],
         "schema_inputs_sha256": resource_discovery["schema_inputs_sha256"],
-        "classified_site_count": 74,
+        "classified_site_count": 76,
         "unclassified_site_count": (
             len(resource_discovery["source_bound_sites"])
             + len(resource_discovery["schema_bound_sites"])
-            - 74
+            - 76
         ),
     }
     for key, expected in scalar_expected.items():
@@ -5256,7 +5607,7 @@ def _resource_classification_inventory(
             raise ReadinessError("RESOURCE_CLASSIFICATION_BINDING", key)
 
     constraints = manifest.get("constraints")
-    if type(constraints) is not list or len(constraints) != 41:
+    if type(constraints) is not list or len(constraints) != 43:
         raise ReadinessError("RESOURCE_CLASSIFICATION_CONSTRAINTS", manifest_path)
     single_binding_constraint_keys = {
         "accepted_equation", "classification", "constraint_id",
@@ -5279,8 +5630,8 @@ def _resource_classification_inventory(
             multi_binding_constraint_keys
             if "semantic_bindings" in item else single_binding_constraint_keys
         )
-        for item in constraints[:-3]
-    ) or any(set(item) != schema_constraint_keys for item in constraints[-3:]):
+        for item in constraints[:-5]
+    ) or any(set(item) != schema_constraint_keys for item in constraints[-5:]):
         raise ReadinessError("RESOURCE_CLASSIFICATION_CONSTRAINT_KEYS", manifest_path)
     def load_selected_schema_proof(expected: dict[str, Any]) -> dict[str, Any]:
         proof_raw, proof_identity = _audit_path(root, expected["path"])
@@ -5304,6 +5655,21 @@ def _resource_classification_inventory(
         load_selected_schema_proof(expected)
         for expected in RESOURCE_CLASSIFICATION_SCHEMA_PROOFS
     )
+    family_expected = RESOURCE_CLASSIFICATION_V49_OPERATION_KEY_FAMILY
+    family_raw, family_identity = _audit_path(root, family_expected["path"])
+    if family_identity in identities:
+        raise ReadinessError("HARDLINK_INPUT_ALIAS", family_expected["path"])
+    identities.add(family_identity)
+    if len(family_raw) != family_expected["byte_length"] or _sha256(
+        family_raw
+    ) != family_expected["raw_sha256"]:
+        raise ReadinessError(
+            "SCHEMA_PROOF_FAMILY_IDENTITY", family_expected["path"]
+        )
+    family = _parse_json(family_raw, family_expected["path"])
+    if type(family) is not dict:
+        raise ReadinessError("SCHEMA_PROOF_FAMILY_OBJECT", family_expected["path"])
+    _validate_operation_key_max_length_family(root, family)
     expected_constraints = [
         {
             "accepted_equation": (
@@ -7528,7 +7894,7 @@ def _resource_classification_inventory(
     if constraints != expected_constraints:
         raise ReadinessError("RESOURCE_CLASSIFICATION_CONSTRAINT", manifest_path)
     current_predecessor_value = manifest_values.get(
-        RESOURCE_CLASSIFICATION_V48_PREDECESSOR_MANIFEST["path"]
+        RESOURCE_CLASSIFICATION_V49_PREDECESSOR_MANIFEST["path"]
     )
     current_predecessor_constraints = (
         current_predecessor_value.get("constraints")
@@ -7538,12 +7904,28 @@ def _resource_classification_inventory(
     if not (
         current_predecessor_value is not None
         and type(current_predecessor_constraints) is list
-        and len(current_predecessor_constraints) == 40
-        and current_predecessor_value.get("classified_site_count") == 73
-        and constraints[:-1] == current_predecessor_constraints
+        and len(current_predecessor_constraints) == 41
+        and current_predecessor_value.get("classified_site_count") == 74
+        and constraints[:-2] == current_predecessor_constraints
     ):
         raise ReadinessError(
             "RESOURCE_CLASSIFICATION_PREDECESSOR_PREFIX", manifest_path
+        )
+    v47_value = manifest_values.get(
+        RESOURCE_CLASSIFICATION_V48_PREDECESSOR_MANIFEST["path"]
+    )
+    v47_constraints = (
+        v47_value.get("constraints") if type(v47_value) is dict else None
+    )
+    if not (
+        v47_value is not None
+        and type(v47_constraints) is list
+        and len(v47_constraints) == 40
+        and v47_value.get("classified_site_count") == 73
+        and current_predecessor_constraints[:-1] == v47_constraints
+    ):
+        raise ReadinessError(
+            "RESOURCE_CLASSIFICATION_V48_PREDECESSOR_PREFIX", manifest_path
         )
     v46_value = manifest_values.get(
         RESOURCE_CLASSIFICATION_V47_PREDECESSOR_MANIFEST["path"]
@@ -7556,7 +7938,7 @@ def _resource_classification_inventory(
         and type(v46_constraints) is list
         and len(v46_constraints) == 39
         and v46_value.get("classified_site_count") == 72
-        and current_predecessor_constraints[:-1] == v46_constraints
+        and v47_constraints[:-1] == v46_constraints
     ):
         raise ReadinessError(
             "RESOURCE_CLASSIFICATION_V47_PREDECESSOR_PREFIX", manifest_path
@@ -7680,6 +8062,13 @@ def _resource_classification_inventory(
         schema_sites,
         manifest_path,
     )
+    for excluded in family["excluded_lookalikes"]:
+        if schema_sites.get(excluded["site_id"]) != excluded or (
+            excluded["site_id"] in classified_schema_site_ids
+        ):
+            raise ReadinessError(
+                "SCHEMA_PROOF_FAMILY_EXCLUDED_LOOKALIKE", excluded["site_id"]
+            )
     for proof, expected in zip(
         schema_proofs, RESOURCE_CLASSIFICATION_SCHEMA_PROOFS, strict=True
     ):
@@ -9802,13 +10191,15 @@ def _resource_classification_inventory(
     digest_value = dict(manifest)
     claimed_digest = digest_value.pop("classification_manifest_sha256")
     if type(claimed_digest) is not str or claimed_digest != _domain_digest(
-        RESOURCE_CLASSIFICATION_V48_DOMAIN, digest_value
+        RESOURCE_CLASSIFICATION_V49_DOMAIN, digest_value
     ):
         raise ReadinessError("RESOURCE_CLASSIFICATION_SELF_DIGEST", manifest_path)
 
     return {
-        "classified_constraint_count": 41,
-        "classified_site_count": 74,
+        "classified_constraint_count": 43,
+        "classified_schema_site_count": len(classified_schema_site_ids),
+        "classified_site_count": 76,
+        "classified_source_site_count": len(classified_source_site_ids),
         "classification_manifest_sha256": claimed_digest,
         "coverage_status": "INCOMPLETE",
         "evidence_inputs": [
@@ -9822,10 +10213,10 @@ def _resource_classification_inventory(
         },
         "profile_id": profile_id,
         "predecessor_manifest": dict(
-            RESOURCE_CLASSIFICATION_V48_PREDECESSOR_MANIFEST
+            RESOURCE_CLASSIFICATION_V49_PREDECESSOR_MANIFEST
         ),
         "predecessor_schema": dict(
-            RESOURCE_CLASSIFICATION_V48_PREDECESSOR_SCHEMA
+            RESOURCE_CLASSIFICATION_V49_PREDECESSOR_SCHEMA
         ),
         "schema": {
             "byte_length": len(schema_raw),
@@ -10257,8 +10648,10 @@ def build_report(root: Path = ROOT) -> dict[str, Any]:
             "unclassified sites after "
             f"{resource_classification['classified_site_count']} classified "
             "resource sites; "
-            f"{len(source_bound_sites)} source-bound sites and "
-            f"{len(schema_bound_sites)} unclassified schema-bound sites; no "
+            f"{len(source_bound_sites) - resource_classification['classified_source_site_count']} "
+            "unclassified source-bound sites and "
+            f"{len(schema_bound_sites) - resource_classification['classified_schema_site_count']} "
+            "unclassified schema-bound sites; no "
             "reviewed bidirectional manifest yet classifies every constraint."
         ),
     }]

@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "family_id": "EDGELAB_RUNTIME_V2_OPERATION_KEY_MAX_LENGTH_SCHEMA_PROOF_FAMILY_V1",
+  "family_kind": "CLOSED_SCHEMA_DECLARATIVE_KEYWORD_FAMILY_V1",
+  "discovery": {
+    "profile_id": "EDGELAB_RUNTIME_V2_RESOURCE_DISCOVERY_V8",
+    "manifest_byte_length": 2344,
+    "manifest_raw_sha256": "9914da2984589f7ded860656be4cbfdb88cf7d106ce52856860ed756dfe8725f",
+    "manifest_self_sha256": "78aed7fd37b6b07204c3462ec12855c21c0cb6da5268744d6957068973d72413",
+    "schema_byte_length": 4086,
+    "schema_raw_sha256": "e10ca59c1bf90a0ebaee0647eb6c49a4e573295ee923411e337dc6e90ced50d1",
+    "schema_bound_sites_sha256": "2ca911e85141b79c5ae6be653bf6a8b038ca90873a731764b27ac2bf0cae3fcf"
+  },
+  "predecessor": {
+    "manifest_byte_length": 102065,
+    "manifest_raw_sha256": "4cc0eb031a8dcd32817fdf7b0d50b54fd1bc933c5f90dc324c826cb126973035",
+    "manifest_self_sha256": "6771fc9370c02cca61157e92dc8760dedbc8d0f34e357c32292dffbb057c6106",
+    "schema_byte_length": 110129,
+    "schema_raw_sha256": "51ead22568f7db1eef2fa7b71233e80a02838df8f2b1d367c70b6c67880321eb"
+  },
+  "predicate": {
+    "keyword": "maxLength",
+    "value": 256,
+    "json_pointer": "/properties/operation_key/maxLength",
+    "ordered_ancestor_pointers": [
+      "",
+      "/properties",
+      "/properties/operation_key"
+    ],
+    "containing_subschema": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^(?:system:v2:(?:genesis|legacy-bridge)|v2:[0-9a-f]{64}:[\\x21-\\x7e]{1,180})$"
+    },
+    "containing_subschema_digest": "1018889ae7b09b8e99363ab04e7d8637e3bfda0ae1aabed405c2aae2e9c78a26",
+    "allowed_schema_locations": [
+      {
+        "path": "schemas/m0-3a-command-request.v2.schema.json",
+        "schema_id": "urn:edgelab:m0-3a-command-request:2",
+        "site_id": "9a219d2847af954061fe8e233e8e316f57a09e9ec256c83ed829724b9930f626"
+      },
+      {
+        "path": "schemas/m0-3a-response-projection.v2.schema.json",
+        "schema_id": "urn:edgelab:m0-3a-response-projection:2",
+        "site_id": "1d6cb316a9edd5dfe397fc767d6e23f7c22e93c1e1292f19cbeff98cfea96514"
+      }
+    ]
+  },
+  "member_count": 2,
+  "ordered_members": [
+    {
+      "schema_site_id": "9a219d2847af954061fe8e233e8e316f57a09e9ec256c83ed829724b9930f626",
+      "constraint_id": "SCHEMA_DECLARATIVE_MAXLENGTH_9A219D2847AF954061FE8E233E8E316F57A09E9EC256C83ED829724B9930F626",
+      "proof": {
+        "byte_length": 2299,
+        "path": "docs/M0.3A_COMMAND_REQUEST_OPERATION_KEY_MAX_LENGTH_SCHEMA_PROOF.v1.json",
+        "raw_sha256": "499129d8d113e8dcb6b7fecdecffcfeb3142c11903ec938b3b2f93fd1bb0ee8a",
+        "schema_site_id": "9a219d2847af954061fe8e233e8e316f57a09e9ec256c83ed829724b9930f626"
+      }
+    },
+    {
+      "schema_site_id": "1d6cb316a9edd5dfe397fc767d6e23f7c22e93c1e1292f19cbeff98cfea96514",
+      "constraint_id": "SCHEMA_DECLARATIVE_MAXLENGTH_1D6CB316A9EDD5DFE397FC767D6E23F7C22E93C1E1292F19CBEFF98CFEA96514",
+      "proof": {
+        "byte_length": 2318,
+        "path": "docs/M0.3A_RESPONSE_PROJECTION_OPERATION_KEY_MAX_LENGTH_SCHEMA_PROOF.v1.json",
+        "raw_sha256": "6d6f4219f7605a7d8f4d5977157f03b6efbc2298ee6f7e681fc717cbd9a6ca12",
+        "schema_site_id": "1d6cb316a9edd5dfe397fc767d6e23f7c22e93c1e1292f19cbeff98cfea96514"
+      }
+    }
+  ],
+  "excluded_lookalikes": [
+    {
+      "classification": "UNCLASSIFIED",
+      "json_pointer": "/properties/transaction/properties/operation_key/maxLength",
+      "keyword": "maxLength",
+      "path": "schemas/m0-3a-event-envelope.v2.schema.json",
+      "schema_id": "urn:edgelab:m0-3a-event-envelope:2",
+      "site_id": "f8244837e97c8e26be37e62a9421ed1fc119d6a963d59be35a8e1e6f6aaee1b4",
+      "value": 256
+    },
+    {
+      "classification": "UNCLASSIFIED",
+      "json_pointer": "/$defs/commit/properties/operation_key/maxLength",
+      "keyword": "maxLength",
+      "path": "schemas/m0-3a-event-payload.v2.schema.json",
+      "schema_id": "urn:edgelab:m0-3a-event-payload:2",
+      "site_id": "a35ed77aadc69aa6cb058b3aa72dc3041f416318c992c539b051443710054f23",
+      "value": 256
+    }
+  ],
+  "family_evidence_inputs": [
+    {
+      "byte_length": 1509,
+      "path": "docs/M0.3A_OPERATION_KEY_MAX_LENGTH_SCHEMA_PROOF_FAMILY.v1.md",
+      "raw_sha256": "901d0c786663fa88240c05a843a041142c2ece34f7f48bf705b7040c573991b2"
+    },
+    {
+      "byte_length": 7671,
+      "path": "tests/test_runtime_v2_operation_key_max_length_schema_proof_family.py",
+      "raw_sha256": "4fd1ebf5ab60cd4c3d0ca8ed644a62f4ef9359f3e12f32bb904c8d40ef527131"
+    }
+  ],
+  "nonclaims": [
+    "NO_SIBLING_TYPE_MINLENGTH_OR_PATTERN_MEANING",
+    "NO_OPERATION_KEY_GRAMMAR_OR_SYSTEM_V2_MEANING",
+    "NO_ROOT_REQUIRED_ADDITIONAL_PROPERTIES_OR_ALLOF_MEANING",
+    "NO_REACHABILITY",
+    "NO_REQUEST_PROJECTION_CORRESPONDENCE",
+    "NO_TRANSACTION_OR_EVENT_SITE_MEANING",
+    "NO_UNIQUENESS_IDEMPOTENCY_CHAIN_OR_TASK_MEANING",
+    "NO_RUNTIME_OPERATION_KEY_BEHAVIOR",
+    "NO_FULL_SCHEMA_OR_DEPLOYED_VALIDATOR_CONFORMANCE",
+    "NO_PUBLIC_VALIDITY_OR_ACCEPTANCE_AUTHORITY",
+    "NO_STOP_OR_RELEASE_CLEARANCE",
+    "NO_EXECUTION_WAGERING_OR_CAPITAL_AUTHORITY"
+  ],
+  "family_sha256": "06a32d9f49c79e5bc45a139ca9ff841b19e0f269141d343728d738309fd3906a"
+}
