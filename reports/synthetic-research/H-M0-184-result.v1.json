@@ -1,0 +1,259 @@
+{
+  "authorization": {
+    "authorizing_use": "DENY",
+    "deployable_capital_usd": "0.00",
+    "kill": "ENGAGED",
+    "live": "LOCKED",
+    "operational_release": "DENIED",
+    "paper_trading": "DENIED"
+  },
+  "dependency_model": {
+    "limitation": "Scheduler v1 stores task-origin receipt digests and event payloads but has no native general prerequisite edge or typed scientific evidence table.",
+    "native_general_dependency_edge": false,
+    "remediation_links_used_as_dependencies": false,
+    "status": "COORDINATOR_ENFORCED_CONTENT_BOUND_RECEIPTS"
+  },
+  "final_result": "INSUFFICIENT_DATA",
+  "formal_skeptic_approval": false,
+  "h_m0_183_result_sha256": "936a6183f23d606dcaccb356fa593c90d28c223d5c25966363fdbecc4e7237ed",
+  "input_package_sha256": "48b5fe80a19a402ba676285d67d90fda8d3a98ecdd2089c14844fa13841768fb",
+  "integration_id": "H-M0-184-SCHEDULER-COORDINATED-RESEARCH",
+  "mode": "SYNTHETIC_LOCAL_ONLY",
+  "replay": "PASSED",
+  "result_sha256": "10e0585d5193fb166d51aa587109b4bf9f22e5ad5dae9a57ec112da71c51c06d",
+  "schema_version": 1,
+  "stages": {
+    "data": {
+      "evidence": {
+        "input_refs": [
+          "reports/synthetic-research/H-M0-183-input.v1.json#/source_provenance",
+          "reports/synthetic-research/H-M0-183-input.v1.json#/primary_observations"
+        ],
+        "output": {
+          "external_data": false,
+          "observation_count": 12,
+          "observation_inventory_sha256": "19abe9baa4b2464e111fbca9bcd5e21140b440472cc27f92256ec2875067f408",
+          "source_id": "SYNTHETIC-EXAMPLE-BALL-001",
+          "source_type": "DETERMINISTIC_SYNTHETIC_FIXTURE",
+          "temporal_integrity": "PASSED"
+        },
+        "status": "VALID_SYNTHETIC_TIMESTAMPED_EVIDENCE"
+      },
+      "evidence_sha256": "d48be2b6d107c67cc9c7499a2660811397e9ba3b903afd8430734b1aeabcb55a",
+      "scheduler_binding": {
+        "depends_on_evidence_sha256": "794d4d72838e1e14d1409edf2c468af58e9565bf98279feaf96ed03cb229710d",
+        "event_type": "TASK_CONTINUED",
+        "task_id": "T-SYNTHETIC-SCIENCE-PIPELINE-001",
+        "task_seq": 5
+      }
+    },
+    "director": {
+      "evidence": {
+        "input_refs": [
+          "stage:research/output",
+          "stage:data/output",
+          "stage:quant/output",
+          "stage:synthetic_skeptic/output",
+          "stage:risk/output"
+        ],
+        "output": {
+          "authorization": "DENY",
+          "claim": "NO_REAL_EDGE_OR_OPERATIONAL_READINESS_DEMONSTRATED",
+          "experiment_result": "INSUFFICIENT_DATA",
+          "formal_review_status": "NOT_GRANTED"
+        },
+        "status": "INSUFFICIENT_DATA"
+      },
+      "evidence_sha256": "9c679de88eae6129393aceb97021bb733c5046bc0049b55321c76749bc6b9f54",
+      "scheduler_binding": {
+        "depends_on_history_sha256": "28d0da7ed482f99a7f3a8fd559baf356d7664ffda9a72eb71f5236efb65dd502",
+        "event_type": "TASK_COMPLETED",
+        "origin_receipt_digest": "0b385071375f1cc2a1d28e2d87cf3c010cb8aae08aaf40dbd83ebced790df6d1",
+        "task_id": "T-SYNTHETIC-SCIENCE-DIRECTOR-001",
+        "task_seq": 4
+      }
+    },
+    "quant": {
+      "evidence": {
+        "input_refs": [
+          "reports/synthetic-research/H-M0-183-input.v1.json#/protocol",
+          "reports/synthetic-research/H-M0-183-input.v1.json#/primary_observations"
+        ],
+        "output": {
+          "average_offered_decimal_odds": "2.054167",
+          "average_two_way_overround": "0.028880",
+          "cost_adjusted_break_even_win_rate": "0.496552",
+          "cost_units_per_selection": "0.020000",
+          "eligible_observation_ids": [
+            "OBS-001",
+            "OBS-002",
+            "OBS-003",
+            "OBS-004",
+            "OBS-005",
+            "OBS-006",
+            "OBS-007",
+            "OBS-008",
+            "OBS-009",
+            "OBS-010",
+            "OBS-011",
+            "OBS-012"
+          ],
+          "losses": 5,
+          "maximum_drawdown_units": "2.040000",
+          "minimum_sample_size": 20,
+          "net_profit_units": "2.180000",
+          "net_roi": "0.181667",
+          "sample_size": 12,
+          "sample_sufficient": false,
+          "stake_units_per_selection": "1.000000",
+          "status": "INSUFFICIENT_DATA",
+          "total_stake_units": "12.000000",
+          "uncertainty_excludes_break_even": false,
+          "wilson_95_lower": "0.319511",
+          "wilson_95_upper": "0.806740",
+          "win_rate": "0.583333",
+          "wins": 7
+        },
+        "status": "INSUFFICIENT_DATA"
+      },
+      "evidence_sha256": "cdcd7d1891f227b9e21c98f93b5864ac4070f45303ca15b0f89cdd8227b504c4",
+      "scheduler_binding": {
+        "depends_on_evidence_sha256": "d48be2b6d107c67cc9c7499a2660811397e9ba3b903afd8430734b1aeabcb55a",
+        "event_type": "TASK_CONTINUED",
+        "task_id": "T-SYNTHETIC-SCIENCE-PIPELINE-001",
+        "task_seq": 6
+      }
+    },
+    "research": {
+      "evidence": {
+        "input_refs": [
+          "research/hypotheses/H-SYNTHETIC-001.v1.json"
+        ],
+        "output": {
+          "hypothesis_id": "H-SYNTHETIC-001",
+          "protocol_frozen_at": "2026-01-02T00:00:00Z",
+          "registered_at": "2026-01-01T00:00:00Z",
+          "unresolved_thresholds": []
+        },
+        "status": "PREREGISTERED_BEFORE_EVALUATION"
+      },
+      "evidence_sha256": "794d4d72838e1e14d1409edf2c468af58e9565bf98279feaf96ed03cb229710d",
+      "scheduler_binding": {
+        "event_type": "TASK_CONTINUED",
+        "task_id": "T-SYNTHETIC-SCIENCE-PIPELINE-001",
+        "task_seq": 4
+      }
+    },
+    "risk": {
+      "evidence": {
+        "input_refs": [
+          "stage:quant/output",
+          "stage:synthetic_skeptic/output",
+          "reports/synthetic-research/H-M0-183-input.v1.json#/safety_boundary"
+        ],
+        "output": {
+          "capital_authorization": "DENY",
+          "deployable_capital_usd": "0.00",
+          "limitations": [
+            "fictional observations do not establish external validity",
+            "sample size is below the preregistered minimum",
+            "uncertainty includes the cost-adjusted break-even rate",
+            "formal Skeptic approval is absent"
+          ],
+          "paper_trading": "DENY",
+          "strategy_promotion": "DENY"
+        },
+        "status": "DENY"
+      },
+      "evidence_sha256": "a54f0f2fdddfe0e8234bf4c88f2355ccb3ffbb92be5d548fe9e631f36df1ace5",
+      "scheduler_binding": {
+        "depends_on_history_sha256": "8d0c6e1e4a84e5e541d7d39c308e5169d81db792fec71cf850830208c4f405e0",
+        "event_type": "TASK_COMPLETED",
+        "origin_receipt_digest": "d5355d96c879d206882ec1adbb9d41d9fc949a7eb290510575d29b9d1db186a4",
+        "task_id": "T-SYNTHETIC-SCIENCE-RISK-001",
+        "task_seq": 4
+      }
+    },
+    "synthetic_skeptic": {
+      "evidence": {
+        "input_refs": [
+          "stage:quant/output",
+          "reports/synthetic-research/H-M0-183-input.v1.json#/negative_controls"
+        ],
+        "output": {
+          "findings": [
+            "SAMPLE_SIZE_BELOW_PREREGISTERED_MINIMUM",
+            "UNCERTAINTY_INCLUDES_COST_ADJUSTED_BREAK_EVEN",
+            "POSITIVE_SYNTHETIC_ROI_IS_NOT_REAL_EDGE_EVIDENCE"
+          ],
+          "formal_skeptic_approval": false,
+          "negative_controls": [
+            {
+              "admitted_to_primary_analysis": false,
+              "control_id": "NEG-FUTURE-SIGNAL-001",
+              "finding": "FUTURE_LEAKAGE",
+              "status": "REJECTED_AS_EXPECTED"
+            }
+          ],
+          "outcome": "REJECT_ANY_CLAIM_OF_DEMONSTRATED_EDGE",
+          "review_class": "SYNTHETIC_INTERNAL_NON_AUTHORIZING",
+          "status": "CHALLENGE_CONFIRMED"
+        },
+        "status": "CHALLENGE_CONFIRMED"
+      },
+      "evidence_sha256": "4a2f56640ad360c2a6917aaef1daabf2a87bc7e0d581970d6ce266832e2017f5",
+      "scheduler_binding": {
+        "depends_on_evidence_sha256": "cdcd7d1891f227b9e21c98f93b5864ac4070f45303ca15b0f89cdd8227b504c4",
+        "event_type": "REVIEW_APPROVED",
+        "formal_approval": false,
+        "review_actor": "synthetic-skeptic",
+        "task_id": "T-SYNTHETIC-SCIENCE-PIPELINE-001",
+        "task_seq": 9
+      }
+    }
+  },
+  "task_histories": {
+    "director": {
+      "events": [
+        {"event_type":"TASK_INITIALIZED","owner":"00 Director synthetic coordinator","receipt_digest":"0b385071375f1cc2a1d28e2d87cf3c010cb8aae08aaf40dbd83ebced790df6d1","task_seq":1},
+        {"event_type":"CLAIM_ISSUED","task_seq":2},
+        {"event_type":"TASK_STARTED","task_seq":3},
+        {"close":true,"completion_evidence_sha256":"9c679de88eae6129393aceb97021bb733c5046bc0049b55321c76749bc6b9f54","event_type":"TASK_COMPLETED","task_seq":4}
+      ],
+      "final_state": {"continuation_count":0,"execution":"EXECUTION_COMPLETED","review":"NOT_REQUIRED","workflow":"CLOSED"},
+      "owner": "00 Director synthetic coordinator",
+      "receipt_digest": "0b385071375f1cc2a1d28e2d87cf3c010cb8aae08aaf40dbd83ebced790df6d1",
+      "task_id": "T-SYNTHETIC-SCIENCE-DIRECTOR-001"
+    },
+    "pipeline": {
+      "events": [
+        {"event_type":"TASK_INITIALIZED","owner":"03 Research synthetic coordinator","receipt_digest":"12befe0a8b5cd4035888c1a5664f9c031f2ff407f29f6ea136aaf244e1138820","task_seq":1},
+        {"event_type":"CLAIM_ISSUED","task_seq":2},
+        {"event_type":"TASK_STARTED","task_seq":3},
+        {"event_type":"TASK_CONTINUED","input_evidence_sha256":"48b5fe80a19a402ba676285d67d90fda8d3a98ecdd2089c14844fa13841768fb","output_evidence_sha256":"794d4d72838e1e14d1409edf2c468af58e9565bf98279feaf96ed03cb229710d","stage":"RESEARCH","task_seq":4},
+        {"event_type":"TASK_CONTINUED","input_evidence_sha256":"794d4d72838e1e14d1409edf2c468af58e9565bf98279feaf96ed03cb229710d","output_evidence_sha256":"d48be2b6d107c67cc9c7499a2660811397e9ba3b903afd8430734b1aeabcb55a","stage":"DATA","task_seq":5},
+        {"event_type":"TASK_CONTINUED","input_evidence_sha256":"d48be2b6d107c67cc9c7499a2660811397e9ba3b903afd8430734b1aeabcb55a","output_evidence_sha256":"cdcd7d1891f227b9e21c98f93b5864ac4070f45303ca15b0f89cdd8227b504c4","stage":"QUANT","task_seq":6},
+        {"completion_evidence_sha256":"cdcd7d1891f227b9e21c98f93b5864ac4070f45303ca15b0f89cdd8227b504c4","event_type":"TASK_COMPLETED","task_seq":7},
+        {"actor":"synthetic-skeptic","event_type":"REVIEW_ASSIGNED","role":"05 Skeptic synthetic non-formal","task_seq":8},
+        {"decision_digest":"4a2f56640ad360c2a6917aaef1daabf2a87bc7e0d581970d6ce266832e2017f5","event_type":"REVIEW_APPROVED","task_seq":9},
+        {"event_type":"DIRECTOR_ROUTED","routing_evidence":"2c8b6313861db95e1698e703caeb426928ca477e45a22e8f7eae21d64237b3cf","task_seq":10}
+      ],
+      "final_state": {"continuation_count":3,"execution":"EXECUTION_COMPLETED","review":"APPROVED","workflow":"DIRECTOR_GATE_READY"},
+      "owner": "03 Research synthetic coordinator",
+      "receipt_digest": "12befe0a8b5cd4035888c1a5664f9c031f2ff407f29f6ea136aaf244e1138820",
+      "task_id": "T-SYNTHETIC-SCIENCE-PIPELINE-001"
+    },
+    "risk": {
+      "events": [
+        {"event_type":"TASK_INITIALIZED","owner":"06 Risk synthetic coordinator","receipt_digest":"d5355d96c879d206882ec1adbb9d41d9fc949a7eb290510575d29b9d1db186a4","task_seq":1},
+        {"event_type":"CLAIM_ISSUED","task_seq":2},
+        {"event_type":"TASK_STARTED","task_seq":3},
+        {"close":true,"completion_evidence_sha256":"a54f0f2fdddfe0e8234bf4c88f2355ccb3ffbb92be5d548fe9e631f36df1ace5","event_type":"TASK_COMPLETED","task_seq":4}
+      ],
+      "final_state": {"continuation_count":0,"execution":"EXECUTION_COMPLETED","review":"NOT_REQUIRED","workflow":"CLOSED"},
+      "owner": "06 Risk synthetic coordinator",
+      "receipt_digest": "d5355d96c879d206882ec1adbb9d41d9fc949a7eb290510575d29b9d1db186a4",
+      "task_id": "T-SYNTHETIC-SCIENCE-RISK-001"
+    }
+  }
+}

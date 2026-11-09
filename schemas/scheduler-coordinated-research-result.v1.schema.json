@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:scheduler-coordinated-research-result:1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "integration_id",
+    "mode",
+    "input_package_sha256",
+    "h_m0_183_result_sha256",
+    "stages",
+    "task_histories",
+    "dependency_model",
+    "replay",
+    "final_result",
+    "authorization",
+    "formal_skeptic_approval",
+    "result_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "integration_id": {"const": "H-M0-184-SCHEDULER-COORDINATED-RESEARCH"},
+    "mode": {"const": "SYNTHETIC_LOCAL_ONLY"},
+    "input_package_sha256": {"const": "48b5fe80a19a402ba676285d67d90fda8d3a98ecdd2089c14844fa13841768fb"},
+    "h_m0_183_result_sha256": {"const": "936a6183f23d606dcaccb356fa593c90d28c223d5c25966363fdbecc4e7237ed"},
+    "stages": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["research", "data", "quant", "synthetic_skeptic", "risk", "director"],
+      "properties": {
+        "research": {"$ref": "#/$defs/stage"},
+        "data": {"$ref": "#/$defs/stage"},
+        "quant": {"$ref": "#/$defs/stage"},
+        "synthetic_skeptic": {"$ref": "#/$defs/stage"},
+        "risk": {"$ref": "#/$defs/stage"},
+        "director": {"$ref": "#/$defs/stage"}
+      }
+    },
+    "task_histories": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pipeline", "risk", "director"],
+      "properties": {
+        "pipeline": {"$ref": "#/$defs/history"},
+        "risk": {"$ref": "#/$defs/history"},
+        "director": {"$ref": "#/$defs/history"}
+      }
+    },
+    "dependency_model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "native_general_dependency_edge", "remediation_links_used_as_dependencies", "limitation"],
+      "properties": {
+        "status": {"const": "COORDINATOR_ENFORCED_CONTENT_BOUND_RECEIPTS"},
+        "native_general_dependency_edge": {"const": false},
+        "remediation_links_used_as_dependencies": {"const": false},
+        "limitation": {"type": "string", "minLength": 1}
+      }
+    },
+    "replay": {"const": "PASSED"},
+    "final_result": {"const": "INSUFFICIENT_DATA"},
+    "authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authorizing_use", "operational_release", "paper_trading", "live", "kill", "deployable_capital_usd"],
+      "properties": {
+        "authorizing_use": {"const": "DENY"},
+        "operational_release": {"const": "DENIED"},
+        "paper_trading": {"const": "DENIED"},
+        "live": {"const": "LOCKED"},
+        "kill": {"const": "ENGAGED"},
+        "deployable_capital_usd": {"const": "0.00"}
+      }
+    },
+    "formal_skeptic_approval": {"const": false},
+    "result_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "$defs": {
+    "stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence", "evidence_sha256", "scheduler_binding"],
+      "properties": {
+        "evidence": {"type": "object"},
+        "evidence_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "scheduler_binding": {"type": "object"}
+      }
+    },
+    "history": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["task_id", "receipt_digest", "owner", "final_state", "events"],
+      "properties": {
+        "task_id": {"type": "string", "minLength": 1},
+        "receipt_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "owner": {"type": "string", "minLength": 1},
+        "final_state": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["workflow", "execution", "review", "continuation_count"],
+          "properties": {
+            "workflow": {"type": "string", "minLength": 1},
+            "execution": {"type": "string", "minLength": 1},
+            "review": {"type": "string", "minLength": 1},
+            "continuation_count": {"type": "integer", "minimum": 0}
+          }
+        },
+        "events": {
+          "type": "array",
+          "minItems": 4,
+          "items": {"type": "object"}
+        }
+      }
+    }
+  }
+}
