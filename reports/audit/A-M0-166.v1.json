@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-166",
+  "version": 1,
+  "occurred_at": "2026-11-09T22:38:47Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_SCHEDULER_COORDINATED_SYNTHETIC_RESEARCH_DENY_ONLY",
+  "subject_ref": "reports/H-M0-184-scheduler-coordinated-research.v1.md",
+  "previous_state": "H_M0_183_SCIENCE_COMPLETED_BEFORE_SYNTHETIC_SCHEDULER_ATTACHMENT",
+  "new_state": "RESEARCH_DATA_QUANT_REVIEW_RISK_AND_DIRECTOR_EXECUTED_WITHIN_REPLAYED_SCHEDULER_TASK_WINDOWS_DENY_ONLY",
+  "reason": "Commit d1a9955155510d96ad7390ffc940042ed5d781ae runs retained H-M0-183 stages inside existing transactional-scheduler task states. Research, Data, and Quant are content-bound continuation events; synthetic Skeptic runs inside a native non-formal REVIEWING assignment; Risk and Director run inside claimed IN_PROGRESS tasks whose origin receipts bind verified predecessor histories. Replay passes and the result remains INSUFFICIENT_DATA / DENY. Scheduler v1 lacks a native general dependency edge or typed scientific-evidence table, so the coordinator-enforced receipt limitation is explicit and no stronger authority is claimed.",
+  "evidence_refs": [
+    "reports/H-M0-184-scheduler-coordinated-research.v1.md",
+    "reports/reviews/H-M0-184-native-engineering-review.v1.md",
+    "reports/synthetic-research/H-M0-184-result.v1.json",
+    "src/edgelab/scheduler_coordinated_research.py",
+    "tests/test_scheduler_coordinated_research.py",
+    "docs/handoffs/H-M0-184.v1.json",
+    "docs/handoffs/H-M0-183.v2.json",
+    "docs/handoffs/H-M0-179.v2.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json",
+    "reports/stops/STOP-M0-3A-002.v81.json"
+  ],
+  "code_ref": "d1a9955155510d96ad7390ffc940042ed5d781ae",
+  "config_ref": "reports/synthetic-research/H-M0-183-input.v1.json",
+  "correlation_id": "H-M0-184",
+  "supersedes": null
+}

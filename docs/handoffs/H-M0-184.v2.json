@@ -1,0 +1,71 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-184",
+  "version": 2,
+  "created_at": "2026-11-09T22:38:47Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Make the existing transactional scheduler coordinate the retained H-M0-183 synthetic Research, Data, Quant, synthetic Skeptic, Risk, and Director stages with content-bound evidence, ordering, replay, fail-closed dependencies, CLI output, tests, and one read-only engineering review.",
+  "work_done": "Commit d1a9955155510d96ad7390ffc940042ed5d781ae implements H-M0-184 without modifying H-M0-179, H-M0-183, or the scheduler. One claimed pipeline task records Research, Data, and Quant as three ordered TASK_CONTINUED events with exact input/output evidence digests. The task then completes, enters a native REVIEWING state with one active explicitly non-formal synthetic-skeptic assignment, computes the challenge inside that review window, binds its exact digest through REVIEW_APPROVED, and routes the findings. Only after exact pipeline history replay does a Risk task origin receipt bind pipeline history plus Quant and Skeptic digests; Risk evaluates inside its claimed IN_PROGRESS state and closes with DENY evidence. Only after exact Risk replay does a Director task receipt bind Risk and pipeline history; Director evaluates inside its claimed IN_PROGRESS state and closes with INSUFFICIENT_DATA. Stable projections omit random runtime identities and reproduce exactly. Missing stage history, altered Quant, future leakage, inconsistent review, missing result schema, and event mutation fail closed. The output truthfully records that Scheduler v1 has no native general dependency edge or typed scientific evidence table; coordinator-enforced receipt digests do not create new authorization semantics and remediation links are not misused. Initial review found Skeptic evaluation before assignment; that defect was fixed and passed re-review.",
+  "evidence_refs": [
+    "reports/H-M0-184-scheduler-coordinated-research.v1.md",
+    "reports/reviews/H-M0-184-native-engineering-review.v1.md",
+    "reports/audit/A-M0-166.v1.json",
+    "reports/synthetic-research/H-M0-184-result.v1.json",
+    "schemas/scheduler-coordinated-research-result.v1.schema.json",
+    "src/edgelab/scheduler_coordinated_research.py",
+    "tools/run_scheduler_coordinated_research.py",
+    "tests/test_scheduler_coordinated_research.py",
+    "docs/handoffs/H-M0-184.v1.json",
+    "docs/handoffs/H-M0-183.v2.json",
+    "docs/handoffs/H-M0-179.v2.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-184.v1.json",
+    "src/edgelab/scheduler_coordinated_research.py",
+    "tools/run_scheduler_coordinated_research.py",
+    "schemas/scheduler-coordinated-research-result.v1.schema.json",
+    "reports/synthetic-research/H-M0-184-result.v1.json",
+    "tests/test_scheduler_coordinated_research.py",
+    "reports/H-M0-184-scheduler-coordinated-research.v1.md",
+    "reports/reviews/H-M0-184-native-engineering-review.v1.md",
+    "reports/audit/A-M0-166.v1.json",
+    "docs/handoffs/H-M0-184.v2.json"
+  ],
+  "tests_run": [
+    "Final post-fetch combined H-M0-184, H-M0-183, H-M0-179, transactional scheduler, locked-authority, and authority-binding suites: 80/80 passed in 46.999 seconds.",
+    "Focused H-M0-184 integration and adversarial suite: 13/13 passed in 19.740 seconds; read-only reviewer reproduced 13/13 in 17.944 seconds.",
+    "Reviewer independently observed synthetic Skeptic evaluation during ACTIVE / EXECUTION_COMPLETED / REVIEWING with exactly one active non-formal assignment and no Risk or Director task; H-M0-179/H-M0-183 preservation reproduced 18/18.",
+    "Fresh JSON CLI output matched retained result SHA-256 10e0585d5193fb166d51aa587109b4bf9f22e5ad5dae9a57ec112da71c51c06d exactly; repeated runs retained deterministic scientific and stable scheduler projections.",
+    "Adversarial coverage rejects missing stage history before Risk creation, altered Quant before Quant recording, future leakage before Data/downstream stages, inconsistent review evidence, missing result schema, invalid predecessor histories/receipts, and mutated scheduler events under replay.",
+    "Pre-completion production validation passed 613 governed records and published history with M0 capital LOCKED and no scientific or operational approval.",
+    "Completion-tree production validation passed 615 governed records and published history with M0 capital LOCKED and no scientific or operational approval.",
+    "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m compileall -q src tools tests, git diff --check, and cached diff check passed."
+  ],
+  "open_questions": [],
+  "blockers": [
+    "Scheduler v1 still has no native general prerequisite/dependency edge or typed scientific-evidence table. H-M0-184 receipts are content-bound and fail-closed under the coordinator but are not a scheduler-native dependency graph.",
+    "Synthetic Skeptic review and AI engineering review remain internal non-authorizing evidence; formal 05 Skeptic approval remains absent and was not impersonated.",
+    "The retained experiment is fictional and insufficient; no external validity, real edge, strategy promotion, paper eligibility, currentness, authenticated R-gate, or operational receipt is established.",
+    "Public runtime-v2 verifier attachment, generated release closure, V1 disposition, A-J evidence, and resource-classification acceptance remain unresolved.",
+    "Data remains BLOCKED; all STOPs remain OPEN; M0 remains blocked; M1 remains unreleased; authorization remains DENY; executor remains MOCK_ONLY; live remains LOCKED; kill remains ENGAGED; deployable capital remains USD 0."
+  ],
+  "next_action": "Under a separately claimed non-operational increment, define and test a versioned scheduler-native typed scientific-evidence and general dependency contract if existing governance permits it; do not infer those capabilities from H-M0-184 coordinator receipts.",
+  "completion_criteria": [
+    "Every represented scientific stage executes inside a real scheduler task or native review window and its exact evidence digest is recorded in replayed event history.",
+    "Data cannot precede Research, Quant cannot precede Data, synthetic review binds exact Quant, Risk cannot precede verified pipeline review, and Director cannot precede verified Risk history.",
+    "Repeated runs reproduce the retained INSUFFICIENT_DATA scientific result and stable task/evidence projection while raw scheduler replay detects history mutation.",
+    "All public and local authority projections remain DENY and synthetic review remains explicitly non-formal.",
+    "One read-only engineering reviewer reproduces the corrected ordering and adversarial cases with no remaining demonstrated implementation defect."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-184.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-184",
+      "version": 1,
+      "sha256": "e8384e1d397c99e7f33f9c612fab47283f08c75f3a31b354cd69094890b42915"
+    }
+  ]
+}
