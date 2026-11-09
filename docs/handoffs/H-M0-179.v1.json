@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-179",
+  "version": 1,
+  "created_at": "2026-11-09T17:01:15Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "CLAIMED",
+  "request": "Implement the smallest authorized integration increment that exercises one end-to-end synthetic task lifecycle across the transactional scheduler, fixed-source M0.2 historical binding, locked-authority reader, and public runtime-v2 verifier while preserving every DENY and non-operational boundary; separately assess whether resource classification can be consolidated without weakening proof strength.",
+  "work_done": "Native lead /root/director-m03a-recovery-20261109 claims the sole writer slot on clean synchronized main at base 004e99da085416bac825d4653750a629851b236f after recovering, validating, publishing, and closing the pre-existing H-M0-178/V55 work. Read-only architecture recovery established the shortest reusable path: initialize the existing local synthetic Scheduler; create T-SYNTHETIC-001; compose the existing fixed-source historical/runtime binding; execute CLAIM, START, COMPLETE, ASSIGN_REVIEW, APPROVE, and ROUTE; replay scheduler integrity; read final locked authority; and expose the existing public runtime-v2 verifier's exact UNSUPPORTED/UNANCHORED/UNKNOWN/DENY result over the published descriptor and schema bundle. The harness will reject any positive public or binding authorization and will not connect the private reducer to the public boundary, persist a receipt, generate a release closure, change STOPs, or classify another resource site.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-178.v1.json",
+    "src/edgelab/transactional_scheduler.py",
+    "src/edgelab/locked_authority.py",
+    "src/edgelab/authority_binding.py",
+    "src/edgelab/runtime_v2_initial.py",
+    "src/edgelab/runtime_v2_transition.py",
+    "src/edgelab/runtime_v2_verifier.py",
+    "reports/H-M0-091-locked-authority-read.v1.md",
+    "reports/H-M0-093-authority-binding-candidate.v1.md",
+    "reports/H-M0-122-runtime-v2-release-readiness.v1.md",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json",
+    "reports/stops/STOP-M0-3A-002.v81.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-179.v1.json",
+    "src/edgelab/synthetic_lifecycle.py",
+    "tools/run_synthetic_lifecycle.py",
+    "tests/test_synthetic_lifecycle.py",
+    "reports/H-M0-179-synthetic-lifecycle-integration.v1.md",
+    "reports/reviews/H-M0-179-native-engineering-review.v1.md",
+    "reports/audit/A-M0-161.v1.json",
+    "docs/handoffs/H-M0-179.v2.json"
+  ],
+  "tests_run": [
+    "Claim preparation only. H-M0-178 focused tests passed 30/30 normally and 30/30 under optimized Python, alpha/web passed 18/18, production validation passed 596 records, and the recovered V55 commits were pushed before this claim."
+  ],
+  "open_questions": [],
+  "blockers": [
+    "The public runtime-v2 verifier is intentionally disconnected and cannot return positive local consistency; private reducer output has no compiled release closure or public carrier.",
+    "The fixed-source historical binding is DENY-only and is not consumed as an authenticated scheduler receipt or positive R-gate.",
+    "STOP-M0-3A-002.v81 remains OPEN with 634 of 721 resource sites unclassified; V1 migration and independently accepted A-J release evidence remain unresolved.",
+    "Data remains BLOCKED; all STOPs remain OPEN; M0 and M1 remain restricted; executor remains MOCK_ONLY; live remains LOCKED; kill remains ENGAGED; deployable capital remains USD 0."
+  ],
+  "next_action": "Commit and push this claim, implement only the non-operational composition and focused regressions, obtain one separate read-only engineering review, repair demonstrated defects, then publish validated completion evidence without modifying release or safety authority.",
+  "completion_criteria": [
+    "One reproducible API and CLI create a fresh local synthetic runtime and drive task creation through claim, start, recorded execution completion, independent review approval, and Director routing using existing Scheduler methods.",
+    "The same run binds the canonical preserved M0.2 DISPATCH evidence to the locked task subject and proves the result remains BOUND_DENY_ONLY with a v3 DENY projection.",
+    "The public runtime-v2 verifier consumes the published storage descriptor and exact schema bundle and remains UNSUPPORTED/UNANCHORED/UNKNOWN/DENY; no test-harness success is exposed as authorization.",
+    "Final locked-authority observation and scheduler replay are coherent, read-only, and DENY-only; malformed or positive-substituted component results fail closed.",
+    "A separate read-only engineering reviewer reproduces the lifecycle and decisive negative cases; concrete defects are repaired and re-reviewed.",
+    "The resource-classification assessment names an equally strong consolidation contract or the exact governance decision needed, without emitting V56, rewriting V55, generating a release closure, or clearing any STOP."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-178.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-178",
+      "version": 1,
+      "sha256": "64247f22e84a965c89a8636c315fe68a53fe7f646b5026a097befbe1a8a5f0c2"
+    }
+  ]
+}
