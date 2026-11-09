@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-160",
+  "version": 1,
+  "occurred_at": "2026-11-05T21:43:23Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RUNTIME_V2_RUNTIME_ATTACHMENT_MIN_LENGTH_SCHEMA_FAMILY_V55_DENY_ONLY",
+  "subject_ref": "reports/H-M0-178-runtime-attachment-min-length-v55.v1.md",
+  "previous_state": "CLASSIFICATION_V54_85_CLASSIFIED_636_UNCLASSIFIED_STOP_OPEN",
+  "new_state": "CLASSIFICATION_V55_87_CLASSIFIED_634_UNCLASSIFIED_STOP_OPEN",
+  "reason": "Commit ee914d3 appends a closed two-member runtime-attachment minimum-length family while preserving V54 byte-for-byte with zero evidence rebases and no authority change.",
+  "evidence_refs": [
+    "reports/H-M0-178-runtime-attachment-min-length-v55.v1.md",
+    "docs/M0.3A_RUNTIME_ATTACHMENT_MIN_LENGTH_SCHEMA_PROOF_FAMILY.v1.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v55.json",
+    "schemas/m0-3a-runtime-v2-resource-classification.v55.schema.json",
+    "tools/check_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v81.json"
+  ],
+  "code_ref": "ee914d3",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-178",
+  "supersedes": null
+}
