@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-163",
+  "version": 1,
+  "occurred_at": "2026-11-09T18:55:24Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_COMPILER_GOVERNANCE_EQUIVALENCE_PROPOSAL_PENDING_AUTHORITY",
+  "subject_ref": "docs/M0.3A_COMPILER_GOVERNANCE_EQUIVALENCE_PROPOSAL.v1.md",
+  "previous_state": "H_M0_180_FEASIBLE_CANDIDATE_COMPILER_WITHOUT_EQUIVALENCE_CONTRACT",
+  "new_state": "VERSIONED_EQUIVALENCE_PROCESS_PROPOSED_PENDING_OWNER_AND_AUTHENTICATED_SKEPTIC",
+  "reason": "Commits 0225840f7c5b3f484dc8de7a643e75ae26fb7fb6 and b32a85432d03abf17aef2d70433a0a0d360b1607 publish and format-normalize a non-authorizing governance proposal defining exact family closure, compiler/registry identity, exhaustive witness verification, adversarial preservation, promotion criteria, owner/reviewer separation, the missing external authentication setup, and the next candidate-only code increment. Engineering consistency review passed after two bounded documentation corrections; no formal approval or state change occurred.",
+  "evidence_refs": [
+    "docs/M0.3A_COMPILER_GOVERNANCE_EQUIVALENCE_PROPOSAL.v1.md",
+    "reports/H-M0-181-compiler-governance-decision-memo.v1.md",
+    "reports/reviews/H-M0-181-native-engineering-review.v1.md",
+    "docs/handoffs/H-M0-181.v1.json",
+    "docs/handoffs/H-M0-180.v2.json",
+    "docs/OPERATIONS.md",
+    "schemas/authority-policy.schema.json",
+    "schemas/approval-attestation.schema.json",
+    "reports/stops/STOP-M0-3A-002.v81.json"
+  ],
+  "code_ref": "b32a85432d03abf17aef2d70433a0a0d360b1607",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-181",
+  "supersedes": null
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-181",
+  "version": 2,
+  "created_at": "2026-11-09T18:55:24Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Prepare a reviewable compiler governance-equivalence proposal and decision memo defining the exact acceptance decision, formal reviewer setup, and next authorized non-operational engineering increment without creating V56, another family, a closure, or a STOP change.",
+  "work_done": "Published GOV-M0-3A-COMPILER-EQUIVALENCE-001.v1 as PROPOSED/PENDING with no effect. It limits equivalence to manual witness construction for one exact registered family; specifies compiler closure, rule registry, interpreter, census and predecessor identities; requires a complete 721-site ledger with bidirectional equality and unique canonical ordering; defines adversarial and immutable-history requirements; requires complete reviewed constraint records for promotion; and separates owner process/trust authorization from independently authenticated 05 Skeptic semantic/evidence approval. Repository inspection found no provisioned formal reviewer appointment channel. Existing v1 authority-policy/attestation shapes and Risk verifier assume external authentication but cannot carry signature material and are not wired to review governance. The smallest sufficient setup therefore requires an out-of-band trust root, versioned signed-record successors or typed detached-signature envelopes, source/signature verification, canonical actor/role/scope/conflict/revocation policy, exact-subject attestation and repository validation. One read-only engineering reviewer initially found two documentation defects; both were corrected and re-review returned PASS. Proposal remains pending owner decision and formal authority.",
+  "evidence_refs": [
+    "docs/M0.3A_COMPILER_GOVERNANCE_EQUIVALENCE_PROPOSAL.v1.md",
+    "reports/H-M0-181-compiler-governance-decision-memo.v1.md",
+    "reports/reviews/H-M0-181-native-engineering-review.v1.md",
+    "reports/audit/A-M0-163.v1.json",
+    "docs/handoffs/H-M0-181.v1.json",
+    "docs/handoffs/H-M0-180.v2.json",
+    "docs/OPERATIONS.md",
+    "agents/05-skeptic.md",
+    "schemas/authority-policy.schema.json",
+    "schemas/approval-attestation.schema.json",
+    "src/edgelab/risk_controls.py",
+    "reports/M0.1-authority-provisioning-plan.v1.md",
+    "docs/handoffs/H-M0-086.v1.json"
+  ],
+  "files_changed": [
+    "docs/M0.3A_COMPILER_GOVERNANCE_EQUIVALENCE_PROPOSAL.v1.md",
+    "reports/H-M0-181-compiler-governance-decision-memo.v1.md",
+    "reports/reviews/H-M0-181-native-engineering-review.v1.md",
+    "reports/audit/A-M0-163.v1.json",
+    "docs/handoffs/H-M0-181.v2.json"
+  ],
+  "tests_run": [
+    "Preservation run: compiler prototype, H-M0-179 synthetic lifecycle, and current V55 classification suites passed 28/28 in 16.741 seconds.",
+    "Pre-publication production validation passed 603 governed records and published history with M0 capital LOCKED and no scientific or operational approval.",
+    "Initial read-only engineering review returned FAIL on two bounded document defects: bare-ID successor language and omitted signed-record representation; both were corrected.",
+    "Read-only engineering re-review returned PASS with no residual defect and confirmed owner/reviewer separation, promotion sequence, formal trust gap, candidate-only next increment and unchanged safety boundaries.",
+    "Final staged git diff --check passed after a history-preserving follow-up commit normalized three Markdown header hard breaks; no amend or force-push occurred.",
+    "Final governance-tree production validation passed 605 governed records and published history with M0 capital LOCKED and no scientific or operational approval."
+  ],
+  "open_questions": [
+    "Will the owner approve GOV-M0-3A-COMPILER-EQUIVALENCE-001.v1 for formal evaluation of the exact minLength family and authorize provisioning of the external trust mechanism?"
+  ],
+  "blockers": [
+    "The proposal is not adopted and cannot accept H-M0-180 candidates or change V55.",
+    "No externally authenticated 05 Skeptic appointment policy, trust root, signed policy/attestation representation, signature verifier, revocation channel, or review-workflow binding is provisioned.",
+    "Engineering review is not formal approval; a Codex subagent, role label, Git author, self-digest or VERIFIED_EXTERNAL literal cannot substitute for authenticated authority.",
+    "Data remains BLOCKED; all STOPs remain OPEN; M0 remains blocked; M1 remains unreleased; authorization remains DENY; executor remains MOCK_ONLY; live remains LOCKED; kill remains ENGAGED; deployable capital remains USD 0."
+  ],
+  "next_action": "Owner decides whether to adopt the proposal for formal evaluation and provision the external trust mechanism. Independently, existing engineering authority permits a candidate-only rule-registry and package-verifier substrate for the exact H-M0-180 minLength prototype, always returning CANDIDATE_VALID/DENY and adding no family, accepted evidence, V56, closure, public attachment, currentness or R-gate behavior.",
+  "completion_criteria": [
+    "One versioned proposal defines the exact equivalence contract, identities, exhaustive verification, adversarial floor, history preservation, promotion gates and authority separation.",
+    "One decision memo records the absence of a supported appointment mechanism, smallest external setup, exact owner decision and next authorized code deliverable.",
+    "Independent engineering consistency review passes after correction without being represented as formal Skeptic approval.",
+    "H-M0-179, H-M0-180, V55, STOPs, project/release state, execution, live, kill and capital authority remain unchanged."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-181.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-181",
+      "version": 1,
+      "sha256": "b782db538cc0beded7c6513ebda8441ea45afb49bfcebbb35422a7debfaeb7f4"
+    }
+  ]
+}
