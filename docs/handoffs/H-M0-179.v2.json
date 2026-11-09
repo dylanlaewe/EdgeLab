@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-179",
+  "version": 2,
+  "created_at": "2026-11-09T17:12:00Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Implement the smallest authorized integration increment that exercises one end-to-end synthetic task lifecycle while preserving every DENY boundary, and assess stronger consolidation of resource classification without publishing another classification version.",
+  "work_done": "Commit b4a3fef99f1430d86817d42525fef6ac82cd2524 adds one API and CLI that verify the exact public runtime-v2 schema bundle remains UNSUPPORTED/UNANCHORED/UNKNOWN/DENY; initialize a new out-of-repository scheduler; create T-SYNTHETIC-001; bind canonical frozen M0.2 evidence to the actual locked task as BOUND_DENY_ONLY; use repeated locked-authority observations to record CLAIM, START, COMPLETE, ASSIGN_REVIEW, APPROVE, and ROUTE; replay the scheduler; and return a sealed DENY report. Positive verifier substitution rejects before runtime creation and positive binding substitution rejects before claim. One read-only native reviewer returned PASS with no defect. The classification assessment counts no site and specifies the exact owner amendment and independent acceptance required before a semantic-proof compiler and exhaustive witness ledger can substitute for manually published per-site/family proof artifacts.",
+  "evidence_refs": [
+    "reports/H-M0-179-synthetic-lifecycle-integration.v1.md",
+    "reports/reviews/H-M0-179-native-engineering-review.v1.md",
+    "reports/audit/A-M0-161.v1.json",
+    "src/edgelab/synthetic_lifecycle.py",
+    "tools/run_synthetic_lifecycle.py",
+    "tests/test_synthetic_lifecycle.py",
+    "docs/handoffs/H-M0-179.v1.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json",
+    "reports/stops/STOP-M0-3A-002.v81.json"
+  ],
+  "files_changed": [
+    "src/edgelab/synthetic_lifecycle.py",
+    "tools/run_synthetic_lifecycle.py",
+    "tests/test_synthetic_lifecycle.py",
+    "reports/H-M0-179-synthetic-lifecycle-integration.v1.md",
+    "reports/reviews/H-M0-179-native-engineering-review.v1.md",
+    "reports/audit/A-M0-161.v1.json",
+    "docs/handoffs/H-M0-179.v2.json"
+  ],
+  "tests_run": [
+    "Focused synthetic lifecycle: 5/5 passed in 5.010 seconds; independent reviewer reproduced 5/5 in 5.907 seconds.",
+    "Scheduler, locked authority, historical binding, public verifier, initial private reducer, transition kernel, and transition workspace preservation: 170/170 passed in 29.526 seconds.",
+    "Current resource-classification preservation: 13/13 passed in 1.201 seconds, retaining V55 exact-prefix history and all four blockers.",
+    "Independent reviewer isolated public-positive and binding-positive substitutions: 2/2 passed in 0.241 seconds and direct CLI reproduction retained DENY throughout.",
+    "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m compileall -q src tools tests: passed.",
+    "git diff --check and cached diff check: passed.",
+    "Pre-publication production validation passed 597 governed records and published history with M0 capital LOCKED and no scientific or operational approval.",
+    "Final governance-tree production validation passed 599 governed records and published history with M0 capital LOCKED and no scientific or operational approval."
+  ],
+  "open_questions": [
+    "Will the owner authorize the exact semantic-proof compiler, pinned rule registry, and exhaustive witness-ledger equivalence contract described in the integration report for independently accepted closed families?"
+  ],
+  "blockers": [
+    "The public runtime-v2 verifier remains disconnected from the private reducer and cannot return positive local consistency; no compiled release closure or public carrier exists.",
+    "The fixed-source historical binding remains DENY-only, lacks authoritative currentness and a composed R-gate, and is not an authenticated positive scheduler receipt.",
+    "STOP-M0-3A-002.v81 remains OPEN: 634 of 721 resource sites remain unclassified, the V1 bridge remains unsupported, and independently accepted A-J whole-image evidence remains incomplete.",
+    "Data remains BLOCKED; all STOPs remain OPEN; M0 remains blocked; M1 remains unreleased; executor remains MOCK_ONLY; public authority remains DENY; live remains LOCKED; kill remains ENGAGED; deployable capital remains USD 0."
+  ],
+  "next_action": "Obtain the bounded owner and independent-reviewer decision on semantic-proof compiler equivalence; then continue the original M0.3A release-readiness path toward a compiled closure and sole public verifier/reducer attachment without generating a closure until classification, V1, A-J, currentness, and R-gate prerequisites are actually satisfied.",
+  "completion_criteria": [
+    "The published API and CLI reproduce all seven scheduler events and replay the final recorded state from a new local runtime.",
+    "All public verifier, historical binding, and locked-authority projections remain explicitly DENY and positive substitutions fail before authority-relevant transitions.",
+    "Independent engineering review reproduces the decisive tests and reports no implementation defect.",
+    "No resource classification, STOP state, project release state, execution capability, live state, kill state, or capital authority changes."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-179.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-179",
+      "version": 1,
+      "sha256": "3eb9958ba217f34d290028fa0c220546f902ab06e587bad4d39142caac683a8b"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-161",
+  "version": 1,
+  "occurred_at": "2026-11-09T17:12:00Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_SYNTHETIC_LIFECYCLE_INTEGRATION_DENY_ONLY",
+  "subject_ref": "reports/H-M0-179-synthetic-lifecycle-integration.v1.md",
+  "previous_state": "SEPARATE_SYNTHETIC_SCHEDULER_HISTORICAL_BINDING_LOCKED_AUTHORITY_AND_PUBLIC_VERIFIER_DENY_ONLY",
+  "new_state": "COMPOSED_REPLAYABLE_SYNTHETIC_TASK_LIFECYCLE_DENY_ONLY",
+  "reason": "Commit b4a3fef99f1430d86817d42525fef6ac82cd2524 composes the existing local scheduler, frozen M0.2 historical binding, actual locked-authority reader, and public runtime-v2 verifier into one reproducible seven-event non-operational lifecycle while rejecting positive substitutions and retaining DENY authority.",
+  "evidence_refs": [
+    "reports/H-M0-179-synthetic-lifecycle-integration.v1.md",
+    "reports/reviews/H-M0-179-native-engineering-review.v1.md",
+    "src/edgelab/synthetic_lifecycle.py",
+    "tools/run_synthetic_lifecycle.py",
+    "tests/test_synthetic_lifecycle.py",
+    "docs/handoffs/H-M0-179.v1.json",
+    "reports/stops/STOP-M0-3A-002.v81.json"
+  ],
+  "code_ref": "b4a3fef99f1430d86817d42525fef6ac82cd2524",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-179",
+  "supersedes": null
+}
