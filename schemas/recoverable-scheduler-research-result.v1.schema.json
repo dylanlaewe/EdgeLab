@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:recoverable-scheduler-research-result:1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "integration_id", "mode", "status",
+    "interruption_after", "recovered_from", "durable_task_states",
+    "coordinated_result", "replay", "authorization",
+    "formal_skeptic_approval", "result_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "integration_id": {"const": "H-M0-186-RECOVERABLE-SCHEDULER-RESEARCH"},
+    "mode": {"const": "SYNTHETIC_LOCAL_ONLY"},
+    "status": {"enum": ["INTERRUPTED", "COMPLETED"]},
+    "interruption_after": {
+      "type": ["string", "null"],
+      "enum": [null, "RESEARCH", "QUANT", "REVIEW_ASSIGNED", "RISK_CREATED"]
+    },
+    "recovered_from": {"type": "string", "minLength": 1},
+    "durable_task_states": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["workflow", "execution", "review", "continuation_count"],
+        "properties": {
+          "workflow": {"type": "string", "minLength": 1},
+          "execution": {"type": "string", "minLength": 1},
+          "review": {"type": "string", "minLength": 1},
+          "continuation_count": {"type": "integer", "minimum": 0}
+        }
+      }
+    },
+    "coordinated_result": {"type": ["object", "null"]},
+    "replay": {"const": "PASSED"},
+    "authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authorizing_use", "operational_release", "paper_trading", "live", "kill", "deployable_capital_usd"],
+      "properties": {
+        "authorizing_use": {"const": "DENY"},
+        "operational_release": {"const": "DENIED"},
+        "paper_trading": {"const": "DENIED"},
+        "live": {"const": "LOCKED"},
+        "kill": {"const": "ENGAGED"},
+        "deployable_capital_usd": {"const": "0.00"}
+      }
+    },
+    "formal_skeptic_approval": {"const": false},
+    "result_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "COMPLETED"}}},
+      "then": {
+        "properties": {
+          "interruption_after": {"const": null},
+          "coordinated_result": {"type": "object"}
+        }
+      },
+      "else": {
+        "properties": {
+          "interruption_after": {"type": "string"},
+          "coordinated_result": {"const": null}
+        }
+      }
+    }
+  ]
+}
