@@ -1,0 +1,55 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-181",
+  "version": 1,
+  "created_at": "2026-11-09T18:50:22Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "CLAIMED",
+  "request": "Prepare a concise versioned governance-equivalence proposal and decision memo defining how compiler-generated resource witnesses could replace manual witness construction without weakening security, while determining the exact formal 05 Skeptic setup and next authorized non-operational code increment.",
+  "work_done": "Director /root claims the sole writer slot on clean synchronized main at 99e505bb5fb5563b59e1243769bc031dfd6129ae. Read-only authority recovery confirms H-M0-179 and H-M0-180 are complete and unchanged. Repository rules require a distinct accountable reviewer with conflict disclosure, prohibit self-review, and state that authentication/enforcement is pending M0. Existing authority-policy and approval-attestation shapes assume an externally authenticated verifier-selected policy but no external source, trust root, reviewer appointment registry, signature verifier, or binding to the Skeptic review workflow is provisioned. Scope is documentation only: one candidate governance proposal, one decision memo, one read-only engineering consistency review, and completion/audit records. No V56, rule family, accepted evidence, STOP, project state, closure, public verifier, or runtime code will change.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-180.v2.json",
+    "reports/H-M0-180-automated-proof-compiler-feasibility.v1.md",
+    "docs/OPERATIONS.md",
+    "agents/05-skeptic.md",
+    "PROJECT_CONSTITUTION.md",
+    "schemas/authority-policy.schema.json",
+    "schemas/approval-attestation.schema.json",
+    "src/edgelab/risk_controls.py",
+    "reports/M0.1-authority-provisioning-plan.v1.md",
+    "docs/handoffs/H-M0-086.v1.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-181.v1.json",
+    "docs/M0.3A_COMPILER_GOVERNANCE_EQUIVALENCE_PROPOSAL.v1.md",
+    "reports/H-M0-181-compiler-governance-decision-memo.v1.md",
+    "reports/reviews/H-M0-181-native-engineering-review.v1.md",
+    "reports/audit/A-M0-163.v1.json",
+    "docs/handoffs/H-M0-181.v2.json"
+  ],
+  "tests_run": [
+    "Claim preparation only; repository authority and formal-review mechanisms inspected read-only."
+  ],
+  "open_questions": [],
+  "blockers": [
+    "Formal reviewer appointment/authentication is not currently provisioned; documentation can be engineering-reviewed but cannot receive formal Skeptic approval in this session.",
+    "Data remains BLOCKED; all STOPs remain OPEN; M0 remains blocked; M1 remains unreleased; authorization remains DENY; executor remains MOCK_ONLY; live remains LOCKED; kill remains ENGAGED; deployable capital remains USD 0."
+  ],
+  "next_action": "Commit and push this claim, publish the proposal and memo, obtain one separate read-only engineering consistency review, correct demonstrated defects, then publish completion evidence without asserting governance acceptance.",
+  "completion_criteria": [
+    "Proposal defines exact closed-family, identity, exhaustive-ledger, adversarial, history-preservation, promotion, owner, and authenticated-reviewer requirements.",
+    "Memo states whether a supported formal appointment mechanism exists, the smallest missing external setup, the exact decision required, and the next authorized non-operational code deliverable.",
+    "One read-only engineering reviewer reports on internal consistency without being represented as formal Skeptic authority.",
+    "H-M0-179/H-M0-180, V55, every STOP, project state, and all safety restrictions remain unchanged."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-180.v2.json",
+      "kind": "handoff",
+      "id": "H-M0-180",
+      "version": 2,
+      "sha256": "6edd56f776ec77d7334991abebe49cd3790c4446b1ca3c997b8cd90c2946bbb9"
+    }
+  ]
+}
