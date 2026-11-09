@@ -1,0 +1,63 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-183",
+  "version": 1,
+  "created_at": "2026-11-09T21:29:50Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "CLAIMED",
+  "request": "Deliver one deterministic end-to-end fictional sports-market research experiment through Research, synthetic Data, Quant, synthetic adversarial challenge, Risk, Director, and the existing H-M0-179 scheduler lifecycle, with retained evidence and no authorizing effect.",
+  "work_done": "Director /root claims the sole writer slot on clean synchronized main at 6be31f449f9130d7c60bb41ebb3077a19aa47187. H-M0-179, H-M0-180, H-M0-181, and H-M0-182 are complete and preserved. Scope is one isolated local developer experiment: a hypothesis registered under the existing hypothesis contract; a closed synthetic input package with timestamped fictional observations and provenance; deterministic price, cost, ROI, drawdown, break-even, and Wilson-interval evaluation; an isolated future-leakage negative control; a clearly non-formal synthetic Skeptic challenge; a DENY-only Risk and Director conclusion; a stable projection of the existing synthetic scheduler lifecycle; JSON and human-readable CLI output; retained expected evidence; and focused fail-closed tests. No external data, Scout, paper/live activity, strategy promotion, formal approval, reviewer provisioning, runtime-v2 release generation, executor attachment, STOP, project state, or capital change is in scope.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-182.v2.json",
+    "docs/handoffs/H-M0-179.v2.json",
+    "src/edgelab/synthetic_lifecycle.py",
+    "src/edgelab/research_protocol.py",
+    "src/edgelab/quant_protocol.py",
+    "src/edgelab/risk_controls.py",
+    "schemas/hypothesis.schema.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json",
+    "reports/stops/STOP-M0-3A-002.v81.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-183.v1.json",
+    "research/hypotheses/H-SYNTHETIC-001.v1.json",
+    "schemas/synthetic-research-input.v1.schema.json",
+    "schemas/synthetic-research-result.v1.schema.json",
+    "reports/synthetic-research/H-M0-183-input.v1.json",
+    "reports/synthetic-research/H-M0-183-result.v1.json",
+    "src/edgelab/synthetic_research_experiment.py",
+    "tools/run_synthetic_research_experiment.py",
+    "tests/test_synthetic_research_experiment.py",
+    "reports/H-M0-183-synthetic-research-experiment.v1.md",
+    "reports/reviews/H-M0-183-native-engineering-review.v1.md",
+    "reports/audit/A-M0-165.v1.json",
+    "docs/handoffs/H-M0-183.v2.json"
+  ],
+  "tests_run": [
+    "Claim preparation only; H-M0-182 completion validated 608 governed records, preserved H-M0-179/H-M0-180/V55, and left the working tree clean at synchronized origin/main."
+  ],
+  "open_questions": [],
+  "blockers": [
+    "The synthetic adversarial stage and requested AI engineering review are internal non-authorizing evidence only; neither is formal 05 Skeptic approval.",
+    "Data remains BLOCKED; all STOPs remain OPEN; M0 remains blocked; M1 remains unreleased; authorization remains DENY; executor remains MOCK_ONLY; live remains LOCKED; kill remains ENGAGED; deployable capital remains USD 0."
+  ],
+  "next_action": "Commit and push the claim, implement the closed experiment and retained evidence, run focused and preservation tests, obtain one separate read-only engineering reproduction, correct demonstrated defects, then publish the validated completion evidence.",
+  "completion_criteria": [
+    "The retained fictional hypothesis predates protocol freeze and evaluation, and every synthetic observation has explicit provenance and temporal coordinates.",
+    "Quant deterministically accounts for offered prices, market overround, execution cost, win rate, net PnL, ROI, drawdown, break-even rate, and uncertainty without overstating the result.",
+    "A deliberately future-leaking control is rejected and malformed, missing, stale, duplicate, or future-leaking primary evidence fails closed.",
+    "The existing H-M0-179 scheduler records the local task lifecycle, while every experiment and scheduler projection remains DENY and non-operational.",
+    "JSON and text CLI output, retained evidence, focused tests, production validation, and read-only engineering reproduction are green."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-182.v2.json",
+      "kind": "handoff",
+      "id": "H-M0-182",
+      "version": 2,
+      "sha256": "5a6ce6b72d972ad1914f3d03a8a5826aa9f22a551dd7ee998e90c8f2a6f14e36"
+    }
+  ]
+}
