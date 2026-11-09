@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-184",
+  "version": 1,
+  "created_at": "2026-11-09T22:21:56Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "CLAIMED",
+  "request": "Coordinate the retained H-M0-183 fictional research stages through the existing H-M0-179 transactional scheduler so stage evidence is recorded in actual task/event history and downstream work fails closed on missing or altered predecessors.",
+  "work_done": "Director /root claims the sole writer slot on clean synchronized main at 0b2c807c25b37f7aa8dcd2887c1ddce8e6dbfda6. H-M0-179 and H-M0-183 are complete and preserved byte-for-byte. Scope adds one local coordinator over the existing Scheduler, locked-authority reader, and H-M0-183 scientific functions. One pipeline task records Research, Data, and Quant as content-bound continuation events, then uses the scheduler's actual review assignment and decision for the synthetic Skeptic challenge. Risk and Director use separate claimed tasks whose origin receipts content-bind verified predecessor task history and evidence. The coordinator reports that these receipts are enforced by the integration layer because Scheduler v1 has no native general dependency edge. Scope also adds a closed result schema, retained deterministic projection, JSON/text CLI, focused adversarial tests, delivery/review/audit/completion evidence, and one read-only engineering review. No scheduler schema change, replacement framework, executor, remediation-edge misuse, formal approval, external data, operational research, public verifier attachment, release closure, resource classification, STOP, project state, live, or capital change is in scope.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-183.v2.json",
+    "docs/handoffs/H-M0-179.v2.json",
+    "src/edgelab/transactional_scheduler.py",
+    "src/edgelab/locked_authority.py",
+    "src/edgelab/synthetic_research_experiment.py",
+    "reports/synthetic-research/H-M0-183-input.v1.json",
+    "reports/synthetic-research/H-M0-183-result.v1.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json",
+    "reports/stops/STOP-M0-3A-002.v81.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-184.v1.json",
+    "src/edgelab/scheduler_coordinated_research.py",
+    "tools/run_scheduler_coordinated_research.py",
+    "schemas/scheduler-coordinated-research-result.v1.schema.json",
+    "reports/synthetic-research/H-M0-184-result.v1.json",
+    "tests/test_scheduler_coordinated_research.py",
+    "reports/H-M0-184-scheduler-coordinated-research.v1.md",
+    "reports/reviews/H-M0-184-native-engineering-review.v1.md",
+    "reports/audit/A-M0-166.v1.json",
+    "docs/handoffs/H-M0-184.v2.json"
+  ],
+  "tests_run": [
+    "Claim preparation only; H-M0-183 completion validated 612 governed records, preserved H-M0-179, and left synchronized origin/main clean."
+  ],
+  "open_questions": [],
+  "blockers": [
+    "Scheduler v1 has no native general prerequisite/dependency edge or typed scientific evidence table; the integration may use only task event payloads, review decisions, task-origin receipts, replay, and fail-closed coordinator verification without claiming stronger scheduler semantics.",
+    "Synthetic review and AI engineering review remain internal and non-authorizing; neither is formal 05 Skeptic approval.",
+    "Data remains BLOCKED; all STOPs remain OPEN; M0 remains blocked; M1 remains unreleased; authorization remains DENY; executor remains MOCK_ONLY; live remains LOCKED; kill remains ENGAGED; deployable capital remains USD 0."
+  ],
+  "next_action": "Commit and push the claim, implement the smallest truthful scheduler coordination, adversarially test ordering/evidence/replay/review boundaries, obtain one read-only engineering review, correct demonstrated defects, and publish completion evidence.",
+  "completion_criteria": [
+    "Actual scheduler task events record Research, Data, and Quant evidence in order and native review history binds the synthetic Skeptic decision to the exact Quant output.",
+    "Risk and Director task-origin receipts bind verified predecessor event history and evidence, while the output explicitly labels the absence of a native general dependency edge.",
+    "Missing stages, invalid receipt dependencies, altered Quant evidence, future leakage, inconsistent review decisions, and event-history mutation fail closed under focused tests and replay.",
+    "The retained result remains deterministic INSUFFICIENT_DATA and every authority projection remains DENY without modifying H-M0-179 or H-M0-183 behavior/evidence.",
+    "One read-only engineering reviewer reproduces decisive tests and reports no remaining demonstrated defect."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-183.v2.json",
+      "kind": "handoff",
+      "id": "H-M0-183",
+      "version": 2,
+      "sha256": "ee04696a96cf7bfa9f9ead1663e8dac6748ffa727d0a717956bced4bc55e7713"
+    },
+    {
+      "path": "docs/handoffs/H-M0-179.v2.json",
+      "kind": "handoff",
+      "id": "H-M0-179",
+      "version": 2,
+      "sha256": "abbd6e7eba2c4aaab3d04b8214d8a3a73bf73adb10243977341ff2c015760604"
+    }
+  ]
+}
