@@ -1,0 +1,52 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-180",
+  "version": 1,
+  "created_at": "2026-11-09T17:19:46Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "CLAIMED",
+  "request": "Design and test a non-authorizing deterministic proof-compiler prototype over one rigorously closed family in the frozen 721-site runtime-v2 resource census without changing accepted classifications or governance authority.",
+  "work_done": "Director /root claims the sole writer slot on clean synchronized main at 226ae1908aac32127cd9dc2310617f53c65ba279. Read-only measurement of the exact frozen V8 census found 425 source and 296 schema sites. The precisely local Draft 2020-12 minLength family contains 35 schema sites: ten already represented by accepted V55 evidence and 25 currently unclassified. The prototype will inspect all 721 sites, independently pin V8 and V55 inputs, generate a complete per-site ledger, reproduce the ten accepted semantics, emit the 25 new sites only as CANDIDATE_ONLY, explicitly retain every other site as NONMATCHING or AMBIGUOUS, and deny all authority.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-179.v2.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v8.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v55.json",
+    "schemas/m0-3a-runtime-v2-schema-declarative-keyword-proof.v1.schema.json",
+    "tools/check_runtime_v2_release_readiness.py",
+    "reports/stops/STOP-M0-3A-002.v81.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-180.v1.json",
+    "tools/compile_runtime_v2_minlength_candidates.py",
+    "tests/test_runtime_v2_proof_compiler.py",
+    "reports/H-M0-180-automated-proof-compiler-feasibility.v1.md",
+    "reports/reviews/H-M0-180-native-engineering-review.v1.md",
+    "reports/audit/A-M0-162.v1.json",
+    "docs/handoffs/H-M0-180.v2.json"
+  ],
+  "tests_run": [
+    "Claim preparation only; frozen-census measurement reproduced 721 sites, V55 87 classified / 634 unclassified, and minLength family applicability of ten accepted plus 25 new candidates."
+  ],
+  "open_questions": [],
+  "blockers": [
+    "Prototype output cannot count as accepted evidence without a separate versioned governance-equivalence amendment, valid owner authorization, and genuinely independent formal review.",
+    "Data remains BLOCKED; all STOPs remain OPEN; M0 remains blocked; M1 remains unreleased; authorization remains DENY; executor remains MOCK_ONLY; live remains LOCKED; kill remains ENGAGED; deployable capital remains USD 0."
+  ],
+  "next_action": "Commit and push the sole-writer claim, implement the offline minLength compiler and adversarial regressions, obtain one read-only native engineering review, repair demonstrated defects, and publish measured feasibility without modifying V55 or release state.",
+  "completion_criteria": [
+    "Compiler verifies and inspects exactly all 721 frozen sites with uniqueness and bidirectional coverage.",
+    "Every eligible exact-location minLength site receives a deterministic witness; accepted references reproduce exactly and all new output remains CANDIDATE_ONLY.",
+    "Forged, stale, duplicate, ambiguous, mismatched, incomplete, and reordered inputs or outputs fail closed in focused tests.",
+    "Independent engineering review reproduces decisive positive and adversarial cases; no formal Skeptic authority is claimed."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-179.v2.json",
+      "kind": "handoff",
+      "id": "H-M0-179",
+      "version": 2,
+      "sha256": "abbd6e7eba2c4aaab3d04b8214d8a3a73bf73adb10243977341ff2c015760604"
+    }
+  ]
+}
