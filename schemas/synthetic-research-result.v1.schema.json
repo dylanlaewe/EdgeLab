@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:synthetic-research-result:1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "experiment_version",
+    "mode",
+    "input_package_sha256",
+    "evaluator_sha256",
+    "stages",
+    "final_result",
+    "authorization",
+    "formal_skeptic_approval",
+    "result_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "experiment_id": {"const": "H-M0-183-SYNTHETIC-EXPERIMENT"},
+    "experiment_version": {"const": 1},
+    "mode": {"const": "SYNTHETIC_LOCAL_ONLY"},
+    "input_package_sha256": {"const": "48b5fe80a19a402ba676285d67d90fda8d3a98ecdd2089c14844fa13841768fb"},
+    "evaluator_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "stages": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["research", "data", "quant", "synthetic_skeptic", "risk", "director", "scheduler"],
+      "properties": {
+        "research": {"$ref": "#/$defs/stage"},
+        "data": {"$ref": "#/$defs/stage"},
+        "quant": {"$ref": "#/$defs/stage"},
+        "synthetic_skeptic": {"$ref": "#/$defs/stage"},
+        "risk": {"$ref": "#/$defs/stage"},
+        "director": {"$ref": "#/$defs/stage"},
+        "scheduler": {"$ref": "#/$defs/stage"}
+      }
+    },
+    "final_result": {"const": "INSUFFICIENT_DATA"},
+    "authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authorizing_use", "operational_release", "paper_trading", "live", "kill", "deployable_capital_usd"],
+      "properties": {
+        "authorizing_use": {"const": "DENY"},
+        "operational_release": {"const": "DENIED"},
+        "paper_trading": {"const": "DENIED"},
+        "live": {"const": "LOCKED"},
+        "kill": {"const": "ENGAGED"},
+        "deployable_capital_usd": {"const": "0.00"}
+      }
+    },
+    "formal_skeptic_approval": {"const": false},
+    "result_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "$defs": {
+    "stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "input_refs", "output"],
+      "properties": {
+        "status": {"type": "string", "minLength": 1},
+        "input_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "output": {"type": "object"}
+      }
+    }
+  }
+}

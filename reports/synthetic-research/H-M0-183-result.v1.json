@@ -1,0 +1,179 @@
+{
+  "authorization": {
+    "authorizing_use": "DENY",
+    "deployable_capital_usd": "0.00",
+    "kill": "ENGAGED",
+    "live": "LOCKED",
+    "operational_release": "DENIED",
+    "paper_trading": "DENIED"
+  },
+  "evaluator_sha256": "0941e7b6823a8bd693076f35c1b29c3823881de397f500b15372a2297eccaf26",
+  "experiment_id": "H-M0-183-SYNTHETIC-EXPERIMENT",
+  "experiment_version": 1,
+  "final_result": "INSUFFICIENT_DATA",
+  "formal_skeptic_approval": false,
+  "input_package_sha256": "48b5fe80a19a402ba676285d67d90fda8d3a98ecdd2089c14844fa13841768fb",
+  "mode": "SYNTHETIC_LOCAL_ONLY",
+  "result_sha256": "eba4b15dd06159209947d6f9ecec7fc3ea61a4a2f7d94fa28a68515ac51da304",
+  "schema_version": 1,
+  "stages": {
+    "data": {
+      "input_refs": [
+        "reports/synthetic-research/H-M0-183-input.v1.json#/source_provenance",
+        "reports/synthetic-research/H-M0-183-input.v1.json#/primary_observations"
+      ],
+      "output": {
+        "external_data": false,
+        "observation_count": 12,
+        "observation_inventory_sha256": "19abe9baa4b2464e111fbca9bcd5e21140b440472cc27f92256ec2875067f408",
+        "source_id": "SYNTHETIC-EXAMPLE-BALL-001",
+        "source_type": "DETERMINISTIC_SYNTHETIC_FIXTURE",
+        "temporal_integrity": "PASSED"
+      },
+      "status": "VALID_SYNTHETIC_TIMESTAMPED_EVIDENCE"
+    },
+    "director": {
+      "input_refs": [
+        "stage:research/output",
+        "stage:data/output",
+        "stage:quant/output",
+        "stage:synthetic_skeptic/output",
+        "stage:risk/output"
+      ],
+      "output": {
+        "authorization": "DENY",
+        "claim": "NO_REAL_EDGE_OR_OPERATIONAL_READINESS_DEMONSTRATED",
+        "experiment_result": "INSUFFICIENT_DATA",
+        "formal_review_status": "NOT_GRANTED"
+      },
+      "status": "INSUFFICIENT_DATA"
+    },
+    "quant": {
+      "input_refs": [
+        "reports/synthetic-research/H-M0-183-input.v1.json#/protocol",
+        "reports/synthetic-research/H-M0-183-input.v1.json#/primary_observations"
+      ],
+      "output": {
+        "average_offered_decimal_odds": "2.054167",
+        "average_two_way_overround": "0.028880",
+        "cost_adjusted_break_even_win_rate": "0.496552",
+        "cost_units_per_selection": "0.020000",
+        "eligible_observation_ids": [
+          "OBS-001",
+          "OBS-002",
+          "OBS-003",
+          "OBS-004",
+          "OBS-005",
+          "OBS-006",
+          "OBS-007",
+          "OBS-008",
+          "OBS-009",
+          "OBS-010",
+          "OBS-011",
+          "OBS-012"
+        ],
+        "losses": 5,
+        "maximum_drawdown_units": "2.040000",
+        "minimum_sample_size": 20,
+        "net_profit_units": "2.180000",
+        "net_roi": "0.181667",
+        "sample_size": 12,
+        "sample_sufficient": false,
+        "stake_units_per_selection": "1.000000",
+        "status": "INSUFFICIENT_DATA",
+        "total_stake_units": "12.000000",
+        "uncertainty_excludes_break_even": false,
+        "wilson_95_lower": "0.319511",
+        "wilson_95_upper": "0.806740",
+        "win_rate": "0.583333",
+        "wins": 7
+      },
+      "status": "INSUFFICIENT_DATA"
+    },
+    "research": {
+      "input_refs": [
+        "research/hypotheses/H-SYNTHETIC-001.v1.json"
+      ],
+      "output": {
+        "hypothesis_id": "H-SYNTHETIC-001",
+        "protocol_frozen_at": "2026-01-02T00:00:00Z",
+        "registered_at": "2026-01-01T00:00:00Z",
+        "unresolved_thresholds": []
+      },
+      "status": "PREREGISTERED_BEFORE_EVALUATION"
+    },
+    "risk": {
+      "input_refs": [
+        "stage:quant/output",
+        "stage:synthetic_skeptic/output",
+        "reports/synthetic-research/H-M0-183-input.v1.json#/safety_boundary"
+      ],
+      "output": {
+        "capital_authorization": "DENY",
+        "deployable_capital_usd": "0.00",
+        "limitations": [
+          "fictional observations do not establish external validity",
+          "sample size is below the preregistered minimum",
+          "uncertainty includes the cost-adjusted break-even rate",
+          "formal Skeptic approval is absent"
+        ],
+        "paper_trading": "DENY",
+        "strategy_promotion": "DENY"
+      },
+      "status": "DENY"
+    },
+    "scheduler": {
+      "input_refs": [
+        "stage:director/output",
+        "src/edgelab/synthetic_lifecycle.py"
+      ],
+      "output": {
+        "authorizing_use": "DENY",
+        "event_sequence": [
+          "TASK_INITIALIZED",
+          "CLAIM_ISSUED",
+          "TASK_STARTED",
+          "TASK_COMPLETED",
+          "REVIEW_ASSIGNED",
+          "REVIEW_APPROVED",
+          "DIRECTOR_ROUTED"
+        ],
+        "final_execution": "EXECUTION_COMPLETED",
+        "final_review": "APPROVED",
+        "final_workflow": "DIRECTOR_GATE_READY",
+        "formal_skeptic_approval": false,
+        "public_runtime_v2_status": "UNSUPPORTED",
+        "review_scope": "SYNTHETIC_TASK_RECORDING_ONLY",
+        "scheduler_replay": "PASSED",
+        "task_id": "T-SYNTHETIC-001"
+      },
+      "status": "RECORDED_NON_OPERATIONAL_LIFECYCLE"
+    },
+    "synthetic_skeptic": {
+      "input_refs": [
+        "stage:quant/output",
+        "reports/synthetic-research/H-M0-183-input.v1.json#/negative_controls"
+      ],
+      "output": {
+        "findings": [
+          "SAMPLE_SIZE_BELOW_PREREGISTERED_MINIMUM",
+          "UNCERTAINTY_INCLUDES_COST_ADJUSTED_BREAK_EVEN",
+          "POSITIVE_SYNTHETIC_ROI_IS_NOT_REAL_EDGE_EVIDENCE"
+        ],
+        "formal_skeptic_approval": false,
+        "negative_controls": [
+          {
+            "admitted_to_primary_analysis": false,
+            "control_id": "NEG-FUTURE-SIGNAL-001",
+            "finding": "FUTURE_LEAKAGE",
+            "status": "REJECTED_AS_EXPECTED"
+          }
+        ],
+        "outcome": "REJECT_ANY_CLAIM_OF_DEMONSTRATED_EDGE",
+        "review_class": "SYNTHETIC_INTERNAL_NON_AUTHORIZING",
+        "status": "CHALLENGE_CONFIRMED"
+      },
+      "status": "CHALLENGE_CONFIRMED"
+    }
+  }
+}

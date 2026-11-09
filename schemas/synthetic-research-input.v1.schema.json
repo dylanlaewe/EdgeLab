@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:synthetic-research-input:1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "version",
+    "mode",
+    "created_at",
+    "hypothesis_ref",
+    "protocol",
+    "source_provenance",
+    "primary_observations",
+    "negative_controls",
+    "safety_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "id": {"const": "H-M0-183-SYNTHETIC-EXPERIMENT"},
+    "version": {"const": 1},
+    "mode": {"const": "SYNTHETIC_LOCAL_ONLY"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "hypothesis_ref": {"$ref": "#/$defs/exact_ref"},
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_frozen_at",
+        "evaluation_started_at",
+        "evaluation_completed_at",
+        "signal_threshold",
+        "minimum_offered_decimal_odds",
+        "minimum_sample_size",
+        "stake_units",
+        "cost_units_per_selection",
+        "confidence_level",
+        "wilson_z",
+        "seed",
+        "arithmetic"
+      ],
+      "properties": {
+        "protocol_frozen_at": {"type": "string", "format": "date-time"},
+        "evaluation_started_at": {"type": "string", "format": "date-time"},
+        "evaluation_completed_at": {"type": "string", "format": "date-time"},
+        "signal_threshold": {"type": "string", "pattern": "^[0-9]+\\.[0-9]{2}$"},
+        "minimum_offered_decimal_odds": {"type": "string", "pattern": "^[0-9]+\\.[0-9]{2}$"},
+        "minimum_sample_size": {"type": "integer", "minimum": 1},
+        "stake_units": {"const": "1.00"},
+        "cost_units_per_selection": {"type": "string", "pattern": "^0\\.[0-9]{2}$"},
+        "confidence_level": {"const": "0.95"},
+        "wilson_z": {"const": "1.959963984540054"},
+        "seed": {"const": 183},
+        "arithmetic": {"const": "PYTHON_DECIMAL_ROUND_HALF_EVEN_6DP"}
+      }
+    },
+    "source_provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "source_type",
+        "generator_id",
+        "generator_version",
+        "generated_at",
+        "license",
+        "external_data",
+        "fictional_notice"
+      ],
+      "properties": {
+        "source_id": {"const": "SYNTHETIC-EXAMPLE-BALL-001"},
+        "source_type": {"const": "DETERMINISTIC_SYNTHETIC_FIXTURE"},
+        "generator_id": {"const": "EDGELAB-H-M0-183-FIXTURE"},
+        "generator_version": {"const": 1},
+        "generated_at": {"type": "string", "format": "date-time"},
+        "license": {"const": "INTERNAL_SYNTHETIC_FIXTURE"},
+        "external_data": {"const": false},
+        "fictional_notice": {"type": "string", "minLength": 1}
+      }
+    },
+    "primary_observations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/observation"}
+    },
+    "negative_controls": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["control_id", "purpose", "expected_finding", "observation"],
+        "properties": {
+          "control_id": {"type": "string", "minLength": 1},
+          "purpose": {"type": "string", "minLength": 1},
+          "expected_finding": {"const": "FUTURE_LEAKAGE"},
+          "observation": {"$ref": "#/$defs/observation"}
+        }
+      }
+    },
+    "safety_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "data_status",
+        "authorization",
+        "executor",
+        "live",
+        "kill",
+        "deployable_capital_usd",
+        "formal_skeptic_approval"
+      ],
+      "properties": {
+        "data_status": {"const": "BLOCKED"},
+        "authorization": {"const": "DENY"},
+        "executor": {"const": "MOCK_ONLY"},
+        "live": {"const": "LOCKED"},
+        "kill": {"const": "ENGAGED"},
+        "deployable_capital_usd": {"const": "0.00"},
+        "formal_skeptic_approval": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "exact_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "kind", "id", "version", "sha256"],
+      "properties": {
+        "path": {"const": "research/hypotheses/H-SYNTHETIC-001.v1.json"},
+        "kind": {"const": "hypothesis"},
+        "id": {"const": "H-SYNTHETIC-001"},
+        "version": {"const": 1},
+        "sha256": {"const": "10aa95db2ee66e0d30b7544b2ffc142ef43488cbf489a3501f32230ced2fb1f1"}
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observation_id",
+        "event_id",
+        "signal_published_at",
+        "price_observed_at",
+        "decision_at",
+        "event_at",
+        "outcome_available_at",
+        "public_signal_score",
+        "offered_decimal_odds",
+        "opposing_decimal_odds",
+        "outcome",
+        "provenance_source_id"
+      ],
+      "properties": {
+        "observation_id": {"type": "string", "pattern": "^OBS-[A-Z0-9-]+$"},
+        "event_id": {"type": "string", "pattern": "^EBL-[0-9]{3}$"},
+        "signal_published_at": {"type": "string", "format": "date-time"},
+        "price_observed_at": {"type": "string", "format": "date-time"},
+        "decision_at": {"type": "string", "format": "date-time"},
+        "event_at": {"type": "string", "format": "date-time"},
+        "outcome_available_at": {"type": "string", "format": "date-time"},
+        "public_signal_score": {"type": "string", "pattern": "^0\\.[0-9]{2}$"},
+        "offered_decimal_odds": {"type": "string", "pattern": "^[1-9][0-9]*\\.[0-9]{2}$"},
+        "opposing_decimal_odds": {"type": "string", "pattern": "^[1-9][0-9]*\\.[0-9]{2}$"},
+        "outcome": {"enum": ["WIN", "LOSS"]},
+        "provenance_source_id": {"const": "SYNTHETIC-EXAMPLE-BALL-001"}
+      }
+    }
+  }
+}

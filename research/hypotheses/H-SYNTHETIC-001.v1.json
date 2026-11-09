@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "id": "H-SYNTHETIC-001",
+  "version": 1,
+  "mode": "CONFIRMATORY",
+  "registered_at": "2026-01-01T00:00:00Z",
+  "author": "03 Research synthetic fixture",
+  "statement": "In the fictional Example Ball League, selections with the preregistered public-signal score at or above 0.60 and offered decimal odds at or above 2.00 produce positive net return after a fixed 0.02-unit execution cost per 1.00-unit stake.",
+  "rationale": "The fictional signal is constructed to demonstrate the EdgeLab research path; it is not evidence about any real sport, source, market, or strategy.",
+  "sport": "Example Ball (fictional)",
+  "league": "Example Ball League (fictional)",
+  "market_type": "fictional two-way match winner",
+  "population": "The twelve pre-enumerated fictional events in retained H-M0-183 synthetic evidence; no external population is implied.",
+  "required_data": [
+    "synthetic signal value and publication time",
+    "synthetic offered and opposing decimal prices and observation time",
+    "synthetic decision, event, and outcome-availability times",
+    "synthetic settled binary outcome"
+  ],
+  "signals": [
+    "public_signal_score >= 0.60"
+  ],
+  "entry_conditions": "Select once per enumerated event when signal >= 0.60, offered decimal odds >= 2.00, and both signal and price are available no later than the decision timestamp.",
+  "information_cutoff": "Only signal and price observations timestamped at or before each decision may select an event; outcomes must become available strictly after the event.",
+  "price_requirements": "Offered decimal odds >= 2.00; record the opposing side's decimal odds to measure two-way market overround.",
+  "sizing_assumptions": "A fixed fictional 1.00-unit stake per selected event; no compounding, bankroll sizing, or capital allocation.",
+  "cost_model": "Deduct a fixed fictional 0.02 unit from every selected event in addition to the offered decimal-price payoff.",
+  "evaluation_metrics": [
+    "sample size",
+    "win rate",
+    "average offered odds",
+    "average two-way overround",
+    "net profit and ROI after cost",
+    "maximum drawdown",
+    "cost-adjusted break-even win rate",
+    "95 percent Wilson interval for win rate"
+  ],
+  "minimum_sample_expectations": "At least 20 eligible independent fictional events are required for a sufficient synthetic confirmatory result.",
+  "rejection_criteria": [
+    "fewer than 20 eligible events yields INSUFFICIENT_DATA",
+    "any decision input available after its decision timestamp invalidates the affected evidence",
+    "duplicate event identity or missing required evidence invalidates the experiment",
+    "a 95 percent Wilson interval containing the cost-adjusted break-even rate cannot demonstrate edge",
+    "failure of the future-leakage negative control invalidates the evaluator"
+  ],
+  "validation_procedure": "Evaluate the one frozen retained dataset exactly once with deterministic Decimal arithmetic, reject temporal leakage before calculating metrics, run the isolated future-leakage negative control, and preserve the full result.",
+  "multiple_testing_plan": "One hypothesis, one fixed selection rule, one fixed dataset, and no parameter search or post-result modification.",
+  "unresolved_thresholds": [],
+  "supersedes": null
+}

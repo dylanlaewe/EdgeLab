@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "id": "H-M0-183-SYNTHETIC-EXPERIMENT",
+  "version": 1,
+  "mode": "SYNTHETIC_LOCAL_ONLY",
+  "created_at": "2026-01-20T00:00:00Z",
+  "hypothesis_ref": {
+    "path": "research/hypotheses/H-SYNTHETIC-001.v1.json",
+    "kind": "hypothesis",
+    "id": "H-SYNTHETIC-001",
+    "version": 1,
+    "sha256": "10aa95db2ee66e0d30b7544b2ffc142ef43488cbf489a3501f32230ced2fb1f1"
+  },
+  "protocol": {
+    "protocol_frozen_at": "2026-01-02T00:00:00Z",
+    "evaluation_started_at": "2026-01-20T01:00:00Z",
+    "evaluation_completed_at": "2026-01-20T01:00:01Z",
+    "signal_threshold": "0.60",
+    "minimum_offered_decimal_odds": "2.00",
+    "minimum_sample_size": 20,
+    "stake_units": "1.00",
+    "cost_units_per_selection": "0.02",
+    "confidence_level": "0.95",
+    "wilson_z": "1.959963984540054",
+    "seed": 183,
+    "arithmetic": "PYTHON_DECIMAL_ROUND_HALF_EVEN_6DP"
+  },
+  "source_provenance": {
+    "source_id": "SYNTHETIC-EXAMPLE-BALL-001",
+    "source_type": "DETERMINISTIC_SYNTHETIC_FIXTURE",
+    "generator_id": "EDGELAB-H-M0-183-FIXTURE",
+    "generator_version": 1,
+    "generated_at": "2026-01-01T00:00:00Z",
+    "license": "INTERNAL_SYNTHETIC_FIXTURE",
+    "external_data": false,
+    "fictional_notice": "Every event, signal, price, and outcome is fictional and must not be interpreted as a real pick or market observation."
+  },
+  "primary_observations": [
+    {"observation_id":"OBS-001","event_id":"EBL-001","signal_published_at":"2026-01-03T10:00:00Z","price_observed_at":"2026-01-03T10:05:00Z","decision_at":"2026-01-03T10:10:00Z","event_at":"2026-01-03T18:00:00Z","outcome_available_at":"2026-01-03T21:00:00Z","public_signal_score":"0.61","offered_decimal_odds":"2.00","opposing_decimal_odds":"1.90","outcome":"WIN","provenance_source_id":"SYNTHETIC-EXAMPLE-BALL-001"},
+    {"observation_id":"OBS-002","event_id":"EBL-002","signal_published_at":"2026-01-04T10:00:00Z","price_observed_at":"2026-01-04T10:05:00Z","decision_at":"2026-01-04T10:10:00Z","event_at":"2026-01-04T18:00:00Z","outcome_available_at":"2026-01-04T21:00:00Z","public_signal_score":"0.64","offered_decimal_odds":"2.05","opposing_decimal_odds":"1.85","outcome":"LOSS","provenance_source_id":"SYNTHETIC-EXAMPLE-BALL-001"},
+    {"observation_id":"OBS-003","event_id":"EBL-003","signal_published_at":"2026-01-05T10:00:00Z","price_observed_at":"2026-01-05T10:05:00Z","decision_at":"2026-01-05T10:10:00Z","event_at":"2026-01-05T18:00:00Z","outcome_available_at":"2026-01-05T21:00:00Z","public_signal_score":"0.68","offered_decimal_odds":"2.10","opposing_decimal_odds":"1.80","outcome":"LOSS","provenance_source_id":"SYNTHETIC-EXAMPLE-BALL-001"},
+    {"observation_id":"OBS-004","event_id":"EBL-004","signal_published_at":"2026-01-06T10:00:00Z","price_observed_at":"2026-01-06T10:05:00Z","decision_at":"2026-01-06T10:10:00Z","event_at":"2026-01-06T18:00:00Z","outcome_available_at":"2026-01-06T21:00:00Z","public_signal_score":"0.62","offered_decimal_odds":"2.02","opposing_decimal_odds":"1.88","outcome":"WIN","provenance_source_id":"SYNTHETIC-EXAMPLE-BALL-001"},
+    {"observation_id":"OBS-005","event_id":"EBL-005","signal_published_at":"2026-01-07T10:00:00Z","price_observed_at":"2026-01-07T10:05:00Z","decision_at":"2026-01-07T10:10:00Z","event_at":"2026-01-07T18:00:00Z","outcome_available_at":"2026-01-07T21:00:00Z","public_signal_score":"0.70","offered_decimal_odds":"2.08","opposing_decimal_odds":"1.82","outcome":"WIN","provenance_source_id":"SYNTHETIC-EXAMPLE-BALL-001"},
+    {"observation_id":"OBS-006","event_id":"EBL-006","signal_published_at":"2026-01-08T10:00:00Z","price_observed_at":"2026-01-08T10:05:00Z","decision_at":"2026-01-08T10:10:00Z","event_at":"2026-01-08T18:00:00Z","outcome_available_at":"2026-01-08T21:00:00Z","public_signal_score":"0.65","offered_decimal_odds":"2.04","opposing_decimal_odds":"1.86","outcome":"LOSS","provenance_source_id":"SYNTHETIC-EXAMPLE-BALL-001"},
+    {"observation_id":"OBS-007","event_id":"EBL-007","signal_published_at":"2026-01-09T10:00:00Z","price_observed_at":"2026-01-09T10:05:00Z","decision_at":"2026-01-09T10:10:00Z","event_at":"2026-01-09T18:00:00Z","outcome_available_at":"2026-01-09T21:00:00Z","public_signal_score":"0.66","offered_decimal_odds":"2.06","opposing_decimal_odds":"1.84","outcome":"WIN","provenance_source_id":"SYNTHETIC-EXAMPLE-BALL-001"},
+    {"observation_id":"OBS-008","event_id":"EBL-008","signal_published_at":"2026-01-10T10:00:00Z","price_observed_at":"2026-01-10T10:05:00Z","decision_at":"2026-01-10T10:10:00Z","event_at":"2026-01-10T18:00:00Z","outcome_available_at":"2026-01-10T21:00:00Z","public_signal_score":"0.63","offered_decimal_odds":"2.01","opposing_decimal_odds":"1.89","outcome":"LOSS","provenance_source_id":"SYNTHETIC-EXAMPLE-BALL-001"},
+    {"observation_id":"OBS-009","event_id":"EBL-009","signal_published_at":"2026-01-11T10:00:00Z","price_observed_at":"2026-01-11T10:05:00Z","decision_at":"2026-01-11T10:10:00Z","event_at":"2026-01-11T18:00:00Z","outcome_available_at":"2026-01-11T21:00:00Z","public_signal_score":"0.69","offered_decimal_odds":"2.09","opposing_decimal_odds":"1.81","outcome":"WIN","provenance_source_id":"SYNTHETIC-EXAMPLE-BALL-001"},
+    {"observation_id":"OBS-010","event_id":"EBL-010","signal_published_at":"2026-01-12T10:00:00Z","price_observed_at":"2026-01-12T10:05:00Z","decision_at":"2026-01-12T10:10:00Z","event_at":"2026-01-12T18:00:00Z","outcome_available_at":"2026-01-12T21:00:00Z","public_signal_score":"0.67","offered_decimal_odds":"2.07","opposing_decimal_odds":"1.83","outcome":"WIN","provenance_source_id":"SYNTHETIC-EXAMPLE-BALL-001"},
+    {"observation_id":"OBS-011","event_id":"EBL-011","signal_published_at":"2026-01-13T10:00:00Z","price_observed_at":"2026-01-13T10:05:00Z","decision_at":"2026-01-13T10:10:00Z","event_at":"2026-01-13T18:00:00Z","outcome_available_at":"2026-01-13T21:00:00Z","public_signal_score":"0.60","offered_decimal_odds":"2.03","opposing_decimal_odds":"1.87","outcome":"LOSS","provenance_source_id":"SYNTHETIC-EXAMPLE-BALL-001"},
+    {"observation_id":"OBS-012","event_id":"EBL-012","signal_published_at":"2026-01-14T10:00:00Z","price_observed_at":"2026-01-14T10:05:00Z","decision_at":"2026-01-14T10:10:00Z","event_at":"2026-01-14T18:00:00Z","outcome_available_at":"2026-01-14T21:00:00Z","public_signal_score":"0.71","offered_decimal_odds":"2.10","opposing_decimal_odds":"1.80","outcome":"WIN","provenance_source_id":"SYNTHETIC-EXAMPLE-BALL-001"}
+  ],
+  "negative_controls": [
+    {
+      "control_id": "NEG-FUTURE-SIGNAL-001",
+      "purpose": "Prove that an outcome-correlated signal published after the simulated decision is rejected before quantitative evaluation.",
+      "expected_finding": "FUTURE_LEAKAGE",
+      "observation": {"observation_id":"OBS-NEG-001","event_id":"EBL-999","signal_published_at":"2026-01-15T10:20:00Z","price_observed_at":"2026-01-15T10:05:00Z","decision_at":"2026-01-15T10:10:00Z","event_at":"2026-01-15T18:00:00Z","outcome_available_at":"2026-01-15T21:00:00Z","public_signal_score":"0.99","offered_decimal_odds":"2.10","opposing_decimal_odds":"1.80","outcome":"WIN","provenance_source_id":"SYNTHETIC-EXAMPLE-BALL-001"}
+    }
+  ],
+  "safety_boundary": {
+    "data_status": "BLOCKED",
+    "authorization": "DENY",
+    "executor": "MOCK_ONLY",
+    "live": "LOCKED",
+    "kill": "ENGAGED",
+    "deployable_capital_usd": "0.00",
+    "formal_skeptic_approval": false
+  }
+}
