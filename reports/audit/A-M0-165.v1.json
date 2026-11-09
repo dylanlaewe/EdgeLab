@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-165",
+  "version": 1,
+  "occurred_at": "2026-11-09T21:56:34Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_SYNTHETIC_SCIENTIFIC_EXPERIMENT_INSUFFICIENT_DATA_DENY_ONLY",
+  "subject_ref": "reports/H-M0-183-synthetic-research-experiment.v1.md",
+  "previous_state": "SYNTHETIC_SCHEDULER_LIFECYCLE_WITHOUT_INTEGRATED_SCIENTIFIC_EXPERIMENT",
+  "new_state": "REPRODUCIBLE_FICTIONAL_RESEARCH_DATA_QUANT_ADVERSARIAL_RISK_DIRECTOR_AND_SCHEDULER_EXPERIMENT_DENY_ONLY",
+  "reason": "Commit 166f67f79be00220e24870dff00927f414a4c764 adds a preregistered fictional hypothesis, closed timestamped synthetic evidence, deterministic price/cost/performance/uncertainty evaluation, a future-leakage negative control, synthetic non-formal adversarial analysis, DENY-only Risk and Director conclusions, and an exact projection of the existing H-M0-179 scheduler lifecycle. The result is INSUFFICIENT_DATA and cannot authorize strategy promotion, paper/live activity, execution, STOP clearance, formal approval, or capital.",
+  "evidence_refs": [
+    "reports/H-M0-183-synthetic-research-experiment.v1.md",
+    "reports/reviews/H-M0-183-native-engineering-review.v1.md",
+    "reports/synthetic-research/H-M0-183-input.v1.json",
+    "reports/synthetic-research/H-M0-183-result.v1.json",
+    "research/hypotheses/H-SYNTHETIC-001.v1.json",
+    "src/edgelab/synthetic_research_experiment.py",
+    "tests/test_synthetic_research_experiment.py",
+    "docs/handoffs/H-M0-183.v1.json",
+    "docs/handoffs/H-M0-179.v2.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json",
+    "reports/stops/STOP-M0-3A-002.v81.json"
+  ],
+  "code_ref": "166f67f79be00220e24870dff00927f414a4c764",
+  "config_ref": "reports/synthetic-research/H-M0-183-input.v1.json",
+  "correlation_id": "H-M0-183",
+  "supersedes": null
+}

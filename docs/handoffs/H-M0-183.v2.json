@@ -1,0 +1,76 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-183",
+  "version": 2,
+  "created_at": "2026-11-09T21:56:34Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Deliver one reproducible end-to-end fictional sports-market scientific experiment using the existing EdgeLab architecture, including synthetic adversarial analysis, zero-authority Risk disposition, existing scheduler integration, retained evidence, CLI output, fail-closed tests, and one read-only engineering review.",
+  "work_done": "Commit 166f67f79be00220e24870dff00927f414a4c764 implements H-M0-183. Research registers H-SYNTHETIC-001 before protocol freeze and evaluation. A closed retained input package supplies twelve fictional, timestamped, provenance-bound observations and one deliberately future-leaking negative control. Quant deterministically evaluates offered and opposing prices, two-way overround, fixed execution cost, PnL, ROI, drawdown, cost-adjusted break-even, and a 95 percent Wilson interval with Decimal arithmetic. The fictional result is 7-5 and positive 0.181667 ROI, but only 12 of 20 preregistered observations exist and uncertainty includes break-even, so the scientific result is INSUFFICIENT_DATA. The synthetic Skeptic stage rejects the leakage control and any claim of demonstrated edge; Risk and Director retain DENY. The existing H-M0-179 scheduler runs and only an exact seven-event, replayed, unsupported-public-verifier, DENY-only projection is retained. JSON and text CLI output reproduce the committed result. Initial engineering review found optional result-schema and incomplete-lifecycle acceptance defects; both were fixed, adversarially tested, and passed read-only re-review. No formal Skeptic approval or operational authority is claimed.",
+  "evidence_refs": [
+    "reports/H-M0-183-synthetic-research-experiment.v1.md",
+    "reports/reviews/H-M0-183-native-engineering-review.v1.md",
+    "reports/audit/A-M0-165.v1.json",
+    "reports/synthetic-research/H-M0-183-input.v1.json",
+    "reports/synthetic-research/H-M0-183-result.v1.json",
+    "research/hypotheses/H-SYNTHETIC-001.v1.json",
+    "schemas/synthetic-research-input.v1.schema.json",
+    "schemas/synthetic-research-result.v1.schema.json",
+    "src/edgelab/synthetic_research_experiment.py",
+    "tools/run_synthetic_research_experiment.py",
+    "tests/test_synthetic_research_experiment.py",
+    "docs/handoffs/H-M0-183.v1.json",
+    "docs/handoffs/H-M0-179.v2.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-183.v1.json",
+    "research/hypotheses/H-SYNTHETIC-001.v1.json",
+    "schemas/synthetic-research-input.v1.schema.json",
+    "schemas/synthetic-research-result.v1.schema.json",
+    "reports/synthetic-research/H-M0-183-input.v1.json",
+    "reports/synthetic-research/H-M0-183-result.v1.json",
+    "src/edgelab/synthetic_research_experiment.py",
+    "tools/run_synthetic_research_experiment.py",
+    "tests/test_synthetic_research_experiment.py",
+    "reports/H-M0-183-synthetic-research-experiment.v1.md",
+    "reports/reviews/H-M0-183-native-engineering-review.v1.md",
+    "reports/audit/A-M0-165.v1.json",
+    "docs/handoffs/H-M0-183.v2.json"
+  ],
+  "tests_run": [
+    "Final focused H-M0-183 plus preserved H-M0-179 scheduler suites: 18/18 passed in 12.167 seconds after the final origin fetch.",
+    "H-M0-183 focused adversarial and integration suite: 13/13 passed in 7.468 seconds; reviewer reproduced 13/13 in 7.428 seconds.",
+    "Read-only reviewer attacks: missing result schema rejected with MISSING_SCHEMA; one-event DENY lifecycle substitution rejected with SCHEDULER_CONTRACT_MISMATCH.",
+    "Fresh direct and CLI JSON runs were byte-identical to retained result SHA-256 eba4b15dd06159209947d6f9ecec7fc3ea61a4a2f7d94fa28a68515ac51da304; human output reproduced the same DENY conclusion.",
+    "Compatibility run: H-M0-179 lifecycle 5/5, Research-history successor 27/27, Quant protocol 24/24, and Risk controls 18/18 completed green. The older 20-test ResearchProtocolTests class reproduced its existing verifier-baseline/full-inventory setup requirement; production contracts were not weakened.",
+    "Pre-completion production validation passed 610 governed records and published history with M0 capital LOCKED and no scientific or operational approval.",
+    "Completion-tree production validation passed 612 governed records and published history with M0 capital LOCKED and no scientific or operational approval.",
+    "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m compileall -q src tools tests and git diff --check passed."
+  ],
+  "open_questions": [],
+  "blockers": [
+    "The retained package is isolated synthetic evidence, not accepted operational Data authority; no external validity or real edge is demonstrated.",
+    "The synthetic Skeptic stage and AI engineering review are non-authorizing; formal 05 Skeptic approval remains absent and was not impersonated.",
+    "The local scheduler receipt remains untrusted and DENY-only and does not establish an authenticated experiment-to-runtime authorization receipt, currentness, or composed R-gate.",
+    "Public runtime-v2 verifier attachment, generated release closure, V1 disposition, A-J evidence, and resource-classification acceptance remain unresolved.",
+    "Data remains BLOCKED; all STOPs remain OPEN; M0 remains blocked; M1 remains unreleased; authorization remains DENY; executor remains MOCK_ONLY; live remains LOCKED; kill remains ENGAGED; deployable capital remains USD 0."
+  ],
+  "next_action": "Under existing non-operational authority, bind a closed synthetic experiment-result digest into an explicitly untrusted scheduler receipt and add typed retained Research/Data/Quant stage records without changing any accepted scientific, governance, execution, STOP, release, or capital state.",
+  "completion_criteria": [
+    "The retained hypothesis precedes protocol freeze and evaluation and all primary observations pass provenance and temporal validation.",
+    "Quant deterministically reproduces the exact retained metrics and reaches INSUFFICIENT_DATA rather than overstating positive fictional ROI.",
+    "The future-leakage control is rejected and malformed, missing, duplicate, stale, future-leaking, schema-missing, and incomplete-lifecycle evidence fails closed.",
+    "The existing scheduler lifecycle replays exactly and every Research, Data, Quant, synthetic Skeptic, Risk, Director, scheduler, CLI, and retained-result boundary remains non-operational and DENY.",
+    "One read-only engineering reviewer reproduces the corrected decisive cases and reports no remaining demonstrated implementation defect."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-183.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-183",
+      "version": 1,
+      "sha256": "e1960f0a8b7e3de1c669f3ca88475f5de412657a420a0f28d8e12165a19cec82"
+    }
+  ]
+}
