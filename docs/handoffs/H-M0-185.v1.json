@@ -1,0 +1,44 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-185",
+  "version": 1,
+  "created_at": "2026-11-09T22:49:27Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "CLAIMED",
+  "request": "Implement one scheduler-native, typed, content-bound Research evidence prerequisite for one synthetic Data task, preserving H-M0-179/H-M0-183/H-M0-184 behavior and every DENY boundary.",
+  "work_done": "Claimed the bounded non-operational scheduler increment at clean synchronized base 83def9a0d341349ef176e796753483c48bed9eb9. The accepted H-M0-184 next action expressly permits this separately claimed contract slice if governance permits it. Scope is one closed Research evidence type, one atomic Data dependency binding, CLAIM-time scheduler enforcement, replay/export persistence, synthetic demonstration, adversarial tests, and one read-only engineering review. No migration, operational worker, external service, new scheduler state, proof-classification family, formal Skeptic authority change, or release closure is authorized.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-184.v2.json",
+    "docs/M0.3A_TRANSACTIONAL_CONTRACT.v16.md",
+    "reports/H-M0-184-scheduler-coordinated-research.v1.md",
+    "src/edgelab/transactional_scheduler.py",
+    "src/edgelab/scheduler_coordinated_research.py"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-185.v1.json"
+  ],
+  "tests_run": [
+    "Claim only; synchronized main and origin/main at 83def9a0d341349ef176e796753483c48bed9eb9."
+  ],
+  "open_questions": [],
+  "blockers": [
+    "Data remains BLOCKED; every STOP remains OPEN; M0 remains blocked; M1 remains unreleased; executor remains MOCK_ONLY; public authority remains DENY; live remains LOCKED; kill remains ENGAGED; deployable capital remains USD 0."
+  ],
+  "next_action": "Implement and validate the bounded scheduler-native scientific dependency slice, then obtain one read-only engineering review.",
+  "completion_criteria": [
+    "Data CLAIM rejects until the exact completed Research evidence reference is replay-valid.",
+    "Typed evidence and dependency rows are content-bound to task, attempt, event/history identity, claim/fence, and generation.",
+    "Replay and restart preserve the relationship and reject altered, stale, mismatched, duplicate, or incomplete prerequisites.",
+    "H-M0-184 scientific output and all DENY boundaries remain unchanged."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-184.v2.json",
+      "kind": "handoff",
+      "id": "H-M0-184",
+      "version": 2,
+      "sha256": "d2edfd4996995be102d0972818dcdb2522ec364452a317a81203f3c43673a9c7"
+    }
+  ]
+}
