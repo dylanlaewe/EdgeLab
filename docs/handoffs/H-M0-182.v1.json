@@ -1,0 +1,59 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-182",
+  "version": 1,
+  "created_at": "2026-11-09T19:21:32Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "CLAIMED",
+  "request": "Build the largest coherent non-operational M0.3A increment currently permitted: a candidate-only rule registry, compiler-closure identity, and independently testable candidate-package verifier for the existing H-M0-180 minLength prototype, without pursuing or impersonating formal approval.",
+  "work_done": "Director /root claims the sole writer slot on clean synchronized main at cbbf61e115e8ab9db1ce33cae8e64e39e8e33946. H-M0-179 through H-M0-181 are complete and preserved. Scope implements only the already measured minLength candidate family: strict versioned registry/schema, compiler source-closure manifest/schema, compiler binding to the registry, a pure package verifier that can return only VALID_CANDIDATE or INVALID with DENY, a CLI adapter over actual repository bytes, adversarial tests integrated into the existing proof-compiler test module, and completion evidence. No formal reviewer provisioning, V56, new family, accepted count, release closure, public runtime-v2 verifier attachment, STOP, project state, currentness, R-gate, execution, live or capital change is in scope.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-181.v2.json",
+    "docs/M0.3A_COMPILER_GOVERNANCE_EQUIVALENCE_PROPOSAL.v1.md",
+    "reports/H-M0-181-compiler-governance-decision-memo.v1.md",
+    "docs/handoffs/H-M0-180.v2.json",
+    "tools/compile_runtime_v2_minlength_candidates.py",
+    "tests/test_runtime_v2_proof_compiler.py",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v8.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v55.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-182.v1.json",
+    "schemas/m0-3a-proof-compiler-rule-registry.v1.schema.json",
+    "schemas/m0-3a-proof-compiler-closure.v1.schema.json",
+    "docs/M0.3A_PROOF_COMPILER_RULE_REGISTRY.v1.json",
+    "docs/M0.3A_PROOF_COMPILER_CLOSURE.v1.json",
+    "tools/compile_runtime_v2_minlength_candidates.py",
+    "src/edgelab/proof_candidate_verifier.py",
+    "tools/verify_runtime_v2_candidate_package.py",
+    "tests/test_runtime_v2_proof_compiler.py",
+    "reports/H-M0-182-candidate-package-verifier.v1.md",
+    "reports/audit/A-M0-164.v1.json",
+    "docs/handoffs/H-M0-182.v2.json"
+  ],
+  "tests_run": [
+    "Claim preparation only; current production validator and H-M0-179/H-M0-180 preservation state were green at H-M0-181 completion."
+  ],
+  "open_questions": [],
+  "blockers": [
+    "GOV-M0-3A-COMPILER-EQUIVALENCE-001.v1 remains proposed and unapproved; every new artifact must remain CANDIDATE_ONLY / DENY.",
+    "Data remains BLOCKED; all STOPs remain OPEN; M0 remains blocked; M1 remains unreleased; authorization remains DENY; executor remains MOCK_ONLY; live remains LOCKED; kill remains ENGAGED; deployable capital remains USD 0."
+  ],
+  "next_action": "Commit and push the claim, implement the registry/closure/package-verifier increment, run focused positive and adversarial tests plus all preservation checks, then publish validated completion evidence without seeking formal approval.",
+  "completion_criteria": [
+    "One versioned registry contains only the exact H-M0-180 minLength rule and calibration/output pins, with CANDIDATE_ONLY / DENY status.",
+    "One versioned closure binds the full compiler dependency surface needed for reproducible candidate generation.",
+    "A pure verifier and CLI reject registry, closure, source, census, predecessor, ledger, semantic, authority, ordering and digest substitutions and can never express accepted/release authority.",
+    "Focused tests and H-M0-179/H-M0-180/V55 preservation checks pass; historical artifacts and accepted counts remain unchanged."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-181.v2.json",
+      "kind": "handoff",
+      "id": "H-M0-181",
+      "version": 2,
+      "sha256": "d6fe225ade62ea994b4567f499ec8b5f07aa1728fb394576c028f3544d9c98fc"
+    }
+  ]
+}
