@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:m0-3a-proof-compiler-closure:1",
+  "$defs": {
+    "sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "byte_length", "raw_sha256", "role"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "byte_length": {"type": "integer", "minimum": 1},
+        "raw_sha256": {"$ref": "#/$defs/sha"},
+        "role": {
+          "enum": [
+            "COMPILER_ENTRYPOINT",
+            "CENSUS_RECONSTRUCTOR",
+            "RULE_REGISTRY",
+            "RULE_REGISTRY_SCHEMA",
+            "FROZEN_DISCOVERY",
+            "ACCEPTED_PREDECESSOR",
+            "ADVERSARIAL_TESTS",
+            "FEASIBILITY_EVIDENCE"
+          ]
+        }
+      }
+    }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "closure_id",
+    "status",
+    "authorizing_use",
+    "governance_equivalence",
+    "schema",
+    "registry",
+    "frozen_inputs",
+    "entrypoint",
+    "interpreter_profile",
+    "canonical_json_profile",
+    "standard_library_modules",
+    "files",
+    "expected_output",
+    "nonclaims",
+    "closure_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "closure_id": {"const": "EDGELAB_M0_3A_PROOF_COMPILER_CLOSURE_V1"},
+    "status": {"const": "CANDIDATE_ONLY"},
+    "authorizing_use": {"const": "DENY"},
+    "governance_equivalence": {"const": "NOT_ESTABLISHED"},
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "raw_sha256"],
+      "properties": {
+        "path": {"const": "schemas/m0-3a-proof-compiler-closure.v1.schema.json"},
+        "raw_sha256": {"$ref": "#/$defs/sha"}
+      }
+    },
+    "registry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "raw_sha256", "registry_sha256"],
+      "properties": {
+        "path": {"const": "docs/M0.3A_PROOF_COMPILER_RULE_REGISTRY.v1.json"},
+        "raw_sha256": {"$ref": "#/$defs/sha"},
+        "registry_sha256": {"$ref": "#/$defs/sha"}
+      }
+    },
+    "frozen_inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["discovery_raw_sha256", "classification_raw_sha256"],
+      "properties": {
+        "discovery_raw_sha256": {"$ref": "#/$defs/sha"},
+        "classification_raw_sha256": {"$ref": "#/$defs/sha"}
+      }
+    },
+    "entrypoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "command", "network", "clock", "randomness", "writable_cache"],
+      "properties": {
+        "path": {"const": "tools/compile_runtime_v2_minlength_candidates.py"},
+        "command": {"const": ".venv/bin/python tools/compile_runtime_v2_minlength_candidates.py"},
+        "network": {"const": false},
+        "clock": {"const": false},
+        "randomness": {"const": false},
+        "writable_cache": {"const": false}
+      }
+    },
+    "interpreter_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["implementation", "major", "minor", "optimization_modes"],
+      "properties": {
+        "implementation": {"const": "CPython"},
+        "major": {"const": 3},
+        "minor": {"const": 13},
+        "optimization_modes": {
+          "type": "array",
+          "const": ["NORMAL", "OPTIMIZED"]
+        }
+      }
+    },
+    "canonical_json_profile": {"const": "SORT_KEYS_COMPACT_ASCII_NO_NAN_NEWLINE_V1"},
+    "standard_library_modules": {
+      "type": "array",
+      "const": ["argparse", "ast", "dataclasses", "hashlib", "json", "os", "pathlib", "stat", "sys", "typing"]
+    },
+    "files": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": {"$ref": "#/$defs/file"}
+    },
+    "expected_output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["raw_sha256", "byte_length", "witness_ledger_sha256", "compiler_output_sha256"],
+      "properties": {
+        "raw_sha256": {"$ref": "#/$defs/sha"},
+        "byte_length": {"const": 602682},
+        "witness_ledger_sha256": {"$ref": "#/$defs/sha"},
+        "compiler_output_sha256": {"$ref": "#/$defs/sha"}
+      }
+    },
+    "nonclaims": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "closure_sha256": {"$ref": "#/$defs/sha"}
+  }
+}

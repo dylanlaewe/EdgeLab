@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "closure_id": "EDGELAB_M0_3A_PROOF_COMPILER_CLOSURE_V1",
+  "status": "CANDIDATE_ONLY",
+  "authorizing_use": "DENY",
+  "governance_equivalence": "NOT_ESTABLISHED",
+  "schema": {
+    "path": "schemas/m0-3a-proof-compiler-closure.v1.schema.json",
+    "raw_sha256": "45ba225cdc112204798b194300651058f6da4d810a5b558b19b12aff960a477d"
+  },
+  "registry": {
+    "path": "docs/M0.3A_PROOF_COMPILER_RULE_REGISTRY.v1.json",
+    "raw_sha256": "874eecc433f27d16fae5c9f565b03dc85aa264fd8fbe7ca5519576499a77bae1",
+    "registry_sha256": "7d2b1b259cd3f75c2679d458029fbcfcdc2f547b3cab7ef76db7a25da8ec7a71"
+  },
+  "frozen_inputs": {
+    "discovery_raw_sha256": "9914da2984589f7ded860656be4cbfdb88cf7d106ce52856860ed756dfe8725f",
+    "classification_raw_sha256": "c82365a11a5cce64c91422151c4b38052ea78f2ed43d4848802734e6d2fe5ad1"
+  },
+  "entrypoint": {
+    "path": "tools/compile_runtime_v2_minlength_candidates.py",
+    "command": ".venv/bin/python tools/compile_runtime_v2_minlength_candidates.py",
+    "network": false,
+    "clock": false,
+    "randomness": false,
+    "writable_cache": false
+  },
+  "interpreter_profile": {
+    "implementation": "CPython",
+    "major": 3,
+    "minor": 13,
+    "optimization_modes": ["NORMAL", "OPTIMIZED"]
+  },
+  "canonical_json_profile": "SORT_KEYS_COMPACT_ASCII_NO_NAN_NEWLINE_V1",
+  "standard_library_modules": [
+    "argparse",
+    "ast",
+    "dataclasses",
+    "hashlib",
+    "json",
+    "os",
+    "pathlib",
+    "stat",
+    "sys",
+    "typing"
+  ],
+  "files": [
+    {
+      "path": "docs/M0.3A_PROOF_COMPILER_RULE_REGISTRY.v1.json",
+      "byte_length": 3698,
+      "raw_sha256": "874eecc433f27d16fae5c9f565b03dc85aa264fd8fbe7ca5519576499a77bae1",
+      "role": "RULE_REGISTRY"
+    },
+    {
+      "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v55.json",
+      "byte_length": 136924,
+      "raw_sha256": "c82365a11a5cce64c91422151c4b38052ea78f2ed43d4848802734e6d2fe5ad1",
+      "role": "ACCEPTED_PREDECESSOR"
+    },
+    {
+      "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v8.json",
+      "byte_length": 2344,
+      "raw_sha256": "9914da2984589f7ded860656be4cbfdb88cf7d106ce52856860ed756dfe8725f",
+      "role": "FROZEN_DISCOVERY"
+    },
+    {
+      "path": "reports/H-M0-180-automated-proof-compiler-feasibility.v1.md",
+      "byte_length": 5633,
+      "raw_sha256": "88e29ab08fa07ed2af95abc8610c41cdbdd2cd6680d96d051b5d31f61096778d",
+      "role": "FEASIBILITY_EVIDENCE"
+    },
+    {
+      "path": "schemas/m0-3a-proof-compiler-rule-registry.v1.schema.json",
+      "byte_length": 5499,
+      "raw_sha256": "7fb037878e704d4d79e0b842cf7b045122a5f93b4d7ba5616d4b162dc6d8a75e",
+      "role": "RULE_REGISTRY_SCHEMA"
+    },
+    {
+      "path": "tests/test_runtime_v2_proof_compiler.py",
+      "byte_length": 17600,
+      "raw_sha256": "ee6fe86cf242e00c3096bc6b6f5c5182c9d077d3c84eda4bf4a2b1f7881140b9",
+      "role": "ADVERSARIAL_TESTS"
+    },
+    {
+      "path": "tools/check_runtime_v2_release_readiness.py",
+      "byte_length": 554700,
+      "raw_sha256": "2417871c246037cfdb8f7e4c2e51afb393e7a54ff89948b1a53384aa080bfed4",
+      "role": "CENSUS_RECONSTRUCTOR"
+    },
+    {
+      "path": "tools/compile_runtime_v2_minlength_candidates.py",
+      "byte_length": 30834,
+      "raw_sha256": "c4e1d6054992f07c0852bc588749d129c4bd164ac1aa629def39ea3eb6fcfb7e",
+      "role": "COMPILER_ENTRYPOINT"
+    }
+  ],
+  "expected_output": {
+    "raw_sha256": "1412fd869c8247d5a0fe27834c8ef386c1356f5ea73550f4235ad24c7ec2c073",
+    "byte_length": 602682,
+    "witness_ledger_sha256": "f011a87b6342100b2f500ebe79c26a9b30f07f878531ce98360759de99589be0",
+    "compiler_output_sha256": "8c72e6be16266c22f1bc47d83b9a4580a182580494036d5f57bfbc1c4862e100"
+  },
+  "nonclaims": [
+    "NO_GOVERNANCE_EQUIVALENCE",
+    "NO_ACCEPTED_CLASSIFICATION_CHANGE",
+    "NO_FORMAL_REVIEW",
+    "NO_STOP_CLEARANCE",
+    "NO_RELEASE_CLOSURE",
+    "NO_PUBLIC_VERIFIER_ATTACHMENT",
+    "NO_EXECUTION_AUTHORITY",
+    "NO_LIVE_OR_CAPITAL_AUTHORITY"
+  ],
+  "closure_sha256": "e293641bc429cfa3f8a6ed0b35b9ffba377c76dc1f6156552139a908e3c5fba2"
+}

@@ -28,6 +28,10 @@ DISCOVERY_PATH = "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v8.json"
 DISCOVERY_RAW_SHA256 = "9914da2984589f7ded860656be4cbfdb88cf7d106ce52856860ed756dfe8725f"
 CLASSIFICATION_PATH = "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v55.json"
 CLASSIFICATION_RAW_SHA256 = "c82365a11a5cce64c91422151c4b38052ea78f2ed43d4848802734e6d2fe5ad1"
+RULE_REGISTRY_PATH = "docs/M0.3A_PROOF_COMPILER_RULE_REGISTRY.v1.json"
+RULE_REGISTRY_RAW_SHA256 = "874eecc433f27d16fae5c9f565b03dc85aa264fd8fbe7ca5519576499a77bae1"
+RULE_REGISTRY_SCHEMA_PATH = "schemas/m0-3a-proof-compiler-rule-registry.v1.schema.json"
+RULE_REGISTRY_SCHEMA_RAW_SHA256 = "7fb037878e704d4d79e0b842cf7b045122a5f93b4d7ba5616d4b162dc6d8a75e"
 DRAFT_2020_12 = "https://json-schema.org/draft/2020-12/schema"
 SOURCE_SITES_DOMAIN = "EDGELAB\0RUNTIME_V2_SOURCE_BOUND_SITES\0V7\0"
 SCHEMA_SITES_DOMAIN = "EDGELAB\0RUNTIME_V2_SCHEMA_BOUND_SITES\0V2\0"
@@ -38,6 +42,8 @@ CONTAINING_SUBSCHEMA_DOMAIN = (
 )
 LEDGER_DOMAIN = "EDGELAB\0M0_3A_MINLENGTH_CANDIDATE_WITNESS_LEDGER\0V1\0"
 OUTPUT_DOMAIN = "EDGELAB\0M0_3A_MINLENGTH_PROOF_COMPILER_OUTPUT\0V1\0"
+RULE_DOMAIN = "EDGELAB\0M0_3A_PROOF_COMPILER_RULE\0V1\0"
+REGISTRY_DOMAIN = "EDGELAB\0M0_3A_PROOF_COMPILER_RULE_REGISTRY\0V1\0"
 
 
 class ProofCompilerError(RuntimeError):
@@ -114,6 +120,56 @@ def _read_pinned_json(root: Path, relative: str, expected_sha256: str) -> Any:
     if _sha256(raw) != expected_sha256:
         raise ProofCompilerError("PINNED_INPUT_STALE", relative)
     return _parse_json(raw, relative)
+
+
+def _load_rule_registry(root: Path) -> dict[str, Any]:
+    registry = _read_pinned_json(root, RULE_REGISTRY_PATH, RULE_REGISTRY_RAW_SHA256)
+    schema_raw = (root / RULE_REGISTRY_SCHEMA_PATH).read_bytes()
+    if _sha256(schema_raw) != RULE_REGISTRY_SCHEMA_RAW_SHA256:
+        raise ProofCompilerError("RULE_REGISTRY_SCHEMA_STALE")
+    if type(registry) is not dict or registry.get("registry_sha256") != _domain_digest(
+        REGISTRY_DOMAIN,
+        {key: value for key, value in registry.items() if key != "registry_sha256"},
+    ):
+        raise ProofCompilerError("RULE_REGISTRY_DIGEST")
+    if (
+        registry.get("status") != "CANDIDATE_ONLY"
+        or registry.get("authorizing_use") != "DENY"
+        or registry.get("governance_equivalence") != "NOT_ESTABLISHED"
+        or registry.get("schema") != {
+            "path": RULE_REGISTRY_SCHEMA_PATH,
+            "raw_sha256": RULE_REGISTRY_SCHEMA_RAW_SHA256,
+        }
+    ):
+        raise ProofCompilerError("RULE_REGISTRY_BOUNDARY")
+    rules = registry.get("rules")
+    if type(rules) is not list or len(rules) != 1 or type(rules[0]) is not dict:
+        raise ProofCompilerError("RULE_REGISTRY_CARDINALITY")
+    rule = rules[0]
+    if rule.get("rule_sha256") != _domain_digest(
+        RULE_DOMAIN,
+        {key: value for key, value in rule.items() if key != "rule_sha256"},
+    ):
+        raise ProofCompilerError("RULE_REGISTRY_RULE_DIGEST")
+    expected = {
+        "family_id": "DRAFT_2020_12_EXACT_LOCATION_MINLENGTH_V1",
+        "version": 1,
+        "status": "CANDIDATE_ONLY",
+        "authorizing_use": "DENY",
+        "census_namespace": "SCHEMA",
+        "dialect": DRAFT_2020_12,
+        "keyword": "minLength",
+        "bound_type": "NON_BOOLEAN_NONNEGATIVE_INTEGER",
+        "instance_domain": "STRING",
+        "metric": "UNICODE_CODE_POINT_COUNT",
+        "operator": ">=",
+        "unit": "UNICODE_CODE_POINTS",
+        "applicability": "EXACT_PINNED_SCHEMA_LOCATION_ONLY",
+        "non_domain_behavior": "NO_ASSERTION_FROM_THIS_KEYWORD",
+    }
+    if any(rule.get(key) != value for key, value in expected.items()):
+        raise ProofCompilerError("RULE_REGISTRY_SEMANTICS")
+    return registry
 
 
 def _decode_pointer(pointer: str) -> list[str]:
@@ -376,6 +432,7 @@ def compile_candidate_ledger(root: Path = ROOT) -> dict[str, Any]:
     root = root.resolve()
     if root != ROOT:
         raise ProofCompilerError("NONCANONICAL_ROOT", str(root))
+    registry = _load_rule_registry(root)
     discovery_pin, accepted, discovery = _frozen_inventory(root)
     accepted_source, accepted_schema, manual_family = _accepted_sets(accepted)
     source_inputs = {item["path"]: item for item in discovery["source_inputs"]}
@@ -549,6 +606,18 @@ def compile_candidate_ledger(root: Path = ROOT) -> dict[str, Any]:
         "NONMATCHING": 686,
     }:
         raise ProofCompilerError("MEASURED_FAMILY_COUNTS")
+    rule = registry["rules"][0]
+    if (
+        rule["expected_counts"] != {
+            "inspected": 721,
+            "accepted_reference_match": 10,
+            "candidate_only": 25,
+            "ambiguous": 0,
+            "nonmatching": 686,
+        }
+        or sorted(manual_matches) != rule["calibration_site_ids"]
+    ):
+        raise ProofCompilerError("RULE_REGISTRY_CALIBRATION")
 
     result = {
         "schema_version": 1,

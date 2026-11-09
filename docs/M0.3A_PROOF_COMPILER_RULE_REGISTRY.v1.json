@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "registry_id": "EDGELAB_M0_3A_PROOF_COMPILER_RULE_REGISTRY_V1",
+  "status": "CANDIDATE_ONLY",
+  "authorizing_use": "DENY",
+  "governance_equivalence": "NOT_ESTABLISHED",
+  "schema": {
+    "path": "schemas/m0-3a-proof-compiler-rule-registry.v1.schema.json",
+    "raw_sha256": "7fb037878e704d4d79e0b842cf7b045122a5f93b4d7ba5616d4b162dc6d8a75e"
+  },
+  "frozen_inputs": {
+    "discovery": {
+      "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v8.json",
+      "raw_sha256": "9914da2984589f7ded860656be4cbfdb88cf7d106ce52856860ed756dfe8725f"
+    },
+    "accepted_classification": {
+      "path": "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v55.json",
+      "raw_sha256": "c82365a11a5cce64c91422151c4b38052ea78f2ed43d4848802734e6d2fe5ad1"
+    },
+    "source_site_count": 425,
+    "schema_site_count": 296,
+    "accepted_site_count": 87,
+    "unclassified_site_count": 634
+  },
+  "rules": [
+    {
+      "family_id": "DRAFT_2020_12_EXACT_LOCATION_MINLENGTH_V1",
+      "version": 1,
+      "status": "CANDIDATE_ONLY",
+      "authorizing_use": "DENY",
+      "census_namespace": "SCHEMA",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "keyword": "minLength",
+      "bound_type": "NON_BOOLEAN_NONNEGATIVE_INTEGER",
+      "instance_domain": "STRING",
+      "metric": "UNICODE_CODE_POINT_COUNT",
+      "operator": ">=",
+      "unit": "UNICODE_CODE_POINTS",
+      "applicability": "EXACT_PINNED_SCHEMA_LOCATION_ONLY",
+      "non_domain_behavior": "NO_ASSERTION_FROM_THIS_KEYWORD",
+      "ambiguity_reason_codes": [
+        "DYNAMIC_REFERENCE_UNSUPPORTED",
+        "LOCAL_REFERENCE_UNRESOLVED",
+        "NESTED_SCHEMA_DIALECT",
+        "NESTED_SCHEMA_ID",
+        "NONLOCAL_REFERENCE_UNSUPPORTED",
+        "SCHEMA_DIALECT_UNSUPPORTED",
+        "SCHEMA_ROOT_ID_MISMATCH",
+        "SCHEMA_ROOT_NOT_OBJECT"
+      ],
+      "calibration_site_ids": [
+        "05539c8dd1cbfd983353c118532290202301b967e2ac7fb48c308003f1c9fb0b",
+        "237e413d823580d4e5e98825887c2296349718843b5b6de092aec94ff20112da",
+        "54cb7f4b6dcfc8579c6d43d5ad4b41a1fd2f90aff99b6cb9ae0b3369723e21a5",
+        "5dce821ee45f15010f24959f58819323b0112024635aeb4ede5380e3e47c69d4",
+        "685812b87027cea3e8fc9ce370fd21377b11fc6459c06bf2151261260cd178ea",
+        "85e3025e297b6d908712678e0358a97de2d8d04f2ce9af152e2ea3f566185a0a",
+        "91ac8b306ad7aaabaccc9f87de0460ce6ae4aa41d7edc09ca870364eaa9ecf38",
+        "b2840fbfba98b7107e46eee42f8d818a2e8d60582f9fbd4e394993a686bda437",
+        "b9d97c6663e8bf814f90b1e69ba3a8ea30573b0ef575709552fe9c5e20ca06ca",
+        "cf92955f6103875d6751aec4c72558d0e79c752a7bff2bb15cbcdcebf676127b"
+      ],
+      "expected_counts": {
+        "inspected": 721,
+        "accepted_reference_match": 10,
+        "candidate_only": 25,
+        "ambiguous": 0,
+        "nonmatching": 686
+      },
+      "expected_output": {
+        "raw_sha256": "1412fd869c8247d5a0fe27834c8ef386c1356f5ea73550f4235ad24c7ec2c073",
+        "byte_length": 602682,
+        "witness_ledger_sha256": "f011a87b6342100b2f500ebe79c26a9b30f07f878531ce98360759de99589be0",
+        "compiler_output_sha256": "8c72e6be16266c22f1bc47d83b9a4580a182580494036d5f57bfbc1c4862e100"
+      },
+      "disallowed_family_overlaps": [],
+      "rule_sha256": "fbb7974723262c27faa4188aa9de5f7accc5f4aee3e7a49dc9144d95f191fd31"
+    }
+  ],
+  "nonclaims": [
+    "NO_GOVERNANCE_EQUIVALENCE",
+    "NO_ACCEPTED_CLASSIFICATION_CHANGE",
+    "NO_FORMAL_REVIEW",
+    "NO_STOP_CLEARANCE",
+    "NO_RELEASE_CLOSURE",
+    "NO_PUBLIC_VERIFIER_ATTACHMENT",
+    "NO_EXECUTION_AUTHORITY",
+    "NO_LIVE_OR_CAPITAL_AUTHORITY"
+  ],
+  "registry_sha256": "7d2b1b259cd3f75c2679d458029fbcfcdc2f547b3cab7ef76db7a25da8ec7a71"
+}

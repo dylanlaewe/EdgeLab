@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:m0-3a-proof-compiler-rule-registry:1",
+  "$defs": {
+    "sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "pin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "raw_sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "raw_sha256": {"$ref": "#/$defs/sha"}
+      }
+    }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "registry_id",
+    "status",
+    "authorizing_use",
+    "governance_equivalence",
+    "schema",
+    "frozen_inputs",
+    "rules",
+    "nonclaims",
+    "registry_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "registry_id": {"const": "EDGELAB_M0_3A_PROOF_COMPILER_RULE_REGISTRY_V1"},
+    "status": {"const": "CANDIDATE_ONLY"},
+    "authorizing_use": {"const": "DENY"},
+    "governance_equivalence": {"const": "NOT_ESTABLISHED"},
+    "schema": {"$ref": "#/$defs/pin"},
+    "frozen_inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "discovery",
+        "accepted_classification",
+        "source_site_count",
+        "schema_site_count",
+        "accepted_site_count",
+        "unclassified_site_count"
+      ],
+      "properties": {
+        "discovery": {"$ref": "#/$defs/pin"},
+        "accepted_classification": {"$ref": "#/$defs/pin"},
+        "source_site_count": {"const": 425},
+        "schema_site_count": {"const": 296},
+        "accepted_site_count": {"const": 87},
+        "unclassified_site_count": {"const": 634}
+      }
+    },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "family_id",
+          "version",
+          "status",
+          "authorizing_use",
+          "census_namespace",
+          "dialect",
+          "keyword",
+          "bound_type",
+          "instance_domain",
+          "metric",
+          "operator",
+          "unit",
+          "applicability",
+          "non_domain_behavior",
+          "ambiguity_reason_codes",
+          "calibration_site_ids",
+          "expected_counts",
+          "expected_output",
+          "disallowed_family_overlaps",
+          "rule_sha256"
+        ],
+        "properties": {
+          "family_id": {"const": "DRAFT_2020_12_EXACT_LOCATION_MINLENGTH_V1"},
+          "version": {"const": 1},
+          "status": {"const": "CANDIDATE_ONLY"},
+          "authorizing_use": {"const": "DENY"},
+          "census_namespace": {"const": "SCHEMA"},
+          "dialect": {"const": "https://json-schema.org/draft/2020-12/schema"},
+          "keyword": {"const": "minLength"},
+          "bound_type": {"const": "NON_BOOLEAN_NONNEGATIVE_INTEGER"},
+          "instance_domain": {"const": "STRING"},
+          "metric": {"const": "UNICODE_CODE_POINT_COUNT"},
+          "operator": {"const": ">="},
+          "unit": {"const": "UNICODE_CODE_POINTS"},
+          "applicability": {"const": "EXACT_PINNED_SCHEMA_LOCATION_ONLY"},
+          "non_domain_behavior": {"const": "NO_ASSERTION_FROM_THIS_KEYWORD"},
+          "ambiguity_reason_codes": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "DYNAMIC_REFERENCE_UNSUPPORTED",
+                "LOCAL_REFERENCE_UNRESOLVED",
+                "NESTED_SCHEMA_DIALECT",
+                "NESTED_SCHEMA_ID",
+                "NONLOCAL_REFERENCE_UNSUPPORTED",
+                "SCHEMA_DIALECT_UNSUPPORTED",
+                "SCHEMA_ROOT_ID_MISMATCH",
+                "SCHEMA_ROOT_NOT_OBJECT"
+              ]
+            }
+          },
+          "calibration_site_ids": {
+            "type": "array",
+            "minItems": 10,
+            "maxItems": 10,
+            "uniqueItems": true,
+            "items": {"$ref": "#/$defs/sha"}
+          },
+          "expected_counts": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "inspected",
+              "accepted_reference_match",
+              "candidate_only",
+              "ambiguous",
+              "nonmatching"
+            ],
+            "properties": {
+              "inspected": {"const": 721},
+              "accepted_reference_match": {"const": 10},
+              "candidate_only": {"const": 25},
+              "ambiguous": {"const": 0},
+              "nonmatching": {"const": 686}
+            }
+          },
+          "expected_output": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["raw_sha256", "byte_length", "witness_ledger_sha256", "compiler_output_sha256"],
+            "properties": {
+              "raw_sha256": {"$ref": "#/$defs/sha"},
+              "byte_length": {"type": "integer", "minimum": 1},
+              "witness_ledger_sha256": {"$ref": "#/$defs/sha"},
+              "compiler_output_sha256": {"$ref": "#/$defs/sha"}
+            }
+          },
+          "disallowed_family_overlaps": {
+            "type": "array",
+            "maxItems": 0
+          },
+          "rule_sha256": {"$ref": "#/$defs/sha"}
+        }
+      }
+    },
+    "nonclaims": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "registry_sha256": {"$ref": "#/$defs/sha"}
+  }
+}

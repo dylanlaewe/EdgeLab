@@ -1,7 +1,9 @@
 """Feasibility and adversarial tests for the candidate-only proof compiler."""
 from __future__ import annotations
 
+import ast
 import copy
+import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -10,7 +12,15 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
+from jsonschema import Draft202012Validator
+
 from src.edgelab.validate import ROOT
+import src.edgelab.proof_candidate_verifier as candidate_verifier
+from src.edgelab.proof_candidate_verifier import (
+    CandidatePackage,
+    PackageFile,
+    verify_candidate_package,
+)
 import tools.compile_runtime_v2_minlength_candidates as compiler
 from tools.compile_runtime_v2_minlength_candidates import (
     ProofCompilerError,
@@ -18,12 +28,17 @@ from tools.compile_runtime_v2_minlength_candidates import (
     compile_candidate_ledger,
     verify_candidate_ledger,
 )
+from tools.verify_runtime_v2_candidate_package import (
+    PACKAGE_PATHS,
+    build_package,
+)
 
 
 class RuntimeV2ProofCompilerTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.output = compile_candidate_ledger()
+        cls.package = build_package()
 
     def reseal(self, value):
         value["witness_ledger_sha256"] = compiler._domain_digest(
@@ -218,6 +233,194 @@ class RuntimeV2ProofCompilerTests(unittest.TestCase):
         verification = json.loads(completed.stdout)
         self.assertEqual(verification["status"], "VALID_CANDIDATE_ONLY")
         self.assertEqual(verification["authorizing_use"], "DENY")
+
+    def test_rule_registry_and_closure_are_strict_self_bound_candidates(self):
+        registry_schema = json.loads((
+            ROOT / "schemas/m0-3a-proof-compiler-rule-registry.v1.schema.json"
+        ).read_text())
+        closure_schema = json.loads((
+            ROOT / "schemas/m0-3a-proof-compiler-closure.v1.schema.json"
+        ).read_text())
+        registry = json.loads(self.package.registry)
+        closure = json.loads(self.package.closure)
+        Draft202012Validator.check_schema(registry_schema)
+        Draft202012Validator.check_schema(closure_schema)
+        Draft202012Validator(registry_schema).validate(registry)
+        Draft202012Validator(closure_schema).validate(closure)
+        self.assertEqual(
+            registry["registry_sha256"],
+            compiler._domain_digest(
+                compiler.REGISTRY_DOMAIN,
+                {key: value for key, value in registry.items() if key != "registry_sha256"},
+            ),
+        )
+        self.assertEqual(
+            closure["closure_sha256"],
+            candidate_verifier._domain_digest(
+                candidate_verifier.CLOSURE_DOMAIN,
+                {key: value for key, value in closure.items() if key != "closure_sha256"},
+            ),
+        )
+        self.assertEqual(registry["status"], "CANDIDATE_ONLY")
+        self.assertEqual(closure["status"], "CANDIDATE_ONLY")
+        self.assertEqual(registry["authorizing_use"], "DENY")
+        self.assertEqual(closure["authorizing_use"], "DENY")
+        self.assertEqual(len(registry["rules"]), 1)
+        self.assertEqual(registry["rules"][0]["keyword"], "minLength")
+
+    def test_candidate_package_verifies_but_cannot_authorize(self):
+        result = verify_candidate_package(self.package)
+        self.assertEqual(result.status, "VALID_CANDIDATE")
+        self.assertEqual(result.findings, ())
+        self.assertEqual(result.authorizing_use, "DENY")
+        self.assertEqual(result.governance_equivalence, "NOT_ESTABLISHED")
+        self.assertFalse(result.accepted_classification_change)
+        self.assertEqual(result.candidate_only_site_count, 25)
+        with self.assertRaises(TypeError):
+            bool(result)
+        self.assertNotIn("ACCEPTED", {
+            "VALID_CANDIDATE", "INVALID"
+        })
+        result_schema = json.loads((
+            ROOT / "schemas/m0-3a-proof-candidate-package-result.v1.schema.json"
+        ).read_text())
+        Draft202012Validator.check_schema(result_schema)
+        Draft202012Validator(result_schema).validate(result.as_mapping())
+
+    def test_candidate_package_cli_is_deterministic_and_deny_only(self):
+        command = [
+            sys.executable,
+            str(ROOT / "tools/verify_runtime_v2_candidate_package.py"),
+        ]
+        first = subprocess.run(
+            command, cwd=ROOT, text=True, capture_output=True, check=False
+        )
+        second = subprocess.run(
+            command, cwd=ROOT, text=True, capture_output=True, check=False
+        )
+        self.assertEqual(first.returncode, 0, first.stderr)
+        self.assertEqual(second.returncode, 0, second.stderr)
+        self.assertEqual(first.stdout, second.stdout)
+        result = json.loads(first.stdout)
+        self.assertEqual(result["status"], "VALID_CANDIDATE")
+        self.assertEqual(result["authorizing_use"], "DENY")
+        self.assertEqual(result["governance_equivalence"], "NOT_ESTABLISHED")
+        self.assertFalse(result["accepted_classification_change"])
+
+    def test_candidate_package_rejects_registry_closure_and_file_substitution(self):
+        registry_attack = CandidatePackage(
+            self.package.registry + b" ",
+            self.package.closure,
+            self.package.compiler_output,
+            self.package.files,
+        )
+        self.assertEqual(
+            verify_candidate_package(registry_attack).findings[0].code,
+            "REGISTRY_RAW_SHA256",
+        )
+        closure_attack = CandidatePackage(
+            self.package.registry,
+            self.package.closure + b" ",
+            self.package.compiler_output,
+            self.package.files,
+        )
+        self.assertEqual(
+            verify_candidate_package(closure_attack).findings[0].code,
+            "CLOSURE_RAW_SHA256",
+        )
+        attacked_files = list(self.package.files)
+        attacked_files[0] = PackageFile(
+            attacked_files[0].path, attacked_files[0].raw + b"forged"
+        )
+        file_attack = CandidatePackage(
+            self.package.registry,
+            self.package.closure,
+            self.package.compiler_output,
+            tuple(attacked_files),
+        )
+        self.assertEqual(
+            verify_candidate_package(file_attack).findings[0].code,
+            "PACKAGE_FILE_IDENTITY",
+        )
+
+    def test_candidate_package_rejects_duplicate_omitted_reordered_and_positive_output(self):
+        duplicate = CandidatePackage(
+            self.package.registry,
+            self.package.closure,
+            self.package.compiler_output,
+            (*self.package.files[:-1], self.package.files[0]),
+        )
+        self.assertEqual(
+            verify_candidate_package(duplicate).findings[0].code,
+            "PACKAGE_FILE_DUPLICATE",
+        )
+        omitted = CandidatePackage(
+            self.package.registry,
+            self.package.closure,
+            self.package.compiler_output,
+            self.package.files[:-1],
+        )
+        self.assertEqual(
+            verify_candidate_package(omitted).findings[0].code,
+            "PACKAGE_FILE_SET",
+        )
+        reordered = CandidatePackage(
+            self.package.registry,
+            self.package.closure,
+            self.package.compiler_output,
+            tuple(reversed(self.package.files)),
+        )
+        self.assertEqual(
+            verify_candidate_package(reordered).findings[0].code,
+            "PACKAGE_FILE_ORDER",
+        )
+        positive = copy.deepcopy(self.output)
+        positive["authorizing_use"] = "ALLOW"
+        self.reseal(positive)
+        output_attack = CandidatePackage(
+            self.package.registry,
+            self.package.closure,
+            canonical_json(positive) + b"\n",
+            self.package.files,
+        )
+        self.assertEqual(
+            verify_candidate_package(output_attack).findings[0].code,
+            "CANDIDATE_RAW_IDENTITY",
+        )
+
+    def test_candidate_package_file_set_matches_closure_and_raw_identities(self):
+        closure = json.loads(self.package.closure)
+        expected = {item["path"]: item for item in closure["files"]}
+        self.assertEqual(tuple(sorted(expected)), PACKAGE_PATHS)
+        self.assertEqual(
+            tuple(item.path for item in self.package.files), PACKAGE_PATHS
+        )
+        for item in self.package.files:
+            self.assertEqual(len(item.raw), expected[item.path]["byte_length"])
+            self.assertEqual(
+                hashlib.sha256(item.raw).hexdigest(),
+                expected[item.path]["raw_sha256"],
+            )
+
+    def test_candidate_verifier_is_pure_and_has_closed_result_vocabulary(self):
+        source = (
+            ROOT / "src/edgelab/proof_candidate_verifier.py"
+        ).read_text(encoding="utf-8")
+        tree = ast.parse(source)
+        imports = {
+            alias.name.split(".", 1)[0]
+            for node in ast.walk(tree)
+            if isinstance(node, ast.Import)
+            for alias in node.names
+        } | {
+            node.module.split(".", 1)[0]
+            for node in ast.walk(tree)
+            if isinstance(node, ast.ImportFrom) and node.module
+        }
+        self.assertTrue(imports <= {"__future__", "dataclasses", "hashlib", "json", "typing"})
+        self.assertNotIn("open", {node.id for node in ast.walk(tree) if isinstance(node, ast.Name)})
+        with self.assertRaises(ValueError):
+            candidate_verifier.CandidatePackageResult("ACCEPTED", ())
 
 
 if __name__ == "__main__":
