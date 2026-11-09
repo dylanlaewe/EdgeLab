@@ -1,0 +1,56 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-185",
+  "version": 2,
+  "created_at": "2026-11-09T23:06:08Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "BLOCKED",
+  "request": "Implement one scheduler-native, typed, content-bound Research evidence prerequisite for one synthetic Data task, preserving H-M0-179/H-M0-183/H-M0-184 behavior and every DENY boundary; if authority prohibits it, identify the precise required revision and preserve H-M0-184 without modifications.",
+  "work_done": "Inspected the frozen M0.3A v1 contract, successor format negotiation/storage contract, closed format-2 content/reducer vocabulary, persistence model, and H-M0-184 authority boundary. An uncommitted prototype proved the requested engineering behavior but the required single read-only reviewer found that its new tables and task events silently changed frozen runtime format 1. The reviewer also found a repository-generation import defect in the prototype. The entire prototype was removed and never committed or pushed. H-M0-184 production behavior remains exactly at 83def9a0d341349ef176e796753483c48bed9eb9. The precise minimal authority decision is approval of a new exact runtime/event format pair with closed storage descriptor, successor command/event/schema registry, reducer/materializations, replay/export/idempotency and generation semantics, exact negotiation, and fresh-only or reviewed side-by-side construction. No current contract grants that decision.",
+  "evidence_refs": [
+    "reports/H-M0-185-native-scientific-dependency-authority-blocker.v1.md",
+    "reports/reviews/H-M0-185-native-engineering-review.v1.md",
+    "reports/audit/A-M0-167.v1.json",
+    "docs/M0.3A_TRANSACTIONAL_CONTRACT.v16.md",
+    "docs/M0.3A_SUCCESSOR_RUNTIME_FORMAT.v1.md",
+    "docs/M0.3A_CONTENT_REDUCER_CONTRACT.v1.md",
+    "docs/handoffs/H-M0-185.v1.json",
+    "docs/handoffs/H-M0-184.v2.json"
+  ],
+  "files_changed": [
+    "reports/H-M0-185-native-scientific-dependency-authority-blocker.v1.md",
+    "reports/reviews/H-M0-185-native-engineering-review.v1.md",
+    "reports/audit/A-M0-167.v1.json",
+    "docs/handoffs/H-M0-185.v2.json"
+  ],
+  "tests_run": [
+    "Read-only reviewer reproduced prototype focused tests 10/10 and corrected combined prototype/preservation tests 90/90; git diff --check passed. These are exploratory results only because authority denied landing the prototype.",
+    "After complete prototype removal, PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest -q tests.test_scheduler_coordinated_research tests.test_synthetic_research_experiment tests.test_synthetic_lifecycle tests.test_transactional_scheduler passed 80/80 in 47.243 seconds.",
+    "No scheduler, science, worker, authority, or release implementation file remains changed from the accepted H-M0-184 base."
+  ],
+  "open_questions": [
+    "Will Director/governance authorize a new successor runtime/event format pair and its closed scientific evidence/dependency vocabulary, or leave H-M0-184's coordinator-only boundary in place?"
+  ],
+  "blockers": [
+    "Runtime format 1 and its storage/wire inventory are frozen; adding optional tables/events under SCHEMA_VERSION 1 is prohibited.",
+    "Runtime/event format 2 has a closed schema registry, 25-event inventory, 22-operation reducer, and unfulfilled storage/verifier prerequisites; the scientific slice is not authorized within it.",
+    "Data remains BLOCKED; every STOP remains OPEN; M0 remains blocked; M1 remains unreleased; executor remains MOCK_ONLY; public authority remains DENY; live remains LOCKED; kill remains ENGAGED; deployable capital remains USD 0."
+  ],
+  "next_action": "Director/governance must either approve the exact successor format revision described in the blocker report or leave H-M0-185 blocked. Do not resume implementation, reinterpret format 1, reuse format 2 silently, or infer authority from H-M0-184's suggested next action.",
+  "completion_criteria": [
+    "A new exact runtime/event format pair is explicitly authorized with a closed storage descriptor and negotiation rule.",
+    "The successor command/event/schema-registry vocabulary and pure reducer define typed evidence recording and dependency-bound task creation.",
+    "Replay, export/checkpoint, idempotency, repository generation, fresh construction or side-by-side migration, and all DENY boundaries are closed before implementation.",
+    "Until then, accepted H-M0-184 code and scientific result remain unchanged."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-185.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-185",
+      "version": 1,
+      "sha256": "c68f4cf2d7b7ceee139be539f46c4416680664b69ca265c7dbcdb77db1cb67af"
+    }
+  ]
+}

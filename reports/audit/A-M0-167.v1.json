@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-167",
+  "version": 1,
+  "occurred_at": "2026-11-09T23:06:08Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_NATIVE_SCIENTIFIC_DEPENDENCY_BLOCKED_BY_FROZEN_FORMAT_AUTHORITY",
+  "subject_ref": "reports/H-M0-185-native-scientific-dependency-authority-blocker.v1.md",
+  "previous_state": "H_M0_184_COORDINATOR_ENFORCED_SYNTHETIC_DEPENDENCIES_DENY_ONLY",
+  "new_state": "H_M0_185_BLOCKED_PENDING_VERSIONED_RUNTIME_AND_EVENT_FORMAT_AUTHORITY",
+  "reason": "A read-only engineering review determined that adding typed evidence and dependency tables/events while retaining runtime format 1 would silently revise its frozen storage and wire contract. Format 2 also has a closed event/content vocabulary. The uncommitted prototype was removed; H-M0-184 remains unchanged. A new explicitly approved successor runtime/event pair with closed storage, schema registry, reducer, replay, export, idempotency, generation, and negotiation rules is required before implementation.",
+  "evidence_refs": [
+    "reports/H-M0-185-native-scientific-dependency-authority-blocker.v1.md",
+    "reports/reviews/H-M0-185-native-engineering-review.v1.md",
+    "docs/M0.3A_TRANSACTIONAL_CONTRACT.v16.md",
+    "docs/M0.3A_SUCCESSOR_RUNTIME_FORMAT.v1.md",
+    "docs/M0.3A_CONTENT_REDUCER_CONTRACT.v1.md",
+    "docs/handoffs/H-M0-185.v1.json",
+    "docs/handoffs/H-M0-184.v2.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json",
+    "reports/stops/STOP-M0-3A-002.v81.json"
+  ],
+  "code_ref": "83def9a0d341349ef176e796753483c48bed9eb9",
+  "config_ref": "docs/M0.3A_SUCCESSOR_RUNTIME_FORMAT.v1.md",
+  "correlation_id": "H-M0-185",
+  "supersedes": null
+}
