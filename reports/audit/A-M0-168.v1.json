@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-168",
+  "version": 1,
+  "occurred_at": "2026-11-09T23:51:30Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_SYNTHETIC_WORKFLOW_COLD_RECOVERY_DENY_ONLY",
+  "subject_ref": "reports/H-M0-186-synthetic-workflow-recovery.v1.md",
+  "previous_state": "H_M0_184_SCHEDULER_COORDINATED_SCIENCE_NOT_COLD_PROCESS_RECOVERABLE",
+  "new_state": "REPLAY_DERIVED_BOUNDED_COLD_RECOVERY_WITH_UNAUTHENTICATED_CLAIMED_STATE_DENIED",
+  "reason": "Commit b0def3711add3a63c03fed10313989368f345966 adds an H-M0-186 coordinator that opens persisted Scheduler v1 runtimes through startup and replay, validates exact durable scientific history and locked identities, continues the same active deterministic claim or review assignment, skips committed transitions, and reproduces H-M0-184 INSUFFICIENT_DATA / DENY after real process exits. Corrupt, missing, altered, stale, incompatible, and unexpected state denies. Review identified and removed an invalid automatic RECOVER path: because no authenticated liveness source exists, CLAIMED now denies without mutation. Frozen runtime formats and H-M0-185 remain unchanged.",
+  "evidence_refs": [
+    "reports/H-M0-186-synthetic-workflow-recovery.v1.md",
+    "reports/reviews/H-M0-186-native-engineering-review.v1.md",
+    "reports/synthetic-research/H-M0-186-result.v1.json",
+    "src/edgelab/recoverable_scheduler_research.py",
+    "tests/test_recoverable_scheduler_research.py",
+    "docs/handoffs/H-M0-186.v1.json",
+    "docs/handoffs/H-M0-185.v2.json",
+    "docs/handoffs/H-M0-184.v2.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json",
+    "reports/stops/STOP-M0-3A-002.v81.json"
+  ],
+  "code_ref": "b0def3711add3a63c03fed10313989368f345966",
+  "config_ref": "reports/synthetic-research/H-M0-183-input.v1.json",
+  "correlation_id": "H-M0-186",
+  "supersedes": null
+}

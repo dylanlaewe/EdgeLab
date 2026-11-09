@@ -1,0 +1,71 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-186",
+  "version": 2,
+  "created_at": "2026-11-09T23:51:30Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Make the accepted H-M0-184 scheduler-coordinated synthetic research workflow safely recoverable after real process interruption using only frozen Scheduler v1 persistence, replay, claims, fencing, idempotency, review assignments, and coordinator-enforced evidence bindings.",
+  "work_done": "Commit b0def3711add3a63c03fed10313989368f345966 implements bounded cold-process recovery without modifying Scheduler v1 or runtime formats 1/2. A new process calls startup/replay, derives the exact durable H-M0-184 prefix from event history, verifies current retained evidence and content-bound receipts, reads active claim/review identities from the locked authority projection, continues the exact IN_PROGRESS synthetic claim or active review assignment, and skips committed transitions. Real process exits after Research, after Quant, during REVIEWING, and after Risk task creation all recover to the deterministic H-M0-184 INSUFFICIENT_DATA / DENY result with no duplicate events. Corrupt, missing, altered, stale-claim, incompatible-generation, unexpected-task, and mode-mismatch cases deny. Initial read-only review found that the candidate synthesized liveness evidence and could incorrectly fence a CLAIMED task. The implementation was corrected: CLAIMED now fails with CLAIMED_WITHOUT_AUTHENTICATED_LIVENESS and no mutation. Re-review passed. The retained H-M0-186 result embeds the accepted H-M0-184 result exactly. H-M0-185's successor-format finding is preserved.",
+  "evidence_refs": [
+    "reports/H-M0-186-synthetic-workflow-recovery.v1.md",
+    "reports/reviews/H-M0-186-native-engineering-review.v1.md",
+    "reports/audit/A-M0-168.v1.json",
+    "reports/synthetic-research/H-M0-186-result.v1.json",
+    "schemas/recoverable-scheduler-research-result.v1.schema.json",
+    "src/edgelab/recoverable_scheduler_research.py",
+    "tools/run_recoverable_scheduler_research.py",
+    "tests/test_recoverable_scheduler_research.py",
+    "docs/handoffs/H-M0-186.v1.json",
+    "docs/handoffs/H-M0-185.v2.json",
+    "docs/handoffs/H-M0-184.v2.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-186.v1.json",
+    "src/edgelab/recoverable_scheduler_research.py",
+    "tools/run_recoverable_scheduler_research.py",
+    "schemas/recoverable-scheduler-research-result.v1.schema.json",
+    "reports/synthetic-research/H-M0-186-result.v1.json",
+    "tests/test_recoverable_scheduler_research.py",
+    "reports/H-M0-186-synthetic-workflow-recovery.v1.md",
+    "reports/reviews/H-M0-186-native-engineering-review.v1.md",
+    "reports/audit/A-M0-168.v1.json",
+    "docs/handoffs/H-M0-186.v2.json"
+  ],
+  "tests_run": [
+    "Corrected focused H-M0-186 recovery and adversarial suite: 12/12 passed in 24.791 seconds; independent read-only reviewer reproduced 12/12 in 25.722 seconds.",
+    "Independent corrected claimed-state denial and actual two-command Quant cold recovery: 2/2 passed in 4.828 seconds; recovery retained exactly 18 non-duplicated task events.",
+    "Corrected combined H-M0-186, H-M0-184, H-M0-183, H-M0-179, lifecycle, and transactional-scheduler preservation matrix: 92/92 passed in 71.610 seconds; reviewer previously reproduced 92/92 in 76.767 seconds.",
+    "Actual separate-process recoveries passed after RESEARCH, QUANT, REVIEW_ASSIGNED, and RISK_CREATED; repeat resume performed no additional task transition and nested H-M0-184 output matched retained digest 10e0585d5193fb166d51aa587109b4bf9f22e5ad5dae9a57ec112da71c51c06d.",
+    "Adversarial coverage rejects altered evidence before downstream transition, event corruption, missing history, stale claim materialization, incompatible task generation, unexpected task inventory, wrong runtime mode, and CLAIMED without authenticated liveness authority.",
+    "Pre-completion production validation passed 619 governed records and published history with M0 capital LOCKED and no scientific or operational approval.",
+    "Completion-tree production validation passed 621 governed records and published history with M0 capital LOCKED and no scientific or operational approval.",
+    "PYTHONDONTWRITEBYTECODE=1 py_compile and git diff --check passed."
+  ],
+  "open_questions": [],
+  "blockers": [
+    "Scheduler v1 has no authenticated lease/liveness source. A replay-valid CLAIMED task cannot be safely fenced or reclaimed by H-M0-186 and fails closed without mutation.",
+    "Scheduler v1 still has no native general scientific dependency edge or typed evidence table; H-M0-184/H-M0-186 content-bound receipts remain coordinator-enforced. H-M0-185 correctly requires a separately authorized successor format for native extensions, and the owner has deferred that work.",
+    "Continuing an IN_PROGRESS claim is limited to this isolated deterministic local harness with exact replayed claim/fence/actor and no external effects; it is not an operational-worker recovery contract.",
+    "Synthetic Skeptic and AI engineering review remain internal and non-authorizing; formal 05 Skeptic approval remains absent.",
+    "Data remains BLOCKED; all STOPs remain OPEN; M0 remains blocked; M1 remains unreleased; executor remains MOCK_ONLY; public authorization remains DENY; live remains LOCKED; kill remains ENGAGED; deployable capital remains USD 0."
+  ],
+  "next_action": "Continue the original roadmap with another separately claimed non-operational integration that uses the now recoverable synthetic harness; do not add runtime format 3, infer authenticated liveness, attach the public verifier, generate release closure, or change any STOP without separate authority.",
+  "completion_criteria": [
+    "A separate process opens an actual persisted local runtime through startup/replay and derives durable stages without caller-reported completion.",
+    "Interruptions after Research, after Quant, during active review, and after downstream task creation resume to the exact deterministic scientific result without duplicate transitions or evidence.",
+    "Changed evidence, incompatible generations, stale claims, missing or corrupted history, unexpected tasks, and unsupported CLAIMED recovery fail closed before unsafe mutation.",
+    "H-M0-179, H-M0-183, H-M0-184, and H-M0-185 remain preserved; final science remains INSUFFICIENT_DATA and every authority projection remains DENY.",
+    "One read-only engineering reviewer reproduces decisive recovery and adversarial cases after correction with no remaining demonstrated defect."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-186.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-186",
+      "version": 1,
+      "sha256": "b316d22f199647317be7e36c09099fbbc4f414c6da1c34711de4075528be6b31"
+    }
+  ]
+}
