@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-180",
+  "version": 2,
+  "created_at": "2026-11-09T17:29:15Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Prove whether the frozen runtime-v2 resource-classification process can be safely automated by implementing and independently testing one non-authorizing semantic-proof compiler prototype without counting evidence or changing governance.",
+  "work_done": "Commit 3c4dfacfe0be146221a13274d467450d5f2d3277 adds a deterministic offline compiler for the exact-location Draft 2020-12 minLength family. It independently pins V8 and V55, reconstructs and checks all 721 census identities, emits a complete per-site witness ledger, exactly reproduces ten accepted minLength proof projections, emits 25 additional currently unclassified sites only as CANDIDATE_ONLY, identifies zero ambiguous and 686 nonmatching sites, enforces uniqueness and bidirectional coverage, and recompiles frozen inputs when verifying output. Forged semantics, positive authority, stale inputs, census forgery, duplicates, omissions, reorder, and invented ambiguity reject. One read-only engineering reviewer returned PASS with no defect. V55 remains byte-identical at 87 classified / 634 unclassified; the approach is recommended for refinement only.",
+  "evidence_refs": [
+    "reports/H-M0-180-automated-proof-compiler-feasibility.v1.md",
+    "reports/reviews/H-M0-180-native-engineering-review.v1.md",
+    "reports/audit/A-M0-162.v1.json",
+    "tools/compile_runtime_v2_minlength_candidates.py",
+    "tests/test_runtime_v2_proof_compiler.py",
+    "docs/handoffs/H-M0-180.v1.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v8.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v55.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json",
+    "reports/stops/STOP-M0-3A-002.v81.json"
+  ],
+  "files_changed": [
+    "tools/compile_runtime_v2_minlength_candidates.py",
+    "tests/test_runtime_v2_proof_compiler.py",
+    "reports/H-M0-180-automated-proof-compiler-feasibility.v1.md",
+    "reports/reviews/H-M0-180-native-engineering-review.v1.md",
+    "reports/audit/A-M0-162.v1.json",
+    "docs/handoffs/H-M0-180.v2.json"
+  ],
+  "tests_run": [
+    "Initial focused compiler suite: 10/10 passed in 9.764 seconds.",
+    "Writer combined compiler, H-M0-179 lifecycle, and V55 current-classification preservation run: 28/28 passed in 15.904 seconds.",
+    "Independent reviewer focused compiler suite: 10/10 passed in 9.740 seconds; V55 preservation: 13/13 passed in 1.293 seconds.",
+    "Independent reviewer reproduced byte-identical 602682-byte outputs with raw SHA-256 1412fd869c8247d5a0fe27834c8ef386c1356f5ea73550f4235ad24c7ec2c073, witness-ledger digest f011a87b6342100b2f500ebe79c26a9b30f07f878531ce98360759de99589be0, and compiler-output digest 8c72e6be16266c22f1bc47d83b9a4580a182580494036d5f57bfbc1c4862e100.",
+    "Independent reviewer separately resealed and reproduced positive-authority, omission, duplicate, reorder, and forged-semantic rejections.",
+    "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m compileall -q tools tests src and git diff --check passed.",
+    "Pre-governance production validation passed 600 governed records and published history with M0 capital LOCKED and no scientific or operational approval.",
+    "Final governance-tree production validation passed 602 governed records and published history with M0 capital LOCKED and no scientific or operational approval."
+  ],
+  "open_questions": [
+    "Whether the owner will request a separate versioned governance-equivalence amendment defining a pinned compiler, rule registry, exhaustive witness ledger, adversarial test floor, historical-prefix preservation, and genuinely independent formal acceptance before any candidate can count."
+  ],
+  "blockers": [
+    "No governance-equivalence amendment is approved; prototype output remains CANDIDATE_ONLY and the exact proposal to count it remains pending valid owner authorization and genuinely independent formal review.",
+    "Formal Skeptic authority was unavailable in this assignment; the native PASS is engineering review only and cannot accept classifications, clear STOPs, or authorize release.",
+    "STOP-M0-3A-002.v81 remains OPEN with V55 at 87 classified / 634 unclassified; public verifier attachment, compiled closure, V1 disposition, A-J evidence, authoritative currentness, and composed R-gate remain unresolved.",
+    "Data remains BLOCKED; all STOPs remain OPEN; M0 remains blocked; M1 remains unreleased; authorization remains DENY; executor remains MOCK_ONLY; live remains LOCKED; kill remains ENGAGED; deployable capital remains USD 0."
+  ],
+  "next_action": "Refine the prototype into a proposed versioned compiler/rule-registry contract only if the owner explicitly requests the governance-equivalence amendment; otherwise use the measured result as feasibility evidence while continuing the original M0.3A blockers without counting the 25 candidates.",
+  "completion_criteria": [
+    "A runnable CLI deterministically emits a complete sealed 721-site ledger and verifies it by fresh recompilation.",
+    "All ten accepted minLength semantics reproduce exactly and all 25 additional witnesses remain CANDIDATE_ONLY / DENY.",
+    "Adversarial focused tests and independent engineering reproduction pass without a demonstrated defect.",
+    "V55, every predecessor, accepted counts, STOPs, project state, release authority, execution capability, live state, kill state, and capital remain unchanged."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-180.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-180",
+      "version": 1,
+      "sha256": "776c6bcf5d127544426edaab86d73b4814f6384be01646076bfb082c3cb4fcbe"
+    }
+  ]
+}

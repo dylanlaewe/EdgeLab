@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-162",
+  "version": 1,
+  "occurred_at": "2026-11-09T17:29:15Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_RESOURCE_PROOF_COMPILER_FEASIBILITY_CANDIDATE_ONLY",
+  "subject_ref": "reports/H-M0-180-automated-proof-compiler-feasibility.v1.md",
+  "previous_state": "V55_ACCEPTED_87_CLASSIFIED_634_UNCLASSIFIED_MANUAL_PROOF_CONSTRUCTION",
+  "new_state": "V55_UNCHANGED_WITH_REVIEWED_MINLENGTH_COMPILER_PROTOTYPE_CANDIDATE_ONLY",
+  "reason": "Commit 3c4dfacfe0be146221a13274d467450d5f2d3277 implements a deterministic offline proof-compiler prototype that inspects all 721 frozen sites, exactly reproduces ten accepted minLength semantics, emits 25 new witnesses only as CANDIDATE_ONLY, records zero ambiguity and 686 nonmatches, rejects adversarial substitutions, and retains DENY authority without changing V55.",
+  "evidence_refs": [
+    "reports/H-M0-180-automated-proof-compiler-feasibility.v1.md",
+    "reports/reviews/H-M0-180-native-engineering-review.v1.md",
+    "tools/compile_runtime_v2_minlength_candidates.py",
+    "tests/test_runtime_v2_proof_compiler.py",
+    "docs/handoffs/H-M0-180.v1.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_DISCOVERY.v8.json",
+    "docs/M0.3A_RUNTIME_V2_RESOURCE_CLASSIFICATION.v55.json",
+    "reports/stops/STOP-M0-3A-002.v81.json"
+  ],
+  "code_ref": "3c4dfacfe0be146221a13274d467450d5f2d3277",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-180",
+  "supersedes": null
+}
