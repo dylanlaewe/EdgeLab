@@ -1,0 +1,72 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-182",
+  "version": 2,
+  "created_at": "2026-11-09T19:33:25Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Build the complete independently testable non-operational candidate package permitted by current governance, preserving formal approval boundaries instead of provisioning or impersonating a reviewer.",
+  "work_done": "Commit 31652f5cfff52250933b48b347794b8a23c8d27c implements the H-M0-181 next authorized deliverable. A strict versioned registry contains exactly the existing H-M0-180 minLength family and pins V8, V55, ten calibration sites, 25 candidate sites, expected counts and output identities. A strict eight-file compiler closure binds the compiler, census reconstructor, registry/schema, frozen inputs, adversarial tests and feasibility evidence. The compiler validates the registry before generation while preserving its exact 602682-byte output. A pure no-I/O verifier accepts registry, closure, compiler output and pinned file bytes and can return only VALID_CANDIDATE or INVALID with NOT_ESTABLISHED governance, no accepted classification change and DENY. A CLI adapter verifies actual repository bytes; a closed result schema and seventeen focused tests cover positive and adversarial behavior. No reviewer appointment or approval work was attempted or claimed.",
+  "evidence_refs": [
+    "reports/H-M0-182-candidate-package-verifier.v1.md",
+    "reports/audit/A-M0-164.v1.json",
+    "docs/M0.3A_PROOF_COMPILER_RULE_REGISTRY.v1.json",
+    "docs/M0.3A_PROOF_COMPILER_CLOSURE.v1.json",
+    "schemas/m0-3a-proof-compiler-rule-registry.v1.schema.json",
+    "schemas/m0-3a-proof-compiler-closure.v1.schema.json",
+    "schemas/m0-3a-proof-candidate-package-result.v1.schema.json",
+    "src/edgelab/proof_candidate_verifier.py",
+    "tools/compile_runtime_v2_minlength_candidates.py",
+    "tools/verify_runtime_v2_candidate_package.py",
+    "tests/test_runtime_v2_proof_compiler.py",
+    "docs/handoffs/H-M0-182.v1.json",
+    "docs/handoffs/H-M0-181.v2.json"
+  ],
+  "files_changed": [
+    "docs/M0.3A_PROOF_COMPILER_RULE_REGISTRY.v1.json",
+    "docs/M0.3A_PROOF_COMPILER_CLOSURE.v1.json",
+    "schemas/m0-3a-proof-compiler-rule-registry.v1.schema.json",
+    "schemas/m0-3a-proof-compiler-closure.v1.schema.json",
+    "schemas/m0-3a-proof-candidate-package-result.v1.schema.json",
+    "src/edgelab/proof_candidate_verifier.py",
+    "tools/compile_runtime_v2_minlength_candidates.py",
+    "tools/verify_runtime_v2_candidate_package.py",
+    "tests/test_runtime_v2_proof_compiler.py",
+    "reports/H-M0-182-candidate-package-verifier.v1.md",
+    "reports/audit/A-M0-164.v1.json",
+    "docs/handoffs/H-M0-182.v2.json"
+  ],
+  "tests_run": [
+    "Focused proof compiler and candidate-package verifier suite: 17/17 passed in 13.824 seconds.",
+    "Combined candidate-package, H-M0-179 synthetic lifecycle and V55 preservation suites: 35/35 passed in 19.711 seconds.",
+    "Optimized-Python focused package suite: 17/17 passed in 13.448 seconds.",
+    "Normal and optimized candidate-package CLI runs were byte-identical VALID_CANDIDATE / DENY results with 25 candidate-only sites and no accepted classification change.",
+    "Candidate compiler output remained 602682 bytes with raw SHA-256 1412fd869c8247d5a0fe27834c8ef386c1356f5ea73550f4235ad24c7ec2c073.",
+    "Completion-head production validation passed 608 governed records and published history with M0 capital LOCKED and no scientific or operational approval.",
+    "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m compileall -q src tools tests and git diff --check passed."
+  ],
+  "open_questions": [],
+  "blockers": [
+    "GOV-M0-3A-COMPILER-EQUIVALENCE-001.v1 remains proposed; registry, closure and verifier output are candidate engineering evidence only.",
+    "No formal 05 Skeptic approval exists and none was sought; V55 remains 87 classified / 634 unclassified and all 25 generated witnesses remain unclassified CANDIDATE_ONLY evidence.",
+    "Public runtime-v2 verifier attachment, generated release closure, V1 disposition, A-J evidence, authoritative currentness and composed R-gate remain unresolved.",
+    "Data remains BLOCKED; all STOPs remain OPEN; M0 remains blocked; M1 remains unreleased; authorization remains DENY; executor remains MOCK_ONLY; live remains LOCKED; kill remains ENGAGED; deployable capital remains USD 0."
+  ],
+  "next_action": "Under existing engineering authority, integrate the pure candidate-package verifier into production repository validation and the developer-alpha observatory as a read-only CANDIDATE_VALID/DENY diagnostic, without attaching the private runtime reducer, changing accepted counts, or depending on formal reviewer provisioning.",
+  "completion_criteria": [
+    "The exact single-rule registry and compiler closure are strict, self-bound and schema-valid.",
+    "The compiler retains byte-identical H-M0-180 output while validating the registry.",
+    "The pure verifier and CLI validate the exact package and reject registry, closure, source, output, authority, duplicate, omission, reorder and identity attacks.",
+    "All results remain non-Boolean, NOT_ESTABLISHED, accepted-count false and DENY; H-M0-179, H-M0-180, V55 and safety state remain unchanged."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-182.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-182",
+      "version": 1,
+      "sha256": "f0be75d6afc92fb24fbbcd0f86a9b4fc8174c7886a588e52fac5ba3809a12496"
+    }
+  ]
+}

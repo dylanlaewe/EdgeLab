@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-164",
+  "version": 1,
+  "occurred_at": "2026-11-09T19:33:25Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_PROOF_CANDIDATE_PACKAGE_VERIFIER_DENY_ONLY",
+  "subject_ref": "reports/H-M0-182-candidate-package-verifier.v1.md",
+  "previous_state": "H_M0_180_COMPILER_OUTPUT_WITHOUT_VERSIONED_REGISTRY_OR_PACKAGE_VERIFIER",
+  "new_state": "SELF_BOUND_CANDIDATE_REGISTRY_CLOSURE_AND_PURE_PACKAGE_VERIFIER_DENY_ONLY",
+  "reason": "Commit 31652f5cfff52250933b48b347794b8a23c8d27c adds a single-rule candidate registry, compiler closure, pure package verifier, CLI, closed result schema and adversarial tests. The package verifies the existing 25 minLength candidates while retaining NOT_ESTABLISHED governance equivalence, zero accepted classification change and DENY authority. No reviewer identity or formal approval is provisioned or implied.",
+  "evidence_refs": [
+    "reports/H-M0-182-candidate-package-verifier.v1.md",
+    "docs/M0.3A_PROOF_COMPILER_RULE_REGISTRY.v1.json",
+    "docs/M0.3A_PROOF_COMPILER_CLOSURE.v1.json",
+    "src/edgelab/proof_candidate_verifier.py",
+    "tools/verify_runtime_v2_candidate_package.py",
+    "tests/test_runtime_v2_proof_compiler.py",
+    "docs/handoffs/H-M0-182.v1.json",
+    "docs/handoffs/H-M0-181.v2.json",
+    "reports/stops/STOP-M0-3A-002.v81.json"
+  ],
+  "code_ref": "31652f5cfff52250933b48b347794b8a23c8d27c",
+  "config_ref": "docs/project-state.json",
+  "correlation_id": "H-M0-182",
+  "supersedes": null
+}
