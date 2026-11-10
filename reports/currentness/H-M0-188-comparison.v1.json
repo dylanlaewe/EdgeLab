@@ -1,0 +1,27 @@
+{
+  "changed_dimensions": [],
+  "comparison_id": "H-M0-188-CONTEXT-COMPARISON",
+  "comparison_sha256": "8b9fa837f823290958aef1c57c138b49a81ce9ec117d38807b8103289cc8bbf5",
+  "expected_artifact_sha256": "d96ae174396ffaffd4f82009676877a5a3c3484ded251b3832735ac57743647c",
+  "failure_reason": null,
+  "retained_artifact_sha256": "d96ae174396ffaffd4f82009676877a5a3c3484ded251b3832735ac57743647c",
+  "schema_version": 1,
+  "status": "UNCHANGED_CONTEXT_UNKNOWN_DENY",
+  "task_id": "T-SYNTHETIC-001",
+  "unchanged_dimensions": [
+    "project_stop",
+    "assignment_handoff",
+    "dependency_capability",
+    "git_repository",
+    "attachment_task_attempt_claim_fence",
+    "runtime_generation"
+  ],
+  "verification": {
+    "atomic_cross_system_snapshot": false,
+    "authenticated_receipt": false,
+    "authorizing_use": "DENY",
+    "currentness_status": "UNKNOWN",
+    "generation_match": false,
+    "verifier_status": "FAIL"
+  }
+}

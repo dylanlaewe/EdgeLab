@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-188",
+  "version": 2,
+  "created_at": "2026-11-10T04:55:47Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Implement a read-only, non-authorizing decision-time context capture and drift-verification workflow for a new synthetic task, using actual repository and locked Scheduler v1 sources without modifying frozen runtime formats or retrofitting legacy M0.2 evidence.",
+  "work_done": "Commits f8baaefe7301e667a7874268aff4927a9409d80f and 53ba0e25f8efcea8fa29340aab97b22d20511a2f implement H-M0-188 outside Scheduler formats. A fresh claimed T-SYNTHETIC-001 runtime invokes H-M0-187, retains the full verified historical binding separately from 94 newly observed contextual source records, double-reads repository and locked SQLite state, and compares project/STOP, assignment/handoff, recursive dependency/capability, Git/bundle, attachment/task/attempt/claim/fence, and generation projections. The retained implementation-head comparison is unchanged but UNKNOWN/DENY. Disposable actual repositories/runtimes demonstrate every required drift and race class. Initial review found self-consistent resealing and malformed-version defects; the correction semantically binds the full accepted authority candidate and all source facts, rejects malformed heads, and recursively closes dependencies/capabilities. Re-review passed with no remaining demonstrated defect. Frozen M0.2 evidence was not modified or retrofitted.",
+  "evidence_refs": [
+    "reports/H-M0-188-decision-time-context.v1.md",
+    "reports/reviews/H-M0-188-native-engineering-review.v1.md",
+    "reports/currentness/H-M0-188-context.v1.json",
+    "reports/currentness/H-M0-188-comparison.v1.json",
+    "reports/audit/A-M0-170.v1.json",
+    "src/edgelab/decision_time_context.py",
+    "tools/run_decision_time_context.py",
+    "schemas/decision-time-context.v1.schema.json",
+    "tests/test_decision_time_context.py",
+    "docs/handoffs/H-M0-188.v1.json",
+    "docs/handoffs/H-M0-187.v2.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-188.v1.json",
+    "src/edgelab/decision_time_context.py",
+    "tools/run_decision_time_context.py",
+    "schemas/decision-time-context.v1.schema.json",
+    "tests/test_decision_time_context.py",
+    "reports/currentness/H-M0-188-context.v1.json",
+    "reports/currentness/H-M0-188-comparison.v1.json",
+    "reports/H-M0-188-decision-time-context.v1.md",
+    "reports/reviews/H-M0-188-native-engineering-review.v1.md",
+    "reports/audit/A-M0-170.v1.json",
+    "docs/handoffs/H-M0-188.v2.json"
+  ],
+  "tests_run": [
+    "Corrected focused H-M0-188 suite: 9/9 passed in 17.008 seconds; independent reviewer reproduced 9/9 in 18.365 seconds.",
+    "Final H-M0-188 plus H-M0-187, H-M0-186, H-M0-184, H-M0-183, H-M0-179, and Scheduler v1 preservation matrix: 112/112 passed in 111.681 seconds.",
+    "Actual cold CLI demo captured 94 actual source records for claimed T-SYNTHETIC-001 attempt 1/fence 1 and returned UNCHANGED_CONTEXT_UNKNOWN_DENY; retained raw context SHA-256 d96ae174396ffaffd4f82009676877a5a3c3484ded251b3832735ac57743647c.",
+    "Disposable actual repository/runtime tests detected project/STOP, assignment/handoff, dependency/capability, Git, bundle/generation, claim/fence, and read/recheck race drift. Tampered, incomplete, recomputed-reseal, substituted, and malformed-version evidence rejected.",
+    "Production validation passed 625 governed records before completion artifacts; compilation and git diff --check passed."
+  ],
+  "open_questions": [],
+  "blockers": [
+    "No immutable authenticated M0.2 receipt or authenticated context receipt exists; the raw context digest and Git-retained artifact are content pins only.",
+    "No atomic repository/SQLite snapshot contract or accepted positive currentness/R-gate consumer exists.",
+    "Fresh comparison support does not establish any of H-M0-187's six legacy historical-equality/receipt dimensions because frozen Stage 1 did not consume the new observations.",
+    "Formal independent approval and applicable STOP clearances remain absent; engineering review is non-authorizing.",
+    "Data remains BLOCKED; all STOPs remain OPEN; M0 remains blocked; M1 remains unreleased; executor remains MOCK_ONLY; authorization remains DENY; live remains LOCKED; kill remains ENGAGED; deployable capital remains USD 0."
+  ],
+  "next_action": "Continue the original roadmap with a separately authorized authenticated receipt/currentness/R-gate contract or another non-operational integration that consumes only accepted authority; do not infer historical equality or operational permission from H-M0-188.",
+  "completion_criteria": [
+    "Fresh task context is captured from actual repository and locked runtime sources with exact content/source/boundary bindings and separately retained frozen M0.2 inputs.",
+    "Unchanged retained evidence reproduces while required source, Git, runtime, generation, and race drift fail closed.",
+    "Self-consistently resealed, incomplete, substituted, and malformed evidence rejects without depending solely on a caller-presented digest.",
+    "Legacy frozen captures remain unchanged and all unavailable authority dimensions remain UNKNOWN/DENY.",
+    "Focused and preservation tests pass and independent read-only engineering re-review reports no remaining demonstrated defect."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-188.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-188",
+      "version": 1,
+      "sha256": "bf0c4e06e52fe2d26dda5596e2ab5bd54d52c7c92954ea93e9db37c930861b72"
+    }
+  ]
+}

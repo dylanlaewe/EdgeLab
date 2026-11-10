@@ -1,0 +1,1028 @@
+{
+  "actual_m0_2_decision_inputs": {
+    "accepted_authority_binding": {
+      "attempt": 1,
+      "candidate_sha256": "5ad284b074c5a0c4dc507b1983bab30ce9582cbe5b28f6561b60e76df8636564",
+      "capture_id": "AUTH-AUTHENTIC-STAGE1-DISPATCH",
+      "evidence_class": "R_GATE_CANDIDATE_EVIDENCE",
+      "failure_reason": null,
+      "historical_seal": {
+        "capture": {
+          "capture_id": "AUTH-AUTHENTIC-STAGE1-DISPATCH",
+          "fixture_path": "tests/fixtures/authentic-stage1/dispatch",
+          "graph_sha256": "f2b8ca98631d9acf8bf1038e62b91494aaa206432828ebd4b692fc9eea27294e",
+          "repository_inventory_sha256": "dde5609e67fc7afc532bf08cf38884e3e62d2193da14a6f4026a0c4cb32a2b05",
+          "sidecar_sha256": "baa1686bbc3f1f5ae94cf209904bea86539815735c3fc52558f137892d23ed79"
+        },
+        "capture_root": {
+          "id": "M0-2-HISTORICAL-CAPTURE-ROOT-V1",
+          "sha256": "7e2e36c17c742c21c45c5d962dcf2119260148ed30b0a3080029622316857490"
+        },
+        "decision": {
+          "decision": "DISPATCH",
+          "decision_id": "D-0a6e8268c4309df969a5384c4ce33063",
+          "execution_adapter": "MOCK_ONLY",
+          "operation": "SYNTHETIC_ASSERT",
+          "reason": "repository-resolved synthetic task passed preflight",
+          "task_id": "T-SYNTHETIC-001"
+        },
+        "historical_verification": {
+          "capture_id": "AUTH-AUTHENTIC-STAGE1-DISPATCH",
+          "decision_id": "D-0a6e8268c4309df969a5384c4ce33063",
+          "frozen_commit": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+          "raw_result_match": true,
+          "raw_result_sha256": "564d8e30b67d9fafd7119e730cbe8db9703d84b6be851327d0b1fde2cf5bb042",
+          "replay_completed": true,
+          "replay_root": "persisted-graph:f2b8ca98631d9acf8bf1038e62b91494aaa206432828ebd4b692fc9eea27294e",
+          "status": "HISTORICALLY_VALID",
+          "trusted_root_id": "M0-2-STAGE1-TRUST-ROOT-V1"
+        },
+        "mapping_contract": {
+          "id": "M0.3A-AUTHORITY-SOURCE-MAPPING",
+          "sha256": "31cd83df463560217bd6e2eb0d3f019adc7f6d89756e6ac9e36a6c0fd7494a72",
+          "version": 1
+        },
+        "raw_result_sha256": "564d8e30b67d9fafd7119e730cbe8db9703d84b6be851327d0b1fde2cf5bb042",
+        "schema_version": 1,
+        "seal_id": "HS-e08dc2f34dc3d4cb5713edeb843e26d9",
+        "seal_sha256": "e55fc9698d102bd40c097430d086e0505250c12051a85682fa6f52f606ba747a",
+        "source_projection_sha256": "e08dc2f34dc3d4cb5713edeb843e26d9a072e44f77a6bedbfe4be6976b7de3ec",
+        "stable_projection_sha256": "5ca577fcfc60200329bb8ab37a86eea8bc4bdd1fb282dfcb78ec70d49ce6f205",
+        "subject": {
+          "attempt": 1,
+          "task_id": "T-SYNTHETIC-001"
+        },
+        "trusted_root": {
+          "entrypoint": "edgelab.orchestration.decision",
+          "freeze_commit": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+          "id": "M0-2-STAGE1-TRUST-ROOT-V1",
+          "sha256": "3b5c653e955a6f1be71c454e86339f39de1f1c864dbfeb71b43f993f9d6b3461"
+        }
+      },
+      "limitations": [
+        "diagnostic historical binding only; never authorizes scheduler, executor, paper, live, or capital action",
+        "positive currentness, generation equality, and active repository equality are not established",
+        "stored decision_receipt_digest remains caller-supplied and non-authoritative",
+        "candidate is neither persisted nor consumed by any scheduler transition",
+        "project, STOP, assignment, handoff, dependency, capability, and reachability mappings remain absent",
+        "every result is structurally DENY-only and cannot express CURRENT, PASS, generation match, or ALLOW"
+      ],
+      "locked_authority_sha256": "762ee3e5dfb44745ef21c283f1537a5a99a2532257121aa78fa38e25e1c61280",
+      "schema_version": 1,
+      "status": "BOUND_DENY_ONLY",
+      "task_id": "T-SYNTHETIC-001",
+      "verification": {
+        "authorizing_use": "DENY",
+        "currentness_status": "UNKNOWN",
+        "generation_match": false,
+        "historical_status": "VALID",
+        "reason_code": "VERIFIER_FAILURE",
+        "runtime_compatible": true,
+        "verifier_status": "FAIL"
+      }
+    },
+    "attempt": 1,
+    "authority_binding_sha256": "5ad284b074c5a0c4dc507b1983bab30ce9582cbe5b28f6561b60e76df8636564",
+    "capture_fixture_path": "tests/fixtures/authentic-stage1/dispatch",
+    "capture_sidecar_sha256": "baa1686bbc3f1f5ae94cf209904bea86539815735c3fc52558f137892d23ed79",
+    "classification": "ACTUAL_FROZEN_M0_2_INPUT_CLOSURE",
+    "historical_seal_sha256": "e55fc9698d102bd40c097430d086e0505250c12051a85682fa6f52f606ba747a",
+    "not_retrofitted": true,
+    "task_id": "T-SYNTHETIC-001"
+  },
+  "attempt": 1,
+  "capture_id": "AUTH-AUTHENTIC-STAGE1-DISPATCH",
+  "context_id": "H-M0-188-DECISION-TIME-CONTEXT",
+  "context_sha256": "2c08da3642942450237c67412b8ef0e32bc93b068d1fb326e2669e4702f0d182",
+  "contextual_evidence": {
+    "classification": "SEPARATELY_OBSERVED_CONTEXT_NOT_DECISION_INPUT",
+    "family_sha256": {
+      "assignment_handoff": "89aadf873a1238d0aa1d5961ac589322c21e9ae3cc5137f75f97005ddd7df84f",
+      "dependency_capability": "7bd62bc14e563e063985434fe540b38def10c77cabb74f808b81f7d65ed45221",
+      "git_repository": "a05d0825cd13fb277365b5047f9f5352def39e461c63f47e8346a59efc3d3a35",
+      "project_stop": "70a75f790993fc8f394ecf1603e591a62e1948a71f92b2734e686a9d4c398fbd",
+      "runtime_subject": "fad74209db4ba7ad9943334f9bbe25a4ad061dafff407bed5c6ae95c770fe0ef"
+    },
+    "source_facts": {
+      "assignment_source": "orchestration/assignments/T-SYNTHETIC-001.v1.json",
+      "bundle": {
+        "commit": "53ba0e25f8efcea8fa29340aab97b22d20511a2f",
+        "digest": "56a6a6c00988c337c9bf0f993e31e2626643102da700b8c6eedbea33cdf39747",
+        "policy": "6a54608a036a03bdca780c6d2778ffcccfb54d01b43bfec33dd59c8e0afacb5c",
+        "project": "2c74c63a943cc34b75e2c257201bc5a14e51ac3eff19766b3c592f57183881d1",
+        "stops": "6857354407da6cbbf576f8393c12b7f6562850d4fd7ec7659975317529368f31",
+        "tasks": "81e9f61213ce4f0efa4c26d227c280492f78beb8b069c2490ca808be9e83dff3"
+      },
+      "capability_ids": [
+        "C-REPOSITORY-READ"
+      ],
+      "dependency_ids": [],
+      "handoff_binding_source": "orchestration/handoff-bindings/T-SYNTHETIC-001.v1.json",
+      "handoff_source": "docs/handoffs/H-M0-038.v2.json",
+      "head": "53ba0e25f8efcea8fa29340aab97b22d20511a2f",
+      "remote": "https://github.com/dylanlaewe/EdgeLab.git",
+      "repository_root": "/Users/dylanlaewe/Projects/Active/EdgeLab",
+      "task_attempt": 1,
+      "task_source": "orchestration/tasks/T-SYNTHETIC-001.v1.json"
+    },
+    "source_records": [
+      {
+        "byte_length": 907,
+        "content_sha256": "6f201351f6c18baffb6e2711a6e26868d56461734af303105edcb33820ba2130",
+        "family": "assignment_handoff",
+        "kind": "REPOSITORY_FILE",
+        "locator": "docs/handoffs/H-M0-038.v2.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:docs/handoffs/H-M0-038.v2.json"
+      },
+      {
+        "byte_length": 188,
+        "content_sha256": "0ff4a8c52b47850c1d3367e39378a62ea49e8944b010f9d6da0cabb6b4ae5979",
+        "family": "assignment_handoff",
+        "kind": "REPOSITORY_FILE",
+        "locator": "orchestration/assignments/T-SYNTHETIC-001.v1.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:orchestration/assignments/T-SYNTHETIC-001.v1.json"
+      },
+      {
+        "byte_length": 254,
+        "content_sha256": "c0af0e6639cea958b1539b86c0c8343e74f5c550ad25dc62a29027f9e292d069",
+        "family": "assignment_handoff",
+        "kind": "REPOSITORY_FILE",
+        "locator": "orchestration/handoff-bindings/T-SYNTHETIC-001.v1.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:orchestration/handoff-bindings/T-SYNTHETIC-001.v1.json"
+      },
+      {
+        "byte_length": 635,
+        "content_sha256": "fe31a2d31c330b7e6dec48e94e6b1d9102332615b8f387208ba265518a376b77",
+        "family": "assignment_handoff",
+        "kind": "REPOSITORY_FILE",
+        "locator": "orchestration/tasks/T-SYNTHETIC-001.v1.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:orchestration/tasks/T-SYNTHETIC-001.v1.json"
+      },
+      {
+        "byte_length": 577,
+        "content_sha256": "a3478e44c2eb19edcc97d8653e9a86132ae3c9b4897c5480794a4080e72bbf0d",
+        "family": "dependency_capability",
+        "kind": "REPOSITORY_FILE",
+        "locator": "orchestration/capabilities/C-REPOSITORY-READ.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:orchestration/capabilities/C-REPOSITORY-READ.json"
+      },
+      {
+        "byte_length": 40,
+        "content_sha256": "9ac75ebc33a1993aea7f3c09b355452974f3e62bdec687f660b7299e32eeafe6",
+        "family": "git_repository",
+        "kind": "GIT_VALUE",
+        "locator": "git:HEAD",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-object-name:HEAD"
+      },
+      {
+        "byte_length": 41,
+        "content_sha256": "cc8b92a2acdc28ab8786867e908b6b440dbddf78d27c22d01e8a577b59345412",
+        "family": "git_repository",
+        "kind": "GIT_VALUE",
+        "locator": "git:origin",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-remote:origin"
+      },
+      {
+        "byte_length": 432,
+        "content_sha256": "6d7e0acc993f632fa6842e07c92daaa7817e0d61d4b7029c6ed20f4b0588b5bf",
+        "family": "git_repository",
+        "kind": "SCHEDULER_BUNDLE",
+        "locator": "scheduler:bundle",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "scheduler-v1:authoritative-bundle"
+      },
+      {
+        "byte_length": 43828,
+        "content_sha256": "8a97ae549fa8bb813569b1ee7617526d590dcaef1cfca8a36f29863832561ddc",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "docs/project-state.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:docs/project-state.json"
+      },
+      {
+        "byte_length": 1271,
+        "content_sha256": "877eb367fde67eda4cbd33b72eea28e48d4f36f45253dc7fe40e3bfa9aa87571",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-001.v1.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-001.v1.json"
+      },
+      {
+        "byte_length": 1705,
+        "content_sha256": "82a478a87869aea66217ae5b3462cbc4773eaf469d8439016809d0213099315f",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-001.v1.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-001.v1.json"
+      },
+      {
+        "byte_length": 2006,
+        "content_sha256": "8f4bd083175aa771e6e5f53ad186c26c3a2b5330b3bf5880f4a2d230ff623417",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v1.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v1.json"
+      },
+      {
+        "byte_length": 2186,
+        "content_sha256": "543ac86e18f8c1dfb6e0d107733cd3dc55972e01b7bb9c0cfc2365d52fb4cdd5",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v10.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v10.json"
+      },
+      {
+        "byte_length": 2232,
+        "content_sha256": "8311f3e65c13e69d1551847e479a7a237bbb379b3671960bf2d6da5f8d9f4b42",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v11.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v11.json"
+      },
+      {
+        "byte_length": 2271,
+        "content_sha256": "3ac1b675466dddfa4f7aedeeb6ead0dbf3f07d13daffc045e7adbc05f980ad53",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v12.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v12.json"
+      },
+      {
+        "byte_length": 2498,
+        "content_sha256": "777df154b1a8d00e97f8410fc71622f0847cc18b19695e7fade5b0fea8bdcfce",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v13.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v13.json"
+      },
+      {
+        "byte_length": 2555,
+        "content_sha256": "65cbd57f75650c43059b316ed6443c1307c387f67c0a98fc6d5d54b30cf90dec",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v14.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v14.json"
+      },
+      {
+        "byte_length": 2495,
+        "content_sha256": "b22104a73a2aee042d7858e84bb1f813947982e7dc583cd084944610113f86a6",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v15.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v15.json"
+      },
+      {
+        "byte_length": 2497,
+        "content_sha256": "d76134d0f82910f58593add5468cf1de3f035f7bd59fb96a24bfac022e7690a1",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v16.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v16.json"
+      },
+      {
+        "byte_length": 2416,
+        "content_sha256": "47d9c9cc0a38114ffa2916fcc7cef6b7208922ac95c841fdaca5bf43e8549d76",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v17.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v17.json"
+      },
+      {
+        "byte_length": 1811,
+        "content_sha256": "02f6c73d01b5cf1d996bd65012b79246988ec936982557d0ff52bede86401c53",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v18.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v18.json"
+      },
+      {
+        "byte_length": 1213,
+        "content_sha256": "ffd0ae79efeb30fe5f466d86ad1a7e77e5e06f36efedabf1afded55babe03e07",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v19.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v19.json"
+      },
+      {
+        "byte_length": 2205,
+        "content_sha256": "0fe0e03975c5926da8da99e80ee1e56f59ae871bbcde401927c3f7d40c4d24f9",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v2.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v2.json"
+      },
+      {
+        "byte_length": 1329,
+        "content_sha256": "cd67c4c6e4bfd2321dc19b7c08e697fd039c0b0d1be1455d095924b4aa7926bd",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v20.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v20.json"
+      },
+      {
+        "byte_length": 1313,
+        "content_sha256": "da4d6dbda91d8da1ed7c57639308ae1065647ee5380017e8c011beaaa794b12b",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v21.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v21.json"
+      },
+      {
+        "byte_length": 1250,
+        "content_sha256": "e6aa23386923c2cb2750460253023e5cf6c4a0497edc0f1369af5900f22aa733",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v22.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v22.json"
+      },
+      {
+        "byte_length": 1321,
+        "content_sha256": "30667db6da7a32713c5922145cf94c04c3b8758b39f53a9e07f27ba8c6c1b3eb",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v23.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v23.json"
+      },
+      {
+        "byte_length": 1271,
+        "content_sha256": "d8d7cbef296d3cf6c7869d24c5c95812f836ae9e0c486bfff13a4c42038923a7",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v24.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v24.json"
+      },
+      {
+        "byte_length": 1490,
+        "content_sha256": "de1df8d6dd9eb0e940998a65951fc102786182673ddb60d1cea35f19017448ac",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v25.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v25.json"
+      },
+      {
+        "byte_length": 1832,
+        "content_sha256": "78ff98d784d36d6538c534ad3799f052b423c1933a6b6d6e29e9a9ab37d59491",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v26.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v26.json"
+      },
+      {
+        "byte_length": 2106,
+        "content_sha256": "2b63756316ef0cb5482cbdaed0ab278c78695d6ec074c5af67280faee4095a25",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v27.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v27.json"
+      },
+      {
+        "byte_length": 2185,
+        "content_sha256": "d7cf8e8c4cd0b8daf4851868dbe71cfa1d7132ea2e124d8778cdf5b9360954e3",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v28.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v28.json"
+      },
+      {
+        "byte_length": 2250,
+        "content_sha256": "8f9d79c9eabb6469b6d99dcc4745f977c2b85215b88923cda025bbfcbe366e9a",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v29.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v29.json"
+      },
+      {
+        "byte_length": 2260,
+        "content_sha256": "7e10ec51874a1afddb96ae0881dd62aa7d49301ea12123f0c8e6f3999a07855d",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v3.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v3.json"
+      },
+      {
+        "byte_length": 2325,
+        "content_sha256": "18d04193745d3161d7eae944b4d193b152cd1a9930ea8349a697014e8ed6963b",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v30.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v30.json"
+      },
+      {
+        "byte_length": 2456,
+        "content_sha256": "dd7672f5fb767661efc3ee8def1dcaeb7da02d5a25ee49782997089ff989a9dc",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v31.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v31.json"
+      },
+      {
+        "byte_length": 2366,
+        "content_sha256": "10f17e585f815dba876d89323781f5736fecc1545d16984fdb89e983c3993f8d",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v32.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v32.json"
+      },
+      {
+        "byte_length": 2419,
+        "content_sha256": "2b9578896d72874797611521400439adf10acd1f77f0839115036c5756d495f3",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v33.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v33.json"
+      },
+      {
+        "byte_length": 2461,
+        "content_sha256": "b62dd5b272a2c053ee0d33ec0eeecce83a9d3cdafb651a894f0aef14d7668cbb",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v34.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v34.json"
+      },
+      {
+        "byte_length": 2470,
+        "content_sha256": "cb16a8b7c4cb46198842558fa67b8c85348019649179999327a2ae6e727e4913",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v35.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v35.json"
+      },
+      {
+        "byte_length": 2483,
+        "content_sha256": "6ba92ef5a102701116d1a4bc16ffe6d1cf27da6a7ff1f59272337cc33705afd0",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v36.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v36.json"
+      },
+      {
+        "byte_length": 2525,
+        "content_sha256": "80cd4585f9846449585fe4645b047ff4e0d1e8ff0ff16ff2b24b1d99265e864f",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v37.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v37.json"
+      },
+      {
+        "byte_length": 2699,
+        "content_sha256": "872a782a939582ed24365f0f7e9852dd9b7dc75c7b8e824d28adebdbb7ec54c6",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v38.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v38.json"
+      },
+      {
+        "byte_length": 2725,
+        "content_sha256": "3cb84e847f42452a756236106fe3c8a3d56042b886e7955987f58f2008122964",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v39.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v39.json"
+      },
+      {
+        "byte_length": 2293,
+        "content_sha256": "0eb8ca7577930ebee95058cacf5b81e3da8352ae76e7a6a45a0336a38d774b83",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v4.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v4.json"
+      },
+      {
+        "byte_length": 2477,
+        "content_sha256": "5ea288378e90188dd2c28e1d08eeccd419845e329ed4aebf07efa5302c9b5773",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v40.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v40.json"
+      },
+      {
+        "byte_length": 2391,
+        "content_sha256": "80f4170a0860ece205c829d7ad54cc244268ce7afc025e2d418b6d40b9d30d50",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v41.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v41.json"
+      },
+      {
+        "byte_length": 2531,
+        "content_sha256": "09b10e90ecd3e8b4c2007042967ce16920b53eba9cbdd8d4a76b0f5d3862749f",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v42.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v42.json"
+      },
+      {
+        "byte_length": 2556,
+        "content_sha256": "81374afaea59b488d0e2ace29435ef3f6a45d86bfce3b178e86ecad167bf5cf2",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v43.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v43.json"
+      },
+      {
+        "byte_length": 2515,
+        "content_sha256": "e89fc29b9852be39aac8cf6dc0c15b8a973168d95d0c8c52dfac63e18fb7c249",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v44.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v44.json"
+      },
+      {
+        "byte_length": 2402,
+        "content_sha256": "61faf2228dc610993ddc7c2193a9fa8f662168f9b521fdee24a11d0ecc3215d5",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v45.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v45.json"
+      },
+      {
+        "byte_length": 2460,
+        "content_sha256": "e64d28c6ce283175c8f6570255a50e5e708e18c2b414cf5142b67507345eeb3e",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v46.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v46.json"
+      },
+      {
+        "byte_length": 2404,
+        "content_sha256": "9f8e9100222d99e7f641f74fbaa6643b6b52209e3c358c21542f94bd0a4d1f27",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v47.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v47.json"
+      },
+      {
+        "byte_length": 2430,
+        "content_sha256": "1938870a247073d8a53f359ecbec356682f1537ffecb07b947072a2828f7f536",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v48.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v48.json"
+      },
+      {
+        "byte_length": 2392,
+        "content_sha256": "baa1de4c9b2d7b909d6d61022447d4abf727d10317543c1a962ff0d30280e904",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v49.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v49.json"
+      },
+      {
+        "byte_length": 2419,
+        "content_sha256": "c8c05a3b9d6c1b055f6ed2ecde1de30e03b8efdf4bd7cf0ef97f19612118e547",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v5.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v5.json"
+      },
+      {
+        "byte_length": 2435,
+        "content_sha256": "6724aaff47bc0ddc36c9eb268b11a360e38fc35e75fcba91a5e6586dde346199",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v50.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v50.json"
+      },
+      {
+        "byte_length": 2408,
+        "content_sha256": "54672ab03d770f1ac18c7a80d9536e4d956e0b9a6bcc793abbb56d790c43a459",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v51.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v51.json"
+      },
+      {
+        "byte_length": 2395,
+        "content_sha256": "714d46a35a73e3d24b34c85d5554e08a294fb78f1e1a80fe63b827fe9bfe9f3e",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v52.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v52.json"
+      },
+      {
+        "byte_length": 2397,
+        "content_sha256": "db4994cc6aba5e6f4ee40893ccc36467ed373a7c3fe961878a9f2904264663d0",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v53.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v53.json"
+      },
+      {
+        "byte_length": 2400,
+        "content_sha256": "e18ff5f0435eab1329216fc56790e58386a36bc84f286a479028b574cfd3ca24",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v54.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v54.json"
+      },
+      {
+        "byte_length": 2422,
+        "content_sha256": "50ecfe1f114bc81aa1976456953eee7203f7ddc23b70c5937a05e66fcb47f7b2",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v55.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v55.json"
+      },
+      {
+        "byte_length": 2444,
+        "content_sha256": "ac19fc407132d8f9ac506ea33219c98baea62104a2b858a8e347fef205817338",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v56.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v56.json"
+      },
+      {
+        "byte_length": 2414,
+        "content_sha256": "21f29108469ae80452ee42383caf3d6c4cb6cbff562a168c6836ca761b9a3837",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v57.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v57.json"
+      },
+      {
+        "byte_length": 2405,
+        "content_sha256": "ff4a406a5d8098cb5b1b1427387581a19ae98602d672d3acfbeb4a01f9bda13e",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v58.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v58.json"
+      },
+      {
+        "byte_length": 2677,
+        "content_sha256": "67638245f5466128b69eb45b5863f045fe96e5fffa43609f8905fa83a068f381",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v59.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v59.json"
+      },
+      {
+        "byte_length": 2307,
+        "content_sha256": "3cfde685ff7346851879be791efaea31576683a905437bdbd0b0dd37af7fa6f9",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v6.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v6.json"
+      },
+      {
+        "byte_length": 2950,
+        "content_sha256": "9d52856167c2387fa2ee8fef98ff0cade4100fd0dacfcfb0ffe737a028de2789",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v60.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v60.json"
+      },
+      {
+        "byte_length": 2826,
+        "content_sha256": "b6826a6a1a4e3f927d3cbddc7d255b69623373b56f1b8971bec693fd28fab557",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v61.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v61.json"
+      },
+      {
+        "byte_length": 2830,
+        "content_sha256": "137f3ca2b8f90b1c52abd7745bf521fac76b6236e12bf8f467208e656a2dd9c8",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v62.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v62.json"
+      },
+      {
+        "byte_length": 2935,
+        "content_sha256": "5f34f7095f63fea3217344c1afc3f40837ee668164a95475f4a79c43da413388",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v63.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v63.json"
+      },
+      {
+        "byte_length": 2918,
+        "content_sha256": "edb979840da44601471212d237419ca63eaa63540b9b70945795c1f7b6e002bf",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v64.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v64.json"
+      },
+      {
+        "byte_length": 2930,
+        "content_sha256": "e818f3c837a1ae630bcdd38a5f21a2013145c72557041f938db0a10745d06c9a",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v65.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v65.json"
+      },
+      {
+        "byte_length": 2977,
+        "content_sha256": "52616096d5b49739283e7c202ae4d87479f324d07d975776bf39474d760f5dc0",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v66.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v66.json"
+      },
+      {
+        "byte_length": 2983,
+        "content_sha256": "f25163a29c009073a3628f548f26dbc8662545aeb1e3606f9249f6aac6662567",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v67.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v67.json"
+      },
+      {
+        "byte_length": 3248,
+        "content_sha256": "16206ca3eb4bfc877d1dd11ec0e311cf113840fbfcc4cf30ed48a182e638dabc",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v68.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v68.json"
+      },
+      {
+        "byte_length": 3138,
+        "content_sha256": "8204ff15b007adb180263366efcb8a638dac9af504f6991835a612c77996a92a",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v69.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v69.json"
+      },
+      {
+        "byte_length": 2139,
+        "content_sha256": "ac7b1c65430dbe2d319c79bba87803dbf518cd41ae0a8aac7e1a06f2ea04d761",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v7.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v7.json"
+      },
+      {
+        "byte_length": 3016,
+        "content_sha256": "f057af0b86986d8605c523d37bba9d7318f0d7f287b11a74e8b99cfdeb7a7075",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v70.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v70.json"
+      },
+      {
+        "byte_length": 2768,
+        "content_sha256": "ad95302c4e5afea46e8dd39d565a025ed0d17df72b0b992ad327404ef3926080",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v71.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v71.json"
+      },
+      {
+        "byte_length": 1978,
+        "content_sha256": "f108f252ded8e3e4ca788b527137bb9352c22c896d780142efdee7dfc1b71b20",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v72.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v72.json"
+      },
+      {
+        "byte_length": 2219,
+        "content_sha256": "9727f1483d7dd5fc0f894ec87ad6295b14738590f49df2ae4d306fe1e2c79a64",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v73.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v73.json"
+      },
+      {
+        "byte_length": 2229,
+        "content_sha256": "29c0a5ee9c71605ad8df38c11aa70110f8b2d5f3853c60e48062d9ae37aba843",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v74.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v74.json"
+      },
+      {
+        "byte_length": 2306,
+        "content_sha256": "6c610a6efb1f1f4edbad0e5d23bdd6aaab5ccc6ef22963acefa16eeabe48d58c",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v75.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v75.json"
+      },
+      {
+        "byte_length": 2306,
+        "content_sha256": "e6347a63bf7937a1ec5c8ea5d9a24674512733d3b3e42d9bfffd69feaf7f0d36",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v76.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v76.json"
+      },
+      {
+        "byte_length": 2161,
+        "content_sha256": "49f12d946f5708f7d5bbeae4cd7a6ea441db0bb07d698d148a741c51ef9e6ac8",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v77.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v77.json"
+      },
+      {
+        "byte_length": 2106,
+        "content_sha256": "87af9c9acc1d0183e2f9f8dec000f5472919d7115c7b33c93db9b8d7a386a456",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v78.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v78.json"
+      },
+      {
+        "byte_length": 2069,
+        "content_sha256": "44706d76a7a240b998f55bbea12b4af373f3d37a6b3f018076c41f1d5686a48b",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v79.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v79.json"
+      },
+      {
+        "byte_length": 2147,
+        "content_sha256": "7986e834c99ce49810ba067391fdede0d3e98061c50b5a2fda960df2b196a87e",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v8.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v8.json"
+      },
+      {
+        "byte_length": 2053,
+        "content_sha256": "987ee3d8e04124bcb54ee1a7ca3fbd17d60153e69e672e8bf83355a61a4a7949",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v80.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v80.json"
+      },
+      {
+        "byte_length": 2075,
+        "content_sha256": "69eec893f40eb3a6269e5d1f7bd4e358a5daf0d18d233a10b0f92441f89c01a5",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v81.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v81.json"
+      },
+      {
+        "byte_length": 2131,
+        "content_sha256": "1e5b832eefb08838a6e337a694f26911a8a3844ddbc52f29515a9801bc71d9f8",
+        "family": "project_stop",
+        "kind": "REPOSITORY_FILE",
+        "locator": "reports/stops/STOP-M0-3A-002.v9.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "git-repository-file:reports/stops/STOP-M0-3A-002.v9.json"
+      },
+      {
+        "byte_length": 596,
+        "content_sha256": "f9ed6a990158704bfe8ee7f81fd560385bee7e6a0ad046f1438e03f86f828fa6",
+        "family": "runtime_subject",
+        "kind": "RUNTIME_FILE",
+        "locator": "runtime:attachment.json",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "scheduler-v1:attachment-file"
+      },
+      {
+        "byte_length": 2120,
+        "content_sha256": "762ee3e5dfb44745ef21c283f1537a5a99a2532257121aa78fa38e25e1c61280",
+        "family": "runtime_subject",
+        "kind": "LOCKED_SQLITE_PROJECTION",
+        "locator": "sqlite:runtime.sqlite#locked-authority",
+        "observation_boundary": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+        "source_identity": "scheduler-v1:locked-authority"
+      }
+    ],
+    "subject": {
+      "attachment_id": "8dc03921-2465-43dd-8182-7193acb84686",
+      "attempt": 1,
+      "authority_sha256": "762ee3e5dfb44745ef21c283f1537a5a99a2532257121aa78fa38e25e1c61280",
+      "claim_id": "8aa74a04-9802-4f78-a93e-ab7482284b5e",
+      "dispatch_generation": 1,
+      "repository_generation": 0,
+      "runtime_id": "4d54d6ee-0485-4f12-b84b-d2ea95e92ae5",
+      "runtime_repository_generation": 0,
+      "scheduler_generation": 1,
+      "task_fence": 1,
+      "task_id": "T-SYNTHETIC-001"
+    }
+  },
+  "limitations": [
+    "context digest is not an authenticated receipt",
+    "bounded read/recheck is not an atomic repository/SQLite snapshot",
+    "fresh contextual equality does not establish legacy M0.2 historical equality",
+    "no field can authorize scheduler, executor, paper, live, STOP clearance, or capital action"
+  ],
+  "observation_boundary": {
+    "atomic_cross_system_snapshot": false,
+    "mode": "BOUNDED_REPOSITORY_THEN_LOCKED_RUNTIME_READ_RECHECK",
+    "repository_and_runtime_independently_rechecked": true
+  },
+  "schema_version": 1,
+  "supported_fresh_dimensions": [
+    "fresh_project_stop_context",
+    "fresh_assignment_handoff_context",
+    "fresh_dependency_capability_context",
+    "fresh_git_repository_context",
+    "fresh_attachment_task_attempt_claim_fence_context",
+    "fresh_runtime_generation_context"
+  ],
+  "task_id": "T-SYNTHETIC-001",
+  "unknown_dimensions": [
+    "authenticated_receipt_authority",
+    "atomic_cross_system_snapshot",
+    "legacy_m0_2_project_stop_equality",
+    "legacy_m0_2_assignment_handoff_equality",
+    "legacy_m0_2_dependency_capability_equality",
+    "legacy_m0_2_git_reachability_equality",
+    "legacy_m0_2_generation_equality"
+  ],
+  "verification": {
+    "atomic_cross_system_snapshot": false,
+    "authenticated_receipt": false,
+    "authorizing_use": "DENY",
+    "currentness_status": "UNKNOWN",
+    "generation_match": false,
+    "verifier_status": "FAIL"
+  }
+}

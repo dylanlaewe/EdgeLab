@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-170",
+  "version": 1,
+  "occurred_at": "2026-11-10T04:55:47Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_DECISION_TIME_CONTEXT_CAPTURE_UNKNOWN_DENY",
+  "subject_ref": "reports/H-M0-188-decision-time-context.v1.md",
+  "previous_state": "CURRENT_CONTEXT_OBSERVABLE_ONLY_AT_DIAGNOSTIC_TIME_WITH_NO_RETAINED_FRESH_TASK_COMPARATOR",
+  "new_state": "NEW_SYNTHETIC_TASK_CONTEXT_RETAINED_AND_DRIFT_COMPARABLE_UNKNOWN_DENY",
+  "reason": "Commit 53ba0e25f8efcea8fa29340aab97b22d20511a2f adds a closed read-only source capture and drift comparator outside frozen runtime formats. It retains exact project/STOP, assignment/handoff, dependency/capability, Git, attachment, locked task/attempt/claim/fence, and generation observations over a bounded read/recheck window while keeping legacy M0.2 inputs separate. Review-discovered resealing and malformed-head defects were repaired. No result can express CURRENT, PASS, generation-match true, ALLOW, authenticated receipt authority, or an atomic snapshot claim.",
+  "evidence_refs": [
+    "reports/H-M0-188-decision-time-context.v1.md",
+    "reports/reviews/H-M0-188-native-engineering-review.v1.md",
+    "reports/currentness/H-M0-188-context.v1.json",
+    "reports/currentness/H-M0-188-comparison.v1.json",
+    "src/edgelab/decision_time_context.py",
+    "tests/test_decision_time_context.py",
+    "docs/handoffs/H-M0-188.v1.json",
+    "docs/handoffs/H-M0-187.v2.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json",
+    "reports/stops/STOP-M0-3A-002.v81.json"
+  ],
+  "code_ref": "53ba0e25f8efcea8fa29340aab97b22d20511a2f",
+  "config_ref": "schemas/decision-time-context.v1.schema.json",
+  "correlation_id": "H-M0-188",
+  "supersedes": null
+}
