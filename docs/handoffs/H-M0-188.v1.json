@@ -1,0 +1,57 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-188",
+  "version": 1,
+  "created_at": "2026-11-10T04:38:18Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "CLAIMED",
+  "request": "Implement a read-only, non-authorizing decision-time context capture and drift-verification workflow for a new synthetic task, using actual repository and locked Scheduler v1 sources without modifying frozen runtime formats or retrofitting legacy M0.2 evidence.",
+  "work_done": "Director /root claims the sole writer slot on clean synchronized main at 1fd104559be33aed50b1dd6ac0b32961a6a4e9b8. H-M0-179 through H-M0-187 and all frozen evidence are preserved. Scope will capture actual fresh-task repository/runtime observations with exact source identities and digests over a bounded read/recheck window, retain a closed external context artifact, and compare it with newly observed current state. Actual frozen M0.2 decision inputs remain separately identified; contextual observations are not recast as inputs or authenticated receipts. The workflow cannot emit CURRENT, PASS, ALLOW, authenticated receipt authority, or an atomic cross-system snapshot claim.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-187.v2.json",
+    "src/edgelab/authoritative_currentness_diagnostic.py",
+    "src/edgelab/authority_binding.py",
+    "src/edgelab/locked_authority.py",
+    "src/edgelab/transactional_scheduler.py"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-188.v1.json",
+    "src/edgelab/decision_time_context.py",
+    "tools/run_decision_time_context.py",
+    "schemas/decision-time-context.v1.schema.json",
+    "tests/test_decision_time_context.py",
+    "reports/currentness/H-M0-188-context.v1.json",
+    "reports/currentness/H-M0-188-comparison.v1.json",
+    "reports/H-M0-188-decision-time-context.v1.md",
+    "reports/reviews/H-M0-188-native-engineering-review.v1.md",
+    "reports/audit/A-M0-170.v1.json",
+    "docs/handoffs/H-M0-188.v2.json"
+  ],
+  "tests_run": [
+    "Claim preparation only: local main and origin/main are identical at 1fd104559be33aed50b1dd6ac0b32961a6a4e9b8 with a clean worktree."
+  ],
+  "open_questions": [],
+  "blockers": [
+    "Legacy M0.2 captures did not consume the newly observable context and cannot gain historical equality by later observation.",
+    "No authenticated receipt authority or atomic repository/SQLite snapshot contract exists; capture must remain bounded, contextual, UNKNOWN, and DENY.",
+    "Data remains BLOCKED; all STOPs remain OPEN; M0 remains blocked; M1 remains unreleased; executor remains MOCK_ONLY; authorization remains DENY; live remains LOCKED; kill remains ENGAGED; deployable capital remains USD 0."
+  ],
+  "next_action": "Commit and push this sole-writer claim, implement the smallest closed source capture and comparison workflow, run adversarial and preservation tests, obtain one read-only engineering review, repair demonstrated defects, and publish completion evidence.",
+  "completion_criteria": [
+    "Fresh context is read from actual repository and locked runtime sources, content-bound per source, and explicitly separated from frozen M0.2 decision inputs.",
+    "A retained closed artifact compares unchanged and detects supported project/STOP, assignment/handoff, dependency/capability, Git/repository, runtime generation, and task-state drift.",
+    "Tampered, incomplete, resealed, substituted, or raced evidence rejects and the closed result cannot express positive authority.",
+    "Legacy frozen captures remain byte-identical and unsupported dimensions remain explicitly UNKNOWN.",
+    "Focused and preservation tests pass and one read-only reviewer reproduces decisive cases with no remaining demonstrated defect."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-187.v2.json",
+      "kind": "handoff",
+      "id": "H-M0-187",
+      "version": 2,
+      "sha256": "9b2b249ade0a0fe49c8222bccdc8b922c88541281b5b0f0423fe26d1445a1293"
+    }
+  ]
+}
