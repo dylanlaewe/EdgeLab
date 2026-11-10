@@ -1,0 +1,59 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-187",
+  "version": 1,
+  "created_at": "2026-11-10T03:02:35Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "CLAIMED",
+  "request": "Implement one read-only, fail-closed diagnostic that composes accepted historical M0.2 verification with actual current canonical-repository and persisted Scheduler v1 observations, reports verified versus unmapped dimensions, detects races and substitutions, and remains structurally UNKNOWN / DENY.",
+  "work_done": "Director /root claims the sole writer slot on clean synchronized main at 1f0f6ffd1a18fa02f0e8107e505e744769c93650. H-M0-179, H-M0-183, H-M0-184, and H-M0-186 are complete and preserved. Scope reuses compose_authority_binding, verify_authentic_history, read_locked_authority, Scheduler v1 startup/replay and bundle evidence, and the accepted authority-source mapping. The diagnostic will read a cold-recovered disposable H-M0-186 runtime containing the exact historical subject task, verify historical validity and task/attempt identity, independently inventory current project/STOP source bytes, compare attachment/runtime/task/claim/generation observations over a read/recheck window, and report every unsupported historical-to-current mapping as UNKNOWN. It cannot emit CURRENT, PASS, generation_match true, ALLOW, an authenticated receipt, or a transition. Scope adds a closed result schema, CLI, retained deterministic projection, focused adversarial tests, delivery/review/audit/completion records, and one read-only engineering review. No scheduler/runtime format, recovery semantics, public verifier, classification, release, formal review, STOP, or operational boundary is in scope.",
+  "evidence_refs": [
+    "docs/handoffs/H-M0-186.v2.json",
+    "docs/handoffs/H-M0-179.v2.json",
+    "docs/M0.3A_AUTHORITY_SOURCE_MAPPING.v1.md",
+    "docs/M0.2_CURRENTNESS_MODEL.v1.md",
+    "docs/M0.2_CURRENTNESS_EXECUTABLE_CONTRACT.v1.md",
+    "src/edgelab/authority_binding.py",
+    "src/edgelab/locked_authority.py",
+    "src/edgelab/transactional_scheduler.py"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-187.v1.json",
+    "src/edgelab/authoritative_currentness_diagnostic.py",
+    "tools/run_authoritative_currentness_diagnostic.py",
+    "schemas/authoritative-currentness-diagnostic.v1.schema.json",
+    "reports/currentness/H-M0-187-result.v1.json",
+    "tests/test_authoritative_currentness_diagnostic.py",
+    "reports/H-M0-187-authoritative-currentness-diagnostic.v1.md",
+    "reports/reviews/H-M0-187-native-engineering-review.v1.md",
+    "reports/audit/A-M0-169.v1.json",
+    "docs/handoffs/H-M0-187.v2.json"
+  ],
+  "tests_run": [
+    "Claim preparation only: local main and origin/main are identical at 1f0f6ffd1a18fa02f0e8107e505e744769c93650 with a clean worktree."
+  ],
+  "open_questions": [],
+  "blockers": [
+    "The accepted source-mapping contract explicitly lacks authoritative historical-to-current mappings for project, STOP, assignment, handoff, dependency, capability, reachability, receipt identity, and policy generations; those dimensions must remain UNKNOWN.",
+    "Scheduler v1 decision_receipt_digest is caller supplied and cannot authenticate the historical decision or establish an R-gate.",
+    "Data remains BLOCKED; all STOPs remain OPEN; M0 remains blocked; M1 remains unreleased; executor remains MOCK_ONLY; currentness remains UNKNOWN where not established; authorization remains DENY; live remains LOCKED; kill remains ENGAGED; deployable capital remains USD 0."
+  ],
+  "next_action": "Commit and push the sole-writer claim, implement the smallest read-only diagnostic over existing authority surfaces, exercise a cold-recovered H-M0-186 runtime and safe adversarial fixtures, obtain one read-only engineering review, correct demonstrated defects, and publish completion evidence.",
+  "completion_criteria": [
+    "The accepted historical verifier path returns valid retained M0.2 evidence and binds the exact actual Scheduler v1 task and attempt without accepting caller snapshots or receipts.",
+    "Actual canonical repository, project/STOP source bytes, attachment, runtime, task, claim/fence, and generation observations are read and rechecked with explicit provenance and race detection.",
+    "Every checked dimension is classified VERIFIED, UNKNOWN, or INVALID; absent mappings remain UNKNOWN and the closed result is always UNKNOWN / DENY.",
+    "Missing/changed historical evidence, subject substitution, stale generation, repository/STOP drift, mapping absence, observation race, and positive-result substitution fail closed under focused tests using disposable state or read-only substitution.",
+    "H-M0-179, H-M0-183, H-M0-184, and H-M0-186 preservation tests pass and one read-only engineering reviewer reproduces decisive cases with no remaining demonstrated defect."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-186.v2.json",
+      "kind": "handoff",
+      "id": "H-M0-186",
+      "version": 2,
+      "sha256": "a8b829778e5715356bc5ea54fa694a4bf5d7925dcde9349ec2227c11bf45beaf"
+    }
+  ]
+}
