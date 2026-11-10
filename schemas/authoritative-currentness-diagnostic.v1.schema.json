@@ -1,0 +1,329 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:edgelab:authoritative-currentness-diagnostic:1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "diagnostic_id", "status", "task_id", "capture_id",
+    "attempt", "failure_reason", "historical_binding", "current_observation",
+    "trusted_sources", "dimensions", "verified_dimensions",
+    "unknown_dimensions", "invalid_dimensions", "invalidators",
+    "verification", "limitations", "result_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "diagnostic_id": {"const": "H-M0-187-AUTHORITATIVE-CURRENTNESS-DIAGNOSTIC"},
+    "status": {"enum": ["COHERENT_UNKNOWN_DENY", "UNAVAILABLE"]},
+    "task_id": {"type": "string"},
+    "capture_id": {"type": "string"},
+    "attempt": {"type": ["integer", "null"], "minimum": 1},
+    "failure_reason": {"type": ["string", "null"]},
+    "historical_binding": {
+      "oneOf": [
+        {"type": "null"},
+        {"type": "object"}
+      ]
+    },
+    "current_observation": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "#/$defs/current_observation"}
+      ]
+    },
+    "trusted_sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "kind", "locator", "sha256"],
+        "properties": {
+          "id": {
+            "enum": [
+              "authority-source-mapping", "m0.2-trusted-root",
+              "m0.2-capture-root", "historical-capture-sidecar",
+              "historical-persisted-graph", "current-source-inventory",
+              "current-project-state", "current-stop-inventory",
+              "locked-scheduler-authority"
+            ]
+          },
+          "kind": {
+            "enum": [
+              "REPOSITORY_FILE", "SELF_VERIFIED_TRUST_ROOT",
+              "SELF_VERIFIED_CAPTURE_ROOT", "HISTORICAL_CAPTURE",
+              "HISTORICAL_GRAPH", "CURRENT_REPOSITORY", "PERSISTED_RUNTIME"
+            ]
+          },
+          "locator": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    },
+    "dimensions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "status", "reason", "sources", "evidence_sha256", "invalidates_positive_currentness"],
+        "properties": {
+          "id": {
+            "enum": [
+              "diagnostic_completion", "historical_verification",
+              "historical_subject_binding", "canonical_repository_observation",
+              "project_source_observation", "stop_source_observation",
+              "attachment_runtime_binding", "scheduler_replay_materialization",
+              "task_attempt_observation", "claim_fence_observation",
+              "current_generation_coherence", "historical_project_stop_equality",
+              "historical_assignment_handoff_equality",
+              "historical_dependency_capability_equality",
+              "historical_git_reachability_equality",
+              "authenticated_receipt_binding", "historical_generation_equality"
+            ]
+          },
+          "status": {"enum": ["VERIFIED", "UNKNOWN", "INVALID"]},
+          "reason": {"type": "string", "minLength": 1},
+          "sources": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "evidence_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+          "invalidates_positive_currentness": {"const": true}
+        }
+      }
+    },
+    "verified_dimensions": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "unknown_dimensions": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "invalid_dimensions": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "invalidators": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["historical_status", "currentness_status", "runtime_compatible", "verifier_status", "generation_match", "authorizing_use", "reason_code"],
+      "properties": {
+        "historical_status": {"enum": ["VALID", "INVALID"]},
+        "currentness_status": {"const": "UNKNOWN"},
+        "runtime_compatible": {"type": "boolean"},
+        "verifier_status": {"const": "FAIL"},
+        "generation_match": {"const": false},
+        "authorizing_use": {"const": "DENY"},
+        "reason_code": {"enum": ["HISTORICAL_INVALID", "VERIFIER_FAILURE"]}
+      }
+    },
+    "limitations": {"type": "array", "minItems": 5, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "result_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "COHERENT_UNKNOWN_DENY"}}},
+      "then": {
+        "properties": {
+          "task_id": {"type": "string", "minLength": 1},
+          "capture_id": {"type": "string", "minLength": 1},
+          "attempt": {"type": "integer", "minimum": 1},
+          "failure_reason": {"type": "null"},
+          "historical_binding": {"type": "object"},
+          "current_observation": {"$ref": "#/$defs/current_observation"},
+          "trusted_sources": {"minItems": 9},
+          "verified_dimensions": {"minItems": 1},
+          "unknown_dimensions": {"minItems": 1},
+          "invalid_dimensions": {"maxItems": 0},
+          "verification": {
+            "properties": {
+              "historical_status": {"const": "VALID"},
+              "runtime_compatible": {"const": true},
+              "reason_code": {"const": "VERIFIER_FAILURE"}
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "attempt": {"type": "null"},
+          "failure_reason": {"type": "string", "minLength": 1},
+          "historical_binding": {"type": "null"},
+          "current_observation": {"type": "null"},
+          "invalid_dimensions": {"minItems": 1}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "repository_bundle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commit", "digest", "project", "stops", "policy", "tasks"],
+      "properties": {
+        "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "digest": {"$ref": "#/$defs/sha256"},
+        "project": {"$ref": "#/$defs/sha256"},
+        "stops": {"$ref": "#/$defs/sha256"},
+        "policy": {"$ref": "#/$defs/sha256"},
+        "tasks": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "repository_observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "remote", "root", "source_inventory_sha256", "source_file_count", "project", "stops"],
+      "properties": {
+        "repository": {"$ref": "#/$defs/repository_bundle"},
+        "remote": {"type": "string", "minLength": 1},
+        "root": {"type": "string", "minLength": 1},
+        "source_inventory_sha256": {"$ref": "#/$defs/sha256"},
+        "source_file_count": {"type": "integer", "minimum": 1},
+        "project": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256", "phase", "increment", "status", "live_status", "active_stop_refs"],
+          "properties": {
+            "path": {"const": "docs/project-state.json"},
+            "sha256": {"$ref": "#/$defs/sha256"},
+            "phase": {"type": "string", "minLength": 1},
+            "increment": {"type": "string", "minLength": 1},
+            "status": {"type": "string", "minLength": 1},
+            "live_status": {"const": "LOCKED"},
+            "active_stop_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+          }
+        },
+        "stops": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source_glob", "file_count", "inventory_sha256", "active"],
+          "properties": {
+            "source_glob": {"const": "reports/stops/*.json"},
+            "file_count": {"type": "integer", "minimum": 1},
+            "inventory_sha256": {"$ref": "#/$defs/sha256"},
+            "active": {
+              "type": "array", "minItems": 1,
+              "items": {
+                "type": "object", "additionalProperties": false,
+                "required": ["path", "sha256", "id", "version", "status"],
+                "properties": {
+                  "path": {"type": "string", "minLength": 1},
+                  "sha256": {"$ref": "#/$defs/sha256"},
+                  "id": {"type": "string", "minLength": 1},
+                  "version": {"type": "integer", "minimum": 1},
+                  "status": {"const": "OPEN"}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "current_observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "runtime", "attachment", "task", "attempts", "claim", "review", "authority_sha256"],
+      "properties": {
+        "repository": {"$ref": "#/$defs/repository_observation"},
+        "runtime": {"$ref": "#/$defs/runtime"},
+        "attachment": {"$ref": "#/$defs/attachment"},
+        "task": {"$ref": "#/$defs/task"},
+        "attempts": {"$ref": "#/$defs/attempts"},
+        "claim": {"$ref": "#/$defs/claim"},
+        "review": {"$ref": "#/$defs/review"},
+        "authority_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "runtime": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schema_version", "runtime_id", "attachment_digest", "repository_generation", "bundle_digest", "global_head_id", "global_head_digest", "available"],
+      "properties": {
+        "schema_version": {"const": 1},
+        "runtime_id": {"type": "string", "minLength": 1},
+        "attachment_digest": {"$ref": "#/$defs/sha256"},
+        "repository_generation": {"type": "integer", "minimum": 0},
+        "bundle_digest": {"$ref": "#/$defs/sha256"},
+        "global_head_id": {"type": "string", "minLength": 1},
+        "global_head_digest": {"$ref": "#/$defs/sha256"},
+        "available": {"const": true}
+      }
+    },
+    "attachment": {
+      "type": "object", "additionalProperties": false,
+      "required": ["attachment_schema_version", "attachment_id", "canonical_project_id", "repository_identity", "expected_remote", "repository_marker_digest", "m0_2_freeze_commit", "checkout_realpath", "git_common_dir_identity", "created_at"],
+      "properties": {
+        "attachment_schema_version": {"const": 1},
+        "attachment_id": {"type": "string", "minLength": 1},
+        "canonical_project_id": {"type": "string", "minLength": 1},
+        "repository_identity": {"type": "string", "minLength": 1},
+        "expected_remote": {"type": "string", "minLength": 1},
+        "repository_marker_digest": {"$ref": "#/$defs/sha256"},
+        "m0_2_freeze_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "checkout_realpath": {"type": "string", "minLength": 1},
+        "git_common_dir_identity": {"type": "string", "minLength": 1},
+        "created_at": {"type": "string", "minLength": 1}
+      }
+    },
+    "tuple": {
+      "type": "object", "additionalProperties": false,
+      "required": ["workflow", "execution", "review", "attempt_no", "scheduler_generation", "dispatch_generation", "task_fence", "active_claim_id", "reviewer_assignment_id", "continuation_count", "repository_generation", "decision_receipt_digest"],
+      "properties": {
+        "workflow": {"type": "string", "minLength": 1},
+        "execution": {"type": "string", "minLength": 1},
+        "review": {"type": "string", "minLength": 1},
+        "attempt_no": {"type": "integer", "minimum": 1},
+        "scheduler_generation": {"type": "integer", "minimum": 0},
+        "dispatch_generation": {"type": "integer", "minimum": 0},
+        "task_fence": {"type": "integer", "minimum": 0},
+        "active_claim_id": {"type": ["string", "null"]},
+        "reviewer_assignment_id": {"type": ["string", "null"]},
+        "continuation_count": {"type": "integer", "minimum": 0},
+        "repository_generation": {"type": "integer", "minimum": 0},
+        "decision_receipt_digest": {"type": "string", "minLength": 1}
+      }
+    },
+    "task": {
+      "type": "object", "additionalProperties": false,
+      "required": ["task_id", "tuple"],
+      "properties": {
+        "task_id": {"type": "string", "minLength": 1},
+        "tuple": {"$ref": "#/$defs/tuple"}
+      }
+    },
+    "attempts": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["task_id", "attempt", "predecessor_attempt"],
+        "properties": {
+          "task_id": {"type": "string", "minLength": 1},
+          "attempt": {"type": "integer", "minimum": 1},
+          "predecessor_attempt": {"type": ["integer", "null"], "minimum": 1}
+        }
+      }
+    },
+    "claim": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["claim_id", "task_id", "attempt", "fence", "status", "actor"],
+          "properties": {
+            "claim_id": {"type": "string", "minLength": 1},
+            "task_id": {"type": "string", "minLength": 1},
+            "attempt": {"type": "integer", "minimum": 1},
+            "fence": {"type": "integer", "minimum": 1},
+            "status": {"const": "ACTIVE"},
+            "actor": {"type": "string", "minLength": 1}
+          }
+        }
+      ]
+    },
+    "review": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["assignment_id", "task_id", "actor", "role", "status"],
+          "properties": {
+            "assignment_id": {"type": "string", "minLength": 1},
+            "task_id": {"type": "string", "minLength": 1},
+            "actor": {"type": "string", "minLength": 1},
+            "role": {"type": "string", "minLength": 1},
+            "status": {"const": "ACTIVE"}
+          }
+        }
+      ]
+    }
+  }
+}
