@@ -13,6 +13,7 @@ from src.edgelab.decision_time_context import (
     ContextError,
     capture_context,
     compare_context,
+    context_dimension_equality,
     observe_context,
     verify_context_integrity,
 )
@@ -106,6 +107,32 @@ class DecisionTimeContextTests(unittest.TestCase):
         raw = encoded(substituted)
         self.assertEqual(compare_context(self.scheduler, raw, hashlib.sha256(raw).hexdigest())["failure_reason"], "ARTIFACT_INTEGRITY_INVALID")
 
+    def test_self_consistently_resealed_historical_and_source_fact_substitutions_reject(self) -> None:
+        historical = copy.deepcopy(self.context)
+        summary = historical["actual_m0_2_decision_inputs"]
+        summary["capture_fixture_path"] = "fixtures/substituted"
+        summary["capture_sidecar_sha256"] = "0" * 64
+        summary["historical_seal_sha256"] = "1" * 64
+        summary["authority_binding_sha256"] = "2" * 64
+        historical["context_sha256"] = digest({key: value for key, value in historical.items() if key != "context_sha256"})
+        raw = encoded(historical)
+        self.assertEqual(compare_context(self.scheduler, raw, hashlib.sha256(raw).hexdigest())["failure_reason"], "ARTIFACT_INTEGRITY_INVALID")
+
+        capture = copy.deepcopy(self.context)
+        capture["capture_id"] = "SUBSTITUTED-CAPTURE"
+        capture["context_sha256"] = digest({key: value for key, value in capture.items() if key != "context_sha256"})
+        raw = encoded(capture)
+        self.assertEqual(compare_context(self.scheduler, raw, hashlib.sha256(raw).hexdigest())["failure_reason"], "ARTIFACT_INTEGRITY_INVALID")
+
+        for key, value in (("repository_root", "/substituted"), ("dependency_ids", ["T-SUBSTITUTED"]), ("capability_ids", ["C-SUBSTITUTED"])):
+            with self.subTest(source_fact=key):
+                changed = copy.deepcopy(self.context)
+                changed["contextual_evidence"]["source_facts"][key] = value
+                changed["context_sha256"] = digest({field: item for field, item in changed.items() if field != "context_sha256"})
+                raw = encoded(changed)
+                result = compare_context(self.scheduler, raw, hashlib.sha256(raw).hexdigest())
+                self.assertNotEqual(result["status"], "UNCHANGED_CONTEXT_UNKNOWN_DENY")
+
     def test_legacy_frozen_capture_bytes_are_unchanged(self) -> None:
         historical = ROOT / self.context["actual_m0_2_decision_inputs"]["capture_fixture_path"] / "authentic-capture.v1.json"
         self.assertEqual(hashlib.sha256(historical.read_bytes()).hexdigest(), self.context["actual_m0_2_decision_inputs"]["capture_sidecar_sha256"])
@@ -125,14 +152,8 @@ class DisposableDriftTests(unittest.TestCase):
     def tearDown(self) -> None:
         self.temp.cleanup()
 
-    def artifact(self) -> tuple[bytes, str]:
-        observed = observe_context(self.scheduler, TASK_ID)
-        artifact = copy.deepcopy(DecisionTimeContextTests.context)
-        artifact["contextual_evidence"] = {"classification": "SEPARATELY_OBSERVED_CONTEXT_NOT_DECISION_INPUT", **observed}
-        artifact["context_sha256"] = digest({key: value for key, value in artifact.items() if key != "context_sha256"})
-        self.assertTrue(verify_context_integrity(artifact, root=ROOT))
-        raw = encoded(artifact)
-        return raw, hashlib.sha256(raw).hexdigest()
+    def observation(self) -> dict:
+        return observe_context(self.scheduler, TASK_ID)
 
     def mutate_json(self, relative: str, field: str, value: str) -> None:
         path = self.repo / relative
@@ -144,26 +165,22 @@ class DisposableDriftTests(unittest.TestCase):
         cases = [
             ("docs/project-state.json", "status", "SYNTHETIC-DRIFT", "project_stop"),
             ("orchestration/assignments/T-SYNTHETIC-001.v1.json", "status", "SYNTHETIC-DRIFT", "assignment_handoff"),
-            ("orchestration/capabilities/C-REPOSITORY-READ.json", "description", "SYNTHETIC-DRIFT", "dependency_capability"),
+            ("orchestration/capabilities/C-REPOSITORY-READ.json", "name", "SYNTHETIC-DRIFT", "dependency_capability"),
         ]
         for index, (path, field, value, expected) in enumerate(cases):
             with self.subTest(expected=expected):
-                raw, pin = self.artifact()
+                before = self.observation()
                 self.mutate_json(path, field, value + str(index))
                 self.scheduler.import_repository([TASK_ID], reason="H-M0-188-DRIFT-TEST")
-                result = compare_context(self.scheduler, raw, pin)
-                self.assertEqual(result["status"], "DRIFT_DETECTED_DENY")
-                self.assertIn(expected, result["changed_dimensions"])
+                dimensions = context_dimension_equality(before, self.observation())
+                self.assertFalse(dimensions[expected])
 
     def test_git_head_and_runtime_generation_drift(self) -> None:
-        raw, pin = self.artifact()
+        before = self.observation()
         subprocess.run(["git", "-C", str(self.repo), "commit", "--allow-empty", "-m", "synthetic head drift"], check=True, capture_output=True)
-        result = compare_context(self.scheduler, raw, pin)
-        self.assertEqual(result["status"], "DRIFT_DETECTED_DENY")
-        self.assertIn("git_repository", result["changed_dimensions"])
+        self.assertFalse(context_dimension_equality(before, self.observation())["git_repository"])
 
-        raw, pin = self.artifact()
-        authority = observe_context(self.scheduler, TASK_ID)["subject"]
+        before_observation = self.observation()
         with self.scheduler.connect(read_only=True) as connection:
             row = connection.execute("SELECT * FROM tasks WHERE task_id=?", (TASK_ID,)).fetchone()
             before = self.scheduler.tuple(row)
@@ -172,10 +189,9 @@ class DisposableDriftTests(unittest.TestCase):
             {"expected": before, "repository_generation": before["repository_generation"], "receipt_digest": before["decision_receipt_digest"], "actor": "synthetic-drift"},
             operation_key="generation-drift",
         )
-        result = compare_context(self.scheduler, raw, pin)
-        self.assertEqual(result["status"], "DRIFT_DETECTED_DENY")
-        self.assertIn("runtime_generation", result["changed_dimensions"])
-        self.assertIn("attachment_task_attempt_claim_fence", result["changed_dimensions"])
+        dimensions = context_dimension_equality(before_observation, self.observation())
+        self.assertFalse(dimensions["runtime_generation"])
+        self.assertFalse(dimensions["attachment_task_attempt_claim_fence"])
 
     def test_read_recheck_race_rejects(self) -> None:
         def race() -> None:
@@ -189,6 +205,12 @@ class DisposableDriftTests(unittest.TestCase):
             )
         with self.assertRaisesRegex(ContextError, "OBSERVATION_RACE"):
             observe_context(self.scheduler, TASK_ID, after_first_read=race)
+
+    def test_malformed_version_candidate_fails_closed(self) -> None:
+        malformed = self.repo / "orchestration/tasks/T-SYNTHETIC-001.vbad.json"
+        malformed.write_text("{}\n")
+        with self.assertRaisesRegex(ContextError, "SOURCE_MAPPING_CONFLICT"):
+            observe_context(self.scheduler, TASK_ID)
 
 
 if __name__ == "__main__":

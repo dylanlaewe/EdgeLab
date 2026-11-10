@@ -21,7 +21,7 @@
     },
     "actual_m0_2_decision_inputs": {
       "type": "object", "additionalProperties": false,
-      "required": ["classification", "task_id", "attempt", "capture_fixture_path", "capture_sidecar_sha256", "historical_seal_sha256", "authority_binding_sha256", "not_retrofitted"],
+      "required": ["classification", "task_id", "attempt", "capture_fixture_path", "capture_sidecar_sha256", "historical_seal_sha256", "authority_binding_sha256", "accepted_authority_binding", "not_retrofitted"],
       "properties": {
         "classification": {"const": "ACTUAL_FROZEN_M0_2_INPUT_CLOSURE"},
         "task_id": {"type": "string", "minLength": 1},
@@ -30,6 +30,7 @@
         "capture_sidecar_sha256": {"$ref": "#/$defs/sha256"},
         "historical_seal_sha256": {"$ref": "#/$defs/sha256"},
         "authority_binding_sha256": {"$ref": "#/$defs/sha256"},
+        "accepted_authority_binding": {"type": "object"},
         "not_retrofitted": {"const": true}
       }
     },

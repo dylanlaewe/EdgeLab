@@ -21,7 +21,9 @@ from .authoritative_currentness_diagnostic import (
     DEFAULT_CAPTURE_ID,
     diagnose_authoritative_currentness,
 )
+from .authority_binding import verify_binding_integrity
 from .locked_authority import read_locked_authority
+from .orchestration import _load_scheduler_state, _validate_capabilities, _validate_dependencies
 from .transactional_scheduler import EXPECTED_REMOTE, Scheduler, digest
 
 
@@ -79,8 +81,9 @@ def _head(root: Path, directory: str, identifier: str) -> Path:
     found: list[tuple[int, Path]] = []
     for path in (root / directory).glob(f"{identifier}.v*.json"):
         match = pattern.fullmatch(path.name)
-        if match:
-            found.append((int(match.group(1)), path.relative_to(root)))
+        if not match:
+            raise ContextError("SOURCE_MAPPING_CONFLICT")
+        found.append((int(match.group(1)), path.relative_to(root)))
     if not found:
         raise ContextError("SOURCE_MAPPING_MISSING")
     found.sort()
@@ -153,14 +156,42 @@ def _repository_records(scheduler: Scheduler, task_id: str) -> tuple[list[dict[s
         raise ContextError("DEPENDENCY_SOURCE_INVALID")
     if not isinstance(capabilities, list) or not all(isinstance(item, str) and item for item in capabilities):
         raise ContextError("CAPABILITY_SOURCE_INVALID")
-    for dependency in dependencies:
-        dependency_path = _head(root, "orchestration/tasks", dependency)
-        paths.append((dependency_path, "dependency_capability"))
-        dependency_record = json.loads(_regular(root, dependency_path))
-        for evidence_ref in dependency_record.get("completion_evidence", []):
-            paths.append((Path(evidence_ref), "dependency_capability"))
+    try:
+        state = _load_scheduler_state(root)
+        _validate_dependencies(root, state, task)
+        _validate_capabilities(root, task)
+    except (KeyError, TypeError, ValueError) as error:
+        raise ContextError("DEPENDENCY_CAPABILITY_CONTRACT_INVALID") from error
+
+    dependency_closure: set[str] = set()
+    capability_closure: set[str] = set(capabilities)
+
+    def collect(current: dict[str, Any], visiting: set[str]) -> None:
+        current_id = current.get("task_id")
+        if current_id in visiting:
+            raise ContextError("DEPENDENCY_CYCLE")
+        visiting.add(current_id)
+        for dependency in current.get("dependencies", []):
+            if dependency in dependency_closure:
+                continue
+            dependency_path = _head(root, "orchestration/tasks", dependency)
+            dependency_record = json.loads(_regular(root, dependency_path))
+            if dependency_record.get("task_id") != dependency:
+                raise ContextError("DEPENDENCY_SOURCE_INVALID")
+            dependency_closure.add(dependency)
+            paths.append((dependency_path, "dependency_capability"))
+            for evidence_ref in dependency_record.get("completion_evidence", []):
+                paths.append((Path(evidence_ref), "dependency_capability"))
+            dependency_capabilities = dependency_record.get("capability_refs", [])
+            if not isinstance(dependency_capabilities, list):
+                raise ContextError("CAPABILITY_SOURCE_INVALID")
+            capability_closure.update(dependency_capabilities)
+            collect(dependency_record, visiting)
+        visiting.remove(current_id)
+
+    collect(task, set())
     capability_files = list((root / "orchestration/capabilities").glob("*.json"))
-    for capability_id in capabilities:
+    for capability_id in sorted(capability_closure):
         matches = []
         for path in capability_files:
             parsed = json.loads(_regular(root, path.relative_to(root)))
@@ -190,8 +221,8 @@ def _repository_records(scheduler: Scheduler, task_id: str) -> tuple[list[dict[s
         "assignment_source": assignment_path.as_posix(),
         "handoff_binding_source": binding_path.as_posix(),
         "handoff_source": handoff_path.as_posix(),
-        "dependency_ids": dependencies,
-        "capability_ids": capabilities,
+        "dependency_ids": sorted(dependency_closure),
+        "capability_ids": sorted(capability_closure),
         "repository_root": str(root),
         "remote": remote,
         "head": head,
@@ -301,11 +332,21 @@ def verify_context_integrity(record: dict[str, Any], *, root: Path = CANONICAL_R
         facts = record["contextual_evidence"]["source_facts"]
         by_locator = {item["locator"]: item for item in records}
         historical = record["actual_m0_2_decision_inputs"]
+        binding = historical["accepted_authority_binding"]
+        if not verify_binding_integrity(binding) or binding.get("status") != "BOUND_DENY_ONLY":
+            return False
+        seal = binding["historical_seal"]
         return all((
-            record["task_id"] == subject["task_id"] == historical["task_id"],
-            record["attempt"] == subject["attempt"] == historical["attempt"],
+            record["capture_id"] == binding["capture_id"] == seal["capture"]["capture_id"],
+            record["task_id"] == subject["task_id"] == historical["task_id"] == binding["task_id"],
+            record["attempt"] == subject["attempt"] == historical["attempt"] == binding["attempt"],
             historical["classification"] == "ACTUAL_FROZEN_M0_2_INPUT_CLOSURE",
             historical["not_retrofitted"] is True,
+            historical["capture_fixture_path"] == seal["capture"]["fixture_path"],
+            historical["capture_sidecar_sha256"] == seal["capture"]["sidecar_sha256"],
+            historical["historical_seal_sha256"] == seal["seal_sha256"],
+            historical["authority_binding_sha256"] == binding["candidate_sha256"],
+            subject["authority_sha256"] == binding["locked_authority_sha256"],
             record["contextual_evidence"]["classification"] == "SEPARATELY_OBSERVED_CONTEXT_NOT_DECISION_INPUT",
             facts["task_source"] in by_locator,
             facts["assignment_source"] in by_locator,
@@ -357,6 +398,7 @@ def capture_context(
             "capture_sidecar_sha256": seal["capture"]["sidecar_sha256"],
             "historical_seal_sha256": seal["seal_sha256"],
             "authority_binding_sha256": binding["candidate_sha256"],
+            "accepted_authority_binding": binding,
             "not_retrofitted": True,
         },
         "contextual_evidence": {
@@ -374,6 +416,37 @@ def capture_context(
     if not verify_context_integrity(record, root=scheduler.root):
         raise ContextError("INTERNAL_INTEGRITY_FAILURE")
     return record
+
+
+def context_dimension_equality(old: dict[str, Any], current: dict[str, Any]) -> dict[str, bool]:
+    """Compare two source-derived observations; neither input is authoritative."""
+    return {
+        "project_stop": old["family_sha256"]["project_stop"] == current["family_sha256"]["project_stop"],
+        "assignment_handoff": (
+            old["family_sha256"]["assignment_handoff"] == current["family_sha256"]["assignment_handoff"]
+            and {key: old["source_facts"][key] for key in ("task_source", "task_attempt", "assignment_source", "handoff_binding_source", "handoff_source")}
+            == {key: current["source_facts"][key] for key in ("task_source", "task_attempt", "assignment_source", "handoff_binding_source", "handoff_source")}
+        ),
+        "dependency_capability": (
+            old["family_sha256"]["dependency_capability"] == current["family_sha256"]["dependency_capability"]
+            and {key: old["source_facts"][key] for key in ("dependency_ids", "capability_ids")}
+            == {key: current["source_facts"][key] for key in ("dependency_ids", "capability_ids")}
+        ),
+        "git_repository": (
+            old["family_sha256"]["git_repository"] == current["family_sha256"]["git_repository"]
+            and {key: old["source_facts"][key] for key in ("repository_root", "remote", "head", "bundle")}
+            == {key: current["source_facts"][key] for key in ("repository_root", "remote", "head", "bundle")}
+        ),
+        "attachment_task_attempt_claim_fence": (
+            old["family_sha256"]["runtime_subject"] == current["family_sha256"]["runtime_subject"]
+            and {key: old["subject"][key] for key in ("task_id", "attempt", "claim_id", "task_fence", "runtime_id", "attachment_id")}
+            == {key: current["subject"][key] for key in ("task_id", "attempt", "claim_id", "task_fence", "runtime_id", "attachment_id")}
+        ),
+        "runtime_generation": (
+            {key: old["subject"][key] for key in ("scheduler_generation", "dispatch_generation", "repository_generation", "runtime_repository_generation")}
+            == {key: current["subject"][key] for key in ("scheduler_generation", "dispatch_generation", "repository_generation", "runtime_repository_generation")}
+        ),
+    }
 
 
 def compare_context(
@@ -405,21 +478,7 @@ def compare_context(
             raise ContextError("ARTIFACT_INTEGRITY_INVALID")
         current = observe_context(scheduler, retained["task_id"], after_first_read=after_first_read)
         old = retained["contextual_evidence"]
-        dimensions = {
-            "project_stop": old["family_sha256"]["project_stop"] == current["family_sha256"]["project_stop"],
-            "assignment_handoff": old["family_sha256"]["assignment_handoff"] == current["family_sha256"]["assignment_handoff"],
-            "dependency_capability": old["family_sha256"]["dependency_capability"] == current["family_sha256"]["dependency_capability"],
-            "git_repository": old["family_sha256"]["git_repository"] == current["family_sha256"]["git_repository"],
-            "attachment_task_attempt_claim_fence": (
-                old["family_sha256"]["runtime_subject"] == current["family_sha256"]["runtime_subject"]
-                and {key: old["subject"][key] for key in ("task_id", "attempt", "claim_id", "task_fence", "runtime_id", "attachment_id")}
-                == {key: current["subject"][key] for key in ("task_id", "attempt", "claim_id", "task_fence", "runtime_id", "attachment_id")}
-            ),
-            "runtime_generation": (
-                {key: old["subject"][key] for key in ("scheduler_generation", "dispatch_generation", "repository_generation", "runtime_repository_generation")}
-                == {key: current["subject"][key] for key in ("scheduler_generation", "dispatch_generation", "repository_generation", "runtime_repository_generation")}
-            ),
-        }
+        dimensions = context_dimension_equality(old, current)
         base.update({
             "status": "UNCHANGED_CONTEXT_UNKNOWN_DENY" if all(dimensions.values()) else "DRIFT_DETECTED_DENY",
             "task_id": retained["task_id"],
