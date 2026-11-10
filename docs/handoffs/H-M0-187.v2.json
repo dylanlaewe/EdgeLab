@@ -1,0 +1,70 @@
+{
+  "schema_version": 2,
+  "id": "H-M0-187",
+  "version": 2,
+  "created_at": "2026-11-10T03:26:29Z",
+  "sender": "00 Director",
+  "recipient": "00 Director",
+  "status": "COMPLETED",
+  "request": "Implement one read-only, fail-closed diagnostic that composes accepted historical M0.2 verification with actual current canonical-repository and persisted Scheduler v1 observations, reports verified versus unmapped dimensions, detects races and substitutions, and remains structurally UNKNOWN / DENY.",
+  "work_done": "Commit 0baa73938595c1f1edef260d0beb687e80eea293 implements H-M0-187 without modifying Scheduler v1, runtime formats, H-M0-186, or operational authority. The diagnostic calls startup/replay, accepted historical verification and authority binding, locked task/attempt/claim/fence observation, and an independently recomputed canonical Git/project/STOP bundle over a read/recheck window. A disposable actual H-M0-186 runtime cold-recovers after Quant, then uses existing scheduler operations to create and claim the exact retained historical subject T-SYNTHETIC-001 attempt 1. The result reports 10 verified bounded-coherence dimensions and 6 explicit UNKNOWN historical-to-current mappings. Missing history, task/attempt changes, stale generation, repository/STOP substitution, missing mappings, races, and positive substitutions deny. Review found generic nested objects admitted resealed semantic attacks; closed local schemas and verify_diagnostic_integrity now bind the accepted authority candidate, authority digest, task/capture/attempt/bundle equations, exact dimensions and partitions, trusted sources, limitations, invalidators, and result digest. All five resealed attacks reject. The retained result observes implementation commit 0baa73938595c1f1edef260d0beb687e80eea293 and remains VALID / UNKNOWN / FAIL / false / DENY.",
+  "evidence_refs": [
+    "reports/H-M0-187-authoritative-currentness-diagnostic.v1.md",
+    "reports/reviews/H-M0-187-native-engineering-review.v1.md",
+    "reports/audit/A-M0-169.v1.json",
+    "reports/currentness/H-M0-187-result.v1.json",
+    "schemas/authoritative-currentness-diagnostic.v1.schema.json",
+    "src/edgelab/authoritative_currentness_diagnostic.py",
+    "tools/run_authoritative_currentness_diagnostic.py",
+    "tests/test_authoritative_currentness_diagnostic.py",
+    "docs/handoffs/H-M0-187.v1.json",
+    "docs/handoffs/H-M0-186.v2.json"
+  ],
+  "files_changed": [
+    "docs/handoffs/H-M0-187.v1.json",
+    "src/edgelab/authoritative_currentness_diagnostic.py",
+    "tools/run_authoritative_currentness_diagnostic.py",
+    "schemas/authoritative-currentness-diagnostic.v1.schema.json",
+    "reports/currentness/H-M0-187-result.v1.json",
+    "tests/test_authoritative_currentness_diagnostic.py",
+    "reports/H-M0-187-authoritative-currentness-diagnostic.v1.md",
+    "reports/reviews/H-M0-187-native-engineering-review.v1.md",
+    "reports/audit/A-M0-169.v1.json",
+    "docs/handoffs/H-M0-187.v2.json"
+  ],
+  "tests_run": [
+    "Corrected focused H-M0-187 historical/currentness, race, substitution, and artifact-integrity suite: 11/11 passed in 28.986 seconds; independent reviewer reproduced 11/11 in 28.497 seconds.",
+    "Final H-M0-187 plus H-M0-186, H-M0-184, H-M0-183, H-M0-179, lifecycle, authority-binding, locked-authority, and transactional-scheduler preservation matrix: 103/103 passed in 99.017 seconds.",
+    "Actual separate-process H-M0-186 Quant interruption/recovery completed, then the diagnostic CLI read the persisted runtime without mutation and returned VALID / UNKNOWN / FAIL / generation_match false / DENY with 10 verified and 6 unknown dimensions.",
+    "Adversarial coverage rejects missing historical evidence, task substitution, changed attempt, stale imported generation/bundle, repository/STOP substitution, missing mapping, runtime and repository read/recheck races, upstream positive authority, nested ALLOW, unknown-dimension promotion, trusted-source substitution, limitation replacement, and invalidator replacement.",
+    "Retained result passed schema and verify_diagnostic_integrity, observed Git HEAD 0baa73938595c1f1edef260d0beb687e80eea293, and has raw SHA-256 30b446c11b430b4e74c17c83162861c799cfebaa1e9ad4f586bd84bd08948d26.",
+    "Pre-completion production validation passed 622 governed records and published history with M0 capital LOCKED and no scientific or operational approval.",
+    "Completion-tree production validation passed 624 governed records and published history with M0 capital LOCKED and no scientific or operational approval.",
+    "PYTHONDONTWRITEBYTECODE=1 py_compile and git diff --check passed."
+  ],
+  "open_questions": [],
+  "blockers": [
+    "The accepted source mapping still lacks historical-to-current mappings for project/STOP, assignment/handoff, dependency/capability, Git reachability, and every required generation; those dimensions remain UNKNOWN.",
+    "No immutable authenticated M0.2 receipt/input-bundle contract exists. Scheduler v1 decision_receipt_digest remains caller supplied and cannot satisfy an R-gate.",
+    "No accepted complete currentness snapshot resolver or transition consumer exists that may return CURRENT/PASS/generation-match/ALLOW after atomic resolution and recheck.",
+    "Formal independent approval and the applicable STOP clearances remain absent; engineering review is non-authorizing.",
+    "Data remains BLOCKED; all STOPs remain OPEN; M0 remains blocked; M1 remains unreleased; executor remains MOCK_ONLY; currentness remains UNKNOWN; authorization remains DENY; live remains LOCKED; kill remains ENGAGED; deployable capital remains USD 0."
+  ],
+  "next_action": "Under separate owner authority, define the smallest versioned authenticated M0.2 receipt/input-bundle adapter and complete authoritative source mappings for the six UNKNOWN dimensions before any R-gate consumer is designed; do not infer positive currentness from H-M0-187.",
+  "completion_criteria": [
+    "Accepted historical evidence is verified and bound to the exact actual task and attempt in a persisted cold-recovered runtime.",
+    "Canonical repository, project/STOP, attachment, runtime, task, claim/fence, and generation observations are independently read and rechecked with explicit provenance.",
+    "Every dimension is classified and every absent security-critical mapping remains UNKNOWN; the closed result cannot express positive authority.",
+    "Missing, stale, changed, substituted, raced, incomplete, or resealed evidence fails closed under safe adversarial tests.",
+    "H-M0-179, H-M0-183, H-M0-184, and H-M0-186 remain passing and one read-only reviewer returns PASS after all demonstrated defects are repaired."
+  ],
+  "depends_on": [
+    {
+      "path": "docs/handoffs/H-M0-187.v1.json",
+      "kind": "handoff",
+      "id": "H-M0-187",
+      "version": 1,
+      "sha256": "9711b328e911d7f8942b7832853680c358339f9a9ace8fd3f374b70fe13f984d"
+    }
+  ]
+}

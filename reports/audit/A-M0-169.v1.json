@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "A-M0-169",
+  "version": 1,
+  "occurred_at": "2026-11-10T03:26:29Z",
+  "actor": "/root",
+  "role": "00 Director engineering coordinator",
+  "event_type": "M0_AUTHORITATIVE_CURRENTNESS_DIAGNOSTIC_UNKNOWN_DENY",
+  "subject_ref": "reports/H-M0-187-authoritative-currentness-diagnostic.v1.md",
+  "previous_state": "HISTORICAL_BINDING_AND_LOCKED_CURRENT_AUTHORITY_SEPARATE_UNKNOWN_DENY_DIAGNOSTICS",
+  "new_state": "HISTORICAL_AND_ACTUAL_CURRENT_OBSERVATIONS_COMPOSED_WITH_EXPLICIT_UNMAPPED_DIMENSIONS_UNKNOWN_DENY",
+  "reason": "Commit 0baa73938595c1f1edef260d0beb687e80eea293 adds a read-only diagnostic that verifies accepted M0.2 history, binds actual Scheduler v1 task/attempt, independently inventories canonical Git/project/STOP sources, rechecks attachment/runtime/task/claim/fence/generations, and reports 10 verified current-coherence dimensions plus 6 absent historical-to-current mappings. The closed result cannot express CURRENT/PASS/generation-match/ALLOW and rejects missing, changed, raced, stale, or resealed evidence. Independent engineering review passed after nested projection, limitation, and invalidator integrity defects were corrected. No authenticated receipt or R-gate was created.",
+  "evidence_refs": [
+    "reports/H-M0-187-authoritative-currentness-diagnostic.v1.md",
+    "reports/reviews/H-M0-187-native-engineering-review.v1.md",
+    "reports/currentness/H-M0-187-result.v1.json",
+    "src/edgelab/authoritative_currentness_diagnostic.py",
+    "tests/test_authoritative_currentness_diagnostic.py",
+    "docs/M0.3A_AUTHORITY_SOURCE_MAPPING.v1.md",
+    "docs/handoffs/H-M0-187.v1.json",
+    "docs/handoffs/H-M0-186.v2.json",
+    "reports/stops/STOP-M0-001.v1.json",
+    "reports/stops/STOP-M0-3A-001.v1.json",
+    "reports/stops/STOP-M0-3A-002.v81.json"
+  ],
+  "code_ref": "0baa73938595c1f1edef260d0beb687e80eea293",
+  "config_ref": "docs/M0.3A_AUTHORITY_SOURCE_MAPPING.v1.md",
+  "correlation_id": "H-M0-187",
+  "supersedes": null
+}

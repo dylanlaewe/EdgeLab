@@ -1,0 +1,481 @@
+{
+  "attempt": 1,
+  "capture_id": "AUTH-AUTHENTIC-STAGE1-DISPATCH",
+  "current_observation": {
+    "attachment": {
+      "attachment_id": "16c2fc8d-8cc6-45cb-9035-79979fc646d7",
+      "attachment_schema_version": 1,
+      "canonical_project_id": "EdgeLab",
+      "checkout_realpath": "/Users/dylanlaewe/Projects/Active/EdgeLab",
+      "created_at": "2026-11-10T03:24:20Z",
+      "expected_remote": "https://github.com/dylanlaewe/EdgeLab.git",
+      "git_common_dir_identity": ".git",
+      "m0_2_freeze_commit": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+      "repository_identity": "/Users/dylanlaewe/Projects/Active/EdgeLab",
+      "repository_marker_digest": "24149a9ff63e5ca61d401bc042c8b6589f220c91c1b841f6191f2f476ea31a9b"
+    },
+    "attempts": [
+      {
+        "attempt": 1,
+        "predecessor_attempt": null,
+        "task_id": "T-SYNTHETIC-001"
+      }
+    ],
+    "authority_sha256": "3d8dc65d2c4a6e87a1de6dd46d124d9066f9140e962f9af203aee99c03c89ed6",
+    "claim": {
+      "actor": "diagnostic-synthetic-worker",
+      "attempt": 1,
+      "claim_id": "e088e81a-b60c-41f7-955c-202db5ca0995",
+      "fence": 1,
+      "status": "ACTIVE",
+      "task_id": "T-SYNTHETIC-001"
+    },
+    "repository": {
+      "project": {
+        "active_stop_refs": [
+          "reports/stops/STOP-M0-001.v1.json",
+          "reports/stops/STOP-M0-3A-001.v1.json",
+          "reports/stops/STOP-M0-3A-002.v81.json"
+        ],
+        "increment": "M0.3A",
+        "live_status": "LOCKED",
+        "path": "docs/project-state.json",
+        "phase": "M0",
+        "sha256": "8a97ae549fa8bb813569b1ee7617526d590dcaef1cfca8a36f29863832561ddc",
+        "status": "BLOCKED_FOR_APPROVAL_REMEDIATION_ALLOWED"
+      },
+      "remote": "https://github.com/dylanlaewe/EdgeLab.git",
+      "repository": {
+        "commit": "0baa73938595c1f1edef260d0beb687e80eea293",
+        "digest": "56a6a6c00988c337c9bf0f993e31e2626643102da700b8c6eedbea33cdf39747",
+        "policy": "6a54608a036a03bdca780c6d2778ffcccfb54d01b43bfec33dd59c8e0afacb5c",
+        "project": "2c74c63a943cc34b75e2c257201bc5a14e51ac3eff19766b3c592f57183881d1",
+        "stops": "6857354407da6cbbf576f8393c12b7f6562850d4fd7ec7659975317529368f31",
+        "tasks": "81e9f61213ce4f0efa4c26d227c280492f78beb8b069c2490ca808be9e83dff3"
+      },
+      "root": "/Users/dylanlaewe/Projects/Active/EdgeLab",
+      "source_file_count": 91,
+      "source_inventory_sha256": "9b259dd462ba03b3c3f3bb6ed818c1ab33832a46ceda9112dc549801243b18c6",
+      "stops": {
+        "active": [
+          {
+            "id": "STOP-M0-001",
+            "path": "reports/stops/STOP-M0-001.v1.json",
+            "sha256": "877eb367fde67eda4cbd33b72eea28e48d4f36f45253dc7fe40e3bfa9aa87571",
+            "status": "OPEN",
+            "version": 1
+          },
+          {
+            "id": "STOP-M0-3A-001",
+            "path": "reports/stops/STOP-M0-3A-001.v1.json",
+            "sha256": "82a478a87869aea66217ae5b3462cbc4773eaf469d8439016809d0213099315f",
+            "status": "OPEN",
+            "version": 1
+          },
+          {
+            "id": "STOP-M0-3A-002",
+            "path": "reports/stops/STOP-M0-3A-002.v81.json",
+            "sha256": "69eec893f40eb3a6269e5d1f7bd4e358a5daf0d18d233a10b0f92441f89c01a5",
+            "status": "OPEN",
+            "version": 81
+          }
+        ],
+        "file_count": 83,
+        "inventory_sha256": "6857354407da6cbbf576f8393c12b7f6562850d4fd7ec7659975317529368f31",
+        "source_glob": "reports/stops/*.json"
+      }
+    },
+    "review": null,
+    "runtime": {
+      "attachment_digest": "6777ee921f8a43a1c5812cb904bf2df100ed9f6210690b1c30dece88163cd26c",
+      "available": true,
+      "bundle_digest": "56a6a6c00988c337c9bf0f993e31e2626643102da700b8c6eedbea33cdf39747",
+      "global_head_digest": "8706922a5f34abf642ec87dfb87147a223d5da3c7941be5bea4865a5d129dec1",
+      "global_head_id": "02a7c6f5-e1b6-4fa8-9b83-4a242b9a49bb",
+      "repository_generation": 0,
+      "runtime_id": "29e7829c-69e3-46b7-846b-42294a0de3ac",
+      "schema_version": 1
+    },
+    "task": {
+      "task_id": "T-SYNTHETIC-001",
+      "tuple": {
+        "active_claim_id": "e088e81a-b60c-41f7-955c-202db5ca0995",
+        "attempt_no": 1,
+        "continuation_count": 0,
+        "decision_receipt_digest": "untrusted-diagnostic-receipt",
+        "dispatch_generation": 1,
+        "execution": "CLAIMED",
+        "repository_generation": 0,
+        "review": "NOT_REQUIRED",
+        "reviewer_assignment_id": null,
+        "scheduler_generation": 1,
+        "task_fence": 1,
+        "workflow": "ACTIVE"
+      }
+    }
+  },
+  "diagnostic_id": "H-M0-187-AUTHORITATIVE-CURRENTNESS-DIAGNOSTIC",
+  "dimensions": [
+    {
+      "evidence_sha256": "5ca577fcfc60200329bb8ab37a86eea8bc4bdd1fb282dfcb78ec70d49ce6f205",
+      "id": "historical_verification",
+      "invalidates_positive_currentness": true,
+      "reason": "accepted historical replay completed and raw result matched",
+      "sources": [
+        "tests/fixtures/authentic-stage1/dispatch",
+        "tools.verify_authentic_history.verify_authentic_history"
+      ],
+      "status": "VERIFIED"
+    },
+    {
+      "evidence_sha256": "85cc7a33d4a9c92579b29460e97c0546b6dca83eca72181103245eead6596f37",
+      "id": "historical_subject_binding",
+      "invalidates_positive_currentness": true,
+      "reason": "historical task and attempt equal the locked runtime subject",
+      "sources": [
+        "docs/M0.3A_AUTHORITY_SOURCE_MAPPING.v1.md",
+        "locked-authority:task"
+      ],
+      "status": "VERIFIED"
+    },
+    {
+      "evidence_sha256": "56a6a6c00988c337c9bf0f993e31e2626643102da700b8c6eedbea33cdf39747",
+      "id": "canonical_repository_observation",
+      "invalidates_positive_currentness": true,
+      "reason": "canonical root, remote, HEAD, selected source inventory, and Scheduler bundle agree",
+      "sources": [
+        "git:HEAD",
+        "git:origin",
+        "scheduler.bundle",
+        "canonical-source-inventory"
+      ],
+      "status": "VERIFIED"
+    },
+    {
+      "evidence_sha256": "8a97ae549fa8bb813569b1ee7617526d590dcaef1cfca8a36f29863832561ddc",
+      "id": "project_source_observation",
+      "invalidates_positive_currentness": true,
+      "reason": "current project-state bytes are included in and reproduce the Scheduler bundle",
+      "sources": [
+        "docs/project-state.json"
+      ],
+      "status": "VERIFIED"
+    },
+    {
+      "evidence_sha256": "6857354407da6cbbf576f8393c12b7f6562850d4fd7ec7659975317529368f31",
+      "id": "stop_source_observation",
+      "invalidates_positive_currentness": true,
+      "reason": "current complete STOP inventory and active OPEN STOP references reproduce the Scheduler bundle",
+      "sources": [
+        "reports/stops/*.json",
+        "docs/project-state.json#/active_stop_refs"
+      ],
+      "status": "VERIFIED"
+    },
+    {
+      "evidence_sha256": "46cda567ebc938c32a9685219c94db7d7ed0814b2e4d9672079155d84769b810",
+      "id": "attachment_runtime_binding",
+      "invalidates_positive_currentness": true,
+      "reason": "attachment seal, canonical checkout identity, runtime attachment digest, and bundle digest agree",
+      "sources": [
+        "runtime:attachment.json",
+        "runtime:meta",
+        "locked-authority:attachment"
+      ],
+      "status": "VERIFIED"
+    },
+    {
+      "evidence_sha256": "8706922a5f34abf642ec87dfb87147a223d5da3c7941be5bea4865a5d129dec1",
+      "id": "scheduler_replay_materialization",
+      "invalidates_positive_currentness": true,
+      "reason": "Scheduler startup/replay and locked read accepted the event/materialized state",
+      "sources": [
+        "runtime:runtime.sqlite",
+        "src/edgelab/transactional_scheduler.py",
+        "src/edgelab/locked_authority.py"
+      ],
+      "status": "VERIFIED"
+    },
+    {
+      "evidence_sha256": "0c40991aa57fe1b6a1eee6112456fe687903112717729e523246ceaa65d7c533",
+      "id": "task_attempt_observation",
+      "invalidates_positive_currentness": true,
+      "reason": "task identity, positive attempt, and contiguous attempt history are replay coherent",
+      "sources": [
+        "locked-authority:task",
+        "locked-authority:attempts"
+      ],
+      "status": "VERIFIED"
+    },
+    {
+      "evidence_sha256": "e640f9b4f2d181f4df95733be7d68af81e8ec4a29837fbad65cd56bcddbb10c6",
+      "id": "claim_fence_observation",
+      "invalidates_positive_currentness": true,
+      "reason": "active claim/fence is internally coherent or its absence is replay verified",
+      "sources": [
+        "locked-authority:claim",
+        "locked-authority:task.tuple.task_fence"
+      ],
+      "status": "VERIFIED"
+    },
+    {
+      "evidence_sha256": "9f8f6f2d48125b45476644e162ee53e5da9a13b501bf7ac79ef176e0148e90f3",
+      "id": "current_generation_coherence",
+      "invalidates_positive_currentness": true,
+      "reason": "runtime and task repository generations agree within the current locked observation",
+      "sources": [
+        "locked-authority:runtime.repository_generation",
+        "locked-authority:task.tuple.repository_generation"
+      ],
+      "status": "VERIFIED"
+    },
+    {
+      "evidence_sha256": null,
+      "id": "historical_project_stop_equality",
+      "invalidates_positive_currentness": true,
+      "reason": "SOURCE_MAPPING_ABSENT: historical seal contains no project or STOP projection",
+      "sources": [
+        "docs/M0.3A_AUTHORITY_SOURCE_MAPPING.v1.md#explicit-absent-claims"
+      ],
+      "status": "UNKNOWN"
+    },
+    {
+      "evidence_sha256": null,
+      "id": "historical_assignment_handoff_equality",
+      "invalidates_positive_currentness": true,
+      "reason": "SOURCE_MAPPING_ABSENT: historical seal contains no current assignment or handoff heads",
+      "sources": [
+        "docs/M0.3A_AUTHORITY_SOURCE_MAPPING.v1.md#explicit-absent-claims"
+      ],
+      "status": "UNKNOWN"
+    },
+    {
+      "evidence_sha256": null,
+      "id": "historical_dependency_capability_equality",
+      "invalidates_positive_currentness": true,
+      "reason": "SOURCE_MAPPING_ABSENT: dependency and capability generations are not mapped",
+      "sources": [
+        "docs/M0.3A_AUTHORITY_SOURCE_MAPPING.v1.md#explicit-absent-claims"
+      ],
+      "status": "UNKNOWN"
+    },
+    {
+      "evidence_sha256": null,
+      "id": "historical_git_reachability_equality",
+      "invalidates_positive_currentness": true,
+      "reason": "SOURCE_MAPPING_ABSENT: current Git observation is not mapped to frozen authorization equality",
+      "sources": [
+        "docs/M0.3A_AUTHORITY_SOURCE_MAPPING.v1.md#explicit-absent-claims"
+      ],
+      "status": "UNKNOWN"
+    },
+    {
+      "evidence_sha256": null,
+      "id": "authenticated_receipt_binding",
+      "invalidates_positive_currentness": true,
+      "reason": "AUTHENTICATED_RECEIPT_ABSENT: decision_receipt_digest is caller supplied",
+      "sources": [
+        "locked-authority:task.tuple.decision_receipt_digest",
+        "reports/stops/STOP-M0-3A-001.v1.json"
+      ],
+      "status": "UNKNOWN"
+    },
+    {
+      "evidence_sha256": null,
+      "id": "historical_generation_equality",
+      "invalidates_positive_currentness": true,
+      "reason": "SOURCE_MAPPING_ABSENT: no accepted historical-to-runtime generation equation exists",
+      "sources": [
+        "docs/M0.2_CURRENTNESS_MODEL.v1.md",
+        "docs/M0.3A_AUTHORITY_SOURCE_MAPPING.v1.md"
+      ],
+      "status": "UNKNOWN"
+    }
+  ],
+  "failure_reason": null,
+  "historical_binding": {
+    "attempt": 1,
+    "candidate_sha256": "ed15a7a573074108e030a276f0a26b77c48eebfa200a93d262d3b7a1e02d7a43",
+    "capture_id": "AUTH-AUTHENTIC-STAGE1-DISPATCH",
+    "evidence_class": "R_GATE_CANDIDATE_EVIDENCE",
+    "failure_reason": null,
+    "historical_seal": {
+      "capture": {
+        "capture_id": "AUTH-AUTHENTIC-STAGE1-DISPATCH",
+        "fixture_path": "tests/fixtures/authentic-stage1/dispatch",
+        "graph_sha256": "f2b8ca98631d9acf8bf1038e62b91494aaa206432828ebd4b692fc9eea27294e",
+        "repository_inventory_sha256": "dde5609e67fc7afc532bf08cf38884e3e62d2193da14a6f4026a0c4cb32a2b05",
+        "sidecar_sha256": "baa1686bbc3f1f5ae94cf209904bea86539815735c3fc52558f137892d23ed79"
+      },
+      "capture_root": {
+        "id": "M0-2-HISTORICAL-CAPTURE-ROOT-V1",
+        "sha256": "7e2e36c17c742c21c45c5d962dcf2119260148ed30b0a3080029622316857490"
+      },
+      "decision": {
+        "decision": "DISPATCH",
+        "decision_id": "D-0a6e8268c4309df969a5384c4ce33063",
+        "execution_adapter": "MOCK_ONLY",
+        "operation": "SYNTHETIC_ASSERT",
+        "reason": "repository-resolved synthetic task passed preflight",
+        "task_id": "T-SYNTHETIC-001"
+      },
+      "historical_verification": {
+        "capture_id": "AUTH-AUTHENTIC-STAGE1-DISPATCH",
+        "decision_id": "D-0a6e8268c4309df969a5384c4ce33063",
+        "frozen_commit": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+        "raw_result_match": true,
+        "raw_result_sha256": "564d8e30b67d9fafd7119e730cbe8db9703d84b6be851327d0b1fde2cf5bb042",
+        "replay_completed": true,
+        "replay_root": "persisted-graph:f2b8ca98631d9acf8bf1038e62b91494aaa206432828ebd4b692fc9eea27294e",
+        "status": "HISTORICALLY_VALID",
+        "trusted_root_id": "M0-2-STAGE1-TRUST-ROOT-V1"
+      },
+      "mapping_contract": {
+        "id": "M0.3A-AUTHORITY-SOURCE-MAPPING",
+        "sha256": "31cd83df463560217bd6e2eb0d3f019adc7f6d89756e6ac9e36a6c0fd7494a72",
+        "version": 1
+      },
+      "raw_result_sha256": "564d8e30b67d9fafd7119e730cbe8db9703d84b6be851327d0b1fde2cf5bb042",
+      "schema_version": 1,
+      "seal_id": "HS-e08dc2f34dc3d4cb5713edeb843e26d9",
+      "seal_sha256": "e55fc9698d102bd40c097430d086e0505250c12051a85682fa6f52f606ba747a",
+      "source_projection_sha256": "e08dc2f34dc3d4cb5713edeb843e26d9a072e44f77a6bedbfe4be6976b7de3ec",
+      "stable_projection_sha256": "5ca577fcfc60200329bb8ab37a86eea8bc4bdd1fb282dfcb78ec70d49ce6f205",
+      "subject": {
+        "attempt": 1,
+        "task_id": "T-SYNTHETIC-001"
+      },
+      "trusted_root": {
+        "entrypoint": "edgelab.orchestration.decision",
+        "freeze_commit": "bc3a40924ca580ca6eddc4c24e32ff99ddd95330",
+        "id": "M0-2-STAGE1-TRUST-ROOT-V1",
+        "sha256": "3b5c653e955a6f1be71c454e86339f39de1f1c864dbfeb71b43f993f9d6b3461"
+      }
+    },
+    "limitations": [
+      "diagnostic historical binding only; never authorizes scheduler, executor, paper, live, or capital action",
+      "positive currentness, generation equality, and active repository equality are not established",
+      "stored decision_receipt_digest remains caller-supplied and non-authoritative",
+      "candidate is neither persisted nor consumed by any scheduler transition",
+      "project, STOP, assignment, handoff, dependency, capability, and reachability mappings remain absent",
+      "every result is structurally DENY-only and cannot express CURRENT, PASS, generation match, or ALLOW"
+    ],
+    "locked_authority_sha256": "3d8dc65d2c4a6e87a1de6dd46d124d9066f9140e962f9af203aee99c03c89ed6",
+    "schema_version": 1,
+    "status": "BOUND_DENY_ONLY",
+    "task_id": "T-SYNTHETIC-001",
+    "verification": {
+      "authorizing_use": "DENY",
+      "currentness_status": "UNKNOWN",
+      "generation_match": false,
+      "historical_status": "VALID",
+      "reason_code": "VERIFIER_FAILURE",
+      "runtime_compatible": true,
+      "verifier_status": "FAIL"
+    }
+  },
+  "invalid_dimensions": [],
+  "invalidators": [
+    "any historical verification or subject-binding failure",
+    "any current repository, project, STOP, attachment, runtime, task, attempt, claim, fence, or generation inconsistency",
+    "any changed observation between read and recheck",
+    "any missing required dimension or source mapping",
+    "any attempted CURRENT, PASS, generation_match true, or ALLOW substitution"
+  ],
+  "limitations": [
+    "coherent current source observation is not proof of historical-to-current equality",
+    "project, STOP, assignment, handoff, dependency, capability, reachability, and policy-generation historical mappings remain absent",
+    "Scheduler v1 decision_receipt_digest is caller supplied and is not an authenticated historical receipt",
+    "runtime and task generation coherence is observed only within the current runtime; historical generation equality is undefined",
+    "the result is diagnostic only and cannot authorize scheduler, executor, paper, live, STOP clearance, or capital action"
+  ],
+  "result_sha256": "eaa38ed022b57161867c91ac2dc1b73c245d24ba8b4244ed5e3a6c7742dc12d1",
+  "schema_version": 1,
+  "status": "COHERENT_UNKNOWN_DENY",
+  "task_id": "T-SYNTHETIC-001",
+  "trusted_sources": [
+    {
+      "id": "authority-source-mapping",
+      "kind": "REPOSITORY_FILE",
+      "locator": "docs/M0.3A_AUTHORITY_SOURCE_MAPPING.v1.md",
+      "sha256": "31cd83df463560217bd6e2eb0d3f019adc7f6d89756e6ac9e36a6c0fd7494a72"
+    },
+    {
+      "id": "m0.2-trusted-root",
+      "kind": "SELF_VERIFIED_TRUST_ROOT",
+      "locator": "docs/M0.2_STAGE1_TRUST_ROOT.v1.json",
+      "sha256": "3b5c653e955a6f1be71c454e86339f39de1f1c864dbfeb71b43f993f9d6b3461"
+    },
+    {
+      "id": "m0.2-capture-root",
+      "kind": "SELF_VERIFIED_CAPTURE_ROOT",
+      "locator": "docs/M0.2_HISTORICAL_CAPTURE_ROOT.v1.json",
+      "sha256": "7e2e36c17c742c21c45c5d962dcf2119260148ed30b0a3080029622316857490"
+    },
+    {
+      "id": "historical-capture-sidecar",
+      "kind": "HISTORICAL_CAPTURE",
+      "locator": "tests/fixtures/authentic-stage1/dispatch",
+      "sha256": "baa1686bbc3f1f5ae94cf209904bea86539815735c3fc52558f137892d23ed79"
+    },
+    {
+      "id": "historical-persisted-graph",
+      "kind": "HISTORICAL_GRAPH",
+      "locator": "persisted-graph:f2b8ca98631d9acf8bf1038e62b91494aaa206432828ebd4b692fc9eea27294e",
+      "sha256": "f2b8ca98631d9acf8bf1038e62b91494aaa206432828ebd4b692fc9eea27294e"
+    },
+    {
+      "id": "current-source-inventory",
+      "kind": "CURRENT_REPOSITORY",
+      "locator": "canonical Scheduler.bundle source inventory",
+      "sha256": "9b259dd462ba03b3c3f3bb6ed818c1ab33832a46ceda9112dc549801243b18c6"
+    },
+    {
+      "id": "current-project-state",
+      "kind": "CURRENT_REPOSITORY",
+      "locator": "docs/project-state.json",
+      "sha256": "8a97ae549fa8bb813569b1ee7617526d590dcaef1cfca8a36f29863832561ddc"
+    },
+    {
+      "id": "current-stop-inventory",
+      "kind": "CURRENT_REPOSITORY",
+      "locator": "reports/stops/*.json",
+      "sha256": "6857354407da6cbbf576f8393c12b7f6562850d4fd7ec7659975317529368f31"
+    },
+    {
+      "id": "locked-scheduler-authority",
+      "kind": "PERSISTED_RUNTIME",
+      "locator": "Scheduler v1 locked read/recheck",
+      "sha256": "3d8dc65d2c4a6e87a1de6dd46d124d9066f9140e962f9af203aee99c03c89ed6"
+    }
+  ],
+  "unknown_dimensions": [
+    "historical_project_stop_equality",
+    "historical_assignment_handoff_equality",
+    "historical_dependency_capability_equality",
+    "historical_git_reachability_equality",
+    "authenticated_receipt_binding",
+    "historical_generation_equality"
+  ],
+  "verification": {
+    "authorizing_use": "DENY",
+    "currentness_status": "UNKNOWN",
+    "generation_match": false,
+    "historical_status": "VALID",
+    "reason_code": "VERIFIER_FAILURE",
+    "runtime_compatible": true,
+    "verifier_status": "FAIL"
+  },
+  "verified_dimensions": [
+    "historical_verification",
+    "historical_subject_binding",
+    "canonical_repository_observation",
+    "project_source_observation",
+    "stop_source_observation",
+    "attachment_runtime_binding",
+    "scheduler_replay_materialization",
+    "task_attempt_observation",
+    "claim_fence_observation",
+    "current_generation_coherence"
+  ]
+}
